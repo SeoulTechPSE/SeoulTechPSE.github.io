@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Kee-Youn Yoo">
-<meta name="dcterms.date" content="2024-02-26">
 
-<title>Engineering Mathematics</title>
+<title>Engineering Mathematics - 2&nbsp; First-Order Differential Equations</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -32,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch_01_introduction_to_differential_equations.html" rel="next">
+<link href="./ch_01_introduction_to_differential_equations.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +102,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +143,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Contents</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch_02_First-Order_Differential_Equations.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">First-Order Differential Equations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -109,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Contents</span></a>
   </div>
 </li>
@@ -121,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch_02_First-Order_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+  <a href="./ch_02_First-Order_Differential_Equations.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">First-Order Differential Equations</span></span></a>
   </div>
 </li>
@@ -135,11 +196,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a>
-  <ul class="collapse">
-  <li><a href="#lecture-notes" id="toc-lecture-notes" class="nav-link" data-scroll-target="#lecture-notes">Lecture Notes</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
-  </ul></li>
+  <li><a href="#sec-2-1" id="toc-sec-2-1" class="nav-link active" data-scroll-target="#sec-2-1"><span class="header-section-number">2.1</span> Solution Curves Without a Solution</a></li>
+  <li><a href="#sec-2-2" id="toc-sec-2-2" class="nav-link" data-scroll-target="#sec-2-2"><span class="header-section-number">2.2</span> Separable Equations</a></li>
   </ul>
 </nav>
     </div>
@@ -148,26 +206,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Engineering Mathematics</h1>
+<h1 class="title"><span id="sec-2" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">First-Order Differential Equations</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kee-Youn Yoo </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">February 26, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -177,43 +223,158 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
-<section id="contents" class="level1 unnumbered">
-<h1 class="unnumbered">Contents</h1><p><img src="SeoulTech.png" title="Engineering Mathematics" class="quarto-cover-image img-fluid"></p>
-<section id="lecture-notes" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="lecture-notes">Lecture Notes</h2>
+<section id="sec-2-1" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="sec-2-1"><span class="header-section-number">2.1</span> Solution Curves Without a Solution</h2>
 <ul>
-<li><a href="./ch_01_introduction_to_differential_equations.html">Introduction to Differential Equations</a></li>
-<li><a href="./ch_02_First-Order_Differential_Equations.html">First-Order Differential Equations</a></li>
-<li>[Higher-Order Differential Equations]</li>
-<li>[The Laplace Transform]</li>
-<li>[Series Solutions of Linear Differential Equations]</li>
-<li>[Matrices]</li>
-<li>[Systems of Linear Differential Equations]</li>
-</ul>
-<hr>
+<li><font color="blue">DEs can be analyzed qualitatively</font>, allowing us to approximate a solution curve without solving the problem</li>
+<li>Two approaches are:
 <ul>
-<li>[Vectors]</li>
-<li>[Vector Calculus]</li>
-<li>[Orthogonal Functions and Fourier Series]</li>
-<li>[PDE - Parabolic-Type Problems]</li>
-<li>[PDE - Hyperbolic-Type Problems]</li>
-<li>[PDE - Elliptic-Type Problems]</li>
+<li>Direction fields</li>
+<li>Autonomous first-order DEs</li>
+</ul></li>
+<li><font color="red">Direction fields:</font>
+<ul>
+<li>Slope of the <strong>lineal element</strong> at <span class="math inline">\((x,y(x))\)</span> on a solution curve is the value of <span class="math inline">\(\,\frac{dy}{dx}\,\)</span> at this point</li>
+<li><strong>Direction/slope fields</strong> of <span class="math inline">\(\,\frac{dy}{dx}=f(x,y)\,\)</span> are collections of lineal slope elements that visually suggest the shape of a family of solution curves</li>
+</ul></li>
 </ul>
-<hr>
+<p>For example, <span class="math inline">\(~\displaystyle\frac{dy}{dx}=\sin y\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch02_figure01.png" title="Direction Field" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Using the given computer-generated direction field, sketch, by hand, an approximate solution curve that passes through each of the indicated points:</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \frac{df}{dx} &amp;= x^2 -y^2 \\ \\
+    (a) &amp;\;\; y(-2)=1 \\
+    (b) &amp;\;\; y(-1)=-1 \\
+    (c) &amp;\;\; y(0)=2 \\
+    (d) &amp;\;\; y(0)=0
+\end{aligned}\]</span></p></li>
+</ul>
+<div id="dbd5a19e" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">20</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">20</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>X, Y <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>dy <span class="op">=</span> (X<span class="op">*</span>X <span class="op">-</span>Y<span class="op">*</span>Y)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> np.ones(dy.shape)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.quiver(X, Y, dx, dy, color<span class="op">=</span><span class="st">'red'</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>], <span class="st">'o'</span>, color<span class="op">=</span><span class="st">"blue"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="fl">2.2</span>, <span class="fl">2.2</span>])</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="fl">2.3</span>, <span class="fl">2.2</span>])</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.xticks(np.arange(<span class="op">-</span><span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.yticks(np.arange(<span class="op">-</span><span class="dv">2</span>, <span class="fl">2.5</span>, <span class="fl">0.5</span>))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch_02_First-Order_Differential_Equations_files/figure-html/cell-2-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="454" height="432"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Autonomous</strong> first-order DEs, <span class="math inline">\(~\displaystyle\color{red}{\frac{dy}{dx}=f(y)}\)</span></p>
+<p>An ODE in which the independent variable does not appear explicitly</p>
+<p><span class="math display">\[\begin{aligned}
+    \frac{dy}{dx} &amp;= 1+y^2 &amp;&amp; \mathrm{autonomous} \\
+    \frac{dy}{dx} &amp;= 0.2\,xy &amp;&amp; \mathrm{nonautonomous}
+  \end{aligned}\]</span></p></li>
+<li><p><strong>Critical points</strong>, <span class="math inline">\(~f(c)=0\)</span>, <span class="math inline">\(~\)</span> are constant (or equilibrium) solutions of autonomous DEs</p></li>
+<li><p>A <strong>phase portrait</strong> is made by putting critical points on a vertical line with phase lines pointing up or down, depending on the sign of the function over intervals between the points</p></li>
+<li><p>Some conclusions can be drawn about nonconstant solution curves to autonomous DEs</p>
+<ul>
+<li>If a solution <span class="math inline">\(y(x)\)</span> passes through <span class="math inline">\((x_0,y_0)\)</span> in sub-region <span class="math inline">\(R_i\)</span>, <font color="blue"><span class="math inline">\(~\)</span>then <span class="math inline">\(y(x)\)</span> remains in <span class="math inline">\(R_i\)</span> </font></li>
+<li>By continuity, <font color="blue"><span class="math inline">\(~f(y)\)</span> cannot change signs in a sub-region <span class="math inline">\(R_i\)</span></font></li>
+<li>Since <span class="math inline">\(f(y)\)</span> is either positive or negative in <span class="math inline">\(R_i\)</span>, <span class="math inline">\(~\)</span>a solution is <font color="blue">either increasing or decreasing</font> and has no relative extremum</li>
+</ul></li>
+</ul>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Phase portrait and solution curves</p>
+<p><span class="math display">\[ \displaystyle \frac{dP}{dt} = P(a-bP) \]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch02_figure02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Consider the autonomous first-order differential equation</p>
+<p><span class="math display">\[\frac{dy}{dx}=y^2-y^4\]</span></p>
+<p>and the initial condition <span class="math inline">\(y(0)=y_0\)</span>. Sketch the graph of a typical solution <span class="math inline">\(y(x)\)</span> when <span class="math inline">\(y_0\)</span> has the given values</p>
+<p><span class="math display">\[
+  \begin{aligned}
+    &amp;(a) &amp;&amp; \phantom{-1 &lt; }\; y_0 &lt; {-1} \\
+    &amp;(b) &amp;&amp; {-1} &lt; y_0 &lt; 0 \\
+    &amp;(c) &amp;&amp; \phantom{-}0 &lt; y_0 &lt; 1 \\
+    &amp;(d) &amp;&amp; \phantom{-}1 &lt; y_0 \\
+  \end{aligned}\]</span></p>
 </section>
-<section id="references" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+<section id="sec-2-2" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="sec-2-2"><span class="header-section-number">2.2</span> Separable Equations</h2>
 <ul>
-<li>D.G. Zill and W.S. Wright, <strong>Advanced Engineering Mathematics</strong>, <em>7<sup>th</sup> ed.</em>, Jones and Bartlett, 2022.</li>
-<li>E.A. Coddington, <strong>An Introduction to Ordinary Differential Equations</strong>, Prentice-Hall, 1961. (Dover Publications Inc., 1989 - Unabridged, corrected republication)</li>
-<li>G.E. Shilov, <strong>Linear Algebra</strong>, Prentice-Hall, 1971. (Dover Publications Inc., 1977 - Unabridged republication)</li>
-<li>S.J. Farlow, <strong>Partial Differential Equations for Scientists and Engineers</strong>, John Wiely &amp; Sons, 1982. (Dover Publications Inc., 1993 – Unabridged, corrected republication)</li>
-<li>H.F. Weinberger, <strong>A First Course in Partial Differential Equations with Complex Variables and Transform Methods</strong>, Blaisdell Publishing Company, 1965. (Dover Publications Inc., 1995 - New edition)</li>
+<li><p>Consider <span class="math inline">\(~\displaystyle\frac{dy}{dx}=f(x)\)</span></p>
+<ul>
+<li>When <span class="math inline">\(f\)</span> does not depend on <span class="math inline">\(y\)</span>, <span class="math inline">\(~\displaystyle\frac{dy}{dx}=f(x)\)</span>, <span class="math inline">\(~\)</span>which can be solved by integration</li>
+<li>The solution <span class="math inline">\(\displaystyle y=\int f(x) dx = F(x) +c\)</span>, <span class="math inline">\(~\)</span>where <span class="math inline">\(F(x)\)</span> is an antiderivative (indefinite integral)</li>
+<li>Some functions, termed <strong>nonelementary</strong>, <span class="math inline">\(~\)</span>do not possess an antiderivative that is an elementary function</li>
+</ul></li>
+<li><p>A first-order DE of the form <span class="math inline">\(\displaystyle\frac{dy}{dx}=g(x)h(y)\)</span> is said to be <font color="red"><strong>separable</strong></font>, or have <strong>separable variables</strong></p>
+<ul>
+<li><p>A separable equation can be rewritten in the form</p>
+<p><span class="math display">\[ \color{red}{\frac{1}{h(y)}dy=g(x)dx}\]</span></p>
+<p>which is solved by integrating both sides</p></li>
+</ul></li>
+</ul>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve a separable equation <span class="math inline">\(\displaystyle\frac{dy}{dx}=y^2-9\)</span>, <span class="math inline">\(\;y(0)=0\)</span></p>
+<ul>
+<li>Separating and using partial fractions</li>
+</ul>
+<p><span class="math display">\[
+  \begin{aligned}
+    \frac{dy}{(y-3)(y+3)} &amp;= dx \\
+    &amp;\Downarrow \\
+    \frac{1}{6} \left [ \frac{1}{y-3} -\frac{1}{y+3} \right ] dy &amp;= dx
+  \end{aligned}\]</span></p>
+<ul>
+<li>Integrating and solving for <span class="math inline">\(y\,\)</span> yields</li>
+</ul>
+<p><span class="math display">\[
+  \begin{aligned}
+    \frac{1}{6} \ln \left | \frac{y-3}{y+3} \right | &amp;= x+c_1\\
+    &amp;\Downarrow c=e^{6c_1} \\
+    y &amp;= 3 \frac{1-ce^{6x}}{1+ce^{6x}}
+  \end{aligned}\]</span></p>
+<ul>
+<li>Finally, <span class="math inline">\(~\)</span> applying <span class="math inline">\(y(0)=0~\)</span> gives <span class="math inline">\(c=1\)</span></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given differential equation by separation of variables</p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle \frac{dy}{dx}=\sin 5 x\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle dx +e^{3x} dy = 0\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{dy}{dx} = x\sqrt{1 -y^2}\)</span></p></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find an implicit and an explicit solution of the given initial-value problem</p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle x^2 \frac{dy}{dx} = y -xy, \;\;y(-1)=-1\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{dx}{dt}=4(x^2 + 1), \;\;x(\pi/4)=1\)</span></p></li>
 </ul>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -606,11 +767,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./ch_01_introduction_to_differential_equations.html" class="pagination-link" aria-label="Introduction to Differential Equations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Differential Equations</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch_01_introduction_to_differential_equations.html" class="pagination-link" aria-label="Introduction to Differential Equations">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Differential Equations</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
