@@ -198,6 +198,7 @@ window.Quarto = {
   <ul>
   <li><a href="#sec-2-1" id="toc-sec-2-1" class="nav-link active" data-scroll-target="#sec-2-1"><span class="header-section-number">2.1</span> Solution Curves Without a Solution</a></li>
   <li><a href="#sec-2-2" id="toc-sec-2-2" class="nav-link" data-scroll-target="#sec-2-2"><span class="header-section-number">2.2</span> Separable Equations</a></li>
+  <li><a href="#sec-2-3" id="toc-sec-2-3" class="nav-link" data-scroll-target="#sec-2-3"><span class="header-section-number">2.3</span> Linear Equations</a></li>
   </ul>
 </nav>
     </div>
@@ -255,7 +256,7 @@ window.Quarto = {
     (d) &amp;\;\; y(0)=0
 \end{aligned}\]</span></p></li>
 </ul>
-<div id="9107a1cc" class="cell" data-execution_count="1">
+<div id="f9d1cfdf" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -372,6 +373,58 @@ window.Quarto = {
 <li><p><span class="math inline">\(\displaystyle x^2 \frac{dy}{dx} = y -xy, \;\;y(-1)=-1\)</span></p></li>
 <li><p><span class="math inline">\(\displaystyle \frac{dx}{dt}=4(x^2 + 1), \;\;x(\pi/4)=1\)</span></p></li>
 </ul>
+</section>
+<section id="sec-2-3" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="sec-2-3"><span class="header-section-number">2.3</span> Linear Equations</h2>
+<p>A first-order DE of the form <span class="math inline">\(\displaystyle a_1(x) \frac{dy}{dx} +a_0(x)y = g(x)~\)</span> is a <strong>linear equation</strong> in the dependent variable <span class="math inline">\(y\)</span></p>
+<ul>
+<li><p>The DE is <font color="blue"><strong>homogeneous</strong></font> when <span class="math inline">\(g(x)=0\)</span> ; <span class="math inline">\(~\)</span>otherwise, <span class="math inline">\(~\)</span>it is <font color="blue"><strong>nonhomogeneous</strong></font></p></li>
+<li><p>The standard form of a linear DE is obtained by dividing both sides by the lead coefficient</p>
+<p><span class="math display">\[\color{red}{\frac{dy}{dx}+P(x)y=f(x)}\]</span></p></li>
+</ul>
+<p>The <strong>standard form</strong> equation has the property that its solution <span class="math inline">\(y\)</span> is the sum of the solution of the associated homogeneous equation <span class="math inline">\(y_h\)</span> and the particular solution of the nonhomogeneous equation <span class="math inline">\(y_p\)</span> :</p>
+<p><span class="math display">\[\color{red}{y=y_h +y_p}\]</span></p>
+<ul>
+<li>The homogeneous equation <span class="math inline">\(\displaystyle\frac{dy_h}{dx} +P(x)y_h= 0~\)</span> is separable, allowing us to solve for <span class="math inline">\(y_h\)</span></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{dy_h}{y_h} &amp;= -P(x)dx \\
+  &amp;\Downarrow \\
+  \ln |y_h| &amp;= -\int P(x)\,dx +\bar{c} \,\Rightarrow\, y_h = c \exp\left( -\int P(x) \,dx \right)    
+\end{aligned}\]</span></p>
+<ul>
+<li><strong>Variation of parameters</strong> <span class="math inline">\(\,\color{blue}{y_p=u(x)y_h}~\)</span> can be used to solve the nonhomogeneous equation of <span class="math inline">\(\,y_p\)</span></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+    y_h \frac{du}{dx} +&amp; \underbrace{\left (\frac{dy_h}{dx} +P(x) y_h  \right )}_{=\,0} u = f(x)\\
+    du &amp;= \frac{f(x)}{y_h} dx \;\Rightarrow\; u(x) = \displaystyle\int \frac{f(x)}{y_h(x)} dx \\
+    &amp;\Downarrow \\
+    y_p &amp;= y_p \displaystyle\int \frac{f(x)}{y_h(x)} dx
+\end{aligned}\]</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the general solution of the given differential equation:</p>
+<ul>
+<li><p><span class="math inline">\(~\displaystyle \frac{dy}{dx} + 2y=0\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle y' +2xy=x^3\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle x\frac{dy}{dx} +2y=3\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle xy' +(1+x)y=e^{-x} \sin 2x\)</span></p></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem. Give the largest interval <span class="math inline">\(~I\)</span> over which the solution is defined</p>
+<ul>
+<li><p><span class="math inline">\(~\displaystyle y\frac{dx}{dy} -x=2y^2, \;\; y(1)=5\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle (x+1)\frac{dy}{dx}+y = \ln x, \;\;y(1)=10\)</span></p></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> The given differential equation is not linear in <span class="math inline">\(y\)</span>. <span class="math inline">\(~\)</span>Nevertheless, find a general solution of the equation</p>
+<ul>
+<li><p><span class="math inline">\(~dx=(x+y^2)dy\)</span></p></li>
+<li><p><span class="math inline">\(~ydx + (2x + xy-3)dy=0\)</span></p></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> The sine integral function is defined as</p>
+<p><span class="math display">\[ \mathrm{Si}(x)=\int_0^x \frac{\sin t }{t} \,dt\]</span></p>
+<p>where the integrand is defined to be 1 at <span class="math inline">\(x=0\)</span>. Express the solution of the initial value problem</p>
+<p><span class="math display">\[x^3 \frac{dy}{dx} + 2x^2 y = 10 \sin x, \;\; y(1)=0\]</span></p>
+<p>in terms of <span class="math inline">\(\mathrm{Si}(x)\)</span></p>
 
 
 </section>
