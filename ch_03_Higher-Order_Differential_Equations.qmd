@@ -1,0 +1,165 @@
+# Higher-Order Differential Equations {#sec-3}
+
+## Theory of Linear Equations {#sec-3-1}
+
+* In an **initial-value problem (IVP)**, $\,$ we seek a solution $y(x)$ of a $n$^th^ order linear DE 
+so that $y(x)$ satisfies **initial conditions** at $x_0$
+ 
+   * $n$^th^ order linear DE: $\;a_n(x) \neq 0$
+   
+     <font color='red'> 
+      $$\underbrace{a_n(x) \frac{d^ny}{dx^n} +a_{n-1}(x) \frac{d^{n-1}y}{dx^{n-1}} +\cdots + a_1(x) \frac{dy}{dx} +a_0(x) y}_{L(y): ~\mathrm{Linear\;Operator}}= g(x) 
+      $$
+      </font>
+ 
+   * Initial conditions
+   
+      <font color='red'> $$y(x_0) = y_0, \; y'(x_0) = y_1, \cdots, \; y^{(n-1)}(x_0) = y_{n-1}$$ </font>
+
+* **Boundary-value problem (BVP)** consists of solving a linear DE of order 2 or greater, 
+in which the dependent variable $y$ or its derivatives are specified at **different points** 
+
+   * For example, 
+    
+     $$a_2(x) \frac{d^2y}{dx^2} +a_1(x) \frac{dy}{dx} +a_0(x)y=g(x)$$
+ 
+   * Boundary conditions
+     
+     $$y(x_0)=y_0, \;y(x_1)=y_1$$
+
+* The sum, or <font color='red'> **superposition** </font>, of two or more solutions of a homogeneous linear DE is also a solution
+
+* Any set of $n$ linearly *independent* solutions $y_1, y_2, \cdots, y_n$ of the $n$^th^ order homogeneous linear DE on interval $~I$ is **a fundamental set of solutions**
+
+* If two functions are linearly dependent, then one is a constant multiple of the other (otherwise, they are linearly independent)
+
+* If $\{y_1, y_2, \cdots, y_n\}$ are a set of linearly independent functions, 
+  the **Wronskian** function is not singular:
+
+  $$ W(y_1, y_2, \cdots, y_n)= \begin{vmatrix}
+       y_1 & y_2 & \cdots & y_n \\ 
+       y_1' & y_2' & \cdots & y_n'\\ 
+       \vdots & \vdots & \ddots & \vdots\\ 
+       y_1^{(n-1)} & y_2^{(n-1)} & \cdots & y_n^{(n-1)}
+    \end{vmatrix} \neq 0 $$
+
+* General solution of $~n$^th^ order <font color="blue">*homogeneous*</font> linear DE is
+
+  <font color="red">$$y(x)=c_1 y_1(x) +c_2 y_2(x) + \cdots + c_n y_n(x)$$</font>
+ 
+  where $\,y_1, y_2, \cdots, y_n\,$ is a fundamental set of solutions and $c_i, \;i=1,2,\cdots,n\;$ are arbitrary constants
+
+* General solution of $n$^th^ order <font color="blue">*nonhomogeneous*</font> linear DE is
+
+  <font color='red'> $$y(x)=c_1 y_1(x) +c_2 y_2(x) + \cdots + c_n y_n(x) +y_p(x)$$ </font>
+ 
+   where $\,y_1, y_2, \cdots, y_n\,$ is a fundamental set of solutions, $\,y_p$ is a particular solution, and $\,c_i, \;i=1,2,\cdots,n\;$ are arbitrary constants
+
+$~$   
+
+**Example** $\,$ Given that $\,x(t)=c_1\cos\omega t +c_2 \sin\omega t~$ is the general solution of $x''+\omega^2x=0~$ on the interval $(-\infty,\infty)$, $\,$ show that a solution satisfying the initial conditions $x(0)=x_0$, $x'(0)=x_1$, is given by
+
+  $$x(t)=x_0\cos\omega t+\frac{x_1}{\omega} \sin\omega t$$
+
+**Example** $\,$ Determine whether the given set of functions is linearly dependent or linearly independent on the interval $(-\infty,\infty)$
+
+  $$f_1(x)=x, ~f_2(x)=x^2, ~f_3(x)=4x-3x^2$$
+  
+  $$f_1(x)=5, ~f_2(x)=\cos^2 x, ~f_3(x)=\sin^2 x$$
+
+**Example** $\,$ Verify that the given functions form a fundamental set of solutions of the differential equation on the indicated interval. Form the general solution of the equation
+
+  $$y''-y'-12y=0; \;\; e^{-3x}, \; e^{4x}, \;\;(-\infty,\infty)$$
+  
+  $$y''-2y'+5y=0; \;\;e^x \cos 2x, \;\; e^x\sin 2x, \;\;(-\infty,\infty)$$
+
+**Example** $\,$ Verify that the given two-parameter family of functions is the general solution of the nonhomogeneous differential equation on the indicated interval
+
+  $$y''-7y'+10y=24e^x; \;\;y=c_1 e^{2x} +c_2 e^{5x} +6e^x; \;\;(-\infty,\infty)$$
+
+  $$y''-4y'+4y=2e^{2x} +4x-12; \;\;y=c_1 e^{2x} +c_2 xe^{2x} +x^2e^{2x} +x -2; \;\;(-\infty,\infty)$$
+
+
+## Reduction of Order {#sec-3-2}
+
+* **Reduction of order** can be used to reduce a linear *second-order* DE <font color="blue">with known solution $y_1$</font> into a linear *first-order* DE, which can be solved for a second solution $y_2$
+
+* Applying reduction of order <font color="red">$y_2 = u(x) y_1$</font> to the standard form of a second-order linear homogeneous DE
+
+  $$y''+P(x)y' +Q(x)y=0$$
+ 
+  gives
+
+  $$
+  \begin{aligned}
+     y_1 u'' & +\left(2y_1' +P(x)y_1\right) u' = 0\\ 
+     &\Downarrow \;{\scriptsize\times\, y_1, \; u'=w}\\ 
+     (y_1^2 w)' &= -(y_1^2 w) P(x) \\
+     &\Downarrow \\
+     \color{red}{y_2(x)} &\color{red}{= y_1(x) \int \frac{\exp\left(-\int P(x) \,dx \right)}{y_1^2(x)} \,dx} 
+  \end{aligned}$$
+
+**Example** $\,$ The indicated function $y_1(x)$ is a solution of the given equation. Use the reduction of order to find a second solution $y_2(x)$
+
+* $y'' -4y' +4y=0; \;\;y_1=e^{2x}$
+    
+* $y''+16y=0; \;\; y_1=\cos 4x$
+  
+* $y''-y=0; \;\; y_1=\cosh x$
+
+**Example** $\,$ The indicated function $y_1(x)$ is a solution of the associated homogeneous equation. Use the reduction of order to find a second solution $y_2(x)$ of homogeneous equation and a particular solution $y_p(x)$ of the given nonhomogeneous equation
+
+$$y''-4y=2; \;\;y_1=e^{-2x}$$
+
+
+## Homogeneous Linear Equations with Constant Coefficients {#sec-3-3}
+
+The general solution of $ay''+by'+cy=0\,$ is found by substituting <font color="red">$\,y=e^{\,px}$</font> and solving the resulting **characteristic equation** <font color="red">$\,ap^2+bp+c=0\,$</font> for roots $\color{red}{p_1}$ and $\color{red}{p_2}$
+
+* **Case I** $~$ $p_1$ and $\,p_2$ are <font color="blue">real and distinct</font>
+
+  $$y = c_1 {\color{red}{e^{\,p_1 x}}} +c_2 {\color{red}{e^{\,p_2 x}}}$$
+
+* **Case II** $~$ $p_1$ and $\,p_2$ are <font color="blue">real and equal</font>
+
+  $$y=c_1 {\color{red}{e^{\,p_1}x}} +c_2 \color{red}{x e^{\,p_1 x}}$$
+
+* **Case III** $~$ $p_1$ and $\,p_2$ are <font color="blue">complex conjugate</font>: $~p_1, p_2 = \color{red}{\alpha} \pm i\color{red}{\beta}$
+
+  $$y={\color{red}{e^{\alpha} x}} \left(c_1 {\color{red}{\cos\beta x}} +c_2 {\color{red}{\sin\beta x}} \right)$$ 
+
+$~$
+
+**Example:** $\,$ Solve $~y'' +\omega^2y=0\,$ and $\,y'' -\omega^2y=0$
+
+$~$
+
+**Example:** $\,$ Solve $~3y'''+5y''+10y'-4y=0$
+
+```{python}
+import numpy as np
+from scipy.integrate import solve_ivp
+
+import matplotlib.pyplot as plt
+```
+
+```{python}
+# | echo: true
+# | output-location: fragment
+from sympy import Symbol, init_printing
+from sympy.solvers import solve
+init_printing()
+
+x = Symbol('x')
+solve(3*x**3 +5*x**2 +10*x -4, x)
+```
+
+$~$
+
+**Example** $\,$ Find the general solution of the given second-order differential equation
+
+* $4y'' +y'=0$
+  
+* $y''-y'-6y=0$
+  
+* $y'' +8y' +16y=0$
