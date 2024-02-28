@@ -163,3 +163,206 @@ $~$
 * $y''-y'-6y=0$
   
 * $y'' +8y' +16y=0$
+
+$~$
+
+**Example** $\,$ Find the general solution of the given higher-order differential equation
+
+* $y''' -4y'' -5y'=0$
+  
+* $y''' -5y'' +3y' +9y=0$
+
+$~$
+
+**Example** $\,$ Solve the initial-value problem
+
+$y''' +12y'' +36y'=0, \;\;y(0)=0, \;y'(0)=1, \; y''(0)=-7$
+
+$~$
+
+## Undetermined Coefficients {#sec-3-4}
+
+<font color="red">**Method of undetermined coefficients**</font> can be used <font color="blue">to obtain a particular solution $y_p$</font>
+
+* The underlying idea is <font color="blue">a conjecture about the form of $y_p$</font> based on the kinds of functions making up the input function $g(x)$
+
+* Limited to nonhomogeneous linear DEs where
+  * <font color="blue">Coefficients $a_i$</font>, $i=1,\cdots,n$, are <font color="blue">constants</font>
+  * $g(x)$ is <font color="blue">a constant</font>, <font color="blue">a polynominal function</font>, <font color="blue">$e^{\alpha x}$</font>, <font color="blue">$\sin\beta x$ or $\cos\beta x$</font>, or <font color="blue">finite sums and products of these functions</font>
+
+* There are models of $y_p$ for various functions
+    
+  ![](figures/ch03_figure01.png){width="90%" fig-align="center"}
+        
+* Finally, the general solution is obtained from the **superposition** of $y_h$ and $y_p$
+
+$~$
+
+**Example:** $\,$ Solve $~y'' +4y = x\cos x$
+
+$~$
+
+* If $g(x)$ consists of a sum of, say, $m$ terms of the kind listed in the table, $~$then the assumption for <font color="blue">a particular solution $y_p$ consists of the sum of the trial forms</font>
+  
+* <font color="blue">If $\,y_p$ contains terms that duplicate terms in $y_h$, $\,$then that $y_p$ must be multiplied by $x^n$</font>,
+  $~$where $n$ is the smallest positive integer that eliminate that duplication
+
+$~$
+
+**Example:** $\,$ Solve $~y'' -6y' +9y = 6x^2 +2 -12e^{3x}$
+
+$~$
+
+**Example:** $\,$ Solve $~y^{(4)}+y'''= 1 -x^2e^{-x}$
+
+$~$
+
+**Example** $\,$ Solve the given differential equation by undetermined coefficients
+
+* $y'' +2y' +y=\sin x +3 \cos 2x$
+ 
+* $y'' +2y' -24y=16 - (x+2)e^{4x}$
+
+* $y''' -6y''=3-\cos x$
+
+$~$
+
+**Example** $\,$ Solve the given initial-value problem
+
+* $y'' +4y=-2, \;\;y(\pi/8)=1/2, \;\;y'(\pi/8) = 2$
+  
+* $5y'' +y'=-6x, \;\;y(0)=0, \; y'(0)=-10$
+  
+* $\displaystyle \frac{d^2 x}{dt^2} +\omega^2x=F_0 \sin\omega t, \;\; x(0)=0, \;x'(0)=0$
+
+$~$
+
+## Variation of Parameters {#sec-3-5}
+
+The <font color="red">**method of variation of parameters**</font> can be used with linear higher-order DEs
+
+* This method <font color="blue">*always* yields a $y_p$ provided the homogeneous equation can be solved</font>
+
+* This method <font color="blue">is not limited to the types of input functions</font> constraining the method of undetermined coefficients
+
+To adapt the method of variation of parameters to a linear second-order DE
+
+$$a_2(x)y'' +a_1(x)y' +a_0(x)y = g(x),$$
+
+we put the above equation <font color="blue">in the standard form</font>
+
+$$y'' +P(x)y' +Q(x)y = f(x)$$
+To solve,
+
+* Find the homogeneous solutions <font color="blue">$y_1$</font>, <font color="blue">$y_2$</font>
+
+* Seek a particular solution of the form 
+
+  $$y_p = \color{red}{u_1(x)} \color{blue}{y_1} +\color{red}{u_2(x)} \color{blue}{y_2}$$
+
+$$
+\begin{aligned} 
+     y_p''+P(x)y_p' &+Q(x)y_p = f(x)\\ 
+     &\Downarrow \, y_p = u_1 y_1 +u_2 y_2 \\ 
+     \frac{d}{dx}[\color{blue}{y_1 u_1' +y_2 u_2'}] +P(x) [\color{blue}{y_1 u_1' +y_2 u_2'}] +\color{red}{y_1' u_1'} &+\color{red}{y_2' u_2'}= f(x) \\
+     &\Downarrow \,\text{let } y_1 u_1' +y_2 u_2' =0, \; \text{then }
+     y_1' u_1' +y_2' u_2'= f(x) \\
+     \color{red}{\begin{bmatrix}
+        y_1 & y_2\\ 
+        y_1' & y_2' 
+     \end{bmatrix} 
+     \begin{bmatrix}
+        u_1' \\
+        u_2' 
+     \end{bmatrix}} &=
+     \color{red}{\begin{bmatrix}
+        0 \\ 
+        f(x)
+     \end{bmatrix}} \\
+     &\Downarrow \\          
+     \qquad\quad\color{blue}{u_1 = \displaystyle\int \frac{W_1}{W\;} \,dx =-\int \frac{y_2}{W}\,f(x)\,dx}&, 
+        \;\; \color{blue}{u_2} \color{blue}{= \displaystyle\int \frac{W_2}{W\;} \,dx =\int \frac{y_1}{W}\,f(x)\,dx}\\ \\
+     \mathrm{where} \;\; 
+       W = \begin{vmatrix}
+             y_1 & y_2\\ 
+             y_1' & y_2' 
+           \end{vmatrix}, \;
+       W_1 =& \begin{vmatrix}
+               0 & y_2\\ 
+               f(x) & y_2' 
+             \end{vmatrix}, \;
+       W_2 = \begin{vmatrix}
+               y_1 & 0\\ 
+               y_1' & f(x) 
+             \end{vmatrix}             
+\end{aligned}$$
+
+$~$
+
+**Example:** $\,$ Solve $~\displaystyle y'' -y = \frac{1}{x}$
+
+$~$
+
+The method can be generalized to the standard form of $n$^th^ order linear DE. $\,$ A particular solution is
+
+<font color="blue">$$y_p = u_1(x) y_1 +u_2(x) y_2 +\cdots +u_n(x) y_n$$</font>
+
+where
+
+<font color="blue">$$u_k = \displaystyle\int \frac{W_k}{W\;}\, dx, \;k=1, 2, \cdots, n$$</font>
+
+$~$
+
+**Example** $\,$ Solve each differential equation by variation of parameters
+
+* $y'' +y=\sec x$
+
+* $y'' +y=\sin x$
+
+* $y'' +y=\cos^2 x$
+
+* $3y''-6y'+6y=e^x \sec x$
+
+$~$
+
+**Example** $\,$ Solve each differential equation by variation of parameters subject to the initial conditions $y(0)=1, \;y'(0)=0$
+
+* $4y'' -y=xe^{x/2}$
+
+* $y''-2y'+y=e^x \sec^2 x$
+
+* $y'' +2y' -8y=2e^{-2x} -e^{-x}$
+
+$~$
+
+**Example** $\,$ Solve each differential equation by variation of parameters subject to the initial conditions $y(0)=1, \;y'(0)=0$
+
+* $\displaystyle y''-4y=\frac{e^{2x}}{x}$
+  
+* $2y'' +2y' +y=4\sqrt{x}$
+
+$~$
+
+## Cauchy-Euler Equation {#sec-3-6}
+
+The **Cauchy-Euler equation** is a linear DE of the form
+
+$$ a_n {\color{red}{x^n}} \frac{d^n y}{dx^n} +a_{n-1} {\color{red}{x^{n-1}}} \frac{d^{n-1} y}{dx^{n-1}} +\cdots +a_1 {\color{red}{x}} \frac{dy}{dx} +a_0 y = g(x)$$
+
+where $a_n, a_{n-1}, \cdots, a_0$ are constants and the exponent of the coefficient matches the order of differentiation
+
+$\color{red}{y =x^{\,p}}$ is a solution of second order Cauchy-Euler equation whenever $p$ is a solution of the **auxiliary equation**
+
+<font color="blue">$$a_2 p^2 +(a_1 -a_2)p +a_0 =0$$</font>
+
+* **Case I:** $~$ Distinct Real Roots, $~p_1, \,p_2$ 
+
+  $$ y = c_1 {\color{red}{x^{\,p_1}}} +c_2 {\color{red}{x^{\,p_2}}} $$
+
+* **Case II:** $~$ Repeated Real Roots, $~p_1=p_2$
+ 
+  $$y = c_1 {\color{red}{x^{\,p_1}}} +c_2 {\color{red}{x^{\,p_1}\ln x}}$$
+
+* **Case III:** $~$ Complex Conjugate Roots, $~p_1, p_2 = \color{red}{\alpha \pm i\beta}$
+
+  $$y = {\color{red}{x^{\alpha}}} \left[ c_1 {\color{red}{\cos(\beta\ln x)}} + c_2 {\color{red}{\sin(\beta\ln x)}} \right]$$

@@ -205,6 +205,9 @@ window.Quarto = {
   <li><a href="#sec-3-1" id="toc-sec-3-1" class="nav-link active" data-scroll-target="#sec-3-1"><span class="header-section-number">3.1</span> Theory of Linear Equations</a></li>
   <li><a href="#sec-3-2" id="toc-sec-3-2" class="nav-link" data-scroll-target="#sec-3-2"><span class="header-section-number">3.2</span> Reduction of Order</a></li>
   <li><a href="#sec-3-3" id="toc-sec-3-3" class="nav-link" data-scroll-target="#sec-3-3"><span class="header-section-number">3.3</span> Homogeneous Linear Equations with Constant Coefficients</a></li>
+  <li><a href="#sec-3-4" id="toc-sec-3-4" class="nav-link" data-scroll-target="#sec-3-4"><span class="header-section-number">3.4</span> Undetermined Coefficients</a></li>
+  <li><a href="#sec-3-5" id="toc-sec-3-5" class="nav-link" data-scroll-target="#sec-3-5"><span class="header-section-number">3.5</span> Variation of Parameters</a></li>
+  <li><a href="#sec-3-6" id="toc-sec-3-6" class="nav-link" data-scroll-target="#sec-3-6"><span class="header-section-number">3.6</span> Cauchy-Euler Equation</a></li>
   </ul>
 </nav>
     </div>
@@ -318,13 +321,13 @@ window.Quarto = {
 <p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +\omega^2y=0\,\)</span> and <span class="math inline">\(\,y'' -\omega^2y=0\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~3y'''+5y''+10y'-4y=0\)</span></p>
-<div id="79ec6cd0" class="cell" data-execution_count="1">
+<div id="3fbe862f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="a3524110" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="aa951002" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> Symbol, init_printing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.solvers <span class="im">import</span> solve</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>init_printing()</span>
@@ -341,6 +344,159 @@ window.Quarto = {
 <li><p><span class="math inline">\(4y'' +y'=0\)</span></p></li>
 <li><p><span class="math inline">\(y''-y'-6y=0\)</span></p></li>
 <li><p><span class="math inline">\(y'' +8y' +16y=0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the general solution of the given higher-order differential equation</p>
+<ul>
+<li><p><span class="math inline">\(y''' -4y'' -5y'=0\)</span></p></li>
+<li><p><span class="math inline">\(y''' -5y'' +3y' +9y=0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the initial-value problem</p>
+<p><span class="math inline">\(y''' +12y'' +36y'=0, \;\;y(0)=0, \;y'(0)=1, \; y''(0)=-7\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-3-4" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-3-4"><span class="header-section-number">3.4</span> Undetermined Coefficients</h2>
+<p><font color="red"><strong>Method of undetermined coefficients</strong></font> can be used <font color="blue">to obtain a particular solution <span class="math inline">\(y_p\)</span></font></p>
+<ul>
+<li><p>The underlying idea is <font color="blue">a conjecture about the form of <span class="math inline">\(y_p\)</span></font> based on the kinds of functions making up the input function <span class="math inline">\(g(x)\)</span></p></li>
+<li><p>Limited to nonhomogeneous linear DEs where</p>
+<ul>
+<li><font color="blue">Coefficients <span class="math inline">\(a_i\)</span></font>, <span class="math inline">\(i=1,\cdots,n\)</span>, are <font color="blue">constants</font></li>
+<li><span class="math inline">\(g(x)\)</span> is <font color="blue">a constant</font>, <font color="blue">a polynominal function</font>, <font color="blue"><span class="math inline">\(e^{\alpha x}\)</span></font>, <font color="blue"><span class="math inline">\(\sin\beta x\)</span> or <span class="math inline">\(\cos\beta x\)</span></font>, or <font color="blue">finite sums and products of these functions</font></li>
+</ul></li>
+<li><p>There are models of <span class="math inline">\(y_p\)</span> for various functions</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch03_figure01.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div></li>
+<li><p>Finally, the general solution is obtained from the <strong>superposition</strong> of <span class="math inline">\(y_h\)</span> and <span class="math inline">\(y_p\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +4y = x\cos x\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>If <span class="math inline">\(g(x)\)</span> consists of a sum of, say, <span class="math inline">\(m\)</span> terms of the kind listed in the table, <span class="math inline">\(~\)</span>then the assumption for <font color="blue">a particular solution <span class="math inline">\(y_p\)</span> consists of the sum of the trial forms</font></p></li>
+<li><p><font color="blue">If <span class="math inline">\(\,y_p\)</span> contains terms that duplicate terms in <span class="math inline">\(y_h\)</span>, <span class="math inline">\(\,\)</span>then that <span class="math inline">\(y_p\)</span> must be multiplied by <span class="math inline">\(x^n\)</span></font>, <span class="math inline">\(~\)</span>where <span class="math inline">\(n\)</span> is the smallest positive integer that eliminate that duplication</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' -6y' +9y = 6x^2 +2 -12e^{3x}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y^{(4)}+y'''= 1 -x^2e^{-x}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given differential equation by undetermined coefficients</p>
+<ul>
+<li><p><span class="math inline">\(y'' +2y' +y=\sin x +3 \cos 2x\)</span></p></li>
+<li><p><span class="math inline">\(y'' +2y' -24y=16 - (x+2)e^{4x}\)</span></p></li>
+<li><p><span class="math inline">\(y''' -6y''=3-\cos x\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem</p>
+<ul>
+<li><p><span class="math inline">\(y'' +4y=-2, \;\;y(\pi/8)=1/2, \;\;y'(\pi/8) = 2\)</span></p></li>
+<li><p><span class="math inline">\(5y'' +y'=-6x, \;\;y(0)=0, \; y'(0)=-10\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{d^2 x}{dt^2} +\omega^2x=F_0 \sin\omega t, \;\; x(0)=0, \;x'(0)=0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-3-5" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-3-5"><span class="header-section-number">3.5</span> Variation of Parameters</h2>
+<p>The <font color="red"><strong>method of variation of parameters</strong></font> can be used with linear higher-order DEs</p>
+<ul>
+<li><p>This method <font color="blue"><em>always</em> yields a <span class="math inline">\(y_p\)</span> provided the homogeneous equation can be solved</font></p></li>
+<li><p>This method <font color="blue">is not limited to the types of input functions</font> constraining the method of undetermined coefficients</p></li>
+</ul>
+<p>To adapt the method of variation of parameters to a linear second-order DE</p>
+<p><span class="math display">\[a_2(x)y'' +a_1(x)y' +a_0(x)y = g(x),\]</span></p>
+<p>we put the above equation <font color="blue">in the standard form</font></p>
+<p><span class="math display">\[y'' +P(x)y' +Q(x)y = f(x)\]</span> To solve,</p>
+<ul>
+<li><p>Find the homogeneous solutions <font color="blue"><span class="math inline">\(y_1\)</span></font>, <font color="blue"><span class="math inline">\(y_2\)</span></font></p></li>
+<li><p>Seek a particular solution of the form</p>
+<p><span class="math display">\[y_p = \color{red}{u_1(x)} \color{blue}{y_1} +\color{red}{u_2(x)} \color{blue}{y_2}\]</span></p></li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+     y_p''+P(x)y_p' &amp;+Q(x)y_p = f(x)\\
+     &amp;\Downarrow \, y_p = u_1 y_1 +u_2 y_2 \\
+     \frac{d}{dx}[\color{blue}{y_1 u_1' +y_2 u_2'}] +P(x) [\color{blue}{y_1 u_1' +y_2 u_2'}] +\color{red}{y_1' u_1'} &amp;+\color{red}{y_2' u_2'}= f(x) \\
+     &amp;\Downarrow \,\text{let } y_1 u_1' +y_2 u_2' =0, \; \text{then }
+     y_1' u_1' +y_2' u_2'= f(x) \\
+     \color{red}{\begin{bmatrix}
+        y_1 &amp; y_2\\
+        y_1' &amp; y_2'
+     \end{bmatrix}
+     \begin{bmatrix}
+        u_1' \\
+        u_2'
+     \end{bmatrix}} &amp;=
+     \color{red}{\begin{bmatrix}
+        0 \\
+        f(x)
+     \end{bmatrix}} \\
+     &amp;\Downarrow \\          
+     \qquad\quad\color{blue}{u_1 = \displaystyle\int \frac{W_1}{W\;} \,dx =-\int \frac{y_2}{W}\,f(x)\,dx}&amp;,
+        \;\; \color{blue}{u_2} \color{blue}{= \displaystyle\int \frac{W_2}{W\;} \,dx =\int \frac{y_1}{W}\,f(x)\,dx}\\ \\
+     \mathrm{where} \;\;
+       W = \begin{vmatrix}
+             y_1 &amp; y_2\\
+             y_1' &amp; y_2'
+           \end{vmatrix}, \;
+       W_1 =&amp; \begin{vmatrix}
+               0 &amp; y_2\\
+               f(x) &amp; y_2'
+             \end{vmatrix}, \;
+       W_2 = \begin{vmatrix}
+               y_1 &amp; 0\\
+               y_1' &amp; f(x)
+             \end{vmatrix}             
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~\displaystyle y'' -y = \frac{1}{x}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p>The method can be generalized to the standard form of <span class="math inline">\(n\)</span><sup>th</sup> order linear DE. <span class="math inline">\(\,\)</span> A particular solution is</p>
+<p><font color="blue"><span class="math display">\[y_p = u_1(x) y_1 +u_2(x) y_2 +\cdots +u_n(x) y_n\]</span></font></p>
+<p>where</p>
+<p><font color="blue"><span class="math display">\[u_k = \displaystyle\int \frac{W_k}{W\;}\, dx, \;k=1, 2, \cdots, n\]</span></font></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve each differential equation by variation of parameters</p>
+<ul>
+<li><p><span class="math inline">\(y'' +y=\sec x\)</span></p></li>
+<li><p><span class="math inline">\(y'' +y=\sin x\)</span></p></li>
+<li><p><span class="math inline">\(y'' +y=\cos^2 x\)</span></p></li>
+<li><p><span class="math inline">\(3y''-6y'+6y=e^x \sec x\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve each differential equation by variation of parameters subject to the initial conditions <span class="math inline">\(y(0)=1, \;y'(0)=0\)</span></p>
+<ul>
+<li><p><span class="math inline">\(4y'' -y=xe^{x/2}\)</span></p></li>
+<li><p><span class="math inline">\(y''-2y'+y=e^x \sec^2 x\)</span></p></li>
+<li><p><span class="math inline">\(y'' +2y' -8y=2e^{-2x} -e^{-x}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve each differential equation by variation of parameters subject to the initial conditions <span class="math inline">\(y(0)=1, \;y'(0)=0\)</span></p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle y''-4y=\frac{e^{2x}}{x}\)</span></p></li>
+<li><p><span class="math inline">\(2y'' +2y' +y=4\sqrt{x}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-3-6" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-3-6"><span class="header-section-number">3.6</span> Cauchy-Euler Equation</h2>
+<p>The <strong>Cauchy-Euler equation</strong> is a linear DE of the form</p>
+<p><span class="math display">\[ a_n {\color{red}{x^n}} \frac{d^n y}{dx^n} +a_{n-1} {\color{red}{x^{n-1}}} \frac{d^{n-1} y}{dx^{n-1}} +\cdots +a_1 {\color{red}{x}} \frac{dy}{dx} +a_0 y = g(x)\]</span></p>
+<p>where <span class="math inline">\(a_n, a_{n-1}, \cdots, a_0\)</span> are constants and the exponent of the coefficient matches the order of differentiation</p>
+<p><span class="math inline">\(\color{red}{y =x^{\,p}}\)</span> is a solution of second order Cauchy-Euler equation whenever <span class="math inline">\(p\)</span> is a solution of the <strong>auxiliary equation</strong></p>
+<p><font color="blue"><span class="math display">\[a_2 p^2 +(a_1 -a_2)p +a_0 =0\]</span></font></p>
+<ul>
+<li><p><strong>Case I:</strong> <span class="math inline">\(~\)</span> Distinct Real Roots, <span class="math inline">\(~p_1, \,p_2\)</span></p>
+<p><span class="math display">\[ y = c_1 {\color{red}{x^{\,p_1}}} +c_2 {\color{red}{x^{\,p_2}}} \]</span></p></li>
+<li><p><strong>Case II:</strong> <span class="math inline">\(~\)</span> Repeated Real Roots, <span class="math inline">\(~p_1=p_2\)</span></p>
+<p><span class="math display">\[y = c_1 {\color{red}{x^{\,p_1}}} +c_2 {\color{red}{x^{\,p_1}\ln x}}\]</span></p></li>
+<li><p><strong>Case III:</strong> <span class="math inline">\(~\)</span> Complex Conjugate Roots, <span class="math inline">\(~p_1, p_2 = \color{red}{\alpha \pm i\beta}\)</span></p>
+<p><span class="math display">\[y = {\color{red}{x^{\alpha}}} \left[ c_1 {\color{red}{\cos(\beta\ln x)}} + c_2 {\color{red}{\sin(\beta\ln x)}} \right]\]</span></p></li>
 </ul>
 
 
