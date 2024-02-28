@@ -208,3 +208,102 @@ $$
    $$x^3 \frac{dy}{dx} + 2x^2 y = 10 \sin x, \;\; y(1)=0$$
   
    in terms of $\mathrm{Si}(x)$
+
+## Exact Equations {#sec-2-4}
+
+* A differential expression $~M(x,y)dx + N(x,y)dy~$ is an **exact differential** in a region $R$ of the $xy$-plane if it corresponds to the differential of some function $f(x,y)$:
+
+  $$ \color{red}{df(x,y)=\frac{\partial f}{\partial x} dx +\frac{\partial f}{\partial y} dy}$$
+
+* and a condition of exact differentials is:
+
+  $$ \frac{\partial M}{\partial y}=\frac{\partial N}{\partial x}$$
+
+* $M(x,y)\,dx + N(x,y)\, dy=0 ~$ is an **exact equation** if the left side is an exact differential
+
+$~$
+
+**Example:** $\,$ Solving an exact DE, $\;2xy\,dx+(x^2-1)\,dy=0$
+
+$~$
+
+* <font color="blue">**Integrating Factor**</font> of the first-order linear DE
+
+  $$
+  \begin{aligned} 
+    \frac{dy}{dx} +P(x)y &= f(x)\\ 
+    &\Downarrow \\
+    \left ( P(x)y -f(x) \right )dx +dy &= 0\\ 
+    &\Downarrow \times \; I(x): \text{ Integrating Factor}\\ 
+       I(x)\left ( P(x)y -f(x) \right )dx +I(x)dy &= 0 \\ \\
+      \text{To be an exact equation } &\big\Downarrow \\ 
+    \frac{\partial}{\partial y} 
+     \left\{I(x)\left( P(x)\color{blue}{y} -f(x) \right) \right \} &= I(x) 
+       P(x) =\frac{d}{d x} I(x) \\
+    &\big\Downarrow \;\; I(x) = \exp\left(\int P(x) dx\right) 
+  \end{aligned}$$
+
+  Then
+
+  $$
+  \begin{aligned} 
+     I(x) \frac{dy}{dx} +I(x) P(x)y &= I(x)f(x) \; \Rightarrow \; \frac{d} {dx}\left\{ I(x)y \right \} = I(x)f(x) \\ 
+     &\Downarrow \\ 
+    \color{red}{y(x) = I(x)^{-1}y(x_0)I(x_0)}  &\color{red}{\,+\,I(x)^{-1} \int_{x_0}^x I(x) f(x) dx}  
+  \end{aligned}$$
+
+**Example:** $\,$ Solve $\displaystyle\frac{dy}{dx} -2xy = 2, \;y(0)=1$
+
+$$
+\begin{aligned} 
+    \frac{dy}{dx} -2xy &= 2\\ 
+    &\Downarrow \times \;e^{-x^2} \\ 
+    \frac{d}{dx}[e^{-x^2}y] &= 2e^{-x^2}\\ 
+    y &= c e^{x^2} +2e^{x^2} \int_0^x e^{-t^2} dt\\ 
+    & \big\Downarrow \;y(0) = 1 \rightarrow c=1 \\
+     y &= e^{x^2} \left[ 1 +\sqrt{\pi} \underbrace{\left(\frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt \right)}_{\mathrm{erf}(x)} \right ] \\
+     &= e^{x^2} \left[1 +\sqrt{\pi} \,\mathrm{erf} (x) \right] 
+\end{aligned}$$
+
+**Example:** $\,$ Determine whether the given differential equation is exact. If it is exact, solve it
+
+* $~(2x - 1)dx + (3y+7)dy=0$
+
+* $~(5x + 4y)dx + (4x-8y^2)dy=0$
+
+* $~(2xy^2-3)dx +(2x^2y+4)dy=0$
+
+* $~(x^2 -y^2)dx+(x^2-2xy)dy=0$
+
+$~$
+
+**Example:** $\,$ Solve the given initial-value problem
+
+* $~(x+y)^2 dx + (2xy +x^2-1)dy = 0, \;\;y(1)=1$
+
+* $~(4y + 2t -5)dt + (6y +4t-1)dy=0, \;\;y(-1)=2$
+
+$~$
+
+**Example:** $\,$ Solve the given differential equation by finding an appropriate integrating factor
+
+* $~y(x+y+1)dx + (x+2y)dy=0$
+
+## Solutions by Substitutions {#sec-2-5}
+
+**Substitution** is often used to get a DE in a form that a known procedure can be used to find a solution
+
+* Reduction to separation of variables can be facilitated in the DE
+
+  <font color="blue">$$\frac{dy}{dx}=f(Ax+By+C)~$$</font>
+
+  by substituting <font color="blue">$\,u=Ax+By+C, \;B \neq 0$</font>
+
+$~$
+
+**Example:** $\,$ Solve the IVP $~\displaystyle\frac{dy}{dx} = (-2x +y)^2 -7, \;y(0)=0$
+
+Let $\,u=-2x+y$,
+
+then $~\displaystyle\frac{du}{dx}=-2 + \frac{dy}{dx}~$ giving $~\displaystyle\frac{du}{dx} = u^2 -9$
+

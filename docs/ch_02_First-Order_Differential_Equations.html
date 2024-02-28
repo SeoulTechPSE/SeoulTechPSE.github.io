@@ -171,7 +171,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Contents</span></a>
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,6 +199,8 @@ window.Quarto = {
   <li><a href="#sec-2-1" id="toc-sec-2-1" class="nav-link active" data-scroll-target="#sec-2-1"><span class="header-section-number">2.1</span> Solution Curves Without a Solution</a></li>
   <li><a href="#sec-2-2" id="toc-sec-2-2" class="nav-link" data-scroll-target="#sec-2-2"><span class="header-section-number">2.2</span> Separable Equations</a></li>
   <li><a href="#sec-2-3" id="toc-sec-2-3" class="nav-link" data-scroll-target="#sec-2-3"><span class="header-section-number">2.3</span> Linear Equations</a></li>
+  <li><a href="#sec-2-4" id="toc-sec-2-4" class="nav-link" data-scroll-target="#sec-2-4"><span class="header-section-number">2.4</span> Exact Equations</a></li>
+  <li><a href="#sec-2-5" id="toc-sec-2-5" class="nav-link" data-scroll-target="#sec-2-5"><span class="header-section-number">2.5</span> Solutions by Substitutions</a></li>
   </ul>
 </nav>
     </div>
@@ -256,7 +258,7 @@ window.Quarto = {
     (d) &amp;\;\; y(0)=0
 \end{aligned}\]</span></p></li>
 </ul>
-<div id="f9d1cfdf" class="cell" data-execution_count="1">
+<div id="14a0e1df" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -425,6 +427,84 @@ window.Quarto = {
 <p>where the integrand is defined to be 1 at <span class="math inline">\(x=0\)</span>. Express the solution of the initial value problem</p>
 <p><span class="math display">\[x^3 \frac{dy}{dx} + 2x^2 y = 10 \sin x, \;\; y(1)=0\]</span></p>
 <p>in terms of <span class="math inline">\(\mathrm{Si}(x)\)</span></p>
+</section>
+<section id="sec-2-4" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="sec-2-4"><span class="header-section-number">2.4</span> Exact Equations</h2>
+<ul>
+<li><p>A differential expression <span class="math inline">\(~M(x,y)dx + N(x,y)dy~\)</span> is an <strong>exact differential</strong> in a region <span class="math inline">\(R\)</span> of the <span class="math inline">\(xy\)</span>-plane if it corresponds to the differential of some function <span class="math inline">\(f(x,y)\)</span>:</p>
+<p><span class="math display">\[ \color{red}{df(x,y)=\frac{\partial f}{\partial x} dx +\frac{\partial f}{\partial y} dy}\]</span></p></li>
+<li><p>and a condition of exact differentials is:</p>
+<p><span class="math display">\[ \frac{\partial M}{\partial y}=\frac{\partial N}{\partial x}\]</span></p></li>
+<li><p><span class="math inline">\(M(x,y)\,dx + N(x,y)\, dy=0 ~\)</span> is an <strong>exact equation</strong> if the left side is an exact differential</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solving an exact DE, <span class="math inline">\(\;2xy\,dx+(x^2-1)\,dy=0\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><font color="blue"><strong>Integrating Factor</strong></font> of the first-order linear DE</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{dy}{dx} +P(x)y &amp;= f(x)\\
+  &amp;\Downarrow \\
+  \left ( P(x)y -f(x) \right )dx +dy &amp;= 0\\
+  &amp;\Downarrow \times \; I(x): \text{ Integrating Factor}\\
+     I(x)\left ( P(x)y -f(x) \right )dx +I(x)dy &amp;= 0 \\ \\
+    \text{To be an exact equation } &amp;\big\Downarrow \\
+  \frac{\partial}{\partial y}
+   \left\{I(x)\left( P(x)\color{blue}{y} -f(x) \right) \right \} &amp;= I(x)
+     P(x) =\frac{d}{d x} I(x) \\
+  &amp;\big\Downarrow \;\; I(x) = \exp\left(\int P(x) dx\right)
+\end{aligned}\]</span></p>
+<p>Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+   I(x) \frac{dy}{dx} +I(x) P(x)y &amp;= I(x)f(x) \; \Rightarrow \; \frac{d} {dx}\left\{ I(x)y \right \} = I(x)f(x) \\
+   &amp;\Downarrow \\
+  \color{red}{y(x) = I(x)^{-1}y(x_0)I(x_0)}  &amp;\color{red}{\,+\,I(x)^{-1} \int_{x_0}^x I(x) f(x) dx}  
+\end{aligned}\]</span></p></li>
+</ul>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(\displaystyle\frac{dy}{dx} -2xy = 2, \;y(0)=1\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    \frac{dy}{dx} -2xy &amp;= 2\\
+    &amp;\Downarrow \times \;e^{-x^2} \\
+    \frac{d}{dx}[e^{-x^2}y] &amp;= 2e^{-x^2}\\
+    y &amp;= c e^{x^2} +2e^{x^2} \int_0^x e^{-t^2} dt\\
+    &amp; \big\Downarrow \;y(0) = 1 \rightarrow c=1 \\
+     y &amp;= e^{x^2} \left[ 1 +\sqrt{\pi} \underbrace{\left(\frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt \right)}_{\mathrm{erf}(x)} \right ] \\
+     &amp;= e^{x^2} \left[1 +\sqrt{\pi} \,\mathrm{erf} (x) \right]
+\end{aligned}\]</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Determine whether the given differential equation is exact. If it is exact, solve it</p>
+<ul>
+<li><p><span class="math inline">\(~(2x - 1)dx + (3y+7)dy=0\)</span></p></li>
+<li><p><span class="math inline">\(~(5x + 4y)dx + (4x-8y^2)dy=0\)</span></p></li>
+<li><p><span class="math inline">\(~(2xy^2-3)dx +(2x^2y+4)dy=0\)</span></p></li>
+<li><p><span class="math inline">\(~(x^2 -y^2)dx+(x^2-2xy)dy=0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem</p>
+<ul>
+<li><p><span class="math inline">\(~(x+y)^2 dx + (2xy +x^2-1)dy = 0, \;\;y(1)=1\)</span></p></li>
+<li><p><span class="math inline">\(~(4y + 2t -5)dt + (6y +4t-1)dy=0, \;\;y(-1)=2\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the given differential equation by finding an appropriate integrating factor</p>
+<ul>
+<li><span class="math inline">\(~y(x+y+1)dx + (x+2y)dy=0\)</span></li>
+</ul>
+</section>
+<section id="sec-2-5" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="sec-2-5"><span class="header-section-number">2.5</span> Solutions by Substitutions</h2>
+<p><strong>Substitution</strong> is often used to get a DE in a form that a known procedure can be used to find a solution</p>
+<ul>
+<li><p>Reduction to separation of variables can be facilitated in the DE</p>
+<p><font color="blue"><span class="math display">\[\frac{dy}{dx}=f(Ax+By+C)~\]</span></font></p>
+<p>by substituting <font color="blue"><span class="math inline">\(\,u=Ax+By+C, \;B \neq 0\)</span></font></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the IVP <span class="math inline">\(~\displaystyle\frac{dy}{dx} = (-2x +y)^2 -7, \;y(0)=0\)</span></p>
+<p>Let <span class="math inline">\(\,u=-2x+y\)</span>,</p>
+<p>then <span class="math inline">\(~\displaystyle\frac{du}{dx}=-2 + \frac{dy}{dx}~\)</span> giving <span class="math inline">\(~\displaystyle\frac{du}{dx} = u^2 -9\)</span></p>
 
 
 </section>
