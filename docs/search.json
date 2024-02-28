@@ -138,5 +138,45 @@
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>First-Order Differential Equations</span>"
     ]
+  },
+  {
+    "objectID": "ch_02_First-Order_Differential_Equations.html#sec-2-6",
+    "href": "ch_02_First-Order_Differential_Equations.html#sec-2-6",
+    "title": "2  First-Order Differential Equations",
+    "section": "2.6 A Numerical Method",
+    "text": "2.6 A Numerical Method\nNumerical method: \\(\\,\\) an algorithm for approximating the unknown solution to a DE\n\n\n\nLinearization approximates solutions within a small area around lineal elements in direction fields\nThe procedure of evaluating successive tangent lines is \\(~\\)Euler’s method\n\n\n\n\n\n\n\n\n\nExample: \\(\\,\\) Consider \\(y'=0.1\\sqrt{y}+0.4x^2, \\;y(2)=4~\\) and approximate \\(y(2.5)\\) using \\(h=0.1\\)\n\nSubstituting into the general formula for Euler’s method gives\n\\[y_{n+1}=y_n +h\\left(0.1\\sqrt{y_n} + 0.4x_n^2 \\right)\\]\nConsidering the initial condition and \\(n=0\\)\n\\[\\scriptsize\n  \\begin{aligned}\n      y_1 &= 4+0.1\\left( 0.1\\sqrt{4} + 0.4 \\cdot2^2\\right ) =4.1800 \\\\\n      y_2 &= 4.18 +0.1\\left( 0.1\\sqrt{4.18} + 0.4 \\cdot2.1^2\\right ) =4.3768 \\\\\n      &\\, \\vdots \\\\\n      y_5 &= 5.0768\n\\end{aligned}\\]\n\n\nplt.style.use('ggplot')\n\nx0 = 2.0\ny0 = 4.0\nxf = 2.5\n\nh = 0.1\nn = int((xf - x0)/h) + 1\n\nx = np.linspace(x0, xf, n)\ny = np.zeros(n)\n\ny[0] = y0\nfor i in range(1, n):\n    y[i] = y[i -1] + h*(0.1 * np.sqrt(y[i -1]) + 0.4 * x[i -1]**2)\n    print(f'x = {x[i] : 3.1f}, y = {y[i] : 5.4f}')\n\nplt.figure(figsize=(4, 4))\nplt.plot(x, y, 'o')\nplt.xlabel(\"$x$\")\nplt.ylabel(\"$y$\")\nplt.title(\"$h=0.1$\")\n\nplt.show()\n\nx =  2.1, y =  4.1800\nx =  2.2, y =  4.3768\nx =  2.3, y =  4.5914\nx =  2.4, y =  4.8244\nx =  2.5, y =  5.0768\n\n\n\n\n\nEuler’s Method\n\n\n\n\nExample: \\(\\,\\) Use Euler’s method to obtain a four-decimal approximation of the indicated value. Carry out the recursion, first using \\(h=0.1\\) and then using \\(h=0.05\\)\n\\[~y'=2x-3y+1, \\;\\; y(1)=5; \\;\\;y(1.2)\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>First-Order Differential Equations</span>"
+    ]
+  },
+  {
+    "objectID": "ch_02_First-Order_Differential_Equations.html#sec-2-7",
+    "href": "ch_02_First-Order_Differential_Equations.html#sec-2-7",
+    "title": "2  First-Order Differential Equations",
+    "section": "2.7 Linear Models",
+    "text": "2.7 Linear Models\nExample: \\(\\,\\) Series Circuits - For a series circuit containing a resister \\(R\\) and an inductor \\(L\\),\n\\(~\\)\n\n\n\n\n\nKirchoff’s second law gives\n\\[L\\frac{di}{dt}+Ri=E(t)\\]\nFor a series circuit containing a resister and a capacitor,\n\n\n\n\n\nKirchoff’s second law gives\n\\[Ri+\\frac{1}{C}q=E(t)\\]\nwhere \\(\\displaystyle i=\\frac{dq}{dt}\\). \\(~\\)Then \\(~\\)\\(\\displaystyle R\\frac{dq}{dt}+\\frac{1}{C}q=E(t)\\)\n\\(~\\)\nExample: \\(\\,\\) The population of a community is known to increase at a rate proportional to the number of people present at time \\(t\\). If an initial population \\(P_0\\) has doubled in 5 years, how long will it take to triple? To quadruple?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>First-Order Differential Equations</span>"
+    ]
+  },
+  {
+    "objectID": "ch_02_First-Order_Differential_Equations.html#sec-2-8",
+    "href": "ch_02_First-Order_Differential_Equations.html#sec-2-8",
+    "title": "2  First-Order Differential Equations",
+    "section": "2.8 Nonlinear Models",
+    "text": "2.8 Nonlinear Models\n\\(~\\)\nExample: \\(\\,\\) The logistic model\n\nVerhulst proposed a model, called the logistic model, for population growth in 1838. It does not assume unlimited resources. Instead, it assumes there is a carrying capacity \\(K\\) for the population\nThis carrying capacity is the stable population level. If the population is above \\(K\\), then the population will decrease, but if below, then it will increase\nFor this model, it is assumed that ther rate of change \\(\\frac{dy}{dt}\\) of the population \\(y\\) is proportional to the product of the current population \\(y\\) and \\(K − y\\)\n\\[\\frac{dy}{dt}=\\alpha y(K-y)\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>First-Order Differential Equations</span>"
+    ]
+  },
+  {
+    "objectID": "ch_02_First-Order_Differential_Equations.html#sec-2-9",
+    "href": "ch_02_First-Order_Differential_Equations.html#sec-2-9",
+    "title": "2  First-Order Differential Equations",
+    "section": "2.9 Modeling with Systems of First-Order DEs",
+    "text": "2.9 Modeling with Systems of First-Order DEs\n\\(~\\)\nExample: \\(\\,\\) Radioactive Series:\n\\[X \\xrightarrow{k_1} Y \\xrightarrow{k_2} Z\\]\n\n\nThe decay of the initial element \\(X\\) is described by\n\\[\\frac{dx}{dt}=-k_1 x\\]\nThe second element \\(Y\\) is produced by the decay of \\(X\\) and loses from its own spontaneous decay\n\\[\\frac{dy}{dt}=k_1 x -k_2 y\\]\nThe stable element \\(z\\) is generated from the decay of \\(Y\\)\n\\[\\frac{dz}{dt}=k_2 y\\]\n\n\n\nExample: \\(\\,\\) Consider the Lotka-Volterra predator-prey model defined by\n\\[  \n\\begin{aligned}\n   \\frac{dx}{dt} &= -0.1x +0.02xy \\\\\n   \\frac{dy}{dt} &= 0.2y -0.025xy\n\\end{aligned}\\]\nwhere the populations \\(x(t)\\) (predator) and \\(y(t)\\) (prey) are measured in the thousands and \\(x(0)=6\\) and \\(y(0)=6\\)\n\n\nUse a numerical solver to graph \\(x(t)\\) and \\(y(t)\\)\n\n\n# Lotka-Volterra predator-prey model\na, b, c, d = -0.1, 0.02, 0.2, -0.025\n\ndef f(t, xy):\n    x, y = xy\n    return [a *x +b *x *y, c *y +d *x *y]\n\n# Initial condition and Time span\nxy0 = [6, 6]\ntf = 400\nt_eval = np.linspace(0, tf, 5*tf)\n\n# Numerical Solver\nsol = integrate.solve_ivp(f, [0, tf], xy0, t_eval=t_eval)\n\nt = sol.t\nxy_t = sol.y.T\n\n\n\nUse the graphs to approximate the period of each population\n\n\nfig, ax = plt.subplots(1, 1, figsize=(6, 5))\n\nax.plot(t, xy_t[:, 0], 'r', label=\"Predator\")\nax.plot(t, xy_t[:, 1], 'b', label=\"Prey\")\n\nax.set_xlabel(\"Time\")\nax.set_ylabel(\"Number of animals\")\nax.set_xlim(0, tf)\nax.set_ylim(0, 12)\nax.legend()\n\nplt.show()\n\n\n\n\nLotka-Volterra predator-prey model",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>First-Order Differential Equations</span>"
+    ]
   }
 ]

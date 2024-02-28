@@ -393,3 +393,189 @@ $~$
 * $~\displaystyle 3(1+t^2)\frac{dy}{dt}=2ty(y^3-1)$
 
 * $~\displaystyle \frac{dy}{dx}=\cos (x+y), \;\;y(0)=\frac{\pi}{4}$
+
+## A Numerical Method {#sec-2-6}
+
+**Numerical method:** $\,$ an algorithm for approximating the unknown solution to a DE
+
+::: columns
+::: {.column width="45%"}
+* **Linearization** approximates solutions within a small area around lineal elements in direction fields
+* The procedure of evaluating successive tangent lines is $~$**Euler's method**
+:::
+
+::: {.column width="55%"}
+![](figures/ch02_figure03.png "Euler's method"){width="70%" fig-align="center"}
+:::
+:::
+
+**Example:** $\,$ Consider $y'=0.1\sqrt{y}+0.4x^2, \;y(2)=4~$ and approximate $y(2.5)$ using $h=0.1$
+
+* Substituting into the general formula for Euler's method gives
+
+  $$y_{n+1}=y_n +h\left(0.1\sqrt{y_n} + 0.4x_n^2 \right)$$
+
+* Considering the initial condition and $n=0$
+
+  $$\scriptsize
+    \begin{aligned} 
+        y_1 &= 4+0.1\left( 0.1\sqrt{4} + 0.4 \cdot2^2\right ) =4.1800 \\ 
+        y_2 &= 4.18 +0.1\left( 0.1\sqrt{4.18} + 0.4 \cdot2.1^2\right ) =4.3768 \\ 
+        &\, \vdots \\
+        y_5 &= 5.0768 
+   \end{aligned}$$
+
+
+```{python}
+# | fig-cap: "Euler's Method"
+plt.style.use('ggplot')
+
+x0 = 2.0
+y0 = 4.0
+xf = 2.5
+
+h = 0.1
+n = int((xf - x0)/h) + 1
+
+x = np.linspace(x0, xf, n)
+y = np.zeros(n)
+
+y[0] = y0
+for i in range(1, n):
+    y[i] = y[i -1] + h*(0.1 * np.sqrt(y[i -1]) + 0.4 * x[i -1]**2)
+    print(f'x = {x[i] : 3.1f}, y = {y[i] : 5.4f}')
+
+plt.figure(figsize=(4, 4))
+plt.plot(x, y, 'o')
+plt.xlabel("$x$")
+plt.ylabel("$y$")
+plt.title("$h=0.1$")
+
+plt.show()
+```
+
+**Example:** $\,$ Use Euler's method to obtain a four-decimal approximation of the indicated value. Carry out the recursion, first using $h=0.1$ and then using $h=0.05$
+ 
+$$~y'=2x-3y+1, \;\; y(1)=5; \;\;y(1.2)$$
+
+
+## Linear Models {#sec-2-7}
+
+**Example:** $\,$ Series Circuits -  For a series circuit containing a resister $R$ and an inductor $L$,
+
+$~$
+
+![](figures/ch02_figure04.png "LR-series circuit"){width="30%" fig-align="center"}
+
+Kirchoff's second law gives
+
+$$L\frac{di}{dt}+Ri=E(t)$$
+
+For a series circuit containing a resister and a capacitor, 
+
+![](figures/ch02_figure05.png "RC-series circuit"){width="30%" fig-align="center"}
+
+Kirchoff's second law gives
+
+$$Ri+\frac{1}{C}q=E(t)$$
+  
+where $\displaystyle i=\frac{dq}{dt}$. $~$Then $~$$\displaystyle R\frac{dq}{dt}+\frac{1}{C}q=E(t)$
+
+$~$
+
+**Example:** $\,$ The population of a community is known to increase at a rate proportional to the number of people present at time $t$. If an initial population $P_0$ has doubled in 5 years, how long will it take to triple? To quadruple?
+
+## Nonlinear Models {#sec-2-8}
+
+$~$
+
+**Example:** $\,$ The logistic model
+
+* Verhulst proposed a model, called the logistic model, for population growth in 1838. It does not assume unlimited resources. Instead, it assumes there is a carrying capacity $K$ for the population
+
+* This carrying capacity is the stable population level. If the population is above $K$, then the population will decrease, but if below, then it will increase
+
+* For this model, it is assumed that ther rate of
+change $\frac{dy}{dt}$ of the population $y$ is proportional to the product of the current population $y$ and $K − y$
+
+  $$\frac{dy}{dt}=\alpha y(K-y)$$
+
+## Modeling with Systems of First-Order DEs {#sec-2-9}
+
+$~$
+
+**Example:** $\,$ Radioactive Series: 
+
+$$X \xrightarrow{k_1} Y \xrightarrow{k_2} Z$$
+
+::: {.incremental}
+* The decay of the initial element $X$ is described by
+
+  $$\frac{dx}{dt}=-k_1 x$$
+
+* The second element $Y$ is produced by the decay of $X$ and loses from its own spontaneous decay
+
+  $$\frac{dy}{dt}=k_1 x -k_2 y$$
+  
+* The stable element $z$ is generated from the decay of $Y$
+
+   $$\frac{dz}{dt}=k_2 y$$
+:::
+
+---
+
+**Example:** $\,$ Consider the Lotka-Volterra predator-prey model defined by
+
+$$  
+\begin{aligned}
+   \frac{dx}{dt} &= -0.1x +0.02xy \\ 
+   \frac{dy}{dt} &= 0.2y -0.025xy 
+\end{aligned}$$
+ 
+where the populations $x(t)$ (predator) and $y(t)$ (prey) are measured in the thousands and $x(0)=6$ and $y(0)=6$
+
+---
+ 
+* Use a numerical solver to graph $x(t)$ and $y(t)$
+ 
+```{python}
+# | echo: true
+# Lotka-Volterra predator-prey model
+a, b, c, d = -0.1, 0.02, 0.2, -0.025
+
+def f(t, xy):
+    x, y = xy
+    return [a *x +b *x *y, c *y +d *x *y]
+
+# Initial condition and Time span
+xy0 = [6, 6]
+tf = 400
+t_eval = np.linspace(0, tf, 5*tf)
+
+# Numerical Solver
+sol = integrate.solve_ivp(f, [0, tf], xy0, t_eval=t_eval)
+
+t = sol.t
+xy_t = sol.y.T
+```
+
+---
+
+* Use the graphs to approximate the period of each population
+
+```{python}
+# | fig-cap: "Lotka-Volterra predator-prey model"
+
+fig, ax = plt.subplots(1, 1, figsize=(6, 5))
+
+ax.plot(t, xy_t[:, 0], 'r', label="Predator")
+ax.plot(t, xy_t[:, 1], 'b', label="Prey")
+
+ax.set_xlabel("Time")
+ax.set_ylabel("Number of animals")
+ax.set_xlim(0, tf)
+ax.set_ylim(0, 12)
+ax.legend()
+
+plt.show()
+```
