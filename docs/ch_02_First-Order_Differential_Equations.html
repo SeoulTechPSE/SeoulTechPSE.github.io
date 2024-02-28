@@ -258,7 +258,7 @@ window.Quarto = {
     (d) &amp;\;\; y(0)=0
 \end{aligned}\]</span></p></li>
 </ul>
-<div id="25e2ef11" class="cell" data-execution_count="1">
+<div id="002861e4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -505,6 +505,64 @@ window.Quarto = {
 <p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the IVP <span class="math inline">\(~\displaystyle\frac{dy}{dx} = (-2x +y)^2 -7, \;y(0)=0\)</span></p>
 <p>Let <span class="math inline">\(\,u=-2x+y\)</span>,</p>
 <p>then <span class="math inline">\(~\displaystyle\frac{du}{dx}=-2 + \frac{dy}{dx}~\)</span> giving <span class="math inline">\(~\displaystyle\frac{du}{dx} = u^2 -9\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Homogeneous</strong> first-order DE</p>
+<p>A first-order ordinary DE in the form:</p>
+<p><span class="math display">\[\frac{dy}{dx}=f(x,y) = - \frac{M(x,y)}{N(x,y)}\]</span></p>
+<p>is a homogeneous type if both function <span class="math inline">\(M(x,y)\)</span> and <span class="math inline">\(N(x,y)\)</span> are homogeneous functions of the same degree <span class="math inline">\(n\)</span>:</p>
+<p><span class="math display">\[M(\lambda x, \lambda y) = \lambda^n M(x, y), \;\; N(\lambda x, \lambda y) = \lambda^n N(x, y)\]</span></p>
+<p>Thus, we can let <span class="math inline">\(\color{blue}{t=1/x}~\)</span> to simplify this quotient to a function <span class="math inline">\(f\)</span> of the single variable <span class="math inline">\(y/x\)</span>:</p>
+<p><span class="math display">\[\frac{M(x, y)}{N(x, y)}=\frac{M(t x,t y)}{N(t x, t y)} = \frac{M\left(1, \tfrac{y}{x}\right)}{N\left(1,\tfrac{y}{x}\right)}
+=-f\left(\frac{y}{x}\right) = -\frac{dy}{dx}\]</span></p>
+<p>The change of variables <font color="blue"><span class="math inline">\(y=ux\)</span></font> transforms the original differential equation into the separable form:</p>
+<p><span class="math display">\[\frac{du}{f(u)-u}=\frac{dx}{x}\]</span></p></li>
+<li><p><strong>Bernoulli</strong> DE:</p>
+<p><span class="math display">\[~y'+P(x)y =Q(x)y^{n} \;\text{ where }\; n \neq 0~ \text{ and } n \neq 1\]</span></p>
+<ul>
+<li><p>Bernoulli equations are special because they are nonlinear differential equations with known exact solutions</p></li>
+<li><p>The substitution <font color="blue"><span class="math inline">\(u=y^{1-n}\)</span></font> reduces any Bernoulli equation to a linear differential equation</p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(\displaystyle y'-\frac{2}{x}y=-x^2y^2\)</span></p>
+<p>Changing variables <span class="math inline">\(\displaystyle u=\tfrac{1}{y}\)</span>, <span class="math inline">\(~\)</span><span class="math inline">\(\displaystyle u'=-\tfrac{1}{y^2}y'\)</span> gives the equation</p>
+<p><span class="math display">\[ u'+\frac{2}{x}u=x^2\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Riccati</strong> DE</p>
+<ul>
+<li><p>Riccati equation is any first-order ordinary differential equation that is quadratic in the unknown function. In other words, it is an equation of the form</p>
+<p><span class="math display">\[y'=q_0(x)+q_1(x)y+q_2(x)y^2\]</span></p>
+<p>where <span class="math inline">\(q_0(x)\neq 0\)</span> and <span class="math inline">\(q_2(x)\neq 0\)</span>. If <span class="math inline">\(q_0(x)=0\)</span>, the equation is Bernoulli one, and if <span class="math inline">\(q_2(x)=0\)</span>, the equation is linear one</p></li>
+<li><p>The new variable <font color="blue"><span class="math inline">\(v=yq_2\)</span></font> satisfies an equation</p>
+<p><span class="math display">\[v'=v^2+R(x)v+S(x)\]</span></p>
+<p>where <span class="math inline">\(S(x)=q_2 q_0\)</span> and <span class="math inline">\(\displaystyle R(x)=q_{1}+\left({\tfrac{q_{2}'}{q_{2}}}\right)\)</span></p></li>
+<li><p>Substituting <font color="blue"><span class="math inline">\(\displaystyle v=-\tfrac{u'}{u\,}\)</span></font>, <span class="math inline">\(~u\)</span> satisfies the linear 2<sup>nd</sup> order ODE</p>
+<p><span class="math display">\[u''-R(x)u'+S(x)u=0\]</span> A solution of this equation will lead to a solution <span class="math inline">\(\displaystyle y=-\tfrac{u'}{q_2u}\)</span> of the original Riccati equation</p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the given differential equation by using an appropriate substitution</p>
+<ul>
+<li><p><span class="math inline">\(~(x-y)dx+xdy=0\)</span></p></li>
+<li><p><span class="math inline">\(~xdx+(y-2x)dy=0\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle \frac{dy}{dx}=\frac{y-x}{y+x}\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle x\frac{dy}{dx}=y+\sqrt{x^2-y^2}, \;\;x&gt;0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem</p>
+<ul>
+<li><p><span class="math inline">\(~\displaystyle xy^2 \frac{dy}{dx}=y^3-x^3, \;\;y(1)=2\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle (x^2 +2y^2) \frac{dx}{dy}=xy, \;\; y(-1)=1\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve the given differential equation by using an appropriate substitution</p>
+<ul>
+<li><p><span class="math inline">\(~\displaystyle x\frac{dy}{dx} +y =\frac{1}{y^2}\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle 3(1+t^2)\frac{dy}{dt}=2ty(y^3-1)\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle \frac{dy}{dx}=\cos (x+y), \;\;y(0)=\frac{\pi}{4}\)</span></p></li>
+</ul>
 
 
 </section>
