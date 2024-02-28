@@ -391,3 +391,131 @@ $~$
 
 $~$
 
+## Nonlinear Equations {#sec-3-7}
+
+* <font color="blue">Nonlinear equations do not possess superposability</font>
+
+$~$
+
+**Example** $\,$ Verify that $y_1$ and $y_2$ are solutions of the given DE but that $c_1 y_1 +c_2 y_2$ is, in general, not a solution
+  
+   $$\left(y''\right)^2 = y^2,\; y_1=e^x,\; y_2=\cos x$$
+
+$~$
+
+* The major difference between linear and nonlinear DEs of order two or higher lies in the realm of solvability.
+<font color="blue">Nonlinear higher-order DEs virtually defy solution</font>. This means that there are no analytical methods whereby either an explicit or implicit solution can be found
+
+* There are still things that can be done; $~$we can always analyze a nonlinear DE <font color="blue">qualitatively and numerically</font>
+
+* Nonlinear second-order DE $F(y, y', y'')=0\,$ can be reduced to two first-order equations by means of the substitution $u=y'$ and can sometimes be solved using first-order methods
+
+$~$
+
+**Example** $\,$ Solve $~y''=2x(y')^2$ and $yy''=(y')^2$
+
+$~$
+
+* In some instances, a solution of a nonlinear IVP can be approximated by a Taylor series centered at $x_0$
+
+$~$
+
+**Example** $\,$ Solve $~y''=x +y -y^2$, $\,y(0)=-1$, $\,y'(0)=1$ by using 
+  
+   $$y(x) = y(0) +\frac{y'(0)}{1!}x +\frac{y''(0)}{2!}x^2 +\frac{y'''(0)}{3!} x^3 + \cdots$$
+
+$~$
+
+* In order to analyze an $n$^th^ order IVP numerically, $~$we express the $n$^th^ order ODE as a system of $n$ first-order equations
+
+* For example,
+  $$
+  \begin{aligned}
+      \frac{d^2y}{dx^2} = f(x,y,y')&, \;\;y(x_0)=y_0, \;y'(x_0) = y_1\\[5pt]
+      &\big\Downarrow \;{y'=u}\\[5pt]
+      \mathrm{Solve:} &\; 
+      \begin{cases} y' = u \\ u' = f(x,y,u) \end{cases}\\ 
+      \mathrm{subject \;to:} & \;y(x_0)=y_0, \;u(x_0)=y_1
+  \end{aligned}$$
+
+$~$
+
+**Example** $\,$ Solve the following equation numerically:
+
+$$
+\begin{aligned}
+  \frac{d^2 y}{dx^2} = x &+y -y^2, \;\; y(0)=-1, \;y'(0)=1\\ 
+  &\Downarrow \\
+  y' &= u\\ 
+  u' &= x +y -y^2 \\
+  y(0) &=-1 \\
+  u(0) &=1 
+\end{aligned}$$
+
+$~$
+
+```{python}
+# | echo: true
+# | output-location: slide
+# | fig-cap: $\displaystyle\frac{d^2y}{dx^2}=x +y -y^2$
+
+import numpy as np
+from scipy.integrate import solve_ivp
+
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+plt.rcParams.update({'font.size': 16})
+
+def func(t, y):
+    return [y[1], t +y[0] -y[0]*y[0]]
+
+sol = solve_ivp(func, [0, 20], [1, -1], t_eval=np.linspace(0, 20, 200))
+
+plt.figure(figsize=(6, 4))
+
+plt.plot(sol.t, sol.y[0])
+plt.axis((0, 20, 0, 7))
+plt.xlabel('x')
+plt.ylabel('y')
+
+plt.show()
+```
+$~$
+
+**Example** $\,$ The dependent variable $y$ is missing in the given differential equation. Solve the equation by using the substitution $u=y'$
+
+$$y''+(y')^2+1=0$$
+   
+$~$
+
+**Example** $\,$ The independent variable $x$ is missing in the given differential equation. Solve the equation by using the substitution $u=y'$
+
+$$yy''+(y')^2+1=0$$
+
+$~$
+
+**Example** $\,$ Consider the initial-value problem
+
+  $$y''+yy'=0,\;\;y(0)=1,\;y'(0)=-1$$
+
+| 1. Use the DE and a numerical solver to graph the solution curve
+| 2. Find an explicit solution of the IVP. $~$Use a graphing utility to graph this solution
+| 3. Find an interval of definition for the solution in part 2
+
+$~$
+
+**Example** $\,$ Show that the substitution $u=y'$ leads to a Bernoulli equation. Solve this equation
+
+$$xy''=y'+(y')^3$$
+
+$~$
+
+## Linear Models: Initial-Value  {#sec-3-8}
+
+Several dynamical systems are modeled with linear 2^nd^-order DEs with constant coefficients and initial conditions at $t_0$
+
+* Spring/Mass Systems
+  * Free Undamped Motion
+  * Free Damped Motion
+  * Driven Motion
+
