@@ -209,7 +209,8 @@ window.Quarto = {
   <li><a href="#sec-3-5" id="toc-sec-3-5" class="nav-link" data-scroll-target="#sec-3-5"><span class="header-section-number">3.5</span> Variation of Parameters</a></li>
   <li><a href="#sec-3-6" id="toc-sec-3-6" class="nav-link" data-scroll-target="#sec-3-6"><span class="header-section-number">3.6</span> Cauchy-Euler Equation</a></li>
   <li><a href="#sec-3-7" id="toc-sec-3-7" class="nav-link" data-scroll-target="#sec-3-7"><span class="header-section-number">3.7</span> Nonlinear Equations</a></li>
-  <li><a href="#sec-3-8" id="toc-sec-3-8" class="nav-link" data-scroll-target="#sec-3-8"><span class="header-section-number">3.8</span> Linear Models: Initial-Value</a></li>
+  <li><a href="#sec-3-8" id="toc-sec-3-8" class="nav-link" data-scroll-target="#sec-3-8"><span class="header-section-number">3.8</span> Linear Models: Initial-Value Problems</a></li>
+  <li><a href="#sec-3-9" id="toc-sec-3-9" class="nav-link" data-scroll-target="#sec-3-9"><span class="header-section-number">3.9</span> Linear Models: Boundary-Value Problems</a></li>
   </ul>
 </nav>
     </div>
@@ -323,13 +324,13 @@ window.Quarto = {
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +\omega^2y=0\,\)</span> and <span class="math inline">\(\,y'' -\omega^2y=0\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~3y'''+5y''+10y'-4y=0\)</span></p>
-<div id="59432503" class="cell" data-execution_count="1">
+<div id="2db02d69" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="92deee9a" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="99238b36" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> Symbol, init_printing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.solvers <span class="im">import</span> solve</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>init_printing()</span>
@@ -564,7 +565,7 @@ window.Quarto = {
   u(0) &amp;=1
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="0792a689" class="cell" data-output-location="slide" data-execution_count="3">
+<div id="9e675326" class="cell" data-output-location="slide" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -612,7 +613,7 @@ window.Quarto = {
 <p><span class="math inline">\(~\)</span></p>
 </section>
 <section id="sec-3-8" class="level2" data-number="3.8">
-<h2 data-number="3.8" class="anchored" data-anchor-id="sec-3-8"><span class="header-section-number">3.8</span> Linear Models: Initial-Value</h2>
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-3-8"><span class="header-section-number">3.8</span> Linear Models: Initial-Value Problems</h2>
 <p>Several dynamical systems are modeled with linear 2<sup>nd</sup>-order DEs with constant coefficients and initial conditions at <span class="math inline">\(t_0\)</span></p>
 <ul>
 <li>Spring/Mass Systems
@@ -622,6 +623,36 @@ window.Quarto = {
 <li>Driven Motion</li>
 </ul></li>
 </ul>
+<p><span class="math display">\[
+\begin{aligned}
+  m\frac{d^2x}{dt^2} &amp;= -kx -\beta\frac{dx}{dt} +f(t)\\
+  x(0) &amp;= x_0 \\
+  \dot{x}(0) &amp;= x_1
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch03_figure02.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Show that the solution of the initial-value problem</p>
+<p><span class="math display">\[\frac{d^2x}{dt^2}+\omega^2x=F_0\cos\gamma t, \;x(0)=0, \;x'(0)=0\]</span></p>
+<p>is <span class="math inline">\(~\displaystyle x(t)=\frac{F_0}{\omega^2-\gamma^2}(\cos\gamma t -\cos\omega t)\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(\,\displaystyle \lim_{\gamma \to \omega} \frac{F_0}{\omega^2-\gamma^2} (\cos\gamma t - \cos\omega t)\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-3-9" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="sec-3-9"><span class="header-section-number">3.9</span> Linear Models: Boundary-Value Problems</h2>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Temperature in a Ring</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch03_figure03.png" class="quarto-figure quarto-figure-center figure-img" style="height:20.0%"></p>
+</figure>
+</div>
+<p>The temperature <span class="math inline">\(u(r)\)</span> in circular ring is determined from the boundary-value problem</p>
+<p><span class="math display">\[r\frac{d^2 u}{dr^2} +\frac{du}{dr}=0,\; u(a)=u_0,\; u(b)=u_1\]</span></p>
 
 
 </section>
