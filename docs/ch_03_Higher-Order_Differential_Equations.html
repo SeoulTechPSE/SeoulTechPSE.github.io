@@ -211,6 +211,11 @@ window.Quarto = {
   <li><a href="#sec-3-7" id="toc-sec-3-7" class="nav-link" data-scroll-target="#sec-3-7"><span class="header-section-number">3.7</span> Nonlinear Equations</a></li>
   <li><a href="#sec-3-8" id="toc-sec-3-8" class="nav-link" data-scroll-target="#sec-3-8"><span class="header-section-number">3.8</span> Linear Models: Initial-Value Problems</a></li>
   <li><a href="#sec-3-9" id="toc-sec-3-9" class="nav-link" data-scroll-target="#sec-3-9"><span class="header-section-number">3.9</span> Linear Models: Boundary-Value Problems</a></li>
+  <li><a href="#sec-GF" id="toc-sec-GF" class="nav-link" data-scroll-target="#sec-GF"><span class="header-section-number">3.10</span> Green’s Functions</a>
+  <ul class="collapse">
+  <li><a href="#influence-function" id="toc-influence-function" class="nav-link" data-scroll-target="#influence-function"><span class="header-section-number">3.10.1</span> Influence Function</a></li>
+  <li><a href="#greens-function" id="toc-greens-function" class="nav-link" data-scroll-target="#greens-function"><span class="header-section-number">3.10.2</span> Green’s Function</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -324,13 +329,13 @@ window.Quarto = {
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +\omega^2y=0\,\)</span> and <span class="math inline">\(\,y'' -\omega^2y=0\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~3y'''+5y''+10y'-4y=0\)</span></p>
-<div id="2db02d69" class="cell" data-execution_count="1">
+<div id="e6c1f2e9" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="99238b36" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="0fedfffc" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> Symbol, init_printing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.solvers <span class="im">import</span> solve</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>init_printing()</span>
@@ -565,7 +570,7 @@ window.Quarto = {
   u(0) &amp;=1
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="9e675326" class="cell" data-output-location="slide" data-execution_count="3">
+<div id="575c8fde" class="cell" data-output-location="slide" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -653,8 +658,189 @@ window.Quarto = {
 </div>
 <p>The temperature <span class="math inline">\(u(r)\)</span> in circular ring is determined from the boundary-value problem</p>
 <p><span class="math display">\[r\frac{d^2 u}{dr^2} +\frac{du}{dr}=0,\; u(a)=u_0,\; u(b)=u_1\]</span></p>
+</section>
+<section id="sec-GF" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="sec-GF"><span class="header-section-number">3.10</span> Green’s Functions</h2>
+<section id="influence-function" class="level3" data-number="3.10.1">
+<h3 data-number="3.10.1" class="anchored" data-anchor-id="influence-function"><span class="header-section-number">3.10.1</span> Influence Function</h3>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>We shall consider the <font color="blue">self-adjoint form</font></p>
+<p><span class="math display">\[
+\color{red}{\frac{d}{dx} \left[ p(x)\frac{du}{dx} \right] +q(x)u = -f(x)} \tag{SA}\label{eq:SA}
+\]</span></p>
+<p>The function <span class="math inline">\(p(x)\)</span> is continuously differentiable and positive, and <span class="math inline">\(q(x)\)</span> and <span class="math inline">\(f(x)\)</span> are continuous for <span class="math inline">\(\alpha &lt; x &lt; \beta\)</span></p></li>
+<li><p>The homogeneous second-order differential equation</p>
+<p><span class="math display">\[
+\frac{d}{dx} \left[ p(x)\frac{dv}{dx} \right] +q(x)v = 0 \tag{SH}\label{eq:SH}
+\]</span></p>
+<p>has exactly two linearly independent solutions <font color="blue"><span class="math inline">\(v_1(x)\)</span></font> and <font color="blue"><span class="math inline">\(v_2(x)\)</span></font>: any solution of <span class="math inline">\(\eqref{eq:SH}\)</span> can be written in the form</p>
+<p><font color="blue"><span class="math display">\[v(x) = c_1 v_1(x) +c_2 v_2(x)\]</span></font></p>
+<p>where <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span> are constants</p></li>
+<li><p>We now consider the function</p>
+<p><span class="math display">\[ w(x) = v_1(x) {\color{blue}{\int_\alpha^x v_2(\xi) f(\xi)\, d\xi}} -v_2(x) {\color{blue}{\int_\alpha^x v_1(\xi) f(\xi)\, d\xi}}\]</span></p>
+<p>Differentiating <span class="math inline">\(w\)</span>, <span class="math inline">\(~\)</span>we have</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+  \frac{dw}{dx} &amp;=  v_1'(x) {\color{blue}{\int_\alpha^x v_2(\xi) f(\xi)\, d\xi}} -v_2'(x) {\color{blue}{\int_\alpha^x v_1(\xi) f(\xi)\, d\xi}}  
+  + \underbrace{\left[ v_1(x) {\color{blue}{v_2(x)}} -v_2(x) {\color{blue}{v_1(x)}} \right]}_{=0} {\color{blue}{f(x)}}\\
+  &amp;= v_1'(x) {\color{blue}{\int_\alpha^x v_2(\xi) f(\xi)\, d\xi}} -v_2'(x) {\color{blue}{\int_\alpha^x v_1(\xi) f(\xi)\, d\xi}}
+\end{aligned}\]</span></p></li>
+<li><p>Then</p>
+<p><span class="math display">\[ \scriptsize
+\begin{aligned}
+  \frac{d}{dx}\left[ p(x)\frac{dw}{dx} \right]
+   &amp;=\underbrace{\frac{d}{dx}\left[ p(x)v_1'(x) \right]}_{-q(x)v_1} \int_\alpha^x v_2(\xi) f(\xi)\, d\xi -\underbrace{\frac{d}{dx}\left[ p(x)v_2'(x) \right]}_{-q(x) v_2} \int_\alpha^x v_1(\xi) f(\xi)\, d\xi \\
+   &amp;\phantom{=}+\underbrace{p(x) \left[ v_1'(x) v_2(x) -v_2'(x) v_1(x) \right]}_{-K} f(x) \\
+   &amp;=-q(x) w -Kf(x)
+\end{aligned}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+   \frac{d}{dx} &amp;\left\{p(x) \left[ v_1'(x) v_2(x) -v_2'(x) v_1(x) \right] \right\} \\
+    &amp;= \underbrace{\frac{d}{dx} \left[ p(x) v_1'(x) \right]}_{-q(x) v_1(x)} v_2(x) -\underbrace{\frac{d}{dx} \left[ p(x) v_2'(x) \right]}_{-q(x)v_2(x)} v_1(x) +p(x)v_1'(x)v_2'(x) -p(x)v_2'(x)v_1'(x) = 0 \\
+    &amp;\Downarrow \\ \\
+  K &amp; \text{ is constant}
+  \end{aligned}\]</span></p></li>
+<li><p>We have shown that <span class="math inline">\(w\)</span> satisfies the equation:</p>
+<p><font color="blue"><span class="math display">\[\frac{d}{dx} \left[ p(x)\frac{dw}{dx} \right] +q(x)w = -Kf(x)\]</span></font></p>
+<p>Moreover, <span class="math inline">\(\,\)</span> as <span class="math inline">\(x \rightarrow \alpha\)</span></p>
+<p><font color="blue"><span class="math display">\[w(\alpha)=w'(\alpha)=0\]</span></font></p></li>
+<li><p>Dividing by the constant <span class="math inline">\(K\)</span>, <span class="math inline">\(\,\)</span> we find that the function</p>
+<p><font color="red"><span class="math display">\[u(x) = \int_\alpha^x R(x,\xi)\,f(\xi)\,d\xi \tag{IN}\label{eq:IN}\]</span></font></p>
+<p>where</p>
+<p><span class="math display">\[\scriptsize
+\color{blue}{R(x,\xi)=\frac{v_1(x)v_2(\xi) - v_2(x)v_1(\xi)}{K}} =-\frac{v_1(x)v_2(\xi) - v_2(x)v_1(\xi)}{p(x) \left[ v_1'(x) v_2(x) -v_2'(x) v_1(x) \right]}\]</span></p>
+<p>is the solution of the initial value problem</p>
+<p><font color="red"> <span class="math display">\[
+\begin{aligned}
+  \frac{d}{dx} \left[ p(x) \frac{du}{dx}\right] +qu
+    &amp;= -f(x)\;\; \text{ for } x &gt; \alpha \\
+  u(\alpha) = u'(\alpha) &amp;= 0
+\end{aligned}\]</span></font></p></li>
+<li><p>Since the denominator of <span class="math inline">\(\,R(x,\xi)\)</span> is a constant, <span class="math inline">\(\,\)</span>the function <span class="math inline">\(R(x,\xi)\)</span> satisfies the homogeneous equation <span class="math inline">\(\eqref{eq:SH}\)</span> as either a function of <span class="math inline">\(x\)</span> or <span class="math inline">\(\xi\)</span>. In fact,</p>
+<p><font color="red"><span class="math display">\[R(x,\xi)=-R(\xi,x)\]</span></font></p></li>
+<li><p>For a fixed value of <span class="math inline">\(\xi\)</span>, <span class="math inline">\(~R(x,\xi)\)</span> is completely characterized as the solution of the homogeneous initial value problem</p>
+<p><font color="red"> <span class="math display">\[
+\begin{aligned}
+    \frac{d}{dx} \left[ p(x) \frac{dR}{dx}\right] &amp;+q(x)R = 0\;\; \text{ for } x &gt; \xi \\
+    \left. R \right|_{x=\xi} &amp;= 0 \\
+    \left. R' \right|_{x=\xi} &amp;= -\frac{1}{p(\xi)} \\
+\end{aligned}\]</span></font></p></li>
+<li><p><font color="blue">The function <span class="math inline">\(R(x,\xi)\)</span> describes the influence on the value of <span class="math inline">\(u\)</span> at <span class="math inline">\(x\)</span> of a disturbance(impulse) concentrated at <span class="math inline">\(\xi\)</span>. It is sometimes called the <strong>influence function</strong>, or the one-sided Green’s function</font></p></li>
+<li><p>If the values of <span class="math inline">\(u(\alpha)\)</span> and <span class="math inline">\(u'(\alpha)\)</span> are prescribed to be other than zero, <span class="math inline">\(~\)</span>we must simply add a suitable solution <span class="math inline">\(c_1 v_1(x) +c_2 v_2(x)\)</span> to the expression <span class="math inline">\(\eqref{eq:IN}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Consider the problem</p>
+<p><span class="math display">\[
+\begin{aligned}
+u'' +u &amp;= -f(x)\;\; \text{ for } x &gt; 0 \\
+u(0) &amp;= 1 \\
+u'(0) &amp;=-1 \\
+\end{aligned}\]</span></p>
+<p><strong>Solution</strong> <span class="math inline">\(~u(x) = w(x) +v(x)\)</span></p>
+<p><strong>(1)</strong> <span class="math inline">\(~w(x)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+w'' +w &amp;= -f(x)\;\; \text{ for } x &gt; 0 \\
+w(0) &amp;= 0 \\
+w'(0) &amp;= 0 \\
+\end{aligned}\]</span></p>
+<p>For a fixed value of <span class="math inline">\(\xi\)</span>, <span class="math inline">\(~\)</span>the influence function <span class="math inline">\(R(x,\xi)\)</span> satisfies</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{d^2R}{dx^2} +R &amp;= 0\;\; \text{ for } x &gt; \xi \\
+\left. R \right|_{x=\xi} &amp;= 0 \\
+\left. R' \right|_{x=\xi} &amp;= -1
+\end{aligned}\]</span></p>
+<p>Thus <span class="math inline">\(~R(x,\xi)=\sin(\xi -x)\,\)</span> and the solution is</p>
+<p><span class="math display">\[w(x)=\int_0^x \sin(\xi -x)\,f(\xi)\,d\xi\]</span></p>
+<p><strong>(2)</strong> <span class="math inline">\(~v(x)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+v'' +v &amp;= 0\;\; \text{ for }\, x &gt; 0\;\; \\
+v(0) &amp;= 1 \\
+v'(0) &amp;=-1 \\
+\end{aligned}\]</span></p>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{aligned}
+    &amp;\Downarrow \\
+    v(x)&amp;=\cos x -\sin x
+\end{aligned}\]</span></p>
+</div>
+</section>
+<section id="greens-function" class="level3" data-number="3.10.2">
+<h3 data-number="3.10.2" class="anchored" data-anchor-id="greens-function"><span class="header-section-number">3.10.2</span> Green’s Function</h3>
+<ul>
+<li><p>Here, we research a <font color="blue">two-point boundary value problem:</font></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{d}{dx} \left[ p(x)\frac{du}{dx} \right] +q(x)u
+   &amp;= -f(x)\;\; \text{ for } \alpha &lt; x &lt; \beta \\
+  {\color{blue}{u(\alpha)=u(\beta)}}
+   &amp; {\color{blue}{=0}}
+\end{aligned} \tag{P1}\label{eq:P1}\]</span></p>
+<p>Writing the general solution in the form</p>
+<p><font color="blue"><span class="math display">\[u(x) = \int_\alpha^x R(x,\xi)\,f(\xi)\,d\xi +c_1 v_1(x) +c_2 v_2(x)\]</span></font></p>
+<p>we obtain the two equations</p>
+<p><span class="math display">\[
+\begin{aligned}
+  c_1 v_1(\alpha) +c_2 v_2(\alpha) &amp;= 0\\
+  c_1 v_1(\beta) +c_2 v_2(\beta) &amp;= -\int_\alpha^\beta R(\beta,\xi)\,f(\xi)\,d\xi
+\end{aligned}\]</span></p>
+<p>These two equations determine a unique pair of constants <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span>, provided the determinant of their coefficients is not zero; <span class="math inline">\(~\)</span>that is, provided</p>
+<p><span class="math display">\[D \equiv v_1(\alpha)v_2(\beta)-v_2(\alpha)v_1(\beta) \neq 0\]</span></p></li>
+<li><p>We assume this for the moment. Then</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+  c_1 &amp;= \frac{v_2(\alpha)}{D} \int_\alpha^\beta R(\beta,\xi)\,f(\xi)\,d\xi \\
+      &amp;=\frac{v_2(\alpha)}{D} \int_\alpha^x R(\beta,\xi)\,f(\xi)\,d\xi
+  +\frac{v_2(\alpha)}{D} \int_x^\beta R(\beta,\xi)\,f(\xi)\,d\xi\\   
+  c_2 &amp;= -\frac{v_1(\alpha)}{D} \int_\alpha^\beta R(\beta,\xi)\,f(\xi)\,d\xi \\
+      &amp;= -\frac{v_1(\alpha)}{D} \int_\alpha^x R(\beta,\xi)\,f(\xi)\,d\xi
+  -\frac{v_1(\alpha)}{D} \int_x^\beta R(\beta,\xi)\,f(\xi)\,d\xi  
+\end{aligned}\]</span></p></li>
+<li><p>The solution can then be written as</p>
+<p><span class="math display">\[
+\begin{aligned}
+   u(x) &amp;= \int_\alpha^x \left[ R(x,\xi) +\frac{v_2(\alpha)v_1(x) -v_1(\alpha)v_2(x)}{D} R(\beta,\xi) \right]\,f(\xi)\,d\xi\\
+        &amp;+\int_x^\beta \frac{v_2(\alpha)v_1(x) -v_1(\alpha)v_2(x)}{D}  R(\beta,\xi)\,f(\xi)\,d\xi
+\end{aligned}\]</span></p></li>
+<li><p>We find after some algebraic manipulation that</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+  G(x,\xi) &amp;=R(x,\xi) +\frac{v_2(\alpha)v_1(x) -v_1(\alpha)v_2(x)}{D} R(\beta,\xi)  \\
+   &amp;= \frac{v_1(x)v_2(\xi) - v_2(x)v_1(\xi)}{K} \frac{D}{D}
+    +\frac{v_2(\alpha)v_1(x) -v_1(\alpha)v_2(x)}{D} \frac{v_1(\beta)v_2(\xi) - v_2(\beta)v_1(\xi)}{K}\\
+   &amp;= \frac{\left[v_1(\alpha)v_2(\xi) -v_2(\alpha)v_1(\xi)\right] \left[v_1(x)v_2(\beta) -v_2(x)v_1(\beta) \right]}{KD}\;\;\text{ for } \xi \leq x \\ \\
+  G(x,\xi) &amp;=\frac{v_2(\alpha)v_1(x) -v_1(\alpha)v_2(x)}{D} R(\beta,\xi)  \\
+    &amp;= \frac{\left[v_1(x)v_2(\alpha) -v_2(x)v_1(\alpha)\right] \left[v_1(\beta)v_2(\xi) -v_2(\beta)v_1(\xi) \right]}{KD}\;\;\text{ for } \xi \geq x
+\end{aligned}\]</span></p></li>
+<li><p>Then the solution of the two-point boundary value problem <span class="math inline">\(\eqref{eq:P1}\)</span> can be written in the form</p>
+<p><font color="red"><span class="math display">\[u(x)=\int_\alpha^\beta G(x,\xi)\,f(\xi)\,d\xi \tag{GR}\label{eq:GR}\]</span></font></p></li>
+<li><p>The function <span class="math inline">\(G(x,\xi)\)</span> is called the <strong>Green’s function</strong> of the problem <span class="math inline">\(\eqref{eq:P1}\)</span>. It is symmetric. That is</p>
+<p><font color="red"><span class="math display">\[G(x,\xi)=G(\xi,x)\]</span></font></p></li>
+<li><p>To determine the Green’s function, we note that for each <span class="math inline">\(\xi\)</span> it satisfies the following boundary value problem</p>
+<p><font color="red"> <span class="math display">\[\begin{aligned}
+\frac{d}{dx} \left[ p(x) \frac{dG}{dx}\right] &amp;+q(x)G = 0\;\; \text{ for } x \neq \xi \\
+\left. G \right|_{x=\alpha} &amp;= \left. G \right|_{x=\beta}=0 \\
+\left. G \right|_{x=\xi+0} &amp;-\left. G \right|_{x=\xi -0}=0 \\  
+\left. G' \right|_{x=\xi+0} &amp;-\left. G'
+  \right|_{x=\xi-0}=-\frac{1}{p(\xi)} \\
+\end{aligned}\]</span></font></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Consider the problem</p>
+<p><span class="math display">\[
+\begin{aligned}
+u'' &amp;= -f(x)\;\; \text{ for}\; 0 &lt; x &lt; 1\\
+u(0) &amp;= 0 \\
+u(1) &amp;= 0 \\
+\end{aligned}\]</span></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
