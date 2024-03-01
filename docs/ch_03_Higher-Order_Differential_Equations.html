@@ -329,13 +329,13 @@ window.Quarto = {
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +\omega^2y=0\,\)</span> and <span class="math inline">\(\,y'' -\omega^2y=0\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~3y'''+5y''+10y'-4y=0\)</span></p>
-<div id="e6c1f2e9" class="cell" data-execution_count="1">
+<div id="078c1112" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0fedfffc" class="cell" data-output-location="fragment" data-execution_count="2">
+<div id="d2864da4" class="cell" data-output-location="fragment" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> Symbol, init_printing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.solvers <span class="im">import</span> solve</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>init_printing()</span>
@@ -570,7 +570,7 @@ window.Quarto = {
   u(0) &amp;=1
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="575c8fde" class="cell" data-output-location="slide" data-execution_count="3">
+<div id="e0e5064a" class="cell" data-output-location="slide" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -838,6 +838,30 @@ u'' &amp;= -f(x)\;\; \text{ for}\; 0 &lt; x &lt; 1\\
 u(0) &amp;= 0 \\
 u(1) &amp;= 0 \\
 \end{aligned}\]</span></p>
+<p><strong>Solution</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+G''= 0 \;&amp;\Rightarrow \; G = ax+b\\
+&amp;\Downarrow {\scriptstyle G|_{x=0} = G|_{x=1}=0} \\
+G(x,\xi) &amp;=
+\begin{cases}
+a_1(\xi)\, x&amp; \text{ for } x &lt; \xi \\
+a_2(\xi)(1-x)&amp; \text{ for } x &gt; \xi
+\end{cases}\\
+&amp;\Downarrow {\scriptstyle G(x,\xi)=G(\xi,x)}\\
+a_1(\xi)&amp;= A(1 -\xi) \\
+a_2(\xi)&amp;=A\xi \\
+&amp;\Downarrow {\scriptstyle \left. G' \right|_{x=\xi+0} -\left. G' \right|_{x=\xi-0}=-1}\\
+-A\xi -A(1 -\xi) &amp;=-1 \rightarrow A = 1 \\
+&amp;\Downarrow \\
+G(x,\xi) &amp;=
+\begin{cases}
+(1-\xi) x&amp; \text{ for } x \leq \xi \\
+\xi(1-x)&amp; \text{ for } x \geq \xi
+\end{cases}
+\end{aligned}\]</span></p>
+<p>The solution is</p>
+<p><span class="math display">\[u(x)= \int_0^x \xi(1-x)\,f(\xi)\,d\xi +\int_x^1 (1-\xi)x \,f(\xi)\,d\xi\]</span></p>
 
 
 </section>
