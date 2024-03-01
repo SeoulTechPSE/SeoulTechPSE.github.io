@@ -426,62 +426,6 @@ $~$
 
 $~$
 
-* In order to analyze an $n$^th^ order IVP numerically, $~$we express the $n$^th^ order ODE as a system of $n$ first-order equations
-
-* For example,
-  $$
-  \begin{aligned}
-      \frac{d^2y}{dx^2} = f(x,y,y')&, \;\;y(x_0)=y_0, \;y'(x_0) = y_1\\[5pt]
-      &\big\Downarrow \;{y'=u}\\[5pt]
-      \mathrm{Solve:} &\; 
-      \begin{cases} y' = u \\ u' = f(x,y,u) \end{cases}\\ 
-      \mathrm{subject \;to:} & \;y(x_0)=y_0, \;u(x_0)=y_1
-  \end{aligned}$$
-
-$~$
-
-**Example** $\,$ Solve the following equation numerically:
-
-$$
-\begin{aligned}
-  \frac{d^2 y}{dx^2} = x &+y -y^2, \;\; y(0)=-1, \;y'(0)=1\\ 
-  &\Downarrow \\
-  y' &= u\\ 
-  u' &= x +y -y^2 \\
-  y(0) &=-1 \\
-  u(0) &=1 
-\end{aligned}$$
-
-$~$
-
-```{python}
-# | echo: true
-# | output-location: slide
-# | fig-cap: $\displaystyle\frac{d^2y}{dx^2}=x +y -y^2$
-
-import numpy as np
-from scipy.integrate import solve_ivp
-
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
-plt.rcParams.update({'font.size': 16})
-
-def func(t, y):
-    return [y[1], t +y[0] -y[0]*y[0]]
-
-sol = solve_ivp(func, [0, 20], [1, -1], t_eval=np.linspace(0, 20, 200))
-
-plt.figure(figsize=(6, 4))
-
-plt.plot(sol.t, sol.y[0])
-plt.axis((0, 20, 0, 7))
-plt.xlabel('x')
-plt.ylabel('y')
-
-plt.show()
-```
-$~$
-
 **Example** $\,$ The dependent variable $y$ is missing in the given differential equation. Solve the equation by using the substitution $u=y'$
 
 $$y''+(y')^2+1=0$$
@@ -975,7 +919,21 @@ $$ u(x)= \int_0^R G(r,\rho)\,F(\rho) \rho^2 d\rho$$
 
 $~$
 
-## Nonlinear Models {#sec-3-11}
+## Solving Nonlinear Model {#sec-3-11}
+
+* In order to analyze an $n$^th^ order IVP numerically, $~$we express the $n$^th^ order ODE as a system of $n$ first-order equations
+
+* For example,
+  $$
+  \begin{aligned}
+      \frac{d^2y}{dx^2} = f(x,y,y')&, \;\;y(x_0)=y_0, \;y'(x_0) = y_1\\[5pt]
+      &\big\Downarrow \;{y'=u}\\[5pt]
+      \mathrm{Solve:} &\; 
+      \begin{cases} \;y' = u \\ \;u' = f(x,y,u) \end{cases}\\[8pt] 
+      \mathrm{subject \;to:} & \;y(x_0)=y_0, \;u(x_0)=y_1
+  \end{aligned}$$
+
+$~$
 
 **Example** $\,$ Use a numerical solver to obtain the solution curves satisfying the given initial conditions:
 
@@ -983,11 +941,23 @@ $$\frac{d^2 x}{dt^2} +\frac{dx}{dt} +x +x^3 = 0$$
 
 $$x(0)=-3,\; \dot{x}(0)=4,\; \text{ or }\; x(0)=0,\; \dot{x}(0)=-8$$
 
+**Solution**
+
+$$
+\begin{aligned}
+  \frac{d^2 x}{dt^2} +\frac{dx}{dt}&= -x -x^3 \\ 
+  &\Downarrow \\
+  \dot{x} &= u\\ 
+  \dot{u} &= -x -x^3 -u
+\end{aligned}$$
+
 ```{python}
 # | echo: true
+import numpy as np
+from scipy.integrate import solve_ivp
 
 def func(t, y):
-    return [y[1], -y[0] - y[0]**3 - y[1]]
+    return [y[1], -y[0] -y[0]**3 -y[1]]
 
 tf = 14
 t_eval = np.linspace(0, tf, 200)
@@ -1001,6 +971,8 @@ sol2 = solve_ivp(func, [0, tf], [0, -8], t_eval=t_eval)
 ```{python}
 # | label: fig-ch03-nonlinear
 # | fig-cap: $\displaystyle\frac{d^2x}{dt^2} +\frac{dx}{dt} +x +x^3=0$
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
 
 plt.figure(figsize=(6, 4))
 
@@ -1047,9 +1019,6 @@ t_eval = np.linspace(0, tf, 200)
 
 sol = solve_ivp(func, [0, tf], [0, 1, 0, -1], t_eval=t_eval)
 ```
-:::
-
----
 
 ```{python}
 # | label: fig-ch03-linear-system
