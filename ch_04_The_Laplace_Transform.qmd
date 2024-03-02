@@ -1,2 +1,205 @@
 # The Laplace Transform {#sec-4}
 
+## Definition of the Laplace Transform {#sec-4-1}
+
+* If $f$ be a function defined for $t \geq 0$, $~$then the *integral*
+
+  <font color='red'>$$\mathcal{L}\{f(t)\} =\int_0^\infty f(t) e^{-st}\, dt =F(s)$$</font>
+
+  is the **Laplace Transform** of $~f$ provided the integral converges. The result is a function of $s$
+
+$~$
+
+**Example** $\,$ Evaluate $\mathcal{L}\{1\}$, $~\mathcal{L}\{t\}$, $~$and $~\mathcal{L}\{e^{-3t}\}$
+
+$~$
+
+**Example** $\,$ Evaluate $\mathcal{L}\{f(t)\}~$ for $~\displaystyle f(t) = \left\{\begin{matrix}
+0, & 0 \leq t < 3\\ 
+2, & \phantom{0 \leq } t \geq 3
+\end{matrix}\right.$
+
+$~$
+
+* $\mathcal{L}$ is a linear transform
+
+  $$\mathcal{L}\{\alpha f(t) +\beta g(t)\} = \alpha \mathcal{L} \{f(t)\} +\beta\mathcal{L}\{g(t)\} =\alpha F(s) +\beta G(s)$$
+
+$~$
+
+**Example** $\,$ Find $\mathcal{L}\{f(t)\}$ by first using an appropriate trigonometric identity $~f(t)=\sin^2 2t$
+
+$~$
+
+**Example** $\,$ Find $\mathcal{L}\{f(t)\}$
+
+* $~f(t)=\left\{\begin{matrix}
+ -1, & 0 \leq t < 1\\ 
+ \phantom{-}1, & t \geq 1\quad\;\;
+\end{matrix}\right.$
+
+* $~f(t)=\left\{\begin{matrix}
+ \phantom{-}t, & 0 \leq t < 1\\ 
+ \phantom{-}1, & t \geq 1\quad\;\;
+\end{matrix}\right.$
+
+* $~f(t)=\left\{\begin{matrix}
+ \sin t,& 0 \leq t < \pi\\ 
+ 0,& t \geq \pi \quad\;\;
+\end{matrix}\right.$
+
+$~$
+
+**Example** $\,$ Find $\mathcal{L}\{f(t)\}$
+
+* $~f(t)=e^{t+7}$
+
+* $~f(t)=e^t \cos t$
+
+* $~f(t)=t\cos t$
+
+* $~f(t)=\sin 3t \cos 3t$
+
+* $~f(t)=\sin^4 t$
+
+$~$
+
+## The Inverse Transform and Transforms of Derivatives {#sec-4-2}
+
+* If $F(s)$ represents the Laplace transform of $~f(t)$, $~$then $f(t)$ is the **inverse Laplace transform** of $F(s)$
+
+  $$f(t)=\mathcal{L}^{-1}\{F(s)\}$$
+  
+* $\mathcal{L}^{-1}$ is a linear transform
+
+  $$\mathcal{L}^{-1}\{\alpha F(s) +\beta G(s)\} = \alpha \mathcal{L}^{-1} \{F(s)\} +\beta\mathcal{L}^{-1}\{G(s)\} =\alpha f(t) +\beta g(t)$$
+
+$~$  
+
+**Example** $\,$ Find the given inverse transform
+
+::: columns
+:::{.column width=50%}
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{1}{s^3} \right\}$
+
+  $~$
+
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{1}{s^2} - \frac{48}{s^5} \right\}$
+
+  $~$
+
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{(s+1)^3}{s^4} \right\}$
+:::
+
+:::{.column width=50%}
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{1}{4s^2+1} \right\}$
+
+  $~$
+  
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{s+1}{s^2+2} \right\}$
+:::
+:::
+
+$~$
+
+**Example** $\,$ Evaluate $\displaystyle\mathcal{L}^{-1}\left\{\frac{-2s +6}{s^2 +4}\right\}$
+
+$~$
+
+* **Transforms of derivatives**
+
+  $$
+   \begin{aligned}
+    \mathcal{L}\{f'(t)\} &= sF(s) -f(0)\\ 
+    \mathcal{L}\{f''(t)\} &= s^2F(s) -sf(0) -f'(0)\\ 
+    &\; \vdots  
+   \end{aligned}$$
+  
+  $\displaystyle\mathcal{L}\left\{\frac{d^n f}{dt^n}\right\}$ depends on $F(s)=\mathcal{L}\{f(t)\}$ and the $n-1$ derivatives of $~f(t)$ evaluated at $t=0$
+
+* If $~f$ is piecewise continuous on $[0, \infty]$ and of exponential order, then
+
+  $$\lim_{s \to \infty} \mathcal{L}\{f(t)\}=0$$
+
+* The Laplace transform of a linear DE with constant coefficients becomes an algebraic equation in $Y(s)$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform to solve the IVP
+  
+$$\frac{dy}{dt} +3y = 13\sin 2t, \;y(0)=6$$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform to solve the given initial-value problem
+
+* $~y''+y=\sqrt{2} \sin \sqrt{2}t, \;\;y(0)=10,\;y'(0)=0$
+    
+* $~2y'''+3y''-3y'-2y=e^{-t}, \;\;y(0)=0, \;y'(0)=0, \; y''(0)=1$
+
+$~$
+
+## Translation Theorems {#sec-4-3}
+
+* **First Translation Theorem**
+
+  If $\mathcal{L}\{f(t)\}=F(s)~$ and $~a$ is any real number, $~$then 
+  
+   $$\mathcal{L}\{e^{-at}f(t)\}=F(s+a)$$
+
+$~$
+
+**Example** $\,$ Evaluate $\mathcal{L}\{e^{-2t}\cos 4t\}$ and $\displaystyle\mathcal{L}^{-1}\left\{\frac{2s +5}{(s +3)^2}\right\}$
+
+$~$
+
+* **Second Translation Theorem**
+
+  If $\mathcal{L}\{f(t)\}=F(s)~$ and $~a >0$, then 
+  
+  $$\mathcal{L}\{f(t -a)\mathcal{U}(t -a)\}=e^{-as}F(s)$$
+
+* **Alternative Form**
+  
+  $$
+  \begin{aligned}
+    \mathcal{L}\{g(t)\mathcal{U}(t -a)\} &= {\scriptsize\int_a^\infty e^{-st} g(t)\,dt}\\ 
+       &{\scriptsize = \int_0^\infty e^{-s(t'+a)} g(t' +a) \,dt'} = e^{-as} \mathcal{L}\{g(t+a)\}
+  \end{aligned}$$
+
+$~$
+
+**Example** $\,$ Find either $~F(s)$ or $~f(t)$
+
+::: columns
+
+::: {.column width="50%"}
+* $\mathcal{L}\{ te^{10t} \}$
+
+* $\mathcal{L}\{ t^{10}e^{-7t}\}$
+  
+* $\mathcal{L}\{ e^t \sin 3t \}$
+:::
+
+::: {.column width="50%"}
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{s}{(s+1)^2} \right\}$
+  
+* $\displaystyle \mathcal{L}^{-1} \left\{ \frac{2s-1}{s^2(s+1)^3} \right\}$
+:::
+
+:::
+
+$~$
+
+**Example** $\,$ Solve $~y' +y = f(t)$, $~$$y(0)=5$, 
+where 
+
+$$f(t) =
+    \begin{cases}
+       0, & 0 \leq t < \pi\\ 
+       3\cos t ,& t \geq \pi
+    \end{cases}$$
+
+$~$
+
+## Additional Operational Properties {#sec-4-4}
