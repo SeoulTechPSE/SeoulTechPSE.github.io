@@ -357,3 +357,130 @@ $~$
 **Example** $\,$ Solve $~x^2y'' +xy' +(x^2 -9)y=0$
 
 $~$
+
+### **DEs Solvable in Terms of Bessel Functions**
+
+* Parametric Bessel equation of order $\nu$
+  
+  $$
+  \begin{aligned}
+     x^2 y'' +x y' &+({\color{red}{\alpha^2}} x^2 -\nu^2) y = 0 \\ 
+     &\;\Big\Downarrow \;t=\alpha x, \;\alpha>0 \\
+     t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &+(t^2 -\nu^2)y = 0 \\
+     &\Downarrow \\
+     y = c_1 J_\nu({\color{red}{\alpha}} x) &+c_2 Y_\nu({\color{red}{\alpha}} x)
+   \end{aligned}$$
+
+* Modified Bessel equation of order $\nu$
+
+  $$ 
+   \begin{aligned}
+      x^2 y'' +x y' &{\color{red}{-}}(x^2 +\nu^2) y = 0 \\ 
+      &\;\Big\Downarrow \;t=ix \\
+      t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &+(t^2 -\nu^2)y = 0 \\
+      &\;\Bigg\Downarrow \;{\scriptsize I_\nu(x)=i^{-\nu} J_\nu(ix), 
+      \;K_\nu(x)=\frac{\pi}{2}\frac{I_{-\nu}(x) -I_{\nu}(x)}{\sin\nu\pi}, \;K_m(x)=\lim_{\nu\to m} K_\nu(x) } \\
+      y = c_1 {\color{red}{I_\nu(x)}} 
+        &+c_2 {\color{red}{K_\nu(x)}}
+   \end{aligned}$$
+
+* Yet another equation
+
+  $$ 
+   \begin{aligned}
+       { y'' +\frac{1 -2a}{x} y' }&{ +\left( b^2 c^2 x^{2c -2} +\frac{a^2 -p^2 c^2}{x^2}\right)y=0, \;p \geq 0 } \\ 
+       &\Bigg\Downarrow \;{\scriptsize z=bx^c, \;y(x)=\left( \frac{z}{b} \right )^{a/c} w(z) }\\ 
+       y=x^a &\left[c_1 J_p(bx^c) +c_2 Y_p(bx^c)\right] 
+   \end{aligned}$$   
+
+* The aging spring
+  
+  $$
+   \begin{aligned}
+       m\ddot{x} &+ke^{-\alpha t}x = 0, \;\alpha > 0 \\ 
+       &\,\Bigg\Downarrow \;{\scriptsize s = \frac{2}{\alpha} \sqrt{\frac{k}{m}} e^{-\alpha t/2} }\\ 
+       s^2 \frac{d^2 x}{ds^2} &+s\frac{dx}{ds} +s^2 x = 0 
+   \end{aligned}$$
+
+* **Properties of Bessel Functions** when $m$ is integer
+
+  * $\displaystyle \color{blue}{J_m(x) = \sum_{n=0}^\infty \frac{(-1)^n}{n!(n + m)!} \left( \frac{x}{2} \right)^{2n + m}}$ 
+
+  * $J_{-m}(x)=(-1)^m J_m(x)$
+
+  * $J_{m}(-x)=(-1)^m J_m(x)$
+
+  * $J_m(0)=\left\{\begin{matrix} 0, & m > 0\\ 1, & m = 0 \end{matrix}\right.$
+             
+  * $\displaystyle\lim_{x \to 0^+} Y_m(x)=-\infty$
+
+```{python}
+# | label: fig-ch05-Bessel-Function
+# | fig-cap: Bessel functions
+
+import numpy as np
+from scipy.special import jv, yv, spherical_jn
+from scipy.special import eval_legendre
+
+import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+
+fig = plt.figure(figsize=(6, 8))
+
+ax1 = fig.add_subplot(211)
+
+x = np.linspace(0, 20, 200)
+for m in range(5):
+    y = jv(m, x)
+    ax1.plot(x, y, label=f'$J_{m}(x)$')
+
+ax1.axis((0, 20, -0.6, 1))
+
+ax1.set_ylabel('$J_m(x)$')
+ax1.legend()
+
+ax2 = fig.add_subplot(212)
+
+for m in range(5):
+    y = yv(m, x)
+    ax2.plot(x, y, label=f'$Y_{m}(x)$')
+
+ax2.axis((0, 20, -3, 1))
+
+ax2.set_xlabel('x')
+ax2.set_ylabel('$Y_m(x)$')
+ax2.legend()
+
+plt.show()
+```
+
+* **Differential Recurence Relation**
+
+  $$
+   \begin{aligned}
+     x&J_\nu'(x)= {\scriptsize \sum_{n=0}^\infty \frac{(-1)^n(2n +\nu)}{n! \, \Gamma(1 +\nu +n)} 
+     \left( \frac{x}{2}\right )^{2n +\nu}}\\ 
+     &= {\scriptsize\nu \sum_{n=0}^\infty \frac{(-1)^n}{n! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu}
+     +x\sum_{n=1}^\infty \frac{(-1)^n}{(n -1)! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu -1} }\\ 
+     &= {\scriptsize \nu J_\nu(x) -x\sum_{k=0}^\infty \frac{(-1)^k}{k! \, \Gamma(2 +\nu +k)} 
+     \left( \frac{x}{2}\right )^{2k +\nu +1} }\\ 
+     &= {\scriptsize \nu J_\nu(x) -x J_{\nu+1}(x) }\\ 
+     &\;\big\Downarrow\;{\scriptsize\times\, x^{-\nu -1}} \\
+     \color{blue}{\frac{d}{dx}} & \color{blue}{[x^{-\nu}J_\nu(x)]} \color{blue}{=-x^{-\nu} J_{\nu+1}(x)}
+   \end{aligned}$$
+
+  and
+
+  $$  
+  \begin{aligned}
+     xJ_\nu'(x)&= -\nu J_\nu(x) +x J_{\nu -1}(x)\\ 
+     & \;\big\Downarrow\;{\scriptsize\times\, x^{\nu -1}} \\
+     \color{blue}{\frac{d}{dx} [x^{\nu}J_\nu(x)]} 
+     & \color{blue}{=x^{\nu} J_{\nu -1}(x)}
+  \end{aligned}$$  
+ 
+$~$
+
+**Example** $\,$ $J_0'(x)=-J_1(x)$
+
+$~$

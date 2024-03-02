@@ -219,6 +219,7 @@ window.Quarto = {
   <li><a href="#sec-5-3" id="toc-sec-5-3" class="nav-link" data-scroll-target="#sec-5-3"><span class="header-section-number">5.3</span> Special Functions</a>
   <ul class="collapse">
   <li><a href="#sec-5-3-1" id="toc-sec-5-3-1" class="nav-link" data-scroll-target="#sec-5-3-1"><span class="header-section-number">5.3.1</span> Bessel Functions</a></li>
+  <li><a href="#des-solvable-in-terms-of-bessel-functions" id="toc-des-solvable-in-terms-of-bessel-functions" class="nav-link" data-scroll-target="#des-solvable-in-terms-of-bessel-functions"><span class="header-section-number">5.3.2</span> <strong>DEs Solvable in Terms of Bessel Functions</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -538,6 +539,127 @@ Figure&nbsp;5.1: Gamma Function
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~x^2y'' +xy' +(x^2 -9)y=0\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="des-solvable-in-terms-of-bessel-functions" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="des-solvable-in-terms-of-bessel-functions"><span class="header-section-number">5.3.2</span> <strong>DEs Solvable in Terms of Bessel Functions</strong></h3>
+<ul>
+<li><p>Parametric Bessel equation of order <span class="math inline">\(\nu\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+   x^2 y'' +x y' &amp;+({\color{red}{\alpha^2}} x^2 -\nu^2) y = 0 \\
+   &amp;\;\Big\Downarrow \;t=\alpha x, \;\alpha&gt;0 \\
+   t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &amp;+(t^2 -\nu^2)y = 0 \\
+   &amp;\Downarrow \\
+   y = c_1 J_\nu({\color{red}{\alpha}} x) &amp;+c_2 Y_\nu({\color{red}{\alpha}} x)
+\end{aligned}\]</span></p></li>
+<li><p>Modified Bessel equation of order <span class="math inline">\(\nu\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    x^2 y'' +x y' &amp;{\color{red}{-}}(x^2 +\nu^2) y = 0 \\
+    &amp;\;\Big\Downarrow \;t=ix \\
+    t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &amp;+(t^2 -\nu^2)y = 0 \\
+    &amp;\;\Bigg\Downarrow \;{\scriptsize I_\nu(x)=i^{-\nu} J_\nu(ix),
+    \;K_\nu(x)=\frac{\pi}{2}\frac{I_{-\nu}(x) -I_{\nu}(x)}{\sin\nu\pi}, \;K_m(x)=\lim_{\nu\to m} K_\nu(x) } \\
+    y = c_1 {\color{red}{I_\nu(x)}}
+      &amp;+c_2 {\color{red}{K_\nu(x)}}
+\end{aligned}\]</span></p></li>
+<li><p>Yet another equation</p>
+<p><span class="math display">\[
+\begin{aligned}
+     { y'' +\frac{1 -2a}{x} y' }&amp;{ +\left( b^2 c^2 x^{2c -2} +\frac{a^2 -p^2 c^2}{x^2}\right)y=0, \;p \geq 0 } \\
+     &amp;\Bigg\Downarrow \;{\scriptsize z=bx^c, \;y(x)=\left( \frac{z}{b} \right )^{a/c} w(z) }\\
+     y=x^a &amp;\left[c_1 J_p(bx^c) +c_2 Y_p(bx^c)\right]
+\end{aligned}\]</span></p></li>
+<li><p>The aging spring</p>
+<p><span class="math display">\[
+\begin{aligned}
+     m\ddot{x} &amp;+ke^{-\alpha t}x = 0, \;\alpha &gt; 0 \\
+     &amp;\,\Bigg\Downarrow \;{\scriptsize s = \frac{2}{\alpha} \sqrt{\frac{k}{m}} e^{-\alpha t/2} }\\
+     s^2 \frac{d^2 x}{ds^2} &amp;+s\frac{dx}{ds} +s^2 x = 0
+\end{aligned}\]</span></p></li>
+<li><p><strong>Properties of Bessel Functions</strong> when <span class="math inline">\(m\)</span> is integer</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle \color{blue}{J_m(x) = \sum_{n=0}^\infty \frac{(-1)^n}{n!(n + m)!} \left( \frac{x}{2} \right)^{2n + m}}\)</span></p></li>
+<li><p><span class="math inline">\(J_{-m}(x)=(-1)^m J_m(x)\)</span></p></li>
+<li><p><span class="math inline">\(J_{m}(-x)=(-1)^m J_m(x)\)</span></p></li>
+<li><p><span class="math inline">\(J_m(0)=\left\{\begin{matrix} 0, &amp; m &gt; 0\\ 1, &amp; m = 0 \end{matrix}\right.\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\lim_{x \to 0^+} Y_m(x)=-\infty\)</span></p></li>
+</ul></li>
+</ul>
+<div id="cell-fig-ch05-Bessel-Function" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> jv, yv, spherical_jn</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> eval_legendre</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">8</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax1 <span class="op">=</span> fig.add_subplot(<span class="dv">211</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">200</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> jv(m, x)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    ax1.plot(x, y, label<span class="op">=</span><span class="ss">f'$J_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">(x)$'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>ax1.axis((<span class="dv">0</span>, <span class="dv">20</span>, <span class="op">-</span><span class="fl">0.6</span>, <span class="dv">1</span>))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>ax1.set_ylabel(<span class="st">'$J_m(x)$'</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>ax1.legend()</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>ax2 <span class="op">=</span> fig.add_subplot(<span class="dv">212</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5</span>):</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> yv(m, x)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    ax2.plot(x, y, label<span class="op">=</span><span class="ss">f'$Y_</span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">(x)$'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>ax2.axis((<span class="dv">0</span>, <span class="dv">20</span>, <span class="op">-</span><span class="dv">3</span>, <span class="dv">1</span>))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>ax2.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>ax2.set_ylabel(<span class="st">'$Y_m(x)$'</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>ax2.legend()</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-ch05-bessel-function" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ch05-bessel-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ch05_Series_Solutions_of_Linear_Differential_Equations_files/figure-html/fig-ch05-bessel-function-output-1.png" width="545" height="659" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ch05-bessel-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Bessel functions
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Differential Recurence Relation</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+   x&amp;J_\nu'(x)= {\scriptsize \sum_{n=0}^\infty \frac{(-1)^n(2n +\nu)}{n! \, \Gamma(1 +\nu +n)}
+   \left( \frac{x}{2}\right )^{2n +\nu}}\\
+   &amp;= {\scriptsize\nu \sum_{n=0}^\infty \frac{(-1)^n}{n! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu}
+   +x\sum_{n=1}^\infty \frac{(-1)^n}{(n -1)! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu -1} }\\
+   &amp;= {\scriptsize \nu J_\nu(x) -x\sum_{k=0}^\infty \frac{(-1)^k}{k! \, \Gamma(2 +\nu +k)}
+   \left( \frac{x}{2}\right )^{2k +\nu +1} }\\
+   &amp;= {\scriptsize \nu J_\nu(x) -x J_{\nu+1}(x) }\\
+   &amp;\;\big\Downarrow\;{\scriptsize\times\, x^{-\nu -1}} \\
+   \color{blue}{\frac{d}{dx}} &amp; \color{blue}{[x^{-\nu}J_\nu(x)]} \color{blue}{=-x^{-\nu} J_{\nu+1}(x)}
+\end{aligned}\]</span></p>
+<p>and</p>
+<p><span class="math display">\[  
+\begin{aligned}
+   xJ_\nu'(x)&amp;= -\nu J_\nu(x) +x J_{\nu -1}(x)\\
+   &amp; \;\big\Downarrow\;{\scriptsize\times\, x^{\nu -1}} \\
+   \color{blue}{\frac{d}{dx} [x^{\nu}J_\nu(x)]}
+   &amp; \color{blue}{=x^{\nu} J_{\nu -1}(x)}
+\end{aligned}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> <span class="math inline">\(J_0'(x)=-J_1(x)\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 
 
