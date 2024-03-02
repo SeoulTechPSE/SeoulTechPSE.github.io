@@ -178,6 +178,9 @@ window.Quarto = {
   <li><a href="#sec-4-2" id="toc-sec-4-2" class="nav-link" data-scroll-target="#sec-4-2"><span class="header-section-number">4.2</span> The Inverse Transform and Transforms of Derivatives</a></li>
   <li><a href="#sec-4-3" id="toc-sec-4-3" class="nav-link" data-scroll-target="#sec-4-3"><span class="header-section-number">4.3</span> Translation Theorems</a></li>
   <li><a href="#sec-4-4" id="toc-sec-4-4" class="nav-link" data-scroll-target="#sec-4-4"><span class="header-section-number">4.4</span> Additional Operational Properties</a></li>
+  <li><a href="#sec-4-5" id="toc-sec-4-5" class="nav-link" data-scroll-target="#sec-4-5"><span class="header-section-number">4.5</span> The Dirac Delta Function</a></li>
+  <li><a href="#sec-4-6" id="toc-sec-4-6" class="nav-link" data-scroll-target="#sec-4-6"><span class="header-section-number">4.6</span> Systems of Linear Differential Equations</a></li>
+  <li><a href="#worked-exercises" id="toc-worked-exercises" class="nav-link" data-scroll-target="#worked-exercises">Worked Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -353,6 +356,168 @@ window.Quarto = {
 </section>
 <section id="sec-4-4" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="sec-4-4"><span class="header-section-number">4.4</span> Additional Operational Properties</h2>
+<ul>
+<li><p><strong>Derivatives of Transforms:</strong> <span class="math inline">\(~\)</span> If <span class="math inline">\(F(s)=\mathcal{L}\{f(t)\}~\)</span> and <span class="math inline">\(n=1,2,\cdots\)</span>, then</p>
+<p><span class="math display">\[\mathcal{L}\{t^nf(t)\}=(-1)^n \frac{d^n}{ds^n} F(s)\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Convolution Theorem:</strong> <span class="math inline">\(\,\)</span> <span class="math inline">\(\displaystyle f*g=\int_0^t f(\tau)g(t -\tau)\, d\tau\)</span></p>
+<p><span class="math display">\[\mathcal{L}\{f*g\}=\mathcal{L}\{f(t)\} \mathcal{L}\{g(t)\} =F(s) G(s)\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Transform of a Periodic Function:</strong> <span class="math inline">\(~\)</span> <span class="math inline">\(f(t+T)=f(t)\)</span></p>
+<p><span class="math display">\[\scriptsize\mathcal{L}\{f(t)\}=\frac{1}{1-e^{-sT}} \int_0^T e^{-st} f(t) \,dt\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(~\mathcal{L}\{t\sin \omega t\}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~x'' +16x =\cos 4t, \; x(0)=1, \; x'(0)=1\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(\displaystyle\mathcal{L}^{-1}\left\{\frac{1}{(s^2 +\omega^2)^2}\right\}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(\displaystyle\mathcal{L} \left\{ \int_0^t f(\tau)\, d\tau \right\}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(\displaystyle \,f(t) =3t^2 -e^{-t} -\int_0^t f(\tau)\, e^{t -\tau}\, d\tau\;\)</span> for <span class="math inline">\(f(t)\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the Laplace transform of the periodic function</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch04_figure01.png" title="Square wave" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[\scriptsize\mathcal{L}\{E(t)\}=\frac{1}{1 -e^{-2s}} \int_0^2 e^{-st} E(t)\,dt=\frac{1}{s(1 +e^{-s})}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate the given Laplace transform</p>
+<ul>
+<li><p><span class="math inline">\(~\mathcal{L}\left\{ te^{-10t} \right\}\)</span></p></li>
+<li><p><span class="math inline">\(~\mathcal{L}\left\{ t\cos 2t \right\}\)</span></p></li>
+<li><p><span class="math inline">\(~\mathcal{L}\left\{ te^{2t}\sin 6t \right\}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Use the Laplace transform to solve the given initial-value problem</p>
+<ul>
+<li><p><span class="math inline">\(~y'+y=t \sin t, \;y(0)=0\)</span></p></li>
+<li><p><span class="math inline">\(~y''+9y=\cos 3t, \;y(0)=2, \;y'(0)=5\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the convolution <span class="math inline">\(~f*g\)</span> of the given functions. After integrating find the Laplace transform <span class="math inline">\(~f*g\)</span></p>
+<ul>
+<li><p><span class="math inline">\(~f(t)=4t, \;g(t)=3t^2\)</span></p></li>
+<li><p><span class="math inline">\(~f(t)=e^{-t}, \;g(t)=e^t\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the Laplace transform</p>
+<ul>
+<li><span class="math inline">\(~\mathcal{L} \left\{ e^{-t}* e^t \cos t \right\}\)</span></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate the given inverse transform</p>
+<ul>
+<li><span class="math inline">\(~\displaystyle \mathcal{L}^{-1} \left\{ \frac{1}{s^3(s-1)} \right\}\)</span></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Use the Laplace transform to solve the given integral or integrodifferential equation</p>
+<ul>
+<li><p><span class="math inline">\(~\displaystyle f(t) +2\int_0^t f(\tau)\cos (t-\tau)\,d\tau=4e^{-t}+\sin t\)</span></p></li>
+<li><p><span class="math inline">\(~\displaystyle \frac{dy}{dt}=10-\int_0^t e^{-4t} y(t-\tau)\,d\tau, \;y(0)=5\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> The Laplace transform <span class="math inline">\(\mathcal{L} \left\{ e^{-t^2} \right\}\)</span> exists, but without finding it solve the initial-value problem</p>
+<ul>
+<li><span class="math inline">\(~y''+9y=3e^{-t^2}, \;\;y(0)=0, \;y'(0)=0\)</span></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the integral equation</p>
+<ul>
+<li><span class="math inline">\(~\displaystyle f(t)=e^t+e^t \int_0^t e^{-\tau} f(\tau)\, d\tau\)</span></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-4-5" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="sec-4-5"><span class="header-section-number">4.5</span> The Dirac Delta Function</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><span class="math display">\[\textbf{Unit Pulse}\]</span></p>
+<p><span class="math display">\[\scriptsize
+     \delta_a(t-t_0) =
+       \left\{\begin{matrix}
+          0, &amp; \;\;\;\;\;\; 0 \leq t &lt; t_0 -a\\
+          \frac{1}{2a}, &amp; t_0 -a \leq t \leq t_0 +a\\
+          0, &amp; \;\; t \geq t_0 +a
+       \end{matrix}\right.\]</span></p>
+</div><div class="column" style="width:55%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch04_figure02.png" title="Dirac delta function" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>The Dirac Delta Function</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+   \delta(t -t_0) &amp;= \lim_{a \to 0} \,\delta_a(t -t_0) \\
+   &amp;\Downarrow \\
+   \mathcal{L}\{\delta(t -t_0)\} &amp;= \lim_{a \to 0} \mathcal{L}\{\delta_a(t -t_0)\}=e^{-st_0}\lim_{a \to 0} \left(\frac{e^{sa} -e^{-sa}}{2sa}\right)\\
+   &amp;= e^{-st_0}
+\end{aligned}\]</span></p>
+<p>When <span class="math inline">\(~t_0=0\)</span>, <span class="math inline">\(~\)</span><span class="math inline">\(\displaystyle\mathcal{L}\{\delta(t)\}=1\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +y=4\delta(t -2\pi)\)</span> <span class="math inline">\(~\)</span>subject to <span class="math inline">\(y(0)=1, \;y'(0)=0\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Use the Laplace transform to solve the given differential equation subject to the indicated initial conditions</p>
+<ul>
+<li><p><span class="math inline">\(~y'-3y=\delta(t-2), \;y(0)=0\)</span></p></li>
+<li><p><span class="math inline">\(~y''+y=\delta(t-2\pi), \;y(0)=0, \,y'(0)=1\)</span></p></li>
+<li><p><span class="math inline">\(~y''+y=\delta(t-\pi/2)+\delta(t-3\pi/2),\;y(0)=0,\,y'(0)=0\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-4-6" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="sec-4-6"><span class="header-section-number">4.6</span> Systems of Linear Differential Equations</h2>
+<ul>
+<li>When initial conditions are specified, <span class="math inline">\(~\)</span>the Laplace transform reduces a system of linear DEs to a set of simultaneous algebraic equations in the transformed functions</li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Double Pendulum</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch04_figure03.png" title="Double Pendulum" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%"></p>
+</figure>
+</div>
+<p><strong>Linearization</strong> <span class="math inline">\(\,\)</span> For small displacements <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>,</p>
+<p><span class="math display">\[
+   \begin{aligned}
+      (m_1 +m_2) l_1 \ddot{\theta_1} +m_2 l_2 \ddot{\theta_2} +(m_1 +m_2) g \,\theta_1 &amp;= 0\\
+      l_2 \ddot{\theta_2} +l_1 \ddot{\theta_1} +g \,\theta_2 &amp;= 0
+  \end{aligned}\]</span></p>
+<p>Solve the system when</p>
+<p><span class="math display">\[m_1=3, m_2=1, l_1=l_2=5, \text{ and } ~g=10\]</span></p>
+<p><span class="math display">\[\theta_1(0) = 1, \theta_2(0)=-1, \dot{\theta_1}(0)=0,  \dot{\theta_2}(0)=0\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Use the Laplace transform to solve the given system of differential equations</p>
+<p><span class="math display">\[
+\begin{aligned}
+     \dot{x} &amp;= -x+y \\
+     \dot{y} &amp;= 2x, \;\;x(0)=0,\;y(0)=1
+\end{aligned}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    \dot{x} &amp;= x-2y \\
+    \dot{y} &amp;= 5x-y, \;\;x(0)=-1,\;y(0)=2
+\end{aligned}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    2&amp;\dot{x}+\dot{y} -2x= 1 \\
+    &amp;\dot{x}+\dot{y} -3x -3y= 2, \;\;x(0)=0,\;y(0)=0
+\end{aligned}\]</span></p>
+</section>
+<section id="worked-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 
 
 </section>

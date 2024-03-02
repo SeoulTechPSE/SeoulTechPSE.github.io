@@ -203,3 +203,205 @@ $$f(t) =
 $~$
 
 ## Additional Operational Properties {#sec-4-4}
+
+* **Derivatives of Transforms:** $~$ If $F(s)=\mathcal{L}\{f(t)\}~$ and $n=1,2,\cdots$, then
+
+   $$\mathcal{L}\{t^nf(t)\}=(-1)^n \frac{d^n}{ds^n} F(s)$$
+
+$~$
+
+* **Convolution Theorem:** $\,$ $\displaystyle f*g=\int_0^t f(\tau)g(t -\tau)\, d\tau$
+
+  $$\mathcal{L}\{f*g\}=\mathcal{L}\{f(t)\} \mathcal{L}\{g(t)\} =F(s) G(s)$$
+
+$~$
+
+* **Transform of a Periodic Function:** $~$ $f(t+T)=f(t)$
+
+  $$\scriptsize\mathcal{L}\{f(t)\}=\frac{1}{1-e^{-sT}} \int_0^T e^{-st} f(t) \,dt$$
+
+$~$
+
+**Example** $\,$ Evaluate $~\mathcal{L}\{t\sin \omega t\}$
+  
+$~$
+
+**Example** $\,$ Solve $~x'' +16x =\cos 4t, \; x(0)=1, \; x'(0)=1$
+
+$~$
+
+**Example** $\,$ Evaluate $\displaystyle\mathcal{L}^{-1}\left\{\frac{1}{(s^2 +\omega^2)^2}\right\}$
+
+$~$
+
+**Example** $\,$ Evaluate $\displaystyle\mathcal{L} \left\{ \int_0^t f(\tau)\, d\tau \right\}$
+
+$~$
+
+**Example** $\,$ Solve $\displaystyle \,f(t) =3t^2 -e^{-t} -\int_0^t f(\tau)\, e^{t -\tau}\, d\tau\;$ for $f(t)$
+
+$~$
+
+**Example** $\,$ Find the Laplace transform of the periodic function
+  
+![](figures/ch04_figure01.png "Square wave"){width="50%" fig-align="center"}
+  
+$$\scriptsize\mathcal{L}\{E(t)\}=\frac{1}{1 -e^{-2s}} \int_0^2 e^{-st} E(t)\,dt=\frac{1}{s(1 +e^{-s})}$$
+
+$~$
+
+**Example** $\,$ Evaluate the given Laplace transform
+
+* $~\mathcal{L}\left\{ te^{-10t} \right\}$
+
+* $~\mathcal{L}\left\{ t\cos 2t \right\}$
+  
+* $~\mathcal{L}\left\{ te^{2t}\sin 6t \right\}$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform to solve the given initial-value problem
+
+* $~y'+y=t \sin t, \;y(0)=0$
+
+* $~y''+9y=\cos 3t, \;y(0)=2, \;y'(0)=5$
+
+$~$
+
+**Example** $\,$ Find the convolution $~f*g$ of the given functions. After integrating find the Laplace transform $~f*g$
+
+* $~f(t)=4t, \;g(t)=3t^2$
+
+* $~f(t)=e^{-t}, \;g(t)=e^t$
+ 
+$~$
+
+**Example** $\,$ Find the Laplace transform
+
+* $~\mathcal{L} \left\{ e^{-t}* e^t \cos t \right\}$
+
+$~$
+
+**Example** $\,$ Evaluate the given inverse transform
+
+* $~\displaystyle \mathcal{L}^{-1} \left\{ \frac{1}{s^3(s-1)} \right\}$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform  to solve the given integral or integrodifferential equation
+
+* $~\displaystyle f(t) +2\int_0^t f(\tau)\cos (t-\tau)\,d\tau=4e^{-t}+\sin t$
+  
+* $~\displaystyle \frac{dy}{dt}=10-\int_0^t e^{-4t} y(t-\tau)\,d\tau, \;y(0)=5$
+
+$~$
+
+**Example** $\,$ The Laplace transform $\mathcal{L} \left\{ e^{-t^2} \right\}$ exists, but without finding it solve the initial-value problem
+
+* $~y''+9y=3e^{-t^2}, \;\;y(0)=0, \;y'(0)=0$
+
+$~$
+
+**Example** $\,$ Solve the integral equation
+
+* $~\displaystyle f(t)=e^t+e^t \int_0^t e^{-\tau} f(\tau)\, d\tau$
+
+$~$
+
+## The Dirac Delta Function {#sec-4-5}
+
+::: columns
+
+::: {.column width=45%}
+$$\textbf{Unit Pulse}$$
+  
+$$\scriptsize
+     \delta_a(t-t_0) = 
+       \left\{\begin{matrix}
+          0, & \;\;\;\;\;\; 0 \leq t < t_0 -a\\ 
+          \frac{1}{2a}, & t_0 -a \leq t \leq t_0 +a\\ 
+          0, & \;\; t \geq t_0 +a
+       \end{matrix}\right.$$
+:::
+
+::: {.column width=55%}
+![](figures/ch04_figure02.png "Dirac delta function"){width="60%" fig-align="center"}
+:::
+
+:::
+
+* **The Dirac Delta Function**
+  
+  $$
+   \begin{aligned}
+     \delta(t -t_0) &= \lim_{a \to 0} \,\delta_a(t -t_0) \\
+     &\Downarrow \\
+     \mathcal{L}\{\delta(t -t_0)\} &= \lim_{a \to 0} \mathcal{L}\{\delta_a(t -t_0)\}=e^{-st_0}\lim_{a \to 0} \left(\frac{e^{sa} -e^{-sa}}{2sa}\right)\\ 
+     &= e^{-st_0}
+   \end{aligned}$$
+  
+  When $~t_0=0$, $~$$\displaystyle\mathcal{L}\{\delta(t)\}=1$
+
+$~$
+
+**Example** $\,$ Solve $~y'' +y=4\delta(t -2\pi)$ $~$subject to $y(0)=1, \;y'(0)=0$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform to solve the given differential equation subject to the indicated initial conditions
+
+* $~y'-3y=\delta(t-2), \;y(0)=0$
+  
+* $~y''+y=\delta(t-2\pi), \;y(0)=0, \,y'(0)=1$
+  
+* $~y''+y=\delta(t-\pi/2)+\delta(t-3\pi/2),\;y(0)=0,\,y'(0)=0$
+
+$~$
+
+## Systems of Linear Differential Equations {#sec-4-6}
+
+* When initial conditions are specified, $~$the Laplace transform reduces a system of linear DEs to a set of simultaneous algebraic equations in the transformed functions
+
+$~$
+
+**Example** $\,$ Double Pendulum
+
+![](figures/ch04_figure03.png "Double Pendulum"){width="25%" fig-align="center"}
+
+**Linearization** $\,$ For small displacements $\theta_1$ and $\theta_2$,
+
+$$
+   \begin{aligned}
+      (m_1 +m_2) l_1 \ddot{\theta_1} +m_2 l_2 \ddot{\theta_2} +(m_1 +m_2) g \,\theta_1 &= 0\\ 
+      l_2 \ddot{\theta_2} +l_1 \ddot{\theta_1} +g \,\theta_2 &= 0
+  \end{aligned}$$
+
+Solve the system when 
+
+$$m_1=3, m_2=1, l_1=l_2=5, \text{ and } ~g=10$$
+
+$$\theta_1(0) = 1, \theta_2(0)=-1, \dot{\theta_1}(0)=0,  \dot{\theta_2}(0)=0$$
+
+$~$
+
+**Example** $\,$ Use the Laplace transform to solve the given system of differential equations
+
+$$
+\begin{aligned}
+     \dot{x} &= -x+y \\ 
+     \dot{y} &= 2x, \;\;x(0)=0,\;y(0)=1 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+    \dot{x} &= x-2y \\ 
+    \dot{y} &= 5x-y, \;\;x(0)=-1,\;y(0)=2 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+    2&\dot{x}+\dot{y} -2x= 1 \\ 
+    &\dot{x}+\dot{y} -3x -3y= 2, \;\;x(0)=0,\;y(0)=0 
+\end{aligned}$$
+
+## Worked Exercises {.unnumbered}
