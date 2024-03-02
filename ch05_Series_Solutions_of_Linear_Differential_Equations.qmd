@@ -1,2 +1,359 @@
 # Series Solutions of Linear Differential Equations {#sec-5}
 
+## Solutions about Ordinary Points {#sec-5-1}
+
+* A power series in $x -a$ is an infinite series of the form
+  
+  $$\sum_{n=0}^\infty c_n(x -a)^n = c_0 +c_1(x -a) +c_2(x -a)^2 +\cdots$$
+  
+   Such a series is also said to be a **power series centered at $a$**
+
+* A power series is **convergent** if its sequence of partial sums converges
+  
+  * Convergence of power series can often
+    be determined by the ratio test. Suppose that $c_n \neq 0$ for all $n$, and that
+  
+     $$\lim_{n \to \infty} \left| \frac{c_{n+1} (x -a)^{n +1}}{c_n (x -a)^n} \right|
+       =|x -a| \lim_{n \to \infty} \left| \frac{c_{n +1}}{c_n} \right| =L$$
+     
+      If $L<1$, the series converges absolutely, if $L>1$, the series diverges, and if $L=1$, the test is inconclusive
+
+  * Every power series has a **radius of convergence**, $R$. If $R>0$, a power series $\sum_{n=0}^\infty c_n (x -a)^n$ converges for $|x -a| < R$
+  
+  * A function $\,f$ ia **analytic** at point $a$ if it can be represented by a power series in $x -a$ with a positive radius of convergence 
+  
+  * Power series can be combined through the operations of addition, multiplication, and division
+
+* Consider the linear second-order DE
+
+  $$a_2(x) y'' +a_1(x) y' +a_0(x)y = 0,\;\;a_2(x)\neq0$$
+  
+  * Divide by $a_2(x)$ to put into standard form
+  
+      $$y'' +P(x)y' +Q(x)y = 0$$
+    
+  * Point $x_0$ is an **ordinary point** of the DE if both $P(x)$ and $Q(x)$ are analytic at $x_0$.
+      $~$A point that is not an ordinary point is a **singular point** of the equation
+
+  * If $x=x_0$ is an ordinary point of the DE, $~$we can always find **two linearly independent solutions** in the form of a power series centered at $x_0$
+  
+  * A series solution converges at least on some interval defined by $|x -x_0|<R$, $~$where <font color="blue">$R$ is the distance from $x_0$ to the closest singular point</font>
+
+$~$
+
+**Example:** $\,$ Solve $y'' +xy =0$
+
+* Since there are no finite singular points, $~$two power series solutions are guaranteed, centered at $0$, convergent for $|x|>\infty$
+ 
+* Substituting $~y=\sum_{n=0}^\infty c_n x^n$ and the second derivative $y''=\sum_{n=2}^\infty c_n n(n -1) x^{n -2}$ into the DE gives
+
+   $$
+   \begin{aligned}
+     y'' +xy &= \sum_{n=2}^\infty c_n n(n-1) x^{n -2} +\sum_{n=0}^\infty c_n x^{n +1}\\
+     &= 2c_2 +\sum_{k=1}^{\infty} \left[(k +1)(k +2) c_{k +2} +c_{k -1} \right] x^k =0
+   \end{aligned}$$
+
+* The coefficient of each power of $x$ be set equal to zero:
+  
+  $$c_2 =0 \;\;\text{and}\;\; \displaystyle c_{k +2} =-\frac{c_{k -1}}{(k+1)(k+2)}, \;k=1,2,3,\cdots$$
+
+  $$\scriptsize
+  \begin{aligned}
+   c_3 &= -\frac{c_0}{2\cdot3} \\ 
+   c_4 &= -\frac{c_1}{3\cdot4} \\ 
+   c_5 &= -\frac{c_2}{4\cdot5} = 0 \\ 
+   c_6 &= -\frac{c_3}{5\cdot6} = \frac{c_0}{2\cdot3\cdot5\cdot6} \\ 
+   c_7 &= -\frac{c_4}{6\cdot7} = \frac{c_1}{3\cdot4\cdot6\cdot7}\\ 
+   c_8 &= -\frac{c_5}{7\cdot8} = 0 \\ 
+       &\;\;\vdots
+  \end{aligned}$$
+
+* After grouping the terms containing $c_0$ and the terms containing $c_1$, $~$we obtain $y = c_0 y_1(x) +c_1 y_2(x)$
+
+  $$  
+  \begin{aligned}
+    y_1(x) &= 1 +\sum_{n=1}^\infty \frac{(-1)^n}{2\cdot3 \cdots (3n -1)(3n)}x^{3n}\\ 
+    y_2(x) &= x +\sum_{n=1}^\infty \frac{(-1)^n}{3\cdot4 \cdots (3n)(3n +1)}x^{3n +1}
+  \end{aligned}$$
+
+$~$
+
+## Solutions about Singular Points {#sec-5-2}
+
+* Consider the linear second-order DE
+
+   $$(x -x_0)^2 y'' +(x -x_0) p(x) y' +q(x) y = 0$$
+  
+  * Point $x_0$ is a **regular singular point** of the DE if both $p(x)$ and $q(x)$ are analytic at $x_0$
+  
+  * A singular point that is not regular is an **irregular singular point** of the equation
+
+* To solve a DE about a regular singular point, $~$we employ **Frobenius' Theorem**
+
+  * If $x_0$ is a regular singular point of the standard DE, $~$there exists **at least one nonzero solution** of the form
+ 
+    $$y=(x -x_0)^r \sum_{n=0}^\infty c_n (x -x_0)^n = \sum_{n=0}^\infty c_n (x -x_0)^{n+r}$$
+   
+    where $r$ is a constant, and the series converges at least on some interval, $~0 < x -x_0 < R$
+
+  * After substituting $y =\sum_{n=0}^\infty c_n (x -x_0)^{n+r}$ into a DE and simplifying, the **indicial equation** is obtained, $~$<font color="blue">a quadratic equation in $r$ that results from equating the total coefficient of the lowest power of $x$ to zero</font>
+   
+  * The **indicial roots** are the solutions to the quadratic equation and are then substituted into a recurrence relation
+
+**Suppose that $x=x_0$ ia a regular singular point of a DE and the indicial roots are $r_1$ and $r_2$**: $\;r_1 \geq r_2$ 
+    
+* **Case I** 
+     
+  $r_1$ and $r_2$ are distinct <font color="red"> and do not differ by an integer</font>, 
+ 
+  $$
+  \begin{aligned}
+     y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}} \\ 
+     y_2(x) &= \sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_2}}}
+   \end{aligned}$$
+
+* **Case II**
+   
+  $r_1 -r_2 = N$, $~$<font color="red">where $N$ is a positive integer</font>,
+
+  $$   
+   \begin{aligned}
+      y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}}, \; c_0 \neq 0\\ 
+      y_2(x) &= {\color{red}{C}}y_1(x)\ln (x -x_0) +\sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_2}}}, \; b_0 \neq 0
+   \end{aligned}$$
+
+* **Case III**
+   
+  $r_1=r_2$, 
+ 
+  $$
+   \begin{aligned}
+     y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}}, \; c_0 \neq 0\\ 
+      y_2(x) &= y_1(x)\ln (x -x_0) +\sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_1}}}
+   \end{aligned}$$
+
+$~$
+
+**Example:** $\,$ Solve $\,2xy'' +(1 +x)y' +y = 0$
+ 
+* Substituting $y = \sum_{n=0}^\infty c_n x^{n +r}$ gives
+
+  $$\scriptsize  
+   \begin{aligned} 
+    2xy'' & +(1 +x)y' +y \\ 
+    & = 2\sum_{n=0}^\infty (n +r)(n +r -1)c_n x^{n +r -1}
+     +\sum_{n=0}^\infty (n +r) c_n x^{n +r -1}
+     +\sum_{n=0}^\infty (n +r) c_n x^{n +r}
+     +\sum_{n=0}^\infty c_n x^{n +r}\\ 
+     & = x^r\left[r(2r -1) c_0 x^{-1} +\sum_{k=0}^\infty [(k + r +1)(2k +2r +1) c_{k +1} +(k +r +1) c_k] x^k \right] = 0
+   \end{aligned}$$
+ 
+   which implies
+ 
+   $$
+   \begin{aligned}
+     &r(2r -1) = 0\\ 
+     (k + r +1)(2k +2r +1) &c_{k +1} +(k +r +1) c_k =0, \;\;k=0,1,\cdots 
+   \end{aligned}$$
+
+* We see that the indicial roots are $r_1=\frac{1}{2}$ and $r_2=0$
+ 
+  $$
+   \begin{aligned}
+    r_1 = \frac{1}{2}, &\;\;c_{k+1} =-\frac{c_k}{2(k +1)}, \;k=0,1,2, \cdots\, \\ 
+    r_2 = 0,\; &\;\;c_{k+1} =-\frac{c_k}{2k +1}, \;k=0,1,2, \cdots \,\\
+  \end{aligned}$$
+
+::: columns
+
+::: {.column width=50%}
+* For $r_1=\frac{1}{2}$,
+
+  $$ \small
+   \begin{aligned}
+    c_1 &= -\frac{c_0}{2\cdot1}\\ 
+    c_2 &= -\frac{c_1}{2\cdot2}=\frac{c_0}{2^2\cdot2!}\\ 
+    c_3 &= -\frac{c_2}{2\cdot3}=\frac{-c_0}{2^3\cdot3!}\\ 
+    c_4 &= -\frac{c_3}{2\cdot4}=\frac{c_0}{2^4\cdot4!}\\ 
+     &\;\vdots \\ 
+    c_n &= \frac{(-1)^n c_0}{2^n n!}
+   \end{aligned}$$
+:::
+
+::: {.column width=50%}
+ * For $r_2=0$,
+
+   $$ \small
+   \begin{aligned}
+      c_1 &= -\frac{c_0}{1}\\ 
+      c_2 &= -\frac{c_1}{3}=\frac{c_0}{1\cdot3}\\ 
+      c_3 &= -\frac{c_2}{5}=\frac{-c_0}{1\cdot3\cdot5}\\ 
+      c_4 &= -\frac{c_3}{7}=\frac{c_0}{1\cdot3\cdot5\cdot7}\\ &\;\vdots \\
+      c_n &= \frac{(-1)^n c_0}{1\cdot3\cdot5\cdot7\cdots (2n -1)}
+   \end{aligned}$$
+:::
+
+:::
+
+* The series solutions are
+
+  $$
+   \begin{aligned}
+      y_1(x) &= x^{1/2} \left[ 1 +\sum_{n=1}^\infty \frac{(-1)^n}{2^n n!} x^n \right ]\\ 
+      y_2(x) &= 1 +\sum_{n=1}^\infty \frac{(-1)^n}{1\cdot3\cdot5\cdot7\cdots(2n -1)} x^n
+   \end{aligned}$$
+
+$~$
+
+## Special Functions {#sec-5-3}
+
+The following DEs occur frequently in advanced studies in applied mathematics, physics, and engineering
+
+* <font color="red">**Bessel's equation of order $\nu$**, $~$solutions are **Bessel functions**</font>
+
+  $$x^2 y'' +xy' +(x^2 -\nu^2) y =0$$
+  
+* <font color="red">**Legendre's equation of order $n$**, $~$solutions are **Legendre polynomials**</font>
+
+  $$(1 -x^2)y'' -2xy' +n(n +1)y =0$$
+
+### Bessel Functions {#sec-5-3-1}
+
+* Because $x=0~$ is a regular singular point of Bessel's equation, there exists at least one solution of the form $y=\sum_{n=0}^\infty c_n x^{n +r}$
+
+  $$
+  \begin{aligned}
+    x^2 &y'' +xy' +(x^2 -\nu^2)y \\
+    &= \sum_{n=0}^\infty c_n (n +r)(n +r -1) x^{n +r}  
+     +\sum_{n=0}^\infty c_n (n +r) x^{n +r} \\
+    &\qquad+\sum_{n=0}^\infty c_n x^{n +r +2} 
+     -\nu^2 \sum_{n=0}^\infty c_n x^{n +r}\\ 
+    &= {\color{red}{c_0 (r^2 -\nu^2) x^r}} +x^r 
+    \sum_{n=1}^\infty c_n [(n +r)^2 -\nu^2] x^n +x^r 
+    \sum_{n=0}^\infty c_n x^{n +2} = 0
+  \end{aligned}$$
+
+* The indicial equation is <font color="red">$~r^2 -\nu^2=0$</font> $~$so that the indicial roots are <font color="red">$r_1=\nu$ and $r_2=-\nu$</font>. <font color="blue">When $\,r_1=\nu \geq 0$</font>,
+
+  $$\scriptsize 
+  \begin{aligned}
+     x^\nu \sum_{n=1}^\infty & c_n n(n +2\nu) x^n +x^\nu \sum_{n=0}^\infty c_n x^{n +2} \\
+     &  = x^\nu \left[ (1 +2\nu) c_1 x +\sum_{k=0}^\infty \left[(k +2)(k +2 +2\nu) c_{k+2} 
+     +c_k\right]x^{k +2} \right] = 0 \\
+     &\Downarrow \\
+     c_1 & = 0,\;\; c_{k+2} = \frac{-c_k}{(k +2)(k +2 +2\nu)}, \;\;k=0,1,2,\cdots \\
+     &\Downarrow\\
+       c_3 &  =c_5=c_7=\cdots=0, \\
+       c_{2n} & =-\frac{c_{2n -2}}{2^2 n(n +\nu)}  
+         \;\;\leftarrow\;\;k+2=2n 
+  \end{aligned}$$
+
+* Thus
+
+  $$\scriptsize
+  \begin{aligned}
+   c_2 & = -\frac{c_0}{2^2\cdot1\cdot(1 +\nu)}\\ 
+   c_4 & = -\frac{c_2}{2^2\cdot2\cdot(2 +\nu)} \\
+       & = \frac{c_0}{2^4 \cdot 1 \cdot 2(1 +\nu)(2 +\nu)}\\ 
+   c_6 & = -\frac{c_4}{2^2\cdot3\cdot(3 +\nu)} \\
+       & =-\frac{c_0}{2^6 \cdot 1 \cdot 2 \cdot 3 (1 +\nu)(2 +\nu)(3 +\nu)}\\ 
+       &\;\vdots \\ 
+   c_{2n} & = \frac{(-1)^n c_0}{2^{2n} n! (1 +\nu)(2 +\nu)\cdots(n +\nu)}\\    
+  \end{aligned}$$
+
+* It is standard practice to choose
+
+  $$
+  \begin{aligned}
+    c_0 & =\frac{1}{2^\nu \Gamma(1 +\nu)} \\ 
+    & \text{thus, } \\
+    c_{2n} & = \frac{(-1)^n}{2^{2n +\nu} n!\, \Gamma(1 +\nu +n)}
+  \end{aligned}$$
+
+**Note** $\,$ $\displaystyle\Gamma(\nu)=\;\int_0^\infty x^{\nu -1} e^{-x} \,dx$, $\;\Gamma(\nu +1)=\nu\Gamma(\nu)$
+
+```{python}
+# | label: fig-ch03-Gamma-Function 
+# | fig-cap: Gamma Function
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.special import gamma, factorial
+
+x = np.linspace(-3.5, 5.5, 2251)
+y = gamma(x)
+
+def gamma_plot():
+    fig = plt.figure(figsize=(8, 6))
+
+    plt.plot(x, y, 'b', alpha=0.6, label='$\Gamma(x)$')    
+    k = np.arange(1, 7)
+    plt.plot(k, factorial(k -1), 'ko', alpha=0.6,
+         label='$(x -1)!,\; x = 1, 2, \cdots$')
+    plt.xlim(-3.5, 5.5)
+    plt.ylim(-10, 25)
+    plt.grid()
+    plt.xlabel('x')
+    plt.ylabel('$\Gamma(x)$')
+    plt.legend(loc='lower right')
+
+    plt.show()
+
+gamma_plot()    
+```
+
+* **Bessel Functions of the First Kind**
+
+  The series solution $y_1=\sum_{n=0}^\infty c_{2n} x^{2n +\nu}$ is usually denoted by $J_\nu(x)$
+  
+  <font color="red">$$J_\nu(x)=\sum_{n=0}^\infty \frac{(-1)^n}{n!\, \Gamma(1 +\nu +n)} \left( \frac{x}{2} \right)^{2n +\nu}$$</font>
+  
+  Also, for the second exponent $r_2=-\nu$
+  
+  $$J_{-\nu}(x)=\sum_{n=0}^\infty \frac{(-1)^n}{n!\, \Gamma(1 -\nu +n)} \left( \frac{x}{2} \right)^{2n -\nu}$$
+
+  * When $~\nu=0$, $~J_0(x)$
+    
+  * When $r_1 -r_2 = 2\nu~$ is not positive integer, $~J_\nu(x)$ and $J_{-\nu}(x)$ are linearly independent 
+    
+  * When $r_1 -r_2 = 2\nu~$ is positive integer, $~$there are two possibilities
+    
+    * When $\nu = m =$ positive integer, $~J_{-m}(x)$ is a constant multiple of $J_m(x)$ : $~J_m(x)=(-1)^m J_{-m}(x)$
+      
+     * When $\nu$ is half an odd positive integer, $~J_\nu(x)$ and $J_{-\nu}(x)$ are linearly independent
+
+$~$
+
+**Example** $\,$ Solve $~x^2y'' +xy' +(x^2 -\frac{1}{4})y=0$
+
+$~$
+
+* **Bessel Functions of the Second Kind**
+
+  If $\nu \neq$ integer
+  
+  $$Y_\nu(x)=\frac{\cos \nu \pi J_\nu(x) -J_{-\nu}(x)}{\sin \nu \pi}$$
+  
+  $J_\nu(x)$ and $Y_\nu(x)$ are linearly independent solutions of 
+   
+  $$x^2 y'' +xy' +(x^2 -\nu^2) y =0$$
+
+  As $\nu \rightarrow m\,(\text{an integer})$,
+  
+  $$Y_m(x)=\lim_{\nu \to m} Y_\nu(x)$$
+  
+  $J_m(x)$ and $Y_m(x)$ are linearly independent solutions of 
+   
+  $$x^2 y'' +xy' +(x^2 -m^2) y =0$$
+
+* Hence for *any* value of $\nu$, $~$the general solution of Bessel equation can be written as
+  
+  $$y=c_1 J_\nu(x) +c_2 Y_\nu(x)$$
+  
+  $Y_\nu(x)$ is called the **Bessel function of the second kind** of order $\nu$ 
+
+$~$
+
+**Example** $\,$ Solve $~x^2y'' +xy' +(x^2 -9)y=0$
+
+$~$
