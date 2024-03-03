@@ -1,3 +1,8 @@
+---
+header-includes:
+   - \usepackage{arydshln}
+---
+
 # Matrices {#sec-8}
 
 ## Matrix Algebra {#sec-8-1}
@@ -242,7 +247,7 @@ $~$
 
 $~$
 
-**Example:** $\,$ Solve
+**Example** $\,$ Solve
   
 $$\begin{pmatrix}
     2 & 6 & \phantom{-}1\\ 
@@ -270,14 +275,14 @@ $${\scriptsize
     1 & 2 & -1 & -1\\ 
     5 & 7 & -4 & 9
   \end{array}\right) 
-  \overset{R_{12}}{\Longrightarrow}}
+  \overset{ R_{12}}{\Longrightarrow}}
   {\scriptsize
   \left(\begin{array}{rrr|r}
     1 & 2 & -1 & -1\\   
     2 & 6 &  1 & 7\\ 
     5 & 7 & -4 & 9
   \end{array}\right)
-  \overset{\begin{matrix} -2R_1 +R_2 \\[-4pt] -5R_1 +R_3 \end{matrix}}{\Longrightarrow}
+  \overset{\begin{matrix} -2R_1 +R_2 \\ -5R_1 +R_3 \end{matrix}}{\Longrightarrow}
   \left(\begin{array}{rrr|r}
     1 & 2 & -1 & -1\\   
     0 & 2 &  3 & 9\\ 
@@ -291,7 +296,7 @@ $${\scriptsize
     0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
     0 & -3 & 1 & 14
   \end{array}\right)
-  \overset{3R_2 +R_3}{\Longrightarrow}
+  \overset{ 3R_2 +R_3}{\Longrightarrow}
   \left(\begin{array}{rrr|r}
     1 & 2 & -1 & -1\\   
     0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
@@ -312,14 +317,14 @@ $${\scriptsize
     0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
     0 & 0 & 1 & 5
   \end{array}\right)  
-  \overset{-2R_2 +R_1}{\Longrightarrow}
+  \overset{ -2R_2 +R_1}{\Longrightarrow}
   \left(\begin{array}{rrr|r}
     1 & 0 & -4 & -10\\   
     0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
     0 & 0 & 1 & 5
   \end{array}\right)   
   \overset{\begin{matrix}
-           -4R_3 +R_1 \\[-4pt] 
+           -4R_3 +R_1 \\
           -\frac{3}{2}R_3 +R_2 
            \end{matrix}}{\Longrightarrow}
   \left(\begin{array}{rrr|r}
@@ -330,4 +335,203 @@ $${\scriptsize
   
 We see that the solution is $x_1=10$, $~x_2=-3$, $~x_3=5$
 
+$~$
 
+**Example** $\,$ Solve
+  
+$$
+  \left(\begin{array}{rrr}
+    1 & 3 & -2\\ 
+    4 & 1 & 3\\ 
+    2 & -5 & 7
+  \end{array}\right) 
+  \begin{pmatrix}
+    x_1\\ 
+    x_2\\ 
+    x_3
+  \end{pmatrix}=
+ \left(\begin{array}{r}
+    -7\\ 
+     5\\ 
+    19
+  \end{array}\right)$$
+
+$~$
+
+Using row operations on the augmented matrix, we obtain
+  
+$${\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 & 3 & -2 & -7\\ 
+    4 & 1 &  3 & 5\\ 
+    2 & -5 & 7 & 19
+  \end{array}\right) 
+  \overset{\begin{matrix}
+           -4R_1 +R_2 \\
+           -2R_1 +R_3 
+           \end{matrix}}
+  {\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 3 & -2 & -7\\ 
+    0 & -11 & 11 & 33\\ 
+    0 & -11 & 11 & 33
+  \end{array}\right) 
+  \overset{\begin{matrix}
+           -R_2 +R_3 \\
+           -\frac{1}{11}R_2 
+           \end{matrix}}
+  {\Longrightarrow}
+  \left(\begin{array}{rr|r|r}
+    1 & 3 & -2 & -7\\ 
+    0 & 1 & -1 & -3\\ \hline
+    0 & 0 & 0 & {\color{Red}0 }
+  \end{array}\right)}$$
+
+In this case, $~$the last matrix implies that the original system of three equations is really equivalent to two equations
+  
+$${
+  \overset{-3R_2 +R_1}
+  {\Longrightarrow}
+  \left(\begin{array}{rr|r|r}
+    1 & 0 & 1 & 2\\ 
+    0 & 1 & -1 & -3\\ 
+    \hline
+    0 & 0 & 0 & 0
+  \end{array}\right)}$$
+  
+If we let $x_3=t$, $x_1=-t +2$ and $x_2=t -3$, $~$then we see that the system has infinitely many solutions
+
+$~$
+
+**Example** $\,$ Solve
+  
+$$
+  \left(\begin{array}{rr}
+    1 & 1 \\ 
+    4 & -1 \\ 
+    2 & -3
+  \end{array}\right) 
+  \begin{pmatrix}
+    x_1\\ 
+    x_2
+  \end{pmatrix}=
+ \left(\begin{array}{r}
+    1\\ 
+   -6\\ 
+    8
+  \end{array}\right)$$
+
+$~$
+
+Using row operations on the augmented matrix, $~$we obtain
+  
+$${\scriptsize
+  \left(\begin{array}{rr|r}
+    1 & 1 & 1\\ 
+    4 & -1 & -6\\ 
+    2 & -3 & 8
+  \end{array}\right) 
+  \overset{\begin{matrix}
+           -4R_1 +R_2 \\ 
+           -2R_1 +R_3 
+           \end{matrix}}
+  {\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 & 1 & 1\\ 
+    0 & -5 & -10\\ 
+    0 & -5 & 6
+  \end{array}\right) 
+  \overset{\begin{matrix}
+           -R_2 +R_3 \\ 
+           -\frac{1}{5}R_2 
+           \end{matrix}}
+  {\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 & 1 & 1\\ 
+    0 & 1 & 2\\ \hline
+    0 & 0 & {\color{Red}{16}}
+  \end{array}\right)}$$
+  
+The system has no solution
+
+$~$
+
+* A **homogeneous system** of linear equations is **always consistent**. The solution consisting of all zeros is called the **trivial solution**. A homogeneous system either possesses only the trivial solution or possesses the trivial solution along with infinitely many nontrivial solutions
+
+* <font color='blue'>**A homogeneous system possesses nontrivial solutions if the number $m$ of equations is less than the number $n$ of unknowns $(m<n)$**</font>
+
+$~$
+
+**Example** $\,$ Find the positive integers $x_1$, $x_2$, $x_3$, and $x_4$ so that
+
+$$x_1 \mathrm{C_2H_6} +x_2 \mathrm{O_2} \rightarrow x_3 \mathrm{CO_2} +x_4 \mathrm{H_2O}$$
+
+Because the number of atoms of each element must be the same on each side of the last equation, $~$we have:
+
+| Atom       |                      |
+|   -------- | :------------------- |
+|$\mathrm{C}$ |$2x_1=x_3$           |
+|$\mathrm{H}$ |$6x_1=2x_4$          |
+|$\mathrm{O}$ |$2x_2=2x_3 +x_4$     |
+
+$${\scriptsize
+  \left(\begin{array}{rrrr|r}
+    2 & 0 & -1 &  0 & 0\\   
+    6 & 0 &  0 & -2 & 0\\
+    0 & 2 & -2 & -1 & 0
+  \end{array}\right)
+  \overset{\begin{matrix}
+             R_{12} \\ 
+             R_{23} 
+           \end{matrix}}{\Longrightarrow}
+  \left(\begin{array}{rrrr|r}
+    6 & 0 &  0 & -2 & 0\\
+    0 & 2 & -2 & -1 & 0\\
+    2 & 0 & -1 &  0 & 0  
+  \end{array}\right) 
+  \overset{\;\,\text{ row } \\ \text{operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r|r} 
+    1 & 0 & 0 & -\frac{1}{3} & 0\\   
+    0 & 1 & 0 & -\frac{7}{6} & 0\\
+    0 & 0 & 1 & -\frac{2}{3} & 0
+  \end{array}\right)}$$
+
+Then when we let  $x_4=t$, $~x_1=\frac{1}{3}t$, $x_2=\frac{7}{6}t$, $x_3=\frac{2}{3}t$. $\,$ If we pick $t=6$, $\,x_1=2$, $\,x_2=7$, $\,x_3=4$, $\,x_4=6$
+
+$~$
+
+**Example** $\,$ Use either Gaussian elimination or Gauss-Jordan elimination to solve the given system or show that no solution exists
+
+$$
+\begin{aligned}
+   x_1 - x_2 &= 11\\ 
+   4x_1 +3x_2 &=-5 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+   9x_1 +3x_2 &= -5\\ 
+   2x_1 +x_2 &= -1 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+    x_1 -x_2 -x_3 &= -3\\ 
+    2x_1 +3x_2 +5x_3 &= 7\\
+    x_1 -2x_2 +3x_3 &=-11 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+    x_1 +x_2 +x_3 &= 0\\ 
+    x_1 +x_2 +3x_3 &=0 
+\end{aligned}$$
+
+$$
+\begin{aligned}
+    &x_1 -x_2 -x_3 = 8\\ 
+    &x_1 -x_2 +x_3 = 3\\
+    -&x_1 +x_2 +x_3 = 4 
+\end{aligned}$$
+
+$~$
