@@ -187,6 +187,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#sec-8-1" id="toc-sec-8-1" class="nav-link active" data-scroll-target="#sec-8-1"><span class="header-section-number">6.1</span> Matrix Algebra</a></li>
+  <li><a href="#sec-8-2" id="toc-sec-8-2" class="nav-link" data-scroll-target="#sec-8-2"><span class="header-section-number">6.2</span> Systems of Linear Algebraic Equations</a></li>
   </ul>
 </nav>
     </div>
@@ -296,6 +297,210 @@ window.Quarto = {
 <li><p>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is <strong>symmetric</strong> <span class="math inline">\(~\)</span>if <span class="math inline">\(\mathbf{A}^T=\mathbf{A}\)</span></p></li>
 </ul></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> If <span class="math inline">\(~\mathbf{A}=
+   \begin{pmatrix}
+     \phantom{-}2 &amp; -3 \\
+     -5 &amp; \phantom{-}4
+   \end{pmatrix}\)</span> and <span class="math inline">\(~\mathbf{B}=
+    \begin{pmatrix}
+       -1 &amp; 6 \\
+       \phantom{-}3 &amp; 2
+    \end{pmatrix}\)</span>,</p>
+<p>find <span class="math inline">\(~\)</span>(a) <span class="math inline">\(\mathbf{AB}\)</span>, <span class="math inline">\(~\)</span>(b) <span class="math inline">\(\mathbf{BA}\)</span>, <span class="math inline">\(~\)</span>(c) <span class="math inline">\(\mathbf{A}^2\)</span>, <span class="math inline">\(~\)</span>(d) <span class="math inline">\(\mathbf{B}^2\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Show that if <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(m\times n\)</span> matrix, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathbf{AA}^T\)</span> is symmetric</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> In matrix theory, <span class="math inline">\(~\)</span>many of the familiar properties of the real number system are not valid. <span class="math inline">\(~\)</span>If <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are real numbers, then <span class="math inline">\(ab=0\;\)</span> implies that <span class="math inline">\(a=0\)</span> or <span class="math inline">\(b=0\)</span>. <span class="math inline">\(~\)</span>Find two matrices such that <span class="math inline">\(\mathbf{AB}=\mathbf{0}~\)</span> but <span class="math inline">\(\mathbf{A}\neq\mathbf{0}\)</span> and <span class="math inline">\(\mathbf{B}\neq \mathbf{0}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be <span class="math inline">\(n\times n\)</span> matrices. Explain why, in general, the given formula is not valid</p>
+<p><span class="math display">\[(\mathbf{A} + \mathbf{B})^2 = \mathbf{A}^2 + 2\mathbf{A}\mathbf{B} +\mathbf{B}^2\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the resulting vector <span class="math inline">\(\mathbf{b}\)</span> if the given vector <span class="math inline">\(\mathbf{a} = \langle 1, 1 \rangle\)</span> is rotated through the indicated angle <span class="math inline">\(\theta=\pi/2\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Verify that the quadratic form <span class="math inline">\(ax^2 +bxy +cy^2\)</span> is the same as</p>
+<p><span class="math display">\[\begin{pmatrix}
+      x &amp; y
+    \end{pmatrix}
+    \begin{pmatrix}
+      a &amp; \frac{1}{2}b \\
+     \frac{1}{2}b &amp; c
+    \end{pmatrix}
+    \begin{pmatrix}
+      x \\ y
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-2" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="sec-8-2"><span class="header-section-number">6.2</span> Systems of Linear Algebraic Equations</h2>
+<ul>
+<li><p><strong>General Form</strong></p>
+<p>A system of <font color="red"><span class="math inline">\(m\)</span> linear equations</font> in <font color="red"><span class="math inline">\(n\)</span> unknowns</font> has the general form</p>
+<p><span class="math display">\[
+\begin{aligned}
+  a_{11} x_1 +a_{12} x_2 + \cdots +a_{1n} x_n
+    &amp; = b_1\\
+  a_{21} x_1 +a_{22} x_2 + \cdots +a_{2n} x_n
+    &amp; = b_2\\
+   &amp;\;\, \vdots \\
+   a_{m1} x_1 +a_{m2} x_2 + \cdots +a_{mn} x_n
+    &amp; = b_m
+\end{aligned}\]</span></p></li>
+<li><p>The <strong>coefficients</strong> of the unknowns can be abbreviated as <span class="math inline">\(a_{ij}\)</span>. The numbers <span class="math inline">\(b_1, b_2, \cdots, b_m\)</span> are called the <strong>constants</strong> of the system. If all the constants are zero, the system is said to be <strong>homogeneous</strong>, otherwise it is <strong>nonhomogeneous</strong> <span class="math display">\[
+\begin{aligned}
+  \mathbf{A}
+  &amp;=
+  \begin{pmatrix}
+    a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} \\
+    a_{21} &amp; a_{22} &amp; \cdots &amp; a_{2n} \\
+    \vdots &amp;   &amp; \ddots &amp; \\
+    a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} \\
+  \end{pmatrix}, \;\;
+  \mathbf{x} =
+  \begin{pmatrix}
+     x_1  \\ x_2 \\ \vdots \\ x_n
+  \end{pmatrix}, \;\;
+  \mathbf{b} =
+  \begin{pmatrix}
+     b_1 \\ b_2 \\ \vdots \\ b_m
+  \end{pmatrix}
+\end{aligned}\]</span></p></li>
+</ul>
+<p><span class="math display">\[\mathbf{A} \mathbf{x} = \mathbf{b}\]</span></p>
+<ul>
+<li><p>A linear system of equations is said to be <strong>consistent</strong> if it has at least one solution and <strong>inconsistent</strong> if it has no solutions. If a linear system is consistent, <span class="math inline">\(~\)</span>it has either</p>
+<ul>
+<li>a unique solution (that is, precisely one solution), or</li>
+<li>infinitely many solutions</li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch08_figure01.png" title="Equal" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>Augmented Matrix</strong></p>
+<p><span class="math display">\[
+\left(\begin{array}{cccc|c}
+  a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n} &amp; b_1\\
+  a_{21} &amp; a_{22} &amp; \ddots &amp; a_{2n} &amp; b_2\\
+  \vdots &amp; \ddots &amp; \ddots &amp; \vdots &amp; \vdots\\
+  a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn} &amp; b_m
+\end{array}\right)\]</span></p></li>
+<li><p>A system can be solved with <strong>elementary operations</strong> (<strong>row reduction</strong> for matrices) on an augmented matrix</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Elementary<br>Operations</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(R_{ij}\)</span></td>
+<td style="text-align: left;">Interchange rows <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(cR_{i}\)</span></td>
+<td style="text-align: left;">Multiply the row <span class="math inline">\(i\)</span> by the nonzero constant <span class="math inline">\(c\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(cR_{i}+R_{j}\)</span></td>
+<td style="text-align: left;">Multiply the row <span class="math inline">\(i\)</span> by <span class="math inline">\(c\)</span> and add to the row <span class="math inline">\(j\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>In the <strong>Gaussian elimination</strong>, <span class="math inline">\(~\)</span> we row-reduce the augmented matrix until we arrive at a row-equivalent augmented matrix in <strong>row-echelon form</strong></p>
+<ul>
+<li><p><font color="green">The first nonzero entry in a nonzero row is a <span class="math inline">\(1\)</span></font></p></li>
+<li><p><font color="blue">In consecutive nonzero rows, <span class="math inline">\(~\)</span>the first entry <span class="math inline">\(1\)</span> in the lower row appears to the right of the <span class="math inline">\(1\)</span> in the higher row</font></p></li>
+<li><p><font color="green">Rows consisting of all zeros are at the bottom of the matrix</font></p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example:</strong> <span class="math inline">\(\,\)</span> Solve</p>
+<p><span class="math display">\[\begin{pmatrix}
+    2 &amp; 6 &amp; \phantom{-}1\\
+    1 &amp; 2 &amp; -1\\
+    5 &amp; 7 &amp; -4
+  \end{pmatrix}
+  \begin{pmatrix}
+    x_1\\
+    x_2\\
+    x_3
+  \end{pmatrix}=
+  \begin{pmatrix}
+    \phantom{-}7\\
+    -1\\
+    \phantom{-}9
+  \end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p>Using row operations on the augmented matrix, <span class="math inline">\(~\)</span> we obtain</p>
+<p><span class="math display">\[{\scriptsize
+  \left(\begin{array}{rrr|r}
+    2 &amp; 6 &amp;  1 &amp; 7\\
+    1 &amp; 2 &amp; -1 &amp; -1\\
+    5 &amp; 7 &amp; -4 &amp; 9
+  \end{array}\right)
+  \overset{R_{12}}{\Longrightarrow}}
+  {\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    2 &amp; 6 &amp;  1 &amp; 7\\
+    5 &amp; 7 &amp; -4 &amp; 9
+  \end{array}\right)
+  \overset{\begin{matrix} -2R_1 +R_2 \\[-4pt] -5R_1 +R_3 \end{matrix}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    0 &amp; 2 &amp;  3 &amp; 9\\
+    0 &amp; -3 &amp; 1 &amp; 14
+  \end{array}\right)}\]</span></p>
+<p><span class="math display">\[{\scriptsize
+  \overset{\frac{1}{2}R_2}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    0 &amp; 1 &amp;  \frac{3}{2} &amp; \frac{9}{2} \\
+    0 &amp; -3 &amp; 1 &amp; 14
+  \end{array}\right)
+  \overset{3R_2 +R_3}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    0 &amp; 1 &amp;  \frac{3}{2} &amp; \frac{9}{2} \\
+    0 &amp; 0 &amp; \;\frac{11}{2} &amp; \;\frac{55}{2}
+  \end{array}\right)}\]</span> <span class="math display">\[{\scriptsize\overset{\frac{2}{11}R_3}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    0 &amp; 1 &amp;  \frac{3}{2} &amp; \frac{9}{2} \\
+    0 &amp; 0 &amp; 1 &amp; 5
+  \end{array}\right)}\]</span></p>
+<p>The last matrix is in row-echelon form. <span class="math inline">\(~\)</span>We can make the last matrix above to be in reduced row-echelon form</p>
+<p><span class="math display">\[{\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp; -1 &amp; -1\\   
+    0 &amp; 1 &amp;  \frac{3}{2} &amp; \frac{9}{2} \\
+    0 &amp; 0 &amp; 1 &amp; 5
+  \end{array}\right)  
+  \overset{-2R_2 +R_1}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; -4 &amp; -10\\   
+    0 &amp; 1 &amp;  \frac{3}{2} &amp; \frac{9}{2} \\
+    0 &amp; 0 &amp; 1 &amp; 5
+  \end{array}\right)   
+  \overset{\begin{matrix}
+           -4R_3 +R_1 \\[-4pt]
+          -\frac{3}{2}R_3 +R_2
+           \end{matrix}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; 0 &amp; 10\\   
+    0 &amp; 1 &amp; 0 &amp; -3 \\
+    0 &amp; 0 &amp; 1 &amp; 5
+  \end{array}\right)}\]</span></p>
+<p>We see that the solution is <span class="math inline">\(x_1=10\)</span>, <span class="math inline">\(~x_2=-3\)</span>, <span class="math inline">\(~x_3=5\)</span></p>
 
 
 </section>

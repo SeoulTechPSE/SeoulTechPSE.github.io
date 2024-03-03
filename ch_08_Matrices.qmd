@@ -107,3 +107,227 @@ $$\mathbf{A}^T =
     
   * An $n \times n$ matrix $\mathbf{A}$ is **symmetric** $~$if $\mathbf{A}^T=\mathbf{A}$
 
+$~$
+
+**Example** $\,$ 
+If $~\mathbf{A}=
+   \begin{pmatrix}
+     \phantom{-}2 & -3 \\ 
+     -5 & \phantom{-}4 
+   \end{pmatrix}$ and 
+  $~\mathbf{B}=
+    \begin{pmatrix}
+       -1 & 6 \\ 
+       \phantom{-}3 & 2 
+    \end{pmatrix}$,
+    
+find $~$(a) $\mathbf{AB}$, $~$(b) $\mathbf{BA}$, $~$(c) $\mathbf{A}^2$, $~$(d) $\mathbf{B}^2$
+
+$~$
+
+**Example** $\,$ Show that if $\mathbf{A}$ is an $m\times n$ matrix, $~$then $\mathbf{AA}^T$ is symmetric
+
+$~$
+
+**Example** $\,$ In matrix theory, $~$many of the familiar properties of the real number system are not valid. $~$If $a$ and $b$ are real numbers, then $ab=0\;$ implies that $a=0$ or $b=0$. $~$Find two matrices such that $\mathbf{AB}=\mathbf{0}~$ but $\mathbf{A}\neq\mathbf{0}$ and $\mathbf{B}\neq \mathbf{0}$
+
+$~$
+
+**Example** $\,$ Let $\mathbf{A}$ and $\mathbf{B}$ be $n\times n$ matrices. Explain why, in general, the given formula is not valid
+
+$$(\mathbf{A} + \mathbf{B})^2 = \mathbf{A}^2 + 2\mathbf{A}\mathbf{B} +\mathbf{B}^2$$
+
+$~$
+
+**Example** $\,$ Find the resulting vector $\mathbf{b}$ if the given vector $\mathbf{a} = \langle 1, 1 \rangle$ is rotated through the indicated angle
+ $\theta=\pi/2$
+
+$~$
+
+**Example** $\,$ Verify that the quadratic form $ax^2 +bxy +cy^2$ is the same as
+
+$$\begin{pmatrix}
+      x & y 
+    \end{pmatrix}
+    \begin{pmatrix}
+      a & \frac{1}{2}b \\ 
+     \frac{1}{2}b & c 
+    \end{pmatrix}
+    \begin{pmatrix}
+      x \\ y 
+\end{pmatrix}$$
+
+$~$
+
+## Systems of Linear Algebraic Equations {#sec-8-2}
+
+* **General Form**
+
+  A system of <font color="red">$m$ linear equations</font> in <font color="red">$n$ unknowns</font> has the general form
+  
+  $$
+  \begin{aligned}
+    a_{11} x_1 +a_{12} x_2 + \cdots +a_{1n} x_n 
+      & = b_1\\ 
+    a_{21} x_1 +a_{22} x_2 + \cdots +a_{2n} x_n 
+      & = b_2\\ 
+     &\;\, \vdots \\ 
+     a_{m1} x_1 +a_{m2} x_2 + \cdots +a_{mn} x_n 
+      & = b_m
+  \end{aligned}$$
+
+* The **coefficients** of the unknowns can be abbreviated as $a_{ij}$. The numbers $b_1, b_2, \cdots, b_m$ are called the **constants** of the system. 
+  If all the constants are zero, the system is said to be **homogeneous**, otherwise it is **nonhomogeneous**
+  $$
+  \begin{aligned}
+    \mathbf{A} 
+    &= 
+    \begin{pmatrix}
+      a_{11} & a_{12} & \cdots & a_{1n} \\ 
+      a_{21} & a_{22} & \cdots & a_{2n} \\ 
+      \vdots &   & \ddots & \\ 
+      a_{m1} & a_{m2} & \cdots & a_{mn} \\ 
+    \end{pmatrix}, \;\;
+    \mathbf{x} = 
+    \begin{pmatrix}
+       x_1  \\ x_2 \\ \vdots \\ x_n
+    \end{pmatrix}, \;\; 
+    \mathbf{b} = 
+    \begin{pmatrix}
+       b_1 \\ b_2 \\ \vdots \\ b_m
+    \end{pmatrix}
+  \end{aligned}$$
+
+ $$\mathbf{A} \mathbf{x} = \mathbf{b}$$ 
+
+* A linear system of equations is said to be **consistent** if it has at least one solution and **inconsistent** if it has no solutions. If a linear system is consistent, $~$it has either
+
+  * a unique solution (that is, precisely one solution), or
+  * infinitely many solutions
+
+$~$
+
+![](figures/ch08_figure01.png "Equal"){width="80%" fig-align="center"}
+
+* **Augmented Matrix**
+
+  $$
+  \left(\begin{array}{cccc|c}
+    a_{11} & a_{12} & \cdots & a_{1n} & b_1\\ 
+    a_{21} & a_{22} & \ddots & a_{2n} & b_2\\ 
+    \vdots & \ddots & \ddots & \vdots & \vdots\\ 
+    a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
+  \end{array}\right)$$
+
+
+* A system can be solved with **elementary operations** (**row reduction** for matrices)
+  on an augmented matrix
+  
+| Elementary<br>Operations | Meaning |
+|:--------|:----------------------------|
+| $R_{ij}$        | Interchange rows $i$ and $j$                       |
+| $cR_{i}$        | Multiply the row $i$ by the nonzero constant $c$   | 
+| $cR_{i}+R_{j}$  | Multiply the row $i$ by $c$ and add to the row $j$ |
+
+$~$
+
+* In the **Gaussian elimination**, $~$ we row-reduce the augmented matrix until we arrive 
+  at a row-equivalent augmented matrix in **row-echelon form**
+  
+  * <font color='green'>The first nonzero entry in a nonzero row is a $1$</font>
+
+  * <font color='blue'>In consecutive nonzero rows, $~$the first entry $1$ in the lower row appears to the right of the $1$ in the higher row</font>
+  
+  * <font color='green'>Rows consisting of all zeros are at the bottom of the matrix</font>
+
+$~$
+
+**Example:** $\,$ Solve
+  
+$$\begin{pmatrix}
+    2 & 6 & \phantom{-}1\\ 
+    1 & 2 & -1\\ 
+    5 & 7 & -4
+  \end{pmatrix}
+  \begin{pmatrix}
+    x_1\\ 
+    x_2\\ 
+    x_3
+  \end{pmatrix}=
+  \begin{pmatrix}
+    \phantom{-}7\\ 
+    -1\\ 
+    \phantom{-}9
+  \end{pmatrix}$$
+
+$~$  
+
+Using row operations on the augmented matrix, $~$ we obtain
+  
+$${\scriptsize
+  \left(\begin{array}{rrr|r}
+    2 & 6 &  1 & 7\\ 
+    1 & 2 & -1 & -1\\ 
+    5 & 7 & -4 & 9
+  \end{array}\right) 
+  \overset{R_{12}}{\Longrightarrow}}
+  {\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    2 & 6 &  1 & 7\\ 
+    5 & 7 & -4 & 9
+  \end{array}\right)
+  \overset{\begin{matrix} -2R_1 +R_2 \\[-4pt] -5R_1 +R_3 \end{matrix}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    0 & 2 &  3 & 9\\ 
+    0 & -3 & 1 & 14
+  \end{array}\right)}$$
+  
+$${\scriptsize
+  \overset{\frac{1}{2}R_2}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
+    0 & -3 & 1 & 14
+  \end{array}\right)
+  \overset{3R_2 +R_3}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
+    0 & 0 & \;\frac{11}{2} & \;\frac{55}{2}
+  \end{array}\right)}$$
+$${\scriptsize\overset{\frac{2}{11}R_3}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
+    0 & 0 & 1 & 5
+  \end{array}\right)}$$
+
+The last matrix is in row-echelon form. $~$We can make the last matrix above to be in reduced row-echelon form
+
+$${\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 & 2 & -1 & -1\\   
+    0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
+    0 & 0 & 1 & 5
+  \end{array}\right)  
+  \overset{-2R_2 +R_1}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & -4 & -10\\   
+    0 & 1 &  \frac{3}{2} & \frac{9}{2} \\
+    0 & 0 & 1 & 5
+  \end{array}\right)   
+  \overset{\begin{matrix}
+           -4R_3 +R_1 \\[-4pt] 
+          -\frac{3}{2}R_3 +R_2 
+           \end{matrix}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & 0 & 10\\   
+    0 & 1 & 0 & -3 \\
+    0 & 0 & 1 & 5
+  \end{array}\right)}$$
+  
+We see that the solution is $x_1=10$, $~x_2=-3$, $~x_3=5$
+
+
