@@ -286,15 +286,15 @@ x = np.linspace(-3.5, 5.5, 2251)
 y = gamma(x)
 
 def gamma_plot():
-    fig = plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(6, 4))
 
     plt.plot(x, y, 'b', alpha=0.6, label='$\Gamma(x)$')    
     k = np.arange(1, 7)
     plt.plot(k, factorial(k -1), 'ko', alpha=0.6,
-         label='$(x -1)!,\; x = 1, 2, \cdots$')
+         label='$(x-1)!,\; x = 1, 2, 3\cdots$')
     plt.xlim(-3.5, 5.5)
     plt.ylim(-10, 25)
-    plt.grid()
+    plt.grid('true')
     plt.xlabel('x')
     plt.ylabel('$\Gamma(x)$')
     plt.legend(loc='lower right')
@@ -559,6 +559,61 @@ ax.legend()
 
 plt.show()
 ```
+$~$
+
+**Example** $\,$ Find the general solution of the given differential equation on $(0,\infty)$
+
+* $x^2y''+xy'+(x^2-\frac{1}{9})y=0$
+   
+* $xy''+y'+xy=0$
+  
+* $x^2y'' +xy'+(9x^2-4)y=0$
+  
+* $x^2y''+xy'-(16x^2+\frac{4}{9})y=0$
+
+$~$
+
+**Example** $\,$ Find the general solution of the given differential equation on $(0,\infty)$
+
+  * $x^2y''+2xy'+\alpha^2x^2y=0; \;y=x^{-1/2}u(x)$
+
+  * $xy''+2y'+4y=0$
+
+$~$
+
+**Example** $\,$ Verify that $I_\nu(x)=i^{-\nu}J_\nu(ix)~$ is a real function
+
+$~$
+
+**Example** $\,$ Express the general solution of the given differential equation in terms of the modified Bessel functions
+
+  $$xy''+y'-7x^3y=0$$
+
+$~$
+
+**Example** $\,$ First express the general solution of the given differential equation in terms of Bessel functions and then express the general solution in terms of elementary functions
+
+  $$x^2y''+4xy'+(x^2+2)y=0$$
+
+$~$
+
+**Example** $\,$ Derive the following result
+
+  $$\int_0^x rJ_0(r)\,dr=xJ_1(x)$$
+  
+  $$J_0'(x)=J_{-1}(x)=-J_1(x)$$
+
+$~$
+
+**Example** $\,$ Use the solution of the aging spring equation $mx''+ke^{-at}x=0$ to discuss the behavior of $x(t)$ as $t \to\infty$ in the three cases
+
+  * $c_1\neq 0, \;c_2=0$
+  
+  * $c_1=0, \;c_2\neq 0$
+  
+  * $c_1\neq 0, \;c_2 \neq 0$
+
+$~$
 
 ### Legendre Polynomials {#sec-5-3-2}
 
@@ -657,11 +712,150 @@ for n in range(6):
     ax.plot(x, y, label=f'$P_{n}(x)$')
 
 ax.axis((-1.05, 1.05, -1.05, 1.05))
-
-#ax.set_title(r'$P_n(x), n=0,1,\cdots,5$')
 ax.set_xlabel('x')
 ax.set_ylabel('$P_n(x)$')
 ax.legend(loc='lower left', bbox_to_anchor=(1, 0))
 
 plt.show()
 ```
+
+* **Properties of Legendre Polynomials**
+
+  * $P_n(-x)=(-1)^n P_n(x)$
+  * $P_n(1)=1$
+  * $P_n(-1)=(-1)^n$
+  * $P_n(0)=0$, $~n$ odd
+  * $P_n'(0)=0$, $~n$ even
+
+* **Rodrigues' Formula**
+
+  The Legendre polynomials can also be represented using **Rodrigues’ Formula**,
+
+  $$P_n(x)=\frac{1}{2^n n!} \frac{d^n}{dx^n} \left(x^2 -1\right)^n \tag{RF}\label{eq:RF}$$
+
+  This can be demonstrated through the following observations
+
+  * The right hand side of \eqref{eq:RF} is a $n$-th order polynomial
+
+  * Treating $\left(x^2 -1\right)^n = (x -1)^n (x + 1)^n$ as a product and using Leibnitz’ rule to differentiate $n$ times, $~$we have
+    
+    $$\frac{d^n}{dx^n} (x -1)^n (x +1)^n = n!(x+1)^n + {\scriptsize\text{terms with } (x -1) \text{ as a factor}}$$
+   
+    so that $\displaystyle ~P_n(1) = \frac{n! 2^n}{2^n n!} =1$
+
+  * If $~h(x) = \left(1 -x^2\right)^n$, $~$then $h'(x) = -2nx(1 -x^2)^{n-1}$, $~$so that
+
+    $$\left(1 -x^2\right)h' + 2nx\,h = 0$$
+    
+    Now differentiate $n +1$ times, using Leibnitz, to get
+    
+    $$\scriptsize
+    \begin{aligned}
+       \left(1 -x^2\right)h^{n +2} 
+        & -2(n +1)x h^{n +1} -2\frac{(n + 1)n}{2} h^n + 2nxh^{n +1} + 2n(n + 1)h^n = 0 \\
+        &\Downarrow\\
+       \left(1 -x^2\right)h^{n +2} 
+        & -2x h^{n +1} +n(n +1) h^n = 0
+    \end{aligned}$$
+
+  * As the equation is linear and $P_n(x) \propto h^n(x)$, $~P_n(x)$ satisfies the Legendre equation of order $n$
+    
+    $$\left(1 -x^2\right) P_n''(x) -2x P_n'(x) +n(n +1) P_n(x) = 0$$
+
+* **Integral Relations**
+
+  $$\int_{-1}^1 P_k(x) P_l(x) \,dx = \delta_{k,l} \frac{2}{2l +1},\;\;k \leq l$$
+   
+  $$\int_{-1}^1 x P_s(x) P_r(x) \,dx = \delta_{s +1,r} \frac{2r}{(2r -1)(2r +1)}, \; s \leq r $$
+
+* **Recurrence Relation**
+
+  The Legendre polynomials satisfy the following recurrence relation
+
+  $$(n + 1) P_{n +1}(x) = (2n + 1) x P_n(x) -n P_{n -1}(x)$$
+  
+  Consider the polynomial $x P_n(x)$. It has degree $n +1$ and is thus in the linear span
+  of $P_0, \cdots, P_{n +1}$. We can hence write $x P_n(x)$ as a linear combination of the first $~n +2$
+  Legendre polynomials:
+  
+  $$
+   xP_n(x) = c_0 P_0(x) +c_1 P_1(x) +\cdots +c_{n +1}P_{n +1}(x)
+  $$
+
+  * Thus
+  
+   $$\scriptsize
+   \begin{aligned}
+      \int_{-1}^1 x P_n(x) P_k(x)\,dx & = c_k \int_{-1}^1 P_k^2(x)\, dx \\ 
+      \rightarrow  c_k 
+      & =\frac{2k +1}{2} \int_{-1}^1 x P_n(x) P_k(x)\,dx
+   \end{aligned}$$
+
+  
+   These integrals vanish unless $k = n \pm 1$ and for this case, we can use
+   
+   $$ \scriptsize
+     c_{n -1}=\frac{2n -1}{2} \int_{-1}^1 x P_n(x) P_{n -1}(x)\,dx=\frac{n}{2n +1}
+   $$
+   
+   $$ \scriptsize
+     c_{n +1}=\frac{2n +3}{2} \int_{-1}^1 x P_n(x) P_{n +1}(x)\,dx=\frac{n +1}{2n +1}
+   $$
+
+  * Hence
+   
+    $$
+      \begin{aligned}
+        xP_n(x) &= c_{n -1} P_{n -1}(x) +c_{n +1}P_{n +1}(x)\\ 
+        &= \frac{n}{2n +1}P_{n -1}(x)+\frac{n +1}{2n +1}P_{n +1}(x)
+     \end{aligned}$$
+  
+     This is what we wanted to prove
+
+$~$
+
+**Example** $\,$ Use the recurrence relation and $P_0(x)=1$, $P_1(x)=x$, to generate the next six Legendre polynomials
+
+$~$
+
+**Example** $\,$ Show that the differential equation
+
+  $$\sin\theta \frac{d^2y}{d\theta^2}+\cos\theta \frac{dy}{d\theta}+n(n+1)\,\sin\theta\,y=0$$
+  
+  can be transformed into Legendre's equation by means of the substitution $x=\cos\theta$
+
+$~$
+
+**Example** $\,$ Find the first three positive values of $~\lambda~$ for which the problem
+
+  $$(1-x^2)y''-2xy'+\lambda y=0$$
+  
+  $$y(0)=0, \;y(x),\;y'(x)\;\text{ bounded on } [-1, 1]$$
+  
+  has nontrivial solutions
+
+$~$
+
+* The differential equation
+
+  $$(1-x^2)y''-2xy'+\left[ n(n+1) -\frac{m^2}{1-x^2} \right]y=0$$
+  
+  is known as the **associated Legendre equation**. When $~m=0$, this equation reduces to Legendre's equation. $~$A solution of the associated equation is
+  
+  $$P_n^m(x)=(1-x^2)^{m/2} \frac{d^m}{dx^m} P_n(x)$$
+  
+  where $P_n(x), \;n=0, 1,2, \cdots$ are the Legendre polynomials. The solutions $P_n^m(x)$ for $m=0,1,2,\cdots,$ are called **associated Legendre functions**
+
+$~$
+
+**Example** $\,$ Answer the following questions
+
+* Find the associated Legendre functions $P_0^0(x)$, $P_1^0(x)$, $P_1^1(x)$, $P_2^1(x)$, $P_2^2(x)$, $P_3^1(x)$, $P_3^2(x)$, and $P_3^3(x)$
+
+* $\,$ What can you say about $P_n^m(x)$ when $m$ is an even non-negative integer?
+
+* $\,$ What can you say about $P_n^m(x)$ when $m$ is a non-negative integer and $m>n$?
+
+* $\,$ Verify that $y=P_1^1(x)$ satisfies the associated Legendre equation when $n=1$ and $m=1$
+
+## Worked Exercises {.unnumbered}
