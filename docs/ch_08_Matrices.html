@@ -68,6 +68,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -153,7 +182,13 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-8-1" id="toc-sec-8-1" class="nav-link active" data-scroll-target="#sec-8-1"><span class="header-section-number">6.1</span> Matrix Algebra</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -177,8 +212,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="sec-8-1" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-8-1"><span class="header-section-number">6.1</span> Matrix Algebra</h2>
+<ul>
+<li><p>A <strong>matrix</strong> is any rectangular array of numbers or functions</p>
+<p><span class="math display">\[\begin{pmatrix}
+  a_{11} &amp; a_{12} &amp; \cdots &amp; a_{1n}\\
+  a_{21} &amp; a_{22} &amp; \ddots &amp; a_{2n} \\
+  \vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
+  a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
+\end{pmatrix}\]</span></p>
+<ul>
+<li>The numbers or functions in the array are <strong>entries</strong> or <strong>elements</strong></li>
+<li>An <span class="math inline">\(n \times n\)</span> matrix is a <strong>square</strong> matrix of <strong>order <span class="math inline">\(n\)</span></strong></li>
+</ul></li>
+<li><p><strong>Column</strong> and <strong>row vectors</strong> are <span class="math inline">\(n \times 1\)</span> and <span class="math inline">\(1 \times n\)</span> matrices</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+  a_1\\
+  a_2\\
+  \vdots\\
+  a_n
+\end{pmatrix},\;
+\begin{pmatrix}
+  a_1 &amp; a_2 &amp; \cdots &amp; a_n
+\end{pmatrix}  
+\]</span></p></li>
+<li><p><strong>Equality of Matrices</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{A} = \left(a_{ij}\right)_{m \times n} \; \text{ and } \;&amp;\mathbf{B} = \left(b_{ij}\right)_{m \times n} \;\text{ are equal } \\[5pt]
+\text{ if } a_{ij}=b_{ij} \;&amp;\text{ for each } i \text{ and } j
+\end{aligned}\]</span></p></li>
+<li><p><strong>Matrix Addition</strong></p>
+<p><span class="math display">\[\mathbf{A} +\mathbf{B} = \left(a_{ij} +b_{ij}\right)_{m \times n}\]</span></p></li>
+<li><p><strong>Scalar Multiplication</strong></p>
+<p><span class="math display">\[k\mathbf{A} = \left(ka_{ij}\right)_{m \times n}\]</span></p></li>
+<li><p><strong>Properties of Matrix Addition and Scalar Multiplication</strong></p>
+<p>Suppose <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\mathbf{B}\)</span>, and <span class="math inline">\(\mathbf{C}\)</span> are <span class="math inline">\(m \times n\)</span> matrices and <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> are scalars. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{A} +\mathbf{B} &amp;= \mathbf{B} +\mathbf{A} \\
+  \mathbf{A} +\left(\mathbf{B} +\mathbf{C}\right) &amp;= \left(\mathbf{A} +\mathbf{B}\right) +\mathbf{C} \\
+  \left(k_1 k_2\right)\mathbf{A} &amp;= k_1 \left(k_2\mathbf{A}\right) \\
+  k_1\left(\mathbf{A} +\mathbf{B}\right)&amp;=k_1\mathbf{A} +k_1\mathbf{B} \\
+  \left(k_1 +k_2\right)\mathbf{A} &amp;= k_1 \mathbf{A} +k_2\mathbf{A}  
+\end{aligned}\]</span></p></li>
+<li><p><strong>Matrix multiplication</strong></p>
+<p><span class="math display">\[\mathbf{A}\mathbf{B}=\left(\sum_{k=1}^p a_{ik} b_{kj}\right)_{m \times n}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(m \times p\)</span> matrix, <span class="math inline">\(~\mathbf{B}\)</span> is a <span class="math inline">\(p \times n\)</span> matrix, and <span class="math inline">\(~\mathbf{A}\mathbf{B}\)</span> is the <span class="math inline">\(m \times n\)</span> matrix</p>
+<ul>
+<li><p>In general, <span class="math inline">\(~\mathbf{A}\mathbf{B}\neq\mathbf{B}\mathbf{A}\)</span></p></li>
+<li><p><strong>Associative Law:</strong> <span class="math inline">\(~\mathbf{A}\left(\mathbf{B}\mathbf{C}\right)=\left(\mathbf{A}\mathbf{B}\right)\mathbf{C}\)</span></p></li>
+<li><p><strong>Distributive Law:</strong> <span class="math inline">\(~\mathbf{A}\left(\mathbf{B}+\mathbf{C}\right)=\mathbf{A}\mathbf{B} +\mathbf{A}\mathbf{C}\)</span></p></li>
+</ul></li>
+<li><p><strong>Transpose of a Matrix</strong></p></li>
+</ul>
+<p><span class="math display">\[\mathbf{A}^T =
+   {\scriptsize\begin{pmatrix}
+     a_{11} &amp; a_{21} &amp; \cdots &amp; a_{m1}\\
+     a_{12} &amp; a_{22} &amp; \ddots &amp; a_{m2} \\
+     \vdots &amp; \ddots &amp; \ddots &amp; \vdots \\
+     a_{1n} &amp; a_{2n} &amp; \cdots &amp; a_{mn}
+   \end{pmatrix}}\]</span></p>
+<ul>
+<li><p><strong>Properties of Transpose</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+   \left(\mathbf{A}^T\right)^T &amp;= \mathbf{A} \\
+   \left(\mathbf{A} +\mathbf{B}\right)^T
+     &amp;=\mathbf{A}^T +\mathbf{B}^T \\         
+   \left(\mathbf{A}\mathbf{B}\right)^T
+     &amp;=\mathbf{B}^T\mathbf{A}^T \\
+   \left(k\mathbf{A}\right)^T
+    &amp;=k\mathbf{A}^T
+\end{aligned}\]</span></p></li>
+<li><p><strong>Special Matrices</strong></p>
+<ul>
+<li><p>In a <strong>zero matrix</strong>, <span class="math inline">\(~\)</span>all entries are zeros</p></li>
+<li><p>In a <strong>triangular matrix</strong>, <span class="math inline">\(~\)</span>all entries above or below the main diagonal are zeros (lower triangular or upper triangular)</p></li>
+<li><p>In a <strong>diagonal matrix</strong>, <span class="math inline">\(~\)</span>all entries not on the main diagonal are zeros</p></li>
+<li><p>A <strong>scalar matrix</strong> is a diagonal one where all entries on the main diagonal are equal. <span class="math inline">\(~\)</span>If those entries are <span class="math inline">\(1\)</span>’s, it is an <strong>identity matrix</strong>, <span class="math inline">\(\mathbf{I}\)</span> (or <span class="math inline">\(~\mathbf{I}_n\)</span> when there is a need to emphasize the order of the matrix)</p></li>
+<li><p>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is <strong>symmetric</strong> <span class="math inline">\(~\)</span>if <span class="math inline">\(\mathbf{A}^T=\mathbf{A}\)</span></p></li>
+</ul></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
