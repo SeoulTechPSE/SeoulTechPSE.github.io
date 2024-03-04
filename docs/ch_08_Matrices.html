@@ -192,6 +192,8 @@ window.Quarto = {
   <li><a href="#sec-8-4" id="toc-sec-8-4" class="nav-link" data-scroll-target="#sec-8-4"><span class="header-section-number">6.4</span> Determinants</a></li>
   <li><a href="#sec-8-5" id="toc-sec-8-5" class="nav-link" data-scroll-target="#sec-8-5"><span class="header-section-number">6.5</span> Properties of Determinants</a></li>
   <li><a href="#sec-8-6" id="toc-sec-8-6" class="nav-link" data-scroll-target="#sec-8-6"><span class="header-section-number">6.6</span> Inverse of a Matrix</a></li>
+  <li><a href="#sec-8-7" id="toc-sec-8-7" class="nav-link" data-scroll-target="#sec-8-7"><span class="header-section-number">6.7</span> Cramer’s Rule</a></li>
+  <li><a href="#sec-8-8" id="toc-sec-8-8" class="nav-link" data-scroll-target="#sec-8-8"><span class="header-section-number">6.8</span> The Eigenvalue Problem</a></li>
   </ul>
 </nav>
     </div>
@@ -1047,6 +1049,160 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}=\mathbf{I}\]</span></p>
 <p>then <span class="math inline">\(\mathbf{A}\)</span> is said to be <strong>nonsingular</strong> or <strong>invertible</strong> and <span class="math inline">\(\mathbf{B}\)</span> is the <strong>inverse</strong> of <span class="math inline">\(\mathbf{A}\)</span></p></li>
 <li><p>An <span class="math inline">\(n \times n\)</span> matrix that has no inverse is called <strong>singular</strong>. If <span class="math inline">\(\mathbf{A}\)</span> is nonsingular, <span class="math inline">\(~\)</span>its inverse is denoted by <span class="math inline">\(\mathbf{B}=\mathbf{A}^{-1}\)</span></p></li>
+<li><p><strong>Properties of the Inverse</strong></p>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> be nonsingular matrices. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \left(\mathbf{A}^{-1}\right)^{-1}&amp;=\mathbf{A} \\
+  \left(\mathbf{A}\mathbf{B}\right)^{-1}&amp;=\mathbf{B}^{-1}\mathbf{A}^{-1} \\
+  \left(\mathbf{A}^T\right)^{-1}&amp;=\left(\mathbf{A}^{-1}\right)^T
+\end{aligned}\]</span></p></li>
+<li><p><strong>Adjoint Matrix</strong></p>
+<p><span class="math display">\[\mathrm{adj}(\mathbf{A})=
+\begin{pmatrix}
+   C_{11} &amp; C_{12} &amp; \cdots &amp; C_{1n}\\
+   C_{21} &amp; C_{22} &amp; \cdots &amp; C_{2n}\\
+   \vdots &amp;        &amp;        &amp; \vdots\\
+   C_{n1} &amp; C_{n2} &amp; \cdots &amp; C_{nn}
+\end{pmatrix}^T\]</span></p></li>
+<li><p><strong>Finding the Inverse</strong></p>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(n \times n\)</span> matrix. <span class="math inline">\(~\)</span>If <span class="math inline">\(\mathrm{det}(\mathbf{A})\neq 0\)</span> (<strong>nonsingular</strong>), then</p>
+<p><span class="math display">\[\mathbf{A}^{-1}=\frac{\mathrm{adj}(\mathbf{A})}{\mathrm{det}(\mathbf{A})}\]</span></p>
+<p>or</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch08_figure03.png" title="Inverse" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div></li>
+<li><p><strong>Using the Inverse to Solve Systems</strong></p>
+<p>The coefficient matrix <span class="math inline">\(\mathbf{A}\)</span> is <span class="math inline">\(n \times n\)</span>. In particular, <span class="math inline">\(~\)</span>if <span class="math inline">\(\mathbf{A}\)</span> is nonsingular, <span class="math inline">\(~\)</span>the system <span class="math inline">\(\mathbf{A}\mathbf{x}=\mathbf{b}\)</span> can be solved by</p>
+<p><span class="math display">\[\mathbf{x}=\mathbf{A}^{-1}\mathbf{b}\]</span></p>
+<p>A homogeneous system of <span class="math inline">\(n\)</span> linear equations in <span class="math inline">\(~n\)</span> unknowns <font color="blue"><span class="math inline">\(\mathbf{A}\mathbf{x}=\mathbf{0}\)</span></font> <span class="math inline">\(~\)</span>has</p>
+<ul>
+<li><p>only the trivial solution if and only if <span class="math inline">\(\mathbf{A}\)</span> is nonsingular</p></li>
+<li><p><font color="blue">a nontrivial solution if and only if <span class="math inline">\(\mathbf{A}\)</span> is singular</font></p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Verify that the matrix <span class="math inline">\(\mathbf{B}\)</span> is the inverse of the matrix <span class="math inline">\(\mathbf{A}\)</span></p>
+<p><span class="math display">\[\mathbf{A}=\begin{pmatrix}
+1 &amp; \frac{1}{2} \\
+2 &amp; \frac{3}{2}
+\end{pmatrix}, \;\;
+\mathbf{B}=\begin{pmatrix}
+\phantom{-}3 &amp; -1 \\
+-4 &amp; \phantom{-}2
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Determine whether the given matrix is singular or nonsingular. <span class="math inline">\(\,\)</span>If it is nonsingular, find the inverse using <span class="math inline">\(\mathbf{A}^{-1}=\frac{\mathrm{adj}\,\mathbf{A}}{\mathrm{det}\,\mathbf{A}}\)</span></p>
+<p><span class="math display">\[\begin{pmatrix}
+3&amp;  0&amp; \phantom{-}0\\
+0&amp;  6&amp; \phantom{-}0\\
+0&amp;  0&amp; -2
+\end{pmatrix}, \;\;\;
+\begin{pmatrix}
+0 &amp; -1 &amp; \phantom{-}1 &amp; 4\\
+3 &amp; \phantom{-}2 &amp; -2 &amp; 1\\
+0 &amp; \phantom{-}4 &amp; \phantom{-}0 &amp; 1\\
+1 &amp; \phantom{-}0 &amp; -1 &amp; 1
+\end{pmatrix}, \;\;\;
+\begin{pmatrix}
+1 &amp; \phantom{-}0 &amp; 0 &amp; 0\\
+0 &amp; \phantom{-}1 &amp; 0 &amp; 0\\
+0 &amp; -2 &amp; 1 &amp; 0\\
+0 &amp; -3 &amp; 0 &amp; 1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the inverse of the given matrix or show that no inverse exists</p>
+<p><span class="math display">\[\begin{pmatrix}
+1 &amp; 2 &amp; 3\\
+4 &amp; 5 &amp; 6\\
+7 &amp; 8 &amp; 9
+\end{pmatrix},\;\;
+\begin{pmatrix}
+\phantom{-}4 &amp; \phantom{-}2 &amp; 3 \\
+\phantom{-}2 &amp; \phantom{-}1 &amp; 0\\
+-1 &amp; -2 &amp; 0
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> If <span class="math inline">\(\mathbf{A}\)</span> is nonsingular, then <span class="math inline">\(\left( \mathbf{A}^T\right)^{-1}=\left( \mathbf{A}^{-1}\right)^T\)</span>, <span class="math inline">\(~\)</span>verify this for</p>
+<p><span class="math display">\[\mathbf{A}=\begin{pmatrix}
+1 &amp; 4\\
+2 &amp; 10
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the inverse of the rotation matrix</p>
+<p><span class="math display">\[\mathbf{M}=\begin{pmatrix}
+\cos\theta &amp; -\sin\theta\\
+\sin\theta &amp; \phantom{-}\cos\theta
+\end{pmatrix}\]</span></p>
+<p>What does <span class="math inline">\(\mathbf{A}=\mathbf{M}^{-1}\mathbf{B}\)</span> represents?</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> A nonsingular matrix <span class="math inline">\(\mathbf{A}\)</span> is said to be <strong>orthogonal</strong> if <span class="math inline">\(\mathbf{A}^{-1}=\mathbf{A}^T\)</span></p>
+<p><strong>1.</strong> <span class="math inline">\(~\)</span> Verify tha the rotation matrix is orthogonal</p>
+<p><strong>2.</strong> <span class="math inline">\(~\)</span> Verify that <span class="math display">\[{\scriptsize\mathbf{A}=\frac{1}{\sqrt{6}}\begin{pmatrix}
+\sqrt{2} &amp; \phantom{-}0 &amp; -2 \\
+\sqrt{2} &amp; \phantom{-}\sqrt{3} &amp; \phantom{-}1\\
+\sqrt{2} &amp;  -\sqrt{3} &amp; \phantom{-}1
+\end{pmatrix}}~\]</span> is an orthogonal matrix</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Answer the questions based on the supposition</p>
+<ul>
+<li><p>Show that if <span class="math inline">\(\mathbf{A}\)</span> is an orthogonal matrix, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}\,\mathbf{A}=\pm 1\)</span></p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are nonsingular <span class="math inline">\(~n\times n\)</span> matrices. Then show that <span class="math inline">\(\mathbf{AB}~\)</span> is nonsingular</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are <span class="math inline">\(~n\times n\)</span> matrices and that either <span class="math inline">\(\mathbf{A}\)</span> or <span class="math inline">\(\mathbf{B}~\)</span> is singular. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{AB}~\)</span> is singular</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}~\)</span> is a nonsingular matrix. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\displaystyle\mathrm{det}\,\mathbf{A}^{-1}=\frac{1}{\mathrm{det}\,\mathbf{A}}\)</span></p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}^2=\mathbf{A}\)</span>. <span class="math inline">\(~\)</span>Then show that either <span class="math inline">\(\mathbf{A}=\mathbf{I}~\)</span> or <span class="math inline">\(~\mathbf{A}~\)</span> is singular</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are <span class="math inline">\(~n\times n\)</span> matrices. <span class="math inline">\(~\mathbf{A}~\)</span> is nonsingular, <span class="math inline">\(~\)</span> and <span class="math inline">\(\mathbf{AB}=\mathbf{0}\)</span>. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{B}=\mathbf{0}\)</span></p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are <span class="math inline">\(~n\times n\)</span> matrices. <span class="math inline">\(~\mathbf{A}~\)</span> is nonsingular, <span class="math inline">\(~\)</span> and <span class="math inline">\(\mathbf{AB}=\mathbf{AC}\)</span>. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{B}=\mathbf{C}\)</span></p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are nonsingular <span class="math inline">\(~n\times n\)</span> matrices. Is <span class="math inline">\(~\mathbf{A} +\mathbf{B}~\)</span> necessarily nonsingular?</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}~\)</span> is a nonsingular matrix. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{A}^T~\)</span> is nonsingular</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are <span class="math inline">\(~n\times n~\)</span> nonzero matrices and <span class="math inline">\(\mathbf{AB}=\mathbf{0}\)</span>. <span class="math inline">\(~\)</span>Then show that both <span class="math inline">\(\mathbf{A}~\)</span> and <span class="math inline">\(~\mathbf{B~}\)</span> are singular</p></li>
+</ul>
+</section>
+<section id="sec-8-7" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="sec-8-7"><span class="header-section-number">6.7</span> Cramer’s Rule</h2>
+<p>If <span class="math inline">\(\mathrm{det}(\mathbf{A}) \neq 0\)</span>, <span class="math inline">\(~\)</span>the solution of the system is given by</p>
+<p><span class="math display">\[x_k=\frac{\mathrm{det}(\mathbf{A}_k)}{\mathrm{det}(\mathbf{A})}, \;\;{\scriptsize k=1, 2, \cdots, n}\]</span></p>
+<p>where</p>
+<p><span class="math display">\[{\scriptsize\mathbf{A}_k=
+  \begin{pmatrix}
+    a_{11} &amp; \cdots &amp; a_{1k-1} &amp; {\color{red} {b_1}}    &amp; a_{1k+1} &amp; \cdots &amp; a_{1n}\\
+    a_{21} &amp; \cdots &amp; a_{2k-1} &amp; {\color{red} {b_2}}    &amp; a_{2k+1} &amp; \cdots &amp; a_{2n} \\
+    \vdots &amp;        &amp; \vdots   &amp; {\color{red} {\vdots}} &amp; \vdots   &amp;        &amp; \vdots\\
+    a_{n1} &amp; \cdots &amp; a_{nk-1} &amp; {\color{red} {b_n}}    &amp; a_{nk+1} &amp; \cdots &amp; a_{nn}
+  \end{pmatrix}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given system of equations by Cramer’s rule</p>
+<p><span class="math display">\[
+  \begin{aligned}
+   -3x_1 + x_2 &amp;= 3 \\
+    2x_1 -4x_2 &amp;= -6 \\ \\
+    0.1x_1 -0.4x_2 &amp;= 0.13 \\
+    x_1 -x_2 &amp;= 0.4 \\ \\
+    2x + y &amp;=1\\
+    3x +2y &amp;=-2
+  \end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Consider the system</p>
+<p><span class="math display">\[
+  \begin{aligned}
+    x_1 + x_2 &amp;= 1 \\
+    x_1 +\epsilon x_2 &amp;= 2
+  \end{aligned}\]</span></p>
+<p>When <span class="math inline">\(\epsilon\)</span> is close to <span class="math inline">\(1\)</span>, <span class="math inline">\(~\)</span>the lines that make up the system are almost parallel</p>
+<p><strong>1.</strong> Use Cramer’s rule to show that a solution of the system is</p>
+<p><span class="math display">\[{\scriptsize x_1 = 1 -\frac{1}{\epsilon -1}, \;\;x_2 = \frac{1}{\epsilon - 1}}\]</span></p>
+<p><strong>2.</strong> The system is said to be ill-conditioned since small changes in the input data(for example, the coefficients) causes a significant or large change in the output or solution. <span class="math inline">\(~\)</span>Verify this by finding the solution of the system for <span class="math inline">\(\epsilon=1.01\)</span> and then for <span class="math inline">\(\epsilon=0.99\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-8" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="sec-8-8"><span class="header-section-number">6.8</span> The Eigenvalue Problem</h2>
+<ul>
+<li><p>Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(n \times n~\)</span> matrix. <span class="math inline">\(~\)</span>A number <span class="math inline">\(\lambda\)</span> is said to be an <strong>eigenvalue</strong> of <span class="math inline">\(\mathbf{A}\)</span> if there exists a nonzero solution vector <span class="math inline">\(\mathbf{k}\)</span> of the linear system</p>
+<p><span class="math display">\[\mathbf{A}\mathbf{k}=\lambda\mathbf{k}\]</span></p>
+<p>and the solution vector <span class="math inline">\(\mathbf{k}\)</span> is said to be an <strong>eigenvector</strong> corresponding to the eigenvalue <span class="math inline">\(\lambda\)</span></p></li>
+<li><p>The problem of solving <span class="math inline">\(~\mathbf{A}\mathbf{k}=\lambda\mathbf{k}~\)</span> for nonzero vectors <span class="math inline">\(\mathbf{k}\)</span> is called to be the <strong>eigenvalue problem</strong> for <span class="math inline">\(\mathbf{A}\)</span></p></li>
 </ul>
 
 

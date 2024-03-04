@@ -983,3 +983,219 @@ $~$
 * An $n \times n$ matrix that has no inverse is called **singular**. If $\mathbf{A}$ is nonsingular, 
   $~$its inverse is denoted by $\mathbf{B}=\mathbf{A}^{-1}$
 
+* **Properties of the Inverse**
+
+  Let $\mathbf{A}$ and $\mathbf{B}~$ be nonsingular matrices. Then
+  
+  $$
+  \begin{aligned}
+    \left(\mathbf{A}^{-1}\right)^{-1}&=\mathbf{A} \\
+    \left(\mathbf{A}\mathbf{B}\right)^{-1}&=\mathbf{B}^{-1}\mathbf{A}^{-1} \\
+    \left(\mathbf{A}^T\right)^{-1}&=\left(\mathbf{A}^{-1}\right)^T
+  \end{aligned}$$
+
+* **Adjoint Matrix**
+
+  $$\mathrm{adj}(\mathbf{A})=
+   \begin{pmatrix}
+     C_{11} & C_{12} & \cdots & C_{1n}\\ 
+     C_{21} & C_{22} & \cdots & C_{2n}\\ 
+     \vdots &        &        & \vdots\\ 
+     C_{n1} & C_{n2} & \cdots & C_{nn}
+   \end{pmatrix}^T$$
+
+* **Finding the Inverse**
+  
+  Let $\mathbf{A}$ be an $n \times n$ matrix. $~$If $\mathrm{det}(\mathbf{A})\neq 0$ (**nonsingular**), then
+  
+  $$\mathbf{A}^{-1}=\frac{\mathrm{adj}(\mathbf{A})}{\mathrm{det}(\mathbf{A})}$$
+
+  or
+
+  ![](figures/ch08_figure03.png "Inverse"){width="50%" fig-align="center"}
+
+* **Using the Inverse to Solve Systems**
+
+  The coefficient matrix $\mathbf{A}$ is $n \times n$. In particular, $~$if $\mathbf{A}$ is nonsingular,
+  $~$the system $\mathbf{A}\mathbf{x}=\mathbf{b}$ can be solved by
+  
+  $$\mathbf{x}=\mathbf{A}^{-1}\mathbf{b}$$
+  
+  A homogeneous system of $n$ linear equations in $~n$ unknowns <font color='blue'>$\mathbf{A}\mathbf{x}=\mathbf{0}$</font> $~$has
+  
+  * only the trivial solution if and only if $\mathbf{A}$ is nonsingular
+  
+  * <font color='blue'>a nontrivial solution if and only if $\mathbf{A}$ is singular</font>
+
+$~$
+
+**Example** $\,$ Verify that the matrix $\mathbf{B}$ is the inverse of the matrix $\mathbf{A}$
+
+$$\mathbf{A}=\begin{pmatrix}
+ 1 & \frac{1}{2} \\ 
+ 2 & \frac{3}{2}
+\end{pmatrix}, \;\;
+\mathbf{B}=\begin{pmatrix}
+ \phantom{-}3 & -1 \\ 
+ -4 & \phantom{-}2
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Determine whether the given matrix is singular or nonsingular. $\,$If it is nonsingular, find the inverse using $\mathbf{A}^{-1}=\frac{\mathrm{adj}\,\mathbf{A}}{\mathrm{det}\,\mathbf{A}}$
+
+$$\begin{pmatrix}
+ 3&  0& \phantom{-}0\\ 
+ 0&  6& \phantom{-}0\\ 
+ 0&  0& -2 
+\end{pmatrix}, \;\;\;
+\begin{pmatrix}
+ 0 & -1 & \phantom{-}1 & 4\\ 
+ 3 & \phantom{-}2 & -2 & 1\\ 
+ 0 & \phantom{-}4 & \phantom{-}0 & 1\\ 
+ 1 & \phantom{-}0 & -1 & 1 
+\end{pmatrix}, \;\;\;
+\begin{pmatrix}
+ 1 & \phantom{-}0 & 0 & 0\\ 
+ 0 & \phantom{-}1 & 0 & 0\\ 
+ 0 & -2 & 1 & 0\\ 
+ 0 & -3 & 0 & 1
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Find the inverse of the given matrix or show that no inverse exists
+  
+$$\begin{pmatrix}
+ 1 & 2 & 3\\ 
+ 4 & 5 & 6\\ 
+ 7 & 8 & 9 
+\end{pmatrix},\;\;
+\begin{pmatrix}
+ \phantom{-}4 & \phantom{-}2 & 3 \\ 
+ \phantom{-}2 & \phantom{-}1 & 0\\ 
+ -1 & -2 & 0
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ If $\mathbf{A}$ is nonsingular, then $\left( \mathbf{A}^T\right)^{-1}=\left( \mathbf{A}^{-1}\right)^T$, $~$verify this for
+  
+$$\mathbf{A}=\begin{pmatrix}
+ 1 & 4\\ 
+ 2 & 10 
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Find the inverse of the rotation matrix 
+
+$$\mathbf{M}=\begin{pmatrix}
+ \cos\theta & -\sin\theta\\ 
+ \sin\theta & \phantom{-}\cos\theta 
+\end{pmatrix}$$
+  
+What does $\mathbf{A}=\mathbf{M}^{-1}\mathbf{B}$ represents?
+
+$~$
+
+**Example** $\,$ A nonsingular matrix $\mathbf{A}$ is said to be **orthogonal** if $\mathbf{A}^{-1}=\mathbf{A}^T$ 
+
+**1.** $~$ Verify tha the rotation matrix is orthogonal
+  
+**2.** $~$ Verify that 
+$${\scriptsize\mathbf{A}=\frac{1}{\sqrt{6}}\begin{pmatrix}
+ \sqrt{2} & \phantom{-}0 & -2 \\ 
+ \sqrt{2} & \phantom{-}\sqrt{3} & \phantom{-}1\\ 
+ \sqrt{2} &  -\sqrt{3} & \phantom{-}1
+\end{pmatrix}}~$$ is an orthogonal matrix
+
+$~$
+
+**Example** $\,$ Answer the questions based on the supposition
+
+* Show that if $\mathbf{A}$ is an orthogonal matrix, $~$then $\mathrm{det}\,\mathbf{A}=\pm 1$
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are nonsingular $~n\times n$ matrices. Then show that $\mathbf{AB}~$ is nonsingular
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are $~n\times n$ matrices and that either $\mathbf{A}$ or $\mathbf{B}~$ is singular. $~$Then show that $\mathbf{AB}~$ is singular
+
+* Suppose $\mathbf{A}~$ is a nonsingular matrix. $~$Then show that $\displaystyle\mathrm{det}\,\mathbf{A}^{-1}=\frac{1}{\mathrm{det}\,\mathbf{A}}$
+
+* Suppose $\mathbf{A}^2=\mathbf{A}$. $~$Then show that either $\mathbf{A}=\mathbf{I}~$ or $~\mathbf{A}~$ is singular 
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are $~n\times n$ matrices. $~\mathbf{A}~$ is nonsingular, $~$ and 
+$\mathbf{AB}=\mathbf{0}$. $~$Then show that $\mathbf{B}=\mathbf{0}$
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are $~n\times n$ matrices. $~\mathbf{A}~$ is nonsingular, $~$ and $\mathbf{AB}=\mathbf{AC}$. $~$Then show that $\mathbf{B}=\mathbf{C}$
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are nonsingular $~n\times n$ matrices. Is $~\mathbf{A} +\mathbf{B}~$ necessarily nonsingular?
+
+* Suppose $\mathbf{A}~$ is a nonsingular matrix. $~$Then show that $\mathbf{A}^T~$ is nonsingular
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are $~n\times n~$ nonzero matrices and $\mathbf{AB}=\mathbf{0}$. $~$Then show that both $\mathbf{A}~$ and $~\mathbf{B~}$ are singular
+
+
+## Cramer's Rule {#sec-8-7}
+
+If $\mathrm{det}(\mathbf{A}) \neq 0$, $~$the solution of the system is given by
+
+$$x_k=\frac{\mathrm{det}(\mathbf{A}_k)}{\mathrm{det}(\mathbf{A})}, \;\;{\scriptsize k=1, 2, \cdots, n}$$
+  
+where
+
+$${\scriptsize\mathbf{A}_k=
+  \begin{pmatrix}
+    a_{11} & \cdots & a_{1k-1} & {\color{red} {b_1}}    & a_{1k+1} & \cdots & a_{1n}\\ 
+    a_{21} & \cdots & a_{2k-1} & {\color{red} {b_2}}    & a_{2k+1} & \cdots & a_{2n} \\ 
+    \vdots &        & \vdots   & {\color{red} {\vdots}} & \vdots   &        & \vdots\\ 
+    a_{n1} & \cdots & a_{nk-1} & {\color{red} {b_n}}    & a_{nk+1} & \cdots & a_{nn}
+  \end{pmatrix}}$$
+
+$~$
+
+**Example** $\,$ Solve the given system of equations by Cramer's rule
+
+$$
+  \begin{aligned}
+   -3x_1 + x_2 &= 3 \\ 
+    2x_1 -4x_2 &= -6 \\ \\
+    0.1x_1 -0.4x_2 &= 0.13 \\ 
+    x_1 -x_2 &= 0.4 \\ \\
+    2x + y &=1\\
+    3x +2y &=-2
+  \end{aligned}$$
+
+$~$
+
+**Example** $\,$ Consider the system
+
+$$
+  \begin{aligned}
+    x_1 + x_2 &= 1 \\ 
+    x_1 +\epsilon x_2 &= 2 
+  \end{aligned}$$
+
+When $\epsilon$ is close to $1$, $~$the lines that make up the system are almost parallel
+  
+**1.** Use Cramer's rule to show that a solution of the system is
+  
+  $${\scriptsize x_1 = 1 -\frac{1}{\epsilon -1}, \;\;x_2 = \frac{1}{\epsilon - 1}}$$
+  
+**2.** The system is said to be ill-conditioned since small changes in the input data(for example, the coefficients) causes a significant or large change in the output or solution. $~$Verify this by finding the solution of the system for $\epsilon=1.01$ and then for $\epsilon=0.99$
+
+$~$
+
+## The Eigenvalue Problem {#sec-8-8}
+
+* Let $\mathbf{A}$ be an $n \times n~$ matrix. $~$A number $\lambda$ is said to be an **eigenvalue** of 
+  $\mathbf{A}$ if there exists a nonzero solution vector $\mathbf{k}$ of the linear system
+
+  $$\mathbf{A}\mathbf{k}=\lambda\mathbf{k}$$
+
+  and the solution vector $\mathbf{k}$ is said to be an **eigenvector** corresponding to the eigenvalue $\lambda$
+  
+* The problem of solving $~\mathbf{A}\mathbf{k}=\lambda\mathbf{k}~$ for nonzero vectors $\mathbf{k}$ is
+  called to be the **eigenvalue problem** for $\mathbf{A}$
+
+
