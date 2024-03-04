@@ -1694,9 +1694,9 @@ A.eigenvects()
 
 ```{python}
 # | echo: true
-v1 = A.eigenvects()[1][2][0].T
-v2 = A.eigenvects()[0][2][0].T
-v3 = A.eigenvects()[0][2][1].T
+v1 = A.eigenvects()[0][2][0].T
+v2 = A.eigenvects()[0][2][1].T
+v3 = A.eigenvects()[1][2][0].T
 
 B = sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], True)); B
 ```
@@ -1756,3 +1756,224 @@ $~$
 
 ## Approximation of Eigenvalues {#sec-8-11}
 
+* Let $\lambda_1$, $\lambda_2$, $\cdots$, $\lambda_k$, $\cdots$, $\lambda_n$ denote the eigenvalues of an $n \times n$ matrix $\mathbf{A}$. The eigenvalue $\lambda_k$ is said to be the **dominant eigenvalue** of $\mathbf{A}$ if $|\lambda_k| > |\lambda_i|$, $~i=1,2,\cdots,n$, $~$but $\text{ }i \neq k$
+
+* An eigenvector corresponding to $\lambda_k$ is called the **dominant eigenvector** of $\mathbf{A}$
+
+* **Power Method**
+
+  Let us assume that the eigenvalues of $\mathbf{A}$ are such that
+  $|\lambda_1| > |\lambda_2| \geq |\lambda_3| \geq \cdots \geq |\lambda_n|$
+  and that the corresponding $n$ eigenvectors $\mathbf{k}_1$, $\mathbf{k}_2$, $\cdots$, $\mathbf{k}_n$
+  are linearly independent. $~$Because of this last assumption, $~n$ eigenvectors
+  can serve as a basis for $\mathbb{R}^n$. $~$For any nonzero $n \times 1$ vector $\mathbf{x}_0$, 
+  
+  $$ \mathbf{x}_0 =c_1 \mathbf{k}_1 +c_2 \mathbf{k}_2 +c_3 \mathbf{k}_3 +\cdots +c_n \mathbf{k}_n $$
+
+  We shall also assume $\mathbf{x}_0$ is chosen so that $c_1 \neq 0$. $\text{ }$ We do the following procedure
+  
+  $$\scriptsize
+  \begin{aligned}
+      \mathbf{A}\mathbf{x}_0 & = c_1 \mathbf{A}\mathbf{k}_1 +c_2 \mathbf{A}\mathbf{k}_2 
+         +c_3 \mathbf{A}\mathbf{k}_3 +\cdots +c_n \mathbf{A}\mathbf{k}_n\\ 
+     &\;\big\Downarrow \;\;\mathbf{x}_i=\mathbf{A}\mathbf{x}_{i -1}, \;\mathbf{A}\mathbf{k}_j=\lambda_j \mathbf{k}_j\\ 
+      \mathbf{x}_1 & = c_1 \lambda_1\mathbf{k}_1 +c_2 \lambda_2\mathbf{k}_2 
+         +c_3 \lambda_3\mathbf{k}_3 +\cdots +c_n \lambda_n\mathbf{k}_n\\ 
+     &\Downarrow \\
+     \mathbf{A}\mathbf{x}_1 & = c_1 \lambda_1\mathbf{A}\mathbf{k}_1 +c_2 \lambda_2\mathbf{A}\mathbf{k}_2 
+         +c_3 \lambda_3\mathbf{A}\mathbf{k}_3 +\cdots +c_n \lambda_n\mathbf{A}\mathbf{k}_n\\ 
+     &\Downarrow \\
+     \mathbf{x}_2 & = c_1 \lambda_1^2\mathbf{k}_1 +c_2 \lambda_2^2\mathbf{k}_2 
+         +c_3 \lambda_3^2\mathbf{k}_3 +\cdots +c_n \lambda_n^2\mathbf{k}_n\\
+     &\Downarrow \\
+     \mathbf{x}_m & = c_1 \lambda_1^m\mathbf{k}_1 +c_2 \lambda_2^m\mathbf{k}_2 
+         +c_3 \lambda_3^m\mathbf{k}_3 +\cdots +c_n \lambda_n^m\mathbf{k}_n\\ 
+     & = \lambda_1^m \left[c_1 \mathbf{k}_1 +c_2 \left(\frac{\lambda_2}{\lambda_1}\right)^m\mathbf{k}_2 
+         +c_3 \left(\frac{\lambda_3}{\lambda_1}\right)^m\mathbf{k}_3 +\cdots +c_n \left(\frac{\lambda_n}{\lambda_1}\right)^m\mathbf{k}_n \right]\\        & \;\big\Downarrow \;\;m \rightarrow \infty\\
+      \mathbf{x}_m &\simeq \lambda_1^m c_1 \mathbf{k}_1   
+  \end{aligned}$$
+
+*  For large values of $m$ and under all the assumptions that were made, $~$the $n \times 1$ vector $\mathbf{x}_m$ is an approximation to a dominant eigenvector associated with the dominant eigenvalue $\lambda_1$
+
+* If $\mathbf{x}_m$ is an approximation to a dominant eigenvector, $~$then the dominant eigenvalue $\lambda_1$ can be approximated by the **Rayleigh quotient**
+  
+  $$
+   \lambda_1=\frac{\mathbf{A}\mathbf{x}_m \cdot \mathbf{x}_m}{\mathbf{x}_m \cdot \mathbf{x}_m}
+  $$
+
+* Iteration often results in vectors whose entries become very large. $~$Large numbers can cause a problem in computation. One way around this difficulty is to use a **scaled-down** normalized vector
+  
+  $$
+  \mathbf{x}_m \leftarrow 
+    \frac{\mathbf{x}_m}{\left \| \mathbf{x}_m \right \|}$$
+
+```{python}
+# | echo: true
+import pprint
+import numpy as np
+
+def power_method(A, n_iteration):
+    # Ideally choose a random vector
+    # To decrease the chance that 
+    #   our vector is orthogonal to the eigenvector
+    k = np.random.rand(A.shape[1])
+
+    for _ in range(n_iteration):
+        # calculate the matrix-by-vector product Ak
+        k_1 = np.dot(A, k)
+
+        # calculate the norm
+        k_1_norm = np.linalg.norm(k_1)
+
+        # re normalize the vector
+        k = k_1 /k_1_norm
+
+    return k
+
+def Rayleigh_quotient(A, k):
+    # calculate Rayleigh quotient
+    lambda_ = np.dot(np.dot(A, k), k) /np.dot(k, k)
+    
+    return lambda_
+
+A = np.array([[4, 2], [3, -1]])
+k_1 = power_method(A, 10)
+lambda_1 = Rayleigh_quotient(A, k_1)
+
+print('A =')
+pprint.pprint(A)
+print('\nDominant Eigenvector:', np.around(k_1, 3))
+print('Dominant Eigenvalue:', np.around(lambda_1, 3))
+
+```
+
+* **Method of Deflation**
+
+  * After we have found the dominant eigenvalue $\lambda_1$ of a matrix $\mathbf{A}$, $\,$it may still be necessary to find nondominant eigenvalues. $\,$We will limit the discussion to the case where $\mathbf{A}$ is a *symmetric* matrix
+  
+  * Suppose $\lambda_1$ and $\mathbf{k}_1$ are, respectively, the dominant eigenvalue and a corresponding *normalized* eigenvector of a symmetric matrix $\mathbf{A}$. $\,$Furthermore, $\,$suppose the eigenvalues of $\mathbf{A}$ are such that
+  
+    $$ |\lambda_1| > |\lambda_2| > |\lambda_3| > \cdots > |\lambda_n| $$
+ 
+    In this case, the matrix
+  
+    $$ \mathbf{A}_1 =\mathbf{A} -\lambda_1\mathbf{k}_1\mathbf{k}_1^T $$
+  
+    has eigenvalues $0$, $|\lambda_2|$, $|\lambda_3|$, $\cdots$, $|\lambda_n|$ and that eigenvectors of $\mathbf{A}_1$ are also eigenvectors of $\mathbf{A}$. $~$ Note that $\lambda_2$ is now the dominant eigenvalue of $\mathbf{A}_1$
+
+```{python}
+# | echo: true
+def deflation_method(A, n_iteration):
+    
+    n = A.shape[1]
+
+    K = np.zeros((n, n))
+    Lambda = np.zeros(n)
+    
+    k0 = np.zeros(n)
+    L0 = 0
+    for i in range(n):
+        A = A -L0 *np.outer(k0, k0)
+        k0 = power_method(A, n_iteration)
+        L0 = Rayleigh_quotient(A, k0)
+        K[i, :] = k0
+        Lambda[i] = L0
+        
+    return K, Lambda      
+
+# symmetric matrix
+A = np.array([[1, 2, -1], [2, 1, 1], [-1, 1, 0]])
+
+K, Lambda = deflation_method(A, 20)  
+
+print('A =')
+pprint.pprint(A)
+    
+print('\nk_1 =', np.around(K[0, :], 3))
+print('k_2 =', np.around(K[1, :], 3))
+print('k_3 =', np.around(K[2, :], 3))
+
+print('\nlambda_1 =', np.around(Lambda[0], 3))
+print('lambda_2 =', np.around(Lambda[1], 3))
+print('lambda_3 =', np.around(Lambda[2], 3))
+
+```
+
+* **Inverse Power Method**
+
+  If we want to find the smallest eigenvalue instead of the largest one, then we perform power iteration for $\mathbf{A}^{−1}$ (since the eigenvalues of $\mathbf{A}^{-1}$ are the reciprocals of the eigenvalues of $\mathbf{A}$). Of course, $~$we do not want to compute $\mathbf{A}^{-1}$
+
+```{python}
+# | echo: true
+def inverse_power_method(A, n_iteration):
+    # Ideally choose a random vector
+    # To decrease the chance that 
+    #   our vector is orthogonal to the eigenvector
+    k = np.random.rand(A.shape[1])
+
+    for _ in range(n_iteration):
+        # calculate the matrix-by-vector product Ak
+        w = np.linalg.solve(A, k)
+
+        # calculate the norm
+        w_norm = np.linalg.norm(w)
+
+        # re normalize the vector
+        k = w /w_norm
+
+    return k
+
+A = np.array([[4, 2], [3, -1]])
+k_2 = inverse_power_method(A, 10)
+lambda_2 = Rayleigh_quotient(A, k_2)
+
+print('A =')
+pprint.pprint(A)
+print('\nEigenvector =', np.around(k_2, 3))
+print('Eigenvalue of Least Magnitude =', np.around(lambda_2, 3))
+```
+
+## Diagonalization {#sec-8-12}
+
+* <font color='red'>For an $n \times n$ matrix $\mathbf{A}$, $~$can we find an $n \times n\,$ nonsingular matrix $\mathbf{P}$ such that 
+$\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$ is a diagonal matrix?</font>
+
+* An $n \times n$ matrix $\mathbf{A}$ is diagonalizable if and only if $\mathbf{A}$ has $n$ linearly independent eigenvectors
+
+* Let $\mathbf{k}_1$, $\mathbf{k}_2$, $\cdots$, $\mathbf{k}_n$ be linearly independent eigenvectors corresponding to eigenvalues $\lambda_1$, $\lambda_2$, $\cdots$, $\lambda_n$. $~$Next form the matrix $~\mathbf{P}~$ with column vectors $~\mathbf{k}_1$, $\mathbf{k}_2$, $\cdots$, $\mathbf{k}_n$
+  
+  <font color="blue">
+  $${
+  \mathbf{P}= \begin{pmatrix}
+    \mathbf{k}_1 & \mathbf{k}_2 & \cdots & \mathbf{k}_n
+  \end{pmatrix}}$$</font>
+  
+  We can wrtie the product $\mathbf{A}\mathbf{P}$ as
+  
+  $$
+  \begin{aligned}
+   \mathbf{A}\mathbf{P}
+      &= 
+      \begin{pmatrix}
+        \mathbf{A}\mathbf{k}_1 & \mathbf{A}\mathbf{k}_2 & \cdots & \mathbf{A}\mathbf{k}_n 
+      \end{pmatrix} =
+      \begin{pmatrix}
+        \lambda_1\mathbf{k}_1 & \lambda_2\mathbf{k}_2 & \cdots & \lambda_n\mathbf{k}_n 
+      \end{pmatrix} \\
+      &=\begin{pmatrix}
+           \mathbf{k}_1 & \mathbf{k}_2 & \cdots & \mathbf{k}_n
+        \end{pmatrix}
+        \begin{pmatrix}
+           \lambda_1 &  &  & \\ 
+                     & \lambda_2 &  & \\ 
+                     &  & \ddots & \\ 
+                     &  &  & \lambda_n
+        \end{pmatrix}=\mathbf{P}\mathbf{D}
+  \end{aligned}$$
+  
+  Multiplying by $\mathbf{P}^{-1}$ on the left then gives $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$
+
+![](figures/ch08_figure04.png){width="50%" fig-align="center"}
+
+* If an $n \times n$ matrix $\mathbf{A}$ has $n$ distinct eigenvalues, $\,$it is diagonalizable
+* An $n \times n$ matrix $\mathbf{A}$ can be *orthogonally* diagonalized if and only if $\mathbf{A}$ is symmetric

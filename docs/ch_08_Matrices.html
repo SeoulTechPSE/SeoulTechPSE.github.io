@@ -231,6 +231,7 @@ window.Quarto = {
   <li><a href="#sec-8-9" id="toc-sec-8-9" class="nav-link" data-scroll-target="#sec-8-9"><span class="header-section-number">6.9</span> Powers of Matrices</a></li>
   <li><a href="#sec-8-10" id="toc-sec-8-10" class="nav-link" data-scroll-target="#sec-8-10"><span class="header-section-number">6.10</span> Orthogonal Matrices</a></li>
   <li><a href="#sec-8-11" id="toc-sec-8-11" class="nav-link" data-scroll-target="#sec-8-11"><span class="header-section-number">6.11</span> Approximation of Eigenvalues</a></li>
+  <li><a href="#sec-8-12" id="toc-sec-8-12" class="nav-link" data-scroll-target="#sec-8-12"><span class="header-section-number">6.12</span> Diagonalization</a></li>
   </ul>
 </nav>
     </div>
@@ -1326,7 +1327,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
    -\frac{3}{2}\\
     1
   \end{array}\right)\]</span></p>
-<div id="7c9e1742" class="cell" data-execution_count="1">
+<div id="44140d91" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1423,7 +1424,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
     1\\
    -1
   \end{array}\right)\]</span></p>
-<div id="4d211288" class="cell" data-execution_count="2">
+<div id="3107d945" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
@@ -1479,7 +1480,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\mathbf{k}_2=\begin{pmatrix}
      -1 \\ \;\;0
    \end{pmatrix}\]</span></p>
-<div id="5d405654" class="cell" data-execution_count="3">
+<div id="d18dd398" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">7</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
@@ -1610,24 +1611,24 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
     4 &amp;-8 &amp; -1\\
    -4 &amp;-1 &amp; -8
   \end{array}\right)\]</span></p>
-<div id="a7c0f2b7" class="cell" data-execution_count="4">
+<div id="e8240958" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">7</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">4</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">8</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <p><span class="math inline">\(\displaystyle \left[ \left( -9, \  2, \  \left[ \left[\begin{matrix}- \frac{1}{4}\\1\\0\end{matrix}\right], \  \left[\begin{matrix}\frac{1}{4}\\0\\1\end{matrix}\right]\right]\right), \  \left( 9, \  1, \  \left[ \left[\begin{matrix}-4\\-1\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
-<div id="6f18f283" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> A.eigenvects()[<span class="dv">1</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v3 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">1</span>].T</span>
+<div id="f29a94e4" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">1</span>].T</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v3 <span class="op">=</span> A.eigenvects()[<span class="dv">1</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], <span class="va">True</span>))<span class="op">;</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
-<p><span class="math inline">\(\displaystyle \left[\begin{matrix}- \frac{2 \sqrt{2}}{3} &amp; - \frac{\sqrt{2}}{6} &amp; \frac{\sqrt{2}}{6}\\- \frac{\sqrt{17}}{17} &amp; \frac{4 \sqrt{17}}{17} &amp; 0\\\frac{2 \sqrt{34}}{51} &amp; \frac{\sqrt{34}}{102} &amp; \frac{\sqrt{34}}{6}\end{matrix}\right]\)</span></p>
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}- \frac{\sqrt{17}}{17} &amp; \frac{4 \sqrt{17}}{17} &amp; 0\\\frac{2 \sqrt{34}}{51} &amp; \frac{\sqrt{34}}{102} &amp; \frac{\sqrt{34}}{6}\\- \frac{2 \sqrt{2}}{3} &amp; - \frac{\sqrt{2}}{6} &amp; \frac{\sqrt{2}}{6}\end{matrix}\right]\)</span></p>
 </div>
 </div>
-<div id="ca8618bf" class="cell" data-execution_count="6">
+<div id="b88ed18a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>B.T <span class="op">*</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{matrix}\right]\)</span></p>
@@ -1672,6 +1673,231 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 </section>
 <section id="sec-8-11" class="level2" data-number="6.11">
 <h2 data-number="6.11" class="anchored" data-anchor-id="sec-8-11"><span class="header-section-number">6.11</span> Approximation of Eigenvalues</h2>
+<ul>
+<li><p>Let <span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\lambda_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\lambda_k\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\lambda_n\)</span> denote the eigenvalues of an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>. The eigenvalue <span class="math inline">\(\lambda_k\)</span> is said to be the <strong>dominant eigenvalue</strong> of <span class="math inline">\(\mathbf{A}\)</span> if <span class="math inline">\(|\lambda_k| &gt; |\lambda_i|\)</span>, <span class="math inline">\(~i=1,2,\cdots,n\)</span>, <span class="math inline">\(~\)</span>but <span class="math inline">\(\text{ }i \neq k\)</span></p></li>
+<li><p>An eigenvector corresponding to <span class="math inline">\(\lambda_k\)</span> is called the <strong>dominant eigenvector</strong> of <span class="math inline">\(\mathbf{A}\)</span></p></li>
+<li><p><strong>Power Method</strong></p>
+<p>Let us assume that the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are such that <span class="math inline">\(|\lambda_1| &gt; |\lambda_2| \geq |\lambda_3| \geq \cdots \geq |\lambda_n|\)</span> and that the corresponding <span class="math inline">\(n\)</span> eigenvectors <span class="math inline">\(\mathbf{k}_1\)</span>, <span class="math inline">\(\mathbf{k}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{k}_n\)</span> are linearly independent. <span class="math inline">\(~\)</span>Because of this last assumption, <span class="math inline">\(~n\)</span> eigenvectors can serve as a basis for <span class="math inline">\(\mathbb{R}^n\)</span>. <span class="math inline">\(~\)</span>For any nonzero <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(\mathbf{x}_0\)</span>,</p>
+<p><span class="math display">\[ \mathbf{x}_0 =c_1 \mathbf{k}_1 +c_2 \mathbf{k}_2 +c_3 \mathbf{k}_3 +\cdots +c_n \mathbf{k}_n \]</span></p>
+<p>We shall also assume <span class="math inline">\(\mathbf{x}_0\)</span> is chosen so that <span class="math inline">\(c_1 \neq 0\)</span>. <span class="math inline">\(\text{ }\)</span> We do the following procedure</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+    \mathbf{A}\mathbf{x}_0 &amp; = c_1 \mathbf{A}\mathbf{k}_1 +c_2 \mathbf{A}\mathbf{k}_2
+       +c_3 \mathbf{A}\mathbf{k}_3 +\cdots +c_n \mathbf{A}\mathbf{k}_n\\
+   &amp;\;\big\Downarrow \;\;\mathbf{x}_i=\mathbf{A}\mathbf{x}_{i -1}, \;\mathbf{A}\mathbf{k}_j=\lambda_j \mathbf{k}_j\\
+    \mathbf{x}_1 &amp; = c_1 \lambda_1\mathbf{k}_1 +c_2 \lambda_2\mathbf{k}_2
+       +c_3 \lambda_3\mathbf{k}_3 +\cdots +c_n \lambda_n\mathbf{k}_n\\
+   &amp;\Downarrow \\
+   \mathbf{A}\mathbf{x}_1 &amp; = c_1 \lambda_1\mathbf{A}\mathbf{k}_1 +c_2 \lambda_2\mathbf{A}\mathbf{k}_2
+       +c_3 \lambda_3\mathbf{A}\mathbf{k}_3 +\cdots +c_n \lambda_n\mathbf{A}\mathbf{k}_n\\
+   &amp;\Downarrow \\
+   \mathbf{x}_2 &amp; = c_1 \lambda_1^2\mathbf{k}_1 +c_2 \lambda_2^2\mathbf{k}_2
+       +c_3 \lambda_3^2\mathbf{k}_3 +\cdots +c_n \lambda_n^2\mathbf{k}_n\\
+   &amp;\Downarrow \\
+   \mathbf{x}_m &amp; = c_1 \lambda_1^m\mathbf{k}_1 +c_2 \lambda_2^m\mathbf{k}_2
+       +c_3 \lambda_3^m\mathbf{k}_3 +\cdots +c_n \lambda_n^m\mathbf{k}_n\\
+   &amp; = \lambda_1^m \left[c_1 \mathbf{k}_1 +c_2 \left(\frac{\lambda_2}{\lambda_1}\right)^m\mathbf{k}_2
+       +c_3 \left(\frac{\lambda_3}{\lambda_1}\right)^m\mathbf{k}_3 +\cdots +c_n \left(\frac{\lambda_n}{\lambda_1}\right)^m\mathbf{k}_n \right]\\        &amp; \;\big\Downarrow \;\;m \rightarrow \infty\\
+    \mathbf{x}_m &amp;\simeq \lambda_1^m c_1 \mathbf{k}_1   
+\end{aligned}\]</span></p></li>
+<li><p>For large values of <span class="math inline">\(m\)</span> and under all the assumptions that were made, <span class="math inline">\(~\)</span>the <span class="math inline">\(n \times 1\)</span> vector <span class="math inline">\(\mathbf{x}_m\)</span> is an approximation to a dominant eigenvector associated with the dominant eigenvalue <span class="math inline">\(\lambda_1\)</span></p></li>
+<li><p>If <span class="math inline">\(\mathbf{x}_m\)</span> is an approximation to a dominant eigenvector, <span class="math inline">\(~\)</span>then the dominant eigenvalue <span class="math inline">\(\lambda_1\)</span> can be approximated by the <strong>Rayleigh quotient</strong></p>
+<p><span class="math display">\[
+\lambda_1=\frac{\mathbf{A}\mathbf{x}_m \cdot \mathbf{x}_m}{\mathbf{x}_m \cdot \mathbf{x}_m}
+\]</span></p></li>
+<li><p>Iteration often results in vectors whose entries become very large. <span class="math inline">\(~\)</span>Large numbers can cause a problem in computation. One way around this difficulty is to use a <strong>scaled-down</strong> normalized vector</p>
+<p><span class="math display">\[
+\mathbf{x}_m \leftarrow
+  \frac{\mathbf{x}_m}{\left \| \mathbf{x}_m \right \|}\]</span></p></li>
+</ul>
+<div id="cd9abd86" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> power_method(A, n_iteration):</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ideally choose a random vector</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># To decrease the chance that </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   our vector is orthogonal to the eigenvector</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.random.rand(A.shape[<span class="dv">1</span>])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_iteration):</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the matrix-by-vector product Ak</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        k_1 <span class="op">=</span> np.dot(A, k)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the norm</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        k_1_norm <span class="op">=</span> np.linalg.norm(k_1)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># re normalize the vector</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k_1 <span class="op">/</span>k_1_norm</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rayleigh_quotient(A, k):</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate Rayleigh quotient</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    lambda_ <span class="op">=</span> np.dot(np.dot(A, k), k) <span class="op">/</span>np.dot(k, k)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lambda_</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>k_1 <span class="op">=</span> power_method(A, <span class="dv">10</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>lambda_1 <span class="op">=</span> Rayleigh_quotient(A, k_1)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>pprint.pprint(A)</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Dominant Eigenvector:'</span>, np.around(k_1, <span class="dv">3</span>))</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dominant Eigenvalue:'</span>, np.around(lambda_1, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A =
+array([[ 4,  2],
+       [ 3, -1]])
+
+Dominant Eigenvector: [0.894 0.447]
+Dominant Eigenvalue: 5.0</code></pre>
+</div>
+</div>
+<ul>
+<li><p><strong>Method of Deflation</strong></p>
+<ul>
+<li><p>After we have found the dominant eigenvalue <span class="math inline">\(\lambda_1\)</span> of a matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\,\)</span>it may still be necessary to find nondominant eigenvalues. <span class="math inline">\(\,\)</span>We will limit the discussion to the case where <span class="math inline">\(\mathbf{A}\)</span> is a <em>symmetric</em> matrix</p></li>
+<li><p>Suppose <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\mathbf{k}_1\)</span> are, respectively, the dominant eigenvalue and a corresponding <em>normalized</em> eigenvector of a symmetric matrix <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(\,\)</span>Furthermore, <span class="math inline">\(\,\)</span>suppose the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are such that</p>
+<p><span class="math display">\[ |\lambda_1| &gt; |\lambda_2| &gt; |\lambda_3| &gt; \cdots &gt; |\lambda_n| \]</span></p>
+<p>In this case, the matrix</p>
+<p><span class="math display">\[ \mathbf{A}_1 =\mathbf{A} -\lambda_1\mathbf{k}_1\mathbf{k}_1^T \]</span></p>
+<p>has eigenvalues <span class="math inline">\(0\)</span>, <span class="math inline">\(|\lambda_2|\)</span>, <span class="math inline">\(|\lambda_3|\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(|\lambda_n|\)</span> and that eigenvectors of <span class="math inline">\(\mathbf{A}_1\)</span> are also eigenvectors of <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(~\)</span> Note that <span class="math inline">\(\lambda_2\)</span> is now the dominant eigenvalue of <span class="math inline">\(\mathbf{A}_1\)</span></p></li>
+</ul></li>
+</ul>
+<div id="6597b18d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> deflation_method(A, n_iteration):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> A.shape[<span class="dv">1</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    K <span class="op">=</span> np.zeros((n, n))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    Lambda <span class="op">=</span> np.zeros(n)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    k0 <span class="op">=</span> np.zeros(n)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    L0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        A <span class="op">=</span> A <span class="op">-</span>L0 <span class="op">*</span>np.outer(k0, k0)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        k0 <span class="op">=</span> power_method(A, n_iteration)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        L0 <span class="op">=</span> Rayleigh_quotient(A, k0)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        K[i, :] <span class="op">=</span> k0</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        Lambda[i] <span class="op">=</span> L0</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> K, Lambda      </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co"># symmetric matrix</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>]])</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>K, Lambda <span class="op">=</span> deflation_method(A, <span class="dv">20</span>)  </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>pprint.pprint(A)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">k_1 ='</span>, np.around(K[<span class="dv">0</span>, :], <span class="dv">3</span>))</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'k_2 ='</span>, np.around(K[<span class="dv">1</span>, :], <span class="dv">3</span>))</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'k_3 ='</span>, np.around(K[<span class="dv">2</span>, :], <span class="dv">3</span>))</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">lambda_1 ='</span>, np.around(Lambda[<span class="dv">0</span>], <span class="dv">3</span>))</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'lambda_2 ='</span>, np.around(Lambda[<span class="dv">1</span>], <span class="dv">3</span>))</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'lambda_3 ='</span>, np.around(Lambda[<span class="dv">2</span>], <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A =
+array([[ 1,  2, -1],
+       [ 2,  1,  1],
+       [-1,  1,  0]])
+
+k_1 = [0.707 0.707 0.   ]
+k_2 = [ 0.578 -0.577  0.577]
+k_3 = [-0.408  0.408  0.816]
+
+lambda_1 = 3.0
+lambda_2 = -2.0
+lambda_3 = 1.0</code></pre>
+</div>
+</div>
+<ul>
+<li><p><strong>Inverse Power Method</strong></p>
+<p>If we want to find the smallest eigenvalue instead of the largest one, then we perform power iteration for <span class="math inline">\(\mathbf{A}^{−1}\)</span> (since the eigenvalues of <span class="math inline">\(\mathbf{A}^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span>). Of course, <span class="math inline">\(~\)</span>we do not want to compute <span class="math inline">\(\mathbf{A}^{-1}\)</span></p></li>
+</ul>
+<div id="40ba418c" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inverse_power_method(A, n_iteration):</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ideally choose a random vector</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># To decrease the chance that </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   our vector is orthogonal to the eigenvector</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.random.rand(A.shape[<span class="dv">1</span>])</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_iteration):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the matrix-by-vector product Ak</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>        w <span class="op">=</span> np.linalg.solve(A, k)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the norm</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>        w_norm <span class="op">=</span> np.linalg.norm(w)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># re normalize the vector</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> w <span class="op">/</span>w_norm</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>k_2 <span class="op">=</span> inverse_power_method(A, <span class="dv">10</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>lambda_2 <span class="op">=</span> Rayleigh_quotient(A, k_2)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>pprint.pprint(A)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Eigenvector ='</span>, np.around(k_2, <span class="dv">3</span>))</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Eigenvalue of Least Magnitude ='</span>, np.around(lambda_2, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A =
+array([[ 4,  2],
+       [ 3, -1]])
+
+Eigenvector = [-0.316  0.949]
+Eigenvalue of Least Magnitude = -2.0</code></pre>
+</div>
+</div>
+</section>
+<section id="sec-8-12" class="level2" data-number="6.12">
+<h2 data-number="6.12" class="anchored" data-anchor-id="sec-8-12"><span class="header-section-number">6.12</span> Diagonalization</h2>
+<ul>
+<li><p><font color="red">For an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span>can we find an <span class="math inline">\(n \times n\,\)</span> nonsingular matrix <span class="math inline">\(\mathbf{P}\)</span> such that <span class="math inline">\(\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\)</span> is a diagonal matrix?</font></p></li>
+<li><p>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is diagonalizable if and only if <span class="math inline">\(\mathbf{A}\)</span> has <span class="math inline">\(n\)</span> linearly independent eigenvectors</p></li>
+<li><p>Let <span class="math inline">\(\mathbf{k}_1\)</span>, <span class="math inline">\(\mathbf{k}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{k}_n\)</span> be linearly independent eigenvectors corresponding to eigenvalues <span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\lambda_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\lambda_n\)</span>. <span class="math inline">\(~\)</span>Next form the matrix <span class="math inline">\(~\mathbf{P}~\)</span> with column vectors <span class="math inline">\(~\mathbf{k}_1\)</span>, <span class="math inline">\(\mathbf{k}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{k}_n\)</span></p>
+<p><font color="blue"> <span class="math display">\[{
+\mathbf{P}= \begin{pmatrix}
+  \mathbf{k}_1 &amp; \mathbf{k}_2 &amp; \cdots &amp; \mathbf{k}_n
+\end{pmatrix}}\]</span></font></p>
+<p>We can wrtie the product <span class="math inline">\(\mathbf{A}\mathbf{P}\)</span> as</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{A}\mathbf{P}
+    &amp;=
+    \begin{pmatrix}
+      \mathbf{A}\mathbf{k}_1 &amp; \mathbf{A}\mathbf{k}_2 &amp; \cdots &amp; \mathbf{A}\mathbf{k}_n
+    \end{pmatrix} =
+    \begin{pmatrix}
+      \lambda_1\mathbf{k}_1 &amp; \lambda_2\mathbf{k}_2 &amp; \cdots &amp; \lambda_n\mathbf{k}_n
+    \end{pmatrix} \\
+    &amp;=\begin{pmatrix}
+         \mathbf{k}_1 &amp; \mathbf{k}_2 &amp; \cdots &amp; \mathbf{k}_n
+      \end{pmatrix}
+      \begin{pmatrix}
+         \lambda_1 &amp;  &amp;  &amp; \\
+                   &amp; \lambda_2 &amp;  &amp; \\
+                   &amp;  &amp; \ddots &amp; \\
+                   &amp;  &amp;  &amp; \lambda_n
+      \end{pmatrix}=\mathbf{P}\mathbf{D}
+\end{aligned}\]</span></p>
+<p>Multiplying by <span class="math inline">\(\mathbf{P}^{-1}\)</span> on the left then gives <span class="math inline">\(\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\)</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch08_figure04.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<ul>
+<li>If an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> has <span class="math inline">\(n\)</span> distinct eigenvalues, <span class="math inline">\(\,\)</span>it is diagonalizable</li>
+<li>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> can be <em>orthogonally</em> diagonalized if and only if <span class="math inline">\(\mathbf{A}\)</span> is symmetric</li>
+</ul>
 
 
 </section>
