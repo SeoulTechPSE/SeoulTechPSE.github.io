@@ -591,3 +591,395 @@ $${\scriptsize
   \end{array}\right)}$$
 
 ![](figures/ch08_figure02.png "Equal"){width="60%" fig-align="center"}
+
+$~$
+
+**Example** $\,$ Find the rank of the given matrix
+
+$${\scriptsize\begin{pmatrix}
+     \phantom{-}2 & \phantom{-}1 & \phantom{-}3 \\ 
+     \phantom{-}6 & \phantom{-}3 & \phantom{-}9 \\ 
+     -1 & -\frac{1}{2} & -\frac{3}{2} 
+    \end{pmatrix}}$$
+
+$${\scriptsize\begin{pmatrix}
+     1 & 1 & 1\\ 
+     1 & 0 & 4\\ 
+     1 & 4 & 1
+   \end{pmatrix}}$$
+
+$${\scriptsize\begin{pmatrix}
+    0 & 2 & 4 & 2 & 2\\ 
+    4 & 1 & 0 & 5 & 1\\ 
+    2 & 1 & \frac{2}{3} & 3 & \frac{1}{3} \\ 
+    6 & 6 & 6 & 12 & 0 
+   \end{pmatrix}}$$
+
+$~$
+
+**Example** $\,$ Determine whether the given set of vectors is linearly dependent or linearly independent
+
+$$\mathbf{u}_1 = \langle 1, 2, 3 \rangle, \;\mathbf{u}_2 = \langle 1, 0, 1 \rangle, \; \mathbf{u}_3 = \langle 1, -1, 5 \rangle$$
+
+$$\mathbf{u}_1 = \langle 1, -1, 3, -1 \rangle, \;\mathbf{u}_2 = \langle 1, -1, 4, 2 \rangle, \; \mathbf{u}_3 = \langle 1, -1, 5, 7 \rangle$$
+
+$~$
+
+**Example** $\,$ Suppose the system $\mathbf{Ax}=\mathbf{b}~$ is consistent and $~\mathbf{A}$ is a $5\times 8~$ matrix and $~\mathrm{rank}\,\mathbf{A}=3.$ $~$How many parameters does the solution of the system have?
+
+$~$
+
+**Example** $\,$ Let $\mathbf{A}$ be a nonzero $4 \times 6~$ matrix
+
+| **1.** $~$ What is the maximum rank that $~\mathbf{A}$ can have?
+
+$~$ 
+
+| **2.** $~$ If $\mathrm{rank}(\mathbf{A}|\mathbf{b})=2$, $~$then for what value(s) of $\mathrm{rank}(\mathbf{A})$ is the system $~\mathbf{Ax}=\mathbf{b}$, $~\mathbf{b}\neq \mathbf{0}$, inconsistent? Consistent?
+
+$~$
+
+| **3.** $~$ If $\mathrm{rank}(\mathbf{A})=3$, $~$then how many parameters does the solution of the system $~\mathbf{Ax}=\mathbf{0}~$ have?
+
+$~$
+
+**Example** $\,$ Let $\mathbf{v}_1$, $\mathbf{v}_2$, and $~\mathbf{v}_3~$ be the first, second, and third column vectors, respectively, of the matrix
+
+$$\mathbf{A} = 
+\begin{pmatrix}
+ \phantom{-}2 & 1 & 7\\ 
+ \phantom{-}1 & 0 & 2\\ 
+ -1 & 5 & 13 
+\end{pmatrix}$$
+
+  What can we conclude about $\mathrm{rank} (\mathbf{A})$ from the observation $2\mathbf{v}_1 +3\mathbf{v}_2 -\mathbf{v}_3=\mathbf{0}$?
+
+$~$
+
+## Determinants {#sec-8-4}
+
+* **Determinant of a $2 \times 2$ Matrix**
+
+$$\mathrm{det}(\mathbf{A})={\scriptsize
+   \begin{vmatrix}
+     a_{11} & a_{12}\\ 
+     a_{21} & a_{22}
+   \end{vmatrix}=a_{11}a_{22}-a_{12}a_{21}}$$
+
+* **Determinant of a $3 \times 3$ Matrix**
+
+$$
+   \mathrm{det}(\mathbf{A})={\scriptsize
+   \begin{vmatrix}
+     a_{11} & a_{12} & a_{13}\\ 
+     a_{21} & a_{22} & a_{23}\\
+     a_{31} & a_{32} & a_{33}
+   \end{vmatrix}}\\{\scriptsize=
+   a_{11}(-1)^{1+1} 
+   \begin{vmatrix}
+     a_{22} & a_{23}\\ 
+     a_{32} & a_{33}
+   \end{vmatrix} +
+   a_{12}(-1)^{1+2} 
+   \begin{vmatrix}
+     a_{21} & a_{23}\\ 
+     a_{31} & a_{33}
+   \end{vmatrix} +
+   a_{13}(-1)^{1+3} 
+   \begin{vmatrix}
+     a_{21} & a_{22}\\ 
+     a_{31} & a_{32}
+   \end{vmatrix}}$$
+
+* **Determinant of a $n\times n$ Matrix**
+
+  $$\mathrm{det}\,\mathbf{A} = \sum (-1)^h a_{1l_1} a_{2l_2} \cdots a_{nl_n}$$
+
+  where the summation is over all permutations $l_1,$ $l_2,$ $\cdots,$ $l_n$ of $1,$ $2,$ $\cdots,$ $n$ and the sign accords with the parity of the permutation
+
+* **Cofactor and Minor**
+
+  The **cofactor of $\,a_{ij}$** is the determinant
+  
+  $$C_{ij}=(-1)^{i +j} M_{ij}$$
+  
+  where $M_{ij}$ is the determinant of the submatrix obtained by deleting the $i$-th row and the $j$-th column of $\mathbf{A}$. The determinant $M_{ij}$ is called a **minor determinant**
+
+* **Cofactor Expansion of a Determinant: Laplace Development**
+
+   Let $\mathbf{A}=\left(a_{ij}\right)_{n \times n}$ be an $n \times n$ matrix. $~$For each $1 \leq i \leq n$, 
+  $~$ **the cofactor expansion of $\mathrm{det}(\mathbf{A})$ along the $i$-th row** is
+  
+  $${\mathrm{det}(\mathbf{A})=\sum_{k=1}^na_{ik}C_{ik}}$$
+
+   For each $1 \leq j \leq n$, $~$**the cofactor expansion of $\mathrm{det}(\mathbf{A})$ along the $j$-th column** is
+  
+   $${\mathrm{det}(\mathbf{A})=\sum_{k=1}^na_{kj}C_{kj}}$$
+
+$~$
+
+**Example** $\,$ Suppose
+
+$$\mathbf{A} = \begin{pmatrix}
+    \phantom{-}2 & \phantom{-}3 & 4\\ 
+    \phantom{-}1 & -1 & 2\\ 
+     -2 & \phantom{-}3 & 5 
+   \end{pmatrix}$$
+   
+   Evaluate the indicated minor determinant or cofactor
+   
+| **1.** $~M_{12}~$ **2.** $~M_{32}~$ **3.** $~C_{13}~$ **4.** $~C_{22}$
+   
+$~$
+
+**Example** $\,$ Evaluate the determinant of the matrix
+
+$$\begin{pmatrix}
+ \phantom{-}3 & 5 \\ 
+ -1 & 4 
+\end{pmatrix}$$
+
+$$\begin{pmatrix}
+ 1 - \lambda & 3 \\ 
+ 2 & 2 - \lambda 
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Evaluate the determinant of the given matrix by cofactor expansion
+
+$$\begin{pmatrix}
+ -2 & -1 & 4\\ 
+ -3 & \phantom{-}6 & 1\\ 
+ -3 & \phantom{-}4 & 8
+\end{pmatrix}$$
+
+$$\begin{pmatrix}
+ 1 & 1 & 1\\ 
+ x & y & z\\ 
+ 2 & 3 & 4
+\end{pmatrix}$$
+
+$~$
+
+## Properties of Determinants {#sec-8-5}
+
+* If $\mathbf{A}^T$ is the transpose of the $n \times n$ matrix $\mathbf{A}$, 
+  $~$then <font color='blue'>$\mathrm{det}(\mathbf{A}^T)=\mathrm{det}(\mathbf{A})$</font>
+  
+  $${\scriptsize\begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} =
+  \begin{vmatrix}
+   a_{11} & a_{21} & a_{31}\\ 
+   a_{12} & a_{22} & a_{32}\\ 
+   a_{13} & a_{23} & a_{33}
+  \end{vmatrix}}$$
+ 
+* <font color='blue'>If any two rows (columns) of an $n \times n$ matrix $\mathbf{A}$ are the same, $~$then $\mathrm{det}(\mathbf{A})=0$</font>
+
+  $${\scriptsize\begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} = 0}$$
+
+* <font color='blue'>If all the entries in a row (column) of an $n \times n$ matrix $\mathbf{A}$ are zero, $~$then $\mathrm{det}(\mathbf{A})=0$</font>
+
+  $${\scriptsize\begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   0 & 0 & 0\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} = 0}$$
+
+* <font color='green'>If $\mathbf{B}$ is the matrix obtained by interchanging any two rows (columns) of an $n \times n$ matrix $\mathbf{A}$, $~$then $\mathrm{det}(\mathbf{B})=-\mathrm{det}(\mathbf{A})$</font>
+
+  $${\scriptsize\begin{vmatrix}
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} = -
+  \begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix}}$$
+
+* <font color='green'>If $\mathbf{B}$ is the matrix obtained by multiplying a row (column) by a nonzero real number $k$,
+  $~$ then $\mathrm{det}(\mathbf{B})=k\mathrm{det}(\mathbf{A})$</font>
+  
+  $${\scriptsize\begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   ka_{21} & ka_{22} & ka_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} = k
+  \begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix}}$$
+
+* <font color='blue'>If $\mathbf{A}$ and $\mathbf{B}$ are both $n \times n$ matrices, $~$then $\mathrm{det}(\mathbf{AB})=\mathrm{det}(\mathbf{A})\cdot \mathrm{det}(\mathbf{B})$</font>
+  
+  $${\scriptsize\begin{vmatrix} 
+  \begin{pmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{pmatrix}
+  \begin{pmatrix}
+   b_{11} & b_{12} & b_{13}\\ 
+   b_{21} & b_{22} & b_{23}\\ 
+   b_{31} & b_{32} & b_{33}
+  \end{pmatrix}
+  \end{vmatrix}
+  =
+  \begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix}
+  \begin{vmatrix}
+   b_{11} & b_{12} & b_{13}\\ 
+   b_{21} & b_{22} & b_{23}\\ 
+   b_{31} & b_{32} & b_{33}
+  \end{vmatrix}}$$
+
+* <font color='blue'>Suppose $\mathbf{B}$ is the matrix obtained from an $n \times n$ matrix $\mathbf{A}$ by multiplying  a row(column) by a nonzero $k$ and adding the result to another row(column). $~$ Then $\mathrm{det}(\mathbf{B})=\mathrm{det}(\mathbf{A})$</font>
+  
+  $${\scriptsize\begin{vmatrix} 
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   ka_{21} +a_{31} & ka_{22}+a_{32} & ka_{23} +a_{33}
+  \end{vmatrix}
+  =
+  \begin{vmatrix}
+   a_{11} & a_{12} & a_{13}\\ 
+   a_{21} & a_{22} & a_{23}\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix}}$$
+
+* If $\mathbf{A}$ is an $n \times n$ triangular matrix, $~$then $\mathrm{det}(\mathbf{A})=a_{11} a_{22}\cdots a_{nn}$
+
+  $${\scriptsize\begin{vmatrix}
+   a_{11} & 0 & 0\\ 
+   a_{21} & a_{22} & 0\\ 
+   a_{31} & a_{32} & a_{33}
+  \end{vmatrix} = a_{11} a_{22} a_{33}}$$
+
+**Alien Cofactors**
+
+* Suppose $\mathbf{A}$ is an $n \times n$ matrix. If $a_{i1}, a_{i2}, \cdots, a_{in}$ are the entries
+in the $i$-th row and $C_{p1}, C_{p2}, \cdots, C_{pn}\,$ are the cofactors of the entries in the $p$-th row, $~$then
+
+  $$\sum_{k=1}^n a_{ik}C_{pk}=0\;\;\text{for}\; i \neq p$$
+
+* If $a_{1j}, a_{2j}, \cdots, a_{nj}$ are the entries
+in the $j$-th column and $C_{1p},$ $C_{2p},$ $\cdots,$ $C_{np}$ are the cofactors of the entries in the $p$-th column, $~$then
+
+  $$\sum_{k=1}^n a_{kj}C_{kp}=0\;\;\text{for}\; j \neq p$$
+
+$~$
+
+**Example** $\,$ State the appropriate theorem(s) in this section that justifies the given equality
+  
+$$\begin{vmatrix}
+ 1 & 2\\ 
+ 3 & 4
+\end{vmatrix} = -
+\begin{vmatrix}
+ 3 & 4\\
+ 1 & 2 
+\end{vmatrix}$$
+
+$$\begin{vmatrix}
+ -5 & \phantom{-}6\\ 
+ \phantom{-}2 & -8
+\end{vmatrix} =
+\begin{vmatrix}
+ \phantom{-}1 & \phantom{-}6\\
+ -6 & -8 
+\end{vmatrix}$$
+
+$${\begin{vmatrix}
+ 1 & 2 & \phantom{--}3\\ 
+ 4 & 2 & \phantom{-}18\\
+ 5 & 9 & -12
+\end{vmatrix} = 6
+\begin{vmatrix}
+ 1 & 2 & \phantom{-}1\\ 
+ 2 & 1 & \phantom{-}3\\
+ 5 & 9 & -4
+\end{vmatrix}}$$
+
+$~$
+
+**Example** $\,$ Evaluate the determinant of the given matrix using the result
+
+$$\begin{vmatrix}
+ a_1 & a_2 & a_3\\ 
+ b_1 & b_2 & b_3\\
+ c_1 & c_2 & c_3
+\end{vmatrix} = 5$$
+
+**1.** $~$ ${\scriptsize \mathbf{A} =
+\begin{pmatrix}
+ a_3 & a_2 & a_1\\ 
+ b_3 & b_2 & b_1\\ 
+ c_3 & c_2 & c_1
+\end{pmatrix}}$
+  
+**2.** $~$ ${\scriptsize\mathbf{A} =
+\begin{pmatrix}
+ 2a_1 & a_2 & a_3\\ 
+ 6b_1 & 3b_2 & 3b_3\\ 
+ 2c_1 & c_2 & c_3
+\end{pmatrix}}$
+
+**3.** $~$ ${\scriptsize\mathbf{A} =
+\begin{pmatrix}
+ 4a_1 -2a_3 & a_2 & a_3\\ 
+ 4b_1 -2b_3 & b_2 & b_3\\ 
+ 2c_1 -c_3 & \frac{1}{2}c_2 & \frac{1}{2}c_3
+\end{pmatrix}}$
+
+$~$
+
+**Example** $\,$ Consider the matrix
+
+$${\mathbf{A} =
+\begin{pmatrix}
+ 1 & 1 & 1\\ 
+ x & y & z\\ 
+ y+z & x+z & x+y
+\end{pmatrix}}$$
+
+Without expanding, $~$show that $\mathrm{det}\, \mathbf{A}=0$
+
+$~$
+
+**Example** $\,$ Evaluate 
+
+$${\begin{vmatrix}
+ 1 & 1 & 1 & 1\\ 
+ a & b & c & d\\ 
+ a^2 & b^2 & c^2 & d^2\\ 
+ a^3 & b^3 & c^3 & d^3
+\end{vmatrix}}$$
+
+$~$
+
+## Inverse of a Matrix {#sec-8-6}
+
+* If $\mathbf{A}$ is an $n \times n$ matrix and there exists an $n \times n$ matrix $\mathbf{B}$ such that
+
+  $$\mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}=\mathbf{I}$$
+  
+  then $\mathbf{A}$ is said to be **nonsingular** or **invertible** and $\mathbf{B}$ 
+  is the **inverse** of $\mathbf{A}$
+
+* An $n \times n$ matrix that has no inverse is called **singular**. If $\mathbf{A}$ is nonsingular, 
+  $~$its inverse is denoted by $\mathbf{B}=\mathbf{A}^{-1}$
+

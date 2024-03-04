@@ -189,6 +189,9 @@ window.Quarto = {
   <li><a href="#sec-8-1" id="toc-sec-8-1" class="nav-link active" data-scroll-target="#sec-8-1"><span class="header-section-number">6.1</span> Matrix Algebra</a></li>
   <li><a href="#sec-8-2" id="toc-sec-8-2" class="nav-link" data-scroll-target="#sec-8-2"><span class="header-section-number">6.2</span> Systems of Linear Algebraic Equations</a></li>
   <li><a href="#sec-8-3" id="toc-sec-8-3" class="nav-link" data-scroll-target="#sec-8-3"><span class="header-section-number">6.3</span> Rank of a Matrix</a></li>
+  <li><a href="#sec-8-4" id="toc-sec-8-4" class="nav-link" data-scroll-target="#sec-8-4"><span class="header-section-number">6.4</span> Determinants</a></li>
+  <li><a href="#sec-8-5" id="toc-sec-8-5" class="nav-link" data-scroll-target="#sec-8-5"><span class="header-section-number">6.5</span> Properties of Determinants</a></li>
+  <li><a href="#sec-8-6" id="toc-sec-8-6" class="nav-link" data-scroll-target="#sec-8-6"><span class="header-section-number">6.6</span> Inverse of a Matrix</a></li>
   </ul>
 </nav>
     </div>
@@ -743,6 +746,308 @@ window.Quarto = {
 <p><img src="figures/ch08_figure02.png" title="Equal" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
 </figure>
 </div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the rank of the given matrix</p>
+<p><span class="math display">\[{\scriptsize\begin{pmatrix}
+     \phantom{-}2 &amp; \phantom{-}1 &amp; \phantom{-}3 \\
+     \phantom{-}6 &amp; \phantom{-}3 &amp; \phantom{-}9 \\
+     -1 &amp; -\frac{1}{2} &amp; -\frac{3}{2}
+    \end{pmatrix}}\]</span></p>
+<p><span class="math display">\[{\scriptsize\begin{pmatrix}
+     1 &amp; 1 &amp; 1\\
+     1 &amp; 0 &amp; 4\\
+     1 &amp; 4 &amp; 1
+   \end{pmatrix}}\]</span></p>
+<p><span class="math display">\[{\scriptsize\begin{pmatrix}
+    0 &amp; 2 &amp; 4 &amp; 2 &amp; 2\\
+    4 &amp; 1 &amp; 0 &amp; 5 &amp; 1\\
+    2 &amp; 1 &amp; \frac{2}{3} &amp; 3 &amp; \frac{1}{3} \\
+    6 &amp; 6 &amp; 6 &amp; 12 &amp; 0
+   \end{pmatrix}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Determine whether the given set of vectors is linearly dependent or linearly independent</p>
+<p><span class="math display">\[\mathbf{u}_1 = \langle 1, 2, 3 \rangle, \;\mathbf{u}_2 = \langle 1, 0, 1 \rangle, \; \mathbf{u}_3 = \langle 1, -1, 5 \rangle\]</span></p>
+<p><span class="math display">\[\mathbf{u}_1 = \langle 1, -1, 3, -1 \rangle, \;\mathbf{u}_2 = \langle 1, -1, 4, 2 \rangle, \; \mathbf{u}_3 = \langle 1, -1, 5, 7 \rangle\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose the system <span class="math inline">\(\mathbf{Ax}=\mathbf{b}~\)</span> is consistent and <span class="math inline">\(~\mathbf{A}\)</span> is a <span class="math inline">\(5\times 8~\)</span> matrix and <span class="math inline">\(~\mathrm{rank}\,\mathbf{A}=3.\)</span> <span class="math inline">\(~\)</span>How many parameters does the solution of the system have?</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Let <span class="math inline">\(\mathbf{A}\)</span> be a nonzero <span class="math inline">\(4 \times 6~\)</span> matrix</p>
+<div class="line-block"><strong>1.</strong> <span class="math inline">\(~\)</span> What is the maximum rank that <span class="math inline">\(~\mathbf{A}\)</span> can have?</div>
+<p><span class="math inline">\(~\)</span></p>
+<div class="line-block"><strong>2.</strong> <span class="math inline">\(~\)</span> If <span class="math inline">\(\mathrm{rank}(\mathbf{A}|\mathbf{b})=2\)</span>, <span class="math inline">\(~\)</span>then for what value(s) of <span class="math inline">\(\mathrm{rank}(\mathbf{A})\)</span> is the system <span class="math inline">\(~\mathbf{Ax}=\mathbf{b}\)</span>, <span class="math inline">\(~\mathbf{b}\neq \mathbf{0}\)</span>, inconsistent? Consistent?</div>
+<p><span class="math inline">\(~\)</span></p>
+<div class="line-block"><strong>3.</strong> <span class="math inline">\(~\)</span> If <span class="math inline">\(\mathrm{rank}(\mathbf{A})=3\)</span>, <span class="math inline">\(~\)</span>then how many parameters does the solution of the system <span class="math inline">\(~\mathbf{Ax}=\mathbf{0}~\)</span> have?</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Let <span class="math inline">\(\mathbf{v}_1\)</span>, <span class="math inline">\(\mathbf{v}_2\)</span>, and <span class="math inline">\(~\mathbf{v}_3~\)</span> be the first, second, and third column vectors, respectively, of the matrix</p>
+<p><span class="math display">\[\mathbf{A} =
+\begin{pmatrix}
+\phantom{-}2 &amp; 1 &amp; 7\\
+\phantom{-}1 &amp; 0 &amp; 2\\
+-1 &amp; 5 &amp; 13
+\end{pmatrix}\]</span></p>
+<p>What can we conclude about <span class="math inline">\(\mathrm{rank} (\mathbf{A})\)</span> from the observation <span class="math inline">\(2\mathbf{v}_1 +3\mathbf{v}_2 -\mathbf{v}_3=\mathbf{0}\)</span>?</p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-4" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="sec-8-4"><span class="header-section-number">6.4</span> Determinants</h2>
+<ul>
+<li><strong>Determinant of a <span class="math inline">\(2 \times 2\)</span> Matrix</strong></li>
+</ul>
+<p><span class="math display">\[\mathrm{det}(\mathbf{A})={\scriptsize
+   \begin{vmatrix}
+     a_{11} &amp; a_{12}\\
+     a_{21} &amp; a_{22}
+   \end{vmatrix}=a_{11}a_{22}-a_{12}a_{21}}\]</span></p>
+<ul>
+<li><strong>Determinant of a <span class="math inline">\(3 \times 3\)</span> Matrix</strong></li>
+</ul>
+<p><span class="math display">\[
+   \mathrm{det}(\mathbf{A})={\scriptsize
+   \begin{vmatrix}
+     a_{11} &amp; a_{12} &amp; a_{13}\\
+     a_{21} &amp; a_{22} &amp; a_{23}\\
+     a_{31} &amp; a_{32} &amp; a_{33}
+   \end{vmatrix}}\\{\scriptsize=
+   a_{11}(-1)^{1+1}
+   \begin{vmatrix}
+     a_{22} &amp; a_{23}\\
+     a_{32} &amp; a_{33}
+   \end{vmatrix} +
+   a_{12}(-1)^{1+2}
+   \begin{vmatrix}
+     a_{21} &amp; a_{23}\\
+     a_{31} &amp; a_{33}
+   \end{vmatrix} +
+   a_{13}(-1)^{1+3}
+   \begin{vmatrix}
+     a_{21} &amp; a_{22}\\
+     a_{31} &amp; a_{32}
+   \end{vmatrix}}\]</span></p>
+<ul>
+<li><p><strong>Determinant of a <span class="math inline">\(n\times n\)</span> Matrix</strong></p>
+<p><span class="math display">\[\mathrm{det}\,\mathbf{A} = \sum (-1)^h a_{1l_1} a_{2l_2} \cdots a_{nl_n}\]</span></p>
+<p>where the summation is over all permutations <span class="math inline">\(l_1,\)</span> <span class="math inline">\(l_2,\)</span> <span class="math inline">\(\cdots,\)</span> <span class="math inline">\(l_n\)</span> of <span class="math inline">\(1,\)</span> <span class="math inline">\(2,\)</span> <span class="math inline">\(\cdots,\)</span> <span class="math inline">\(n\)</span> and the sign accords with the parity of the permutation</p></li>
+<li><p><strong>Cofactor and Minor</strong></p>
+<p>The <strong>cofactor of <span class="math inline">\(\,a_{ij}\)</span></strong> is the determinant</p>
+<p><span class="math display">\[C_{ij}=(-1)^{i +j} M_{ij}\]</span></p>
+<p>where <span class="math inline">\(M_{ij}\)</span> is the determinant of the submatrix obtained by deleting the <span class="math inline">\(i\)</span>-th row and the <span class="math inline">\(j\)</span>-th column of <span class="math inline">\(\mathbf{A}\)</span>. The determinant <span class="math inline">\(M_{ij}\)</span> is called a <strong>minor determinant</strong></p></li>
+<li><p><strong>Cofactor Expansion of a Determinant: Laplace Development</strong></p>
+<p>Let <span class="math inline">\(\mathbf{A}=\left(a_{ij}\right)_{n \times n}\)</span> be an <span class="math inline">\(n \times n\)</span> matrix. <span class="math inline">\(~\)</span>For each <span class="math inline">\(1 \leq i \leq n\)</span>, <span class="math inline">\(~\)</span> <strong>the cofactor expansion of <span class="math inline">\(\mathrm{det}(\mathbf{A})\)</span> along the <span class="math inline">\(i\)</span>-th row</strong> is</p>
+<p><span class="math display">\[{\mathrm{det}(\mathbf{A})=\sum_{k=1}^na_{ik}C_{ik}}\]</span></p>
+<p>For each <span class="math inline">\(1 \leq j \leq n\)</span>, <span class="math inline">\(~\)</span><strong>the cofactor expansion of <span class="math inline">\(\mathrm{det}(\mathbf{A})\)</span> along the <span class="math inline">\(j\)</span>-th column</strong> is</p>
+<p><span class="math display">\[{\mathrm{det}(\mathbf{A})=\sum_{k=1}^na_{kj}C_{kj}}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose</p>
+<p><span class="math display">\[\mathbf{A} = \begin{pmatrix}
+    \phantom{-}2 &amp; \phantom{-}3 &amp; 4\\
+    \phantom{-}1 &amp; -1 &amp; 2\\
+     -2 &amp; \phantom{-}3 &amp; 5
+   \end{pmatrix}\]</span></p>
+<p>Evaluate the indicated minor determinant or cofactor</p>
+<div class="line-block"><strong>1.</strong> <span class="math inline">\(~M_{12}~\)</span> <strong>2.</strong> <span class="math inline">\(~M_{32}~\)</span> <strong>3.</strong> <span class="math inline">\(~C_{13}~\)</span> <strong>4.</strong> <span class="math inline">\(~C_{22}\)</span></div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate the determinant of the matrix</p>
+<p><span class="math display">\[\begin{pmatrix}
+\phantom{-}3 &amp; 5 \\
+-1 &amp; 4
+\end{pmatrix}\]</span></p>
+<p><span class="math display">\[\begin{pmatrix}
+1 - \lambda &amp; 3 \\
+2 &amp; 2 - \lambda
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate the determinant of the given matrix by cofactor expansion</p>
+<p><span class="math display">\[\begin{pmatrix}
+-2 &amp; -1 &amp; 4\\
+-3 &amp; \phantom{-}6 &amp; 1\\
+-3 &amp; \phantom{-}4 &amp; 8
+\end{pmatrix}\]</span></p>
+<p><span class="math display">\[\begin{pmatrix}
+1 &amp; 1 &amp; 1\\
+x &amp; y &amp; z\\
+2 &amp; 3 &amp; 4
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-5" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="sec-8-5"><span class="header-section-number">6.5</span> Properties of Determinants</h2>
+<ul>
+<li><p>If <span class="math inline">\(\mathbf{A}^T\)</span> is the transpose of the <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span>then <font color="blue"><span class="math inline">\(\mathrm{det}(\mathbf{A}^T)=\mathrm{det}(\mathbf{A})\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} =
+\begin{vmatrix}
+a_{11} &amp; a_{21} &amp; a_{31}\\
+a_{12} &amp; a_{22} &amp; a_{32}\\
+a_{13} &amp; a_{23} &amp; a_{33}
+\end{vmatrix}}\]</span></p></li>
+<li><p><font color="blue">If any two rows (columns) of an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> are the same, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}(\mathbf{A})=0\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} = 0}\]</span></p></li>
+<li><p><font color="blue">If all the entries in a row (column) of an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> are zero, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}(\mathbf{A})=0\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+0 &amp; 0 &amp; 0\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} = 0}\]</span></p></li>
+<li><p><font color="green">If <span class="math inline">\(\mathbf{B}\)</span> is the matrix obtained by interchanging any two rows (columns) of an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}(\mathbf{B})=-\mathrm{det}(\mathbf{A})\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} = -
+\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix}}\]</span></p></li>
+<li><p><font color="green">If <span class="math inline">\(\mathbf{B}\)</span> is the matrix obtained by multiplying a row (column) by a nonzero real number <span class="math inline">\(k\)</span>, <span class="math inline">\(~\)</span> then <span class="math inline">\(\mathrm{det}(\mathbf{B})=k\mathrm{det}(\mathbf{A})\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+ka_{21} &amp; ka_{22} &amp; ka_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} = k
+\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix}}\]</span></p></li>
+<li><p><font color="blue">If <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> are both <span class="math inline">\(n \times n\)</span> matrices, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}(\mathbf{AB})=\mathrm{det}(\mathbf{A})\cdot \mathrm{det}(\mathbf{B})\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+\begin{pmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{pmatrix}
+\begin{pmatrix}
+b_{11} &amp; b_{12} &amp; b_{13}\\
+b_{21} &amp; b_{22} &amp; b_{23}\\
+b_{31} &amp; b_{32} &amp; b_{33}
+\end{pmatrix}
+\end{vmatrix}
+=
+\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix}
+\begin{vmatrix}
+b_{11} &amp; b_{12} &amp; b_{13}\\
+b_{21} &amp; b_{22} &amp; b_{23}\\
+b_{31} &amp; b_{32} &amp; b_{33}
+\end{vmatrix}}\]</span></p></li>
+<li><p><font color="blue">Suppose <span class="math inline">\(\mathbf{B}\)</span> is the matrix obtained from an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> by multiplying a row(column) by a nonzero <span class="math inline">\(k\)</span> and adding the result to another row(column). <span class="math inline">\(~\)</span> Then <span class="math inline">\(\mathrm{det}(\mathbf{B})=\mathrm{det}(\mathbf{A})\)</span></font></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+ka_{21} +a_{31} &amp; ka_{22}+a_{32} &amp; ka_{23} +a_{33}
+\end{vmatrix}
+=
+\begin{vmatrix}
+a_{11} &amp; a_{12} &amp; a_{13}\\
+a_{21} &amp; a_{22} &amp; a_{23}\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix}}\]</span></p></li>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> triangular matrix, <span class="math inline">\(~\)</span>then <span class="math inline">\(\mathrm{det}(\mathbf{A})=a_{11} a_{22}\cdots a_{nn}\)</span></p>
+<p><span class="math display">\[{\scriptsize\begin{vmatrix}
+a_{11} &amp; 0 &amp; 0\\
+a_{21} &amp; a_{22} &amp; 0\\
+a_{31} &amp; a_{32} &amp; a_{33}
+\end{vmatrix} = a_{11} a_{22} a_{33}}\]</span></p></li>
+</ul>
+<p><strong>Alien Cofactors</strong></p>
+<ul>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix. If <span class="math inline">\(a_{i1}, a_{i2}, \cdots, a_{in}\)</span> are the entries in the <span class="math inline">\(i\)</span>-th row and <span class="math inline">\(C_{p1}, C_{p2}, \cdots, C_{pn}\,\)</span> are the cofactors of the entries in the <span class="math inline">\(p\)</span>-th row, <span class="math inline">\(~\)</span>then</p>
+<p><span class="math display">\[\sum_{k=1}^n a_{ik}C_{pk}=0\;\;\text{for}\; i \neq p\]</span></p></li>
+<li><p>If <span class="math inline">\(a_{1j}, a_{2j}, \cdots, a_{nj}\)</span> are the entries in the <span class="math inline">\(j\)</span>-th column and <span class="math inline">\(C_{1p},\)</span> <span class="math inline">\(C_{2p},\)</span> <span class="math inline">\(\cdots,\)</span> <span class="math inline">\(C_{np}\)</span> are the cofactors of the entries in the <span class="math inline">\(p\)</span>-th column, <span class="math inline">\(~\)</span>then</p>
+<p><span class="math display">\[\sum_{k=1}^n a_{kj}C_{kp}=0\;\;\text{for}\; j \neq p\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> State the appropriate theorem(s) in this section that justifies the given equality</p>
+<p><span class="math display">\[\begin{vmatrix}
+1 &amp; 2\\
+3 &amp; 4
+\end{vmatrix} = -
+\begin{vmatrix}
+3 &amp; 4\\
+1 &amp; 2
+\end{vmatrix}\]</span></p>
+<p><span class="math display">\[\begin{vmatrix}
+-5 &amp; \phantom{-}6\\
+\phantom{-}2 &amp; -8
+\end{vmatrix} =
+\begin{vmatrix}
+\phantom{-}1 &amp; \phantom{-}6\\
+-6 &amp; -8
+\end{vmatrix}\]</span></p>
+<p><span class="math display">\[{\begin{vmatrix}
+1 &amp; 2 &amp; \phantom{--}3\\
+4 &amp; 2 &amp; \phantom{-}18\\
+5 &amp; 9 &amp; -12
+\end{vmatrix} = 6
+\begin{vmatrix}
+1 &amp; 2 &amp; \phantom{-}1\\
+2 &amp; 1 &amp; \phantom{-}3\\
+5 &amp; 9 &amp; -4
+\end{vmatrix}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate the determinant of the given matrix using the result</p>
+<p><span class="math display">\[\begin{vmatrix}
+a_1 &amp; a_2 &amp; a_3\\
+b_1 &amp; b_2 &amp; b_3\\
+c_1 &amp; c_2 &amp; c_3
+\end{vmatrix} = 5\]</span></p>
+<p><strong>1.</strong> <span class="math inline">\(~\)</span> <span class="math inline">\({\scriptsize \mathbf{A} =
+\begin{pmatrix}
+a_3 &amp; a_2 &amp; a_1\\
+b_3 &amp; b_2 &amp; b_1\\
+c_3 &amp; c_2 &amp; c_1
+\end{pmatrix}}\)</span></p>
+<p><strong>2.</strong> <span class="math inline">\(~\)</span> <span class="math inline">\({\scriptsize\mathbf{A} =
+\begin{pmatrix}
+2a_1 &amp; a_2 &amp; a_3\\
+6b_1 &amp; 3b_2 &amp; 3b_3\\
+2c_1 &amp; c_2 &amp; c_3
+\end{pmatrix}}\)</span></p>
+<p><strong>3.</strong> <span class="math inline">\(~\)</span> <span class="math inline">\({\scriptsize\mathbf{A} =
+\begin{pmatrix}
+4a_1 -2a_3 &amp; a_2 &amp; a_3\\
+4b_1 -2b_3 &amp; b_2 &amp; b_3\\
+2c_1 -c_3 &amp; \frac{1}{2}c_2 &amp; \frac{1}{2}c_3
+\end{pmatrix}}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Consider the matrix</p>
+<p><span class="math display">\[{\mathbf{A} =
+\begin{pmatrix}
+1 &amp; 1 &amp; 1\\
+x &amp; y &amp; z\\
+y+z &amp; x+z &amp; x+y
+\end{pmatrix}}\]</span></p>
+<p>Without expanding, <span class="math inline">\(~\)</span>show that <span class="math inline">\(\mathrm{det}\, \mathbf{A}=0\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate</p>
+<p><span class="math display">\[{\begin{vmatrix}
+1 &amp; 1 &amp; 1 &amp; 1\\
+a &amp; b &amp; c &amp; d\\
+a^2 &amp; b^2 &amp; c^2 &amp; d^2\\
+a^3 &amp; b^3 &amp; c^3 &amp; d^3
+\end{vmatrix}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-6" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="sec-8-6"><span class="header-section-number">6.6</span> Inverse of a Matrix</h2>
+<ul>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n \times n\)</span> matrix and there exists an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{B}\)</span> such that</p>
+<p><span class="math display">\[\mathbf{A}\mathbf{B}=\mathbf{B}\mathbf{A}=\mathbf{I}\]</span></p>
+<p>then <span class="math inline">\(\mathbf{A}\)</span> is said to be <strong>nonsingular</strong> or <strong>invertible</strong> and <span class="math inline">\(\mathbf{B}\)</span> is the <strong>inverse</strong> of <span class="math inline">\(\mathbf{A}\)</span></p></li>
+<li><p>An <span class="math inline">\(n \times n\)</span> matrix that has no inverse is called <strong>singular</strong>. If <span class="math inline">\(\mathbf{A}\)</span> is nonsingular, <span class="math inline">\(~\)</span>its inverse is denoted by <span class="math inline">\(\mathbf{B}=\mathbf{A}^{-1}\)</span></p></li>
+</ul>
 
 
 </section>
