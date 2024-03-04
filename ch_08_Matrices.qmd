@@ -563,3 +563,31 @@ $~$
   * the row space of $\mathbf{A}$ = the row space of $\mathbf{B}$
   * the nonezero rows of $\mathbf{B}$ form a basis for the row space of $\mathbf{A}$, $~$and
   * $\mathrm{rank}(\mathbf{A})$ = the number of nonzero rows in $\mathbf{B}$
+
+* <font color='red'>**Consistency of** $~\mathbf{A}\mathbf{x}=\mathbf{b}$</font>
+
+  * A linear system of equations $\mathbf{A}\mathbf{x}=\mathbf{b}$ is <font color='red'>consistent if and only if $~\mathrm{rank}(\mathbf{A})=\mathrm{rank}(\mathbf{A}|\mathbf{b})$</font>
+
+  * Suppose a linear system $\mathbf{A}\mathbf{x}=\mathbf{b}$ with $m$ equations and $n$ unknowns is consistent.
+  $~$If <font color='blue'>$\mathrm{rank}(\mathbf{A})=r\leq n$</font>, then the solution of the system contains <font color='blue'>$n -r$ parameters</font>. This means that we have the <font color='blue'>unique solution when $r=n$</font>
+
+$${\scriptsize
+  \left(\begin{array}{cccc|c}
+    a_{11} & a_{12} & \cdots & a_{1n} & b_1\\ 
+    a_{21} & a_{22} & \ddots & a_{2n} & b_2\\ 
+    \vdots & \ddots & \ddots & \vdots & \vdots\\ 
+    a_{m1} & a_{m2} & \cdots & a_{mn} & b_m
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}} \\ 
+  {\scriptsize
+  \left(\begin{array}{cccc|ccc|c}
+    1      & a_{12}' & \cdots & a_{1{\color{red}r}}'& a_{1r+1}' & \cdots   & a_{1n}' & b_1' \\ 
+    0      & 1       & \ddots & \vdots & a_{2r+1}' & \ddots   & a_{2n}' & b_2' \\
+    \vdots & \ddots  & \ddots & \vdots & \vdots    & \ddots   & \vdots  & \vdots \\    
+    0      & \cdots  & 0      & 1      & a_{{\color{red}r}r+1}' & \cdots   & a_{rn}' & b_r' \\ \hline     
+    0      & 0       & 0      & 0      & 0         & 0        & 0       & {\color{red} 0} \\
+    \vdots & \vdots  & \vdots & \vdots & \vdots    & \vdots   & \vdots  & {\color{red} \vdots} \\    
+    0      & 0       & 0      & 0      & 0         & 0        & 0       & {\color{red} 0}    
+  \end{array}\right)}$$
+
+![](figures/ch08_figure02.png "Equal"){width="60%" fig-align="center"}
