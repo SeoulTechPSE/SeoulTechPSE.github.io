@@ -229,6 +229,8 @@ window.Quarto = {
   <li><a href="#sec-8-7" id="toc-sec-8-7" class="nav-link" data-scroll-target="#sec-8-7"><span class="header-section-number">6.7</span> Cramer’s Rule</a></li>
   <li><a href="#sec-8-8" id="toc-sec-8-8" class="nav-link" data-scroll-target="#sec-8-8"><span class="header-section-number">6.8</span> The Eigenvalue Problem</a></li>
   <li><a href="#sec-8-9" id="toc-sec-8-9" class="nav-link" data-scroll-target="#sec-8-9"><span class="header-section-number">6.9</span> Powers of Matrices</a></li>
+  <li><a href="#sec-8-10" id="toc-sec-8-10" class="nav-link" data-scroll-target="#sec-8-10"><span class="header-section-number">6.10</span> Orthogonal Matrices</a></li>
+  <li><a href="#sec-8-11" id="toc-sec-8-11" class="nav-link" data-scroll-target="#sec-8-11"><span class="header-section-number">6.11</span> Approximation of Eigenvalues</a></li>
   </ul>
 </nav>
     </div>
@@ -1324,7 +1326,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
    -\frac{3}{2}\\
     1
   \end{array}\right)\]</span></p>
-<div id="8aa7535b" class="cell" data-execution_count="1">
+<div id="7c9e1742" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1421,7 +1423,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
     1\\
    -1
   \end{array}\right)\]</span></p>
-<div id="48702dfe" class="cell" data-execution_count="2">
+<div id="4d211288" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
@@ -1477,7 +1479,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\mathbf{k}_2=\begin{pmatrix}
      -1 \\ \;\;0
    \end{pmatrix}\]</span></p>
-<div id="19edd014" class="cell" data-execution_count="3">
+<div id="5d405654" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">7</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
@@ -1547,6 +1549,129 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\lambda^m = a_0 +a_1 \lambda +\cdots +a_{n-1}\lambda^{n-1}\]</span></p>
 <p>hold for the same constants</p></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Verify that the given matrix satisfies its own characteristic equation</p>
+<p><span class="math display">\[~\mathbf{A}=\begin{pmatrix}
+1 &amp; -2\\
+4 &amp; \phantom{-}5
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Compute <span class="math inline">\(\mathbf{A}^m\)</span></p>
+<p><span class="math display">\[\mathbf{A}=\begin{pmatrix}
+8 &amp; 5\\
+4 &amp; 0
+\end{pmatrix}; \;\;m=5,\;\;
+\mathbf{A}=\begin{pmatrix}
+1 &amp; 1 &amp; 1\\
+0 &amp; 1 &amp; 2\\
+0 &amp; 1 &amp; 0
+\end{pmatrix}; \;\;m=10\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Show that the given matrix has an eigenvalue <span class="math inline">\(\lambda_1\)</span> of multiplicity two. <span class="math inline">\(~\)</span> As a consequence, <span class="math inline">\(~\)</span>the equation <span class="math inline">\(\lambda^m=c_0+c_1\lambda\)</span> does not yield enough independent equations to form a system for determining the coefficients <span class="math inline">\(c_i\)</span>. <span class="math inline">\(~\)</span>Use the derivative (with respect to <span class="math inline">\(\lambda\)</span>) of this equation evaluated at <span class="math inline">\(\lambda_1\)</span> as the extra needed equation to form a system. <span class="math inline">\(~\)</span>Compute <span class="math inline">\(\mathbf{A}^m\)</span> and use this result to compute the indicated power of the matrix <span class="math inline">\(\mathbf{A}\)</span></p>
+<p><span class="math display">\[\mathbf{A}=\begin{pmatrix}
+\phantom{-}7 &amp; 3\\
+-3 &amp; 1
+\end{pmatrix}; \;\;m=6\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> <span class="math inline">\(\lambda=0~\)</span> is an eigenvalue of each matrix. <span class="math inline">\(~\)</span>In this case, <span class="math inline">\(~\)</span> show that the coefficient <span class="math inline">\(c_0\)</span> in the characteristic equation</p>
+<p><span class="math display">\[(-1)^n\mathbf{A}^n + c_{n-1}\mathbf{A}^{n-1}+\cdots+c_1\mathbf{A}+c_0\mathbf{I}=\mathbf{0}\]</span></p>
+<p>is <span class="math inline">\(0\)</span>. <span class="math inline">\(~\)</span>Compute <span class="math inline">\(\mathbf{A}^m\)</span> in each case. <span class="math inline">\(~\)</span>In part (a), <span class="math inline">\(~\)</span>explain why we do not have to solve any system for the coefficients <span class="math inline">\(c_1\)</span> in determining <span class="math inline">\(\mathbf{A}^m\)</span></p>
+<p><span class="math display">\[(a)\;\;\mathbf{A}=\begin{pmatrix}
+1 &amp; 1\\
+3 &amp; 3
+\end{pmatrix},\;\;(b)\;\;
+\mathbf{A}=\begin{pmatrix}
+2 &amp; 1 &amp; \phantom{-}1\\
+1 &amp; 0 &amp; -2\\
+1 &amp; 1 &amp; \phantom{-}3
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> A non-zero <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}~\)</span> is said to be <strong>nilpotent of index <span class="math inline">\(m\)</span></strong> <span class="math inline">\(~\)</span>if <span class="math inline">\(m\)</span> is the smallest positive integer for which <span class="math inline">\(\mathbf{A}^m=\mathbf{0}\)</span>.</p>
+<p><strong>1.</strong> <span class="math inline">\(~\)</span>Explain why any nilpotent matrix <span class="math inline">\(~\mathbf{A}\)</span> is singular</p>
+<p><strong>2.</strong> <span class="math inline">\(~\)</span>Show that all the eigenvalues of a nilpotent matrix <span class="math inline">\(~\mathbf{A}\)</span> are <span class="math inline">\(0\)</span></p>
+</section>
+<section id="sec-8-10" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="sec-8-10"><span class="header-section-number">6.10</span> Orthogonal Matrices</h2>
+<ul>
+<li><p><font color="red">Let <span class="math inline">\(\mathbf{A}\)</span> be a <em>symmetric</em> matrix (<span class="math inline">\(\mathbf{A}=\mathbf{A}^T\)</span>) with <em>real</em> entries. Then the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are <em>real</em></font></p></li>
+<li><p><font color="blue">Let <span class="math inline">\(\mathbf{A}\)</span> be a <em>symmetric</em> matrix. Then eigenvectors corresponding to distinct(different) eigenvalues are <em>orthogonal</em></font></p></li>
+<li><p><font color="red">An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is <em>orthogonal</em> (<span class="math inline">\(\mathbf{A}^{-1}=\mathbf{A}^T\)</span>) <span class="math inline">\(~\)</span>if and only if its columns <span class="math inline">\(\mathbf{x}_1,\)</span> <span class="math inline">\(\mathbf{x}_2,\)</span> <span class="math inline">\(\cdots,\)</span> <span class="math inline">\(\mathbf{x}_n\)</span> form an orthonormal set</font></p>
+<p><span class="math display">\[\mathbf{x}_i \cdot \mathbf{x}_j=0, \;i \neq j \; \text{and} \;\mathbf{x}_i \cdot \mathbf{x}_i=1\]</span></p></li>
+<li><p>It may not be possible to find <span class="math inline">\(n\)</span> linearly independent eigenvectors for an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> when some of eigenvalues are repeated (defective matrix)</p></li>
+<li><p><font color="red">But a symmetric matrix is an exception. <span class="math inline">\(~\)</span>It can be proved that a set of <span class="math inline">\(n\)</span> linearly independent eigenvectors can always be found for an <span class="math inline">\(n \times n\)</span> symmetric matrix <span class="math inline">\(\mathbf{A}\)</span> even there is some repetition of the eigenvalues</font></p></li>
+<li><p>However, <span class="math inline">\(~\)</span>this does not mean that all eigenvectors are mutually orthogonal for an <span class="math inline">\(n \times n\)</span> symmetric matrix <span class="math inline">\(\mathbf{A}\)</span>. The set of eigenvectors corresponding to distinct eigenvalues are orthogonal; <span class="math inline">\(~\)</span>but different eigenvectors corresponding to a repeated eigenvalue may not be orthogonal</p></li>
+<li><p>But it is always possible to <em>find</em> or <em>construct</em> a set of <span class="math inline">\(n\)</span> mutually orthogonal eigenvectors by using Gram-Schmidt orthogonalization</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Construct an orthogonal matrix from the eigenvectors of</p>
+<p><span class="math display">\[\mathbf{A}=
+  \left(\begin{array}{rrr}
+    7 &amp; 4 &amp; -4\\
+    4 &amp;-8 &amp; -1\\
+   -4 &amp;-1 &amp; -8
+  \end{array}\right)\]</span></p>
+<div id="a7c0f2b7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">7</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">4</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">8</span>]])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<p><span class="math inline">\(\displaystyle \left[ \left( -9, \  2, \  \left[ \left[\begin{matrix}- \frac{1}{4}\\1\\0\end{matrix}\right], \  \left[\begin{matrix}\frac{1}{4}\\0\\1\end{matrix}\right]\right]\right), \  \left( 9, \  1, \  \left[ \left[\begin{matrix}-4\\-1\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<div id="6f18f283" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> A.eigenvects()[<span class="dv">1</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v3 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">1</span>].T</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], <span class="va">True</span>))<span class="op">;</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}- \frac{2 \sqrt{2}}{3} &amp; - \frac{\sqrt{2}}{6} &amp; \frac{\sqrt{2}}{6}\\- \frac{\sqrt{17}}{17} &amp; \frac{4 \sqrt{17}}{17} &amp; 0\\\frac{2 \sqrt{34}}{51} &amp; \frac{\sqrt{34}}{102} &amp; \frac{\sqrt{34}}{6}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<div id="ca8618bf" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>B.T <span class="op">*</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Determine whether the given matrix is orthogonal</p>
+<p><span class="math display">\[\begin{pmatrix}
+0 &amp; 1 &amp; 0\\
+1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp; 1
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+\phantom{-}0 &amp; 0 &amp; 1\\
+-\frac{12}{13}&amp; \frac{5}{13} &amp; 0\\
+\phantom{-}\frac{5}{13}&amp;  \frac{12}{13}&amp; 0
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> (a)<span class="math inline">\(~\)</span> Verify that the indicated column vectors are eigenvectors of the given symmetric matrix and <span class="math inline">\(~\)</span>(b)<span class="math inline">\(~\)</span> identify the corresponding eigenvalues. <span class="math inline">\(~\)</span>(c)<span class="math inline">\(~\)</span> Use Gram-Schmidt process to construct an orthogonal matrix <span class="math inline">\(\mathbf{P}\)</span> from the eigenvectors</p>
+<p><span class="math display">\[\mathbf{A}=
+\begin{pmatrix}
+0 &amp; 2 &amp; 2\\
+2 &amp; 0 &amp; 2\\
+2 &amp; 2 &amp; 0
+\end{pmatrix}; \;\; \mathbf{k}_1=\begin{pmatrix}
+\phantom{-}1\\ -1\\ \phantom{-}0
+\end{pmatrix}, \;\; \mathbf{k}_2=\begin{pmatrix}
+\phantom{-}1\\ \phantom{-}0\\ -1
+\end{pmatrix}, \;\; \mathbf{k}_3 = \begin{pmatrix}
+1 \\ 1 \\ 1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Answer the questions based on the supposition</p>
+<ul>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}~\)</span> are <span class="math inline">\(~n\times n\)</span> orthogonal matrices. Then show that <span class="math inline">\(\mathbf{AB}~\)</span> is orthogonal</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}\)</span> is an orthogonal matrix. <span class="math inline">\(~\)</span>Is <span class="math inline">\(\mathbf{A}^2~\)</span> is orthogonal</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}~\)</span> is an orthogonal matrix. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{A}^{-1}\)</span> is orthogonal</p></li>
+<li><p>Suppose <span class="math inline">\(\mathbf{A}~\)</span> is an orthogonal matrix such that <span class="math inline">\(~\mathbf{A}^2=\mathbf{I}~\)</span>. <span class="math inline">\(~\)</span>Then show that <span class="math inline">\(\mathbf{A}^T=\mathbf{A}\)</span></p></li>
+<li><p>Show that the rotation matrix is orthogonal</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-11" class="level2" data-number="6.11">
+<h2 data-number="6.11" class="anchored" data-anchor-id="sec-8-11"><span class="header-section-number">6.11</span> Approximation of Eigenvalues</h2>
 
 
 </section>

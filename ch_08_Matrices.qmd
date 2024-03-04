@@ -1593,3 +1593,166 @@ $~$
     
   hold for the same constants
 
+$~$
+
+**Example** $\,$ Verify that the given matrix satisfies its own characteristic equation
+  
+$$~\mathbf{A}=\begin{pmatrix}
+ 1 & -2\\ 
+ 4 & \phantom{-}5
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Compute $\mathbf{A}^m$
+
+$$\mathbf{A}=\begin{pmatrix}
+ 8 & 5\\ 
+ 4 & 0
+\end{pmatrix}; \;\;m=5,\;\;
+\mathbf{A}=\begin{pmatrix}
+ 1 & 1 & 1\\ 
+ 0 & 1 & 2\\ 
+ 0 & 1 & 0
+\end{pmatrix}; \;\;m=10$$
+
+$~$
+
+**Example** $\,$ Show that the given matrix has an eigenvalue $\lambda_1$ of multiplicity two. $~$ As a consequence, $~$the equation $\lambda^m=c_0+c_1\lambda$ does not yield enough independent equations to form a system for determining the coefficients $c_i$. $~$Use the derivative (with respect to $\lambda$) of this equation evaluated at $\lambda_1$ as the extra needed equation to form a system. $~$Compute $\mathbf{A}^m$ and use this result to compute the indicated power of the matrix $\mathbf{A}$
+
+$$\mathbf{A}=\begin{pmatrix}
+ \phantom{-}7 & 3\\ 
+ -3 & 1
+\end{pmatrix}; \;\;m=6$$
+
+$~$
+
+**Example** $\,$ $\lambda=0~$ is an eigenvalue of each matrix. $~$In this case, $~$ show that the coefficient $c_0$ in the characteristic equation
+
+$$(-1)^n\mathbf{A}^n + c_{n-1}\mathbf{A}^{n-1}+\cdots+c_1\mathbf{A}+c_0\mathbf{I}=\mathbf{0}$$
+  
+  is $0$. $~$Compute $\mathbf{A}^m$ in each case. $~$In part (a), $~$explain why we do not have to solve any system for the coefficients $c_1$ in determining $\mathbf{A}^m$
+  
+$$(a)\;\;\mathbf{A}=\begin{pmatrix}
+ 1 & 1\\ 
+ 3 & 3
+\end{pmatrix},\;\;(b)\;\;
+\mathbf{A}=\begin{pmatrix}
+ 2 & 1 & \phantom{-}1\\ 
+ 1 & 0 & -2\\ 
+ 1 & 1 & \phantom{-}3
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ A non-zero $n \times n$ matrix $\mathbf{A}~$ is said to be **nilpotent of index $m$** $~$if $m$ is the smallest positive integer for which $\mathbf{A}^m=\mathbf{0}$. 
+
+**1.** $~$Explain why any nilpotent matrix $~\mathbf{A}$ is singular
+
+**2.** $~$Show that all the eigenvalues of a nilpotent matrix $~\mathbf{A}$ are $0$ 
+
+
+## Orthogonal Matrices {#sec-8-10}
+
+* <font color='red'>Let $\mathbf{A}$ be a *symmetric* matrix ($\mathbf{A}=\mathbf{A}^T$) with *real* entries. Then the eigenvalues of $\mathbf{A}$ are *real*</font>
+
+* <font color='blue'>Let $\mathbf{A}$ be a *symmetric* matrix. Then eigenvectors corresponding to distinct(different) eigenvalues are *orthogonal*</font>
+
+* <font color='red'>An $n \times n$ matrix $\mathbf{A}$ is *orthogonal* ($\mathbf{A}^{-1}=\mathbf{A}^T$) $~$if and only if its columns $\mathbf{x}_1,$ $\mathbf{x}_2,$ $\cdots,$ $\mathbf{x}_n$ form an orthonormal set</font>
+  
+  $$\mathbf{x}_i \cdot \mathbf{x}_j=0, \;i \neq j \; \text{and} \;\mathbf{x}_i \cdot \mathbf{x}_i=1$$
+
+* It may not be possible to find $n$ linearly independent eigenvectors for an $n \times n$ matrix $\mathbf{A}$
+  when some of eigenvalues are repeated (defective matrix)
+  
+* <font color='red'>But a symmetric matrix is an exception. $~$It can be proved that a set of 
+  $n$ linearly independent eigenvectors can always be found for an $n \times n$ symmetric matrix $\mathbf{A}$ even
+  there is some repetition of the eigenvalues</font>
+
+* However, $~$this does not mean that all eigenvectors are mutually orthogonal for an $n \times n$ symmetric matrix $\mathbf{A}$.
+  The set of eigenvectors corresponding to distinct eigenvalues are orthogonal; $~$but different eigenvectors corresponding to 
+  a repeated eigenvalue may not be orthogonal
+  
+* But it is always possible to *find* or *construct* a set of $n$ mutually orthogonal eigenvectors by using Gram-Schmidt orthogonalization
+
+$~$
+
+**Example** $\,$ Construct an orthogonal matrix from the eigenvectors of
+
+$$\mathbf{A}=
+  \left(\begin{array}{rrr}
+    7 & 4 & -4\\ 
+    4 &-8 & -1\\ 
+   -4 &-1 & -8
+  \end{array}\right)$$
+
+```{python}
+# | echo: true
+A = sympy.Matrix([[7, 4, -4], [4, -8, -1], [-4, -1, -8]])
+A.eigenvects()
+```
+
+```{python}
+# | echo: true
+v1 = A.eigenvects()[1][2][0].T
+v2 = A.eigenvects()[0][2][0].T
+v3 = A.eigenvects()[0][2][1].T
+
+B = sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], True)); B
+```
+
+```{python}
+# | echo: true
+B.T * B
+```
+
+$~$
+
+**Example** $\,$ Determine whether the given matrix is orthogonal
+
+$$\begin{pmatrix}
+ 0 & 1 & 0\\ 
+ 1 & 0 & 0\\ 
+ 0 & 0 & 1
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+ \phantom{-}0 & 0 & 1\\ 
+ -\frac{12}{13}& \frac{5}{13} & 0\\ 
+ \phantom{-}\frac{5}{13}&  \frac{12}{13}& 0
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ (a)$~$ Verify that the indicated column vectors are eigenvectors of the given symmetric matrix and $~$(b)$~$ identify the corresponding eigenvalues. $~$(c)$~$ Use Gram-Schmidt process to construct an orthogonal matrix $\mathbf{P}$ from the eigenvectors
+
+$$\mathbf{A}=
+\begin{pmatrix}
+ 0 & 2 & 2\\ 
+ 2 & 0 & 2\\ 
+ 2 & 2 & 0
+\end{pmatrix}; \;\; \mathbf{k}_1=\begin{pmatrix}
+\phantom{-}1\\ -1\\ \phantom{-}0
+\end{pmatrix}, \;\; \mathbf{k}_2=\begin{pmatrix}
+\phantom{-}1\\ \phantom{-}0\\ -1
+\end{pmatrix}, \;\; \mathbf{k}_3 = \begin{pmatrix}
+1 \\ 1 \\ 1
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Answer the questions based on the supposition
+
+* Suppose $\mathbf{A}$ and $\mathbf{B}~$ are $~n\times n$ orthogonal matrices. Then show that $\mathbf{AB}~$ is orthogonal
+
+* Suppose $\mathbf{A}$ is an orthogonal matrix. $~$Is $\mathbf{A}^2~$ is orthogonal
+
+* Suppose $\mathbf{A}~$ is an orthogonal matrix. $~$Then show that $\mathbf{A}^{-1}$ is orthogonal
+
+* Suppose $\mathbf{A}~$ is an orthogonal matrix such that $~\mathbf{A}^2=\mathbf{I}~$. $~$Then show that $\mathbf{A}^T=\mathbf{A}$
+
+* Show that the rotation matrix is orthogonal
+
+$~$
+
+## Approximation of Eigenvalues {#sec-8-11}
+
