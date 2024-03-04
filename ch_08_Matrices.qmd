@@ -1198,4 +1198,398 @@ $~$
 * The problem of solving $~\mathbf{A}\mathbf{k}=\lambda\mathbf{k}~$ for nonzero vectors $\mathbf{k}$ is
   called to be the **eigenvalue problem** for $\mathbf{A}$
 
+* We must solve the **characteristic equation** 
+  $~\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=0~$ to find an eigenvalue $\lambda$
+  
+* To find an eigenvector $\mathbf{k}$ corresponding to an eigenvalue $\lambda$, $~$we solve $~(\mathbf{A} -\lambda\mathbf{I})\mathbf{k}=\mathbf{0}~$ by applying Gauss elimination 
+  to $~(\mathbf{A} -\lambda\mathbf{I}|\mathbf{0})$
+
+$~$
+
+**Example** $\,$ Find the eigenvalues and eigenvectors of
+ 
+$$\mathbf{A}=
+  \left(\begin{array}{rrr}
+    1 & 2 &  1\\ 
+    6 &-1 &  0\\ 
+   -1 &-2 & -1
+  \end{array}\right)   
+  $$
+
+To find the eigenvalues, $~$ we solve
+  
+$${\scriptsize
+  \mathrm{det} (\mathbf{A} -\lambda\mathbf{I}) =
+  \begin{vmatrix}
+    1 -\lambda & \;\;\,2 & \;\;\,1\\ 
+    6 & -1 -\lambda & \;\;\,0\\ 
+    -1\;\;\, & -2 & -1 -\lambda
+  \end{vmatrix}=0}$$
+  
+It follows that the characteristic equation is 
+  
+$$~-\lambda^3 -\lambda^2 +12\lambda=-\lambda(\lambda+4)(\lambda-3)=0$$
+  
+Hence the eigenvalues are $~\lambda_1=-4$, $\,\lambda_2=0$, $\,\lambda_3=3$
+
+For $\lambda_1=-4$, $~$we have
+  
+$$
+  (\mathbf{A} +4\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+    5 & 2 &  1 & 0\\ 
+    6 & 3 &  0 & 0\\ 
+   -1 &-2 &  3 & 0
+  \end{array}\right)
+  \overset{\;\text{row operations}\;}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & 1 & 0\\ 
+    0 & 1 &-2 & 0\\ \hline
+    0 & 0 & 0 & 0
+  \end{array}\right)}$$
+
+Thus $k_1=-k_3$, $\text{ }k_2=2k_3$. Choosing $\text{ }k_3=1$ gives the eigenvector
+  
+$$\mathbf{k}_1=
+  \left(\begin{array}{r}
+    -1\\ 
+     2\\ 
+     1
+  \end{array}\right)$$
+
+For $\lambda_2=0$, $~$we have
+  
+$$
+  (\mathbf{A} -0\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 & 2 &  1 & 0\\ 
+    6 &-1 &  0 & 0\\ 
+   -1 &-2 & -1 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & \frac{1}{13} & 0\\ 
+    0 & 1 & \frac{6}{13} & 0\\ \hline
+    0 & 0 & 0\; & 0
+  \end{array}\right)}$$
+  
+Thus $k_1=-\frac{1}{13}k_3$, $\text{ }k_2=-\frac{6}{13}k_3$. $~$Choosing $~k_3=1$ gives the eigenvector
+  
+$$\mathbf{k}_2=
+  \left(\begin{array}{r}
+    -\frac{1}{13}\\ 
+    -\frac{6}{13}\\ 
+    1\;
+  \end{array}\right)$$
+
+For $\lambda_3=3$, $~$ we have
+  
+$$
+  (\mathbf{A} -3\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+   -2 & 2 &  1 & 0\\ 
+    6 &-4 &  0 & 0\\ 
+   -1 &-2 & -4 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & 1 & 0\\ 
+    0 & 1 & \frac{3}{2} & 0\\ \hline
+    0 & 0 & 0 & 0
+  \end{array}\right)}$$
+  
+Thus $k_1=-k_3$, $\text{ }k_2=-\frac{3}{2}k_3$. $~$Choosing $\text{ }k_3=1$ gives the eigenvector
+  
+$$\mathbf{k}_3=
+  \left(\begin{array}{r}
+   -1\\ 
+   -\frac{3}{2}\\ 
+    1
+  \end{array}\right)$$
+
+```{python}
+# | echo: true
+import pprint
+
+import numpy as np
+from scipy.linalg import lu
+
+import sympy
+from sympy import plot_implicit, symbols, Eq
+sympy.init_printing()
+
+A = sympy.Matrix([[1, 2, 1], [6, -1, 0], [-1, -2, -1]])
+
+A.eigenvects()
+```
+
+$~$
+
+**Example** $\,$ Find the eigenvalues and eigenvectors of
+ 
+$$\mathbf{A}=
+  \left(\begin{array}{rrr}
+    9 & 1 & 1\\ 
+    1 & 9 & 1\\ 
+    1 & 1 & 9
+  \end{array}\right)$$
+
+The characteristic equation
+  
+$${\scriptsize
+  \mathrm{det} (\mathbf{A} -\lambda\mathbf{I}) =
+  \begin{vmatrix}
+    9 -\lambda & 1 & 1\\ 
+    1 & 9 -\lambda & 1\\ 
+    1 & 1 & 9 -\lambda
+  \end{vmatrix}=-(\lambda-11)(\lambda-8)^2=0}$$
+  
+shows that $\lambda_1=11$ and that $\lambda_2=\lambda_3=8$ is an eigenvalue of multiplicity 2
+
+For $\lambda_1=11$, $~$we have
+  
+$${\scriptsize
+  (\mathbf{A} -11\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+   -2 & 1 &  1 & 0\\ 
+    1 &-2 &  1 & 0\\ 
+    1 & 1 & -2 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 & -1 & 0\\ 
+    0 & 1 & -1 & 0\\ \hline
+    0 & 0 & 0 & 0
+  \end{array}\right)}$$
+  
+Thus $k_1=k_3$, $k_2=k_3$. $~$Choosing $k_3=1$ gives the eigenvector
+  
+$$\mathbf{k}_1=
+  \left(\begin{array}{r}
+    1\\ 
+    1\\ 
+    1
+  \end{array}\right)$$
+
+For $\lambda_2=8$, $~$we have
+  
+$${\scriptsize
+  (\mathbf{A} -8\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+    1 & 1 &  1 & 0\\ 
+    1 & 1 &  1 & 0\\ 
+    1 & 1 &  1 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 1 & 1 & 0\\ \hline
+    0 & 0 & 0 & 0\\ 
+    0 & 0 & 0 & 0
+  \end{array}\right)}$$
+  
+Here $k_1 +k_2 +k_3=0$, $~$we are free to select two of the variables arbitrarily
+
+Choosing, $\,$ on the one hand, $~k_2=1$, $\,k_3=0$, and on the other, $~k_2=0$, $\,k_3=1$, $\,$ we obtain two linearly independent eigenvectors
+  
+$$\mathbf{k}_2=
+  \left(\begin{array}{r}
+   -1\\ 
+    1\\ 
+    0
+  \end{array}\right) \text{ and } 
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+   -1\\ 
+    0\\ 
+    1
+  \end{array}\right)$$
+  
+corresponding to a single eigenvalue
+
+If instead we choose $k_2=1$, $k_3=1$ and then $k_2=1$, $k_3=-1$, $~$we obtain, respectively, two entirely different but orthogonal eigenvectors
+  
+$$\mathbf{k}_2=
+  \left(\begin{array}{r}
+   -2\\ 
+    1\\ 
+    1
+  \end{array}\right) \text{ and }
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+    0\\ 
+    1\\ 
+   -1
+  \end{array}\right)$$
+
+```{python}
+# | echo: true
+A = sympy.Matrix([[9, 1, 1], [1, 9, 1], [1, 1, 9]])
+A.eigenvects()
+```
+
+$~$
+
+**Example** $\,$ Find the eigenvalues and eigenvectors of 
+
+$$\mathbf{A}=
+   \left(\begin{array}{rr}
+     3 & 4 \\ 
+    -1 & 7 
+   \end{array}\right)$$
+
+From the characteristic equation
+   
+$$\scriptsize
+   \mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=
+   \left|\begin{array}{cc}
+     3-\lambda & 4 \\ 
+    -1 & 7 -\lambda 
+   \end{array}\right|
+   =(\lambda -5)^2=0$$
+
+we see $\lambda_1=\lambda_2=5$ is an eigenvalue of algebraic multiplicity 2
+
+To find
+   the eigenvector(s) corresponding to $\lambda_1=5$, $~$we resort to 
+   the system $(\mathbf{A} -5\mathbf{I}|\mathbf{0})$
+   
+$${\scriptsize
+  (\mathbf{A} -5\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rr|r}
+   -2 & 4 & 0\\ 
+   -1 & 2 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 &-2 & 0\\ \hline
+    0 & 0 & 0
+  \end{array}\right)}$$
+  
+Thus $k_1=2k_2$. $~$If we choose $k_2=1$, $\,$ we find the single eigenvector 
+  
+$$\mathbf{k}_1=\begin{pmatrix}
+     2 \\ 1
+   \end{pmatrix}$$
+
+We define the geometric multiplicity of an eigenvalue
+  to be the number of linearly independent eigenvectors for the eigenvalue   
+
+When the geometric multiplicity of an eigenvalue is less than the algebraic 
+  multiplicity, $~$ we say the matrix is *defective*. $~$ In the case of defective matrices, $~$ we must search for additional system 
+
+$${\scriptsize
+  (\mathbf{A} -5\mathbf{I}|\mathbf{k}_1) =
+  \left(\begin{array}{rr|r}
+   -2 & 4 & 2\\ 
+   -1 & 2 & 1
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 &-2 & -1\\ \hline
+    0 & 0 & 0
+  \end{array}\right) }$$
+  
+Thus $k_1-2k_2=-1$. $~$If we choose $k_2=0$, $~$we find the generalized eigenvector
+  
+$$\mathbf{k}_2=\begin{pmatrix}
+     -1 \\ \;\;0
+   \end{pmatrix}$$
+
+```{python}
+# | echo: true
+A = sympy.Matrix([[3, 4], [-1, 7]])
+A.eigenvects()
+```
+
+$~$
+
+* Let $\mathbf{A}$ be a square matrix with real entries. If $\lambda=\alpha +i\beta$, $~\beta \neq 0$, $~$is a complex eigenvalue of $\mathbf{A}$,
+  
+  $$\mathbf{A}\bar{\mathbf{k}}=\bar{\lambda}\bar{\mathbf{k}}$$
+
+* $\lambda=0~$ is an eigenvalue of $~\mathbf{A}$ if and only if $~\mathbf{A}$ is singular
+
+* If $~\lambda~$ is an eigenvalue of nonsingular $~\mathbf{A}$ with eigenvector $~\mathbf{k}$, $~1/\lambda$ is an eigenvalue of $~\mathbf{A}^{-1}$ with the same eigenvector $~\mathbf{k}$
+
+* The eigenvalues of an upper triangular, $~$lower triangular, $~$and diagonal matrix are the main diagonal entries
+
+$~$
+
+**Example** $\,$ Find the eigenvalues and eigenvectors of the given matrix. $~$State whether the matrix is singular or nonsingular
+
+$$\begin{pmatrix}
+ -1& 2\\ 
+ -7& 8
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+ 4 & \phantom{-}8 \\ 
+ 0 & -5 
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+ 0 & 0 & -1 \\ 
+ 1 & 0 & \phantom{-}0 \\ 
+ 1 & 1 & -1 
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Find the eigenvalues and eigenvectors of the given nonsingular matrix $\mathbf{A}$. $~$Then without finding $\mathbf{A}^{-1}$, $~$find its eigenvalues and corresponding eigenvectors
+
+$$\begin{pmatrix}
+ 5& 1\\ 
+ 1& 5
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+ 4 & 2 & -1 \\ 
+ 0 & 3 & -2 \\ 
+ 0 & 0 & \phantom{-}5 
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ True or False: $~$ If $\lambda$ is an eigenvalue of an $n \times n~$ matrix $\mathbf{A}$, $~$ then the matrix $\mathbf{A}-\lambda\mathbf{I}~$ is singular. Justify your answer
+
+$~$
+
+**Example** $\,$ Suppose $\lambda$ is an eigenvalue with corresponding eigenvector $~\mathbf{k}~$ of an $n\times n~$ matrix $\mathbf{A}$
+  
+**1.** If $\mathbf{A}^2=\mathbf{AA}$, $~$ then show that $\mathbf{A}^2\mathbf{k}=\lambda^2\mathbf{k}$. $~$ Explain the meaning of the last equation
+  
+**2.** Verify the result obtained in part 1 for the matrix 
+  
+$$\mathbf{A}=\begin{pmatrix}
+ 2 & 3\\ 
+ 5 & 4
+\end{pmatrix}$$
+
+**3.** Generalize the result in part 1
+
+$~$
+
+**Example** $\,$ Let $\mathbf{A}$ and $\mathbf{B}$ be $n \times n~$ matrices. The matrix $\mathbf{B}$ is said to be **similar** to the matrix $\mathbf{A}~$ if there exists a nonsingular matrix $\mathbf{S}$ such that $\mathbf{B}=\mathbf{S}^{-1}\mathbf{AS}$. $~$If $\mathbf{B}$ is similar to $\mathbf{A}$, $~$then show that $\mathbf{A}$ is similar to $\mathbf{B}$
+
+$~$
+
+**Example** $\,$ Suppose $\mathbf{A}$ and $\mathbf{B}$ are similar matrices. Show that $\mathbf{A}$ and $\mathbf{B}$ have the same eigenvalues
+
+$~$
+
+## Powers of Matrices {#sec-8-9}
+
+* **Cayley-Hamilton Theorem**
+
+  If $(-1)^n \lambda^n +c_{n-1}\lambda^{n-1} + \cdots +c_1 \lambda +c_0 = 0~$ is the characteristic equation
+  of $n \times n$ matrix $\mathbf{A}$, $~$then
+  
+  $$(-1)^n \mathbf{A}^n +c_{n-1}\mathbf{A}^{n-1} + \cdots +c_1 \mathbf{A} +c_0 \mathbf{I} = \mathbf{0}$$
+
+  And we can write
+  
+  $$\mathbf{A}^m = a_0 \mathbf{I} +a_1 \mathbf{A} +\cdots +a_{n-1}\mathbf{A}^{n-1}$$
+    
+  and the equation for the eigenvalues
+    
+  $$\lambda^m = a_0 +a_1 \lambda +\cdots +a_{n-1}\lambda^{n-1}$$
+    
+  hold for the same constants
 

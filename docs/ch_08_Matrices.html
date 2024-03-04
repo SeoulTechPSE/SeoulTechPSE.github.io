@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -194,6 +228,7 @@ window.Quarto = {
   <li><a href="#sec-8-6" id="toc-sec-8-6" class="nav-link" data-scroll-target="#sec-8-6"><span class="header-section-number">6.6</span> Inverse of a Matrix</a></li>
   <li><a href="#sec-8-7" id="toc-sec-8-7" class="nav-link" data-scroll-target="#sec-8-7"><span class="header-section-number">6.7</span> Cramer’s Rule</a></li>
   <li><a href="#sec-8-8" id="toc-sec-8-8" class="nav-link" data-scroll-target="#sec-8-8"><span class="header-section-number">6.8</span> The Eigenvalue Problem</a></li>
+  <li><a href="#sec-8-9" id="toc-sec-8-9" class="nav-link" data-scroll-target="#sec-8-9"><span class="header-section-number">6.9</span> Powers of Matrices</a></li>
   </ul>
 </nav>
     </div>
@@ -1203,6 +1238,314 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\mathbf{A}\mathbf{k}=\lambda\mathbf{k}\]</span></p>
 <p>and the solution vector <span class="math inline">\(\mathbf{k}\)</span> is said to be an <strong>eigenvector</strong> corresponding to the eigenvalue <span class="math inline">\(\lambda\)</span></p></li>
 <li><p>The problem of solving <span class="math inline">\(~\mathbf{A}\mathbf{k}=\lambda\mathbf{k}~\)</span> for nonzero vectors <span class="math inline">\(\mathbf{k}\)</span> is called to be the <strong>eigenvalue problem</strong> for <span class="math inline">\(\mathbf{A}\)</span></p></li>
+<li><p>We must solve the <strong>characteristic equation</strong> <span class="math inline">\(~\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=0~\)</span> to find an eigenvalue <span class="math inline">\(\lambda\)</span></p></li>
+<li><p>To find an eigenvector <span class="math inline">\(\mathbf{k}\)</span> corresponding to an eigenvalue <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(~\)</span>we solve <span class="math inline">\(~(\mathbf{A} -\lambda\mathbf{I})\mathbf{k}=\mathbf{0}~\)</span> by applying Gauss elimination to <span class="math inline">\(~(\mathbf{A} -\lambda\mathbf{I}|\mathbf{0})\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the eigenvalues and eigenvectors of</p>
+<p><span class="math display">\[\mathbf{A}=
+  \left(\begin{array}{rrr}
+    1 &amp; 2 &amp;  1\\
+    6 &amp;-1 &amp;  0\\
+   -1 &amp;-2 &amp; -1
+  \end{array}\right)   
+  \]</span></p>
+<p>To find the eigenvalues, <span class="math inline">\(~\)</span> we solve</p>
+<p><span class="math display">\[{\scriptsize
+  \mathrm{det} (\mathbf{A} -\lambda\mathbf{I}) =
+  \begin{vmatrix}
+    1 -\lambda &amp; \;\;\,2 &amp; \;\;\,1\\
+    6 &amp; -1 -\lambda &amp; \;\;\,0\\
+    -1\;\;\, &amp; -2 &amp; -1 -\lambda
+  \end{vmatrix}=0}\]</span></p>
+<p>It follows that the characteristic equation is</p>
+<p><span class="math display">\[~-\lambda^3 -\lambda^2 +12\lambda=-\lambda(\lambda+4)(\lambda-3)=0\]</span></p>
+<p>Hence the eigenvalues are <span class="math inline">\(~\lambda_1=-4\)</span>, <span class="math inline">\(\,\lambda_2=0\)</span>, <span class="math inline">\(\,\lambda_3=3\)</span></p>
+<p>For <span class="math inline">\(\lambda_1=-4\)</span>, <span class="math inline">\(~\)</span>we have</p>
+<p><span class="math display">\[
+  (\mathbf{A} +4\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+    5 &amp; 2 &amp;  1 &amp; 0\\
+    6 &amp; 3 &amp;  0 &amp; 0\\
+   -1 &amp;-2 &amp;  3 &amp; 0
+  \end{array}\right)
+  \overset{\;\text{row operations}\;}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; 1 &amp; 0\\
+    0 &amp; 1 &amp;-2 &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0 &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Thus <span class="math inline">\(k_1=-k_3\)</span>, <span class="math inline">\(\text{ }k_2=2k_3\)</span>. Choosing <span class="math inline">\(\text{ }k_3=1\)</span> gives the eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_1=
+  \left(\begin{array}{r}
+    -1\\
+     2\\
+     1
+  \end{array}\right)\]</span></p>
+<p>For <span class="math inline">\(\lambda_2=0\)</span>, <span class="math inline">\(~\)</span>we have</p>
+<p><span class="math display">\[
+  (\mathbf{A} -0\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+    1 &amp; 2 &amp;  1 &amp; 0\\
+    6 &amp;-1 &amp;  0 &amp; 0\\
+   -1 &amp;-2 &amp; -1 &amp; 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; \frac{1}{13} &amp; 0\\
+    0 &amp; 1 &amp; \frac{6}{13} &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0\; &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Thus <span class="math inline">\(k_1=-\frac{1}{13}k_3\)</span>, <span class="math inline">\(\text{ }k_2=-\frac{6}{13}k_3\)</span>. <span class="math inline">\(~\)</span>Choosing <span class="math inline">\(~k_3=1\)</span> gives the eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_2=
+  \left(\begin{array}{r}
+    -\frac{1}{13}\\
+    -\frac{6}{13}\\
+    1\;
+  \end{array}\right)\]</span></p>
+<p>For <span class="math inline">\(\lambda_3=3\)</span>, <span class="math inline">\(~\)</span> we have</p>
+<p><span class="math display">\[
+  (\mathbf{A} -3\mathbf{I}|\mathbf{0}) = {\scriptsize
+  \left(\begin{array}{rrr|r}
+   -2 &amp; 2 &amp;  1 &amp; 0\\
+    6 &amp;-4 &amp;  0 &amp; 0\\
+   -1 &amp;-2 &amp; -4 &amp; 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; 1 &amp; 0\\
+    0 &amp; 1 &amp; \frac{3}{2} &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0 &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Thus <span class="math inline">\(k_1=-k_3\)</span>, <span class="math inline">\(\text{ }k_2=-\frac{3}{2}k_3\)</span>. <span class="math inline">\(~\)</span>Choosing <span class="math inline">\(\text{ }k_3=1\)</span> gives the eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_3=
+  \left(\begin{array}{r}
+   -1\\
+   -\frac{3}{2}\\
+    1
+  \end{array}\right)\]</span></p>
+<div id="8aa7535b" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.linalg <span class="im">import</span> lu</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> plot_implicit, symbols, Eq</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">6</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<p><span class="math inline">\(\displaystyle \left[ \left( -4, \  1, \  \left[ \left[\begin{matrix}-1\\2\\1\end{matrix}\right]\right]\right), \  \left( 0, \  1, \  \left[ \left[\begin{matrix}- \frac{1}{13}\\- \frac{6}{13}\\1\end{matrix}\right]\right]\right), \  \left( 3, \  1, \  \left[ \left[\begin{matrix}-1\\- \frac{3}{2}\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the eigenvalues and eigenvectors of</p>
+<p><span class="math display">\[\mathbf{A}=
+  \left(\begin{array}{rrr}
+    9 &amp; 1 &amp; 1\\
+    1 &amp; 9 &amp; 1\\
+    1 &amp; 1 &amp; 9
+  \end{array}\right)\]</span></p>
+<p>The characteristic equation</p>
+<p><span class="math display">\[{\scriptsize
+  \mathrm{det} (\mathbf{A} -\lambda\mathbf{I}) =
+  \begin{vmatrix}
+    9 -\lambda &amp; 1 &amp; 1\\
+    1 &amp; 9 -\lambda &amp; 1\\
+    1 &amp; 1 &amp; 9 -\lambda
+  \end{vmatrix}=-(\lambda-11)(\lambda-8)^2=0}\]</span></p>
+<p>shows that <span class="math inline">\(\lambda_1=11\)</span> and that <span class="math inline">\(\lambda_2=\lambda_3=8\)</span> is an eigenvalue of multiplicity 2</p>
+<p>For <span class="math inline">\(\lambda_1=11\)</span>, <span class="math inline">\(~\)</span>we have</p>
+<p><span class="math display">\[{\scriptsize
+  (\mathbf{A} -11\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+   -2 &amp; 1 &amp;  1 &amp; 0\\
+    1 &amp;-2 &amp;  1 &amp; 0\\
+    1 &amp; 1 &amp; -2 &amp; 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 0 &amp; -1 &amp; 0\\
+    0 &amp; 1 &amp; -1 &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0 &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Thus <span class="math inline">\(k_1=k_3\)</span>, <span class="math inline">\(k_2=k_3\)</span>. <span class="math inline">\(~\)</span>Choosing <span class="math inline">\(k_3=1\)</span> gives the eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_1=
+  \left(\begin{array}{r}
+    1\\
+    1\\
+    1
+  \end{array}\right)\]</span></p>
+<p>For <span class="math inline">\(\lambda_2=8\)</span>, <span class="math inline">\(~\)</span>we have</p>
+<p><span class="math display">\[{\scriptsize
+  (\mathbf{A} -8\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+    1 &amp; 1 &amp;  1 &amp; 0\\
+    1 &amp; 1 &amp;  1 &amp; 0\\
+    1 &amp; 1 &amp;  1 &amp; 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 &amp; 1 &amp; 1 &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0 &amp; 0\\
+    0 &amp; 0 &amp; 0 &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Here <span class="math inline">\(k_1 +k_2 +k_3=0\)</span>, <span class="math inline">\(~\)</span>we are free to select two of the variables arbitrarily</p>
+<p>Choosing, <span class="math inline">\(\,\)</span> on the one hand, <span class="math inline">\(~k_2=1\)</span>, <span class="math inline">\(\,k_3=0\)</span>, and on the other, <span class="math inline">\(~k_2=0\)</span>, <span class="math inline">\(\,k_3=1\)</span>, <span class="math inline">\(\,\)</span> we obtain two linearly independent eigenvectors</p>
+<p><span class="math display">\[\mathbf{k}_2=
+  \left(\begin{array}{r}
+   -1\\
+    1\\
+    0
+  \end{array}\right) \text{ and }
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+   -1\\
+    0\\
+    1
+  \end{array}\right)\]</span></p>
+<p>corresponding to a single eigenvalue</p>
+<p>If instead we choose <span class="math inline">\(k_2=1\)</span>, <span class="math inline">\(k_3=1\)</span> and then <span class="math inline">\(k_2=1\)</span>, <span class="math inline">\(k_3=-1\)</span>, <span class="math inline">\(~\)</span>we obtain, respectively, two entirely different but orthogonal eigenvectors</p>
+<p><span class="math display">\[\mathbf{k}_2=
+  \left(\begin{array}{r}
+   -2\\
+    1\\
+    1
+  \end{array}\right) \text{ and }
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+    0\\
+    1\\
+   -1
+  \end{array}\right)\]</span></p>
+<div id="48702dfe" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>]])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
+<p><span class="math inline">\(\displaystyle \left[ \left( 8, \  2, \  \left[ \left[\begin{matrix}-1\\1\\0\end{matrix}\right], \  \left[\begin{matrix}-1\\0\\1\end{matrix}\right]\right]\right), \  \left( 11, \  1, \  \left[ \left[\begin{matrix}1\\1\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the eigenvalues and eigenvectors of</p>
+<p><span class="math display">\[\mathbf{A}=
+   \left(\begin{array}{rr}
+     3 &amp; 4 \\
+    -1 &amp; 7
+   \end{array}\right)\]</span></p>
+<p>From the characteristic equation</p>
+<p><span class="math display">\[\scriptsize
+   \mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=
+   \left|\begin{array}{cc}
+     3-\lambda &amp; 4 \\
+    -1 &amp; 7 -\lambda
+   \end{array}\right|
+   =(\lambda -5)^2=0\]</span></p>
+<p>we see <span class="math inline">\(\lambda_1=\lambda_2=5\)</span> is an eigenvalue of algebraic multiplicity 2</p>
+<p>To find the eigenvector(s) corresponding to <span class="math inline">\(\lambda_1=5\)</span>, <span class="math inline">\(~\)</span>we resort to the system <span class="math inline">\((\mathbf{A} -5\mathbf{I}|\mathbf{0})\)</span></p>
+<p><span class="math display">\[{\scriptsize
+  (\mathbf{A} -5\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rr|r}
+   -2 &amp; 4 &amp; 0\\
+   -1 &amp; 2 &amp; 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 &amp;-2 &amp; 0\\ \hline
+    0 &amp; 0 &amp; 0
+  \end{array}\right)}\]</span></p>
+<p>Thus <span class="math inline">\(k_1=2k_2\)</span>. <span class="math inline">\(~\)</span>If we choose <span class="math inline">\(k_2=1\)</span>, <span class="math inline">\(\,\)</span> we find the single eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_1=\begin{pmatrix}
+     2 \\ 1
+   \end{pmatrix}\]</span></p>
+<p>We define the geometric multiplicity of an eigenvalue to be the number of linearly independent eigenvectors for the eigenvalue</p>
+<p>When the geometric multiplicity of an eigenvalue is less than the algebraic multiplicity, <span class="math inline">\(~\)</span> we say the matrix is <em>defective</em>. <span class="math inline">\(~\)</span> In the case of defective matrices, <span class="math inline">\(~\)</span> we must search for additional system</p>
+<p><span class="math display">\[{\scriptsize
+  (\mathbf{A} -5\mathbf{I}|\mathbf{k}_1) =
+  \left(\begin{array}{rr|r}
+   -2 &amp; 4 &amp; 2\\
+   -1 &amp; 2 &amp; 1
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rr|r}
+    1 &amp;-2 &amp; -1\\ \hline
+    0 &amp; 0 &amp; 0
+  \end{array}\right) }\]</span></p>
+<p>Thus <span class="math inline">\(k_1-2k_2=-1\)</span>. <span class="math inline">\(~\)</span>If we choose <span class="math inline">\(k_2=0\)</span>, <span class="math inline">\(~\)</span>we find the generalized eigenvector</p>
+<p><span class="math display">\[\mathbf{k}_2=\begin{pmatrix}
+     -1 \\ \;\;0
+   \end{pmatrix}\]</span></p>
+<div id="19edd014" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">7</span>]])</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
+<p><span class="math inline">\(\displaystyle \left[ \left( 5, \  2, \  \left[ \left[\begin{matrix}2\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>Let <span class="math inline">\(\mathbf{A}\)</span> be a square matrix with real entries. If <span class="math inline">\(\lambda=\alpha +i\beta\)</span>, <span class="math inline">\(~\beta \neq 0\)</span>, <span class="math inline">\(~\)</span>is a complex eigenvalue of <span class="math inline">\(\mathbf{A}\)</span>,</p>
+<p><span class="math display">\[\mathbf{A}\bar{\mathbf{k}}=\bar{\lambda}\bar{\mathbf{k}}\]</span></p></li>
+<li><p><span class="math inline">\(\lambda=0~\)</span> is an eigenvalue of <span class="math inline">\(~\mathbf{A}\)</span> if and only if <span class="math inline">\(~\mathbf{A}\)</span> is singular</p></li>
+<li><p>If <span class="math inline">\(~\lambda~\)</span> is an eigenvalue of nonsingular <span class="math inline">\(~\mathbf{A}\)</span> with eigenvector <span class="math inline">\(~\mathbf{k}\)</span>, <span class="math inline">\(~1/\lambda\)</span> is an eigenvalue of <span class="math inline">\(~\mathbf{A}^{-1}\)</span> with the same eigenvector <span class="math inline">\(~\mathbf{k}\)</span></p></li>
+<li><p>The eigenvalues of an upper triangular, <span class="math inline">\(~\)</span>lower triangular, <span class="math inline">\(~\)</span>and diagonal matrix are the main diagonal entries</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the eigenvalues and eigenvectors of the given matrix. <span class="math inline">\(~\)</span>State whether the matrix is singular or nonsingular</p>
+<p><span class="math display">\[\begin{pmatrix}
+-1&amp; 2\\
+-7&amp; 8
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+4 &amp; \phantom{-}8 \\
+0 &amp; -5
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+0 &amp; 0 &amp; -1 \\
+1 &amp; 0 &amp; \phantom{-}0 \\
+1 &amp; 1 &amp; -1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the eigenvalues and eigenvectors of the given nonsingular matrix <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(~\)</span>Then without finding <span class="math inline">\(\mathbf{A}^{-1}\)</span>, <span class="math inline">\(~\)</span>find its eigenvalues and corresponding eigenvectors</p>
+<p><span class="math display">\[\begin{pmatrix}
+5&amp; 1\\
+1&amp; 5
+\end{pmatrix}, \;\;
+\begin{pmatrix}
+4 &amp; 2 &amp; -1 \\
+0 &amp; 3 &amp; -2 \\
+0 &amp; 0 &amp; \phantom{-}5
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> True or False: <span class="math inline">\(~\)</span> If <span class="math inline">\(\lambda\)</span> is an eigenvalue of an <span class="math inline">\(n \times n~\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span> then the matrix <span class="math inline">\(\mathbf{A}-\lambda\mathbf{I}~\)</span> is singular. Justify your answer</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose <span class="math inline">\(\lambda\)</span> is an eigenvalue with corresponding eigenvector <span class="math inline">\(~\mathbf{k}~\)</span> of an <span class="math inline">\(n\times n~\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span></p>
+<p><strong>1.</strong> If <span class="math inline">\(\mathbf{A}^2=\mathbf{AA}\)</span>, <span class="math inline">\(~\)</span> then show that <span class="math inline">\(\mathbf{A}^2\mathbf{k}=\lambda^2\mathbf{k}\)</span>. <span class="math inline">\(~\)</span> Explain the meaning of the last equation</p>
+<p><strong>2.</strong> Verify the result obtained in part 1 for the matrix</p>
+<p><span class="math display">\[\mathbf{A}=\begin{pmatrix}
+2 &amp; 3\\
+5 &amp; 4
+\end{pmatrix}\]</span></p>
+<p><strong>3.</strong> Generalize the result in part 1</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Let <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> be <span class="math inline">\(n \times n~\)</span> matrices. The matrix <span class="math inline">\(\mathbf{B}\)</span> is said to be <strong>similar</strong> to the matrix <span class="math inline">\(\mathbf{A}~\)</span> if there exists a nonsingular matrix <span class="math inline">\(\mathbf{S}\)</span> such that <span class="math inline">\(\mathbf{B}=\mathbf{S}^{-1}\mathbf{AS}\)</span>. <span class="math inline">\(~\)</span>If <span class="math inline">\(\mathbf{B}\)</span> is similar to <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span>then show that <span class="math inline">\(\mathbf{A}\)</span> is similar to <span class="math inline">\(\mathbf{B}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> are similar matrices. Show that <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{B}\)</span> have the same eigenvalues</p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-9" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="sec-8-9"><span class="header-section-number">6.9</span> Powers of Matrices</h2>
+<ul>
+<li><p><strong>Cayley-Hamilton Theorem</strong></p>
+<p>If <span class="math inline">\((-1)^n \lambda^n +c_{n-1}\lambda^{n-1} + \cdots +c_1 \lambda +c_0 = 0~\)</span> is the characteristic equation of <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(~\)</span>then</p>
+<p><span class="math display">\[(-1)^n \mathbf{A}^n +c_{n-1}\mathbf{A}^{n-1} + \cdots +c_1 \mathbf{A} +c_0 \mathbf{I} = \mathbf{0}\]</span></p>
+<p>And we can write</p>
+<p><span class="math display">\[\mathbf{A}^m = a_0 \mathbf{I} +a_1 \mathbf{A} +\cdots +a_{n-1}\mathbf{A}^{n-1}\]</span></p>
+<p>and the equation for the eigenvalues</p>
+<p><span class="math display">\[\lambda^m = a_0 +a_1 \lambda +\cdots +a_{n-1}\lambda^{n-1}\]</span></p>
+<p>hold for the same constants</p></li>
 </ul>
 
 
