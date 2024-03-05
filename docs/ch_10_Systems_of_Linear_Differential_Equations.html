@@ -229,6 +229,11 @@ window.Quarto = {
   <li><a href="#sec-10-1" id="toc-sec-10-1" class="nav-link active" data-scroll-target="#sec-10-1"><span class="header-section-number">7.1</span> Theory of Linear Systems</a></li>
   <li><a href="#sec-10-2" id="toc-sec-10-2" class="nav-link" data-scroll-target="#sec-10-2"><span class="header-section-number">7.2</span> Homogeneous Linear Systems</a></li>
   <li><a href="#sec-10-3" id="toc-sec-10-3" class="nav-link" data-scroll-target="#sec-10-3"><span class="header-section-number">7.3</span> Solution by Diagonalization</a></li>
+  <li><a href="#sec-10-4" id="toc-sec-10-4" class="nav-link" data-scroll-target="#sec-10-4"><span class="header-section-number">7.4</span> Nonhomogeneous Linear Systems</a>
+  <ul class="collapse">
+  <li><a href="#sec-10-4-1" id="toc-sec-10-4-1" class="nav-link" data-scroll-target="#sec-10-4-1"><span class="header-section-number">7.4.1</span> method of undetermined coefficients</a></li>
+  <li><a href="#method-of-variation-of-parameters" id="toc-method-of-variation-of-parameters" class="nav-link" data-scroll-target="#method-of-variation-of-parameters"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -408,7 +413,7 @@ window.Quarto = {
 <p>the general solution of the system is</p>
 <p><span class="math display">\[\mathbf{x}=c_1 \mathbf{x}_1 +c_2\mathbf{x}_2\]</span></p></li>
 </ul>
-<div id="8f05b1d9" class="cell" data-execution_count="1">
+<div id="0057959f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -447,7 +452,7 @@ Figure&nbsp;7.1: Lotka-Volterra predator-prey model
 </div>
 </div>
 </div>
-<div id="5c6f2a6a" class="cell" data-execution_count="3">
+<div id="dd6a2f04" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">1</span>]])</span>
@@ -462,7 +467,7 @@ array([[ 0.83205029, -0.70710678],
        [ 0.5547002 ,  0.70710678]])</code></pre>
 </div>
 </div>
-<div id="8a65bb9b" class="cell" data-execution_count="4">
+<div id="2af9ef6a" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -725,7 +730,7 @@ c_3\left[
   \frac{dx}{dt} &amp;= 3x -18y\\
   \frac{dy}{dt} &amp;= 2x -9y
 \end{aligned}\]</span></p>
-<div id="46c94df5" class="cell" data-execution_count="5">
+<div id="11a00a88" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ld, k <span class="op">=</span> np.linalg.eig(A)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -738,7 +743,7 @@ array([[0.9487, 0.9487],
        [0.3162, 0.3162]])</code></pre>
 </div>
 </div>
-<div id="00b84e34" class="cell" data-execution_count="6">
+<div id="06175742" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A_.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
@@ -883,7 +888,7 @@ Figure&nbsp;7.2: Phase Portrait of defective system
 <p>The eigenvalues are <span class="math inline">\(\lambda_1=2i\)</span> and <span class="math inline">\(\lambda_2=\bar{\lambda}_1\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="e28a216e" class="cell" data-execution_count="8">
+<div id="f51eb6e4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">8</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
@@ -1006,9 +1011,316 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
   \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n
 \end{pmatrix}\]</span></p>
 <p>is said to be <strong>coupled</strong> if each <span class="math inline">\(x_i'\)</span> is expressed as a linear combination of <span class="math inline">\(x_1, x_2, \cdots, x_n\)</span>. <span class="math inline">\(\,\)</span>If <span class="math inline">\(\mathbf{A}\)</span> is diagonalizable, <span class="math inline">\(\,\)</span>the system can be <strong>decoupled</strong> so each <span class="math inline">\(x_i'\)</span> is expressed solely in terms of <span class="math inline">\(x_i\)</span></p></li>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> has <span class="math inline">\(n\)</span> linearly independent eigenvectors, <span class="math inline">\(\,\)</span>we can find a matrix <span class="math inline">\(\mathbf{P}\)</span> such that <span class="math inline">\(\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\text{ }\)</span> where <span class="math inline">\(\text{ }\mathbf{D}\)</span> is a diagonal matrix</p></li>
+<li><p>Making the substitution <span class="math inline">\(\mathbf{x}=\mathbf{P}\mathbf{y}\)</span> in <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \mathbf{x}' &amp;= \mathbf{A}\mathbf{x}\\
+       &amp;\Downarrow \;
+    \mathbf{x}=\mathbf{P}\mathbf{y}\\
+    \mathbf{P}\mathbf{y}' &amp;=
+    \mathbf{A}\mathbf{P}\mathbf{y}\\
+    \mathbf{y}' &amp;=
+    \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y}=
+    \mathbf{D}\mathbf{y}
+\end{aligned}\]</span></p>
+<p>The last equation is the same as</p>
+<p><span class="math display">\[
+  \begin{pmatrix} y_1' \\ y_2' \\ \vdots \\ y_n' \end{pmatrix}=
+  \begin{pmatrix}
+   \lambda_1 &amp; 0 &amp; \cdots &amp; 0\\
+   0 &amp; \lambda_2 &amp; \cdots &amp; 0\\
+   \vdots &amp; &amp; \ddots &amp; \vdots\\
+   0 &amp; 0 &amp; \cdots &amp; \lambda_n
+  \end{pmatrix}
+  \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix}
+\]</span></p></li>
+<li><p>The general solution of <span class="math inline">\(\mathbf{y}'=\mathbf{D}\mathbf{y}\)</span> can be written as</p>
+<p><span class="math display">\[\mathbf{y}=\begin{pmatrix} c_1 e^{\lambda_1 t} \\ c_2 e^{\lambda_2 t} \\
+   \vdots \\ c_n e^{\lambda_n t} \end{pmatrix}\]</span></p>
+<p>Then the general solution of <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> is obtained from <span class="math inline">\(\mathbf{x}=\mathbf{P}\mathbf{y}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve</p>
+<p><span class="math display">\[
+\mathbf{x}' =
+  \left(\begin{array}{rrr}
+   -2 &amp; -1 &amp; 8 \\
+    0 &amp; -3 &amp; 8 \\
+    0 &amp; -4 &amp; 9
+  \end{array}\right)\mathbf{x}\]</span></p>
+<ul>
+<li><p>We begin by finding the eigenvalues and corresponding eigenvectors of the coefficient matrix. <span class="math inline">\(\,\)</span>From <span class="math inline">\(\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=-(\lambda +2)(\lambda -1)(\lambda -5)=0\)</span>, <span class="math inline">\(\,\)</span>we get <span class="math inline">\(\lambda_1=-2\)</span>, <span class="math inline">\(\lambda_2=1\)</span>, and <span class="math inline">\(\lambda_3=5\)</span>. <span class="math inline">\(\,\)</span>Since the eigenvalues are distinct, the eigenvectors are linearly independent. Solving <span class="math inline">\((\mathbf{A} -\lambda_i\mathbf{I})=\mathbf{0}\)</span> for <span class="math inline">\(i=1,2,\)</span> and <span class="math inline">\(3\)</span> gives, respectively,</p>
+<p><span class="math display">\[
+  \mathbf{k}_1=
+  \left(\begin{array}{r}
+    1\\
+    0\\
+    0
+  \end{array}\right),\;\;
+  \mathbf{k}_2=
+  \left(\begin{array}{r}
+    2\\
+    2\\
+    1
+  \end{array}\right),\;\;
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+    1\\
+    1\\
+    1
+  \end{array}\right)    
+\]</span></p></li>
+<li><p>Thus a matrix that diagonalize <span class="math inline">\(\mathbf{A}\)</span> is</p>
+<p><span class="math display">\[
+  \mathbf{P}=
+  \left(\begin{array}{rrr}
+    1 &amp; 2 &amp; 1 \\
+    0 &amp; 2 &amp; 1 \\
+    0 &amp; 1 &amp; 1
+  \end{array}\right)\]</span></p>
+<p>The substitution <span class="math inline">\(\mathbf{x}=\mathbf{P}\mathbf{y}\)</span> in <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> gives the decoupled system <span class="math inline">\(\mathbf{y}'=\mathbf{D}\mathbf{y}\)</span>. The entries on the main diagonal of <span class="math inline">\(\mathbf{D}\)</span> are the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> corresponding to the order in which the eigenvectors appear in <span class="math inline">\(\mathbf{P}\)</span>. The general solution of the decoupled system is</p>
+<p><span class="math display">\[
+  \mathbf{y}=
+  \left(\begin{array}{l}
+    c_1 e^{-2t}\\
+    c_2 e^{t}\\
+    c_3 e^{5t}
+  \end{array}\right)\]</span></p></li>
+<li><p>Hence the solution of the given system is</p>
+<p><span class="math display">\[
+  \mathbf{x}=\mathbf{P}\mathbf{y}=
+  \left(\begin{array}{rrr}
+    1 &amp; 2 &amp; 1 \\
+    0 &amp; 2 &amp; 1 \\
+    0 &amp; 1 &amp; 1
+  \end{array}\right)
+  \left(\begin{array}{l}
+    c_1 e^{-2t}\\
+    c_2 e^{t}\\
+    c_3 e^{5t}
+  \end{array}\right)=
+  c_1 \left(\begin{array}{l} 1\\ 0\\ 0 \end{array}\right) e^{-2t}+
+  c_2 \left(\begin{array}{l} 2\\ 2\\ 1 \end{array}\right) e^{t}+
+  c_3 \left(\begin{array}{l} 1\\ 1\\ 1 \end{array}\right) e^{5t}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-10-4" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="sec-10-4"><span class="header-section-number">7.4</span> Nonhomogeneous Linear Systems</h2>
+<ul>
+<li>The general solution of a nonhomogeneous linear system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\)</span> is <span class="math inline">\(\mathbf{x}=\mathbf{x}_h +\mathbf{x}_p\)</span> where <span class="math inline">\(\mathbf{x}_h\)</span> is the complementary function of the associated homogeneous linear system and <span class="math inline">\(\mathbf{x}_p\)</span> is any particular solution of the nonhomogeneous system</li>
+</ul>
+<section id="sec-10-4-1" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-10-4-1"><span class="header-section-number">7.4.1</span> method of undetermined coefficients</h3>
+<ul>
+<li>The <strong>method of undetermined coefficients</strong> consists of making an educational guess about the form of a particular solution vector <span class="math inline">\(\mathbf{x}_p\)</span>. The matrix version of undetermined coefficients is only applicable when the entries of <span class="math inline">\(\mathbf{A}\)</span> are constants and the entires of <span class="math inline">\(\mathbf{f}(t)\)</span> are constants, polynomials, exponential functions, sines and cosines, or finite sums and products of these functions</li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve</p>
+<p><span class="math display">\[
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+     -1 &amp; 2 \\
+     -1 &amp; 1
+   \end{array}\right)\mathbf{x}+
+   \left(\begin{array}{r}
+     -8 \\ 3
+   \end{array}\right)
+\]</span></p>
+<ul>
+<li><p>We first solve the associated homogeneous system</p>
+<p><span class="math display">\[
+\mathbf{x}' =
+\left(\begin{array}{rr}
+   -1 &amp; 2 \\
+   -1 &amp; 1
+\end{array}\right)\mathbf{x}
+\]</span></p>
+<p>The characteristic equation of <span class="math inline">\(\mathbf{A}\)</span></p>
+<p><span class="math display">\[
+\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=
+\left|\begin{array}{cc}
+   -1 -\lambda &amp; 2 \\
+   -1 &amp; 1 -\lambda
+\end{array}\right|=\lambda^2+1=0   
+\]</span></p>
+<p>yields the complex eigenvalues <span class="math inline">\(\lambda_1=i\)</span> and <span class="math inline">\(\lambda_2=\bar{\lambda}_1=-i\)</span></p></li>
+<li><p>For <span class="math inline">\(\lambda_1=i\)</span>,</p>
+<p><span class="math display">\[
+(\mathbf{A} -i\mathbf{I}|\mathbf{0})=
+    \left(\begin{array}{cc|r}
+         -1 -i &amp; 2 &amp; 0\\
+         -1 &amp; 1 -i &amp; 0
+    \end{array}\right)
+    \overset{\text{row operations}}{\Longrightarrow}
+    \left(\begin{array}{cc|r}
+          1 &amp; -1 +i &amp; 0\\ \hline
+          0 &amp; 0 &amp; 0
+    \end{array}\right)     
+\]</span></p>
+<p>gives an eigenvector</p>
+<p><span class="math display">\[
+\mathbf{k}_1 =
+\left(\begin{array}{c}
+   1 -i \\ 1
+\end{array}\right)
+\]</span></p>
+<p>Now we build the general solution of the associated homogeneous system</p>
+<p><span class="math display">\[\mathbf{x}_h=
+  c_1 \left[ \begin{pmatrix} 1 \\ 1 \end{pmatrix} \cos t
+            -\begin{pmatrix}-1 \\\;\; 0 \end{pmatrix} \sin t \right]
++c_2 \left[ \begin{pmatrix}-1 \\\;\; 0 \end{pmatrix} \cos t
+            +\begin{pmatrix} 1 \\ 1 \end{pmatrix} \sin t \right]
+\]</span></p></li>
+<li><p>Since <span class="math inline">\(\mathbf{f}\)</span> is a constant vector, <span class="math inline">\(\,\)</span>we assume a constant particular solution vector</p>
+<p><span class="math display">\[\mathbf{x}_p=\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}\]</span></p>
+<p><span class="math display">\[
+\mathbf{0} =
+\left(\begin{array}{rr}
+   -1 &amp; 2 \\
+   -1 &amp; 1
+\end{array}\right)\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}+
+\left(\begin{array}{r}
+   -8 \\ 3
+\end{array}\right)
+\]</span></p>
+<p>Solving this algebraic system gives</p>
+<p><span class="math display">\[\mathbf{x}_p=\begin{pmatrix} 14 \\ 11 \end{pmatrix}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve</p>
+<p><span class="math display">\[
+  \mathbf{x}' =
+  \left(\begin{array}{rr}
+    6 &amp; 1 \\
+    4 &amp; 3
+  \end{array}\right)\mathbf{x}+
+  \left(\begin{array}{c}
+    6t \\ -10t +4
+  \end{array}\right)
+\]</span></p>
+<ul>
+<li><p>The eigenvalues and corresponding eigenvectors of the associated homogeneous system are found to be <span class="math inline">\(\lambda_1=2\)</span>, <span class="math inline">\(\lambda_2=7\)</span>,</p>
+<p><span class="math display">\[\mathbf{k}_1=\begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} \;\text{ and } \;\mathbf{k}_2=\begin{pmatrix} 1 \\ 1 \end{pmatrix}\]</span></p>
+<p>Hence the complementary function is</p>
+<p><span class="math display">\[\mathbf{x}_h=
+  c_1 \begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} e^{2t}
++c_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix} e^{7t}\]</span></p></li>
+<li><p>Now we shall try to find the particular solution of the form</p>
+<p><span class="math display">\[\mathbf{x}_p=
+   \begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+  +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}
+\]</span></p>
+<p>Substituting this assumption into the given system and solving the resultant algebraic equations yields</p>
+<p><span class="math display">\[\mathbf{x}_p=
+   \begin{pmatrix} -2 \\ \;\;6 \end{pmatrix} t
+  +\begin{pmatrix} -\frac{4}{7} \\ \;\;\frac{10}{7} \end{pmatrix}
+\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Determine the form of a particular solution vector <span class="math inline">\(\mathbf{x}_p\)</span>, <span class="math inline">\(\,\)</span>for the system</p>
+<p><span class="math display">\[
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+     5 &amp; 3 \\
+    -1 &amp; 1
+   \end{array}\right)\mathbf{x}+
+   \left(\begin{array}{c}
+     -2e^{-t} +1 \\ e^{-t} -5t +7
+   \end{array}\right)\]</span></p>
+<ul>
+<li><p>Because <span class="math inline">\(\mathbf{f}\)</span> can be written in matrix terms as</p>
+<p><span class="math display">\[\mathbf{f}=
+    \begin{pmatrix} -2 \\ \;\;1 \end{pmatrix} e^{-t}
+    +\begin{pmatrix} \;\;0 \\ -5 \end{pmatrix} t
+     +\begin{pmatrix} 1 \\ 7 \end{pmatrix}\]</span></p>
+<p>a natural assumption for a particular solution would be</p>
+<p><span class="math display">\[\mathbf{x}_p=
+    \begin{pmatrix} a_3 \\ b_3 \end{pmatrix} e^{-t}
+    +\begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+     +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>The method of undetermined coefficients for linear systems is not as straightforward as the last three examples would seem to indicate. But there are further difficulties</p></li>
+<li><p>For example, in <span class="math inline">\(2 \times 2\)</span> system, if <span class="math inline">\(\mathbf{f}(t)\)</span> is a constant vector and <span class="math inline">\(\lambda=0\)</span> <span class="math inline">\(\,\)</span>is an eigenvalue of multiplicity one, <span class="math inline">\(\,\)</span>then <span class="math inline">\(\mathbf{x}_p\)</span> contains a constant vector. <span class="math inline">\(\,\)</span>We would ordinarily try a particular solution of the form</p>
+<p><span class="math display">\[\mathbf{x}_p=
+    \begin{pmatrix} a_1 \\ b_1 \end{pmatrix} t\]</span></p>
+<p>This is not the proper assumption for linear systems; it should be</p>
+<p><span class="math display">\[\mathbf{x}_p=
+  \begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+   +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}\]</span></p></li>
+<li><p>Similarly, in the last Example, if we replace <span class="math inline">\(e^{-t}\)</span> in <span class="math inline">\(\mathbf{f}(t)\)</span> by <span class="math inline">\(e^{2t}\)</span> (<span class="math inline">\(\lambda=2\)</span> is an eigenvalue), <span class="math inline">\(\,\)</span>then the correct form of the particular solution vector is</p>
+<p><span class="math display">\[\mathbf{x}_p=
+   \begin{pmatrix} a_4 \\ b_4 \end{pmatrix} te^{2t}
+    +\begin{pmatrix} a_3 \\ b_3 \end{pmatrix} e^{2t}
+    +\begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+     +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="method-of-variation-of-parameters" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="method-of-variation-of-parameters"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></h3>
+<ul>
+<li><p><strong>A Fundamental Matrix</strong></p>
+<p>If <span class="math inline">\(\mathbf{x}_1\)</span>, <span class="math inline">\(\mathbf{x}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{x}_n\)</span> is a fundamental set of solutions of the homogeneous system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span>, then its general solution is the linear combination <span class="math inline">\(\mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2 +\cdots +c_n\mathbf{x}_n\)</span> or</p>
+<p><span class="math display">\[\scriptsize
+\mathbf{x}=
+  c_1\begin{pmatrix} x_{11} \\ x_{21} \\ \vdots \\ x_{n1} \end{pmatrix}
++c_2\begin{pmatrix} x_{12} \\ x_{22} \\ \vdots \\ x_{n2} \end{pmatrix}
++\cdots
++c_n\begin{pmatrix} x_{1n} \\ x_{2n} \\ \vdots \\ x_{nn} \end{pmatrix}
+    =\begin{pmatrix}
+       x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1n}\\
+       x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2n}\\
+       \vdots &amp;        &amp; \ddots &amp; \vdots\\
+       x_{n1} &amp; x_{n2} &amp; \cdots &amp; x_{nn}\\
+     \end{pmatrix}
+     \begin{pmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{pmatrix}\]</span></p></li>
+<li><p>In other words, the general solution can be written as the product</p>
+<p><span class="math display">\[\mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{c}\)</span> is the column vector of constants and <span class="math inline">\(\boldsymbol{\Phi}\)</span> is the <strong>fundamental matrix</strong></p></li>
+<li><p>We need to know two properties of a fundamental matrix:</p>
+<ul>
+<li><p>A fundamental matrix <span class="math inline">\(\boldsymbol{\Phi}(t)\)</span> is nonsingular</p></li>
+<li><p>If <span class="math inline">\(\boldsymbol{\Phi}(t)\)</span> is a fundamental matrix of <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span>, then</p>
+<p><span class="math display">\[\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)\]</span></p></li>
+</ul></li>
+<li><p><strong>Variation of Parameters</strong></p>
+<p>We ask whether it is possible to replace <span class="math inline">\(\mathbf{c}\)</span> by</p>
+<p><span class="math display">\[\mathbf{u}(t)= \begin{pmatrix} u_1(t) \\ u_2(t) \\ \vdots \\ u_n(t) \end{pmatrix}\;\text{ so that }\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)\]</span></p>
+<p>is a particular solution of <span class="math inline">\(\,\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{x}'&amp;=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\\
+     &amp;\;\Big\Downarrow \;\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)\\
+  \boldsymbol{\Phi}'(t)\mathbf{u}(t)
+     +\boldsymbol{\Phi}(t)\mathbf{u}'(t)&amp;=\mathbf{A}\boldsymbol{\Phi}(t)\mathbf{u}(t) +\mathbf{f}(t)\\
+     &amp;\;\Big\Downarrow \;\;\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)\\
+  \boldsymbol{\Phi}(t)\mathbf{u}'(t)&amp;=\mathbf{f}(t)\\
+     &amp;\Downarrow \\
+  \mathbf{u}(t)&amp;=\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt\\
+     &amp;\Downarrow \\
+  \mathbf{x}_p&amp;=\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+\end{aligned}\]</span></p></li>
+<li><p>Thus the general solution is</p>
+<p><span class="math display">\[
+\mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+\]</span></p>
+<p>or can be written in an alternative manner</p>
+<p><span class="math display">\[
+\mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
+\]</span></p></li>
+<li><p>The last form is useful in solving the problem subject to an initial condition <span class="math inline">\(\mathbf{x}(t_0)=\mathbf{x}_0\)</span>. Substituting <span class="math inline">\(t=t_0\)</span> yields <span class="math inline">\(\mathbf{x}_0=\boldsymbol{\Phi}(t_0)\mathbf{c}\)</span>, from which we get <span class="math inline">\(\mathbf{c}=\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0\)</span>. Then the solution of the initial value problem is</p>
+<p><span class="math display">\[
+\mathbf{x}=\boldsymbol{\Phi}(t)\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0
+   +\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
+\]</span></p></li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

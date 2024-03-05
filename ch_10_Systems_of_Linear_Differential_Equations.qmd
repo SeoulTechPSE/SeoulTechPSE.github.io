@@ -900,4 +900,387 @@ ax.tick_params(axis='both', direction='in')
   is said to be **coupled** if each $x_i'$ is expressed as a linear combination of $x_1, x_2, \cdots, x_n$.
  $\,$If $\mathbf{A}$ is diagonalizable, $\,$the system can be **decoupled** so each $x_i'$ is expressed solely in terms of $x_i$
 
+* If $\mathbf{A}$ has $n$ linearly independent eigenvectors, $\,$we can find a matrix $\mathbf{P}$ such that
+  $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\text{ }$ where $\text{ }\mathbf{D}$ is a diagonal matrix
 
+* Making the substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{x}'=\mathbf{A}\mathbf{x}$,
+
+  $$
+  \begin{aligned}
+     \mathbf{x}' &= \mathbf{A}\mathbf{x}\\ 
+         &\Downarrow \; 
+      \mathbf{x}=\mathbf{P}\mathbf{y}\\ 
+      \mathbf{P}\mathbf{y}' &= 
+      \mathbf{A}\mathbf{P}\mathbf{y}\\ 
+      \mathbf{y}' &= 
+      \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y}= 
+      \mathbf{D}\mathbf{y} 
+  \end{aligned}$$ 
+  
+  The last equation is the same as
+  
+  $$
+    \begin{pmatrix} y_1' \\ y_2' \\ \vdots \\ y_n' \end{pmatrix}=
+    \begin{pmatrix}
+     \lambda_1 & 0 & \cdots & 0\\ 
+     0 & \lambda_2 & \cdots & 0\\ 
+     \vdots & & \ddots & \vdots\\ 
+     0 & 0 & \cdots & \lambda_n
+    \end{pmatrix} 
+    \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix} 
+   $$
+
+* The general solution of $\mathbf{y}'=\mathbf{D}\mathbf{y}$ can be written as
+   
+  $$\mathbf{y}=\begin{pmatrix} c_1 e^{\lambda_1 t} \\ c_2 e^{\lambda_2 t} \\ 
+     \vdots \\ c_n e^{\lambda_n t} \end{pmatrix}$$
+     
+  Then the general solution of 
+  $\mathbf{x}'=\mathbf{A}\mathbf{x}$ is obtained from 
+  $\mathbf{x}=\mathbf{P}\mathbf{y}$
+
+$~$
+
+**Example** $\,$ Solve
+   
+$$
+\mathbf{x}' =
+  \left(\begin{array}{rrr}
+   -2 & -1 & 8 \\ 
+    0 & -3 & 8 \\ 
+    0 & -4 & 9
+  \end{array}\right)\mathbf{x}$$
+
+* We begin by finding the eigenvalues and corresponding eigenvectors of the coefficient matrix. $\,$From $\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=-(\lambda +2)(\lambda -1)(\lambda -5)=0$, $\,$we get $\lambda_1=-2$, $\lambda_2=1$, and $\lambda_3=5$. $\,$Since the eigenvalues are distinct, the eigenvectors are linearly independent. Solving $(\mathbf{A} -\lambda_i\mathbf{I})=\mathbf{0}$ for $i=1,2,$ and $3$ gives, respectively,
+   
+  $$
+    \mathbf{k}_1=
+    \left(\begin{array}{r}
+      1\\ 
+      0\\ 
+      0
+    \end{array}\right),\;\; 
+    \mathbf{k}_2=
+    \left(\begin{array}{r}
+      2\\ 
+      2\\ 
+      1
+    \end{array}\right),\;\; 
+    \mathbf{k}_3=
+    \left(\begin{array}{r}
+      1\\ 
+      1\\ 
+      1
+    \end{array}\right)    
+  $$
+
+* Thus a matrix that diagonalize $\mathbf{A}$ is
+  
+  $$
+    \mathbf{P}=
+    \left(\begin{array}{rrr}
+      1 & 2 & 1 \\ 
+      0 & 2 & 1 \\ 
+      0 & 1 & 1
+    \end{array}\right)$$
+   
+  The substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{x}'=\mathbf{A}\mathbf{x}$ gives the decoupled system $\mathbf{y}'=\mathbf{D}\mathbf{y}$. The entries on the main diagonal of $\mathbf{D}$ are the eigenvalues of $\mathbf{A}$ corresponding to the order in which the eigenvectors appear in $\mathbf{P}$. The general solution of the decoupled system is
+   
+   $$
+    \mathbf{y}=
+    \left(\begin{array}{l}
+      c_1 e^{-2t}\\ 
+      c_2 e^{t}\\ 
+      c_3 e^{5t}
+    \end{array}\right)$$
+
+* Hence the solution of the given system is
+   
+  $$
+    \mathbf{x}=\mathbf{P}\mathbf{y}=
+    \left(\begin{array}{rrr}
+      1 & 2 & 1 \\ 
+      0 & 2 & 1 \\ 
+      0 & 1 & 1
+    \end{array}\right)
+    \left(\begin{array}{l}
+      c_1 e^{-2t}\\ 
+      c_2 e^{t}\\ 
+      c_3 e^{5t}
+    \end{array}\right)=
+    c_1 \left(\begin{array}{l} 1\\ 0\\ 0 \end{array}\right) e^{-2t}+
+    c_2 \left(\begin{array}{l} 2\\ 2\\ 1 \end{array}\right) e^{t}+
+    c_3 \left(\begin{array}{l} 1\\ 1\\ 1 \end{array}\right) e^{5t}$$ 
+
+$~$
+
+## Nonhomogeneous Linear Systems {#sec-10-4}
+
+* The general solution of a nonhomogeneous linear system $\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$ is
+$\mathbf{x}=\mathbf{x}_h +\mathbf{x}_p$ where $\mathbf{x}_h$ is the complementary function of the associated homogeneous linear system and $\mathbf{x}_p$ is any particular solution of the nonhomogeneous system
+
+### method of undetermined coefficients {#sec-10-4-1}
+
+* The **method of undetermined coefficients** 
+  consists of making an educational guess about the form of a particular solution vector $\mathbf{x}_p$. The matrix version of undetermined coefficients is only 
+  applicable when the entries of $\mathbf{A}$ are constants and the entires of $\mathbf{f}(t)$ are constants, polynomials, exponential functions, sines and cosines, or finite sums and products of these functions
+
+$~$
+
+**Example** $\,$ Solve
+
+$$
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+     -1 & 2 \\ 
+     -1 & 1
+   \end{array}\right)\mathbf{x}+
+   \left(\begin{array}{r}
+     -8 \\ 3
+   \end{array}\right) 
+$$
+
+* We first solve the associated homogeneous system
+  
+  $$
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+     -1 & 2 \\ 
+     -1 & 1
+   \end{array}\right)\mathbf{x}
+  $$ 
+  
+  The characteristic equation of $\mathbf{A}$
+  
+  $$
+   \mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=
+   \left|\begin{array}{cc}
+     -1 -\lambda & 2 \\ 
+     -1 & 1 -\lambda
+   \end{array}\right|=\lambda^2+1=0   
+  $$
+  
+  yields the complex eigenvalues $\lambda_1=i$ and $\lambda_2=\bar{\lambda}_1=-i$
+
+* For $\lambda_1=i$,
+  
+  $$
+   (\mathbf{A} -i\mathbf{I}|\mathbf{0})=
+      \left(\begin{array}{cc|r}
+           -1 -i & 2 & 0\\ 
+           -1 & 1 -i & 0
+      \end{array}\right)
+      \overset{\text{row operations}}{\Longrightarrow}
+      \left(\begin{array}{cc|r}
+            1 & -1 +i & 0\\ \hline
+            0 & 0 & 0
+      \end{array}\right)     
+  $$
+  
+  gives an eigenvector
+  
+  $$
+   \mathbf{k}_1 =
+   \left(\begin{array}{c}
+     1 -i \\ 1
+   \end{array}\right)
+  $$
+  
+  Now we build the general solution of the associated homogeneous system
+       
+  $$\mathbf{x}_h=
+    c_1 \left[ \begin{pmatrix} 1 \\ 1 \end{pmatrix} \cos t 
+              -\begin{pmatrix}-1 \\\;\; 0 \end{pmatrix} \sin t \right] 
+   +c_2 \left[ \begin{pmatrix}-1 \\\;\; 0 \end{pmatrix} \cos t 
+              +\begin{pmatrix} 1 \\ 1 \end{pmatrix} \sin t \right]
+   $$
+
+* Since $\mathbf{f}$ is a constant vector, $\,$we assume a constant particular solution vector
+  
+  $$\mathbf{x}_p=\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}$$
+   
+  $$
+   \mathbf{0} =
+   \left(\begin{array}{rr}
+     -1 & 2 \\ 
+     -1 & 1
+   \end{array}\right)\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}+
+   \left(\begin{array}{r}
+     -8 \\ 3
+   \end{array}\right) 
+  $$  
+  
+  Solving this algebraic system gives
+  
+  $$\mathbf{x}_p=\begin{pmatrix} 14 \\ 11 \end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Solve
+
+$$
+  \mathbf{x}' =
+  \left(\begin{array}{rr}
+    6 & 1 \\ 
+    4 & 3
+  \end{array}\right)\mathbf{x}+
+  \left(\begin{array}{c}
+    6t \\ -10t +4
+  \end{array}\right) 
+$$
+
+* The eigenvalues and corresponding eigenvectors of the associated homogeneous system are found to be $\lambda_1=2$, $\lambda_2=7$, 
+  
+  $$\mathbf{k}_1=\begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} \;\text{ and } \;\mathbf{k}_2=\begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
+  
+  Hence the complementary function is
+  
+  $$\mathbf{x}_h=
+    c_1 \begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} e^{2t}
+   +c_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix} e^{7t}$$  
+
+* Now we shall try to find the particular solution of the form
+   
+  $$\mathbf{x}_p=
+     \begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+    +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}
+   $$
+   
+  Substituting this assumption into the given system and solving the resultant algebraic equations yields
+   
+  $$\mathbf{x}_p=
+     \begin{pmatrix} -2 \\ \;\;6 \end{pmatrix} t
+    +\begin{pmatrix} -\frac{4}{7} \\ \;\;\frac{10}{7} \end{pmatrix}
+  $$
+
+$~$
+
+**Example** $\,$ Determine the form of a particular solution vector $\mathbf{x}_p$, $\,$for the system
+
+$$
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+     5 & 3 \\ 
+    -1 & 1
+   \end{array}\right)\mathbf{x}+
+   \left(\begin{array}{c}
+     -2e^{-t} +1 \\ e^{-t} -5t +7
+   \end{array}\right)$$
+
+* Because $\mathbf{f}$ can be written in matrix terms as
+  
+  $$\mathbf{f}=
+      \begin{pmatrix} -2 \\ \;\;1 \end{pmatrix} e^{-t}
+      +\begin{pmatrix} \;\;0 \\ -5 \end{pmatrix} t
+       +\begin{pmatrix} 1 \\ 7 \end{pmatrix}$$
+  
+  a natural assumption for a particular solution would be
+  
+  $$\mathbf{x}_p=
+      \begin{pmatrix} a_3 \\ b_3 \end{pmatrix} e^{-t}
+      +\begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+       +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}$$
+
+$~$
+
+* The method of undetermined coefficients for linear systems is not as straightforward as the last three examples would seem to indicate. But there are further difficulties
+  
+* For example, in $2 \times 2$ system, 
+  if $\mathbf{f}(t)$ is a constant vector and $\lambda=0$ $\,$is an eigenvalue of multiplicity one, $\,$then $\mathbf{x}_p$ contains a constant vector. $\,$We would ordinarily try a particular solution of the form
+  
+  $$\mathbf{x}_p=
+      \begin{pmatrix} a_1 \\ b_1 \end{pmatrix} t$$
+  
+  This is not the proper assumption for linear systems; it should be
+  
+  $$\mathbf{x}_p=
+    \begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+     +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}$$
+
+* Similarly, in the last Example, if we replace $e^{-t}$ in $\mathbf{f}(t)$ by $e^{2t}$ ($\lambda=2$ is an eigenvalue), $\,$then the correct form of the particular solution vector is
+  
+  $$\mathbf{x}_p=
+     \begin{pmatrix} a_4 \\ b_4 \end{pmatrix} te^{2t} 
+      +\begin{pmatrix} a_3 \\ b_3 \end{pmatrix} e^{2t}
+      +\begin{pmatrix} a_2 \\ b_2 \end{pmatrix} t
+       +\begin{pmatrix} a_1 \\ b_1 \end{pmatrix}$$
+
+$~$
+
+### **Method of Variation of Parameters**
+
+* **A Fundamental Matrix**
+  
+  If $\mathbf{x}_1$, $\mathbf{x}_2$, $\cdots$, $\mathbf{x}_n$ is a fundamental set of solutions of 
+  the homogeneous system $\mathbf{x}'=\mathbf{A}\mathbf{x}$, then its general solution is the linear
+  combination $\mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2 +\cdots +c_n\mathbf{x}_n$ or
+    
+  $$\scriptsize
+  \mathbf{x}=
+    c_1\begin{pmatrix} x_{11} \\ x_{21} \\ \vdots \\ x_{n1} \end{pmatrix}
+   +c_2\begin{pmatrix} x_{12} \\ x_{22} \\ \vdots \\ x_{n2} \end{pmatrix}
+   +\cdots
+   +c_n\begin{pmatrix} x_{1n} \\ x_{2n} \\ \vdots \\ x_{nn} \end{pmatrix}
+      =\begin{pmatrix}
+         x_{11} & x_{12} & \cdots & x_{1n}\\ 
+         x_{21} & x_{22} & \cdots & x_{2n}\\ 
+         \vdots &        & \ddots & \vdots\\ 
+         x_{n1} & x_{n2} & \cdots & x_{nn}\\
+       \end{pmatrix} 
+       \begin{pmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{pmatrix}$$
+
+* In other words, the general solution can be written as the product
+    
+  $$\mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}$$
+    
+  where $\mathbf{c}$ is the column vector of constants and $\boldsymbol{\Phi}$ is the **fundamental matrix**
+ 
+* We need to know two properties of a fundamental matrix:
+    
+  * A fundamental matrix $\boldsymbol{\Phi}(t)$ is nonsingular
+  * If $\boldsymbol{\Phi}(t)$ is a fundamental matrix of $\mathbf{x}'=\mathbf{A}\mathbf{x}$, then
+    
+    $$\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)$$
+
+* **Variation of Parameters**
+
+  We ask whether it is possible to replace $\mathbf{c}$ by
+
+  $$\mathbf{u}(t)= \begin{pmatrix} u_1(t) \\ u_2(t) \\ \vdots \\ u_n(t) \end{pmatrix}\;\text{ so that }\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)$$
+  
+  is a particular solution of $\,\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$
+
+  $$
+  \begin{aligned}
+    \mathbf{x}'&=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\\ 
+       &\;\Big\Downarrow \;\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)\\ 
+    \boldsymbol{\Phi}'(t)\mathbf{u}(t) 
+       +\boldsymbol{\Phi}(t)\mathbf{u}'(t)&=\mathbf{A}\boldsymbol{\Phi}(t)\mathbf{u}(t) +\mathbf{f}(t)\\
+       &\;\Big\Downarrow \;\;\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)\\
+    \boldsymbol{\Phi}(t)\mathbf{u}'(t)&=\mathbf{f}(t)\\
+       &\Downarrow \\
+    \mathbf{u}(t)&=\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt\\
+       &\Downarrow \\
+    \mathbf{x}_p&=\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+  \end{aligned}$$
+
+* Thus the general solution is
+  
+  $$
+   \mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+  $$
+  
+  or can be written in an alternative manner
+  
+  $$
+   \mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
+  $$
+  
+* The last form is useful in solving the problem subject to an initial condition $\mathbf{x}(t_0)=\mathbf{x}_0$.
+  Substituting $t=t_0$ yields $\mathbf{x}_0=\boldsymbol{\Phi}(t_0)\mathbf{c}$, from which 
+  we get $\mathbf{c}=\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0$. Then the solution of the initial value problem is
+  
+  $$
+   \mathbf{x}=\boldsymbol{\Phi}(t)\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0
+     +\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
+  $$  
