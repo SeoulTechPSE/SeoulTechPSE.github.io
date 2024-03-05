@@ -2247,19 +2247,19 @@ $~$
 
 $~$
 
-**Doolittle Algorithm**
+* **Doolittle Algorithm**
 
-* We define
+  * We define
 
-  $$\mathbf{A}^{(0)}=\mathbf{A}$$
+    $$\mathbf{A}^{(0)}=\mathbf{A}$$
 
-* We eliminate the matrix elements below the main diagonal in the $k$-th column of $\mathbf{A}^{(k -1)}$ by adding to the $i$-th row of this matrix the $k$-th row multiplied by
+  * We eliminate the matrix elements below the main diagonal in the $k$-th column of $\mathbf{A}^{(k -1)}$ by adding to the $i$-th row of this matrix the $k$-th row multiplied by
   
-  $$l_{i,k}=\frac{a_{i,k}^{(k-1)}}{a_{k,k}^{(k-1)}} \;\text{ for }\; i=k+1, \cdots, n$$
+    $$l_{i,k}=\frac{a_{i,k}^{(k-1)}}{a_{k,k}^{(k-1)}} \;\text{ for }\; i=k+1, \cdots, n$$
 
-  This can be done by multiplying $\mathbf{A}^{(k -1)}$ to the left with the lower triangular matrix
+    This can be done by multiplying $\mathbf{A}^{(k -1)}$ to the left with the lower triangular matrix
   
-  $${\scriptsize
+    $${\scriptsize
   \mathbf{L}_k=
      \begin{pmatrix}
          1      & 0      &           & \cdots &        & 0      \\ 
@@ -2270,13 +2270,13 @@ $~$
          0      &        &-l_{n,k}   &        & 0      & 1
      \end{pmatrix}}$$
 
-* We set
+  * We set
   
-  $${\mathbf{A}^{(k)}=\mathbf{L}_k\mathbf{A}^{(k-1)}, \;k=1,\cdots,n -1}$$
+    $${\mathbf{A}^{(k)}=\mathbf{L}_k\mathbf{A}^{(k-1)}, \;k=1,\cdots,n -1}$$
   
-  After $n -1$ steps, $~$we eliminated all the matrix elements below the main diagonal, $\,$so we obtain an upper triangular matrix $\mathbf{A}^{(n -1)}$. $\,$We find the decomposition
+    After $n -1$ steps, $~$we eliminated all the matrix elements below the main diagonal, $\,$so we obtain an upper triangular matrix $\mathbf{A}^{(n -1)}$. $\,$We find the decomposition
   
-  $$\scriptsize
+    $$\scriptsize
   \begin{aligned}
      \mathbf{A} 
      &= \mathbf{L}_1^{-1}\mathbf{L}_1\mathbf{A}^{(0)} 
@@ -2290,13 +2290,13 @@ $~$
         \mathbf{A}^{(n -1)}
   \end{aligned}$$
   
-  Denote the upper triangular matrix $\mathbf{A}^{(n -1)}$ by $\mathbf{U}$, $\,$ and $\mathbf{L}=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}$
+    Denote the upper triangular matrix $\mathbf{A}^{(n -1)}$ by $\mathbf{U}$, $\,$ and $\mathbf{L}=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}$
 
-* Because the inverse of a lower triangular matrix $\mathbf{L}_k$ is again a lower triangular matrix, 
+  * Because the inverse of a lower triangular matrix $\mathbf{L}_k$ is again a lower triangular matrix, 
   and the multiplication of two lower triangular matrices is again a lower triangular matrix, 
   it follows that $\mathbf{L}$ is a lower triangular matrix:
   
-  $${\scriptsize
+    $${\scriptsize
   \mathbf{L}=
      \begin{pmatrix}
          1      & 0      &           & \cdots &          & 0      \\ 
@@ -2307,9 +2307,9 @@ $~$
          l_{n,1}& \cdots & l_{n,k}   & \cdots & l_{n,n-1}& 1
      \end{pmatrix}}$$
   
-  We obtain $\mathbf{A}=\mathbf{L}\mathbf{U}$
+    We obtain $\mathbf{A}=\mathbf{L}\mathbf{U}$
 
-**NOTE** It is clear that in order for this algorithm to work, one needs to have $a_{k,k}^{(k-1)}$ at each step (see the definition of $l_{i,k}$). If this assumption fails at some point, one needs to interchange $k$-th row with another row below it before continuing. This is why an LU decomposition in general looks like   $\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}$
+**NOTE** $\,$It is clear that in order for this algorithm to work, one needs to have $a_{k,k}^{(k-1)}$ at each step (see the definition of $l_{i,k}$). If this assumption fails at some point, one needs to interchange $k$-th row with another row below it before continuing. This is why an LU decomposition in general looks like   $\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}$
 
 $~$
 
@@ -2373,4 +2373,125 @@ print('\nU =')
 pprint.pprint(U)
 ```
 
+* **Solving Linear Equations**
 
+  Given a system of linear equations in matrix form
+  
+  $$\mathbf{A}\mathbf{x}=\mathbf{b}$$
+  
+  Suppose we have already obtained the LUP decomposition of $\mathbf{A}$ such that 
+  $\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}$, $\,$so
+  
+  $$\mathbf{L}\mathbf{U}\mathbf{x}=\mathbf{P}\mathbf{b}$$
+  
+  In this case the solution is done in two logical steps:
+
+  $~$
+
+  * First, $\,$we solve the equation $\mathbf{L}\mathbf{y}=\mathbf{P}\mathbf{b}$ for $\mathbf{y}$  
+  * Second, $\,$we solve the equation $\mathbf{U}\mathbf{x}=\mathbf{y}$ for $\mathbf{x}$
+
+  * Note that in both cases we are dealing with triangular matrices 
+ $\mathbf{L}$ and $\mathbf{U}$, 
+  which can be solved directly by forward and backward substitution without using the Gaussian elimination process 
+  (however we do need this process or equivalent to compute the LU decomposition itself)
+
+  * The cost of solving a system of linear equations is approximately $\frac{2}{3}n^{3}$ floating-point operations
+   
+  * The above procedure can be repeatedly applied to solve the equation multiple times for different $\mathbf{b}$. 
+  $\,$In this case it is faster (and more convenient) to do an LU decomposition of the matrix $\mathbf{A}$ 
+  once and then solve the triangular matrices for the different $\mathbf{b}$, rather than using Gaussian 
+  elimination each time
+  
+  * The matrices $\mathbf{L}$ and $\mathbf{U}$ could be thought to have *encoded* the Gaussian elimination process
+
+$~$
+
+```{python}
+# | echo: true
+
+def ufsub(L, b):
+    """ Unit row oriented forward substitution """
+    y = b.copy()
+    for i in range(1, L.shape[0]):
+        y[i] -= np.dot(L[i,:i], y[:i])
+    return y
+
+def bsub(U, y):
+    """ Row oriented backward substitution """
+    x = y.copy()
+    x[-1] /= U[-1,-1]
+    for i in range(U.shape[0] -2, -1, -1): 
+        x[i] -= np.dot(U[i,i+1:], x[i+1:])
+        x[i] /= U[i,i]
+    return x    
+                    
+A = np.array([[7, 3, -1, 2], [3, 8, 1, -4], 
+              [-1, 1, 4, -1], [2, -4, -1, 6]], dtype='float64')
+b = np.array([1, 2, 3, 4], dtype='float64')
+
+P, L, U = lu_factor(A)
+Pb = np.matmul(P, b)
+
+y = ufsub(L, Pb)
+x = bsub(U, y)
+
+print('A ='); pprint.pprint(A)
+print('\nb =', end=' '); pprint.pprint(b)
+print('\nx =', end=' '); pprint.pprint(x)
+```
+
+$~$
+
+* **Inverting a Matrix**
+
+  In matrix inversion, instead of vector $\mathbf{b}$, $\,$we have matrix $\mathbf{I}_n$ so that we are trying to find a matrix $\mathbf{X}$
+  
+  $$\mathbf{L}\mathbf{U}\mathbf{X}=\mathbf{I}_n$$
+  
+  We can use the same algorithm presented earlier to solve for each column of matrix $\mathbf{X}$
+
+* **Computing the Determinant**
+
+  Given the LUP decomposition $\mathbf{A}=\mathbf{P}^{-1}\mathbf{L}\mathbf{U}$ of a square matrix $\mathbf{A}$, 
+  $\,$the determinant of $\mathbf{A}$ can be computed straightforwardly as   
+  $$\mathrm{det}\,\mathbf{A}=\mathrm{det}\,\mathbf{P}^{-1}\,\mathrm{det}\,\mathbf{L}\,
+  \mathrm{det}\,\mathbf{U}=(-1)^s \prod_{i=1}^n l_{ii}\prod_{i=1}^n u_{ii}$$
+   
+  where $s$ is the number of row exchanges in the permutation matrix
+
+$~$
+
+**Example** $\,$ Find the LU factorization of the given matrix
+
+$$
+  \begin{pmatrix}
+    2 & -2\\ 
+    1 & \phantom{-}2
+  \end{pmatrix}, \;\; 
+  \begin{pmatrix}
+    -1 & 4 \\ 
+    \phantom{-}2 & 2
+  \end{pmatrix}, \;\;
+  \begin{pmatrix}
+   \phantom{-}4 & -2 & 1\\ 
+   -4 & 1 & 2\\ 
+   12 & 1 & 3
+  \end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Use the LU factorization to solve the given linear system of equations
+
+$$\begin{pmatrix} 2 & -2 \\ 1 & \phantom{-}2\end{pmatrix}
+  \begin{pmatrix} x_1 \\ x_2 \end{pmatrix} = 
+  \begin{pmatrix} \phantom{-}1 \\-2 \end{pmatrix}\\$$
+
+$$\begin{pmatrix} 
+    \phantom{-}4 & -2 & 1 \\ -4 & \phantom{-}1 & 2\\12 & \phantom{-}1 & 3
+  \end{pmatrix}
+  \begin{pmatrix} x_1 \\ x_2 \\x_3 \end{pmatrix} = 
+  \begin{pmatrix} 7 \\ 7\\28 \end{pmatrix}$$
+
+
+## Applications {#sec-8-14}
