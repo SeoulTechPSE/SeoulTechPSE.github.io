@@ -1809,8 +1809,6 @@ $~$
 
 ```{python}
 # | echo: true
-import pprint
-import numpy as np
 
 def power_method(A, n_iteration):
     # Ideally choose a random vector
@@ -1977,3 +1975,402 @@ $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}$ is a diagonal matrix?</font>
 
 * If an $n \times n$ matrix $\mathbf{A}$ has $n$ distinct eigenvalues, $\,$it is diagonalizable
 * An $n \times n$ matrix $\mathbf{A}$ can be *orthogonally* diagonalized if and only if $\mathbf{A}$ is symmetric
+
+$~$
+
+**Example** $\,$ Diagonalize
+
+$$\mathbf{A}=
+  \left(\begin{array}{rrr}
+    9 & 1 & 1\\ 
+    1 & 9 & 1\\ 
+    1 & 1 & 9
+  \end{array}\right)$$
+  
+* The eigenvalues and corresponding orthogonal eigenvectors are $\lambda_1=11$, $\lambda_2=\lambda_3=8$
+  
+  $$\mathbf{k}_1=
+  \left(\begin{array}{r}
+    1\\ 
+    1\\ 
+    1
+  \end{array}\right),  
+  \mathbf{k}_2=
+  \left(\begin{array}{r}
+   -2\\ 
+    1\\ 
+    1
+  \end{array}\right) \text{ and } 
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+    0\\ 
+    1\\ 
+   -1
+  \end{array}\right)$$
+
+* Multiplying these vectors, in turn, by the reciprocals of the norms $\left \| \mathbf{k}_1 \right \|=\sqrt{3}$, $\,\left \| \mathbf{k}_2 \right \|=\sqrt{6}\,$ and $\,\left \| \mathbf{k}_3 \right \|=\sqrt{2}$, $\,$we obtain an orthonormal set
+  
+  $${\scriptsize
+  \mathbf{k}_1=
+  \left(\begin{array}{r}
+    \frac{1}{\sqrt{3}}\\ 
+    \frac{1}{\sqrt{3}}\\ 
+    \frac{1}{\sqrt{3}}
+  \end{array}\right), \; 
+  \mathbf{k}_2=
+  \left(\begin{array}{r}
+    -\frac{2}{\sqrt{6}}\\ 
+     \frac{1}{\sqrt{6}}\\ 
+     \frac{1}{\sqrt{6}}
+  \end{array}\right) \;{\text{ and }} \;
+  \mathbf{k}_3=
+  \left(\begin{array}{r}
+    0\phantom{\;\,}\\ 
+    \frac{1}{\sqrt{2}}\\ 
+   -\frac{1}{\sqrt{2}}
+  \end{array}\right)}$$
+  
+  We then use these vectors as columns to construct an orthogonal matrix that diagonalizes $\mathbf{A}$
+  
+  $${\mathbf{P}=
+  \left(\begin{array}{rrr}
+    \frac{1}{\sqrt{3}} & -\frac{2}{\sqrt{6}} &  0\phantom{\;\,}\\ 
+    \frac{1}{\sqrt{3}} &  \frac{1}{\sqrt{6}} &  \frac{1}{\sqrt{2}}\\ 
+    \frac{1}{\sqrt{3}} &  \frac{1}{\sqrt{6}} & -\frac{1}{\sqrt{2}}
+  \end{array}\right)}$$
+
+* This transforms $\mathbf{A}$ to $\mathbf{D}$
+  
+  $$\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{P}^{T}\mathbf{A}\mathbf{P}=
+   \begin{pmatrix}
+    11 & 0 & 0\\ 
+     0 & 8 & 0\\ 
+     0 & 0 & 8
+   \end{pmatrix}=\mathbf{D}$$
+   
+  The entries in $\mathbf{D}$ are the eigenvalues of $\mathbf{A}$ and the order in which these numbers appear on the diagonal corresponds to the order in which the eigenvectors are used as columns in the matrix $\mathbf{P}$
+
+$~$
+
+**Example - Quadratic Forms:** $\,$ Identify the conic section whose equation $\,2x^2 +4xy -y^2 =1$
+
+* We can write the given equation as
+  
+  $$
+  \begin{pmatrix}
+    x & y
+  \end{pmatrix}
+  \left(\begin{array}{rr}
+    2 & 2\\ 
+    2 &-1 
+  \end{array}\right)
+  \begin{pmatrix}
+    x \\ 
+    y
+  \end{pmatrix}
+  =1 \;\text{ or }\; \mathbf{x}^T\mathbf{A}\mathbf{x}=1
+  $$
+  
+* The eigenvalues and corresponding eigenvectors of $\mathbf{A}$ are found to be
+  
+  $$\lambda_1=-2, \,\lambda_2=3, \,\mathbf{k}_1=\left(\begin{array}{r} 1\\ -2 \end{array}\right),
+  \,\mathbf{k}_2=\left(\begin{array}{r} 2\\ 1 \end{array}\right)$$
+
+$~$
+
+```{python}
+# | echo: true
+# | fig-align: center
+x, y = symbols('x y')
+
+p1 = plot_implicit(Eq(2*x**2 + 4*x*y - y**2, 1), 
+                   (x, -3, 3), (y, -3, 3),
+                   aspect_ratio=(1, 1), size=(5, 5))
+```
+
+* Observe that $\mathbf{k}_1$ and $\mathbf{k}_2$ are orthogonal. $~$Moreover, 
+  $~\left \| \mathbf{k}_1 \right \| =\left \| \mathbf{k}_2 \right \| =\sqrt{5}$, $~$ and so the vectors
+  
+  $${\mathbf{k}_1=\left(\begin{array}{r} \frac{1}{\sqrt{5}}\\ -\frac{2}{\sqrt{5}} \end{array}\right) \;\text{and}
+  \; \mathbf{k}_2=\left(\begin{array}{r} \frac{2}{\sqrt{5}}\\ \frac{1}{\sqrt{5}} \end{array}\right)}$$
+  
+  are orthogonal. $\,$Hence, $\,$the matrix
+  
+  $${\mathbf{P}=
+     \left(\begin{array}{rr} \frac{1}{\sqrt{5}} & \frac{2}{\sqrt{5}}\\ 
+    -\frac{2}{\sqrt{5}} & \frac{1}{\sqrt{5}}
+    \end{array}\right)}$$
+  
+  is orthogonal
+
+* If we define the change of variables $~\mathbf{x}=\mathbf{P}\bar{\mathbf{x}}\text{ }$ 
+  where $\scriptsize \bar{\mathbf{x}}=\begin{pmatrix} \bar{x} \\ \bar{y} \end{pmatrix}$, $\,$then the quadratic form can be written
+  
+  $$
+  \begin{aligned}
+      \mathbf{x}^T\mathbf{A}\mathbf{x} 
+     & = 
+      \bar{\mathbf{x}}^T\mathbf{P}^T\mathbf{A}\mathbf{P}\bar{\mathbf{x}}
+      =\bar{\mathbf{x}}^T\mathbf{D}\bar{\mathbf{x}}\\ 
+     & = 
+     \begin{pmatrix}
+       \bar{x} & \bar{y}
+     \end{pmatrix}
+     \left(\begin{array}{rr}
+       -2 & 0\\ 
+        0 & 3 
+     \end{array}\right)
+     \begin{pmatrix}
+       \bar{x} \\ 
+       \bar{y}
+     \end{pmatrix}=1 \\
+     & \text{ or} \\ 
+     -2\bar{x}^2 &+3\bar{y}^2 =1
+  \end{aligned}$$
+  
+  This last equation is recognized as the standard form of a hyperbola
+
+$~$
+
+```{python}
+# | echo: true
+# | fig-align: center
+bar_x, bar_y = symbols('bar_x bar_y')
+
+p1 = plot_implicit(Eq(-bar_x**2 + 3*bar_y**2, 1), 
+                   (bar_x, -3, 3), (bar_y, -3, 3), 
+                   aspect_ratio=(1, 1), size=(5, 5))
+
+```
+
+$~$
+
+**Example** $\,$ Determine whether the given matrix $\mathbf{A}$ is diagonalizable. $~$ If so, find the matrix $\mathbf{P}$ that diagonalizes $\mathbf{A}$ and the disgonal matrix $\mathbf{D}$ such that $\mathbf{D}=\mathbf{P}^{-1}\mathbf{AP}$
+
+$$\begin{pmatrix}
+ -9 & 13\\ 
+ -2 & 6
+\end{pmatrix}, \;\; \begin{pmatrix}
+ 1 & -1 & 1 \\ 
+ 0 & \phantom{-}1 & 0\\ 
+ 1 &  -1&  1
+\end{pmatrix}, \;\;\begin{pmatrix}
+ 1 & \phantom{-}2 & 0\\ 
+ 2 & -1 & 0\\ 
+ 0 & \phantom{-}0 & 1
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ The given matrix $\mathbf{A}$ is symmetric. $~$ Find an orthogonal matrix $\mathbf{P}$ that diagonalizes $\mathbf{A}$ and the diagonal matrix $\mathbf{D }$ such that $\mathbf{D}=\mathbf{P}^T\mathbf{AP}$
+
+$$\begin{pmatrix}
+ 1 & 1\\ 
+ 1 & 1
+\end{pmatrix}, \;\; \begin{pmatrix}
+ 0 & 1 & 0 \\ 
+ 1 & 0 & 0\\ 
+ 0 & 0 &  1
+\end{pmatrix}, \;\;\begin{pmatrix}
+ 1 & 0 & 7\\ 
+ 0 & 1 & 0\\ 
+ 7 & 0 & 1
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ Identify the given conic section
+
+$$\phantom{-}5x^2 -2xy +5y^2 =24$$
+  
+$$-3x^2 +8xy +3y^2 =20$$
+  
+$~$
+
+**Example** $\,$ Find $3 \times 3~$ symmetric matrix that has eigenvalues $~\lambda_1=1$, $~\lambda_2=3$, and $~\lambda_3=5$ and corresponding eigenvectors
+
+$$\mathbf{k}_1 = \begin{pmatrix}
+  \phantom{-}1 \\ -1 \\ 1
+\end{pmatrix}, \;\;
+\mathbf{k}_2 = \begin{pmatrix}
+  \phantom{-}1 \\ \phantom{-}0 \\ -1
+\end{pmatrix}, \;\;
+\mathbf{k}_3 = \begin{pmatrix}
+  1 \\ 2 \\ 1
+\end{pmatrix}$$
+
+$~$
+
+**Example** $\,$ If $\mathbf{A}$ is an $n\times n~$ diagonalizable matrix, then $\mathbf{D}=\mathbf{P}^{-1}\mathbf{AP}$, $~$ where $\mathbf{D}$ is a diagonal matrix. $~$ Show that if $m$ is a positive integer,  then $\mathbf{A}^m=\mathbf{PD}^m\mathbf{P}^{-1}$
+
+$~$
+  
+**Example** $\,$ Find the indicated power of the given matrix
+
+$$
+\begin{aligned}
+  \mathbf{A} &= \begin{pmatrix}
+     1 & 1\\ 
+     2 & 0
+  \end{pmatrix},\;\;\mathbf{A}^5\\ 
+  \mathbf{A} &= \begin{pmatrix}
+     6 & -10\\ 
+     3 & -5
+  \end{pmatrix},\;\;\mathbf{A}^{10}
+\end{aligned}$$
+
+$~$
+
+**Example** $\,$ Suppose $\mathbf{A}$ is a nonsingular diagonalizable matrix. Then show that $\mathbf{A}^{-1}$ is diagonalizable
+
+$~$
+  
+**Example** $\,$ Suppose $\mathbf{A}$ is a diagonalizable matrix. $~$Is the matrix $\mathbf{P}$ unique?
+
+$~$
+
+## LU Factorization {#sec-8-13}
+
+* Let $\mathbf{A}$ be a square matrix. $~$An *LU factorization* refers to the factorization of $\mathbf{A}$ into two factors – a lower triangular matrix $\mathbf{L}$ and an upper triangular matrix $\mathbf{U}$:
+
+  $$\mathbf{A}=\mathbf{L}\mathbf{U}$$
+
+* Without a proper ordering or permutations in the matrix, $~$the factorization may fail to materialize. $\,$This is a procedural problem. $\,$It can be removed by simply reordering the rows of $\mathbf{A}$. $\,$It turns out that a proper permutation in rows (or columns) is sufficient for LU factorization. $\,$LU factorization with partial pivoting (LUP) refers often to LU factorization with row permutations only
+  
+  $$\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}$$
+  
+  where $\mathbf{P}$ is a permutation matrix, which, when left-multiplied to $\mathbf{A}$, reorders the rows of $\mathbf{A}$. $\,$It turns out that all square matrices can be factorized in this form
+
+* If $\mathbf{A}$ is invertible, then it admits an LU factorization if and only if all its leading principal minors are nonzero. $\,$If $\mathbf{A}$ is a singular matrix of rank $k$, $\,$then it admits an LU factorization if the first $k$ leading principal minors are nonzero
+
+* LU decomposition is basically a modified form of Gaussian elimination. $~$We transform the matrix $\mathbf{A}$ into an upper triangular matrix $\mathbf{U}$ by eliminating the entries below the main diagonal. $\,$The **Doolittle algorithm** does the column-by-column elimination, starting from the left, by multiplying $\mathbf{A}$ to the left with atomic lower triangular matrices. It results in a *unit* lower triangular matrix and an upper triangular matrix
+
+$~$
+
+**Doolittle Algorithm**
+
+* We define
+
+  $$\mathbf{A}^{(0)}=\mathbf{A}$$
+
+* We eliminate the matrix elements below the main diagonal in the $k$-th column of $\mathbf{A}^{(k -1)}$ by adding to the $i$-th row of this matrix the $k$-th row multiplied by
+  
+  $$l_{i,k}=\frac{a_{i,k}^{(k-1)}}{a_{k,k}^{(k-1)}} \;\text{ for }\; i=k+1, \cdots, n$$
+
+  This can be done by multiplying $\mathbf{A}^{(k -1)}$ to the left with the lower triangular matrix
+  
+  $${\scriptsize
+  \mathbf{L}_k=
+     \begin{pmatrix}
+         1      & 0      &           & \cdots &        & 0      \\ 
+         0      & \ddots & \ddots    &        &        &        \\ 
+                &        & 1         &        &        &        \\ 
+        \vdots  &        &-l_{k+1,k} &        &        & \vdots \\ 
+                &        & \vdots    &        & \ddots & 0      \\ 
+         0      &        &-l_{n,k}   &        & 0      & 1
+     \end{pmatrix}}$$
+
+* We set
+  
+  $${\mathbf{A}^{(k)}=\mathbf{L}_k\mathbf{A}^{(k-1)}, \;k=1,\cdots,n -1}$$
+  
+  After $n -1$ steps, $~$we eliminated all the matrix elements below the main diagonal, $\,$so we obtain an upper triangular matrix $\mathbf{A}^{(n -1)}$. $\,$We find the decomposition
+  
+  $$\scriptsize
+  \begin{aligned}
+     \mathbf{A} 
+     &= \mathbf{L}_1^{-1}\mathbf{L}_1\mathbf{A}^{(0)} 
+      =\mathbf{L}_1^{-1}\mathbf{A}^{(1)}
+      = \mathbf{L}_1^{-1}\mathbf{L}_2^{-1}
+        \mathbf{L}_2\mathbf{A}^{(1)} 
+      =\mathbf{L}_1^{-1}\mathbf{L}_2^{-1}
+       \mathbf{A}^{(2)}\\ 
+      &\;\;\vdots \\
+      &=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}
+        \mathbf{A}^{(n -1)}
+  \end{aligned}$$
+  
+  Denote the upper triangular matrix $\mathbf{A}^{(n -1)}$ by $\mathbf{U}$, $\,$ and $\mathbf{L}=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}$
+
+* Because the inverse of a lower triangular matrix $\mathbf{L}_k$ is again a lower triangular matrix, 
+  and the multiplication of two lower triangular matrices is again a lower triangular matrix, 
+  it follows that $\mathbf{L}$ is a lower triangular matrix:
+  
+  $${\scriptsize
+  \mathbf{L}=
+     \begin{pmatrix}
+         1      & 0      &           & \cdots &          & 0      \\ 
+         l_{2,1}& \ddots & \ddots    &        &          &        \\ 
+                &        & 1         &        &          &        \\ 
+        \vdots  &        & l_{k+1,k} &        &          & \vdots \\ 
+                &        & \vdots    &        & 1        & 0      \\ 
+         l_{n,1}& \cdots & l_{n,k}   & \cdots & l_{n,n-1}& 1
+     \end{pmatrix}}$$
+  
+  We obtain $\mathbf{A}=\mathbf{L}\mathbf{U}$
+
+**NOTE** It is clear that in order for this algorithm to work, one needs to have $a_{k,k}^{(k-1)}$ at each step (see the definition of $l_{i,k}$). If this assumption fails at some point, one needs to interchange $k$-th row with another row below it before continuing. This is why an LU decomposition in general looks like   $\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}$
+
+$~$
+
+```{python}
+# | echo: true
+def lu_factor(A):
+    """
+        LU factorization with partial pivoting
+    
+        PA = LU    
+        P(permutation), 
+        L(unit Lower triangular) and 
+        U(upper triangular) 
+    
+        Return P, L, U
+    """
+    n = A.shape[0]    
+    U = A.copy()
+    P = np.identity(n)
+    L = np.identity(n)
+
+    for k in range(n -1):
+
+        # Partial Pivoting
+        max_row_index = np.argmax(abs(U[k:n,k])) +k
+        P[[k,max_row_index]] = P[[max_row_index,k]]
+        U[[k,max_row_index]] = U[[max_row_index,k]]
+
+        # LU
+        L[k+1:,k] = U[k+1:,k] /U[k,k]
+        U[k+1:,k] = 0.0
+        U[k+1:,k+1:] -= np.tensordot(L[k+1:,k],
+                           U[k,k+1:], axes=0)
+
+    return P, L, U
+
+A = np.array([[7, 3, -1, 2], [3, 8, 1, -4], [-1, 1, 4, -1], 
+             [2, -4, -1, 6]], dtype='float64')
+P, L, U = lu_factor(A)
+
+print('A ='); pprint.pprint(A)
+print('\nP ='); pprint.pprint(P)
+print('\nL ='); pprint.pprint(L)
+print('\nU ='); pprint.pprint(U)
+```
+
+$~$
+
+```{python}
+# | echo: true
+
+A = np.array([[7, 3, -1, 2], [3, 8, 1, -4], [-1, 1, 4, -1],
+             [2, -4, -1, 6]], dtype='float64')
+P, L, U = lu(A)
+
+print('P =')
+pprint.pprint(P)
+print('\nL =')
+pprint.pprint(L)
+print('\nU =')
+pprint.pprint(U)
+```
+
+

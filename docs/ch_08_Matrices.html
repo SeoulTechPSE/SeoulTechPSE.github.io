@@ -232,6 +232,7 @@ window.Quarto = {
   <li><a href="#sec-8-10" id="toc-sec-8-10" class="nav-link" data-scroll-target="#sec-8-10"><span class="header-section-number">6.10</span> Orthogonal Matrices</a></li>
   <li><a href="#sec-8-11" id="toc-sec-8-11" class="nav-link" data-scroll-target="#sec-8-11"><span class="header-section-number">6.11</span> Approximation of Eigenvalues</a></li>
   <li><a href="#sec-8-12" id="toc-sec-8-12" class="nav-link" data-scroll-target="#sec-8-12"><span class="header-section-number">6.12</span> Diagonalization</a></li>
+  <li><a href="#sec-8-13" id="toc-sec-8-13" class="nav-link" data-scroll-target="#sec-8-13"><span class="header-section-number">6.13</span> LU Factorization</a></li>
   </ul>
 </nav>
     </div>
@@ -1327,7 +1328,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
    -\frac{3}{2}\\
     1
   \end{array}\right)\]</span></p>
-<div id="44140d91" class="cell" data-execution_count="1">
+<div id="4a029084" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1340,7 +1341,7 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>], [<span class="dv">6</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="73">
 <p><span class="math inline">\(\displaystyle \left[ \left( -4, \  1, \  \left[ \left[\begin{matrix}-1\\2\\1\end{matrix}\right]\right]\right), \  \left( 0, \  1, \  \left[ \left[\begin{matrix}- \frac{1}{13}\\- \frac{6}{13}\\1\end{matrix}\right]\right]\right), \  \left( 3, \  1, \  \left[ \left[\begin{matrix}-1\\- \frac{3}{2}\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
@@ -1424,10 +1425,10 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
     1\\
    -1
   \end{array}\right)\]</span></p>
-<div id="3107d945" class="cell" data-execution_count="2">
+<div id="87de7e3d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">9</span>, <span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">9</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">9</span>]])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="74">
 <p><span class="math inline">\(\displaystyle \left[ \left( 8, \  2, \  \left[ \left[\begin{matrix}-1\\1\\0\end{matrix}\right], \  \left[\begin{matrix}-1\\0\\1\end{matrix}\right]\right]\right), \  \left( 11, \  1, \  \left[ \left[\begin{matrix}1\\1\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
@@ -1480,10 +1481,10 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 <p><span class="math display">\[\mathbf{k}_2=\begin{pmatrix}
      -1 \\ \;\;0
    \end{pmatrix}\]</span></p>
-<div id="d18dd398" class="cell" data-execution_count="3">
+<div id="7ac6fbb7" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">3</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">7</span>]])</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="75">
 <p><span class="math inline">\(\displaystyle \left[ \left( 5, \  2, \  \left[ \left[\begin{matrix}2\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
@@ -1611,26 +1612,26 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
     4 &amp;-8 &amp; -1\\
    -4 &amp;-1 &amp; -8
   \end{array}\right)\]</span></p>
-<div id="e8240958" class="cell" data-execution_count="4">
+<div id="f9ed2fc3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">7</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">4</span>, <span class="op">-</span><span class="dv">8</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">8</span>]])</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="76">
 <p><span class="math inline">\(\displaystyle \left[ \left( -9, \  2, \  \left[ \left[\begin{matrix}- \frac{1}{4}\\1\\0\end{matrix}\right], \  \left[\begin{matrix}\frac{1}{4}\\0\\1\end{matrix}\right]\right]\right), \  \left( 9, \  1, \  \left[ \left[\begin{matrix}-4\\-1\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
-<div id="f29a94e4" class="cell" data-execution_count="5">
+<div id="77f9d6ab" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="op">=</span> A.eigenvects()[<span class="dv">0</span>][<span class="dv">2</span>][<span class="dv">1</span>].T</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>v3 <span class="op">=</span> A.eigenvects()[<span class="dv">1</span>][<span class="dv">2</span>][<span class="dv">0</span>].T</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], <span class="va">True</span>))<span class="op">;</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="77">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}- \frac{\sqrt{17}}{17} &amp; \frac{4 \sqrt{17}}{17} &amp; 0\\\frac{2 \sqrt{34}}{51} &amp; \frac{\sqrt{34}}{102} &amp; \frac{\sqrt{34}}{6}\\- \frac{2 \sqrt{2}}{3} &amp; - \frac{\sqrt{2}}{6} &amp; \frac{\sqrt{2}}{6}\end{matrix}\right]\)</span></p>
 </div>
 </div>
-<div id="b88ed18a" class="cell" data-execution_count="6">
+<div id="4fa0e40d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>B.T <span class="op">*</span> B</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="78">
 <p><span class="math inline">\(\displaystyle \left[\begin{matrix}1 &amp; 0 &amp; 0\\0 &amp; 1 &amp; 0\\0 &amp; 0 &amp; 1\end{matrix}\right]\)</span></p>
 </div>
 </div>
@@ -1710,42 +1711,39 @@ a^3 &amp; b^3 &amp; c^3 &amp; d^3
 \mathbf{x}_m \leftarrow
   \frac{\mathbf{x}_m}{\left \| \mathbf{x}_m \right \|}\]</span></p></li>
 </ul>
-<div id="cd9abd86" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> power_method(A, n_iteration):</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ideally choose a random vector</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># To decrease the chance that </span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   our vector is orthogonal to the eigenvector</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.random.rand(A.shape[<span class="dv">1</span>])</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_iteration):</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the matrix-by-vector product Ak</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        k_1 <span class="op">=</span> np.dot(A, k)</span>
+<div id="94b83f64" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> power_method(A, n_iteration):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ideally choose a random vector</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># To decrease the chance that </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#   our vector is orthogonal to the eigenvector</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> np.random.rand(A.shape[<span class="dv">1</span>])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n_iteration):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the matrix-by-vector product Ak</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        k_1 <span class="op">=</span> np.dot(A, k)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the norm</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        k_1_norm <span class="op">=</span> np.linalg.norm(k_1)</span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># calculate the norm</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        k_1_norm <span class="op">=</span> np.linalg.norm(k_1)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># re normalize the vector</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k_1 <span class="op">/</span>k_1_norm</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># re normalize the vector</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> k_1 <span class="op">/</span>k_1_norm</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rayleigh_quotient(A, k):</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate Rayleigh quotient</span></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    lambda_ <span class="op">=</span> np.dot(np.dot(A, k), k) <span class="op">/</span>np.dot(k, k)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lambda_</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>k_1 <span class="op">=</span> power_method(A, <span class="dv">10</span>)</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>lambda_1 <span class="op">=</span> Rayleigh_quotient(A, k_1)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>pprint.pprint(A)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Dominant Eigenvector:'</span>, np.around(k_1, <span class="dv">3</span>))</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dominant Eigenvalue:'</span>, np.around(lambda_1, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> k</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Rayleigh_quotient(A, k):</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate Rayleigh quotient</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    lambda_ <span class="op">=</span> np.dot(np.dot(A, k), k) <span class="op">/</span>np.dot(k, k)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lambda_</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">4</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>k_1 <span class="op">=</span> power_method(A, <span class="dv">10</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>lambda_1 <span class="op">=</span> Rayleigh_quotient(A, k_1)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>pprint.pprint(A)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Dominant Eigenvector:'</span>, np.around(k_1, <span class="dv">3</span>))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Dominant Eigenvalue:'</span>, np.around(lambda_1, <span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>A =
 array([[ 4,  2],
@@ -1766,7 +1764,7 @@ Dominant Eigenvalue: 5.0</code></pre>
 <p>has eigenvalues <span class="math inline">\(0\)</span>, <span class="math inline">\(|\lambda_2|\)</span>, <span class="math inline">\(|\lambda_3|\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(|\lambda_n|\)</span> and that eigenvectors of <span class="math inline">\(\mathbf{A}_1\)</span> are also eigenvectors of <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(~\)</span> Note that <span class="math inline">\(\lambda_2\)</span> is now the dominant eigenvalue of <span class="math inline">\(\mathbf{A}_1\)</span></p></li>
 </ul></li>
 </ul>
-<div id="6597b18d" class="cell" data-execution_count="8">
+<div id="b4957b3b" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> deflation_method(A, n_iteration):</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> A.shape[<span class="dv">1</span>]</span>
@@ -1807,7 +1805,7 @@ array([[ 1,  2, -1],
        [-1,  1,  0]])
 
 k_1 = [0.707 0.707 0.   ]
-k_2 = [ 0.578 -0.577  0.577]
+k_2 = [-0.578  0.577 -0.577]
 k_3 = [-0.408  0.408  0.816]
 
 lambda_1 = 3.0
@@ -1819,7 +1817,7 @@ lambda_3 = 1.0</code></pre>
 <li><p><strong>Inverse Power Method</strong></p>
 <p>If we want to find the smallest eigenvalue instead of the largest one, then we perform power iteration for <span class="math inline">\(\mathbf{A}^{−1}\)</span> (since the eigenvalues of <span class="math inline">\(\mathbf{A}^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span>). Of course, <span class="math inline">\(~\)</span>we do not want to compute <span class="math inline">\(\mathbf{A}^{-1}\)</span></p></li>
 </ul>
-<div id="40ba418c" class="cell" data-execution_count="9">
+<div id="1dc46e69" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> inverse_power_method(A, n_iteration):</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Ideally choose a random vector</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># To decrease the chance that </span></span>
@@ -1851,7 +1849,7 @@ lambda_3 = 1.0</code></pre>
 array([[ 4,  2],
        [ 3, -1]])
 
-Eigenvector = [-0.316  0.949]
+Eigenvector = [ 0.317 -0.949]
 Eigenvalue of Least Magnitude = -2.0</code></pre>
 </div>
 </div>
@@ -1898,6 +1896,379 @@ Eigenvalue of Least Magnitude = -2.0</code></pre>
 <li>If an <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> has <span class="math inline">\(n\)</span> distinct eigenvalues, <span class="math inline">\(\,\)</span>it is diagonalizable</li>
 <li>An <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> can be <em>orthogonally</em> diagonalized if and only if <span class="math inline">\(\mathbf{A}\)</span> is symmetric</li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Diagonalize</p>
+<p><span class="math display">\[\mathbf{A}=
+  \left(\begin{array}{rrr}
+    9 &amp; 1 &amp; 1\\
+    1 &amp; 9 &amp; 1\\
+    1 &amp; 1 &amp; 9
+  \end{array}\right)\]</span></p>
+<ul>
+<li><p>The eigenvalues and corresponding orthogonal eigenvectors are <span class="math inline">\(\lambda_1=11\)</span>, <span class="math inline">\(\lambda_2=\lambda_3=8\)</span></p>
+<p><span class="math display">\[\mathbf{k}_1=
+\left(\begin{array}{r}
+  1\\
+  1\\
+  1
+\end{array}\right),  
+\mathbf{k}_2=
+\left(\begin{array}{r}
+-2\\
+  1\\
+  1
+\end{array}\right) \text{ and }
+\mathbf{k}_3=
+\left(\begin{array}{r}
+  0\\
+  1\\
+-1
+\end{array}\right)\]</span></p></li>
+<li><p>Multiplying these vectors, in turn, by the reciprocals of the norms <span class="math inline">\(\left \| \mathbf{k}_1 \right \|=\sqrt{3}\)</span>, <span class="math inline">\(\,\left \| \mathbf{k}_2 \right \|=\sqrt{6}\,\)</span> and <span class="math inline">\(\,\left \| \mathbf{k}_3 \right \|=\sqrt{2}\)</span>, <span class="math inline">\(\,\)</span>we obtain an orthonormal set</p>
+<p><span class="math display">\[{\scriptsize
+\mathbf{k}_1=
+\left(\begin{array}{r}
+  \frac{1}{\sqrt{3}}\\
+  \frac{1}{\sqrt{3}}\\
+  \frac{1}{\sqrt{3}}
+\end{array}\right), \;
+\mathbf{k}_2=
+\left(\begin{array}{r}
+  -\frac{2}{\sqrt{6}}\\
+   \frac{1}{\sqrt{6}}\\
+   \frac{1}{\sqrt{6}}
+\end{array}\right) \;{\text{ and }} \;
+\mathbf{k}_3=
+\left(\begin{array}{r}
+  0\phantom{\;\,}\\
+  \frac{1}{\sqrt{2}}\\
+-\frac{1}{\sqrt{2}}
+\end{array}\right)}\]</span></p>
+<p>We then use these vectors as columns to construct an orthogonal matrix that diagonalizes <span class="math inline">\(\mathbf{A}\)</span></p>
+<p><span class="math display">\[{\mathbf{P}=
+\left(\begin{array}{rrr}
+  \frac{1}{\sqrt{3}} &amp; -\frac{2}{\sqrt{6}} &amp;  0\phantom{\;\,}\\
+  \frac{1}{\sqrt{3}} &amp;  \frac{1}{\sqrt{6}} &amp;  \frac{1}{\sqrt{2}}\\
+  \frac{1}{\sqrt{3}} &amp;  \frac{1}{\sqrt{6}} &amp; -\frac{1}{\sqrt{2}}
+\end{array}\right)}\]</span></p></li>
+<li><p>This transforms <span class="math inline">\(\mathbf{A}\)</span> to <span class="math inline">\(\mathbf{D}\)</span></p>
+<p><span class="math display">\[\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{P}^{T}\mathbf{A}\mathbf{P}=
+\begin{pmatrix}
+  11 &amp; 0 &amp; 0\\
+   0 &amp; 8 &amp; 0\\
+   0 &amp; 0 &amp; 8
+\end{pmatrix}=\mathbf{D}\]</span></p>
+<p>The entries in <span class="math inline">\(\mathbf{D}\)</span> are the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> and the order in which these numbers appear on the diagonal corresponds to the order in which the eigenvectors are used as columns in the matrix <span class="math inline">\(\mathbf{P}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example - Quadratic Forms:</strong> <span class="math inline">\(\,\)</span> Identify the conic section whose equation <span class="math inline">\(\,2x^2 +4xy -y^2 =1\)</span></p>
+<ul>
+<li><p>We can write the given equation as</p>
+<p><span class="math display">\[
+\begin{pmatrix}
+  x &amp; y
+\end{pmatrix}
+\left(\begin{array}{rr}
+  2 &amp; 2\\
+  2 &amp;-1
+\end{array}\right)
+\begin{pmatrix}
+  x \\
+  y
+\end{pmatrix}
+=1 \;\text{ or }\; \mathbf{x}^T\mathbf{A}\mathbf{x}=1
+\]</span></p></li>
+<li><p>The eigenvalues and corresponding eigenvectors of <span class="math inline">\(\mathbf{A}\)</span> are found to be</p>
+<p><span class="math display">\[\lambda_1=-2, \,\lambda_2=3, \,\mathbf{k}_1=\left(\begin{array}{r} 1\\ -2 \end{array}\right),
+\,\mathbf{k}_2=\left(\begin{array}{r} 2\\ 1 \end{array}\right)\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="e6dc800c" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> symbols(<span class="st">'x y'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> plot_implicit(Eq(<span class="dv">2</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">4</span><span class="op">*</span>x<span class="op">*</span>y <span class="op">-</span> y<span class="op">**</span><span class="dv">2</span>, <span class="dv">1</span>), </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                   (x, <span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), (y, <span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                   aspect_ratio<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>), size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch_08_Matrices_files/figure-html/cell-11-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="470" height="469"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>Observe that <span class="math inline">\(\mathbf{k}_1\)</span> and <span class="math inline">\(\mathbf{k}_2\)</span> are orthogonal. <span class="math inline">\(~\)</span>Moreover, <span class="math inline">\(~\left \| \mathbf{k}_1 \right \| =\left \| \mathbf{k}_2 \right \| =\sqrt{5}\)</span>, <span class="math inline">\(~\)</span> and so the vectors</p>
+<p><span class="math display">\[{\mathbf{k}_1=\left(\begin{array}{r} \frac{1}{\sqrt{5}}\\ -\frac{2}{\sqrt{5}} \end{array}\right) \;\text{and}
+\; \mathbf{k}_2=\left(\begin{array}{r} \frac{2}{\sqrt{5}}\\ \frac{1}{\sqrt{5}} \end{array}\right)}\]</span></p>
+<p>are orthogonal. <span class="math inline">\(\,\)</span>Hence, <span class="math inline">\(\,\)</span>the matrix</p>
+<p><span class="math display">\[{\mathbf{P}=
+   \left(\begin{array}{rr} \frac{1}{\sqrt{5}} &amp; \frac{2}{\sqrt{5}}\\
+  -\frac{2}{\sqrt{5}} &amp; \frac{1}{\sqrt{5}}
+  \end{array}\right)}\]</span></p>
+<p>is orthogonal</p></li>
+<li><p>If we define the change of variables <span class="math inline">\(~\mathbf{x}=\mathbf{P}\bar{\mathbf{x}}\text{ }\)</span> where <span class="math inline">\(\scriptsize \bar{\mathbf{x}}=\begin{pmatrix} \bar{x} \\ \bar{y} \end{pmatrix}\)</span>, <span class="math inline">\(\,\)</span>then the quadratic form can be written</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \mathbf{x}^T\mathbf{A}\mathbf{x}
+   &amp; =
+    \bar{\mathbf{x}}^T\mathbf{P}^T\mathbf{A}\mathbf{P}\bar{\mathbf{x}}
+    =\bar{\mathbf{x}}^T\mathbf{D}\bar{\mathbf{x}}\\
+   &amp; =
+   \begin{pmatrix}
+     \bar{x} &amp; \bar{y}
+   \end{pmatrix}
+   \left(\begin{array}{rr}
+     -2 &amp; 0\\
+      0 &amp; 3
+   \end{array}\right)
+   \begin{pmatrix}
+     \bar{x} \\
+     \bar{y}
+   \end{pmatrix}=1 \\
+   &amp; \text{ or} \\
+   -2\bar{x}^2 &amp;+3\bar{y}^2 =1
+\end{aligned}\]</span></p>
+<p>This last equation is recognized as the standard form of a hyperbola</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="df0f24f5" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bar_x, bar_y <span class="op">=</span> symbols(<span class="st">'bar_x bar_y'</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> plot_implicit(Eq(<span class="op">-</span>bar_x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span><span class="op">*</span>bar_y<span class="op">**</span><span class="dv">2</span>, <span class="dv">1</span>), </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                   (bar_x, <span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), (bar_y, <span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>), </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                   aspect_ratio<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>), size<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ch_08_Matrices_files/figure-html/cell-12-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="470" height="469"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Determine whether the given matrix <span class="math inline">\(\mathbf{A}\)</span> is diagonalizable. <span class="math inline">\(~\)</span> If so, find the matrix <span class="math inline">\(\mathbf{P}\)</span> that diagonalizes <span class="math inline">\(\mathbf{A}\)</span> and the disgonal matrix <span class="math inline">\(\mathbf{D}\)</span> such that <span class="math inline">\(\mathbf{D}=\mathbf{P}^{-1}\mathbf{AP}\)</span></p>
+<p><span class="math display">\[\begin{pmatrix}
+-9 &amp; 13\\
+-2 &amp; 6
+\end{pmatrix}, \;\; \begin{pmatrix}
+1 &amp; -1 &amp; 1 \\
+0 &amp; \phantom{-}1 &amp; 0\\
+1 &amp;  -1&amp;  1
+\end{pmatrix}, \;\;\begin{pmatrix}
+1 &amp; \phantom{-}2 &amp; 0\\
+2 &amp; -1 &amp; 0\\
+0 &amp; \phantom{-}0 &amp; 1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> The given matrix <span class="math inline">\(\mathbf{A}\)</span> is symmetric. <span class="math inline">\(~\)</span> Find an orthogonal matrix <span class="math inline">\(\mathbf{P}\)</span> that diagonalizes <span class="math inline">\(\mathbf{A}\)</span> and the diagonal matrix <span class="math inline">\(\mathbf{D }\)</span> such that <span class="math inline">\(\mathbf{D}=\mathbf{P}^T\mathbf{AP}\)</span></p>
+<p><span class="math display">\[\begin{pmatrix}
+1 &amp; 1\\
+1 &amp; 1
+\end{pmatrix}, \;\; \begin{pmatrix}
+0 &amp; 1 &amp; 0 \\
+1 &amp; 0 &amp; 0\\
+0 &amp; 0 &amp;  1
+\end{pmatrix}, \;\;\begin{pmatrix}
+1 &amp; 0 &amp; 7\\
+0 &amp; 1 &amp; 0\\
+7 &amp; 0 &amp; 1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Identify the given conic section</p>
+<p><span class="math display">\[\phantom{-}5x^2 -2xy +5y^2 =24\]</span></p>
+<p><span class="math display">\[-3x^2 +8xy +3y^2 =20\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find <span class="math inline">\(3 \times 3~\)</span> symmetric matrix that has eigenvalues <span class="math inline">\(~\lambda_1=1\)</span>, <span class="math inline">\(~\lambda_2=3\)</span>, and <span class="math inline">\(~\lambda_3=5\)</span> and corresponding eigenvectors</p>
+<p><span class="math display">\[\mathbf{k}_1 = \begin{pmatrix}
+  \phantom{-}1 \\ -1 \\ 1
+\end{pmatrix}, \;\;
+\mathbf{k}_2 = \begin{pmatrix}
+  \phantom{-}1 \\ \phantom{-}0 \\ -1
+\end{pmatrix}, \;\;
+\mathbf{k}_3 = \begin{pmatrix}
+  1 \\ 2 \\ 1
+\end{pmatrix}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> If <span class="math inline">\(\mathbf{A}\)</span> is an <span class="math inline">\(n\times n~\)</span> diagonalizable matrix, then <span class="math inline">\(\mathbf{D}=\mathbf{P}^{-1}\mathbf{AP}\)</span>, <span class="math inline">\(~\)</span> where <span class="math inline">\(\mathbf{D}\)</span> is a diagonal matrix. <span class="math inline">\(~\)</span> Show that if <span class="math inline">\(m\)</span> is a positive integer, then <span class="math inline">\(\mathbf{A}^m=\mathbf{PD}^m\mathbf{P}^{-1}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the indicated power of the given matrix</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{A} &amp;= \begin{pmatrix}
+     1 &amp; 1\\
+     2 &amp; 0
+  \end{pmatrix},\;\;\mathbf{A}^5\\
+  \mathbf{A} &amp;= \begin{pmatrix}
+     6 &amp; -10\\
+     3 &amp; -5
+  \end{pmatrix},\;\;\mathbf{A}^{10}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose <span class="math inline">\(\mathbf{A}\)</span> is a nonsingular diagonalizable matrix. Then show that <span class="math inline">\(\mathbf{A}^{-1}\)</span> is diagonalizable</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Suppose <span class="math inline">\(\mathbf{A}\)</span> is a diagonalizable matrix. <span class="math inline">\(~\)</span>Is the matrix <span class="math inline">\(\mathbf{P}\)</span> unique?</p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-8-13" class="level2" data-number="6.13">
+<h2 data-number="6.13" class="anchored" data-anchor-id="sec-8-13"><span class="header-section-number">6.13</span> LU Factorization</h2>
+<ul>
+<li><p>Let <span class="math inline">\(\mathbf{A}\)</span> be a square matrix. <span class="math inline">\(~\)</span>An <em>LU factorization</em> refers to the factorization of <span class="math inline">\(\mathbf{A}\)</span> into two factors – a lower triangular matrix <span class="math inline">\(\mathbf{L}\)</span> and an upper triangular matrix <span class="math inline">\(\mathbf{U}\)</span>:</p>
+<p><span class="math display">\[\mathbf{A}=\mathbf{L}\mathbf{U}\]</span></p></li>
+<li><p>Without a proper ordering or permutations in the matrix, <span class="math inline">\(~\)</span>the factorization may fail to materialize. <span class="math inline">\(\,\)</span>This is a procedural problem. <span class="math inline">\(\,\)</span>It can be removed by simply reordering the rows of <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(\,\)</span>It turns out that a proper permutation in rows (or columns) is sufficient for LU factorization. <span class="math inline">\(\,\)</span>LU factorization with partial pivoting (LUP) refers often to LU factorization with row permutations only</p>
+<p><span class="math display">\[\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}\]</span></p>
+<p>where <span class="math inline">\(\mathbf{P}\)</span> is a permutation matrix, which, when left-multiplied to <span class="math inline">\(\mathbf{A}\)</span>, reorders the rows of <span class="math inline">\(\mathbf{A}\)</span>. <span class="math inline">\(\,\)</span>It turns out that all square matrices can be factorized in this form</p></li>
+<li><p>If <span class="math inline">\(\mathbf{A}\)</span> is invertible, then it admits an LU factorization if and only if all its leading principal minors are nonzero. <span class="math inline">\(\,\)</span>If <span class="math inline">\(\mathbf{A}\)</span> is a singular matrix of rank <span class="math inline">\(k\)</span>, <span class="math inline">\(\,\)</span>then it admits an LU factorization if the first <span class="math inline">\(k\)</span> leading principal minors are nonzero</p></li>
+<li><p>LU decomposition is basically a modified form of Gaussian elimination. <span class="math inline">\(~\)</span>We transform the matrix <span class="math inline">\(\mathbf{A}\)</span> into an upper triangular matrix <span class="math inline">\(\mathbf{U}\)</span> by eliminating the entries below the main diagonal. <span class="math inline">\(\,\)</span>The <strong>Doolittle algorithm</strong> does the column-by-column elimination, starting from the left, by multiplying <span class="math inline">\(\mathbf{A}\)</span> to the left with atomic lower triangular matrices. It results in a <em>unit</em> lower triangular matrix and an upper triangular matrix</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Doolittle Algorithm</strong></p>
+<ul>
+<li><p>We define</p>
+<p><span class="math display">\[\mathbf{A}^{(0)}=\mathbf{A}\]</span></p></li>
+<li><p>We eliminate the matrix elements below the main diagonal in the <span class="math inline">\(k\)</span>-th column of <span class="math inline">\(\mathbf{A}^{(k -1)}\)</span> by adding to the <span class="math inline">\(i\)</span>-th row of this matrix the <span class="math inline">\(k\)</span>-th row multiplied by</p>
+<p><span class="math display">\[l_{i,k}=\frac{a_{i,k}^{(k-1)}}{a_{k,k}^{(k-1)}} \;\text{ for }\; i=k+1, \cdots, n\]</span></p>
+<p>This can be done by multiplying <span class="math inline">\(\mathbf{A}^{(k -1)}\)</span> to the left with the lower triangular matrix</p>
+<p><span class="math display">\[{\scriptsize
+\mathbf{L}_k=
+   \begin{pmatrix}
+       1      &amp; 0      &amp;           &amp; \cdots &amp;        &amp; 0      \\
+       0      &amp; \ddots &amp; \ddots    &amp;        &amp;        &amp;        \\
+              &amp;        &amp; 1         &amp;        &amp;        &amp;        \\
+      \vdots  &amp;        &amp;-l_{k+1,k} &amp;        &amp;        &amp; \vdots \\
+              &amp;        &amp; \vdots    &amp;        &amp; \ddots &amp; 0      \\
+       0      &amp;        &amp;-l_{n,k}   &amp;        &amp; 0      &amp; 1
+   \end{pmatrix}}\]</span></p></li>
+<li><p>We set</p>
+<p><span class="math display">\[{\mathbf{A}^{(k)}=\mathbf{L}_k\mathbf{A}^{(k-1)}, \;k=1,\cdots,n -1}\]</span></p>
+<p>After <span class="math inline">\(n -1\)</span> steps, <span class="math inline">\(~\)</span>we eliminated all the matrix elements below the main diagonal, <span class="math inline">\(\,\)</span>so we obtain an upper triangular matrix <span class="math inline">\(\mathbf{A}^{(n -1)}\)</span>. <span class="math inline">\(\,\)</span>We find the decomposition</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+   \mathbf{A}
+   &amp;= \mathbf{L}_1^{-1}\mathbf{L}_1\mathbf{A}^{(0)}
+    =\mathbf{L}_1^{-1}\mathbf{A}^{(1)}
+    = \mathbf{L}_1^{-1}\mathbf{L}_2^{-1}
+      \mathbf{L}_2\mathbf{A}^{(1)}
+    =\mathbf{L}_1^{-1}\mathbf{L}_2^{-1}
+     \mathbf{A}^{(2)}\\
+    &amp;\;\;\vdots \\
+    &amp;=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}
+      \mathbf{A}^{(n -1)}
+\end{aligned}\]</span></p>
+<p>Denote the upper triangular matrix <span class="math inline">\(\mathbf{A}^{(n -1)}\)</span> by <span class="math inline">\(\mathbf{U}\)</span>, <span class="math inline">\(\,\)</span> and <span class="math inline">\(\mathbf{L}=\mathbf{L}_1^{-1}\cdots\mathbf{L}_{n -1}^{-1}\)</span></p></li>
+<li><p>Because the inverse of a lower triangular matrix <span class="math inline">\(\mathbf{L}_k\)</span> is again a lower triangular matrix, and the multiplication of two lower triangular matrices is again a lower triangular matrix, it follows that <span class="math inline">\(\mathbf{L}\)</span> is a lower triangular matrix:</p>
+<p><span class="math display">\[{\scriptsize
+\mathbf{L}=
+   \begin{pmatrix}
+       1      &amp; 0      &amp;           &amp; \cdots &amp;          &amp; 0      \\
+       l_{2,1}&amp; \ddots &amp; \ddots    &amp;        &amp;          &amp;        \\
+              &amp;        &amp; 1         &amp;        &amp;          &amp;        \\
+      \vdots  &amp;        &amp; l_{k+1,k} &amp;        &amp;          &amp; \vdots \\
+              &amp;        &amp; \vdots    &amp;        &amp; 1        &amp; 0      \\
+       l_{n,1}&amp; \cdots &amp; l_{n,k}   &amp; \cdots &amp; l_{n,n-1}&amp; 1
+   \end{pmatrix}}\]</span></p>
+<p>We obtain <span class="math inline">\(\mathbf{A}=\mathbf{L}\mathbf{U}\)</span></p></li>
+</ul>
+<p><strong>NOTE</strong> It is clear that in order for this algorithm to work, one needs to have <span class="math inline">\(a_{k,k}^{(k-1)}\)</span> at each step (see the definition of <span class="math inline">\(l_{i,k}\)</span>). If this assumption fails at some point, one needs to interchange <span class="math inline">\(k\)</span>-th row with another row below it before continuing. This is why an LU decomposition in general looks like <span class="math inline">\(\mathbf{P}\mathbf{A}=\mathbf{L}\mathbf{U}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<div id="69d6c589" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lu_factor(A):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">        LU factorization with partial pivoting</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">        PA = LU    </span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">        P(permutation), </span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">        L(unit Lower triangular) and </span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">        U(upper triangular) </span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">    </span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">        Return P, L, U</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> A.shape[<span class="dv">0</span>]    </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    U <span class="op">=</span> A.copy()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> np.identity(n)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    L <span class="op">=</span> np.identity(n)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(n <span class="op">-</span><span class="dv">1</span>):</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Partial Pivoting</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>        max_row_index <span class="op">=</span> np.argmax(<span class="bu">abs</span>(U[k:n,k])) <span class="op">+</span>k</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>        P[[k,max_row_index]] <span class="op">=</span> P[[max_row_index,k]]</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>        U[[k,max_row_index]] <span class="op">=</span> U[[max_row_index,k]]</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># LU</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>        L[k<span class="op">+</span><span class="dv">1</span>:,k] <span class="op">=</span> U[k<span class="op">+</span><span class="dv">1</span>:,k] <span class="op">/</span>U[k,k]</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>        U[k<span class="op">+</span><span class="dv">1</span>:,k] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>        U[k<span class="op">+</span><span class="dv">1</span>:,k<span class="op">+</span><span class="dv">1</span>:] <span class="op">-=</span> np.tensordot(L[k<span class="op">+</span><span class="dv">1</span>:,k],</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>                           U[k,k<span class="op">+</span><span class="dv">1</span>:], axes<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> P, L, U</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">7</span>, <span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>], </span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>             [<span class="dv">2</span>, <span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>]], dtype<span class="op">=</span><span class="st">'float64'</span>)</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>P, L, U <span class="op">=</span> lu_factor(A)</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'A ='</span>)<span class="op">;</span> pprint.pprint(A)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">P ='</span>)<span class="op">;</span> pprint.pprint(P)</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">L ='</span>)<span class="op">;</span> pprint.pprint(L)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">U ='</span>)<span class="op">;</span> pprint.pprint(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>A =
+array([[ 7.,  3., -1.,  2.],
+       [ 3.,  8.,  1., -4.],
+       [-1.,  1.,  4., -1.],
+       [ 2., -4., -1.,  6.]])
+
+P =
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+
+L =
+array([[ 1.        ,  0.        ,  0.        ,  0.        ],
+       [ 0.42857143,  1.        ,  0.        ,  0.        ],
+       [-0.14285714,  0.21276596,  1.        ,  0.        ],
+       [ 0.28571429, -0.72340426,  0.08982036,  1.        ]])
+
+U =
+array([[ 7.        ,  3.        , -1.        ,  2.        ],
+       [ 0.        ,  6.71428571,  1.42857143, -4.85714286],
+       [ 0.        ,  0.        ,  3.55319149,  0.31914894],
+       [ 0.        ,  0.        ,  0.        ,  1.88622754]])</code></pre>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<div id="05bf594b" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">7</span>, <span class="dv">3</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>],</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>             [<span class="dv">2</span>, <span class="op">-</span><span class="dv">4</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>]], dtype<span class="op">=</span><span class="st">'float64'</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>P, L, U <span class="op">=</span> lu(A)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'P ='</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>pprint.pprint(P)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">L ='</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>pprint.pprint(L)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">U ='</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>pprint.pprint(U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P =
+array([[1., 0., 0., 0.],
+       [0., 1., 0., 0.],
+       [0., 0., 1., 0.],
+       [0., 0., 0., 1.]])
+
+L =
+array([[ 1.        ,  0.        ,  0.        ,  0.        ],
+       [ 0.42857143,  1.        ,  0.        ,  0.        ],
+       [-0.14285714,  0.21276596,  1.        ,  0.        ],
+       [ 0.28571429, -0.72340426,  0.08982036,  1.        ]])
+
+U =
+array([[ 7.        ,  3.        , -1.        ,  2.        ],
+       [ 0.        ,  6.71428571,  1.42857143, -4.85714286],
+       [ 0.        ,  0.        ,  3.55319149,  0.31914894],
+       [ 0.        ,  0.        ,  0.        ,  1.88622754]])</code></pre>
+</div>
+</div>
 
 
 </section>
