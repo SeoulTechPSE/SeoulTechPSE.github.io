@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -316,7 +350,152 @@ window.Quarto = {
 <p>In order for <span class="math inline">\(\eqref{eq:CE}\)</span> to have solutions other than the obvious trivial solution <span class="math inline">\(\mathbf{k}=\mathbf{0}\)</span>, <span class="math inline">\(\,\)</span>we must have</p>
 <p><span class="math display">\[\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=0\]</span></p>
 <p>This polynomial equation of <span class="math inline">\(\lambda\)</span> is called the <strong>characteristic equation</strong> of <span class="math inline">\(\mathbf{A}\)</span>; its solutions are the <strong>eigenvalues</strong> of <span class="math inline">\(\mathbf{A}\)</span>. A solution <span class="math inline">\(\mathbf{k}\neq \mathbf{0}\)</span> of <span class="math inline">\(\eqref{eq:CE}\)</span> corresponding to an eigenvalue <span class="math inline">\(\lambda\)</span> is called an <strong>eigenvector</strong> of <span class="math inline">\(\mathbf{A}\)</span></p></li>
+<li><p><strong>Distinct Real Eigenvalues</strong></p>
+<p>When <span class="math inline">\(\mathbf{A}\)</span> possesses <span class="math inline">\(n\)</span> distinct real eigenvalues <span class="math inline">\(\lambda_i\)</span>, <span class="math inline">\(i=1,2,\cdots,n\)</span>, <span class="math inline">\(\,\)</span>then a set of <span class="math inline">\(n\)</span> linearly independent eigenvectors <span class="math inline">\(\mathbf{k}_1\)</span>, <span class="math inline">\(\mathbf{k}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{k}_n\)</span> can always be found and</p>
+<p><span class="math display">\[\mathbf{x}_1=\mathbf{k}_1 e^{\lambda_1 t},
+  \mathbf{x}_2=\mathbf{k}_2 e^{\lambda_2 t}, \cdots,
+  \mathbf{x}_n=\mathbf{k}_n e^{\lambda_n t}\]</span></p>
+<p>is a fundamental set of solutions of the homogeneous system <span class="math inline">\(\eqref{eq:HE}\)</span> on <span class="math inline">\((-\infty,\infty)\)</span></p></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve</p>
+<p><span class="math display">\[\left.\begin{array}{rl}
+    \displaystyle \frac{dx}{dt} &amp;= 2x +3y\\
+    \displaystyle \frac{dy}{dt} &amp;= 2x +y
+  \end{array}\right. \;\; \Rightarrow
+     \;\;\displaystyle \frac{d\mathbf{x}}{dt}=\mathbf{A}\mathbf{x},
+     \;\mathbf{A}=
+     \begin{pmatrix}
+       2 &amp; 3\\
+       2 &amp; 1
+     \end{pmatrix}, \;\mathbf{x}=\begin{pmatrix} x \\ y \end{pmatrix}\]</span></p>
+<ul>
+<li><p>From the characteristic equation</p>
+<p><span class="math display">\[\mathrm{det}\,(\mathbf{A} -\lambda\mathbf{I})=
+  \begin{vmatrix}
+     2 -\lambda &amp; 3\\
+     2 &amp; 1 -\lambda
+  \end{vmatrix}
+  =(\lambda +1)(\lambda -4)=0
+\]</span></p></li>
+<li><p>Now for <span class="math inline">\(\lambda_1=-1\)</span>,</p>
+<p><span class="math display">\[
+  \begin{pmatrix}
+     3 &amp; 3\\
+     2 &amp; 2
+  \end{pmatrix}
+  \begin{pmatrix} k_1 \\ k_2
+  \end{pmatrix}
+  =\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+\]</span></p>
+<p>Thus <span class="math inline">\(\,k_1=-k_2\)</span>. <span class="math inline">\(\,\)</span>When <span class="math inline">\(k_2=-1\)</span>, <span class="math inline">\(\,\)</span>the related eigenvector is</p>
+<p><span class="math display">\[\mathbf{k}_1=\begin{pmatrix} \;\;1 \\ -1 \end{pmatrix}\]</span></p></li>
+<li><p>For <span class="math inline">\(\lambda_2=4\)</span>,</p>
+<p><span class="math display">\[
+  \begin{pmatrix}
+     -2 &amp; \;\;3\\
+     \;\;2 &amp; -3
+  \end{pmatrix} \begin{pmatrix} k_1 \\ k_2 \end{pmatrix}
+  =\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+\]</span></p>
+<p>so that <span class="math inline">\(k_1=\frac{3}{2}k_2\)</span>, <span class="math inline">\(\,\)</span>and therefore with <span class="math inline">\(k_2=2\)</span>, <span class="math inline">\(\,\)</span>the corresponding eigenvector is</p>
+<p><span class="math display">\[\mathbf{k}_2=\begin{pmatrix} 3 \\ 2 \end{pmatrix}\]</span></p></li>
+<li><p>Since we have found two linearly independent solutions</p>
+<p><span class="math display">\[\mathbf{x}_1=\begin{pmatrix} \;\;1 \\ -1 \end{pmatrix} e^{-t}
+  \;\text{ and }\;
+  \mathbf{x}_2=\begin{pmatrix} 3 \\ 2 \end{pmatrix}e^{4t}\]</span></p>
+<p>the general solution of the system is</p>
+<p><span class="math display">\[\mathbf{x}=c_1 \mathbf{x}_1 +c_2\mathbf{x}_2\]</span></p></li>
+</ul>
+<div id="5143e93f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">6</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>xl <span class="op">=</span> np.arange(<span class="op">-</span>w, w, <span class="fl">0.1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>yl <span class="op">=</span> np.arange(<span class="op">-</span>w, w, <span class="fl">0.1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xl, yl)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>xdot <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span><span class="dv">3</span><span class="op">*</span>y</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ydot <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span>y</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>y_1 <span class="op">=</span> <span class="op">-</span>xl</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>y_2 <span class="op">=</span> <span class="dv">2</span><span class="op">/</span><span class="dv">3</span> <span class="op">*</span>xl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-fig-ch10-Lotka-Volterra" class="cell" data-output-location="column" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">5</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ax.plot(xl, y_1, <span class="st">'r:'</span>, xl, y_2, <span class="st">'r:'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Phase Portrait'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'x'</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'y'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-ch10-lotka-volterra" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ch10-lotka-volterra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="ch_10_Systems_of_Linear_Differential_Equations_files/figure-html/fig-ch10-lotka-volterra-output-1.png" width="438" height="445" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ch10-lotka-volterra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: Lotka-Volterra predator-prey model
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="46109ff1" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">1</span>]])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ld, k <span class="op">=</span> np.linalg.eig(A)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Eigenvalues ='</span>, end <span class="op">=</span> <span class="st">' '</span>)<span class="op">;</span> pprint.pprint(ld)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Eigenvectors ='</span>)<span class="op">;</span> pprint.pprint(k)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Eigenvalues = array([ 4., -1.])
+Eigenvectors =
+array([[ 0.83205029, -0.70710678],
+       [ 0.5547002 ,  0.70710678]])</code></pre>
+</div>
+</div>
+<div id="6420b83d" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>A_.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<p><span class="math inline">\(\displaystyle \left[ \left( -1, \  1, \  \left[ \left[\begin{matrix}-1\\1\end{matrix}\right]\right]\right), \  \left( 4, \  1, \  \left[ \left[\begin{matrix}\frac{3}{2}\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span>Use python to obtain the phase portraits of the systems</p>
+<p><span class="math inline">\(~\)</span></p>
+<div class="columns">
+<div class="column" style="width:10%;">
+<p><span class="math inline">\(~\)</span></p>
+</div><div class="column" style="width:35%;">
+<p><span class="math display">\[\text{Attractor}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{dx}{dt} &amp;=-\frac{5}{2}x +2y\\
+  \frac{dy}{dt} &amp;= \frac{3}{4}x -2y
+\end{aligned}\]</span></p>
+</div><div class="column" style="width:35%;">
+<p><span class="math display">\[\text{Repeller}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{dx}{dt} &amp;= 2x +2y\\
+  \frac{dy}{dt} &amp;= x +3y
+\end{aligned}\]</span></p>
+</div><div class="column" style="width:20%;">
+<p><span class="math inline">\(~\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 
 
 </section>

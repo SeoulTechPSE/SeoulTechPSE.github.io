@@ -154,3 +154,175 @@ $~$
  of \eqref{eq:CE} corresponding to an eigenvalue $\lambda$ is called an **eigenvector** of 
  $\mathbf{A}$
 
+* **Distinct Real Eigenvalues**
+
+  When $\mathbf{A}$ possesses $n$ distinct real eigenvalues $\lambda_i$, $i=1,2,\cdots,n$, $\,$then
+  a set of $n$ linearly independent eigenvectors $\mathbf{k}_1$, $\mathbf{k}_2$, $\cdots$, 
+  $\mathbf{k}_n$ can always be found and
+  
+  $$\mathbf{x}_1=\mathbf{k}_1 e^{\lambda_1 t}, 
+    \mathbf{x}_2=\mathbf{k}_2 e^{\lambda_2 t}, \cdots,
+    \mathbf{x}_n=\mathbf{k}_n e^{\lambda_n t}$$
+   
+  is a fundamental set of solutions of the homogeneous system \eqref{eq:HE} on $(-\infty,\infty)$
+
+$~$
+
+**Example** $\,$ Solve
+  
+$$\left.\begin{array}{rl}
+    \displaystyle \frac{dx}{dt} &= 2x +3y\\ 
+    \displaystyle \frac{dy}{dt} &= 2x +y 
+  \end{array}\right. \;\; \Rightarrow 
+     \;\;\displaystyle \frac{d\mathbf{x}}{dt}=\mathbf{A}\mathbf{x}, 
+     \;\mathbf{A}=
+     \begin{pmatrix}
+       2 & 3\\ 
+       2 & 1
+     \end{pmatrix}, \;\mathbf{x}=\begin{pmatrix} x \\ y \end{pmatrix}$$
+
+* From the characteristic equation
+  
+  $$\mathrm{det}\,(\mathbf{A} -\lambda\mathbf{I})=
+    \begin{vmatrix}
+       2 -\lambda & 3\\ 
+       2 & 1 -\lambda 
+    \end{vmatrix}
+    =(\lambda +1)(\lambda -4)=0
+  $$
+
+* Now for $\lambda_1=-1$,
+  
+  $$
+    \begin{pmatrix}
+       3 & 3\\ 
+       2 & 2
+    \end{pmatrix} 
+    \begin{pmatrix} k_1 \\ k_2 
+    \end{pmatrix}
+    =\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+  
+  Thus $\,k_1=-k_2$. $\,$When $k_2=-1$, $\,$the related eigenvector is
+  
+  $$\mathbf{k}_1=\begin{pmatrix} \;\;1 \\ -1 \end{pmatrix}$$
+     
+* For $\lambda_2=4$,
+  
+  $$
+    \begin{pmatrix}
+       -2 & \;\;3\\ 
+       \;\;2 & -3
+    \end{pmatrix} \begin{pmatrix} k_1 \\ k_2 \end{pmatrix}
+    =\begin{pmatrix} 0 \\ 0 \end{pmatrix}
+  $$
+  
+  so that $k_1=\frac{3}{2}k_2$, $\,$and therefore with $k_2=2$, $\,$the corresponding eigenvector is
+  
+  $$\mathbf{k}_2=\begin{pmatrix} 3 \\ 2 \end{pmatrix}$$
+
+* Since we have found two linearly independent solutions
+  
+  $$\mathbf{x}_1=\begin{pmatrix} \;\;1 \\ -1 \end{pmatrix} e^{-t}
+    \;\text{ and }\;
+    \mathbf{x}_2=\begin{pmatrix} 3 \\ 2 \end{pmatrix}e^{4t}$$
+    
+  the general solution of the system is
+  
+  $$\mathbf{x}=c_1 \mathbf{x}_1 +c_2\mathbf{x}_2$$
+
+```{python}
+# | echo: true
+import numpy as np
+import matplotlib.pyplot as plt
+
+w = 6
+xl = np.arange(-w, w, 0.1)
+yl = np.arange(-w, w, 0.1)
+x, y = np.meshgrid(xl, yl)
+
+xdot = 2*x +3*y
+ydot = 2*x +y
+
+y_1 = -xl
+y_2 = 2/3 *xl
+```
+
+```{python}
+# | echo: true
+# | label: fig-ch10-Lotka-Volterra 
+# | fig-cap: "Lotka-Volterra predator-prey model"
+# | output-location: column
+
+fig, ax = plt.subplots(figsize=(5, 5))
+
+ax.streamplot(x, y, xdot, ydot, color='blue')
+ax.plot(xl, y_1, 'r:', xl, y_2, 'r:')
+ax.set_title('Phase Portrait')
+ax.axis((-w, w, -w, w))
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.grid()
+ax.tick_params(axis='both', direction='in')
+```
+
+```{python}
+# | echo: true
+import pprint
+
+A = np.array([[2, 3], [2, 1]])
+ld, k = np.linalg.eig(A)
+
+print('Eigenvalues =', end = ' '); pprint.pprint(ld)
+print('Eigenvectors ='); pprint.pprint(k)
+```
+
+```{python}
+# | echo: true
+import sympy
+sympy.init_printing()
+
+A_ = sympy.Matrix(A)
+A_.eigenvects()
+```
+
+$~$
+
+**Example** $\,$Use python to obtain the phase portraits of the systems
+
+$~$
+
+:::: {.columns}
+
+::: {.column width="10%"}
+$~$
+:::
+
+::: {.column width="35%"}
+$$\text{Attractor}$$
+
+$$
+\begin{aligned}
+  \frac{dx}{dt} &=-\frac{5}{2}x +2y\\ 
+  \frac{dy}{dt} &= \frac{3}{4}x -2y 
+\end{aligned}$$ 
+:::
+
+::: {.column width="35%"}
+$$\text{Repeller}$$
+
+$$
+\begin{aligned}
+  \frac{dx}{dt} &= 2x +2y\\ 
+  \frac{dy}{dt} &= x +3y 
+\end{aligned}$$
+:::
+
+::: {.column width="20%"}
+$~$
+:::
+
+::::
+
+$~$
+
