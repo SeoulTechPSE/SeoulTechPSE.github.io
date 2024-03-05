@@ -2779,3 +2779,171 @@ $~$
    
    Hence, if $\mathbf{S}\neq\mathbf{0}$, $\,$then $\mathbf{S}$ must be one of 
    the columns of $\mathbf{H}$. $\,$If $\mathbf{R}$ contains a single error, $\,$we see that the syndrome itself indicates which bit is in error
+
+$~$
+
+### **Method of Least Squares**
+
+![](figures/ch08_figure06.png){width="40%" fig-align="center"}
+
+  When performing experiments we often tabulate data in the form of ordered pairs $(x_1, y_1),$ $(x_2, y_2),$ $\cdots,$ $(x_n, y_n),$ with each $x_i$ distinct. Given the data, it is then often desirable to predict $y$ from $x$ by finding a mathematical model, that is, a function $f(x)$ that approximates or fits the data
+
+* We shall confine our attention to the problem of finding a linear polynomial
+  $f(x)=ax +b$ that best fits the data $(x_i, y_i)$, $i=1,\cdots, n$. The procedure
+  for finding this linear function is known as **the method of least squares**
+
+* One way to determine how well the linear function $f(x)=ax +b~$ fits the data is to
+  measure the vertical distances between the data points $y_i$ and the graphs $f(x_i)$
+  
+  $$e_i=|y_i -f(x_i)|, \;\;i=1,\cdots, n$$
+
+* An actual approach is to find a linear function $f$ so that the sum of the *squares* of all the $e_i$ values is a minimum
+  
+  $$\min_{a, \,b} E=\min_{a, \,b} \sum_{i=1}^n \left[y_i -ax_i -b\right]^2$$
+  
+  Then to find the minimum value of $E$, $\,$we set the first partial derivatives with respect to
+  $a$ and $b$ to zero:
+  
+  $$\frac{\partial E}{\partial a}=0 \;\text{ and }\; \frac{\partial E}{\partial b}=0$$
+
+* The last two conditions yield, in turn,
+  
+  $$
+  \begin{aligned}
+        -2 \sum_{i=1}^n x_i [y_i -a x_i -b] &= 0\\ 
+        -2 \sum_{i=1}^n [y_i -a x_i -b] &= 0
+  \end{aligned}$$ 
+
+
+  Expanding the sums and rearranging, $~$we find the above system is the same as
+  
+  $${\scriptsize
+    \begin{pmatrix}
+     \displaystyle\sum_{i=1}^n x_i^2 & \displaystyle\sum_{i=1}^n x_i\\ 
+     \displaystyle\sum_{i=1}^n x_i   & n
+    \end{pmatrix}
+    \begin{pmatrix}
+      a \\ b
+    \end{pmatrix}=
+    \begin{pmatrix}
+     \displaystyle \sum_{i=1}^n x_i y_i\\ \displaystyle \sum_{i=1}^n y_i \;\;\;
+    \end{pmatrix}} 
+  $$
+
+  and, in terms of matrices, is  equivalent to 
+    
+  $$\mathbf{A}^T\mathbf{A}\mathbf{x}=\mathbf{A}^T\mathbf{b}$$
+  
+  where
+  
+  $${\scriptsize
+    \mathbf{A}=
+    \begin{pmatrix}
+     x_1 & 1\\ 
+     x_2 & 1\\ 
+     \vdots & \vdots\\ 
+     x_n & 1 
+    \end{pmatrix},
+    \;\mathbf{b}=
+    \begin{pmatrix}
+     y_1\\
+     y_2\\ 
+     \vdots\\ 
+     y_n
+    \end{pmatrix},
+    \;\mathbf{x}=
+    \begin{pmatrix}
+     a \\ b
+    \end{pmatrix}} \tag{C3}\label{eq:C3}
+  $$ 
+  
+  Unless the data points all lie on the same vertical line, the matrix $\mathbf{A}^T\mathbf{A}$ is nonsingular. Thus \eqref{eq:C3} has the unique solution
+  
+  $$
+    \mathbf{x} =\left(\mathbf{A}^T \mathbf{A} \right)^T \mathbf{A}^T \mathbf{b}
+  $$
+
+$~$  
+
+**Example** $\,$ Nonlinear Least Squares: $\text{ } f(x) = 2.5e^{-1.3x}$
+
+```{python}
+# | echo: true
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+
+np.random.seed(1970)
+
+def func(x, a, b):
+    return a *np.exp(-b*x)
+
+# Define the data to be fit with some noise
+xdata = np.linspace(0, 4, 50)
+ydata = func(xdata, 2.5, 1.3) +0.1 *np.random.normal(size=xdata.size)
+plt.plot(xdata, ydata, 'ro', label='data')
+
+# Fit for the parameters a and b of the function func:
+popt, pcov = curve_fit(func, xdata, ydata)
+plt.plot(xdata, func(xdata, *popt), 
+         'b-', label='fit: a=%5.3f, b=%5.3f' % tuple(popt))
+plt.xlabel('x'), plt.ylabel('y'), plt.legend()
+plt.show()
+```
+
+$~$
+
+### **Discrete Compartmental Models**
+
+* Strontium 90 is deposited into pastureland by rainfall. To study how this material is cycled through the ecosystem, $~$we divide the system into the compartments:
+
+  ![](figures/ch08_figure07.png){width="60%" fig-align="center"}
+  
+  Suppose that $\Delta t=1$ month and the transfer coefficients shown in the figure are measured in fraction/month
+
+* Suppose that rainfall has
+  deposited the strotium 90 into the compartments so that
+  
+  $${\mathbf{x}_0=
+   \begin{pmatrix}
+    20 & 
+    60 & 
+    15 & 
+    20
+   \end{pmatrix}^T}$$
+   
+  Units might be grams per hectare. Compute the states of the ecosystem over the next 12 months
+  
+* From the data in figure, $\,$we see that transfer matrix $\mathbf{T}$ is
+  
+  $$\scriptsize
+    \mathbf{T}=
+    \begin{pmatrix}
+     0.85 & 0.01 & 0   & 0 \\ 
+     0.05 & 0.98 & 0.2 & 0 \\ 
+     0.1  & 0    & 0.8 & 0 \\ 
+     0    & 0.01 & 0   & 1
+    \end{pmatrix}  
+  $$
+  
+  We must compute $\mathbf{x}_1$, $\mathbf{x}_2$, $\cdots$, $\mathbf{x}_{12}$ by using
+  the recursion formula $~\mathbf{x}_{n+1}=\mathbf{T}\mathbf{x}_n$
+
+$~$
+
+```{python}
+# | echo: true
+T = np.array([[0.85, 0.01, 0.00, 0.00], 
+              [0.05, 0.98, 0.20, 0.00],
+              [0.10, 0.00, 0.80, 0.00], 
+              [0.00, 0.01, 0.00, 1.00]])
+x = np.array([20, 60, 15, 20]).T
+
+print('-' *47)
+print('Month     Grasses   Soil      Dead_OM   Streams')
+print('-' *47)
+for month in range(13):   
+    print(f'{month:5d} {x[0]:9.2f} {x[1]:9.2f} {x[2]:9.2f} {x[3]:9.2f}')  
+    x = T @ x 
+```
+
+## Worked Exercises {.unnumbered}
