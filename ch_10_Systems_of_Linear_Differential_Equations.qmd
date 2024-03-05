@@ -326,3 +326,578 @@ $~$
 
 $~$
 
+* **Repeated Eigenvalues**
+
+  For an $n \times n$ matrix $\mathbf{A}$, if $m$ is a positive integer and $(\lambda -\lambda_1)^m$ is a factor of the characteristic equation while $(\lambda -\lambda_1)^{m +1}$ is not a factor, then $\lambda_1$ is said to be an **eigenvalue of multiplicity $m$** 
+    
+  * It may be possible to find *$m$ linearly independent eigenvectors* $\,$ $\mathbf{k}_1$, $\mathbf{k}_2$, $\cdots$, $\mathbf{k}_m$ corresponding to an eigenvalue $\lambda_1$ of multiplicity $m \leq n$. In this case, the general solution contains the linear combination
+    
+    $$c_1 \mathbf{k}_1 e^{\lambda_1 t} +c_2 \mathbf{k}_2 e^{\lambda_1 t} +\cdots
+         +c_m \mathbf{k}_m e^{\lambda_1 t}$$
+
+* If there is *only one eigenvector* corresponding to the eigenvalue $\lambda_1$ of multiplicity $m$,
+  then $m$ linearly independent solutions of the form
+
+  $$
+  \begin{aligned}
+    \mathbf{x}_1 &= \mathbf{k}_{11} e^{\lambda_1 t}\\
+    \mathbf{x}_2 &= \mathbf{k}_{11} t e^{\lambda_1 t} +\mathbf{k}_{12} e^{\lambda_1 t}\\
+    &\vdots\\
+    \mathbf{x}_m &= \mathbf{k}_{11} \frac{t^{m-1}}{(m-1)!} e^{\lambda_1 t}
+     +\mathbf{k}_{12} \frac{t^{m-2}}{(m-2)!} e^{\lambda_1 t} +\cdots +\mathbf{k}_{1m} e^{\lambda_1 t}
+  \end{aligned}$$
+ 
+  can always be found
+
+$~$
+
+**Example** $\,$ Solve
+
+$$
+\mathbf{x}' =
+  \left(\begin{array}{rrr}
+      1 & -2 & 2 \\ 
+     -2 &  1 &-2 \\ 
+      2 & -2 & 1
+  \end{array}\right)\mathbf{x}$$
+
+* The characteristic equation 
+  
+  $$\mathrm{det}(\mathbf{A}-\lambda \mathbf{I}) =
+    \left|\begin{array}{ccc}
+      1-\lambda & -2 & \;\;2 \\ 
+     -2 &  1-\lambda &-2 \\ 
+      \;\;2 & -2 & 1-\lambda
+    \end{array}\right|=0
+  $$
+  
+  yields $-(\lambda+1)^2(\lambda-5)=0$. $\,$ Then $\lambda_1=\lambda_2=-1$ and $\lambda_3=5$
+
+* For $\lambda_1=\lambda_2=-1$, $\,$ we have
+  
+  $$
+  (\mathbf{A} +\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+    2 & -2 &  2 & 0\\ 
+   -2 &  2 & -2 & 0\\ 
+    2 & -2 &  2 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & -1 & 1 & 0\\ \hline
+    0 &  0 & 0 & 0\\ 
+    0 &  0 & 0 & 0
+  \end{array}\right)  
+  $$
+  
+  The first row of the last matrix means $k_1 -k_2 +k_3=0$. $\,$By choosing $k_2=1$, $k_3=0$ and $k_2=1$, $k_3=1$, two linearly independent eigenvectors corresponding to $\lambda_1$ 
+  
+  $$\mathbf{k}_1=
+  \left(\begin{array}{r}
+    1\\ 
+    1\\ 
+    0
+  \end{array}\right) \; \text{ and } \;
+  \mathbf{k}_2=
+  \left(\begin{array}{r}
+    0\\ 
+    1\\ 
+    1
+  \end{array}\right)
+  $$
+  
+  are obtained
+
+* Last, for $\lambda_3=5$, $\,$the Gauss elimination
+  
+  $$
+  (\mathbf{A} -5\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+   -4 & -2 &  2 & 0\\ 
+   -2 & -4 & -2 & 0\\ 
+    2 & -2 & -4 & 0
+  \end{array}\right)
+  \overset{\text{row operations}}{\Longrightarrow}
+  \left(\begin{array}{rrr|r}
+    1 & 0 &-1 & 0\\ 
+    0 & 1 & 1 & 0\\ \hline 
+    0 & 0 & 0 & 0
+  \end{array}\right)  
+  $$
+  
+  implies $k_1=k_3$ and $k_2=-k_3$. Picking $k_3=1$ gives $k_1=1$, $k_2=-1$, and thus a third 
+  eigenvector is
+  
+  $$\mathbf{k}_3=
+  \left(\begin{array}{r}
+    1\\ 
+   -1\\ 
+    1
+  \end{array}\right)
+  $$
+
+* Thus we conclude that the general solution is
+  
+  $$\mathbf{x}=
+   c_1\left(\begin{array}{r}
+        1\\ 
+        1\\ 
+        0
+      \end{array}\right)e^{-t} + 
+   c_2\left(\begin{array}{r}
+        0\\ 
+        1\\ 
+        1
+      \end{array}\right)e^{-t} +
+   c_3\left(\begin{array}{r}
+        1\\ 
+       -1\\ 
+        1
+      \end{array}\right)e^{5t}      
+  $$
+
+  $~$
+
+  **Example** $\,$ Solve
+
+  $$
+  \mathbf{x}' =
+    \left(\begin{array}{rrr}
+      2 & 1 & 6 \\ 
+      0 & 2 & 5 \\ 
+      0 & 0 & 2
+    \end{array}\right)\mathbf{x}
+  $$
+
+* The characteristic equation $-(\lambda -2)^3=0\,$ shows that $\lambda_1=2\,$ is an eigenvalue
+  of multiplicity three. $\,$We have
+  
+  $$(\mathbf{A} -2\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrr|r}
+    0 & 1 & 6 & 0\\ 
+    0 & 0 & 5 & 0\\ 
+    0 & 0 & 0 & 0
+  \end{array}\right) 
+  $$  
+  
+  Therefore $\,0 \cdot k_1 +k_2 +6k_3 =0$ and $k_3=0\;\rightarrow\;k_2=k_3=0$. 
+  $\,$ The choice $k_1=1$ gives the single eigenvector
+  
+  $$\mathbf{k}_{11}=
+  \left(\begin{array}{r}
+    1\\ 
+    0\\ 
+    0
+  \end{array}\right)
+  $$
+
+* A second solution can be found of the form
+  
+  $$\mathbf{x}_2 =\mathbf{k}_{11} t e^{2t} +\mathbf{k}_{12} e^{2t} \tag{S1}\label{eq:S1}$$
+  
+  To see this, $\,$we substitute \eqref{eq:S1} into the system $\mathbf{x}'=\mathbf{A}\mathbf{x}$
+  
+  $$\underbrace{(\mathbf{A} -2\mathbf{I})\mathbf{k_{11}}}_{\mathbf{0}}te^{2t} 
+     +(\mathbf{A}\mathbf{k}_{12} -2\mathbf{k}_{12} -\mathbf{k}_{11})e^{2t}=0$$
+     
+  Since this last equation is to hold for all values of $t$, $\,$we must have
+  
+  $$(\mathbf{A} -2\mathbf{I})\mathbf{k}_{12}=\mathbf{k}_{11}$$
+
+* To find $\mathbf{x}_2$, $\,$we need only solve the additional system for the generalized eigenvector
+  $\mathbf{k}_{12}$
+  
+  $$
+  (\mathbf{A} -2\mathbf{I}|\mathbf{k}_{11}) =
+  \left(\begin{array}{rrr|r}
+    0 & 1 & 6 & 1\\ 
+    0 & 0 & 5 & 0\\ 
+    0 & 0 & 0 & 0
+  \end{array}\right)
+  $$
+  
+  Then $\,0\cdot k_1 +k_2 +6k_3 =1$ and $k_3=0\;\rightarrow\;k_2=1, k_3=0$. 
+  $\,$The choice $k_1=0$ gives
+  
+  $$\mathbf{k}_{12}=
+  \left(\begin{array}{r}
+    0\\ 
+    1\\ 
+    0
+  \end{array}\right)
+  $$
+
+* A third solution can be found of the form
+  
+  $$\mathbf{x}_3 =\mathbf{k}_{11} \frac{t^2}{2} e^{2t} 
+    +\mathbf{k}_{12}te^{2t} +\mathbf{k}_{13}e^{2t} \tag{S2}\label{eq:S2}$$
+  
+  To see this, we substitute \eqref{eq:S2} into the system $\mathbf{x}'=\mathbf{A}\mathbf{x}$
+  
+  $$\underbrace{(\mathbf{A} -2\mathbf{I})\mathbf{k_{11}}}_{\mathbf{0}}\frac{t^2}{2}e^{2t} 
+     +\underbrace{(\mathbf{A}\mathbf{k}_{12} -2\mathbf{k}_{12} -\mathbf{k}_{11})}_{\mathbf{0}}\,t e^{2t}
+     +(\mathbf{A}\mathbf{k}_{13} -2\mathbf{k}_{13} -\mathbf{k}_{12}) e^{2t}=0$$
+
+* Then, $\,$to find $\mathbf{k}_{13}$ 
+
+  $$
+  (\mathbf{A} -2\mathbf{I}|\mathbf{k}_{12}) =
+  \left(\begin{array}{rrr|r}
+    0 & 1 & 6 & 0\\ 
+    0 & 0 & 5 & 1\\ 
+    0 & 0 & 0 & 0
+  \end{array}\right)
+  $$
+  
+  Then $\,0\cdot k_1 +k_2 +6k_3 =0\,$ and $\,5k_3=1\;\rightarrow\;k_2=-\frac{6}{5}, \, k_3=\frac{1}{5}$. 
+  $\,$The choice $k_1=0$ gives
+  
+  $$\mathbf{k}_{13}=
+  \left(\begin{array}{r}
+    0\\ 
+   -\frac{6}{5}\\ 
+    \frac{1}{5}
+  \end{array}\right)
+  $$
+
+* Thus we see that the general solution is
+  
+  $$\mathbf{x}=  
+   c_1\left(\begin{array}{r}
+             1\\ 
+             0\\
+             0
+           \end{array}\right)e^{2t}+
+   c_2\left[
+           \left(\begin{array}{r}
+             1\\ 
+             0\\
+             0
+           \end{array}\right)te^{2t}+
+           \left(\begin{array}{r}
+             0\\ 
+             1\\
+             0
+           \end{array}\right)e^{2t}           
+      \right]+
+   c_3\left[
+           \left(\begin{array}{r}
+             1\\ 
+             0\\
+             0
+           \end{array}\right)\frac{t^2}{2}e^{2t}+
+           \left(\begin{array}{r}
+             0\\ 
+             1\\
+             0
+           \end{array}\right)te^{2t}+
+           \left(\begin{array}{r}
+             0\\ 
+            -\frac{6}{5}\\ 
+             \frac{1}{5}
+           \end{array}\right)e^{2t}            
+      \right]      
+  $$
+
+$~$
+
+**Example** $\,$ Use python to obtain the phase portrait of the system
+
+$$
+\begin{aligned}
+  \frac{dx}{dt} &= 3x -18y\\ 
+  \frac{dy}{dt} &= 2x -9y 
+\end{aligned}$$
+
+```{python}
+# | echo: true
+A = np.array([[3, -18], [2, -9]])
+ld, k = np.linalg.eig(A)
+
+print('Eigenvalues =', end = ' '); pprint.pprint(ld)
+print('Eigenvectors ='); pprint.pprint(np.around(k, decimals=4))
+```
+
+```{python}
+# | echo: true
+A_ = sympy.Matrix(A)
+A_.eigenvects()
+```
+
+```{python}
+# | echo: true
+# | label: fig-ch10-defective-system 
+# | fig-cap: "Phase Portrait of defective system"
+# | output-location: column
+w = 6
+xl = np.arange(-w, w, 0.1)
+yl = np.arange(-w, w, 0.1)
+x, y = np.meshgrid(xl, yl)
+
+xdot = 3*x -18*y
+ydot = 2*x -9*y
+
+y_1 = 1/3 *xl
+
+fig, ax = plt.subplots(figsize=(5, 5))
+
+ax.streamplot(x, y, xdot, ydot, color='blue')
+ax.plot(xl, y_1, 'r:')
+ax.set_title('Phase Portrait')
+ax.axis((-w, w, -w, w))
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.grid()
+ax.tick_params(axis='both', direction='in')
+```
+
+$~$
+
+**Example** $\,$ The $5 \times 5$ matrix
+
+$$
+\mathbf{A}=
+\begin{pmatrix}
+ 2 & 1 & 0 & 0 & 0\\ 
+ 0 & 2 & 0 & 0 & 0\\ 
+ 0 & 0 & 2 & 0 & 0\\ 
+ 0 & 0 & 0 & 2 & 1\\ 
+ 0 & 0 & 0 & 0 & 2 
+\end{pmatrix}
+$$
+ 
+has an eigenvalue $\lambda_1=2$ of multiplicity 5. Show that three linearly independent eigenvectors corresponding to $\lambda_1$ can be found. $\,$And construct the generalized eigenvectors
+
+* The system
+ 
+  $$\scriptsize(\mathbf{A} -2\mathbf{I}|\mathbf{0}) =
+  \left(\begin{array}{rrrrr|r}
+     0 & 1 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 1 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0
+  \end{array}\right) 
+  $$
+  
+  implies $k_2=0$ and $k_5=0$. Then we can pick ($k_1 =1$, $k_3=k_4=0$), ($k_3=1$, $k_1=k_4=0$) and
+  ($k_4=1$, $k_1=k_3=0$) in turn to build three linearly eigenvectors
+  
+  $$\scriptsize\mathbf{k}_{11}=
+     \left(\begin{array}{r}
+       1\\ 0\\ 0\\ 0\\ 0
+     \end{array}\right),\;\;
+     \mathbf{k}_{21}=
+     \left(\begin{array}{r}
+       0\\ 0\\ 1\\ 0\\ 0
+     \end{array}\right),\;\;
+     \mathbf{k}_{31}=
+     \left(\begin{array}{r}
+       0\\ 0\\ 0\\ 1\\ 0
+     \end{array}\right)     
+  $$
+
+* The following systems
+  
+  $$\scriptsize(\mathbf{A} -2\mathbf{I}|\mathbf{k}_{11}) =
+  \left(\begin{array}{rrrrr|r}
+     0 & 1 & 0 & 0 & 0 & 1\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 1 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0
+  \end{array}\right),\;\;
+  (\mathbf{A} -2\mathbf{I}|\mathbf{k}_{31}) =
+  \left(\begin{array}{rrrrr|r}
+     0 & 1 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 0 & 0\\ 
+     0 & 0 & 0 & 0 & 1 & 1\\ 
+     0 & 0 & 0 & 0 & 0 & 0
+  \end{array}\right)
+  $$ 
+  
+  are solved to construct two generalized eigenvectors: 
+  The first system gives $k_2=1$ and $k_5=0$, and then, for $\mathbf{k}_{12}$, we can pick $k_1=k_3=k_4=0$.
+  $\,$The second system yields $k_2=0$ and $k_5=1$, $\,$we can also pick $k_1=k_3=k_4=0$ for $\mathbf{k}_{32}$
+  
+  $$\scriptsize \mathbf{k}_{12}=
+     \left(\begin{array}{r}
+       0\\ 1\\ 0\\ 0\\ 0
+     \end{array}\right),\;\;
+     \mathbf{k}_{32}=
+     \left(\begin{array}{r}
+       0\\ 0\\ 0\\ 0\\ 1
+     \end{array}\right)$$
+
+$~$
+
+* **Complex Eigenvalues**
+
+  Let $\mathbf{A}$ be the coefficient matrix having real entries of the homogeneous system, and
+  let $\mathbf{k}_1$ be an eigenvector corresponding to the complex eigenvalue $\lambda_1=\alpha +i\beta$,
+  $~\alpha$ and $\beta$ real. $\,$Then
+  
+  $$\mathbf{k}_1 e^{\lambda_1 t}\;\text{ and }\;\bar{\mathbf{k}}_1 e^{\bar{\lambda}_1 t}$$
+    
+  are linearly independent solutions of the homogeneous system. $\,$By defining
+    
+  $$\mathbf{b}_1=\mathrm{Re}(\mathbf{k}_1)\;\text{ and 
+   }\; \mathbf{b}_2=\mathrm{Im}(\mathbf{k}_1)$$
+    
+  the following vectors are also linearly independent solutions
+    
+  $$
+  \begin{aligned}
+    \mathbf{x}_1 &=\left[\mathbf{b}_1 \cos\beta t - 
+    \mathbf{b}_2 \sin\beta t \right]e^{\alpha t} \\ 
+    \mathbf{x}_2 &=\left[\mathbf{b}_2 \cos\beta t 
+     +\mathbf{b}_1 \sin\beta t \right]e^{\alpha t} 
+  \end{aligned}$$
+
+$~$
+
+**Example** $\,$ Solve the initial value problem
+   
+$$
+\left.\begin{array}{rl}
+    &\displaystyle \frac{dx}{dt} = 2x +8y\\ 
+    &\displaystyle \frac{dy}{dt} = x -2y
+  \end{array}\right.,\quad
+     x(0)=2, \;\; y(0)=-1$$
+
+* First we obtain the eigenvalues from
+     
+  $$\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=
+        \left|
+        \begin{array}{cc}
+           2-\lambda & 8 \\ 
+          -1 & -2 -\lambda 
+        \end{array}
+        \right|
+       =\lambda^2 +4=0$$
+     
+  The eigenvalues are $\lambda_1=2i$ and $\lambda_2=\bar{\lambda}_1$
+
+$~$
+
+```{python}
+# | echo: true
+A = np.array([[2, 8], [-1, -2]])
+
+A_ = sympy.Matrix(A)
+A_.eigenvects()
+```
+
+$~$
+
+* For $\lambda_1$, $\,$the system
+     
+   $$
+    (\mathbf{A} -2i\mathbf{I}|\mathbf{0}) =
+      \left(\begin{array}{cc|r}
+           2 -2i & 8 & 0\\ 
+           -1 & -2 -2i & 0
+      \end{array}\right)
+      \overset{\text{row operations}}{\Longrightarrow}
+      \left(\begin{array}{cc|r}
+            1 & 2 +2i & 0\\ \hline
+            0 & 0 & 0
+      \end{array}\right)  
+    $$
+  
+   gives $k_1=-(2 +2i)k_2$. $\,$By choosing $k_2=-1$, $\,$we get
+    
+   $$\mathbf{k}_1=\begin{pmatrix} 2 +2i\\ -1 \end{pmatrix}
+      =\underbrace{\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}}_{\mathbf{b}_1} 
+     +i\underbrace{\begin{pmatrix} 2\\ 0 \end{pmatrix}}_{\mathbf{b}_2}$$
+
+* Now we form the general solution
+       
+  $$\mathbf{x}=
+   c_1\left[\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t 
+          -\begin{pmatrix} 2\\ 0 \end{pmatrix}\sin 2t \right] 
+  +c_2\left[\begin{pmatrix} 2\\ 0 \end{pmatrix}\cos 2t 
+          +\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\sin 2t \right]$$
+                 
+   The initial condition yields $2c_1 +2c_2=2$, $-c_1=-1$ $\,$whose solution is $c_1=1$, $c_2=0$. $\,$Thus solution is
+    
+   $$\mathbf{x}=
+      \left[\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t 
+           -\begin{pmatrix} 2\\ 0 \end{pmatrix}\sin 2t \right]$$
+
+$~$
+
+```{python}
+# | echo: true
+# | label: fig-ch10-Times-Series-Complex-Eigenvalues 
+# | fig-cap: "Time series of system with complex eigenvalues"
+
+from scipy.integrate import solve_ivp
+
+def myODE(t, y):
+    return [2*y[0] +8*y[1], -y[0] -2*y[1]]
+
+sol = solve_ivp(myODE, [0, 20], [2, -1], t_eval = np.linspace(0, 20, 200))
+
+fig, ax = plt.subplots(figsize=(6, 3))
+
+ax.plot(sol.t, sol.y[0], 'r-', label = 'x')
+ax.plot(sol.t, sol.y[1], 'b-', label = 'y')
+ax.axis((0, 20, -4, 4))
+ax.tick_params(axis='both', direction='in')
+ax.legend()
+ax.set_xlabel('t')
+ax.set_ylabel('x, y');
+```
+
+```{python}
+# | echo: true
+# | label: fig-ch10-Complex-Eigenvalues 
+# | fig-cap: "Phase Portrait of system with complex eigenvalues"
+# | output-location: column
+
+w = 6
+
+xl = np.arange(-w, w, 0.1)
+yl = np.arange(-w, w, 0.1)
+x, y = np.meshgrid(xl, yl)
+
+xdot = 2*x +8*y
+ydot = -x -2*y
+
+fig = plt.figure(figsize=(5, 5))
+
+ax = fig.add_subplot(111)
+
+ax.streamplot(x, y, xdot, ydot, color='blue')
+ax.plot(sol.y[0], sol.y[1], 'r:')
+
+ax.set_title('Phase Portrait')
+ax.axis((-w, w, -w, w))
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.grid()
+ax.tick_params(axis='both', direction='in')
+```
+
+## Solution by Diagonalization {#sec-10-3}
+
+* A homogeneous system
+
+  $$
+  \begin{pmatrix} x_1' \\ x_2' \\ \vdots \\ x_n' 
+  \end{pmatrix} =
+    \begin{pmatrix}
+     a_{11} & a_{12} & \cdots & a_{1n}\\ 
+     a_{21} & a_{22} & \cdots & a_{2n}\\ 
+     \vdots &        &        & \vdots\\ 
+     a_{n1} & a_{n2} & \cdots & a_{nn}
+    \end{pmatrix} 
+    \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n 
+  \end{pmatrix}$$
+ 
+  is said to be **coupled** if each $x_i'$ is expressed as a linear combination of $x_1, x_2, \cdots, x_n$.
+ $\,$If $\mathbf{A}$ is diagonalizable, $\,$the system can be **decoupled** so each $x_i'$ is expressed solely in terms of $x_i$
+
+
