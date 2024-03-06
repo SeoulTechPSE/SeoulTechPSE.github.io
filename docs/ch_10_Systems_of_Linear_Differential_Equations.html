@@ -231,9 +231,12 @@ window.Quarto = {
   <li><a href="#sec-10-3" id="toc-sec-10-3" class="nav-link" data-scroll-target="#sec-10-3"><span class="header-section-number">7.3</span> Solution by Diagonalization</a></li>
   <li><a href="#sec-10-4" id="toc-sec-10-4" class="nav-link" data-scroll-target="#sec-10-4"><span class="header-section-number">7.4</span> Nonhomogeneous Linear Systems</a>
   <ul class="collapse">
-  <li><a href="#sec-10-4-1" id="toc-sec-10-4-1" class="nav-link" data-scroll-target="#sec-10-4-1"><span class="header-section-number">7.4.1</span> method of undetermined coefficients</a></li>
-  <li><a href="#method-of-variation-of-parameters" id="toc-method-of-variation-of-parameters" class="nav-link" data-scroll-target="#method-of-variation-of-parameters"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></a></li>
+  <li><a href="#sec-10-4-1" id="toc-sec-10-4-1" class="nav-link" data-scroll-target="#sec-10-4-1"><span class="header-section-number">7.4.1</span> Method of undetermined coefficients</a></li>
+  <li><a href="#sec-10-4-2" id="toc-sec-10-4-2" class="nav-link" data-scroll-target="#sec-10-4-2"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></a></li>
+  <li><a href="#sec-10-4-3" id="toc-sec-10-4-3" class="nav-link" data-scroll-target="#sec-10-4-3"><span class="header-section-number">7.4.3</span> <strong>Diagonalization</strong></a></li>
   </ul></li>
+  <li><a href="#sec-10-5" id="toc-sec-10-5" class="nav-link" data-scroll-target="#sec-10-5"><span class="header-section-number">7.5</span> Matrix Exponential</a></li>
+  <li><a href="#worked-exercises" id="toc-worked-exercises" class="nav-link" data-scroll-target="#worked-exercises">Worked Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -413,7 +416,7 @@ window.Quarto = {
 <p>the general solution of the system is</p>
 <p><span class="math display">\[\mathbf{x}=c_1 \mathbf{x}_1 +c_2\mathbf{x}_2\]</span></p></li>
 </ul>
-<div id="0057959f" class="cell" data-execution_count="1">
+<div id="711631bc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -452,7 +455,7 @@ Figure&nbsp;7.1: Lotka-Volterra predator-prey model
 </div>
 </div>
 </div>
-<div id="dd6a2f04" class="cell" data-execution_count="3">
+<div id="70e05263" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">1</span>]])</span>
@@ -467,7 +470,7 @@ array([[ 0.83205029, -0.70710678],
        [ 0.5547002 ,  0.70710678]])</code></pre>
 </div>
 </div>
-<div id="2af9ef6a" class="cell" data-execution_count="4">
+<div id="dbe73a99" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -730,7 +733,7 @@ c_3\left[
   \frac{dx}{dt} &amp;= 3x -18y\\
   \frac{dy}{dt} &amp;= 2x -9y
 \end{aligned}\]</span></p>
-<div id="11a00a88" class="cell" data-execution_count="5">
+<div id="1c2b2f10" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ld, k <span class="op">=</span> np.linalg.eig(A)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -743,7 +746,7 @@ array([[0.9487, 0.9487],
        [0.3162, 0.3162]])</code></pre>
 </div>
 </div>
-<div id="06175742" class="cell" data-execution_count="6">
+<div id="0aa60187" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A_.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
@@ -888,7 +891,7 @@ Figure&nbsp;7.2: Phase Portrait of defective system
 <p>The eigenvalues are <span class="math inline">\(\lambda_1=2i\)</span> and <span class="math inline">\(\lambda_2=\bar{\lambda}_1\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="f51eb6e4" class="cell" data-execution_count="8">
+<div id="c446ff3e" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">8</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
@@ -1112,7 +1115,7 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
 <li>The general solution of a nonhomogeneous linear system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\)</span> is <span class="math inline">\(\mathbf{x}=\mathbf{x}_h +\mathbf{x}_p\)</span> where <span class="math inline">\(\mathbf{x}_h\)</span> is the complementary function of the associated homogeneous linear system and <span class="math inline">\(\mathbf{x}_p\)</span> is any particular solution of the nonhomogeneous system</li>
 </ul>
 <section id="sec-10-4-1" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-10-4-1"><span class="header-section-number">7.4.1</span> method of undetermined coefficients</h3>
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="sec-10-4-1"><span class="header-section-number">7.4.1</span> Method of undetermined coefficients</h3>
 <ul>
 <li>The <strong>method of undetermined coefficients</strong> consists of making an educational guess about the form of a particular solution vector <span class="math inline">\(\mathbf{x}_p\)</span>. The matrix version of undetermined coefficients is only applicable when the entries of <span class="math inline">\(\mathbf{A}\)</span> are constants and the entires of <span class="math inline">\(\mathbf{f}(t)\)</span> are constants, polynomials, exponential functions, sines and cosines, or finite sums and products of these functions</li>
 </ul>
@@ -1260,8 +1263,8 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 </section>
-<section id="method-of-variation-of-parameters" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="method-of-variation-of-parameters"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></h3>
+<section id="sec-10-4-2" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="sec-10-4-2"><span class="header-section-number">7.4.2</span> <strong>Method of Variation of Parameters</strong></h3>
 <ul>
 <li><p><strong>A Fundamental Matrix</strong></p>
 <p>If <span class="math inline">\(\mathbf{x}_1\)</span>, <span class="math inline">\(\mathbf{x}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{x}_n\)</span> is a fundamental set of solutions of the homogeneous system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span>, then its general solution is the linear combination <span class="math inline">\(\mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2 +\cdots +c_n\mathbf{x}_n\)</span> or</p>
@@ -1318,9 +1321,216 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
    +\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
 \]</span></p></li>
 </ul>
-
-
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the general solution of the nonhomogeneous system</p>
+<p><span class="math display">\[
+   \mathbf{x}' =
+   \left(\begin{array}{rr}
+    -3 &amp; 1 \\
+     2 &amp;-4
+   \end{array}\right)\mathbf{x}+
+   \left(\begin{array}{c}
+     3t \\ e^{-t}
+   \end{array}\right)\]</span></p>
+<ul>
+<li><p>The solution vectors of the homogeneous system are then</p>
+<p><span class="math display">\[
+\mathbf{x}_1 =
+\left(\begin{array}{c} e^{-2t} \\ e^{-2t} \end{array}\right)\;\text{and}\;
+\mathbf{x}_2 =
+\left(\begin{array}{c} \;\;\;\;e^{-5t} \\ -2e^{-5t} \end{array}\right)\]</span></p></li>
+<li><p>Hence</p>
+<p><span class="math display">\[
+\boldsymbol{\Phi}(t) =
+\left(\begin{array}{rr}
+   e^{-2t} &amp; \;\;\;\;e^{-5t} \\
+   e^{-2t} &amp; -2e^{-5t}
+\end{array}\right)\;\text{and}\;
+\boldsymbol{\Phi}^{-1}(t) =\frac{1}{3}
+\left(\begin{array}{rr}
+   2e^{2t} &amp; \;\;\;\;e^{2t} \\
+   e^{5t} &amp; -e^{5t}
+\end{array}\right)\]</span></p>
+<p>Then we obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+     \mathbf{x}_p &amp;=\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt\\
+     &amp;=\left(\begin{array}{rr}
+          e^{-2t} &amp; \;\;\;\;e^{-5t}\\
+          e^{-2t} &amp; -2e^{-5t}
+       \end{array}\right)
+     \int\frac{1}{3}
+       \left(\begin{array}{rr}
+          2e^{2t} &amp; \;\;\;\;e^{2t} \\
+          e^{5t} &amp; -e^{5t}
+       \end{array}\right)
+       \left(\begin{array}{c}
+          3t \\ e^{-t}
+       \end{array}\right)\,dt\\
+     &amp;=\left(\begin{array}{c}
+          \frac{6}{5}t -\frac{27}{50} +\frac{1}{4}e^{-t}\\
+          \frac{3}{5}t -\frac{21}{50} +\frac{1}{2}e^{-t}
+       \end{array}\right)
+\end{aligned}\]</span></p></li>
+</ul>
 </section>
+<section id="sec-10-4-3" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="sec-10-4-3"><span class="header-section-number">7.4.3</span> <strong>Diagonalization</strong></h3>
+<ul>
+<li><p>Suppose <span class="math inline">\(\mathbf{P}\)</span> is the matrix such that <span class="math inline">\(\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\)</span>, where <span class="math inline">\(\mathbf{D}\)</span> is a diagonal matrix. Substituting <span class="math inline">\(\mathbf{x}=\mathbf{P}\mathbf{y}\)</span> into the nonhomogeneous system gives</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{x}'&amp;=\mathbf{A}\mathbf{x} +\mathbf{f}\\
+    &amp;\;\big\Downarrow \;\mathbf{x}=\mathbf{P}\mathbf{y} \\
+  \mathbf{P}\mathbf{y}'&amp;=\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{f}\\
+  \mathbf{y}'&amp;= \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\
+  \mathbf{y}'&amp;= \mathbf{D}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\
+    &amp;\;\big\Downarrow \;\mathbf{g}=\mathbf{P}^{-1}\mathbf{f}\\
+  \mathbf{y}'&amp;= \mathbf{D}\mathbf{y} +\mathbf{g}
+\end{aligned}\]</span></p>
+<p>In the last equation, <span class="math inline">\(\mathbf{g}\)</span> ia a column vector. So each differential equation has the form of <span class="math inline">\(y'_i=\lambda_i y_i +g_i(t)\)</span>, <span class="math inline">\(\scriptsize i=1,\cdots,n\)</span>. <span class="math inline">\(\,\)</span>Unlike the procedure for solving a homogeneous system, <span class="math inline">\(\,\)</span>we now are required to compute the inverse of <span class="math inline">\(\mathbf{P}\)</span></p></li>
+</ul>
+</section>
+</section>
+<section id="sec-10-5" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="sec-10-5"><span class="header-section-number">7.5</span> Matrix Exponential</h2>
+<ul>
+<li><p>We can define a <strong>matrix exponential</strong> <span class="math inline">\(e^{\mathbf{A}t}\)</span> so that <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> has a solution <span class="math inline">\(\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}\)</span></p>
+<p><span class="math display">\[e^{\mathbf{A}t}=\mathbf{I} +\mathbf{A}t +\mathbf{A}^2\frac{t^2}{2!}
+  +\cdots +\mathbf{A}^k\frac{t^k}{k!} +\cdots =\sum_{k=0}^\infty \mathbf{A}^k \frac{t^k}{k!}\]</span></p>
+<p>The derivative of <span class="math inline">\(e^{\mathbf{A}t}\)</span> is obtained by differentiating term by term</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{d}{dt}e^{\mathbf{A}t}
+&amp;=\frac{d}{dt}\left[\mathbf{I} +\mathbf{A}t +\mathbf{A}^2\frac{t^2}{2!}
+  +\cdots +\mathbf{A}^k\frac{t^k}{k!} +\cdots \right]\\
+     &amp;=\mathbf{A} +\mathbf{A}^2t +\mathbf{A}^3\frac{t^2}{2!}
+     +\cdots +\mathbf{A}^{k +1}\frac{t^k}{k!} +\cdots\\
+     &amp;=\mathbf{A}\left[\mathbf{I} +\mathbf{A}t +\mathbf{A}^2\frac{t^2}{2!}
+     +\cdots +\mathbf{A}^k\frac{t^k}{k!} +\cdots\right]=\mathbf{A}e^{\mathbf{A}t}
+\end{aligned}\]</span></p></li>
+<li><p>Now we can prove that <span class="math inline">\(\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}\)</span> is the solution of <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> for every constant vector <span class="math inline">\(\mathbf{c}\)</span></p>
+<p><span class="math display">\[\mathbf{x}'=\frac{d}{dt}e^{\mathbf{A}t}\mathbf{c}=\mathbf{A}e^{\mathbf{A}t}\mathbf{c}
+  =\mathbf{A}\left(e^{\mathbf{A}t}\mathbf{c}\right)=\mathbf{A}\mathbf{x}\]</span></p></li>
+<li><p>If we denote <span class="math inline">\(e^{\mathbf{A}t}\)</span> by the symbol <span class="math inline">\(\boldsymbol{\Psi}(t)\)</span>, then <span class="math inline">\(\frac{d}{dt}e^{\mathbf{A}t}=\mathbf{A}e^{\mathbf{A}t}\)</span> is equivalent to <span class="math inline">\(\boldsymbol{\Psi}'(t)=\mathbf{A}\boldsymbol{\Psi}(t)\)</span>. In addition, <span class="math inline">\(\boldsymbol{\Psi}(0)=e^{\mathbf{A}0}=\mathbf{I}\)</span> and so <span class="math inline">\(\mathrm{det}\,\boldsymbol{\Psi}(0)\neq 0\)</span>. These two properties are sufficient to conclude that <span class="math inline">\(\boldsymbol{\Psi}(t)\)</span> is a <strong>fundamental matrix</strong> of <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span>. Then it is always nonsingular and <span class="math inline">\(\left(e^{\mathbf{A}t}\right)^{-1}=e^{-\mathbf{A}t}\)</span></p></li>
+<li><p>For a nonhomogeneous system of linear first-order DEs, the general solution is</p>
+<p><span class="math display">\[
+\mathbf{x}=\mathbf{x}_h +\mathbf{x}_p =e^{\mathbf{A}t}\mathbf{c}
+   +e^{\mathbf{A}t}\int_{t_0}^te^{-\mathbf{A}s}\mathbf{f}(s)\;ds
+\]</span></p></li>
+<li><p><strong>Computation of <span class="math inline">\(e^{\mathbf{A}t}\)</span>:</strong> <span class="math inline">\(\,\)</span> Using the Laplace Transform</p>
+<p><span class="math inline">\(\mathbf{x}=e^{\mathbf{A}t}\)</span> is a solution of the initial value problem</p>
+<p><span class="math display">\[\mathbf{x}'=\mathbf{A}\mathbf{x}, \;\;\mathbf{x}(0)=\mathbf{I}\]</span></p>
+<p>If <span class="math inline">\(\mathbf{x}(s)=\mathcal{L}\{e^{\mathbf{A}t}\}\)</span>, <span class="math inline">\(\,\)</span>then the Laplace transform of the above initial value problem is</p>
+<p><span class="math display">\[
+\begin{aligned}
+   s\mathbf{x}(s) -\mathbf{I}&amp;=\mathbf{A}\mathbf{x}(s)\\
+   (s\mathbf{I} -\mathbf{A})\mathbf{x}(s)&amp;=\mathbf{I}\\
+   \mathbf{x}(s)&amp;=(s\mathbf{I} -\mathbf{A})^{-1}
+\end{aligned}\]</span></p>
+<p>In other words,</p>
+<p><span class="math display">\[e^{\mathbf{A}t}=\mathcal{L}^{-1}\{(s\mathbf{I} -\mathbf{A})^{-1}\}\]</span></p></li>
+<li><p><strong>Computation of <span class="math inline">\(e^{\mathbf{A}t}\)</span>:<span class="math inline">\(\text{ }\)</span></strong> <span class="math inline">\(\,\)</span> Using Powers <span class="math inline">\(\mathbf{A}^m\)</span></p>
+<p>For computing an arbitrary power <span class="math inline">\(\mathbf{A}^k\)</span>, <span class="math inline">\(k\)</span> a nonnegative integer, <span class="math inline">\(\,\)</span>we can write</p>
+<p><span class="math display">\[
+  \mathbf{A}^k=\sum_{j=0}^{n -1}c_j(k)\mathbf{A}^j\;\text{and}\;
+     \lambda^k=\sum_{j=0}^{n -1}c_j(k)\lambda^j\]</span></p>
+<p>where the last expression is valid for the eigenvalues <span class="math inline">\(\lambda_1\)</span>, <span class="math inline">\(\lambda_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\lambda_n\)</span>. <span class="math inline">\(\,\)</span>If the eigenvalues are distinct, by setting <span class="math inline">\(\lambda=\lambda_1,\lambda_2,\cdots,\lambda_n\)</span> in the second expression, <span class="math inline">\(\,\)</span>we were able to find <span class="math inline">\(c_j(k)\)</span> in the first expression by solving <span class="math inline">\(n\)</span> equations in <span class="math inline">\(n\)</span> unknowns. From the definition of <span class="math inline">\(e^{\mathbf{A}t}\)</span>, <span class="math inline">\(\,\)</span>we have</p>
+<p><span class="math display">\[
+  e^{\mathbf{A}t}=\sum_{k=0}^\infty \mathbf{A}^k \frac{t^k}{k!}\;\text{and}\;
+  e^{\lambda t}=\sum_{k=0}^\infty \lambda^k \frac{t^k}{k!}
+\]</span></p>
+<p>We next use to replace <span class="math inline">\(\mathbf{A}^k\)</span> and <span class="math inline">\(\lambda^k\)</span> as finite sums followed by an interchange of the order of summations</p>
+<p><span class="math display">\[
+\begin{aligned}
+   e^{\mathbf{A}t}&amp;=\sum_{k=0}^\infty \frac{t^k}{k!}\left(\sum_{j=0}^{n -1}c_j(k)\mathbf{A}^j\right)
+     =\sum_{j=0}^{n -1}\mathbf{A}^j\left(\sum_{k=0}^\infty \frac{t^k}{k!}c_j(k)\right)
+     =\sum_{j=0}^{n -1}\mathbf{A}^j b_j\\
+   e^{\lambda t}&amp;=\sum_{k=0}^\infty\frac{t^k}{k!}\left(\sum_{j=0}^{n -1}c_j(k)\lambda^j\right)
+     =\sum_{j=0}^{n -1}\lambda^j\left(\sum_{k=0}^\infty\frac{t^k}{k!}c_j(k)\right)
+     =\sum_{j=0}^{n -1}\lambda^j b_j
+\end{aligned}\]</span></p>
+<p>Analogous to how we used the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> to determine the <span class="math inline">\(c_j\)</span>, <span class="math inline">\(\,\)</span>we again use the eigenvalues to solve a system of equations to determine the <span class="math inline">\(b_j\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Compute <span class="math inline">\(e^{\mathbf{A}t}\)</span> for</p>
+<p><span class="math display">\[\mathbf{A} =
+   \left(\begin{array}{rr}
+     1 &amp; -1\\
+     2 &amp; -2
+   \end{array}\right)\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>First we compute the matrix <span class="math inline">\(s\mathbf{I} -\mathbf{A}\)</span> and then find its inverse</p>
+<p><span class="math display">\[s\mathbf{I} -\mathbf{A}=
+\left(\begin{array}{cc}
+   s -1 &amp; 1\\
+   -2 &amp; s +2
+\end{array}\right)\]</span></p>
+<p><span class="math display">\[(s\mathbf{I} -\mathbf{A})^{-1}=
+\left(\begin{array}{cc}
+   \frac{s +2}{s(s +1)} &amp; \frac{-1}{s(s +1)}\\
+   \frac{2}{s(s +1)} &amp; \frac{s -1}{s(s +1)}
+\end{array}\right)\]</span></p></li>
+<li><p>Then we decompose the entries of the last matrix into partial fractions</p>
+<p><span class="math display">\[(s\mathbf{I} -\mathbf{A})^{-1}=
+\left(\begin{array}{cc}
+   \frac{2}{s} -\frac{1}{s +1} &amp; -\frac{1}{s} +\frac{1}{s +1}\\
+   \frac{2}{s} -\frac{2}{s +1} &amp; -\frac{1}{s} +\frac{2}{s +1}
+\end{array}\right)\]</span></p>
+<p>Taking the inverse Laplace transform gives the desired result</p>
+<p><span class="math display">\[e^{\mathbf{A}t} =
+\left(\begin{array}{cc}
+   2 -e^{-t} &amp; -1 +e^{-t} \\
+   2 -2e^{-t} &amp; -1 +2e^{-t}
+\end{array}\right)\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="7c9f283c" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> sympy.symbols(<span class="st">'s'</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.symbols(<span class="st">'t'</span>, real<span class="op">=</span><span class="va">True</span>, positive<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>lp_sol <span class="op">=</span> (s<span class="op">*</span>sympy.eye(<span class="dv">2</span>) <span class="op">-</span>A).inv()</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>sympy.inverse_laplace_transform(lp_sol, s, t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="11">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}2 - e^{- t} &amp; -1 + e^{- t}\\2 - 2 e^{- t} &amp; -1 + 2 e^{- t}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Compute <span class="math inline">\(e^{\mathbf{A}t}\)</span> for</p>
+<p><span class="math display">\[\mathbf{A} =
+   \left(\begin{array}{rr}
+     -2 &amp; 4\\
+     -1 &amp; 3
+   \end{array}\right)\]</span> <span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>The eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are <span class="math inline">\(\lambda_1=-1\)</span> and <span class="math inline">\(\lambda_2=2\)</span>. Now since <span class="math inline">\(\mathbf{A}\)</span> is a <span class="math inline">\(2 \times 2\)</span> matrix, <span class="math inline">\(\,\)</span>we have</p>
+<p><span class="math display">\[e^{\mathbf{A}t}=b_0\mathbf{I} +b_1\mathbf{A}\;\text{ and }\;e^{\lambda t}=b_0 +b_1\lambda\]</span></p>
+<p>Setting <span class="math inline">\(\lambda=-1\)</span> and <span class="math inline">\(\lambda=2\)</span> in the second equation gives two equations in the two unknowns <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>. <span class="math inline">\(\,\)</span>Solving the system yields</p>
+<p><span class="math display">\[\scriptsize b_0=\frac{1}{3}\left[e^{2t} +2e^{-t}\right], \; b_1=\frac{1}{3}\left[e^{2t} -e^{-t}\right]\]</span></p>
+<p>Substituting these values in the first equation and simplifying the entries yields</p>
+<p><span class="math display">\[e^{\mathbf{A}t} =
+\left(\begin{array}{cc}
+   -\frac{1}{3}e^{2t} +\frac{4}{3}e^{-t} &amp; \frac{4}{3}e^{2t} -\frac{4}{3}e^{-t} \\
+   -\frac{1}{3}e^{2t} +\frac{1}{3}e^{-t} &amp; \frac{4}{3}e^{2t} -\frac{1}{3}e^{-t}
+\end{array}\right)\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="eb131f7b" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]])</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.symbols(<span class="st">'t'</span>, real <span class="op">=</span> <span class="va">True</span>, positive <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sympy.exp(A<span class="op">*</span>t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="12">
+<p><span class="math inline">\(\displaystyle \left[\begin{matrix}- \frac{e^{2 t}}{3} + \frac{4 e^{- t}}{3} &amp; \frac{4 e^{2 t}}{3} - \frac{4 e^{- t}}{3}\\- \frac{e^{2 t}}{3} + \frac{e^{- t}}{3} &amp; \frac{4 e^{2 t}}{3} - \frac{e^{- t}}{3}\end{matrix}\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="worked-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
+
+
 </section>
 
 </main> <!-- /main -->
