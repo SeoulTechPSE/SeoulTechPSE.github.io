@@ -218,6 +218,10 @@ window.Quarto = {
   <li><a href="#sec-9-12" id="toc-sec-9-12" class="nav-link" data-scroll-target="#sec-9-12"><span class="header-section-number">9.12</span> Green’s Theorem</a></li>
   <li><a href="#sec-9-13" id="toc-sec-9-13" class="nav-link" data-scroll-target="#sec-9-13"><span class="header-section-number">9.13</span> Surface Integrals</a></li>
   <li><a href="#sec-9-14" id="toc-sec-9-14" class="nav-link" data-scroll-target="#sec-9-14"><span class="header-section-number">9.14</span> Stokes’ Theorem</a></li>
+  <li><a href="#sec-9-15" id="toc-sec-9-15" class="nav-link" data-scroll-target="#sec-9-15"><span class="header-section-number">9.15</span> Triple Integrals</a></li>
+  <li><a href="#sec-9-16" id="toc-sec-9-16" class="nav-link" data-scroll-target="#sec-9-16"><span class="header-section-number">9.16</span> Divergence Theorem</a></li>
+  <li><a href="#sec-9-17" id="toc-sec-9-17" class="nav-link" data-scroll-target="#sec-9-17"><span class="header-section-number">9.17</span> Change of Variables in Multiple Integrals</a></li>
+  <li><a href="#worked-exercises" id="toc-worked-exercises" class="nav-link" data-scroll-target="#worked-exercises">Worked Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -1093,6 +1097,274 @@ g'(0) &amp;= f_x(x,y)\cos\theta+f_y(x,y)\sin\theta \\[5pt]
 </section>
 <section id="sec-9-14" class="level2" data-number="9.14">
 <h2 data-number="9.14" class="anchored" data-anchor-id="sec-9-14"><span class="header-section-number">9.14</span> Stokes’ Theorem</h2>
+<ul>
+<li><p>Vector Form of Green’s Theorem</p>
+<p>If <span class="math inline">\(\,\mathbf{f}(x,y)=P(x,y)\mathbf{i} +Q(x,y)\mathbf{j} \,\)</span> is a two-dimensional vector field, <span class="math inline">\(\text{ }\)</span>then</p>
+<p><span class="math display">\[\mathrm{curl}\, \mathbf{f} =\nabla \times \mathbf{f}
+=\left|\begin{matrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k}\\
+    \displaystyle\frac{\partial}{\partial x}
+    &amp; \displaystyle\frac{\partial}{\partial y}
+    &amp; \displaystyle\frac{\partial}{\partial z}\\ P &amp; Q &amp; 0 \end{matrix}\right|
+=\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right )\mathbf{k}\]</span></p>
+<p>Green’s theorem can be written in vector notation as</p>
+<p><span class="math display">\[\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds
+=\iint_R (\nabla \times \mathbf{f}) \cdot \mathbf{k}\,dA\]</span></p></li>
+<li><p><strong>Stokes’ Theorem - Green’s Theorem in 3-Space</strong></p>
+<ul>
+<li><p>Let <span class="math inline">\(S\)</span> be a piecewise-smooth orientable surface bounded by a piecewise-smooth simple closed curve <span class="math inline">\(C\)</span></p></li>
+<li><p>Let <span class="math inline">\(~\mathbf{f}(x,y,z)=P(x,y,z)\mathbf{i} +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k} \,\)</span> be a vector field for which <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>, and <span class="math inline">\(R\)</span> are continuous and have continuous first partial derivatives in a region of 3-space containing <span class="math inline">\(S\)</span>. <span class="math inline">\(~\)</span>If <span class="math inline">\(C\)</span> is traversed in the positive direction, then</p></li>
+</ul>
+<p><font color="red"><span class="math display">\[\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds = \iint_R (\nabla \times\mathbf{f}) \cdot \mathbf{n}\,dS\]</span></font></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure37.png" title="Stokes" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Physical Interpretation of Curl</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \oint_{C_r} \mathbf{f} \cdot d\mathbf{r}
+   &amp;= \iint_{S_r} \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)\, dS\\
+   &amp;= \left[\nabla\times\mathbf{f}(P_0)\right]\, \cdot \mathbf{n}(P_0)\,\iint_{S_r}\,dS
+    =\left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)\,S_r\\
+  &amp;\Downarrow\\
+  \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)
+  &amp;= \lim_{r\to 0} \frac{1}{S_r}\oint_{C_r} \mathbf{f} \cdot
+  d\mathbf{r} \approx \frac{1}{S_r}\oint_{C_r} \mathbf{f} \cdot
+  d\mathbf{r}
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure38.png" title="physical meaning Curl" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-15" class="level2" data-number="9.15">
+<h2 data-number="9.15" class="anchored" data-anchor-id="sec-9-15"><span class="header-section-number">9.15</span> Triple Integrals</h2>
+<ul>
+<li><p>Let <span class="math inline">\(F\)</span> be a function of three variables defined over a closed region <span class="math inline">\(D\)</span> of space. Then the triple integral of <span class="math inline">\(F\)</span> over <span class="math inline">\(D\)</span> is given by</p>
+<p><span class="math display">\[{\lim_{\| P\|\to 0} \sum_{k=1}^n F(x_k^*,y_k^*,z_k^*)\,\Delta V_k = \iiint_D F(x,y,z)\,dV}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure39.png" title="sub region" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Evaluation by Iterated Integrals</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \iiint_D F(x,y,z)\,dV &amp;= \iint_R \left[ \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz \right]\,dA\\
+   &amp;= \int_a^b \int_{g_1(x)}^{g_2(x)} \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz\,dy\,dx
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure40.png" title="triple integral" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the volume of the solid in the first octant bounded by the graphs of <span class="math inline">\(z=1-y^2\)</span>, <span class="math inline">\(y=2x\)</span>, and <span class="math inline">\(x=3\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure41.png" title="triple integral example" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>Cylindrical Coordinates</p>
+<p><span class="math display">\[\begin{aligned}
+  x=r\cos\theta, \;\;&amp;y=r\sin\theta, \;\;z=z \\
+  &amp;\Downarrow \\
+  r^2 = x^2 +y^2, \;\; &amp;\tan\theta=\frac{y}{x},\;\; z=z
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure42.png" title="cylindrical coordinate" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div></li>
+<li><p>Triple Integrals in Cylindrical Coordinates</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \iiint_D F(r,\theta,z)\,dV &amp;= \iint_R \left[ \int_{f_1(r,\theta)}^{f_2(r,\theta)}
+      F(r,\theta,z)\,dz \right]\,dA \\
+   &amp;= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)}
+     \int_{f_1(r,\theta)}^{f_2(r,\theta)} F(r,\theta,z)\,r\,dz\,dr\,d\theta
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure43.png" title="cylindrical wedge" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+</figure>
+</div></li>
+<li><p>Spherical Coordinates</p>
+<p><span class="math display">\[
+\begin{aligned}
+x = \rho\sin\phi\cos\theta, \;\;
+&amp;y=\rho\sin\phi\sin\theta, \;\;
+z=\rho\cos\phi \\
+   &amp;\Downarrow \\
+\rho^2 =x^2 +y^2 +z^2, \;\; &amp;\tan\theta=\frac{y}{x},
+\;\;\cos\phi=\frac{z}{\sqrt{x^2 +y^2 +z^2}}
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure44.png" title="spherical coordinate" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Triple Integrals in Spherical Coordinates</li>
+</ul>
+<p><span class="math display">\[
+  \begin{aligned}
+      \iiint_D &amp;F(\rho,\theta,\phi)\,dV  \\
+      &amp;= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)}
+      \int_{f_1(\phi,\theta)}^{f_2(\phi,\theta)} F(\rho,\theta,\phi)\,
+      \rho^2 \sin\phi\, d\rho\,d\phi\,d\theta
+  \end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure45.png" title="spherical wedge" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</section>
+<section id="sec-9-16" class="level2" data-number="9.16">
+<h2 data-number="9.16" class="anchored" data-anchor-id="sec-9-16"><span class="header-section-number">9.16</span> Divergence Theorem</h2>
+<ul>
+<li><p>Another Vector Form of Green’s Theorem</p>
+<p><span class="math display">\[
+\begin{aligned}
+\oint_C (\mathbf{f}\cdot\mathbf{n})\,ds
+   &amp;= \oint_C -Qdx +Pdy \\
+   &amp;= \iint_R \left[ \frac{\partial P}{\partial x}
+     -\left( -\frac{\partial Q}{\partial y} \right) \right]\,dA
+   = \iint_R \left[ \frac{\partial P}{\partial x}
+     +\frac{\partial Q}{\partial y} \right]\,dA \\
+   &amp;= \iint_R \nabla\cdot\mathbf{f}\,dA
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(\displaystyle\,\mathbf{n}=\frac{dy}{ds}\mathbf{i} -\frac{dx}{ds}\mathbf{j}\)</span></p></li>
+<li><p><strong>Divergence Theorem</strong></p>
+<ul>
+<li><p>Let <span class="math inline">\(D\,\)</span> be a closed and bounded region in 3-space with a piecewise-smooth boundary <span class="math inline">\(S\)</span> that is oriented outward</p></li>
+<li><p>Let <span class="math inline">\(\;\mathbf{f}(x,y,z)=P(x,y,z)\,\mathbf{i}+Q(x,y,z)\,\mathbf{j} +R(x,y,z)\,\mathbf{k}~\)</span> be a vector field for which <span class="math inline">\(P\)</span>, <span class="math inline">\(Q,\)</span> and <span class="math inline">\(R\)</span> are continuous first partial derivatives in a region of 3-space containing <span class="math inline">\(D\)</span>. <span class="math inline">\(\,\)</span> Then</p></li>
+</ul>
+<p><font color="red"> <span class="math display">\[\iint_S (\mathbf{f}\cdot \mathbf{n})\,dS =\iiint_D \nabla\cdot\mathbf{f}\,dV\]</span> </font></p></li>
+<li><p><strong>Partial Proof</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure46.png" title="region D" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[{\scriptsize \displaystyle\iiint_D \frac{\partial R}{\partial z}\,dV
+=\iint_{R'} \left[ \int_{f_1(x,y)}^{f_2(x,y)} \frac{\partial R}{\partial z}\,dz \right]\,dA
+=\iint_{R'} \left[ R(x,y,f_2(x,y)) -R(x,y,f_1(x,y)) \right] \,dA }\]</span></p>
+<p><span class="math display">\[{\scriptsize \displaystyle\iint_S R(\mathbf{k}\cdot\mathbf{n}) \,dS=\iint_{S_1} R(\mathbf{k}\cdot\mathbf{n})\,dS
++\iint_{S_2} R(\mathbf{k}\cdot\mathbf{n})\,dS +\iint_{S_3} R(\mathbf{k}\cdot\mathbf{n}) \,dS }\]</span></p>
+<ul>
+<li><p>On <span class="math inline">\(S_1\)</span>: <span class="math inline">\(\,\)</span> Since the outward normal points downward, <span class="math inline">\(g(x,y,z)=f_1(x,y)-z=0\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{n}
+  &amp;= \frac{ \frac{\partial f_1}{\partial x} \mathbf{i}
+  +\frac{\partial f_1}{\partial y} \mathbf{j} -\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
+  +\left(\frac{\partial f_1}{\partial y}\right)^2}} \;\;
+\Rightarrow \;\;
+\mathbf{k}\cdot\mathbf{n}
+=\frac{-1}{\sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
++\left(\frac{\partial f_1}{\partial y}\right)^2}} \\
+&amp;\Downarrow \\
+\iint_{S_1} &amp;R(\mathbf{k}\cdot\mathbf{n})\,dS = -\iint_{R'} R(x,y,f_1(x,y))\,dA
+\end{aligned}\]</span></p></li>
+<li><p>On <span class="math inline">\(S_2\)</span>: <span class="math inline">\(\,\)</span> Since the outward normal points upward, <span class="math inline">\(g(x,y,z)=z -f_2(x,y)=0\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{n} &amp;= \frac{ -\frac{\partial f_2}{\partial x} \mathbf{i}
+-\frac{\partial f_2}{\partial y} \mathbf{j} +\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
++\left(\frac{\partial f_2}{\partial y}\right)^2}} \;\;
+\Rightarrow \;\;
+\mathbf{k}\cdot\mathbf{n}
+=\frac{1}{\sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
++\left(\frac{\partial f_2}{\partial y}\right)^2}} \\
+&amp;\Downarrow \\
+\iint_{S_2} &amp;R(\mathbf{k}\cdot\mathbf{n})\,dS = \iint_{R'} R(x,y,f_2(x,y))\,dA
+\end{aligned}\]</span></p></li>
+<li><p>On <span class="math inline">\(S_3\)</span>: <span class="math inline">\(\,\)</span> <span class="math inline">\(\mathbf{k}\cdot\mathbf{n}=0\)</span></p></li>
+</ul>
+<p><span class="math display">\[\quad \iint_{S_3} R(\mathbf{k}\cdot\mathbf{n})\,dS = 0\]</span></p></li>
+<li><p>Physical Interpretation of Divergence</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \iint_{S_r} (\mathbf{f} \cdot \mathbf{n})\,dS
+    &amp;= \iiint_{D_r} \nabla\cdot\mathbf{f}\,dV \\
+    &amp;\approx
+  \iiint_{D_r} \nabla\cdot\mathbf{f}(P_0)\,dV
+  = \nabla\cdot\mathbf{f}(P_0) \iiint_{D_r}\,dV
+  = \nabla\cdot\mathbf{f}(P_0) D_r\\
+   &amp;\Downarrow\\
+  \nabla\cdot\mathbf{f}(P_0) &amp;= \lim_{r\to 0} \frac{1}{D_r}\iint_{S_r}
+   (\mathbf{f} \cdot \mathbf{n})\,dS
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure47.png" title="divergence physical interpretation" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%"></p>
+</figure>
+</div></li>
+<li><p>Continuity Equation</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{dm}{dt}
+  &amp;= \frac{d}{dt}\iiint_D \rho(x,y,z,t)\,dV
+   = \iiint_D \frac{\partial \rho}{\partial t}\,dV \\
+  &amp;= -\iint_S (\rho\mathbf{v}\cdot\mathbf{n})\,dS
+   =-\iiint_D \nabla\cdot(\rho\mathbf{v})\,dV\\
+  &amp;\Downarrow \\
+   \iiint_D \left[ \frac{\partial \rho}{\partial t} \right.
+  &amp;+\left. \phantom{\frac{}{}}\nabla\cdot(\rho\mathbf{v}) \right]\,dV=0 \\
+  &amp;\Downarrow \\
+  \frac{\partial \rho}{\partial t} &amp;
+   +\nabla\cdot(\rho\mathbf{v})=0
+\end{aligned}\]</span></p></li>
+<li><p>Euler’s Equation of Motion</p>
+<p>Allowing for the presence of a gravitational body force per unit mass <span class="math inline">\(\mathbf{g}\)</span>, <span class="math inline">\(\,\)</span>the basic equations of an ideal fluid are</p>
+<p><span class="math display">\[\frac{D \mathbf{v}}{D t} = -\frac{1}{\rho} \nabla p + \mathbf{g}\]</span></p>
+<p><span class="math display">\[\nabla \cdot \mathbf{v} = 0\]</span></p></li>
+<li><p>Furthermore, ,$it can be helpful to use <span class="math inline">\(\mathbf{g}=-\nabla \chi\)</span> <span class="math inline">\(\,\)</span>and the identity</p>
+<p><span class="math display">\[ \left( \mathbf{v} \cdot \nabla \right) \mathbf{v}
+  = \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} + \nabla \left( \frac{1}{2} \mathbf{v}^2 \right)\]</span></p>
+<p>to cast the momentum equation into the form</p>
+<p><span class="math display">\[ \frac{\partial \mathbf{v}}{\partial t} + \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} = -\nabla \left( \frac{p}{\rho} +\frac{1}{2} \mathbf{v}^2 + \chi \right) =- \nabla H\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-17" class="level2" data-number="9.17">
+<h2 data-number="9.17" class="anchored" data-anchor-id="sec-9-17"><span class="header-section-number">9.17</span> Change of Variables in Multiple Integrals</h2>
+<ul>
+<li><p>To change the Variable in a Definite Integral</p>
+<p><span class="math display">\[\int_a^b f(x)\,dx =\int_c^d f(g(u))\, g'(u)\,du\]</span></p></li>
+<li><p>Double Integrals</p>
+<p><span class="math display">\[\iint_R F(x,y)\,dA = \iint_R F(f(u,v), g(u,v))\, \left| \frac{\partial(x,y)}{\partial(u,v)} \right|\,dA'\]</span></p>
+<p><span class="math display">\[\left| \frac{\partial(x,y)}{\partial(u,v)} \right| =
+  \left|\begin{matrix}
+  \frac{\partial x}{\partial u} &amp; \frac{\partial x}{\partial v}\\
+  \frac{\partial y}{\partial u} &amp; \frac{\partial y}{\partial v}
+  \end{matrix}\right| = h_1 h_2 dq_1 dq_2\]</span></p></li>
+<li><p>Triple Integrals</p>
+<p><span class="math display">\[\iiint_D F(x,y,z)\,dV = \iiint_D F\left(f(u,v,w), g(u,v,w), h(u,v,w)\right)\, \left| \frac{\partial(x,y,z)}{\partial(u,v,w)} \right|\,dV'\]</span></p>
+<p><span class="math display">\[\left| \frac{\partial (x,y,z)}{\partial (u,v,w)} \right| =
+  \left|\begin{matrix}
+  \frac{\partial x}{\partial u} &amp; \frac{\partial x}{\partial v} &amp; \frac{\partial x}{\partial w}\\
+  \frac{\partial y}{\partial u} &amp; \frac{\partial y}{\partial v} &amp; \frac{\partial y}{\partial w}\\
+  \frac{\partial z}{\partial u} &amp; \frac{\partial z}{\partial v} &amp; \frac{\partial z}{\partial w}
+\end{matrix}\right| = h_1 h_2 h_3 dq_1 dq_2 dq_3\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="worked-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 
 
 </section>

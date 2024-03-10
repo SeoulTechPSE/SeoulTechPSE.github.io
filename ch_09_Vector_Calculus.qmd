@@ -922,4 +922,281 @@ $~$
 
 ## Stokes' Theorem {#sec-9-14}
 
+* Vector Form of Green's Theorem
 
+  If $\,\mathbf{f}(x,y)=P(x,y)\mathbf{i} +Q(x,y)\mathbf{j} \,$ is a two-dimensional vector field, $\text{ }$then
+  
+  $$\mathrm{curl}\, \mathbf{f} =\nabla \times \mathbf{f} 
+   =\left|\begin{matrix} \mathbf{i} & \mathbf{j} & \mathbf{k}\\ 
+      \displaystyle\frac{\partial}{\partial x} 
+      & \displaystyle\frac{\partial}{\partial y} 
+      & \displaystyle\frac{\partial}{\partial z}\\ P & Q & 0 \end{matrix}\right|
+   =\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right )\mathbf{k}$$
+   
+  Green's theorem can be written in vector notation as
+  
+  $$\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds
+   =\iint_R (\nabla \times \mathbf{f}) \cdot \mathbf{k}\,dA$$
+
+* **Stokes' Theorem - Green's Theorem in 3-Space**
+
+  * Let $S$ be a piecewise-smooth orientable surface bounded by a piecewise-smooth simple closed curve $C$
+  
+  * Let $~\mathbf{f}(x,y,z)=P(x,y,z)\mathbf{i} +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k} \,$ be a vector field for which $P$, $Q$, and $R$ are continuous and have continuous first partial derivatives in a region of 3-space containing $S$. $~$If $C$ is traversed in the positive direction, then
+  
+  <font color="red">$$\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds = \iint_R (\nabla \times\mathbf{f}) \cdot \mathbf{n}\,dS$$</font>
+
+![](figures/ch09_figure37.png "Stokes"){fig-align="center" width="45%"}
+
+* Physical Interpretation of Curl
+
+  $$
+  \begin{aligned}
+    \oint_{C_r} \mathbf{f} \cdot d\mathbf{r}
+     &= \iint_{S_r} \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)\, dS\\ 
+     &= \left[\nabla\times\mathbf{f}(P_0)\right]\, \cdot \mathbf{n}(P_0)\,\iint_{S_r}\,dS 
+      =\left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)\,S_r\\ 
+    &\Downarrow\\ 
+    \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0) 
+    &= \lim_{r\to 0} \frac{1}{S_r}\oint_{C_r} \mathbf{f} \cdot 
+    d\mathbf{r} \approx \frac{1}{S_r}\oint_{C_r} \mathbf{f} \cdot 
+    d\mathbf{r}
+  \end{aligned}$$
+
+![](figures/ch09_figure38.png "physical meaning Curl"){fig-align="center" width="30%"}
+
+$~$
+
+## Triple Integrals {#sec-9-15}
+
+* Let $F$ be a function of three variables defined over a closed region $D$ of space. Then the triple integral of $F$ over $D$ is given by
+  
+  $${\lim_{\| P\|\to 0} \sum_{k=1}^n F(x_k^*,y_k^*,z_k^*)\,\Delta V_k = \iiint_D F(x,y,z)\,dV}$$
+
+![](figures/ch09_figure39.png "sub region"){fig-align="center" width="40%"}
+
+* Evaluation by Iterated Integrals
+  
+  $$
+  \begin{aligned}
+      \iiint_D F(x,y,z)\,dV &= \iint_R \left[ \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz \right]\,dA\\ 
+     &= \int_a^b \int_{g_1(x)}^{g_2(x)} \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz\,dy\,dx
+  \end{aligned}$$
+  
+  ![](figures/ch09_figure40.png "triple integral"){fig-align="center" width="50%"}
+
+$~$
+
+**Example**
+  $\,$ Find the volume of the solid in the first octant bounded by the graphs of $z=1-y^2$, $y=2x$, and $x=3$
+
+  ![](figures/ch09_figure41.png "triple integral example"){fig-align="center" width="70%"}
+
+$~$
+
+* Cylindrical Coordinates
+
+  $$\begin{aligned}
+    x=r\cos\theta, \;\;&y=r\sin\theta, \;\;z=z \\ 
+    &\Downarrow \\ 
+    r^2 = x^2 +y^2, \;\; &\tan\theta=\frac{y}{x},\;\; z=z 
+  \end{aligned}$$
+
+  ![](figures/ch09_figure42.png "cylindrical coordinate"){fig-align="center" width="60%"}
+
+* Triple Integrals in Cylindrical Coordinates
+
+  $$
+  \begin{aligned}
+     \iiint_D F(r,\theta,z)\,dV &= \iint_R \left[ \int_{f_1(r,\theta)}^{f_2(r,\theta)} 
+        F(r,\theta,z)\,dz \right]\,dA \\ 
+     &= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)} 
+       \int_{f_1(r,\theta)}^{f_2(r,\theta)} F(r,\theta,z)\,r\,dz\,dr\,d\theta
+  \end{aligned}$$
+
+  ![](figures/ch09_figure43.png "cylindrical wedge"){fig-align="center" width="75%"}
+
+* Spherical Coordinates
+  
+  $$
+  \begin{aligned}
+   x = \rho\sin\phi\cos\theta, \;\;
+   &y=\rho\sin\phi\sin\theta, \;\;
+   z=\rho\cos\phi \\ 
+     &\Downarrow \\ 
+   \rho^2 =x^2 +y^2 +z^2, \;\; &\tan\theta=\frac{y}{x},
+   \;\;\cos\phi=\frac{z}{\sqrt{x^2 +y^2 +z^2}} 
+ \end{aligned}$$
+
+ ![](figures/ch09_figure44.png "spherical coordinate"){fig-align="center" width="60%"}
+
+ * Triple Integrals in Spherical Coordinates
+  
+  $$
+  \begin{aligned}
+      \iiint_D &F(\rho,\theta,\phi)\,dV  \\ 
+      &= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)} 
+      \int_{f_1(\phi,\theta)}^{f_2(\phi,\theta)} F(\rho,\theta,\phi)\,
+      \rho^2 \sin\phi\, d\rho\,d\phi\,d\theta
+  \end{aligned}$$
+
+  ![](figures/ch09_figure45.png "spherical wedge"){fig-align="center" width="40%"}
+
+
+## Divergence Theorem {#sec-9-16}
+
+* Another Vector Form of Green's Theorem
+  
+  $$
+  \begin{aligned}
+   \oint_C (\mathbf{f}\cdot\mathbf{n})\,ds 
+     &= \oint_C -Qdx +Pdy \\ 
+     &= \iint_R \left[ \frac{\partial P}{\partial x} 
+       -\left( -\frac{\partial Q}{\partial y} \right) \right]\,dA 
+     = \iint_R \left[ \frac{\partial P}{\partial x} 
+       +\frac{\partial Q}{\partial y} \right]\,dA \\ 
+     &= \iint_R \nabla\cdot\mathbf{f}\,dA
+  \end{aligned}$$
+  
+  where $\displaystyle\,\mathbf{n}=\frac{dy}{ds}\mathbf{i} -\frac{dx}{ds}\mathbf{j}$
+
+* **Divergence Theorem**
+
+  * Let $D\,$ be a closed and bounded region in 3-space with a piecewise-smooth boundary $S$ that is oriented outward
+  
+  * Let $\;\mathbf{f}(x,y,z)=P(x,y,z)\,\mathbf{i}+Q(x,y,z)\,\mathbf{j} +R(x,y,z)\,\mathbf{k}~$ be a vector field for which
+  $P$, $Q,$ and $R$ are continuous first partial derivatives in a region of 3-space containing $D$. $\,$ Then
+  
+  <font color="red">
+  $$\iint_S (\mathbf{f}\cdot \mathbf{n})\,dS =\iiint_D \nabla\cdot\mathbf{f}\,dV$$
+  </font>
+
+* **Partial Proof**
+  
+  ![](figures/ch09_figure46.png "region D"){fig-align="center" width="30%"}
+
+  $${\scriptsize \displaystyle\iiint_D \frac{\partial R}{\partial z}\,dV
+   =\iint_{R'} \left[ \int_{f_1(x,y)}^{f_2(x,y)} \frac{\partial R}{\partial z}\,dz \right]\,dA
+   =\iint_{R'} \left[ R(x,y,f_2(x,y)) -R(x,y,f_1(x,y)) \right] \,dA }$$
+   
+  $${\scriptsize \displaystyle\iint_S R(\mathbf{k}\cdot\mathbf{n}) \,dS=\iint_{S_1} R(\mathbf{k}\cdot\mathbf{n})\,dS
+   +\iint_{S_2} R(\mathbf{k}\cdot\mathbf{n})\,dS +\iint_{S_3} R(\mathbf{k}\cdot\mathbf{n}) \,dS }$$
+
+  * On $S_1$: $\,$ Since the outward normal points downward, $g(x,y,z)=f_1(x,y)-z=0$. Thus
+    
+    $$
+    \begin{aligned}
+      \mathbf{n} 
+      &= \frac{ \frac{\partial f_1}{\partial x} \mathbf{i} 
+      +\frac{\partial f_1}{\partial y} \mathbf{j} -\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
+      +\left(\frac{\partial f_1}{\partial y}\right)^2}} \;\; 
+    \Rightarrow \;\; 
+    \mathbf{k}\cdot\mathbf{n}
+    =\frac{-1}{\sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
+   +\left(\frac{\partial f_1}{\partial y}\right)^2}} \\ 
+   &\Downarrow \\ 
+    \iint_{S_1} &R(\mathbf{k}\cdot\mathbf{n})\,dS = -\iint_{R'} R(x,y,f_1(x,y))\,dA
+    \end{aligned}$$
+
+  * On $S_2$: $\,$ Since the outward normal points upward, $g(x,y,z)=z -f_2(x,y)=0$. Thus
+   
+    $$
+    \begin{aligned}
+    \mathbf{n} &= \frac{ -\frac{\partial f_2}{\partial x} \mathbf{i} 
+    -\frac{\partial f_2}{\partial y} \mathbf{j} +\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
+    +\left(\frac{\partial f_2}{\partial y}\right)^2}} \;\; 
+   \Rightarrow \;\; 
+   \mathbf{k}\cdot\mathbf{n}
+   =\frac{1}{\sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
+   +\left(\frac{\partial f_2}{\partial y}\right)^2}} \\ 
+   &\Downarrow \\ 
+   \iint_{S_2} &R(\mathbf{k}\cdot\mathbf{n})\,dS = \iint_{R'} R(x,y,f_2(x,y))\,dA
+  \end{aligned}$$
+
+  * On $S_3$: $\,$ $\mathbf{k}\cdot\mathbf{n}=0$
+   
+   $$\quad \iint_{S_3} R(\mathbf{k}\cdot\mathbf{n})\,dS = 0$$
+
+* Physical Interpretation of Divergence
+  
+  $$
+  \begin{aligned}
+    \iint_{S_r} (\mathbf{f} \cdot \mathbf{n})\,dS 
+      &= \iiint_{D_r} \nabla\cdot\mathbf{f}\,dV \\
+      &\approx
+    \iiint_{D_r} \nabla\cdot\mathbf{f}(P_0)\,dV 
+    = \nabla\cdot\mathbf{f}(P_0) \iiint_{D_r}\,dV 
+    = \nabla\cdot\mathbf{f}(P_0) D_r\\ 
+     &\Downarrow\\ 
+    \nabla\cdot\mathbf{f}(P_0) &= \lim_{r\to 0} \frac{1}{D_r}\iint_{S_r} 
+     (\mathbf{f} \cdot \mathbf{n})\,dS
+  \end{aligned}$$
+  
+  ![](figures/ch09_figure47.png "divergence physical interpretation"){fig-align="center" width="25%"}
+
+* Continuity Equation
+
+  $$
+  \begin{aligned}
+   \frac{dm}{dt} 
+    &= \frac{d}{dt}\iiint_D \rho(x,y,z,t)\,dV
+     = \iiint_D \frac{\partial \rho}{\partial t}\,dV \\ 
+    &= -\iint_S (\rho\mathbf{v}\cdot\mathbf{n})\,dS
+     =-\iiint_D \nabla\cdot(\rho\mathbf{v})\,dV\\ 
+    &\Downarrow \\ 
+     \iiint_D \left[ \frac{\partial \rho}{\partial t} \right. 
+    &+\left. \phantom{\frac{}{}}\nabla\cdot(\rho\mathbf{v}) \right]\,dV=0 \\ 
+    &\Downarrow \\
+    \frac{\partial \rho}{\partial t} & 
+     +\nabla\cdot(\rho\mathbf{v})=0 
+  \end{aligned}$$
+
+* Euler's Equation of Motion
+
+  Allowing for the presence of a gravitational body force per unit mass $\mathbf{g}$, $\,$the basic equations of an ideal fluid are
+
+  $$\frac{D \mathbf{v}}{D t} = -\frac{1}{\rho} \nabla p + \mathbf{g}$$
+
+  $$\nabla \cdot \mathbf{v} = 0$$
+
+* Furthermore, ,$it can be helpful to use $\mathbf{g}=-\nabla \chi$ $\,$and the identity
+
+  $$ \left( \mathbf{v} \cdot \nabla \right) \mathbf{v} 
+    = \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} + \nabla \left( \frac{1}{2} \mathbf{v}^2 \right)$$
+
+  to cast the momentum equation into the form
+
+  $$ \frac{\partial \mathbf{v}}{\partial t} + \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} = -\nabla \left( \frac{p}{\rho} +\frac{1}{2} \mathbf{v}^2 + \chi \right) =- \nabla H$$
+
+$~$
+
+## Change of Variables in Multiple Integrals {#sec-9-17} 
+
+* To change the Variable in a Definite Integral
+
+  $$\int_a^b f(x)\,dx =\int_c^d f(g(u))\, g'(u)\,du$$
+
+* Double Integrals
+
+  $$\iint_R F(x,y)\,dA = \iint_R F(f(u,v), g(u,v))\, \left| \frac{\partial(x,y)}{\partial(u,v)} \right|\,dA'$$
+
+  $$\left| \frac{\partial(x,y)}{\partial(u,v)} \right| =
+    \left|\begin{matrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v}\\ 
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v}
+    \end{matrix}\right| = h_1 h_2 dq_1 dq_2$$
+
+* Triple Integrals
+
+  $$\iiint_D F(x,y,z)\,dV = \iiint_D F\left(f(u,v,w), g(u,v,w), h(u,v,w)\right)\, \left| \frac{\partial(x,y,z)}{\partial(u,v,w)} \right|\,dV'$$
+
+  $$\left| \frac{\partial (x,y,z)}{\partial (u,v,w)} \right| =
+    \left|\begin{matrix}
+    \frac{\partial x}{\partial u} & \frac{\partial x}{\partial v} & \frac{\partial x}{\partial w}\\ 
+    \frac{\partial y}{\partial u} & \frac{\partial y}{\partial v} & \frac{\partial y}{\partial w}\\
+    \frac{\partial z}{\partial u} & \frac{\partial z}{\partial v} & \frac{\partial z}{\partial w} 
+   \end{matrix}\right| = h_1 h_2 h_3 dq_1 dq_2 dq_3$$
+
+$~$
+
+## Worked Exercises {.unnumbered}
