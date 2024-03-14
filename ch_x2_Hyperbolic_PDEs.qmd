@@ -991,3 +991,180 @@ $~$
 * So far, $\,$we have studied the wave equation $\,u_{tt}=c^2 u_{xx}\,$ <font color="red">for the unbounded domain</font> and have found D'Alembert solutions to be certain <font color="red">*traveling waves* (moving in opposite directions)</font>
 
 * When we study the same wave equation <font color="red">in a bounded region of space $0 < x < L$</font>, $\,$we find that the waves no longer appear to be moving due to their repeated interaction with the boundaries and, in fact, often appear to be what are known as <font color="red">*standing waves*</font>
+
+* **Separation of Variables Solution to the Finite Vibrating String**
+
+  Consider what happens when a guitar string (fixed at both ends $x=0,\,L$) described by the simple hyperbolic IBVP is set in motion
+
+  $$
+  \begin{aligned}
+    u_{tt} &=c^2 u_{xx} && \color{red}{0 < x < L},\;\; 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(0, t) \\ u(1,t)
+    \end{array}
+    &\;
+    \begin{array} {r}
+      =g_1(t) \\ =g_2(t)
+    \end{array}
+    && 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(x, 0) \\ u_t(x, 0)
+    \end{array}
+    &\;
+    \begin{array} {r}
+      =f(x) \\ =g(x)
+    \end{array}
+    && 0 \leq x \leq L
+  \end{aligned} \tag{FS}\label{eq:FS}$$
+
+  * What happens is that the traveling wave solution to the PDE and IC keeps reflecting from the boundaries in such a way that the wave motion does not to be moving, $\,$but, $\,$in fact, appears to be vibrating in one position:
+
+    ![](figures/pde02_figure15.jpg "Standing Waves"){width="60%" fig-align="center"}
+
+  * We start by seeking standing-wave solutions to the PDE; $\,$that is solutions of the form
+
+    $$u(x,t)=X(x)T(t)$$
+
+    Substituting this expression into the wave equation and separating variables gives us the two ODEs
+
+    $$\begin{aligned}
+      \frac{\;\;T''}{c^2 T} 
+      &= \frac{\;\;X''}{X} = - \lambda <0\\
+      &\Downarrow \\
+      T'' +c^2\lambda T &=0\\ 
+      X'' +\lambda X &=0 
+    \end{aligned}$$
+
+    in which only positive values of $\lambda$ give feasible (nonzero and bounded) solutions
+
+  * The solutions of these two ODEs yield
+
+    $$\begin{aligned}
+    T(t) &= a \cos c\sqrt{\lambda} t +b\sin c\sqrt{\lambda}t\\ 
+    X(x)&=d \cos \sqrt{\lambda}x +e\sin\sqrt{\lambda}x 
+    \end{aligned}$$
+
+    Plugging this equation into $u(0,t)=u(L,t)=0\,$ gives
+
+    $$\scriptsize
+    \begin{aligned}
+      u(0,t) 
+      & = d \cdot \,T(t)=0 \;\;\Rightarrow \;\; T(t) \neq 0,\;\;d=0\\ 
+      u(L,t)
+      & = e\sin\sqrt{\lambda}L \cdot T(t)=0\;\; \Rightarrow T(t) \neq 0,\;\; e\neq0, \;\sin\sqrt{\lambda}L=0\;\;\\ 
+    &\normalsize\Rightarrow \;\;\lambda_n=\left( \frac{n\pi}{L}\right)^2,\;\;n=1,2,3,\cdots
+    \end{aligned}$$
+
+    Hence, $\,$we have now found a sequence of simple vibrations (which we subscript with $n$)
+
+    $$ \begin{aligned} u_n(x,t)&= T_n(t)X_n(x) \\=&\left[ a_n \cos\frac{n\pi c t}{L} +b_n \sin \frac{n\pi c t}{L} \right]\,\sin \frac{n\pi x}{L}, \;\;n=1,2,3,\cdots \end{aligned}$$
+
+  * All of which satisfy the wave equation and the BCs, $\,$and constitute a family of standing waves. $\,$Since any sum of these vibrations is also a solution to the PDE and BCs (since the PDE and BCs are linear and homogeneous), $\,$we add them together in such a way that the resulting sum also agrees with the ICs. $\,$Substituting the sum
+
+    $$ u(x,t)= \sum_{n=1}^\infty \left[ a_n \cos\frac{n\pi c t}{L} +b_n \sin \frac{n\pi c t}{L} \right]\,\sin \frac{n\pi x}{L}$$ 
+
+    into the ICs
+
+    $$u(x,0)=f(x), \;\; u_t(x,0)=g(x)$$
+
+    gives the two equations
+    $$ \sum_{n=1}^\infty a_n \sin \frac{n\pi x}{L}=f(x), \;\; 
+    \sum_{n=1}^\infty b_n \frac{n\pi c}{L}\sin\frac{n\pi x}{L}=g(x)$$
+
+  * and using the orthogonality condition
+
+    $$\int_0^L \sin \frac{m\pi x}{L}\, \sin \frac{n\pi x}{L}\,dx=\begin{cases}
+    \;\;0& m \neq n \\ 
+    L/2& m = n
+    \end{cases}$$
+
+    we can find the coefficients $\,a_n\,$ and $\,b_n$
+
+    $$\begin{aligned}
+    a_n&= \frac{2}{L} \int_0^L f(x)\, \sin \frac{n\pi x}{L}\,dx\\
+    b_n&= \frac{2}{n\pi c} \int_0^L g(x)\, \sin \frac{n\pi x}{L}\,dx 
+    \end{aligned}$$
+
+**NOTE**
+
+$$\scriptsize\begin{aligned}
+\normalsize u(x,t) \;&\normalsize= \sum_{n=1}^\infty \left[ a_n \cos\frac{n\pi c t}{L} +b_n \sin \frac{n\pi c t}{L} \right]\,\sin \frac{n\pi x}{L}\\[5pt]
+ &= \frac{1}{2} \sum_{n=1}^\infty a_n\left[\sin \frac{n\pi}{L} (x+ct) +\sin \frac{n\pi}{L} (x-ct)\right ] 
+\\&\quad-\frac{1}{2} \sum_{n=1}^\infty b_n\left[\cos \frac{n\pi}{L} (x+ct) -\cos \frac{n\pi}{L} (x-ct)\right ]\\[5pt] 
+ &\;\;\Big\Downarrow \;\; {\tiny\sum_{n=1}^\infty a_n \sin \frac{n\pi x}{L}=f(x), \;\;\sum_{n=1}^\infty b_n \frac{n\pi c}{L}\sin\frac{n\pi x}{L}=g(x) \;\rightarrow\, -\sum_{n=1}^\infty b_n\, c\cos \frac{n\pi x}{L} +\sum_{n=1}^\infty b_n c=\int^x_0 g(\alpha) d\alpha} \\[5pt]
+ &\normalsize= \frac{1}{2}\left[ f(x+ct) +f(x-ct)\right] +\frac{1}{2c} \int_{x-ct}^{x+ct} g(\alpha)\,d\alpha 
+\end{aligned}$$
+
+$~$
+
+**Example** $\,$Find the solution to the vibrating-string problem \eqref{eq:FS} if the ICs are given by
+
+$$\begin{aligned}
+ u(x,0) &= \sin \frac{\pi x}{L} +0.5 \sin\frac{3\pi x}{L}\\ 
+ u_t(x,0) &= 0
+\end{aligned}$$
+
+$~$
+
+**Example** $\,$What is the solution of the vibrating-string problem \eqref{eq:FS} if the ICs are
+
+$$\begin{aligned}
+ u(x,0)&= 0\\ 
+ u_t(x,0)&= \sin\frac{3\pi x}{L}
+\end{aligned}$$
+
+$~$
+
+**Example** $\,$Solve the damped vibrating-string problem
+
+$$
+\begin{aligned}
+  u_{tt} &=c^2 u_{xx} -\beta u_t && \color{red}{0 < x < 1},\;\; 0 < t < \infty \\ \\
+  \begin{array} {r}
+    u(0, t) \\ u(1,t)
+  \end{array}
+   &
+  \begin{array} {r}
+    =0 \\ =0
+  \end{array}
+  && 0 < t < \infty \\ \\
+  \begin{array} {r}
+    u(x, 0) \\ u_t(x, 0)
+  \end{array}
+   &
+  \begin{array} {r}
+    =f(x) \\ =0\phantom{(x)}
+  \end{array}
+  && 0 \leq x \leq 1
+\end{aligned}$$
+
+$~$
+
+## Solution of Nonhomogeneous Wave Equation via the Finite Transform {#sec-x2-24}
+
+* Consider the nonhomogeneous wave equation
+
+  $$
+  \begin{aligned}
+    u_{tt} &=c^2 u_{xx} +\sin\pi x && 0 < x < 1,\;\; 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(0, t) \\ u(1,t)
+    \end{array}
+    &
+    \begin{array} {r}
+      =0 \\ =0
+    \end{array}
+    && 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(x, 0) \\ u_t(x, 0)
+    \end{array}
+    &
+    \begin{array} {r}
+      =1 \\ =0
+    \end{array}
+    && 0 \leq x \leq 1
+  \end{aligned}$$
+
+**STEP 1** $\,$ Determine the transform
+
+Since the $x$-variable ranges from $0$ to $1$, $\,$we use a finite transform. $\,$Also, $\,$you will see why, $\,$in this case, we use the sine transform. $\,$We could solve this problem with the Laplace transform by transforming $\,t$
