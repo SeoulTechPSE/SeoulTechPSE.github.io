@@ -646,3 +646,348 @@ $\,$The differential equation then becomes
 $~$
 
 ## The Wave Equation in Two and Three Dimensions (Free Space) {#sex-x2-21}
+
+The problem of this section is to generalize the D'Alembert solution to two and three dimensions
+
+* **Waves in Three Dimensions**
+
+  We start by considering spherical waves in three dimensions that have given ICs; $\,$that is, $\,$we would like to solve the initial value problem
+
+  $$\begin{aligned}
+    u_{tt} &=c^2(u_{xx} +u_{yy} +u_{zz}),\quad 
+    \begin{cases}
+      -\infty < x <\infty \\ 
+      -\infty < y <\infty \\ 
+      -\infty < z <\infty
+    \end{cases} \\ 
+    u(&x,y,z,0)=\phi(x,y,z) \\ 
+    u_t(&x,y,z,0)=\psi(x,y,z) 
+  \end{aligned} \tag{3D}\label{eq:3D}$$
+
+  * To solve this problem, $\,$we first solve the simpler one (set $\phi=0$)
+
+    $$\color{red}{\begin{aligned}
+      u_{tt}&=c^2(u_{xx} +u_{yy} +u_{zz}),\quad (x,y,z) \in \mathbb{R}^3\\
+      u(&x,y,z,0)=0 \\ 
+      u_t(&x,y,z,0)=\psi(x,y,z) 
+    \end{aligned}} \tag{3Dv}\label{eq:3Dv}$$
+
+    This problem can be solved by the Fourier transform
+
+    $$\begin{aligned}
+      \mathcal{F}(u)
+        &=\frac{1}{(2\pi)^{3/2}}\iiint_{-\infty}^\infty 
+          u(x,y,z,t) e^{-i(\omega_1 x+\omega_2 y+\omega_3 z)}\,dx\,dy\,dz 
+          =U(\omega_1,\omega_2,\omega_3,t)\\ 
+      \mathcal{F}(\psi)&=\frac{1}{(2\pi)^{3/2}}\iiint_{-\infty}^\infty 
+        \psi(x,y,z) e^{-i(\omega_1 x+\omega_2 y+\omega_3 z)}\,dx\,dy\,dz 
+        =\Psi(\omega_1,\omega_2,\omega_3)
+    \end{aligned}$$
+
+  $$\scriptsize \begin{aligned}
+  &\Downarrow\;\; \mathcal{F}^{-1} \\ \\
+  u(x,y,z,t)= \frac{1}{(2\pi)^{3/2}} 
+    \lim_{L\to\infty} \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 < L^2}{\iiint}
+    \Psi(\omega_1,\omega_2,\omega_3) &
+    \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2 
+    +\omega_2^2 +\omega_3^2 }} \,e^{i(\omega_1 x +\omega_2 y +\omega_3 z)}\,d\omega_1 \,d\omega_2 \,d\omega_3 \\ 
+  = \frac{1}{(2\pi)^{3/2}} 
+  \iiint_{-\infty}^\infty \psi(\xi,\eta,\zeta)\;
+    {\tiny \left[ \frac{1}{(2\pi)^{3/2}}  \lim_{L\to\infty} 
+      \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 < L^2}{\iiint} \right. } &
+    {\tiny \left. e^{-i\left[\omega_1 (\xi-x) +\omega_2 (\eta-y) +\omega_3 (\zeta-z) \right]} \;
+    \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2 }}\,
+    \,d\omega_1 \,d\omega_2 \,d\omega_3 \,\right] } \,d\xi \,d\eta \,d\zeta 
+  \end{aligned}$$
+
+  * We introduce spherical coordinates $(\varrho,\varphi,\vartheta)$ in the $(\omega_1,\omega_2,\omega_3)$ space with the north pole $\varphi=0$ in the direction of the vector $\left \langle \xi-x,\eta-y,\zeta-z \right \rangle$. $\,$Then the integral in $(\omega_1,\omega_2,\omega_3)$ becomes
+
+    $$\scriptsize\begin{aligned}
+      \frac{1}{(2\pi)^{3/2}}  \lim_{L\to\infty} 
+      \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 < L^2}{\iiint} 
+      &e^{-i\left[\omega_1 (\xi-x) +\omega_2 (\eta-y) 
+      +\omega_3 (\zeta-z)\right]}\;
+      \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2 }}\,
+      \,d\omega_1 \,d\omega_2 \,d\omega_3 \\ 
+      &\;\;\Downarrow \; 
+        {\tiny r=|\mathbf{r}|=\sqrt{(\xi-x)^2 +(\eta -y)^2 +(\zeta -z)^2},\;\; 
+          \varrho =|\boldsymbol{\varrho}| 
+      = \sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2} }\\ 
+        &=\frac{1}{(2\pi)^{3/2}} \lim_{L\to\infty} 
+        \int_0^L \int_0^{2\pi}  \int_0^\pi 
+      \;e^{-ir \varrho\cos \varphi} \;\frac{\sin ct \varrho}{c\varrho}\; 
+      \varrho^2 \sin\varphi \,d\varphi\,d\vartheta\,d\varrho \\
+        &\;\;\Downarrow 
+        \; {\tiny \alpha=\cos\varphi, \;d\alpha=-\sin\varphi d\varphi } \\ 
+        &=\frac{1}{(2\pi)^{3/2}} 
+        \lim_{L\to\infty} \frac{2\pi}{c} \int_0^L \; \varrho \sin ct\varrho 
+      \underbrace{\left[ \frac{e^{-ir\varrho \alpha}}{-ir\varrho} 
+        \right]_{-1}^1 }_{\frac{2}{r\varrho}\sin r\varrho} \,d\varrho \\ 
+        &=\frac{1}{(2\pi)^{3/2}} \lim_{L\to\infty} \frac{4\pi}{cr} \int_0^L  
+        \;\sin ct \varrho \cdot \sin r\varrho \,d\varrho
+    \end{aligned}$$
+
+  * To treat the integration with respect to $\xi$, $\,\eta$, and $\,\zeta$, $~$we introduce spherical coordinates $(r,\phi,\theta)$ in the $(\xi,\eta,\zeta)$ space with their origin at $(x,y,z)$, $\,$so that
+
+    $$\begin{aligned}
+    \xi-x &=r\sin\phi \cos\theta \\ 
+    \eta-y&=r\sin\phi \sin\theta \\ 
+    \zeta-z&=r\cos\phi 
+    \end{aligned}$$
+
+    Then the solution becomes
+
+    $$\scriptsize\begin{aligned}
+    {\normalsize\color{red}{u(x,y,z,t)}}
+    &= {\tiny \frac{4\pi}{(2\pi)^3 c} \lim_{L\to \infty} \int_0^\infty \int_0^{2\pi} \int_0^\pi  
+      \;\psi(x +r\sin\phi\cos\theta,y +r\sin\phi\sin\theta, z+r\cos\phi)\; \frac{1}{r}\;\left[ \int_0^L  
+      \sin ct \varrho \sin r\varrho\, d\varrho \right] r^2\sin\phi \, d\phi \, d\theta \,dr }\\
+      &= {\tiny \frac{1}{2\pi^2 c} \lim_{L\to \infty} \int_0^L \sin ct\varrho \left[\int_0^\infty \sin r\varrho 
+      \underbrace{\left( \int_0^{2\pi} \int_0^\pi  \psi(x +r\sin\phi\cos\theta,y +r\sin\phi\sin\theta, z+r\cos\phi) 
+      \,r\,\sin\phi \,d\phi\,d\theta  \right) }_{g(r)} dr \right] d\varrho } \\ 
+      &= {\tiny \frac{1}{2\pi^2 c} \frac{\pi}{2} \int_0^\infty \sin ct \varrho \;\underbrace{\left[\frac{2}{\pi} \int_0^\infty 
+      \sin r\varrho \,g(r)\,dr \right]}_{G(\varrho)} d\varrho  
+      = \frac{1}{4\pi c} \underbrace{\int_0^\infty \sin ct \varrho \;G(\rho)\,d\varrho}_{g(ct)} } \\ 
+      &= {\tiny \frac{t}{4\pi (ct)^2} \int_0^{2\pi}\int_0^\pi  \psi(x +ct\sin\phi\cos\theta,y +ct\sin\phi\sin\theta, z+ct\cos\phi) 
+      \,(ct)^2\sin\phi \,d\phi \,d\theta  }
+      = {\normalsize\color{red}{t\bar{\psi}}}
+    \end{aligned}$$
+
+    <font color="blue"> where $\bar{\psi}$ is the average of the initial disturbance $\psi$ over the surface of the sphere of radius $\,ct\,$ centered at $(x,y,z)$</font>
+
+  * The interpretation of this solution is that the initial disturbance $\,\psi\,$ radiates outward spherically (velocity $c$) at each point, $\,$so that after so many seconds, $\,$the point $\,(x,y,z)$ will be influenced by those initial disturbances on a sphere (of radius $\,ct$) around that point
+
+    ![](figures/pde02_figure19.jpg "solution as the average of initial disturbances on a sphere"){width="80%" fig-align="center"}
+
+  * Now, $\,$to finish the problem, $\,$what about the other half; $\,$that is
+
+    $$\color{red}{\begin{aligned}
+    u_{tt}&=c^2(u_{xx} +u_{yy} +u_{zz}),\quad (x,y,z) \in \mathbb{R}^3 \\ 
+    u(&x,y,z,0)=\phi(x,y,z) \\ 
+    u_t(&x,y,z,0)=0 
+    \end{aligned}} \tag{3Dp}\label{eq:3Dp}$$
+
+    This is easy: $\,$A famous theorem developed by *Stokes* says all we have to do to solve this problem is to change the ICs to $\,v=0$, $\,v_t=\phi$, $\,$and then differentiate this solution with respect to time:
+
+    $$ v=\int_0^t u\,dt,\;v_t=u, \;u_{tt}=\frac{\partial}{\partial t} v_{tt}, \;u_{xx}=\frac{\partial}{\partial t} v_{xx}$$
+
+  * In other words, $\,$we solve
+
+    $$\begin{aligned}
+    v_{tt}&=c^2(v_{xx} +v_{yy} +v_{zz}),\quad (x,y,z) \in \mathbb{R}^3 \\ 
+    v(&x,y,z,0)=0 \\ 
+    v_t(&x,y,z,0)=\phi(x,y,z) 
+    \end{aligned}$$
+
+    to get $v=t\bar{\phi}\,$ and then differentiate with respect to time. $\,$This gives us the solution 
+    
+    $$\color{red}{u=\frac{\partial}{\partial t} \left[ t\bar{\phi} \right]}$$
+    
+    to problem \eqref{eq:3Dp}
+
+  * We now have the solution to our general three-dimensional problem \eqref{eq:3D}. $\,$It's just
+
+    $$ \color{red}{u(x,y,z,t)=\frac{\partial}{\partial t} \left[ t\bar{\phi} \right]+t\bar{\psi}}$$
+
+    where $\,\bar{\phi}\,$ and $\,\bar{\psi}\,$ are the averages of the functions $\,\phi\,$ and $\,\psi\,$ over the sphere of radius $\,ct\,$ centered at $\,(x,y,z)$
+
+    $~$
+
+    ![](figures/pde02_figure20.jpg "diagram showing how initial disturbances affect a point"){width="60%" fig-align="center"}
+
+  * Suppose now the initial disturbances $\,\phi\,$ and $\,\psi\,$ are zero except for a small sphere. $\,$As time increases, $\,$the radius of the sphere around $(x,y,z)$ increases with velocity $\,c$
+
+  * and so after $\,t_2$ seconds, $\,$it will finally intersect the initial disturbance region, $\,$and, $\,$hence, $\,u(x,y,z,t)\,$ becomes nonzero
+
+  * For $\,t_2 < t < t_3$, $\,$the solution at $\,(x,y,z)\,$ will be nonzero, $\,$since the sphere intersects the disturbance region
+
+  * but when $\,t=t_3$, $\,$the solution at $\,(x,y,z)\,$ abruptly becomes zero again. $\,$In other words, $\,$the wave disturbance originating from the initial-disturbance region has a sharp trailing edge. $\,$This general principle is known as **Huygen's principle** for the three dimensions, $\,$and $\,$it is the reason why sound waves in three dimensions stimulate our ears but die off instanteously when the wave has passed
+
+$~$
+
+**Example** $\,$Illustrate by picture and words the spherical wave solution of the three-dimensional problem
+
+$$\begin{aligned}
+ u_{tt}&=c^2(u_{xx} +u_{yy} +u_{zz}), \quad
+\begin{cases}
+ -\infty < x <\infty \\ 
+ -\infty < y <\infty \\ 
+ -\infty < z <\infty
+\end{cases} \\ 
+ u(&x,y,z,0)=0 \\ 
+ u_t(&x,y,z,0)=
+ \begin{cases}
+ \;1 & x^2+y^2+z^2 \leq 1 \\ 
+ \;0 & \text{elsewhere} 
+\end{cases} 
+\end{aligned}$$
+
+$~$
+
+* **Two-Dimensional Wave Equation**
+
+  To solve the two-dimensional problem
+
+  $$\begin{aligned}
+    u_{tt}&=c^2(u_{xx} +u_{yy}),\quad
+    \begin{cases}
+    -\infty < x <\infty \\ 
+    -\infty < y <\infty
+    \end{cases} \\ 
+    u(&x,y,0)=\phi(x,y) \\ 
+    u_t(&x,y,0)=\psi(x,y) 
+  \end{aligned} \tag{2D}\label{eq:2D}$$
+
+  we merely let the initial disturbances $\,\phi\,$ and $\,\psi\,$ in the three-dimensional problem depend on only the two variables $\,x\,$ and $\,y$. $\,$Doing this, the three-dimensional formula
+
+  $$ u = \frac{\partial}{\partial t} [t\bar{\phi}] +t\bar{\psi} $$
+
+  for $\,u\,$ will describe <font color="red">cylindrical waves</font> and, $\,$hence, $\,$give us the solution for the two-dimensional problem
+
+  * This technique is called the method of descent. $\,$Carrying out the computations, $\,$we get
+
+    $$\scriptstyle\begin{aligned}
+    \bar{\psi}(x,y,t) &= \frac{1}{4\pi (ct)^2} \color{red}{\int_0^{2\pi}  \int_{0}^\pi} 
+      \psi(x +ct\sin\phi\cos\theta,y+ct\sin\phi\sin\theta)\, \color{red}{(ct)^2 \sin\phi \, d\phi \, d\theta} \;\;\leftarrow \text{spherical surface}\\
+    &\Downarrow \;\; {\tiny r = ct \,\sin \phi, \; \,dr =ct \, \cos\phi \,d\phi\;\;\rightarrow\;\; \int_0^{\pi} ct \sin\phi\,d\phi = 2\int_0^{ct}\frac{r}{\sqrt{(ct)^2 -r^2}} dr } \\
+    &= \frac{1}{2\pi ct} \, \color{red}{\int_0^{2\pi} \int_0^{ct}} \psi(x +r\cos\theta, y+r\sin\theta)\,\frac{1}{\sqrt{(ct)^2 -r^2}}\,\color{red}{r\,dr\,d\theta} \;\;\leftarrow \text{circle interior}\\
+    \bar{\phi}(x,y,t) &= \frac{1}{2\pi ct} \, \color{red}{\int_0^{2\pi} \int_0^{ct}} 
+    \phi(x +r\cos\theta, y+r\sin\theta)\,\frac{1}{\sqrt{(ct)^2 -r^2}}\,\color{red}{r\,dr\,d\theta}
+    \end{aligned}$$
+
+    Note that in this solution, $\,$the two integrals of the initial conditions $\,\phi\,$ and $\,\psi\,$ are integrated over the interior of a circle with center $\,(x,y)\,$ and radius $\,ct$. $\,$We see that initial disturbances give rise to sharp leading waves, $\,$but not to sharp trailing waves. $\,$Thus, Huygen's principle doesn't hold in two dimensions
+
+* **One-Dimensional Wave Equation**
+
+  Finally, $\,$if we assume the initial conditions $\,\phi\,$ and $\,\psi\,$ depend only on one variable, $\,$this gives rise to plane waves and, $\,$hence, $\,$the preceding equation descends one more dimension 
+
+  $$\begin{aligned}
+  \bar{\psi}(x,t) &= {\tiny \frac{1}{2\pi ct} \, \int_0^{2\pi} \int_0^{ct} 
+    \frac{\psi(x +r\cos\theta)}{\sqrt{(ct)^2 -r^2}}\,r\,dr\,d\theta }\\
+  &\Downarrow {\tiny r^2=x^2 + y^2, \; (ct)^2 -x^2 = \alpha^2 }\\
+  &={\tiny \frac{1}{2\pi ct}\, \int_{x -ct}^{x +ct} \underbrace{\int_{-\alpha}^{\alpha} 
+    \frac{1}{\sqrt{\alpha^2 -y^2}}\,dy}_{ \pi} \;\psi(x) \,dx }
+  = \frac{1}{2ct} \int_{x-ct}^{x+ct} \psi(x)\,dx \\
+  \bar{\phi}(x,t) &= \frac{1}{2ct} \int_{x-ct}^{x+ct} \phi(x)\,dx
+  \end{aligned}$$
+
+  to the well-known D'Alembert solution. $\,$Note in the D'Alembert solution, $\,$the initial position $\,\phi\,$ gives rise to sharp trailing edges, $\,$but the initial velocity $\,\psi\,$ does not. $\,$In other words, $\,$one dimension is a little unusual in that the initial position satisfies Huygen's principle, $\,$but the initial velocity does not
+
+$~$
+
+**Example** $\,$What is the two dimensional solution of the analogous cylindrical-wave problem
+
+$$\begin{aligned}
+ u_{tt}&=c^2(u_{xx} +u_{yy}),\quad
+\begin{cases}
+ -\infty < x <\infty \\ 
+ -\infty < y <\infty
+\end{cases} \\ 
+ u(&x,y,0)=0 \\ 
+ u_t(&x,y,0)=
+ \begin{cases}
+ \;1 & x^2+y^2 \leq 1 \\ 
+ \;0 & \text{elsewhere} 
+\end{cases} 
+\end{aligned}$$
+
+$~$
+
+## Boundary Conditions Associated with the Wave Equation {#sec-x2-22}
+
+The purpose of this section is to discuss some of the various types of BCs that are associated with physical problems of wave motions. $\,$Here, $\,$we will stick to one-dimensional problems where the BCs (linear ones) are generally groupded into one of three kinds
+
+* **First Kind: $\,$Controlled End Points**
+
+  We are now involved with problems like
+
+  $$
+  \begin{aligned}
+    u_{tt} &=c^2 u_{xx} && \color{red}{0 < x < 1},\;\; 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(0, t) \\ u(1,t)
+    \end{array}
+    &
+    \begin{array} {r}
+      =g_1(t) \\ =g_2(t)
+    \end{array}
+    && 0 < t < \infty \\ \\
+    \begin{array} {r}
+      u(x, 0) \\ u_t(x, 0)
+    \end{array}
+    &
+    \begin{array} {r}
+      =f(x) \\ =g(x)
+    \end{array}
+    && 0 \leq x \leq L
+  \end{aligned}$$
+
+  where we control the end points so that they move in a given manner
+
+  ![](figures/pde02_figure10.jpg "1st kind BC"){width="70%" fig-align="center"}
+
+  A typical problem of this kind would involve suddenly twisting (at $t=1$) the right end of a fastened rod so many degrees and observing the resulting tortional vibration
+
+  ![](figures/pde02_figure11.jpg "tortional vibration"){width="80%" fig-align="center"}
+
+* **Second Kind: $\,$Force Given on the Boundaries** 
+
+  In as much as the vertical forces on the string at the left and right ends are given by $\,Tu_x(0,t)\,$ and $\,Tu_x(1,t)$, $\,$respectively, $\,$by allowing the ends of the string to slide vertically on frictionless sleeves, $\,$the boundary conditions become
+
+  $$\begin{aligned}
+  u_x(0,t)&=0 \\ 
+  u_x(1,t)&=0
+  \end{aligned}, \quad 0 < t < \infty$$
+
+  ![](figures/pde02_figure12.jpg "free BC"){width="70%" fig-align="center"}
+
+  If a vertical force $f(t)$ is applied at the end $x=1$, $\,$then the BC would be 
+
+  $$u_x(1,t)=\frac{1}{T}\,f(t)$$
+
+* **Third Kind: $\,$Elastic Attachment on the Boundaries**
+
+  Consider finally a violin string whose ends are attached to an elastic arrangement like the one shown in figure
+
+  ![](figures/pde02_figure13.jpg "elastic attachment"){width="60%" fig-align="center"}
+
+  Here, $\,$the spring attachments at each end give rise to vertical forces proportional to the displacements $\,-u(0,t)\,$ and $\,-u(1,t)$
+
+  Setting the vertical tensions of the spring at the two ends $\,-Tu_x(0,t)\,$ and $\,Tu_x(1,t)\,$ equal to these displacements (multiplied by the spring constant $h$) gives us our desired BCs
+
+  $$\begin{aligned}
+  -T u_x(0,t) &= -hu(0,t)\\ 
+  Tu_x(1,t) &= -hu(1,t) 
+  \end{aligned}$$
+
+  We can rewrite these two homogeneous BCs as
+
+  $$\begin{aligned}
+  u_x(0,t) -\frac{h}{T} u(0,t) &=0\\ 
+  u_x(1,t) +\frac{h}{T} u(1,t) &=0 
+  \end{aligned}$$
+
+  If the two spring attachments are displaced according to the functions $\,\theta_1(t)\,$ and $\,\theta_2(t)$, $\,$we would have the nonhomogeneous BCs
+
+  $$\begin{aligned}
+  u_x(0,t) &=\frac{h}{T} \left[u(0,t) -\theta_1(t) \right]\\ 
+  u_x(1,t) &=-\frac{h}{T} \left[u(1,t) -\theta_2(t) \right] 
+  \end{aligned}$$
+
+  ![](figures/pde02_figure14.jpg "nonhomogeneous elastic attachment"){width="80%" fig-align="center"}
+
+$~$
+
+**NOTE** $\,$What is the general nature of BC
+
+$$ u_x(0,t) =\frac{h}{T} \left[u(0,t) -\theta_1(t) \right]$$
+
+when $~h \to \infty$ and $~h \to 0$
+
+$~$
+
+## The Finite Vibrating String (Standing Waves) {#sec-x2-23}
+
+* So far, $\,$we have studied the wave equation $\,u_{tt}=c^2 u_{xx}\,$ <font color="red">for the unbounded domain</font> and have found D'Alembert solutions to be certain <font color="red">*traveling waves* (moving in opposite directions)</font>
+
+* When we study the same wave equation <font color="red">in a bounded region of space $0 < x < L$</font>, $\,$we find that the waves no longer appear to be moving due to their repeated interaction with the boundaries and, in fact, often appear to be what are known as <font color="red">*standing waves*</font>

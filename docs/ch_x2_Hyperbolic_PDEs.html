@@ -292,6 +292,8 @@ window.Quarto = {
   <li><a href="#sec-x2-19" id="toc-sec-x2-19" class="nav-link" data-scroll-target="#sec-x2-19"><span class="header-section-number">12.2</span> <span class="math inline">\(\,\)</span>D’Alembert Solution of the Wave Equation</a></li>
   <li><a href="#sec-x2-20" id="toc-sec-x2-20" class="nav-link" data-scroll-target="#sec-x2-20"><span class="header-section-number">12.3</span> <span class="math inline">\(\,\)</span>More on the D’Alembert Solution</a></li>
   <li><a href="#sex-x2-21" id="toc-sex-x2-21" class="nav-link" data-scroll-target="#sex-x2-21"><span class="header-section-number">12.4</span> The Wave Equation in Two and Three Dimensions (Free Space)</a></li>
+  <li><a href="#sec-x2-22" id="toc-sec-x2-22" class="nav-link" data-scroll-target="#sec-x2-22"><span class="header-section-number">12.5</span> Boundary Conditions Associated with the Wave Equation</a></li>
+  <li><a href="#sec-x2-23" id="toc-sec-x2-23" class="nav-link" data-scroll-target="#sec-x2-23"><span class="header-section-number">12.6</span> The Finite Vibrating String (Standing Waves)</a></li>
   </ul>
 </nav>
     </div>
@@ -458,7 +460,7 @@ u(x,t) &amp;= \frac{1}{2c} \int_{x-ct}^{x+ct} \sin\xi \, d\xi\\
 \end{aligned}\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="9159bd06" class="cell" data-execution_count="1">
+<div id="f46a35dd" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> animation, rc</span>
@@ -468,7 +470,7 @@ u(x,t) &amp;= \frac{1}{2c} \int_{x-ct}^{x+ct} \sin\xi \, d\xi\\
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'xtick.direction'</span>] <span class="op">=</span> <span class="st">'in'</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'ytick.direction'</span>] <span class="op">=</span> <span class="st">'in'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="41fb7881" class="cell" data-execution_count="2">
+<div id="115cbe54" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.axes(xlim<span class="op">=</span>(<span class="op">-</span><span class="fl">6.0</span><span class="op">*</span>np.pi, <span class="fl">6.0</span><span class="op">*</span>np.pi), ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>))</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -480,7 +482,7 @@ u(x,t) &amp;= \frac{1}{2c} \int_{x-ct}^{x+ct} \sin\xi \, d\xi\\
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>plt.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="70b3a661" class="cell" data-execution_count="3">
+<div id="e4c14c83" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>time_text <span class="op">=</span> ax.text(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.3</span>, <span class="st">''</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>line, <span class="op">=</span> ax.plot([], [], lw<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> init():</span>
@@ -3014,7 +3016,7 @@ u(x,t) &amp;=\frac{1}{2c}\int_{x-ct}^{x+ct} g(\xi)\,d\xi &amp; \\
 &amp;= \frac{1}{2c} \int_{x-ct}^{x+ct} 1\, d\xi=t, &amp; (x,t) \in \text{Region 6}
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="ed00a222" class="cell" data-execution_count="4">
+<div id="185853d0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.axes(xlim<span class="op">=</span>(<span class="op">-</span><span class="dv">15</span>, <span class="dv">15</span>), ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">1.5</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3032,7 +3034,7 @@ u(x,t) &amp;=\frac{1}{2c}\int_{x-ct}^{x+ct} g(\xi)\,d\xi &amp; \\
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    line.set_data([], [])</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (line,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1d00cbed" class="cell" data-execution_count="5">
+<div id="b4130d7c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> animate(t):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    time_text.set_text(<span class="st">'t = </span><span class="sc">%3.1f</span><span class="st">'</span> <span class="op">%</span> t)    </span>
@@ -3062,7 +3064,7 @@ u(x,t) &amp;=\frac{1}{2c}\int_{x-ct}^{x+ct} g(\xi)\,d\xi &amp; \\
 <span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    line.set_data(xx, uu)</span>
 <span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (line,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="485e1178" class="cell" data-execution_count="6">
+<div id="b7985665" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tt <span class="op">=</span> <span class="bu">list</span>(np.linspace(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">50</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> animation.FuncAnimation(fig, animate, init_func<span class="op">=</span>init, </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    frames<span class="op">=</span>tt, interval<span class="op">=</span><span class="dv">300</span>, blit<span class="op">=</span><span class="va">True</span>)</span>
@@ -3560,7 +3562,7 @@ HGRhdGEAAAABAAAAAExhdmY2MC4zLjEwMA==
 </figure>
 </div>
 <p><span class="math inline">\(~\)</span></p>
-<div id="2555afea" class="cell" data-execution_count="7">
+<div id="0febad98" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.axes(xlim<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">5</span>), ylim<span class="op">=</span>(<span class="op">-</span><span class="fl">1.0</span>, <span class="fl">1.5</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3578,7 +3580,7 @@ HGRhdGEAAAABAAAAAExhdmY2MC4zLjEwMA==
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    line.set_data([], [])</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (line,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bf8aa7ca" class="cell" data-execution_count="8">
+<div id="0e99105c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f_i(x):</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="dv">1</span> <span class="kw">and</span> x <span class="op">&lt;=</span> <span class="dv">2</span>:</span>
@@ -3603,7 +3605,7 @@ HGRhdGEAAAABAAAAAExhdmY2MC4zLjEwMA==
 <span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    line.set_data(xx, uu)</span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (line,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="507d41f2" class="cell" data-execution_count="9">
+<div id="eb252e64" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tt <span class="op">=</span> <span class="bu">list</span>(np.linspace(<span class="dv">0</span>, <span class="dv">7</span>, <span class="dv">100</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>anim <span class="op">=</span> animation.FuncAnimation(fig, animate, </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        init_func<span class="op">=</span>init, frames<span class="op">=</span>tt, interval<span class="op">=</span><span class="dv">750</span>, blit<span class="op">=</span><span class="va">True</span>)</span>
@@ -4550,6 +4552,306 @@ u &amp;= -\frac{1}{4c^2} \int_\eta^\xi
 </section>
 <section id="sex-x2-21" class="level2" data-number="12.4">
 <h2 data-number="12.4" class="anchored" data-anchor-id="sex-x2-21"><span class="header-section-number">12.4</span> The Wave Equation in Two and Three Dimensions (Free Space)</h2>
+<p>The problem of this section is to generalize the D’Alembert solution to two and three dimensions</p>
+<ul>
+<li><p><strong>Waves in Three Dimensions</strong></p>
+<p>We start by considering spherical waves in three dimensions that have given ICs; <span class="math inline">\(\,\)</span>that is, <span class="math inline">\(\,\)</span>we would like to solve the initial value problem</p>
+<p><span class="math display">\[\begin{aligned}
+  u_{tt} &amp;=c^2(u_{xx} +u_{yy} +u_{zz}),\quad
+  \begin{cases}
+    -\infty &lt; x &lt;\infty \\
+    -\infty &lt; y &lt;\infty \\
+    -\infty &lt; z &lt;\infty
+  \end{cases} \\
+  u(&amp;x,y,z,0)=\phi(x,y,z) \\
+  u_t(&amp;x,y,z,0)=\psi(x,y,z)
+\end{aligned} \tag{3D}\label{eq:3D}\]</span></p>
+<ul>
+<li><p>To solve this problem, <span class="math inline">\(\,\)</span>we first solve the simpler one (set <span class="math inline">\(\phi=0\)</span>)</p>
+<p><span class="math display">\[\color{red}{\begin{aligned}
+  u_{tt}&amp;=c^2(u_{xx} +u_{yy} +u_{zz}),\quad (x,y,z) \in \mathbb{R}^3\\
+  u(&amp;x,y,z,0)=0 \\
+  u_t(&amp;x,y,z,0)=\psi(x,y,z)
+\end{aligned}} \tag{3Dv}\label{eq:3Dv}\]</span></p>
+<p>This problem can be solved by the Fourier transform</p>
+<p><span class="math display">\[\begin{aligned}
+  \mathcal{F}(u)
+    &amp;=\frac{1}{(2\pi)^{3/2}}\iiint_{-\infty}^\infty
+      u(x,y,z,t) e^{-i(\omega_1 x+\omega_2 y+\omega_3 z)}\,dx\,dy\,dz
+      =U(\omega_1,\omega_2,\omega_3,t)\\
+  \mathcal{F}(\psi)&amp;=\frac{1}{(2\pi)^{3/2}}\iiint_{-\infty}^\infty
+    \psi(x,y,z) e^{-i(\omega_1 x+\omega_2 y+\omega_3 z)}\,dx\,dy\,dz
+    =\Psi(\omega_1,\omega_2,\omega_3)
+\end{aligned}\]</span></p></li>
+</ul>
+<p><span class="math display">\[\scriptsize \begin{aligned}
+&amp;\Downarrow\;\; \mathcal{F}^{-1} \\ \\
+u(x,y,z,t)= \frac{1}{(2\pi)^{3/2}}
+  \lim_{L\to\infty} \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 &lt; L^2}{\iiint}
+  \Psi(\omega_1,\omega_2,\omega_3) &amp;
+  \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2
+  +\omega_2^2 +\omega_3^2 }} \,e^{i(\omega_1 x +\omega_2 y +\omega_3 z)}\,d\omega_1 \,d\omega_2 \,d\omega_3 \\
+= \frac{1}{(2\pi)^{3/2}}
+\iiint_{-\infty}^\infty \psi(\xi,\eta,\zeta)\;
+  {\tiny \left[ \frac{1}{(2\pi)^{3/2}}  \lim_{L\to\infty}
+    \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 &lt; L^2}{\iiint} \right. } &amp;
+  {\tiny \left. e^{-i\left[\omega_1 (\xi-x) +\omega_2 (\eta-y) +\omega_3 (\zeta-z) \right]} \;
+  \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2 }}\,
+  \,d\omega_1 \,d\omega_2 \,d\omega_3 \,\right] } \,d\xi \,d\eta \,d\zeta
+\end{aligned}\]</span></p>
+<ul>
+<li><p>We introduce spherical coordinates <span class="math inline">\((\varrho,\varphi,\vartheta)\)</span> in the <span class="math inline">\((\omega_1,\omega_2,\omega_3)\)</span> space with the north pole <span class="math inline">\(\varphi=0\)</span> in the direction of the vector <span class="math inline">\(\left \langle \xi-x,\eta-y,\zeta-z \right \rangle\)</span>. <span class="math inline">\(\,\)</span>Then the integral in <span class="math inline">\((\omega_1,\omega_2,\omega_3)\)</span> becomes</p>
+<p><span class="math display">\[\scriptsize\begin{aligned}
+  \frac{1}{(2\pi)^{3/2}}  \lim_{L\to\infty}
+  \underset{\omega_1^2 +\omega_2^2 +\omega_3^2 &lt; L^2}{\iiint}
+  &amp;e^{-i\left[\omega_1 (\xi-x) +\omega_2 (\eta-y)
+  +\omega_3 (\zeta-z)\right]}\;
+  \frac{\sin ct \sqrt{ \omega_1^2 +\omega_2^2 +\omega_3^2 }}{c\sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2 }}\,
+  \,d\omega_1 \,d\omega_2 \,d\omega_3 \\
+  &amp;\;\;\Downarrow \;
+    {\tiny r=|\mathbf{r}|=\sqrt{(\xi-x)^2 +(\eta -y)^2 +(\zeta -z)^2},\;\;
+      \varrho =|\boldsymbol{\varrho}|
+  = \sqrt{\omega_1^2 +\omega_2^2 +\omega_3^2} }\\
+    &amp;=\frac{1}{(2\pi)^{3/2}} \lim_{L\to\infty}
+    \int_0^L \int_0^{2\pi}  \int_0^\pi
+  \;e^{-ir \varrho\cos \varphi} \;\frac{\sin ct \varrho}{c\varrho}\;
+  \varrho^2 \sin\varphi \,d\varphi\,d\vartheta\,d\varrho \\
+    &amp;\;\;\Downarrow
+    \; {\tiny \alpha=\cos\varphi, \;d\alpha=-\sin\varphi d\varphi } \\
+    &amp;=\frac{1}{(2\pi)^{3/2}}
+    \lim_{L\to\infty} \frac{2\pi}{c} \int_0^L \; \varrho \sin ct\varrho
+  \underbrace{\left[ \frac{e^{-ir\varrho \alpha}}{-ir\varrho}
+    \right]_{-1}^1 }_{\frac{2}{r\varrho}\sin r\varrho} \,d\varrho \\
+    &amp;=\frac{1}{(2\pi)^{3/2}} \lim_{L\to\infty} \frac{4\pi}{cr} \int_0^L  
+    \;\sin ct \varrho \cdot \sin r\varrho \,d\varrho
+\end{aligned}\]</span></p></li>
+<li><p>To treat the integration with respect to <span class="math inline">\(\xi\)</span>, <span class="math inline">\(\,\eta\)</span>, and <span class="math inline">\(\,\zeta\)</span>, <span class="math inline">\(~\)</span>we introduce spherical coordinates <span class="math inline">\((r,\phi,\theta)\)</span> in the <span class="math inline">\((\xi,\eta,\zeta)\)</span> space with their origin at <span class="math inline">\((x,y,z)\)</span>, <span class="math inline">\(\,\)</span>so that</p>
+<p><span class="math display">\[\begin{aligned}
+\xi-x &amp;=r\sin\phi \cos\theta \\
+\eta-y&amp;=r\sin\phi \sin\theta \\
+\zeta-z&amp;=r\cos\phi
+\end{aligned}\]</span></p>
+<p>Then the solution becomes</p>
+<p><span class="math display">\[\scriptsize\begin{aligned}
+{\normalsize\color{red}{u(x,y,z,t)}}
+&amp;= {\tiny \frac{4\pi}{(2\pi)^3 c} \lim_{L\to \infty} \int_0^\infty \int_0^{2\pi} \int_0^\pi  
+  \;\psi(x +r\sin\phi\cos\theta,y +r\sin\phi\sin\theta, z+r\cos\phi)\; \frac{1}{r}\;\left[ \int_0^L  
+  \sin ct \varrho \sin r\varrho\, d\varrho \right] r^2\sin\phi \, d\phi \, d\theta \,dr }\\
+  &amp;= {\tiny \frac{1}{2\pi^2 c} \lim_{L\to \infty} \int_0^L \sin ct\varrho \left[\int_0^\infty \sin r\varrho
+  \underbrace{\left( \int_0^{2\pi} \int_0^\pi  \psi(x +r\sin\phi\cos\theta,y +r\sin\phi\sin\theta, z+r\cos\phi)
+  \,r\,\sin\phi \,d\phi\,d\theta  \right) }_{g(r)} dr \right] d\varrho } \\
+  &amp;= {\tiny \frac{1}{2\pi^2 c} \frac{\pi}{2} \int_0^\infty \sin ct \varrho \;\underbrace{\left[\frac{2}{\pi} \int_0^\infty
+  \sin r\varrho \,g(r)\,dr \right]}_{G(\varrho)} d\varrho  
+  = \frac{1}{4\pi c} \underbrace{\int_0^\infty \sin ct \varrho \;G(\rho)\,d\varrho}_{g(ct)} } \\
+  &amp;= {\tiny \frac{t}{4\pi (ct)^2} \int_0^{2\pi}\int_0^\pi  \psi(x +ct\sin\phi\cos\theta,y +ct\sin\phi\sin\theta, z+ct\cos\phi)
+  \,(ct)^2\sin\phi \,d\phi \,d\theta  }
+  = {\normalsize\color{red}{t\bar{\psi}}}
+\end{aligned}\]</span></p>
+<p><font color="blue"> where <span class="math inline">\(\bar{\psi}\)</span> is the average of the initial disturbance <span class="math inline">\(\psi\)</span> over the surface of the sphere of radius <span class="math inline">\(\,ct\,\)</span> centered at <span class="math inline">\((x,y,z)\)</span></font></p></li>
+<li><p>The interpretation of this solution is that the initial disturbance <span class="math inline">\(\,\psi\,\)</span> radiates outward spherically (velocity <span class="math inline">\(c\)</span>) at each point, <span class="math inline">\(\,\)</span>so that after so many seconds, <span class="math inline">\(\,\)</span>the point <span class="math inline">\(\,(x,y,z)\)</span> will be influenced by those initial disturbances on a sphere (of radius <span class="math inline">\(\,ct\)</span>) around that point</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure19.jpg" title="solution as the average of initial disturbances on a sphere" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div></li>
+<li><p>Now, <span class="math inline">\(\,\)</span>to finish the problem, <span class="math inline">\(\,\)</span>what about the other half; <span class="math inline">\(\,\)</span>that is</p>
+<p><span class="math display">\[\color{red}{\begin{aligned}
+u_{tt}&amp;=c^2(u_{xx} +u_{yy} +u_{zz}),\quad (x,y,z) \in \mathbb{R}^3 \\
+u(&amp;x,y,z,0)=\phi(x,y,z) \\
+u_t(&amp;x,y,z,0)=0
+\end{aligned}} \tag{3Dp}\label{eq:3Dp}\]</span></p>
+<p>This is easy: <span class="math inline">\(\,\)</span>A famous theorem developed by <em>Stokes</em> says all we have to do to solve this problem is to change the ICs to <span class="math inline">\(\,v=0\)</span>, <span class="math inline">\(\,v_t=\phi\)</span>, <span class="math inline">\(\,\)</span>and then differentiate this solution with respect to time:</p>
+<p><span class="math display">\[ v=\int_0^t u\,dt,\;v_t=u, \;u_{tt}=\frac{\partial}{\partial t} v_{tt}, \;u_{xx}=\frac{\partial}{\partial t} v_{xx}\]</span></p></li>
+<li><p>In other words, <span class="math inline">\(\,\)</span>we solve</p>
+<p><span class="math display">\[\begin{aligned}
+v_{tt}&amp;=c^2(v_{xx} +v_{yy} +v_{zz}),\quad (x,y,z) \in \mathbb{R}^3 \\
+v(&amp;x,y,z,0)=0 \\
+v_t(&amp;x,y,z,0)=\phi(x,y,z)
+\end{aligned}\]</span></p>
+<p>to get <span class="math inline">\(v=t\bar{\phi}\,\)</span> and then differentiate with respect to time. <span class="math inline">\(\,\)</span>This gives us the solution</p>
+<p><span class="math display">\[\color{red}{u=\frac{\partial}{\partial t} \left[ t\bar{\phi} \right]}\]</span></p>
+<p>to problem <span class="math inline">\(\eqref{eq:3Dp}\)</span></p></li>
+<li><p>We now have the solution to our general three-dimensional problem <span class="math inline">\(\eqref{eq:3D}\)</span>. <span class="math inline">\(\,\)</span>It’s just</p>
+<p><span class="math display">\[ \color{red}{u(x,y,z,t)=\frac{\partial}{\partial t} \left[ t\bar{\phi} \right]+t\bar{\psi}}\]</span></p>
+<p>where <span class="math inline">\(\,\bar{\phi}\,\)</span> and <span class="math inline">\(\,\bar{\psi}\,\)</span> are the averages of the functions <span class="math inline">\(\,\phi\,\)</span> and <span class="math inline">\(\,\psi\,\)</span> over the sphere of radius <span class="math inline">\(\,ct\,\)</span> centered at <span class="math inline">\(\,(x,y,z)\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure20.jpg" title="diagram showing how initial disturbances affect a point" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div></li>
+<li><p>Suppose now the initial disturbances <span class="math inline">\(\,\phi\,\)</span> and <span class="math inline">\(\,\psi\,\)</span> are zero except for a small sphere. <span class="math inline">\(\,\)</span>As time increases, <span class="math inline">\(\,\)</span>the radius of the sphere around <span class="math inline">\((x,y,z)\)</span> increases with velocity <span class="math inline">\(\,c\)</span></p></li>
+<li><p>and so after <span class="math inline">\(\,t_2\)</span> seconds, <span class="math inline">\(\,\)</span>it will finally intersect the initial disturbance region, <span class="math inline">\(\,\)</span>and, <span class="math inline">\(\,\)</span>hence, <span class="math inline">\(\,u(x,y,z,t)\,\)</span> becomes nonzero</p></li>
+<li><p>For <span class="math inline">\(\,t_2 &lt; t &lt; t_3\)</span>, <span class="math inline">\(\,\)</span>the solution at <span class="math inline">\(\,(x,y,z)\,\)</span> will be nonzero, <span class="math inline">\(\,\)</span>since the sphere intersects the disturbance region</p></li>
+<li><p>but when <span class="math inline">\(\,t=t_3\)</span>, <span class="math inline">\(\,\)</span>the solution at <span class="math inline">\(\,(x,y,z)\,\)</span> abruptly becomes zero again. <span class="math inline">\(\,\)</span>In other words, <span class="math inline">\(\,\)</span>the wave disturbance originating from the initial-disturbance region has a sharp trailing edge. <span class="math inline">\(\,\)</span>This general principle is known as <strong>Huygen’s principle</strong> for the three dimensions, <span class="math inline">\(\,\)</span>and <span class="math inline">\(\,\)</span>it is the reason why sound waves in three dimensions stimulate our ears but die off instanteously when the wave has passed</p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span>Illustrate by picture and words the spherical wave solution of the three-dimensional problem</p>
+<p><span class="math display">\[\begin{aligned}
+u_{tt}&amp;=c^2(u_{xx} +u_{yy} +u_{zz}), \quad
+\begin{cases}
+-\infty &lt; x &lt;\infty \\
+-\infty &lt; y &lt;\infty \\
+-\infty &lt; z &lt;\infty
+\end{cases} \\
+u(&amp;x,y,z,0)=0 \\
+u_t(&amp;x,y,z,0)=
+\begin{cases}
+\;1 &amp; x^2+y^2+z^2 \leq 1 \\
+\;0 &amp; \text{elsewhere}
+\end{cases}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Two-Dimensional Wave Equation</strong></p>
+<p>To solve the two-dimensional problem</p>
+<p><span class="math display">\[\begin{aligned}
+  u_{tt}&amp;=c^2(u_{xx} +u_{yy}),\quad
+  \begin{cases}
+  -\infty &lt; x &lt;\infty \\
+  -\infty &lt; y &lt;\infty
+  \end{cases} \\
+  u(&amp;x,y,0)=\phi(x,y) \\
+  u_t(&amp;x,y,0)=\psi(x,y)
+\end{aligned} \tag{2D}\label{eq:2D}\]</span></p>
+<p>we merely let the initial disturbances <span class="math inline">\(\,\phi\,\)</span> and <span class="math inline">\(\,\psi\,\)</span> in the three-dimensional problem depend on only the two variables <span class="math inline">\(\,x\,\)</span> and <span class="math inline">\(\,y\)</span>. <span class="math inline">\(\,\)</span>Doing this, the three-dimensional formula</p>
+<p><span class="math display">\[ u = \frac{\partial}{\partial t} [t\bar{\phi}] +t\bar{\psi} \]</span></p>
+<p>for <span class="math inline">\(\,u\,\)</span> will describe <font color="red">cylindrical waves</font> and, <span class="math inline">\(\,\)</span>hence, <span class="math inline">\(\,\)</span>give us the solution for the two-dimensional problem</p>
+<ul>
+<li><p>This technique is called the method of descent. <span class="math inline">\(\,\)</span>Carrying out the computations, <span class="math inline">\(\,\)</span>we get</p>
+<p><span class="math display">\[\scriptstyle\begin{aligned}
+\bar{\psi}(x,y,t) &amp;= \frac{1}{4\pi (ct)^2} \color{red}{\int_0^{2\pi}  \int_{0}^\pi}
+  \psi(x +ct\sin\phi\cos\theta,y+ct\sin\phi\sin\theta)\, \color{red}{(ct)^2 \sin\phi \, d\phi \, d\theta} \;\;\leftarrow \text{spherical surface}\\
+&amp;\Downarrow \;\; {\tiny r = ct \,\sin \phi, \; \,dr =ct \, \cos\phi \,d\phi\;\;\rightarrow\;\; \int_0^{\pi} ct \sin\phi\,d\phi = 2\int_0^{ct}\frac{r}{\sqrt{(ct)^2 -r^2}} dr } \\
+&amp;= \frac{1}{2\pi ct} \, \color{red}{\int_0^{2\pi} \int_0^{ct}} \psi(x +r\cos\theta, y+r\sin\theta)\,\frac{1}{\sqrt{(ct)^2 -r^2}}\,\color{red}{r\,dr\,d\theta} \;\;\leftarrow \text{circle interior}\\
+\bar{\phi}(x,y,t) &amp;= \frac{1}{2\pi ct} \, \color{red}{\int_0^{2\pi} \int_0^{ct}}
+\phi(x +r\cos\theta, y+r\sin\theta)\,\frac{1}{\sqrt{(ct)^2 -r^2}}\,\color{red}{r\,dr\,d\theta}
+\end{aligned}\]</span></p>
+<p>Note that in this solution, <span class="math inline">\(\,\)</span>the two integrals of the initial conditions <span class="math inline">\(\,\phi\,\)</span> and <span class="math inline">\(\,\psi\,\)</span> are integrated over the interior of a circle with center <span class="math inline">\(\,(x,y)\,\)</span> and radius <span class="math inline">\(\,ct\)</span>. <span class="math inline">\(\,\)</span>We see that initial disturbances give rise to sharp leading waves, <span class="math inline">\(\,\)</span>but not to sharp trailing waves. <span class="math inline">\(\,\)</span>Thus, Huygen’s principle doesn’t hold in two dimensions</p></li>
+</ul></li>
+<li><p><strong>One-Dimensional Wave Equation</strong></p>
+<p>Finally, <span class="math inline">\(\,\)</span>if we assume the initial conditions <span class="math inline">\(\,\phi\,\)</span> and <span class="math inline">\(\,\psi\,\)</span> depend only on one variable, <span class="math inline">\(\,\)</span>this gives rise to plane waves and, <span class="math inline">\(\,\)</span>hence, <span class="math inline">\(\,\)</span>the preceding equation descends one more dimension</p>
+<p><span class="math display">\[\begin{aligned}
+\bar{\psi}(x,t) &amp;= {\tiny \frac{1}{2\pi ct} \, \int_0^{2\pi} \int_0^{ct}
+  \frac{\psi(x +r\cos\theta)}{\sqrt{(ct)^2 -r^2}}\,r\,dr\,d\theta }\\
+&amp;\Downarrow {\tiny r^2=x^2 + y^2, \; (ct)^2 -x^2 = \alpha^2 }\\
+&amp;={\tiny \frac{1}{2\pi ct}\, \int_{x -ct}^{x +ct} \underbrace{\int_{-\alpha}^{\alpha}
+  \frac{1}{\sqrt{\alpha^2 -y^2}}\,dy}_{ \pi} \;\psi(x) \,dx }
+= \frac{1}{2ct} \int_{x-ct}^{x+ct} \psi(x)\,dx \\
+\bar{\phi}(x,t) &amp;= \frac{1}{2ct} \int_{x-ct}^{x+ct} \phi(x)\,dx
+\end{aligned}\]</span></p>
+<p>to the well-known D’Alembert solution. <span class="math inline">\(\,\)</span>Note in the D’Alembert solution, <span class="math inline">\(\,\)</span>the initial position <span class="math inline">\(\,\phi\,\)</span> gives rise to sharp trailing edges, <span class="math inline">\(\,\)</span>but the initial velocity <span class="math inline">\(\,\psi\,\)</span> does not. <span class="math inline">\(\,\)</span>In other words, <span class="math inline">\(\,\)</span>one dimension is a little unusual in that the initial position satisfies Huygen’s principle, <span class="math inline">\(\,\)</span>but the initial velocity does not</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span>What is the two dimensional solution of the analogous cylindrical-wave problem</p>
+<p><span class="math display">\[\begin{aligned}
+u_{tt}&amp;=c^2(u_{xx} +u_{yy}),\quad
+\begin{cases}
+-\infty &lt; x &lt;\infty \\
+-\infty &lt; y &lt;\infty
+\end{cases} \\
+u(&amp;x,y,0)=0 \\
+u_t(&amp;x,y,0)=
+\begin{cases}
+\;1 &amp; x^2+y^2 \leq 1 \\
+\;0 &amp; \text{elsewhere}
+\end{cases}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-x2-22" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="sec-x2-22"><span class="header-section-number">12.5</span> Boundary Conditions Associated with the Wave Equation</h2>
+<p>The purpose of this section is to discuss some of the various types of BCs that are associated with physical problems of wave motions. <span class="math inline">\(\,\)</span>Here, <span class="math inline">\(\,\)</span>we will stick to one-dimensional problems where the BCs (linear ones) are generally groupded into one of three kinds</p>
+<ul>
+<li><p><strong>First Kind: <span class="math inline">\(\,\)</span>Controlled End Points</strong></p>
+<p>We are now involved with problems like</p>
+<p><span class="math display">\[
+\begin{aligned}
+  u_{tt} &amp;=c^2 u_{xx} &amp;&amp; \color{red}{0 &lt; x &lt; 1},\;\; 0 &lt; t &lt; \infty \\ \\
+  \begin{array} {r}
+    u(0, t) \\ u(1,t)
+  \end{array}
+  &amp;
+  \begin{array} {r}
+    =g_1(t) \\ =g_2(t)
+  \end{array}
+  &amp;&amp; 0 &lt; t &lt; \infty \\ \\
+  \begin{array} {r}
+    u(x, 0) \\ u_t(x, 0)
+  \end{array}
+  &amp;
+  \begin{array} {r}
+    =f(x) \\ =g(x)
+  \end{array}
+  &amp;&amp; 0 \leq x \leq L
+\end{aligned}\]</span></p>
+<p>where we control the end points so that they move in a given manner</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure10.jpg" title="1st kind BC" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p>A typical problem of this kind would involve suddenly twisting (at <span class="math inline">\(t=1\)</span>) the right end of a fastened rod so many degrees and observing the resulting tortional vibration</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure11.jpg" title="tortional vibration" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div></li>
+<li><p><strong>Second Kind: <span class="math inline">\(\,\)</span>Force Given on the Boundaries</strong></p>
+<p>In as much as the vertical forces on the string at the left and right ends are given by <span class="math inline">\(\,Tu_x(0,t)\,\)</span> and <span class="math inline">\(\,Tu_x(1,t)\)</span>, <span class="math inline">\(\,\)</span>respectively, <span class="math inline">\(\,\)</span>by allowing the ends of the string to slide vertically on frictionless sleeves, <span class="math inline">\(\,\)</span>the boundary conditions become</p>
+<p><span class="math display">\[\begin{aligned}
+u_x(0,t)&amp;=0 \\
+u_x(1,t)&amp;=0
+\end{aligned}, \quad 0 &lt; t &lt; \infty\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure12.jpg" title="free BC" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p>If a vertical force <span class="math inline">\(f(t)\)</span> is applied at the end <span class="math inline">\(x=1\)</span>, <span class="math inline">\(\,\)</span>then the BC would be</p>
+<p><span class="math display">\[u_x(1,t)=\frac{1}{T}\,f(t)\]</span></p></li>
+<li><p><strong>Third Kind: <span class="math inline">\(\,\)</span>Elastic Attachment on the Boundaries</strong></p>
+<p>Consider finally a violin string whose ends are attached to an elastic arrangement like the one shown in figure</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure13.jpg" title="elastic attachment" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+<p>Here, <span class="math inline">\(\,\)</span>the spring attachments at each end give rise to vertical forces proportional to the displacements <span class="math inline">\(\,-u(0,t)\,\)</span> and <span class="math inline">\(\,-u(1,t)\)</span></p>
+<p>Setting the vertical tensions of the spring at the two ends <span class="math inline">\(\,-Tu_x(0,t)\,\)</span> and <span class="math inline">\(\,Tu_x(1,t)\,\)</span> equal to these displacements (multiplied by the spring constant <span class="math inline">\(h\)</span>) gives us our desired BCs</p>
+<p><span class="math display">\[\begin{aligned}
+-T u_x(0,t) &amp;= -hu(0,t)\\
+Tu_x(1,t) &amp;= -hu(1,t)
+\end{aligned}\]</span></p>
+<p>We can rewrite these two homogeneous BCs as</p>
+<p><span class="math display">\[\begin{aligned}
+u_x(0,t) -\frac{h}{T} u(0,t) &amp;=0\\
+u_x(1,t) +\frac{h}{T} u(1,t) &amp;=0
+\end{aligned}\]</span></p>
+<p>If the two spring attachments are displaced according to the functions <span class="math inline">\(\,\theta_1(t)\,\)</span> and <span class="math inline">\(\,\theta_2(t)\)</span>, <span class="math inline">\(\,\)</span>we would have the nonhomogeneous BCs</p>
+<p><span class="math display">\[\begin{aligned}
+u_x(0,t) &amp;=\frac{h}{T} \left[u(0,t) -\theta_1(t) \right]\\
+u_x(1,t) &amp;=-\frac{h}{T} \left[u(1,t) -\theta_2(t) \right]
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde02_figure14.jpg" title="nonhomogeneous elastic attachment" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>NOTE</strong> <span class="math inline">\(\,\)</span>What is the general nature of BC</p>
+<p><span class="math display">\[ u_x(0,t) =\frac{h}{T} \left[u(0,t) -\theta_1(t) \right]\]</span></p>
+<p>when <span class="math inline">\(~h \to \infty\)</span> and <span class="math inline">\(~h \to 0\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-x2-23" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="sec-x2-23"><span class="header-section-number">12.6</span> The Finite Vibrating String (Standing Waves)</h2>
+<ul>
+<li><p>So far, <span class="math inline">\(\,\)</span>we have studied the wave equation <span class="math inline">\(\,u_{tt}=c^2 u_{xx}\,\)</span> <font color="red">for the unbounded domain</font> and have found D’Alembert solutions to be certain <font color="red"><em>traveling waves</em> (moving in opposite directions)</font></p></li>
+<li><p>When we study the same wave equation <font color="red">in a bounded region of space <span class="math inline">\(0 &lt; x &lt; L\)</span></font>, <span class="math inline">\(\,\)</span>we find that the waves no longer appear to be moving due to their repeated interaction with the boundaries and, in fact, often appear to be what are known as <font color="red"><em>standing waves</em></font></p></li>
+</ul>
 
 
 </section>
