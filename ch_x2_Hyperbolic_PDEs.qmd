@@ -1168,3 +1168,430 @@ $~$
 **STEP 1** $\,$ Determine the transform
 
 Since the $x$-variable ranges from $0$ to $1$, $\,$we use a finite transform. $\,$Also, $\,$you will see why, $\,$in this case, we use the sine transform. $\,$We could solve this problem with the Laplace transform by transforming $\,t$
+
+**STEP 2** $\,$ Carry out the transformation
+
+$$\begin{aligned}
+ \mathcal{F}_s [u_{tt}]&= c^2\mathcal{F}_s [u_{xx}] +\mathcal{F}_s [\sin\pi x] \\ 
+ &\Downarrow \\ 
+ \frac{d^2 U_n(t)}{dt^2}&= -(n\pi c)^2 U_n(t) +2n\pi c^2\left[ u(0,t) -(-1)^n u(1,t) \right] +S_n(t) \\
+ &\Downarrow\; u(0,t)=0, \;\;u(1,t)=0 \\
+ \frac{d^2 U_n(t)}{dt^2}&= -(n\pi c)^2 U_n(t) +S_n(t)
+\end{aligned}$$
+
+where
+
+$$ S_n(t) = 2 \int_0^1 \sin \pi x \, \sin n\pi x \,dx =
+\begin{cases}
+ 1 & n=1 \\ 
+ 0 & n=2,3,\cdots
+\end{cases}$$
+
+If we now transform the initial conditions, $\,$we will arrive at the initial conditions for our ODE
+
+$$\begin{aligned}
+ \mathcal{F}_s [u(x,0)]&= U_n(0) =
+ \begin{cases}
+ \displaystyle \frac{4}{n\pi} & n=1,3,\cdots \\ 
+ \;\,0 & n=2,4,\cdots 
+\end{cases}\\ 
+ \mathcal{F}_s [u_t(x,0)]&= \frac{dU_n(0)}{dt} =0
+\end{aligned}$$ 
+
+So, $\,$solving our new initial-value problem, $\,$we have
+
+$$\begin{aligned}
+ U_1(t)&= \left( \frac{4}{\pi} -\frac{1}{\pi^2} \right) \,\cos\pi c t +\frac{1}{\pi^2}\\ 
+ U_n(t) &= \begin{cases}
+ \quad\;\; 0 & n=2,4,\cdots \\ 
+ \displaystyle \frac{4}{n\pi}\cos n\pi c t & n=3,5,\cdots 
+\end{cases} 
+\end{aligned}$$
+
+Hence, $\,$the solution $\,u(x,t)$ of the problem is
+
+$$ u(x,t)=\left[ \left( \frac{4}{\pi} -\frac{1}{\pi^2} \right) \,\cos\pi c t +\frac{1}{\pi^2} \right]\,\sin \pi x 
++\frac{4}{\pi} \sum_{n=1}^\infty \frac{1}{2n +1} \cos(2n +1)\pi c t \, \sin(2n +1)\pi x$$
+
+## The Vibrating Drumhead (Wave Equation in Polar Coordinates) {#sec-x2-25}
+
+* The problem is to find $\,u(r,\theta,t)$ (which stands for the height of the drumhead from the plane) that satisfies
+
+  $$\color{red}{\begin{aligned}
+  u_{tt} &= c^2 \left( u_{rr} +\frac{1}{r} u_r +\frac{1}{r^2} u_{\theta\theta} \right) && \\ 
+  u(1, \theta, t) &= 0 && 0 < t < \infty \\ 
+  u(r, \theta, 0) &= f(r,\theta) && 0 < r < 1\\ 
+  u_t(r, \theta, 0) &= g(r,\theta) &&
+  \end{aligned}}$$
+
+  We will look for solutions of the form
+
+  $$\color{blue}{u(r,\theta,t)=U(r,\theta)T(t)}$$
+
+  This gives the shape $\,U(r,\theta)$ of the vibrations times the oscillatory factor $\,T(t)$
+
+* Carrying out this substitution, $\,$we arrive at the two equations
+
+  $$\scriptsize\begin{aligned}
+  { u_{tt}} &{ = c^2 \left( u_{rr} +\frac{1}{r} u_r +\frac{1}{r^2} u_{\theta\theta} \right)}\\ 
+  &\Downarrow \\ 
+  { UT''} &= { c^2 \left( U_{rr} +\frac{1}{r}U_r +\frac{1}{r^2}U_{\theta\theta} \right) T}  \\
+  &\Downarrow \\ 
+  { \frac{\;\;T''}{c^2T}} &={\frac{\displaystyle U_{rr} +\frac{1}{r}U_r +\frac{1}{r^2}U_{\theta\theta}}{U} =-\lambda < 0} \\
+  &\Downarrow \\
+  \normalsize\color{red}{T''} &\normalsize\color{red}{+ c^2 \lambda T =0} && \text{Simple Harmonic Motion}\\
+  \normalsize\color{red}{U_{rr}} &\normalsize\color{red}{+\frac{1}{r}U_r +\frac{1}{r^2}U_{\theta\theta} +\lambda U=0} && \text{Helmholtz Equation}
+  \end{aligned}$$
+
+* For the next step, $\,$we want to solve the Helmholtz equation, $\,$but, $\,$first, $\,$it needs a boundary condition. $\,$To find it, $\,$we substitute $\,u(r,\theta,t)=U(r,\theta)T(t)$ $\,$into the boundary condition of the drumhead to get
+
+  $$\color{red}{u(1,\theta,t)=U(1,\theta)T(t)=0 \;\;\Rightarrow\;\;U(1,\theta)=0}$$
+
+$~$
+
+* **Solution of the Helmholtz Eigenvalue Problem**
+
+  * To solve
+
+    $$\color{blue}{\begin{aligned}
+    &U_{rr} +\frac{1}{r}U_r +\frac{1}{r^2}U_{\theta\theta} +\lambda U=0\\ 
+    &U(1,\theta)=0 
+    \end{aligned}}$$
+
+    we let
+
+    $$\color{red}{U(r,\theta)=R(r)\Theta(\theta)}$$
+
+    and plug it into the Helmholtz BVP
+
+    $$\begin{aligned}
+    U_{rr} +\frac{1}{r}U_r &+\frac{1}{r^2}U_{\theta\theta} +\lambda U=0\\ 
+    &\Downarrow U(r,\theta)=R(r)\Theta(\theta)\\
+    R''\Theta +\frac{1}{r}R' \Theta &+\frac{1}{r^2}R \Theta'' +\lambda R\Theta = 0 \\
+    &\Downarrow \\
+    -\frac{r^2 R'' +rR' +\lambda r^2R}{R} &= \frac{\;\Theta''}{\Theta} = -\mu <0 \\
+    &\Downarrow \\
+    \color{red}{\Theta'' +\mu \Theta} &\color{red}{=0} \\
+    \color{red}{r^2 R'' +rR'} &\color{red}{+(\lambda r^2 -\mu) R =0}
+    \end{aligned}$$
+
+    We get a new separation constant $\,\mu$
+
+  * It's obvious that <font color="red">the drumhead is periodic with period $\,2\pi\,$ in $\,\theta.$</font> $\,$Thus
+
+    $$\scriptsize\begin{aligned}
+    \Theta'' &+\mu\Theta = 0 \\
+    &\Downarrow \\
+    \Theta(\theta) &= a \cos\sqrt{\mu}\theta +b\sin\sqrt{\mu}\theta \\ 
+    &\Downarrow \;{\scriptstyle \Theta(0)=\Theta(2\pi),\;\;\Theta'(0)=\Theta'(2\pi)} \\ 
+    \begin{bmatrix}
+      1 -\cos 2\pi\sqrt{\mu} & -\sin 2\pi\sqrt{\mu} \\ 
+      \sqrt{\mu} \sin 2\pi\sqrt{\mu} & \sqrt{\mu}\left(1 -\cos 2\pi\sqrt{\mu}\right)
+    \end{bmatrix} &\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \\ \;\;&\overset{\text{non-trivial solution}}{\longrightarrow} \;\; 
+      {\tiny \sqrt{\mu}(1 -\cos 2\pi\sqrt{\mu})^2 +\sqrt{\mu} \sin^2 2\pi\sqrt{\mu}=0 \;\rightarrow\;1=\cos 2\pi\sqrt{\mu} } \\
+    &\Downarrow \\
+    \color{red}{\mu}\, &\color{red}{= n^2, \;\;n=0,1,2,\cdots} \\
+    &\Downarrow \\ 
+    \color{red}{\Theta_n(\theta)}\, &\color{red}{= a_n \cos n\theta +b_n\sin n\theta} \\
+    &=\sqrt{a_n^2 +b_n^2} \left(\cos n\theta \cos \phi +\sin n\theta \sin \phi \right),\;\;\tan \phi=\frac{b_n}{a_n} \\
+    &\color{red}{=c_n \cos (n\theta -\phi)}
+    \end{aligned}$$
+
+  * So, in order to solve the Helmholtz equation, $~$we must solve the following differential equation
+
+    $$\color{red}{\begin{aligned}
+      r^2 R_n''\, +\,&rR_n' +(\lambda r^2 -n^2) R_n =0, \;\;\;0<r<1 \\ 
+      \left |  R_n(0)\right| &< \infty \\
+      R_n(1)\phantom{|} &= 0 
+    \end{aligned}}$$
+
+    It is the parameterized Bessel's equation and has two linearly independent solutions $\color{red}{J_n(\sqrt{\lambda}r)}$ and $\color{red}{Y_n(\sqrt{\lambda}r)}$
+
+$~$
+
+```{python}
+#| label: fig-Bessel-functions
+#| fig-cap: "Bessel's functions"
+#| fig-align: center
+from scipy.special import jv, yv, jn_zeros
+
+def example_plot_jnyn():
+
+    fig = plt.figure(figsize=(6, 8))
+    ax1 = fig.add_subplot(211)
+    ax2 = fig.add_subplot(212)
+
+    ax1.axis((0, 10, -0.6, 1))    
+    ax1.set_ylabel('$J_n$')
+
+    ax2.axis((0, 10, -3, 1))    
+    ax2.set_xlabel('$\sqrt{\lambda}$')
+    ax2.set_ylabel('$Y_n$')
+
+    ax1.plot([0, 10], [0, 0], 'k:')
+    ax2.plot([0, 10], [0, 0], 'k:')
+
+    x = np.linspace(0, 10, 200)
+    for n in range(4):
+        y1 = jv(n, x)
+        y2 = yv(n, x)
+        ax1.plot(x, y1, label=r'$J_%d(\sqrt{\lambda})$' % n)
+        ax2.plot(x, y2, label=r'$Y_%d(\sqrt{\lambda})$' % n)
+    
+    ax1.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
+    ax2.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
+
+    plt.show()
+
+example_plot_jnyn()    
+```
+
+$~$
+
+* * Since the functions $Y_n(\sqrt{\lambda} r)$ are unbounded at $r=0$, $\,$we choose as our solution $J_n(\sqrt{\lambda} r)$. $\,$The last step in finding $R_n(r)$ is to use the boundary condition $R_n(1)=0~$ to find $\lambda$. $\,$We must pick $\lambda$ to be one of <font color="red">the roots of</font> $\,\color{red}{J_n(\sqrt{\lambda})=0}$; $\,$that is
+
+    $$\color{red}{\sqrt{\lambda_{nm}}=\alpha_{nm}}$$
+
+    where $\,\alpha_{nm}$ is the $m$-th root of $\,J_n(r)=0$, $~m=1,2,3,\cdots$.
+$\,$With these roots, $\,$we have just solved the Helmholtz eigenvalue problem
+
+  * <font color="red">The eigenvalues $\,\lambda_{nm}$ are $\,\alpha_{nm}^2$; $\,$and the corresponding eigenfunctions are</font>
+
+    $$\color{red}{U_{nm}(r,\theta) =c_n J_n(\alpha_{nm} r) \cos (n\theta -\phi), \;\;\;n=0,1,2,\cdots, \;\;m=1,2,3,\cdots}$$
+
+    The general shape of $\,U_{nm}(r,\theta)\,$ is the same for different values of the constants $\,c_n\,$ and $\,\phi.$ $\,$We plot these functions for the different values of $\,n$ and $\,m$ with $\,c_n=1\,$ and $\,\phi=0$
+
+$~$    
+
+```{python}
+#| label: fig-Helmholtz
+#| fig-cap: "Helmholtz Eigenfunctions: $\\,U_{nm}(r, \\theta)$"
+#| fig-align: center
+ncols = 4
+nrows = 4
+
+def example_plot_he():
+    
+    fig, axs = plt.subplots(ncols=ncols, 
+       nrows=ncols, figsize=(7, 7), 
+       subplot_kw=dict(projection='polar'))
+
+    for ax in axs.flat:
+        ax.set(xticks=[], yticks=[])
+
+    azimuths = np.radians(np.linspace(0, 360, 100))
+    zeniths = np.linspace(0, 1, 100)
+
+    theta, r = np.meshgrid(azimuths, zeniths)
+
+    for n in range(ncols):
+        alpha_nm = jn_zeros(n, nrows)
+        for m in range(nrows):
+            U_nm = jv(n, alpha_nm[m] *r) *np.cos(n *theta)
+            axs[n, m].contourf(theta, r, U_nm, levels=[0, 10])
+            if m == 0:
+                axs[n, 0].set_ylabel(f'n = {n}') 
+            if n == 0:
+                axs[nrows -1, m].set_xlabel(f'm = {m +1}')
+     
+    plt.show()
+
+example_plot_he()
+```
+
+$~$
+
+* Now that we have solved the Helmholtz equation for the basic shapes $\,U_{nm}(r,\theta)$, $\,$the final step is to multiply by the time factor
+
+  $$\color{red}{T_{nm}(t)=A_{nm}\cos c\alpha_{nm}t +B_{nm}\sin c\alpha_{nm} t}$$
+
+  and add the products in such a way that the initial conditions are satisfied. $\,$That is, $\,$the solution to our problem will be
+
+  $$ \color{red}{u(r,\theta,t) = \sum_{n=0}^\infty \sum_{m=1}^\infty J_n(\alpha_{nm}r) \cos n\theta \left[ A_{nm}\cos c\alpha_{nm}t +B_{nm}\sin c\alpha_{nm}t \right]}$$
+
+  Rather than going through the complicated process of finding $\,A_{nm}\,$ and $\,B_{nm}\,$ for the general case, $\,$<font color="blue">we will find the solution for the situation where $\,u\,$ is independent of $\,\theta$ (very common, $\,n=0$). $\,$In other words, $\,$we will assume that the initial position of the drumhead depends only on $\,r$</font>
+
+* In particular, $\,$we consider
+
+  $$\begin{aligned}
+  u(r,\theta,0) &= f(\color{red}{r})\\ 
+  u_t(r,\theta,0) &= 0 
+  \end{aligned}$$
+
+  (It's just easy to do the case where $\,u_t \neq 0$). $\,$With these assumptions, $\,$the solution now becomes
+
+  $$ u(r,t) = \sum_{m=1}^\infty A_{\color{red}{0}m} J_{\color{red}{0}}(\alpha_{\color{red}{0}m}r) \cos c\alpha_{\color{red}{0}m}t$$
+
+  and our goal is to find $\,A_{0m}\,$ so that
+
+  $$ \color{blue}{f(r) = \sum_{m=1}^\infty \color{red}{A_{0m}} J_0(\alpha_{0m}r)} \tag{IC}\label{eq:IC}$$ 
+
+* To find the constants $\,A_{0m}$, $\,$we use the orthogonality condition of the Bessel functions:
+
+  $$\int_0^1 rJ_0(\alpha_{0i} r)\,J_0(\alpha_{0j} r) \,dr = 
+  \begin{cases}
+  0 & i \neq j \\ 
+  \frac{1}{2}J_1^2(\alpha_{0i}) & i=j 
+  \end{cases}$$
+
+  Hence, $\,$we multiply each side of equation \eqref{eq:IC} by $\,rJ_0(\alpha_{0j}r)\,$ and integrate from $\,0\,$ to $\,1\,$, $\,$giving 
+
+  $$ \int_0^1 rf(r)J_0(\alpha_{0j}r)\,dr = A_{0j} \int_0^1 r J_0^2(\alpha_{0j}r)\,dr $$
+
+  from which we can solve for $\,A_{0j}$
+
+  $$ \color{red}{A_{0j}=\frac{2}{J_1^2(\alpha_{0j})} \int_0^1 rf(r)J_0(\alpha_{0j}r)\,dr, \;\;j =1,2,3,\cdots} $$
+
+* **For example** $\,$the solution to the vibrating drumhead with initial conditions
+
+  $$\begin{aligned}
+  u(r,\theta,0) &= J_0(2.405 r) +0.5 J_0(8.654 r)\\ 
+  u_t(r,\theta,0) &= 0
+  \end{aligned}$$
+
+  would be
+
+  $$ u(r,t) = J_0(2.405 r) \cos(2.405 ct) +0.5 J_0(8.654 r)\cos(8.654 ct) $$
+
+* We start by drawing $\,J_0(\sqrt{\lambda})$. $\,$Now, $\,$in order to graph the functions
+
+  $$J_0(\alpha_{01}r), \,J_0(\alpha_{02}r), \,\cdots,\, J_0(\alpha_{0m}r)$$ 
+  
+  we rescale the $\,r$-axis so that $\,m$-th root passes through $\,r=1$
+
+$~$
+
+```{python}
+#| fig-align: center
+from mpl_toolkits.axisartist.axislines import SubplotZero
+
+def example_plot_dh():
+
+    fig = plt.figure(figsize=(7, 8))
+    ax1 = SubplotZero(fig, 211)
+    ax2 = SubplotZero(fig, 212)
+
+    fig.add_subplot(ax1)
+    ax1.axis["left", "right", "bottom", "top"].set_visible(False)
+    ax1.axis["xzero", "yzero"].set_visible(True)
+    ax1.axis["xzero", "yzero"].set_axisline_style("-|>")
+
+    ax1.set_xticks([2, 4, 6, 8, 10])
+    ax1.set_ylim(-0.5, 1.1)
+    ax1.set_yticks([-0.5, 0.5, 1.0])
+    ax1.text(11, -0.03, '$\sqrt{\lambda}$', fontsize=14)
+
+    fig.add_subplot(ax2)
+    ax2.axis["left", "right", "bottom", "top"].set_visible(False)
+    ax2.axis["xzero", "yzero"].set_visible(True)
+    ax2.axis["xzero", "yzero"].set_axisline_style("-|>")
+
+    ax2.set_xticks([0.2, 0.4, 0.6, 0.8, 1.0])
+    ax2.set_ylim(-0.5, 1.1)   
+    ax2.set_yticks([-0.5, 0.5, 1.0])
+    ax2.text(1.1, -0.03, '$r$', fontsize=12)
+
+    mm = 3
+    alpha_0m =jn_zeros(0, mm)
+
+    r1 = np.linspace(0, 10, 100)
+    y1 = jv(0, r1)
+    ax1.plot(r1, y1, label=r'$J_0(\sqrt{\lambda})$')
+    ax1.plot(alpha_0m, np.zeros(mm), 'ro')
+
+    for m in range(mm):
+        ax1.text(alpha_0m[m] -0.2, 0.1, rf'$\alpha_{m +1}$', fontsize=12)
+    ax1.legend()
+
+    r2 = np.linspace(0, 1, 100)
+    for m in range(mm):   
+        y2 = jv(0, alpha_0m[m]*r2)
+        ax2.plot(r2, y2, label=rf'$J_0(\alpha_{m +1}r)$')
+        ax2.plot(alpha_0m[:m +1] /alpha_0m[m], np.zeros(m +1), 'x')
+    ax2.legend()
+
+    plt.show()
+
+example_plot_dh()    
+```
+
+$~$
+
+* In general, $\,$what we would do is to expand the initial position $\,f(r)\,$ into the sum of these basic shapes $\,J_0(\alpha_{0m} r)$, $\,$observe the vibration for each one and then add them up
+
+```{python}
+fig = plt.figure(figsize=(7, 5))
+ax = plt.axes(xlim=(0, 1), ylim=(-1.5, 1.5))
+
+ax.set_xticks([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
+ax.set_yticks([-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5])
+ax.tick_params(pad=10)
+ax.set_xlabel('$r$')
+ax.set_ylabel('$u(r,t)$')
+
+plt.close()
+```
+
+```{python}
+#| fig-align: center
+line1, = ax.plot([], [], lw=1, ls=':')
+line2, = ax.plot([], [], lw=1, ls=':')
+line_sum, = ax.plot([], [], lw=4)
+
+time_text = ax.text(0.45, 1.3, '')
+def init():
+    time_text.set_text('t = 0.0')
+    line1.set_data([], [])
+    line2.set_data([], [])
+    line_sum.set_data([], [])
+    return (line1, line2, line_sum)
+
+c = 1 
+alpha_0m =jn_zeros(0, 3)
+
+def animate(t):
+    time_text.set_text(f't = {t:.2f}')        
+    r = np.linspace(0, 1, 100)   
+
+    u1 = jv(0, alpha_0m[0] *r) *np.cos(c *alpha_0m[0] *t)
+    u2 = 0.5 *jv(0, alpha_0m[2] *r) *np.cos(c *alpha_0m[2] *t)
+    u_sum = u1 +u2    
+    
+    line1.set_data(r, u1)
+    line2.set_data(r, u2)
+    line_sum.set_data(r, u_sum)
+    
+    return (line1, line2, line_sum)
+
+tt = np.linspace(0, 10, 100)
+anim = animation.FuncAnimation(fig, animate, 
+         init_func=init, frames=tt, interval=200, blit=True)
+
+HTML('<center>' + anim.to_html5_video() + '</center>')
+
+```
+
+$~$
+
+**Example** $\,$Solve the vibrating drum head problem
+
+$$
+\begin{aligned}
+  u_{tt} &=\nabla^2 u && 0 < r < 1, \;\; 0 < t < \infty \\ \\
+  u(1,\theta,t) &=0 && 0 < t < \infty \\ \\
+  \begin{array}{r}
+    u(r,\theta,0) \\ u_t(r,\theta,0)
+  \end{array}
+  &
+  \begin{array}{l}
+    = 1 -r^2 \\ =0 \phantom{-r^2}
+  \end{array} && 0 \leq r \leq 1
+\end{aligned}$$
+
+$~$
+
+## Dimensionless Problems {#sec-x2-26}
+
+* The basic idea behind dimensionless analysis is that by introducing new (dimensionless) variables in a problem, $\,$the problem becomes **purely mathematical** and contains none of the physical constants that originally characterized it
+
+* In this way, $\,$many different equations in physics, biology, engineering, $\,$and chemistry that contain special nuances via physical parameters are all transformed into the same simple form
