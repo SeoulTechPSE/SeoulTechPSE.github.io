@@ -1,0 +1,313 @@
+# Sympy: Symbolic Computing {#sec-sympy}
+
+## Importing sympy
+
+```{python}
+import sympy
+from sympy import I, pi, oo
+sympy.init_printing()
+```
+
+## Symbols
+
+```{python}
+x = sympy.Symbol('x')
+print(x.is_real)
+```
+
+```{python}
+y = sympy.Symbol('y', real=True)
+y.is_real
+```
+
+```{python}
+z = sympy.Symbol('z', complex=True)
+z.is_complex
+```
+
+```{python}
+print(z.is_real)
+```
+
+---
+
+```{python}
+x = sympy.Symbol('x')
+y = sympy.Symbol('y', positive=True)
+z = sympy.Symbol('z', negative=True)
+```
+
+```{python}
+sympy.sqrt(x**2)
+```
+
+```{python}
+sympy.sqrt(y**2)
+```
+
+```{python}
+sympy.sqrt(z**2)
+```
+
+---
+
+```{python}
+n1 = sympy.Symbol('n')
+n2 = sympy.Symbol('n', integer=True)
+n3 = sympy.Symbol('n', odd=True)
+n4 = sympy.Symbol('n', even=True)
+```
+
+```{python}
+sympy.cos(n1*pi)
+```
+
+```{python}
+sympy.cos(n2*pi)
+```
+
+```{python}
+sympy.cos(n3*pi)
+```
+
+```{python}
+sympy.cos(n4*pi)
+```
+
+---
+
+```{python}
+a, b, c = sympy.symbols('a, b, c', negative=True)
+```
+
+```{python}
+d, e, f = sympy.symbols('d, e, f', positive=True)
+```
+
+## Numbers
+
+* We cannot directly use the built-in Python objects for integers, `int`, and floating-point numbers, `float`, and so on. Instead, `sympy` provides the classes `sympy.Integer` and `sympy.Float` for representing integers and floating-point numbers within the `sympy` framework
+
+* This distinction is important to be aware of when working with `sympy`, but fortunately we rarely
+need to concern ourselves with creating objects of type `sympy.Integer` and `sympy.Float` to representing
+specific numbers, $~$since `sympy` automatically promotes Python numbers to instances of these classes when they occur in `sympy` expressions
+
+```{python}
+i = sympy.Integer(18)
+type(i)
+```
+
+```{python}
+i.is_Integer, i.is_real, i.is_odd, i.is_even
+```
+
+```{python}
+f = sympy.Float(2.3)
+type(f)
+```
+
+```{python}
+f.is_Float, f.is_real, f.is_complex
+```
+
+---
+
+```{python}
+i, f = sympy.sympify(19), sympy.sympify(2.3)
+type(i), type(f)
+```
+
+### Integer 
+
+* While the `Symbol` with `integer=True` represents some integer, $\,$the `Integer` instance represents a
+specific integer
+
+* For both cases, $\,$the `is_integer` attribute is `True`, $\,$but there is also an attribute `is_Integer`
+(note the capital `I`), $\,$which is only `True` for `Integer` instances
+
+```{python}
+n = sympy.Symbol('n', integer=True)
+n.is_integer, n.is_Integer, n.is_positive, n.is_Symbol
+```
+
+```{python}
+i = sympy.Integer(19)
+i.is_integer, i.is_Integer, i.is_positive, i.is_Symbol
+```
+
+```{python}
+sympy.Integer('19' *20)
+```
+
+```{python}
+sympy.Integer('12_345_678'), sympy.Integer(12_345_678)
+```
+
+```{python}
+# great common division, leat common multiple
+sympy.igcd(36, 15), sympy.ilcm(7, 34)
+```
+
+* Integers in `sympy` are <font color='red'>**arbitrary precision**</font>, $\,$meaning that they have <font color='blue'>no fixed lower and upper bounds</font>,
+$\,$which is the case when representing integers with a specific bit-size, as, for example, in `numpy`
+
+```{python}
+i = sympy.Integer(19)
+i**100
+```
+
+```{python}
+sympy.factorial(100)
+```
+
+### Float
+
+* Like `Integer`, $\,$`Float` is <font color='red'>**arbitrary precision**</font>, $\,$in contrast to Python’s built-in `float` type and the `float` types in `numpy`. $\,$This means that any `Float` can represent a `float` with arbitrary number of decimals
+
+* When a `Float` instance is created using its constructor, $\,$there are two arguments: the first argument is **a Python `float` or a string representing a floating-point number**, and the second (optional) argument is the **precision** (number of significant decimal digits) of the `Float` object
+
+```{python}
+# create a string representation with 25 decimals
+f'{0.3:.25f}'  
+```
+
+```{python}
+sympy.Float(0.3, 25) 
+```
+
+```{python}
+sympy.Float('0.3', 25)
+```
+
+```{python}
+sympy.Float('123 456 789.123_456', '')
+```
+
+### Rational
+
+```{python}
+r0 = sympy.Rational(11, 13)
+r0
+```
+
+```{python}
+r0.p, r0.q
+```
+
+```{python}
+r1 = sympy.Rational(2, 3)
+r2 = sympy.Rational(4, 5)
+```
+
+```{python}
+r1 * r2
+```
+
+```{python}
+r1 / r2
+```
+
+```{python}
+sympy.Rational(0.2), sympy.Rational('0.2')
+```
+
+### Constants and special symbols
+
+$\displaystyle \gamma = \lim_{n \to \infty} \left( \sum_{k=1}^n \frac{1}{k} -\ln n\right)$
+
+```{python}
+sympy.pi, sympy.E, sympy.EulerGamma, sympy.I, sympy.oo
+```
+
+### Functions
+
+```{python}
+x, y, z = sympy.symbols('x, y, z')
+```
+
+```{python}
+f = sympy.Function('f')
+type(f)
+```
+
+```{python}
+f(x)
+```
+
+```{python}
+g = sympy.Function('g')(x, y, z)
+g
+```
+
+```{python}
+g.free_symbols
+```
+
+---
+
+```{python}
+sympy.sin
+```
+
+```{python}
+sympy.sin(x)
+```
+
+```{python}
+sympy.sin(pi *1.5)
+```
+
+```{python}
+n = sympy.Symbol('n', integer=True)
+sympy.sin(pi * n)
+```
+
+```{python}
+h = sympy.Lambda(x, x**2)
+h
+```
+
+```{python}
+h(5)
+```
+
+```{python}
+h(1 + x)
+```
+
+## Expressions
+
+```{python}
+x = sympy.Symbol('x')
+
+expr = 1 +2*x**2 +3*x**3
+expr
+```
+
+```{python}
+expr.args
+```
+
+```{python}
+expr.args[2]
+```
+
+```{python}
+expr.args[2].args
+```
+
+```{python}
+expr.args[2].args[1]
+```
+
+```{python}
+expr.args[2].args[1].args
+```
+
+```{python}
+expr.args[2].args[1].args[1]
+```
+
+```{python}
+expr.args[2].args[1].args[1].args
+```
