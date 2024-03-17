@@ -255,6 +255,9 @@ window.Quarto = {
   <li><a href="#sec-x3-33" id="toc-sec-x3-33" class="nav-link" data-scroll-target="#sec-x3-33"><span class="header-section-number">13.3</span> Interior Dirichlet Problem for a Circle</a></li>
   <li><a href="#sec-x3-34" id="toc-sec-x3-34" class="nav-link" data-scroll-target="#sec-x3-34"><span class="header-section-number">13.4</span> The Dirichlet Problem in an Annulus and in an Exterior</a></li>
   <li><a href="#sec-x3-35" id="toc-sec-x3-35" class="nav-link" data-scroll-target="#sec-x3-35"><span class="header-section-number">13.5</span> Laplace’s Equation in Spherical Coordinates (Spherical Harmonics)</a></li>
+  <li><a href="#sec-x3-36" id="toc-sec-x3-36" class="nav-link" data-scroll-target="#sec-x3-36"><span class="header-section-number">13.6</span> A Nonhomogeneous Dirichlet Problem (Green’s Function)</a></li>
+  <li><a href="#sec-x3-37" id="toc-sec-x3-37" class="nav-link" data-scroll-target="#sec-x3-37"><span class="header-section-number">13.7</span> Hydrogen Atom</a></li>
+  <li><a href="#worked-exercises" id="toc-worked-exercises" class="nav-link" data-scroll-target="#worked-exercises">Worked Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -731,7 +734,7 @@ R(r) = cr^{\sqrt{\lambda}} +dr^{-\sqrt{\lambda}}
 <p><span class="math display">\[ \left( r^2 u_r \right)_r +\frac{1}{\sin\phi} \left( \sin\phi\, u_\phi \right)_\phi +\frac{1}{\sin^2\phi} u_{\theta\theta} = 0 \]</span></p>
 <p><font color="blue"> <span class="math display">\[ u(1,\phi,\theta)=g(\phi,\theta), \;0\leq \theta &lt;2\pi,\;0 \leq \phi &lt; \pi \]</span> </font></p>
 <p>Note that this spherical Laplacian is written in a different form than those we’ve seen before. <span class="math inline">\(\,\)</span>This form is slightly more compact and easier to use</p></li>
-<li><p>Quite often <span class="math inline">\(\,g(\phi,\theta)\,\)</span> has a specific form, <span class="math inline">\(\,\)</span>so that it isn’t necessary to solve the problem in its most general form. <span class="math inline">\(\,\)</span>Two important special cases are considered in this Lesson. <span class="math inline">\(\,\)</span><font color="blue">One is the case when <span class="math inline">\(\,g(\phi,\theta)\,\)</span> is constant, <span class="math inline">\(\,\)</span>and the other is when it depends only on the angle <span class="math inline">\(\,\phi\,\)</span> (the angle from the north pole)</font></p>
+<li><p>Quite often <span class="math inline">\(\,g(\phi,\theta)\,\)</span> has a specific form, <span class="math inline">\(\,\)</span>so that it isn’t necessary to solve the problem in its most general form. <span class="math inline">\(\,\)</span>Two important special cases are considered in this section. <span class="math inline">\(\,\)</span><font color="blue">One is the case when <span class="math inline">\(\,g(\phi,\theta)\,\)</span> is constant, <span class="math inline">\(\,\)</span>and the other is when it depends only on the angle <span class="math inline">\(\,\phi\,\)</span> (the angle from the north pole)</font></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/pde03_figure10.jpg" title="spherical coordinate" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
@@ -925,11 +928,531 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 \tag{LG}\label{eq:LG}\]</span></p>
 <p>we obtain a function which is bounded for <span class="math inline">\(\,-1 \leq x \leq 1\,\)</span> if and only if</p>
 <p><span class="math display">\[\lambda=n(n+1), \;\; n=0,1,2,\cdots\]</span></p>
-<p>These, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>are the eigenvalues. <span class="math inline">\(\,\)</span>Setting <span class="math inline">\(P_n(1)=1\)</span>, <span class="math inline">\(\,\)</span>we obtain the eigenfunction <span class="math inline">\(\,P_n(x)\,\)</span> corresponding to the eigenvalue <span class="math inline">\(\,\lambda_n=n(n+1)\)</span>:</p>
+<p>These, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>are the eigenvalues. <span class="math inline">\(\,\)</span>Setting <span class="math inline">\(P_n(1)=1\)</span>, <span class="math inline">\(\,\)</span>we obtain the eigenfunction <span class="math inline">\(\,P_n(x)\,\)</span> corresponding to the eigenvalue <span class="math inline">\(\,\lambda_n=n(n+1):\)</span></p>
 <p><span class="math display">\[ P_n(x)= \sum_{k=0}^n \frac{(n +k)!}{2^k (k!)^2 (n -k)!}(x - 1)^k\;\;\]</span></p>
 <p>It is called a <strong>Legendre polynomial</strong></p></li>
+<li><p>Since <span class="math inline">\(\,P_n(x)\,\)</span> is of exactly degree <span class="math inline">\(\,n\,\)</span> in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,\)</span>any polynomial of degree <span class="math inline">\(\,k\,\)</span> can be expressed as a linear combination of <span class="math inline">\(\,P_n(x)\,\)</span> with <span class="math inline">\(\,n=0,1,\cdots,k\)</span>. <span class="math inline">\(\,\)</span>Since <span class="math inline">\(\,P_n(x)\,\)</span> are orthogonal, <span class="math inline">\(\,\)</span>each <span class="math inline">\(\,P_n(x)\,\)</span> must therefore be orthogonal to all powers of <span class="math inline">\(\,x\,\)</span> less than <span class="math inline">\(\,n:\)</span></p>
+<p><span class="math display">\[ \int_{-1}^1 x^k P_n(x)\, dx=0, \;\;k=0,1,\cdots, n-1\]</span></p>
+<p>These <span class="math inline">\(\,n\,\)</span> linear conditions, <span class="math inline">\(\,\)</span>together with the fact that <span class="math inline">\(\,P_n(x)\,\)</span> is of degree <span class="math inline">\(\,n\)</span>, <span class="math inline">\(\,\)</span>determine <span class="math inline">\(\,P_n(x)\,\)</span> uniquely</p></li>
+<li><p>We can verify the identity</p>
+<p><span class="math display">\[ P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n} \left(x^2 -1\right)^n\]</span></p>
+<p>which is called the <strong>Rodrigues formula</strong>. <span class="math inline">\(\,\)</span>It is clear from this formula that <span class="math inline">\(\,P_n(x)\,\)</span> is even in <span class="math inline">\(\,x\,\)</span> if <span class="math inline">\(\,n\,\)</span> is even, <span class="math inline">\(\,\)</span>and odd if <span class="math inline">\(\,n\,\)</span> is odd</p></li>
+<li><p>The Legendre polynomials can also be defined as the coefficients in a formal expansion in powers of <span class="math inline">\(\,t\,\)</span> of the <strong>generating function</strong></p>
+<p><span class="math display">\[ \frac{1}{\sqrt{1 -2xt +t^2}} = \sum_{n=0}^\infty P_n(x) t^n \]</span></p></li>
+<li><p>We now wish to consider the equation <span class="math inline">\(\eqref{eq:AL}\)</span> with a positive <span class="math inline">\(m\)</span>. <span class="math inline">\(\,\)</span>For this purpose, <span class="math inline">\(\,\)</span>we first differentiate the equation <span class="math inline">\(\eqref{eq:LG}\)</span> <span class="math inline">\(\,m\,\)</span> times with respect to <span class="math inline">\(\,x\)</span>. <span class="math inline">\(\,\)</span>This gives</p>
+<p><span class="math display">\[ \left(1 -x^2\right) \frac{d^{m+2}}{dx^{m+2}}P -2(m +1)x \frac{d^{m+1}}{dx^{m+1}}P +\left[ \lambda -m(m +1)\right] \frac{d^{m}}{dx^{m}}P=0\]</span></p>
+<p>We now introduce the new dependent variable</p>
+<p><span class="math display">\[ \color{red}{Q(x)=\left(1 -x^2\right)^{m/2} \frac{d^{m}}{dx^{m}}P(x)}\]</span></p></li>
+<li><p>The above equation becomes</p>
+<p><span class="math display">\[\frac{d}{dx} \left[\left(1 -x^2\right) \frac{dQ}{dx} \right] +\left[\lambda -\frac{m^2}{1 -x^2 } \right] Q = 0\;\;\]</span></p>
+<p>Thus any solution <span class="math inline">\(\,P(x)\,\)</span> of <span class="math inline">\(\eqref{eq:LG}\)</span> leads to a solution <span class="math inline">\(\,Q(x)\,\)</span> of <span class="math inline">\(\eqref{eq:AL}\)</span>, <span class="math inline">\(\,\)</span>unless <span class="math inline">\(\,P(x)\,\)</span> is a polynomial of degree less than <span class="math inline">\(\,m\)</span></p></li>
+<li><p>Since <span class="math inline">\(\,P_n(x)\,\)</span> is a polynomial of degree <span class="math inline">\(\,n\)</span>,</p>
+<p><span class="math display">\[\frac{d^m}{dx^m} P_n = 0 \, \text{ for }\, n &lt; m,\]</span></p>
+<p>and we get no eigenfunction. <span class="math inline">\(\,\)</span>Therefore, <span class="math inline">\(\,\)</span>the eigenvalues are precisely <span class="math inline">\(\,n(n+1)\,\)</span> with <span class="math inline">\(\,n=m, m+1, \cdots.\)</span> <span class="math inline">\(\,\)</span>The eigenfunctions</p>
+<p><span class="math display">\[ \color{red}{P_n^m(x)=\left(1 -x^2 \right)^{m/2} \frac{d^m}{dx^m} P_n(x)=\frac{1}{2^n n!} \left(1 -x^2 \right)^{m/2} \frac{d^{m +n}}{dx^{m +n}} \left(x^2 -1 \right)^n}\]</span></p>
+<p>are called the <strong>associated Legendre functions</strong>. <span class="math inline">\(\,P_n^m(x)\,\)</span> corresponds to the eigenvalue <span class="math inline">\(\,n(n +1)\)</span>, <span class="math inline">\(\,\)</span>and <span class="math inline">\(\,n \geq m\)</span></p></li>
+<li><p>In Fourier expressions, <span class="math inline">\(\,\)</span>it is useful to know the integrals of <span class="math inline">\(\,\left[P_n^m(x)\right]^2\)</span>. <span class="math inline">\(\,\)</span>It follows from the Rodrigues formula and <span class="math inline">\(\,n\,\)</span> integrations by parts that</p>
+<p><span class="math display">\[\tiny \begin{aligned}
+  \int_0^\pi \left[ P_n(\cos\phi)\right]^2 \,\sin\phi  \,d\phi &amp;= \int_{-1}^1 \left[P_n(x) \right]^2 \,dx\\
+  &amp;= \frac{1}{2^{2n} n!^2} \int_{-1}^1 \left[ \frac{d^n}{dx^n} \left(1- x^2 \right)^n\right]^2 \, dx\\
+  &amp;= \frac{1}{2^{2n} n!^2} \left[ \underbrace{\left.\frac{d^{n-1}}{dx^{n-1}} \left(1- x^2 \right)^n
+  \frac{d^{n}}{dx^{n}} \left(1- x^2 \right)^n \right|_{-1}^{1}}_{=0}
+  -\int_{-1}^1 \frac{d^{n-1}}{dx^{n-1}} \left(1- x^2 \right)^n
+  \frac{d^{n+1}}{dx^{n+1}} \left(1- x^2 \right)^n \,dx\right]\\
+  &amp;\,\vdots \\
+  &amp;=\frac{(-1)^n}{2^{2n} n!^2} \int_{-1}^1 \left(1- x^2 \right)^n
+  \underbrace{\frac{d^{2n}}{dx^{2n}} \left(1- x^2 \right)^n}_{(-1)^n (2n)!} \,dx \\
+  &amp;=\frac{(2n)!}{2^{2n} n!^2} \int_{-1}^1 \left(1- x^2 \right)^n \,dx = \frac{(2n)!}{2^{2n} n!^2} 2^{2n +1} \frac{n!^2}{(2n+1)!}=\frac{2}{2n +1}
+\end{aligned}\]</span></p></li>
+<li><p>Similarly,</p>
+<p><span class="math display">\[\tiny \begin{aligned}
+  \color{blue}{\int_0^\pi \left[ P_n^m(\cos\phi)\right]^2 \,\sin\phi  \,d\phi} &amp;= \int_{-1}^1 \left[P_n^m(x) \right]^2 \,dx
+  = \int_{-1}^1 \left[ \left(1 -x^2 \right)^{m/2} \frac{d^m}{dx^m} P_n(x) \right]^2 \, dx\\
+  &amp;= \underbrace{\left. \frac{d^{m-1}}{dx^{m-1}} P_n(x)
+  \left\{ \left(1- x^2 \right)^m  \frac{d^m}{dx^m} P_n(x) \right\} \right|_{-1}^{\phantom{-}1}}_{=0}
+  -\int_{-1}^1 \frac{d^{m-1}}{dx^{m-1}} P_n(x)
+  \frac{d}{dx} \left\{\left(1- x^2 \right)^m  \frac{d^m}{dx^m} P_n(x)  \right\} \,dx \\
+  &amp;\;\Downarrow \;\;\left(1- x^2 \right)^m = (-1)^m x^{2m}+\cdots, \;\;\frac{d^m}{dx^m} P_n(x)=c_n \frac{n!}{(n -m)!}x^{n -m}+\cdots\\
+  &amp;= (-1)^m \int_{-1}^1 P_n(x)
+  \underbrace{\frac{d^m}{dx^m} \left\{\left(1- x^2 \right)^m  \frac{d^m}{dx^m} P_n(x) \right\}}_{(-1)^m \,c_n\, \frac{n!}{(n-m)!\;} \,\frac{(n +m)!\;}{n!} \,x^n +\,\cdots} \,dx \\
+  &amp;=\frac{(n+m)!}{(n-m)!} \int_{-1}^1 P_n(x) c_n x^n \,dx \\
+  &amp;=\frac{(n+m)!}{(n-m)!} \int_{-1}^1 \left[ P_n(x) \right ]^2 \,dx \\
+  &amp;=\color{blue}{\frac{2}{2n +1}\frac{(n+m)!}{(n-m)!}}
+\end{aligned}\]</span></p>
+<p>in which <span class="math inline">\(\,c_n\,\)</span> is the coefficient of <span class="math inline">\(\,x^n\,\)</span> in <span class="math inline">\(\,P_n(x)\)</span></p></li>
+<li><p>Putting <span class="math inline">\(\,\lambda=n(n+1)\,\)</span> in the equation for <span class="math inline">\(\,R(r)\)</span>, <span class="math inline">\(\,\)</span>we obtain the two solutions <span class="math inline">\(\,\color{blue}{r^n}\,\)</span> and <span class="math inline">\(\,r^{-(n +1)}\)</span>. <span class="math inline">\(\,\)</span>Only the first of these is bounded at <span class="math inline">\(\,r=0\)</span></p></li>
+<li><p>The method of separation of variables thus gives the harmonic functions</p></li>
+</ul>
+<p><font color="red"><span class="math display">\[\begin{aligned}
+  &amp;r^n P_n^m(\cos\phi) \cos m\theta\\
+  &amp;r^n P_n^m(\cos\phi) \sin m\theta
+\end{aligned}\]</span></font></p>
+<ul>
+<li><p>We note that <span class="math inline">\(\,P_n^m(\cos\phi)\,\)</span> is <span class="math inline">\(\,\sin^m\phi\,\)</span> times a polynomial of degree <span class="math inline">\(\,(n -m)\,\)</span> in <span class="math inline">\(\,\cos\phi\,\)</span> which is even or odd according as <span class="math inline">\(\,(n -m)\,\)</span> is even or odd</p></li>
+<li><p>Since <span class="math inline">\(\,r\cos\phi=z\)</span>, <span class="math inline">\(\,\)</span>it follows that <span class="math inline">\(\,r^{n-m}\,\)</span> times this polynomial is a polynomial in <span class="math inline">\(\,r^2\,\)</span> and <span class="math inline">\(\,z\)</span>, <span class="math inline">\(\,\)</span>and hence in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,y\)</span>, and <span class="math inline">\(\,z\)</span></p></li>
+<li><p>Also, <span class="math inline">\(\,r\sin\phi=\sqrt{x^2 +y^2}\,\)</span>. <span class="math inline">\(\,\)</span>Thus <span class="math inline">\(\,r^m\sin^m\phi \cos m\theta\,\)</span> and <span class="math inline">\(\,r^m\sin^m\phi \sin m\theta\,\)</span> are the polynomial solutions in <span class="math inline">\(\,x\,\)</span> and <span class="math inline">\(\,y\,\)</span> obtained by separating the two-dimensional Laplace’s equation in polar coordinates</p></li>
+<li><p>We see then that the functions <span class="math inline">\(\,r^n P_n^m(\cos\phi) \cos m\theta\,\)</span> and <span class="math inline">\(\,r^n P_n^m(\cos\phi) \sin m\theta\,\)</span> are homogeneous polynomials of degree <span class="math inline">\(\,n\,\)</span> in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,y\)</span>, and <span class="math inline">\(\,z\)</span>. <span class="math inline">\(\,\)</span>They are of degree <span class="math inline">\(\,(n -m)\,\)</span> in <span class="math inline">\(\,z\)</span>. <span class="math inline">\(\,\)</span>These polynomials are called <strong>spherical harmonics</strong></p></li>
+</ul>
+<p>The formal solution of the problem is then</p>
+<p><span class="math display">\[ \color{red}{u(r,\phi,\theta) = \sum_{n=0}^\infty \left( \frac{r}{R} \right)^n \left[ \frac{1}{2} a_{n0} P_n(\cos\phi) +\sum_{m=1}^n \left(a_{nm} \cos m\theta +b_{nm} \sin m\theta \right) P_n^m(\cos\phi) \right]} \]</span></p>
+<p>where</p>
+<p><span class="math display">\[\begin{aligned}
+  a_{nm} &amp;= \frac{(2n +1)}{2\pi}
+  \frac{(n -m)!}{(n +m)!}
+\int_{0}^{2\pi} \int_{0}^\pi g(\phi,\theta)
+    \,P_n^m(\cos\phi) \,\cos m\theta \,
+    \sin\phi \,d\phi
+      \,d\theta \\
+  b_{nm} &amp;= \frac{(2n +1)}{2\pi}
+  \frac{(n -m)!}{(n +m)!}
+  \int_{0}^{2\pi} \int_{0}^\pi g(\phi,\theta)
+      \,P_n^m(\cos\phi) \,\sin m\theta \,
+      \sin\phi \,d\phi
+      \,d\theta
+\end{aligned} \]</span></p>
+<p>are the <span class="math inline">\(\,n\,\)</span>-th Fourier coefficients of <span class="math inline">\(\,g(\phi,\theta)=u(R,\phi,\theta)\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>2.</strong> <span class="math inline">\(\,\)</span>We can write this solution as</p>
+<p><span class="math display">\[ u(r,\phi,\theta) = \int_0^{2\pi} \int_0^\pi K(r,\phi,\theta; R,\varphi,\vartheta)\, g(\varphi,\vartheta) \sin\varphi \,d\varphi \, d\vartheta \]</span></p>
+<p>where <span class="math inline">\(\,K(r,\phi,\theta; R,\varphi,\vartheta)\,\)</span> is</p>
+<p><span class="math display">\[ \scriptsize\displaystyle
+   \sum_{n=0}^\infty \left( \frac{r}{R} \right)^n
+   \underbrace{\left[ \frac{2n +1}{4\pi}
+    P_n(\cos\phi) P_n(\cos\varphi) +\sum_{m=1}^n
+     \frac{(2n +1)}{2\pi}\frac{(n -m)!}{(n +m)!}
+      P_n^m(\cos\phi) P_n^m(\cos\varphi)
+      \cos m(\theta -\vartheta)
+       \right]}_{K_n(\phi,\,\theta;
+        \,\varphi,\,\vartheta)}
+\tag{KL}\label{eq:KL}\]</span></p>
+<ul>
+<li><p>For a fixed <span class="math inline">\(\,n\)</span>,</p>
+<p><span class="math display">\[\begin{aligned}
+\int_{0}^{2\pi} \int_{0}^\pi &amp;
+  \,K_n(\phi,\theta;\varphi,\vartheta)\, r^l
+   \,P_l^m(\cos\varphi) \,(a\cos m\vartheta
+   +b\sin m\vartheta) \,\sin\varphi \,d\varphi
+    \,d\vartheta \\
+&amp;=
+\begin{cases}
+   r^n P_n^m(\cos\phi)
+   (a\cos m\theta +b\sin m\theta)
+   &amp; \text{ for }\; l=n \\
+   0 &amp; \text{ for }\; l \neq n
+\end{cases}
+\end{aligned}\]</span></p></li>
+<li><p>This means that any homogeneous polynomial of degree <span class="math inline">\(\,l\,\)</span> which is a solution of Laplace’s equation can be written as a linear combination of the <span class="math inline">\(\,2l+1\,\)</span> spherical harmonics <span class="math inline">\(\,r^l \,P_l^m(\cos\phi)\cos m\theta\,\)</span> and <span class="math inline">\(\,r^l \,P_l^m(\cos\phi)\sin m\theta\)</span>. <span class="math inline">\(\,\)</span>The kernel <span class="math inline">\(\,K_n(\phi,\theta;\varphi,\vartheta)\,\)</span> has the property that it reproduces all homogeneous harmonic polynomials of degree <span class="math inline">\(\,n,\)</span> <span class="math inline">\(\,\)</span>and reduces those of other degrees to zero</p></li>
+<li><p>Since rotation of the coordinate axes takes a homogeneous harmonic polynomial of degree <span class="math inline">\(\,l\,\)</span> into another such polynomial in the new variable, <span class="math inline">\(\,\)</span>the kernel <span class="math inline">\(\,K_n\,\)</span> must be unchanged by such a rotation. <span class="math inline">\(\,\)</span>That is, <span class="math inline">\(\,\)</span>if the new polar coordinates are <span class="math inline">\(\,(r',\phi',\theta'),\)</span> <span class="math inline">\(\,\)</span>we have <span class="math inline">\(\,K_n(\phi,\theta;\varphi,\vartheta)=K_n(\phi',\theta';\varphi',\vartheta')\)</span>. <span class="math inline">\(\,\)</span>In particular, <span class="math inline">\(\,\)</span>we can rotate our coordinates so that the new <span class="math inline">\(\,z\)</span>-axis passes through <span class="math inline">\(\,(r,\phi,\theta)\)</span>; <span class="math inline">\(\,\)</span>that is, so that <span class="math inline">\(\,\phi'=0\)</span></p></li>
+<li><p>By definition, <span class="math inline">\(\,P_n(1)=1\)</span>. <span class="math inline">\(\,\)</span>On the other hand, <span class="math inline">\(\,P_n^m(x)\,\)</span> with <span class="math inline">\(\,m \geq 1\,\)</span> has a factor <span class="math inline">\(\,\left(1 -x^2\right)^{m/2}\)</span>, <span class="math inline">\(\,\)</span>so that <span class="math inline">\(\,P_n^m(1)=0\)</span>, <span class="math inline">\(\,\)</span>for <span class="math inline">\(\,m \geq 1\)</span>. <span class="math inline">\(\,\)</span>Therefore</p>
+<p><span class="math display">\[ K_n(\phi,\theta;\varphi,\vartheta) =K_n(0,\theta';\varphi',\vartheta')= \frac{2n+1}{4\pi} P_n(\cos\varphi') \tag{KS}\label{eq:KS}\]</span></p>
+<p>where <span class="math inline">\(\,\varphi'\,\)</span> is the angle between the direction <span class="math inline">\(\,(\phi,\theta)\,\)</span> and <span class="math inline">\(\,(\varphi,\vartheta):\)</span></p>
+<p><span class="math display">\[ \cos\varphi'=\cos\phi\cos\varphi +\sin\phi\sin\varphi \cos(\theta-\vartheta) \]</span></p></li>
+<li><p>Substituting the identity <span class="math inline">\(\eqref{eq:KS}\)</span> in <span class="math inline">\(\eqref{eq:KL}\)</span>, <span class="math inline">\(\,\)</span>we find</p>
+<p><span class="math display">\[\begin{aligned}
+    K(r,\phi,\theta;R,\varphi,\vartheta) &amp;= \frac{1}{4\pi} \sum_{n=0}^\infty (2n +1) \left( \frac{r}{R} \right)^n P_n(\cos\varphi')\\
+    &amp;= \frac{1}{4\pi} \left( 2r\frac{\partial }{\partial r} +1 \right) \sum_{n=0}^\infty \left( \frac{r}{R} \right)^n P_n(\cos\varphi')
+\end{aligned}\]</span></p></li>
+<li><p>Evaluating the generating function at <span class="math inline">\(\,x=\cos\varphi'\,\)</span> and <span class="math inline">\(\,t=\frac{r}{R}\)</span>, <span class="math inline">\(\,\)</span>we have the identity</p>
+<p><span class="math display">\[ \frac{R}{\sqrt{r^2 +R^2 -2rR\cos\varphi'}} = \sum_{n=0}^\infty \left( \frac{r}{R}\right)^n P_n(\cos\varphi') \]</span></p>
+<p>Since</p>
+<p><span class="math display">\[ \scriptsize
+\begin{aligned}
+\left( 2r\frac{\partial}{\partial r} +1\right)
+&amp;\frac{R}{\sqrt{r^2 +R^2 -2rR\cos\varphi'}}
+= \frac{R\left(R^2 -r^2\right)}{\left(r^2 +R^2 -2rR\cos\varphi'\right)^{3/2}} \\
+&amp;= \frac{\displaystyle 1 -\left(\frac{r}{R}\right)^2}{\displaystyle\left(1 +\left(\frac{r}{R}\right)^2 -2\frac{r}{R}\cos\varphi'\right)^{3/2}} = \mathcal{P}(r, R, \varphi')
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(\,\left(r^2 +R^2 -2rR\cos\varphi'\right)^{1/2}\)</span> is the distance from the point <span class="math inline">\(\,(r,\phi,\theta)\,\)</span> to the point <span class="math inline">\(\,(R,\varphi,\vartheta)\)</span>, <span class="math inline">\(\,\)</span>thus, <span class="math inline">\(\,\)</span>the solution formula is equivalent to the integral formula</p>
+<p><span class="math display">\[
+\color{red}{u(r,\phi,\theta)
+=\frac{1}{4\pi} \int_0^{2\pi} \int_0^\pi
+  \mathcal{P}(r, R, \varphi') \,
+    g(\varphi,\vartheta) \sin\varphi \,d\varphi \,
+    d\vartheta} \]</span></p>
+<p>This is <strong>Poisson’s integral formula</strong> in three dimensions</p></li>
 </ul></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-x3-36" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="sec-x3-36"><span class="header-section-number">13.6</span> A Nonhomogeneous Dirichlet Problem (Green’s Function)</h2>
+<ul>
+<li><p>A common problem in applied mathematics is to find the potential in some region of space in response to a forcing term <span class="math inline">\(\,f\)</span>. <span class="math inline">\(\,\)</span>A typical example would be to find the potential inside a circle in two dimensions that satisfies</p>
+<p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-f(r,\theta), \;\;\;0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ u(1,\theta) = 0, \;\;\; 0 \leq \theta &lt; 2\pi \]</span></p></li>
+<li><p>Note that we have chosen the boundary values to be zero. <span class="math inline">\(\,\)</span><font color="red">If we wanted to solve the general case, where both the equation and BC were nonhomogeneous, <span class="math inline">\(\,\)</span>we could add the Poisson integral formula from <a href="#sec-x3-33" class="quarto-xref"><span>Section 13.3</span></a> to the solution from this section</font></p></li>
+<li><p>In order to gain a little intuition about nonhomogeneous differential equations, <span class="math inline">\(\,\)</span>let’s consider graphing the solution to the following Poisson’s equation:</p>
+<p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-q, \quad 0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ u(1,\theta) = 0, \quad 0 \leq \theta &lt; 2\pi \]</span></p>
+<p>Here, <span class="math inline">\(\,\)</span>the potential is fixed at zero on the boundary, <span class="math inline">\(\,\)</span>and the Laplacian of <span class="math inline">\(\,u\,\)</span> is always equal to <span class="math inline">\(-q\,\)</span> inside the circle. <span class="math inline">\(\,\)</span>Since <span class="math inline">\(\,\nabla^2 u(p)\,\)</span> measures the difference between <span class="math inline">\(\,u(p)\,\)</span> and the average of its neighbors, <span class="math inline">\(\,\)</span>it will look like a thin membrane fixed at the boundary that was continuously being pushed up by a stream of air from below</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Potentials from Point Sources and Sinks</strong></p>
+<ul>
+<li><p><font color="blue">In solving a nonhomogeneous linear equation, <span class="math inline">\(\,\)</span>it is sufficient to solve the equation with a point source since we can find the solution to the general problem by summing the responses to point sources.</font> <span class="math inline">\(\,\)</span>Our goal here is to find the potential in some region of space due to a point source (or sink)</p></li>
+<li><p>Suppose we have a single point source of magnitude <span class="math inline">\(\,q\,\)</span> located at the origin. <span class="math inline">\(\,\)</span>It is clear that the heat will flow outward along radial lines, <span class="math inline">\(\,\)</span>and, <span class="math inline">\(\,\)</span>hence, <span class="math inline">\(\,\)</span>if we compute the total outward flux across a circle of radius <span class="math inline">\(\,r\)</span>, <span class="math inline">\(\,\)</span>we have</p></li>
+</ul>
+<p><span class="math display">\[ \text{Total outward flux across the circle }=-\int_0^{2\pi} \underbrace{u_r(r)}_{&lt;\,0}\, r\,d\theta = -2\pi r\, u_r(r)\]</span></p>
+<ul>
+<li><p>But the outward flux must be equal to the heat generated within the circle (conservation of energy), <span class="math inline">\(\,\)</span>so we have</p>
+<p><span class="math display">\[-2\pi r u_r(r) = q\]</span></p>
+<p>Solving this simple differential equation for <span class="math inline">\(\,u_r(r)\)</span>, <span class="math inline">\(\,\)</span>we get</p>
+<p><span class="math display">\[ u(r)=\frac{q}{2\pi} \ln \frac{1}{r} \]</span></p>
+<p>A sink, <span class="math inline">\(\,\)</span>on the other hand, <span class="math inline">\(\,\)</span>is represented by a negative source, <span class="math inline">\(\,\)</span>and so a sink with magnitude <span class="math inline">\(-q\,\)</span> would give rise to a potential field</p>
+<p><span class="math display">\[ u(r)=-\frac{q}{2\pi} \ln \frac{1}{r} \]</span></p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Poisson’s Equation Inside a Circle</strong></p>
+<ul>
+<li><p>We will now solve the important problem</p>
+<p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-f(r,\theta), \quad 0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ u(1,\theta) = 0, \quad 0 \leq \theta &lt; 2\pi \]</span></p></li>
+<li><p>The Green function technique (impulse-response method) consists of two steps:</p>
+<ul>
+<li>Finding the potential <span class="math inline">\(\,G(r,\theta,\rho,\phi)\,\)</span> at <span class="math inline">\(\,(r,\theta)\)</span>, <span class="math inline">\(\,\)</span>which we force to be zero on the boundary and which is due to a single charge (magnitude 1) at <span class="math inline">\(\,(\rho,\phi)\)</span></li>
+<li>Summing the individual responses <span class="math inline">\(\,G(r,\theta,\rho,\phi)\,\)</span> weighted by <span class="math inline">\(\,f(\rho,\phi)\,\)</span> over all <span class="math inline">\(\,(\rho,\phi)\,\)</span> in the circle to get the solution</li>
+</ul>
+<p><span class="math display">\[ u(r,\theta)=\int_0^{2\pi} \int_0^1 G(r,\theta,\rho,\phi)\, f(\rho,\phi)\,\rho\, d\rho d\phi\]</span></p></li>
+</ul></li>
+</ul>
+<p><strong>STEP 1</strong> <span class="math inline">\(\,\)</span> Since the function</p>
+<p><span class="math display">\[ \frac{1}{2\pi} \ln \frac{1}{R} \]</span></p>
+<p>is the potential at <span class="math inline">\(\,(r,\theta)\,\)</span> due to a single unit charge at <span class="math inline">\(\,(\rho,\phi)\)</span>, <span class="math inline">\(\,\)</span>where <span class="math inline">\(\,R\,\)</span> is the distance from <span class="math inline">\(\,(r,\theta)\,\)</span> to <span class="math inline">\(\,(\rho,\phi)\,\)</span>, <span class="math inline">\(\,\)</span>the only thing left to do is to modify the function so that it is zero on the boundary</p>
+<p><strong>STEP 2</strong> <span class="math inline">\(\,\)</span> The strategy is to place a sink outside the circle at such a point that the potential due to both is constant on the circle at <span class="math inline">\(\,r=1\)</span>. <span class="math inline">\(\,\)</span>We can then subtract this constant value to obtain a zero potential on the boundary. <span class="math inline">\(\,\)</span>The big question is, <span class="math inline">\(\,\)</span>of course, <span class="math inline">\(\,\)</span>where do we place the sink outside circle, <span class="math inline">\(\,\)</span>so that the potential on the boundary is constant?</p>
+<p>Without going into the details, <span class="math inline">\(\,\)</span>we can show rather easily that if the sink is placed at <span class="math inline">\(\,(1/\rho,\phi)\)</span>, <span class="math inline">\(\,\)</span>then the potential due to the source and the sink will be constant on the circle <span class="math inline">\(\,r=1\)</span></p>
+<p><span class="math display">\[\begin{aligned}
+\displaystyle u^*(r,\theta)
+   &amp;= \frac{1}{2\pi} \ln \frac{1}{R}
+   -\frac{1}{2\pi} \ln \frac{1}{\bar{R}}
+   = \frac{1}{2\pi} \ln\frac{\bar{R}}{R} \\[2pt]
+   &amp;=\frac{1}{2\pi}
+   \ln \frac{\sqrt{r^2 +1/\rho^2
+    -2r/\rho \cos(\theta-\phi)}}{\sqrt{r^2 +\rho^2
+     -2r\rho \cos(\theta -\phi)}} \\[2pt]
+   &amp;\Downarrow \;\; r=1 \\
+   u^*(1,\theta) &amp;= -\frac{1}{2\pi} \ln \rho
+\end{aligned}\]</span></p>
+<p>With these steps in mind, <span class="math inline">\(\,\)</span>we construct Green’s function</p>
+<p><span class="math display">\[ G(r,\theta,\rho,\phi)=\frac{1}{2\pi}\ln \frac{1}{R} -\frac{1}{2\pi}\ln \frac{1}{\bar{R}} + \frac{1}{2\pi}\ln \rho \]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/pde03_figure13.jpg" title="potential field due to two opposite" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+<p>To find the solution to our orginal problem, <span class="math inline">\(\,\)</span>we merely superimpose the impulse functions; <span class="math inline">\(\,\)</span>this brings us to the final solution</p>
+<p><span class="math display">\[ \color{red}{u(r,\theta) = \frac{1}{2\pi} \int_0^{2\pi} \int_0^1 \ln \left(\rho\frac{\bar{R}}{R}\right) \, f(\rho,\phi)\, \rho\,d\rho\,d\phi}
+\tag{CG}\label{eq:CG} \]</span></p>
+<p>This is Green’s function solution of Poisson’s equation inside a circle</p>
+<p><strong>NOTES</strong></p>
+<p><strong>1.</strong> It is also possible to solve</p>
+<p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=0, \;\;\;0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ u(1,\theta) = g(\theta), \;\;\; 0 \leq \theta &lt; 2\pi \]</span></p>
+<p>by means of the Green’s function approach</p>
+<ul>
+<li><p>Choose any point <span class="math inline">\(\,(r_0,\phi_0)\,\)</span> inside a circle. <span class="math inline">\(\,\)</span>Let <span class="math inline">\(\,v(r,\phi)\,\)</span> be any twice continuously differentiable function in a circle such that <span class="math inline">\(\,v=g\,\)</span> on the boundary, <span class="math inline">\(\,\)</span>and <span class="math inline">\(\,v=0\,\)</span> near <span class="math inline">\(\,(r_0,\phi_0)\)</span>. <span class="math inline">\(\,\)</span>Let <span class="math inline">\(w = u -v\)</span>. <span class="math inline">\(\,\)</span>Then <span class="math inline">\(\,w\,\)</span> satisfies</p>
+<p><span class="math display">\[ \nabla^2w = -\nabla^2v, \;\;\;0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ w(1,\theta) = 0, \;\;\; 0 \leq \theta &lt; 2\pi \]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[ w(r_0,\theta_0)=-\int_0^{2\pi} \int_0^1 G(r_0,\theta_0,\rho,\phi)\, \nabla^2 v\,\rho\, d\rho d\phi \]</span></p></li>
+<li><p>Since <span class="math inline">\(\,v=0\,\)</span> near the singularity <span class="math inline">\(\,(r_0,\theta_0)\,\)</span> of <span class="math inline">\(\,G\)</span>, <span class="math inline">\(\,\)</span>we can apply the divergence theorem to the identity</p>
+<p><span class="math display">\[ G\nabla^2 v = G \nabla^2 v -v\nabla^2 G = \nabla \cdot \left( G\nabla v -v\nabla G\right)\]</span></p>
+<p>to find that</p>
+<p><span class="math display">\[ \begin{aligned} w(r_0,\theta_0)&amp;=-\int_0^{2\pi} \int_0^1 G(r_0,\theta_0,\rho,\phi)\, \nabla^2 v\,\rho\, d\rho d\phi \\
+&amp;\Downarrow \;\;{\scriptstyle \text{Divergence Theorem}} \\
+&amp;=-\int_0^{2\pi} \left[ G(r_0,\theta_0,1,\phi) \frac{\partial v}{\partial r} -v\frac{\partial G}{\partial r}(r_0,\theta_0,1,\phi)\right]\,d\phi \\
+&amp;\Downarrow \;\;{\scriptstyle \text{ On the boundary, } G\, =\, 0, \; v\, = g} \\
+&amp;= \int_0^{2\pi} \frac{\partial G}{\partial r}(r_0,\theta_0,1,\phi) \,g(\phi)\,d\phi
+\end{aligned} \]</span></p></li>
+<li><p>But <span class="math inline">\(\,v(r_0,\theta_0)=0\)</span>, <span class="math inline">\(\,\)</span>so that <span class="math inline">\(\,w(r_0,\theta_0)=u(r_0,\theta_0).\)</span> <span class="math inline">\(\,\)</span>Since <span class="math inline">\(\,(r_0,\theta_0)\,\)</span> was any point in a circle, <span class="math inline">\(\,\)</span>the solution is</p>
+<p><span class="math display">\[ u(r,\theta) = \int_0^{2\pi} \frac{\partial G}{\partial r}(r,\theta,1,\phi)\,g(\phi)\,d\phi \]</span></p>
+<p>which, <span class="math inline">\(\,\)</span>if we compute <span class="math inline">\(\,\displaystyle\frac{\partial G}{\partial r}\)</span>, <span class="math inline">\(\,\)</span>gives</p>
+<p><span class="math display">\[ u(r,\theta) = \frac{1}{2\pi} \int_0^{2\pi} \left[ \frac{1 - r^2}{1 +r^2 -2r\cos(\theta -\phi)} \right]\,g(\phi)\,d\phi
+\tag{PI}\label{eq:PI}\]</span></p>
+<p>which is the Poisson integral formula</p></li>
+</ul>
+<p><strong>2.</strong> The solution to the general Dirichlet problem</p>
+<p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-f(r,\theta), \;\;\;0 &lt; r &lt; 1 \]</span></p>
+<p><span class="math display">\[ u(1,\theta) = g(\theta), \;\;\; 0 \leq \theta &lt; 2\pi \]</span></p>
+<p>would be the sum of solutions <span class="math inline">\(\eqref{eq:CG}\)</span> and <span class="math inline">\(\eqref{eq:PI}\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p><strong>Poisson’s Equation Inside a Sphere</strong></p>
+<ul>
+<li><p>We consider the problem</p>
+<p><span class="math display">\[\begin{aligned}
+u_{rr} &amp;+\frac{2}{r} u_r
++\frac{1}{r^2}u_{\phi\phi}
++\frac{\cot\phi}{r^2} u_{\phi}
++\frac{1}{r^2\sin^2\phi}u_{\theta\theta}
+  = -F(r,\phi,\theta), \;\; r &lt; R \\
+&amp;u(R,\phi,\theta) = 0
+\end{aligned}\]</span></p></li>
+<li><p>The solution procedure consists of two steps:</p>
+<ul>
+<li><p>Solve by taking the finite Fourier Transforms</p>
+<p><span class="math display">\[\scriptsize
+\begin{aligned}
+\mathcal{F}_{ac,nm}
+  \left[f(r,\phi,\theta)\right]
+   &amp;= \frac{2n +1}{2\pi} \frac{(n -m)!}{(n +m)!}
+   \int_{0}^{2\pi} \int_{0}^\pi f(r,\phi,\theta)
+   \,P_n^m(\cos\phi) \,\cos m\theta
+   \,\sin\phi \,d\phi \,d\theta \\
+\mathcal{F}_{as,nm}
+  \left[f(r,\phi,\theta)\right]
+   &amp;= \frac{2n +1}{2\pi} \frac{(n -m)!}{(n +m)!}
+   \int_{0}^{2\pi} \int_{0}^\pi f(r,\phi,\theta)
+   \,P_n^m(\cos\phi) \,\sin m\theta
+   \,\sin\phi \,d\phi \,d\theta
+\end{aligned}\]</span></p></li>
+<li><p>Derive <span class="math inline">\(\,G(r,\phi,\theta; \rho, \varphi, \vartheta)\,\)</span> in the equivalent integral formula</p>
+<p><span class="math display">\[\scriptsize u(r,\phi,\theta)
+= \int_0^{2\pi} \int_0^\pi \int_0^R
+G(r,\phi,\theta; \rho,\varphi,\vartheta)\,
+F(\rho, \varphi,\vartheta)
+\,\rho^2 \sin\varphi
+\,d\rho \,d\varphi \, d\vartheta\]</span></p></li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>STEP 1</strong> <span class="math inline">\(\,\)</span>Using the finite Fourier transforms of <span class="math inline">\(\,u\,\)</span> and <span class="math inline">\(\,F\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+a_{nm}(r) &amp;= \mathcal{F}_{ac,nm}
+  \left[u(r,\phi,\theta)\right]\\
+b_{nm}(r) &amp;= \mathcal{F}_{as,nm}
+  \left[u(r,\phi,\theta)\right]\\
+A_{nm}(r) &amp;= \mathcal{F}_{ac,nm}
+  \left[F(r,\phi,\theta)\right]\\
+B_{nm}(r) &amp;= \mathcal{F}_{as,nm}
+  \left[F(r,\phi,\theta)\right]
+\end{aligned}\]</span></p>
+<p>we obtain the finite Fourier transforms of the differential equation and integrating by parts leads to the system</p>
+<p><span class="math display">\[\begin{aligned}
+r^2 a_{nm}'' +2r a_{nm}' &amp;-n(n +1) a_{nm} = -r^2 A_{nm}, \;
+a_{nm}(R)= 0, \; \left|a_{nm}\right| &lt; \infty\\
+r^2 b_{nm}'' +2r b_{nm}' &amp;-n(n +1) b_{nm} = -r^2 B_{nm}, \;
+b_{nm}(R)= 0, \; \left|b_{nm}\right| &lt; \infty
+\end{aligned}\]</span></p>
+<p>These problems have the solutions</p>
+<p><span class="math display">\[\begin{aligned}
+a_{nm}(r)
+  &amp;=\int_0^R G_n(r,\rho)\,A_{nm}(\rho)
+   \,\rho^2 \,d\rho \\
+b_{nm}(r)
+  &amp;=\int_0^R G_n(r,\rho)\,B_{nm}(\rho)
+   \,\rho^2 \,d\rho
+\end{aligned}
+\tag{SG}\label{eq:SG}\]</span></p>
+<p>where (See <a href="ch_03_Higher-Order_Differential_Equations.html#sec-GF" class="quarto-xref"><span>Section 3.10</span></a>)</p>
+<p><span class="math display">\[ \scriptsize G_n(r,\rho) =
+\begin{cases}
+\displaystyle\frac{1}{(2n +1)R}\left(\frac{r}{R} \right)^n\left[\left(\frac{\rho}{R} \right)^{-(n+1)} -\left(\frac{\rho}{R} \right)^{n} \right] &amp; \text{ for } r \leq \rho \\
+\displaystyle\frac{1}{(2n +1)R}\left(\frac{\rho}{R} \right)^n\left[\left(\frac{r}{R} \right)^{-(n+1)} -\left(\frac{r}{R} \right)^{n} \right]&amp; \text{ for } r \geq \rho
+\end{cases}\]</span></p>
+<p>Thus the problem <span class="math inline">\(\eqref{eq:SG}\)</span> has a solution</p>
+<p><span class="math display">\[ u(r,\phi,\theta) = \sum_{n=0}^\infty \left[ \frac{1}{2} a_{n0}(r) P_n(\cos\phi) +\sum_{m=1}^n \left(a_{nm}(r) \cos m\theta +b_{nm}(r) \sin m\theta \right) P_n^m(\cos\phi) \right]
+\tag{SS}\label{eq:SS}\]</span></p>
+<p><strong>STEP 2</strong> <span class="math inline">\(\,\)</span>We substitute the definitions of <span class="math inline">\(\,A_{nm}(r)\,\)</span> and <span class="math inline">\(\,B_{nm}(r)\,\)</span> in <span class="math inline">\(\eqref{eq:SG}\)</span>, <span class="math inline">\(\,\)</span>and formally interchange integration and summation in <span class="math inline">\(\eqref{eq:SS}\)</span>. <span class="math inline">\(\,\)</span>This process gives the formal solution</p>
+<p><span class="math display">\[ u(r,\phi,\theta) = \int_0^{2\pi} \int_0^\pi \int_0^R G(r,\phi,\theta; \rho,\varphi,\vartheta)\, F(\rho, \varphi,\vartheta) \,\rho^2 \sin\varphi \,d\rho \,d\varphi \, d\vartheta \]</span></p>
+<p>where for <span class="math inline">\(\,r &gt; \rho\)</span></p>
+<p><span class="math display">\[\scriptsize \begin{aligned}
+G(r,\phi,\theta;\rho,\varphi,\vartheta) &amp;=\sum_{n=0}^\infty \frac{1}{(2n +1)R}
+  \left(\frac{\rho}{R} \right)^n
+  \left[ \left(\frac{r}{R} \right)^{-(n +1)} -\left(\frac{r}{R} \right)^{n} \right]
+  K_n(\phi,\theta;\varphi,\vartheta)\\
+&amp;= \frac{1}{4\pi R} \sum_{n=0}^\infty \left(\frac{\rho}{R} \right)^n
+  \left[ \left(\frac{r}{R} \right)^{-(n +1)} -\left(\frac{r}{R} \right)^{n} \right] P_n(\cos\varphi')
+\end{aligned}\]</span></p>
+<p>For <span class="math inline">\(\,r &lt; \rho\)</span>, <span class="math inline">\(\,\)</span>we must only interchange <span class="math inline">\(\,r\,\)</span> and <span class="math inline">\(\,\rho\,\)</span> in this formula</p>
+<p>To evaluate the series in the above equation, <span class="math inline">\(\,\)</span>we use the generating function:</p>
+<p><span class="math display">\[\begin{aligned}
+G(r,\phi,\theta;\rho,\varphi,\vartheta) &amp;=\frac{1}{4\pi} \frac{1}{\sqrt{r^2+\rho^2-2r\rho\cos\varphi'}}
+-\frac{1}{4\pi} \frac{1}{\sqrt{R^2 +\frac{r^2\rho^2}{R^2} -2r\rho\cos\varphi'}}
+\end{aligned}
+\]</span></p>
+<p>This, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>is the Green’s function for <span class="math inline">\(\,r &gt; \rho\)</span>. <span class="math inline">\(\,\)</span>It is already symmetric in <span class="math inline">\(\,r\,\)</span> and <span class="math inline">\(\,\rho\)</span>, <span class="math inline">\(\,\)</span>so that the same formula holds for <span class="math inline">\(\,r &lt; \rho\)</span>, and even for <span class="math inline">\(\,r=\rho\)</span>. <span class="math inline">\(\,\)</span>We note that <span class="math inline">\(\,G=0\,\)</span> for <span class="math inline">\(\,r=R\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-x3-37" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="sec-x3-37"><span class="header-section-number">13.7</span> Hydrogen Atom</h2>
+<ul>
+<li><p>As the electron circles around the nucleus, <span class="math inline">\(\,\)</span>the system (the proton and the electron) rotates around the center of gravity. <span class="math inline">\(\,\)</span>For the rotating system, <span class="math inline">\(\,\)</span>we can write the reduced mass, <span class="math inline">\(\,\mu\)</span>, <span class="math inline">\(\,\)</span>as</p>
+<p><span class="math display">\[ \frac{1}{\mu} = \frac{1}{m_e} + \frac{1}{m_p} \]</span></p>
+<center>
+<p><span class="math inline">\(~\)</span>or</p>
+</center>
+<p><span class="math display">\[ \mu = \frac{m_em_p}{m_e +m_p} \]</span></p>
+<p>Since the mass of the electron is so much less than that of the proton, <span class="math inline">\(\,m_e +m_p \approx m_p\,\)</span> and <span class="math inline">\(\,\mu = m_e\)</span>. <span class="math inline">\(\,\)</span>Assuming that the nucleus is stationary and that the electron does all of the moving (known as the Born-Oppenheimer approximation) leads to the same result</p></li>
+<li><p>The Hamiltonian can be written as the sum of the kinetic and potential energies</p>
+<p><span class="math display">\[H = T + V\]</span></p>
+<p>in which <span class="math inline">\(\,T = p^2/2\mu\,\)</span> and the potential energy <span class="math inline">\(\,V\)</span> <span class="math inline">\(\,\)</span>for the interaction of the electron with the proton is <span class="math inline">\(-e^2/r\)</span>. <span class="math inline">\(\,\)</span>Therefore, <span class="math inline">\(\,\)</span>the Hamiltonian operator <span class="math inline">\(\,H\,\)</span> is</p>
+<p><span class="math display">\[ H=-\frac{\hbar^2}{2\mu} \nabla^2 -\frac{e^2}{r} \]</span></p></li>
+<li><p>Therefore, <span class="math inline">\(\,\)</span>the time-independent wave function <span class="math inline">\(\psi\)</span> gives</p>
+<p><span class="math display">\[\begin{aligned}
+H \psi &amp;= E \psi \\
+&amp;\Downarrow \\
+\nabla^2 \psi +\color{red}{\frac{2\mu}{\hbar^2}} &amp;\color{red}{\left( \frac{e^2}{r} +E \right) \psi} =0 \\
+&amp;\Downarrow \\
+\frac{1}{r^2}\left( r^2 \psi_r \right)_r +\frac{1}{r^2\sin\phi} \left( \sin\phi\, \psi_\phi \right)_\phi
+  &amp;+\frac{1}{r^2\sin^2\phi} \psi_{\theta\theta} +\frac{2\mu}{\hbar^2} \left( \frac{e^2}{r} +E \right) \psi =0
+\end{aligned}\]</span></p></li>
+<li><p>We assume that <span class="math inline">\(\,\psi(r,\phi,\theta)=R(r)\,\Phi(\phi)\,\Theta(\theta)\,\)</span> and make the substitution. <span class="math inline">\(\,\)</span>For simplicity, <span class="math inline">\(\,\)</span>we will write the partial solutions as <span class="math inline">\(\,R\)</span>, <span class="math inline">\(\,\Phi\)</span>, and <span class="math inline">\(\,\Theta\,\)</span> without showing the functionality. <span class="math inline">\(\,\)</span>We now divide both sides by <span class="math inline">\(\,R\,\Phi\,\Theta\,\)</span> and multiply by <span class="math inline">\(\,r^2\sin^2\phi\)</span>:</p>
+<p><span class="math display">\[\frac{\sin^2\phi}{R}\left( r^2 R_r \right)_r +\frac{\sin\phi}{\Phi} \left( \sin\phi\, \Phi_\phi \right)_\phi
++\frac{1}{\Theta} \Theta_{\theta\theta} +\frac{2\mu r^2\sin^2\phi}{\hbar^2} \left( \frac{e^2}{r} +E \right) =0 \]</span></p></li>
+<li><p>Inspection shows that, <span class="math inline">\(\,\)</span>of the four terms on the left side of the equation, <span class="math inline">\(\,\)</span>there is no functional dependence on <span class="math inline">\(\,\theta\,\)</span> except in the third term. <span class="math inline">\(\,\)</span>Therefore, <span class="math inline">\(\,\)</span>with respect to the other variables, <span class="math inline">\(\,\)</span>the third term can be treated as a constant:</p>
+<p><span class="math display">\[\begin{aligned}
+  \scriptsize
+  -\frac{\sin^2\phi}{R}\left( r^2 R_r \right)_r -\frac{\sin\phi}{\Phi} \left( \sin\phi\, \Phi_\phi \right)_\phi
+    &amp;\scriptsize
+    -\frac{2\mu r^2\sin^2\phi}{\hbar^2} \left( \frac{e^2}{r} +E \right)
+    = \frac{1}{\Theta} \Theta_{\theta\theta} = -\lambda &lt;0 \\
+  &amp;\Downarrow \\
+  \Theta_{\theta\theta} &amp;+\lambda \Theta = 0, \;\;\Theta(0)=\Theta(2\pi)\\
+    &amp;\Downarrow \;\;e^{\pm i2\pi \sqrt{\lambda}} =1\\
+    \lambda_m = m^2, &amp;\;m=0,\pm 1, \pm 2,\cdots \\
+    \Theta_m(\theta) &amp;= \frac{1}{\sqrt{2\pi}} e^{im\theta}
+\end{aligned}\]</span></p>
+<p>Actually, <span class="math inline">\(\,\)</span>there are two solutions: <span class="math inline">\(\,e^{im\theta}\,\)</span> and <span class="math inline">\(\,e^{-im\theta}\)</span>, <span class="math inline">\(\,\)</span>but we cover the latter by allowing <span class="math inline">\(\,m\,\)</span> to run negative</p></li>
+<li><p>We can now write the wave equation as</p>
+<p><span class="math display">\[\scriptsize \frac{\sin^2\phi}{R}\left( r^2 R_r \right)_r +\frac{\sin\phi}{\Phi} \left( \sin\phi\, \Phi_\phi \right)_\phi
+  -m^2 +\frac{2\mu r^2\sin^2\phi}{\hbar^2} \left( \frac{e^2}{r} +E \right)
+  = 0\]</span></p>
+<p>If we divide the equation by <span class="math inline">\(\sin^2\phi\)</span> and rearrange, <span class="math inline">\(~\)</span>we obtain</p>
+<p><span class="math display">\[\scriptsize \begin{aligned}
+\frac{1}{R}\left( r^2 R_r \right)_r +\frac{2\mu r^2}{\hbar^2} \left( \frac{e^2}{r} +E \right) &amp;+\frac{1}{\Phi\sin\phi}
+  \left( \sin\phi\, \Phi_\phi \right)_\phi -\frac{m^2}{\sin^2\phi} = 0 \\
+&amp;\Downarrow \\
+  \frac{1}{\Phi\sin\phi} \left( \sin\phi\, \Phi_\phi \right)_\phi &amp;-\frac{m^2}{\sin^2\phi} = -\beta \\
+  \frac{1}{R}\left( r^2 R_r \right)_r +\frac{2\mu r^2}{\hbar^2} &amp;\left( \frac{e^2}{r} +E \right) = \beta \\[2pt]
+&amp;\Downarrow \;\;
+\frac{1}{\sin\phi} \left( \sin\phi\, \Phi_\phi \right)_\phi +\left( \beta-\frac{m^2}{\sin^2\phi}\right)\Phi = 0 \\[2pt]
+\frac{1}{r^2}\left( r^2 R_r \right)_r +\color{red}{\frac{2\mu}{\hbar^2}} &amp;\color{red}{\left( \frac{e^2}{r} +E \right)R -\frac{\beta}{r^2}R}=0
+\end{aligned}\]</span></p></li>
+<li><p>We will now turn our attention to the equation involving <span class="math inline">\(\,\phi\)</span>. <span class="math inline">\(\,\)</span>The standard method for solving this equation is to make the transformation <span class="math inline">\(\,x=\cos\phi\)</span></p>
+<p><span class="math display">\[\scriptsize\begin{aligned}
+  \frac{1}{\sin\phi} \frac{d}{d\phi} \left( \frac{\sin^2\phi}{\sin\phi}\, \frac{d\Phi}{d\phi} \right) &amp;+\left( \beta-\frac{m^2}{\sin^2\phi}\right)\Phi = 0 \\
+  &amp;\Downarrow\;\;x=\cos\phi,\;dx=-\sin\phi\,d\phi \\
+  \frac{d}{dx} \left[ \left(1 -x^2\right) \frac{d\Phi}{dx} \right] &amp;+ \left( \beta-\frac{m^2}{1 -x^2}\right)\Phi = 0 \\
+  &amp;\Downarrow \\
+  \left(1 -x^2\right) \frac{d^2\Phi}{dx^2} -2x \frac{d\Phi}{dx} &amp;+ \left( \beta-\frac{m^2}{1 -x^2}\right)\Phi = 0
+\end{aligned}\]</span></p></li>
+<li><p>This is the associated Legendre equation. <span class="math inline">\(\,\)</span>If you start with the Legendre equation and differentiate it <span class="math inline">\(\,|m|\,\)</span> times, <span class="math inline">\(\,\)</span>you end up with a new differential equation</p>
+<p><span class="math display">\[\scriptsize\begin{aligned}
+  \left(1 -x^2\right)P_l''(x) -\,&amp;\,2xP_l'(x) +l(l+1)P_l(x) = 0,\;\;\; l=0,1,2,\cdots \\[5pt]
+  &amp;\Downarrow\;\; {\scriptstyle \text{differentiate it } |m| \text{ times}, \;\;y = \left(\frac{d}{dx}\right)^{|m|} P_l(x),\; \; |m|\, \leq\, l} \\[5pt]
+  \left(1 -x^2\right)y'' -2 |m| x y'&amp;-|m|(|m| -1)y -2x y' -2|m|y +l(l +1)y = 0\\
+  &amp;\Downarrow\\
+  \left(1 -x^2\right)y'' -2x(|m| +1)&amp;y' +\left[l(l +1) -|m|(|m| +1)\right] y = 0
+\end{aligned}\]</span></p></li>
+<li><p>And the substitution</p>
+<p><span class="math display">\[\scriptsize\begin{aligned}
+y&amp;= \left(1 -x^2\right)^{-|m|/2} \Phi \\
+y'&amp;= \left(1 -x^2\right)^{-|m|/2} \left[\frac{d\Phi}{dx} +\frac{|m|x}{1 -x^2}\Phi \right] \\
+y''&amp;= \left(1 -x^2\right)^{-|m|/2} \left[\frac{d^2\Phi}{dx^2} +\frac{2|m|x}{1 -x^2}\frac{d\Phi}{dx}
+  +\frac{|m|+|m|x^2 +|m|^2x^2}{(1-x^2)^2} \Phi \right]
+\end{aligned}\]</span></p>
+<p>puts the equation into standard form with respect to <span class="math inline">\(\,\Phi\)</span>. <span class="math inline">\(\,\)</span>Then the standard solutions of the associated Legendre equation were found to be</p>
+<p><span class="math display">\[\scriptsize \Phi(x) = P_l^{|m|}(x) = \left(1 -x^2\right)^{|m|/2} \left(\frac{d}{dx}\right)^{|m|} P_l(x) = \left(1 -x^2\right)^{|m|/2} \frac{1}{2^l l!} \left(\frac{d}{dx}\right)^{|m|+l} \left(x^2 -1\right)^l \]</span></p>
+<p>and <span class="math inline">\(\,P_l^{|m|}(x)\,\)</span> are orthogonal with the weight function <span class="math inline">\(1\)</span></p>
+<p><span class="math display">\[ \scriptsize \int_{-1}^1 P_l^{|m|}(x)\, P_{l'}^{|m|}(x)\,dx = \frac{2}{2l +1} \frac{(l +|m|)!}{(l -|m|)!} \,\delta_{ll'} \]</span></p></li>
+<li><p>Notice that <span class="math inline">\(\,l\,\)</span> must be a nonnegative integer. <span class="math inline">\(\,\)</span>For any given <span class="math inline">\(\,l,\)</span> <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>there are <span class="math inline">\(\,(2l +1)\,\)</span> possible values of <span class="math inline">\(\,m\)</span>:</p>
+<p><span class="math display">\[l=0,1,2,\cdots; \;\;m =-l, -1 +1, \cdots, -1, 0, 1, \cdots, l -1, l \]</span></p>
+<p>For historical reasons, <span class="math inline">\(\,l\,\)</span> is called the azimuthal quantum number, <span class="math inline">\(\,\)</span>and <span class="math inline">\(\,m\,\)</span> the magnetic quantum number</p></li>
+<li><p>The normalized angular wave functions are called <font color="red">spherical harmonics</font>:</p>
+<p><span class="math display">\[ \color{red}{Y_l^{m}(\phi,\theta)=\epsilon \sqrt{\frac{(2l +1)}{4\pi} \frac{(l -|m|)!}{(l +|m|)!}} P_l^{|m|}(\cos\phi) e^{im\theta}} \]</span></p>
+<p>where <span class="math inline">\(\,\epsilon=(-1)^m\,\)</span> for <span class="math inline">\(\,m \geq 0\,\)</span> and <span class="math inline">\(\,\epsilon=1\,\)</span> for <span class="math inline">\(\,m &lt; 0\)</span></p></li>
+<li><p>Notice that the angular part of the wave function, <span class="math inline">\(\,Y(\phi,\theta)\)</span>, <span class="math inline">\(\,\)</span>is the same for all spherically symmetric potentials; <span class="math inline">\(\,\)</span>the actual shape of the potential <span class="math inline">\(\,V(r)\)</span> <span class="math inline">\(\,\)</span>affects only the radial part of the wave function, <span class="math inline">\(\,R(r)\)</span>, <span class="math inline">\(\,\)</span>which is determined by</p>
+<p><span class="math display">\[ \frac{1}{r^2}\left( r^2 R_r \right)_r +\frac{2\mu}{\hbar^2} \left( \frac{e^2}{r} +E \right)R -\frac{l(l +1)}{r^2}R=0\]</span></p>
+<p>This equation simplifies if we change variables:</p>
+<p><span class="math display">\[\scriptsize \begin{aligned}
+\text{Let } u(r) &amp;= rR(r) \\
+&amp;\Downarrow \;{\tiny\text{so that}} \\
+R = \frac{u}{r}, \;\; \frac{dR}{dr} = \frac{1}{r^2}
+  &amp;\left( r\frac{du}{dr} -u \right),
+  \;\; \frac{d}{dr}
+  \left[ r^2 \frac{dR}{dr} \right]
+  = r\frac{d^2 u}{dr^2} \\
+&amp;\Downarrow \;
+{\tiny \kappa = \frac{\sqrt{-2\mu E}}{\hbar}
+  \;\;\text{ and }
+  \;\rho_0 = \frac{2\mu e^2}{\hbar^2 \kappa}} \\
+  \frac{d^2u}{dr^2}
+  =\left[-\frac{\rho_0 \kappa}{ r}
+  +\kappa^2 +\frac{l(l +1)}{r^2} \right] u \;\;
+    &amp;\overset{\rho=\kappa r}{\rightarrow}
+    \;\;\frac{d^2u}{d\rho^2}
+    =\left[1 -\frac{\rho_0}{\rho}\right.
+      +\left.\frac{l(l +1)}{\rho^2} \right] u
+\end{aligned}\]</span></p></li>
+<li><p>The next step is to peel off the asymptotic behavior, <span class="math inline">\(\,\)</span>introducing the new function <span class="math inline">\(\,v(\rho)\)</span></p>
+<p><span class="math display">\[u(\rho)=\rho^{l +1} e^{-\rho} v(\rho)\]</span></p>
+<p>in the hope that <span class="math inline">\(\,v(\rho)\,\)</span> will turn out to be simpler than <span class="math inline">\(\,u(\rho)\)</span>. In terms of <span class="math inline">\(\,v(\rho)\)</span>, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>the radial equation reads</p>
+<p><span class="math display">\[ \rho \frac{d^2v}{d\rho^2} +2(l +1 -\rho) \frac{dv}{d\rho} +\left[ \rho_0 -2(l +1) \right]v=0 \]</span></p></li>
+<li><p>Finally, <span class="math inline">\(\,\)</span>we assume the solution can be expressed as a power series in <span class="math inline">\(\,\rho\)</span>:</p>
+<p><span class="math display">\[ v(\rho) = \sum_{k = 0}^\infty c_k \rho^k \]</span></p>
+<p>Inserting the power series into the equation and equating the coefficients of like powers yields</p>
+<p><span class="math display">\[ c_{k +1} = \frac{2(k +l +1) -\rho_0}{(k +1)(k +2l +2)} c_k\]</span></p></li>
+<li><p>Now let’s see what the coefficients look like for large <span class="math inline">\(\,k\)</span>. <span class="math inline">\(\,\)</span>In this regime the recursion formula says</p>
+<p><span class="math display">\[c_{k +1} \approx \frac{2}{k +1} c_k\]</span></p>
+<p>Suppose for a moment that this were exact. <span class="math inline">\(\,\)</span>Then</p>
+<p><span class="math display">\[c_k = \frac{2^k}{k!} c_0\]</span></p></li>
+<li><p>so <span class="math display">\[v(\rho) = c_0 \sum_{k=0}^\infty \frac{2^k}{k!} \rho^k = c_0 e^{2\rho} \;\;
+\Rightarrow \;\; u(\rho)=c_0\rho^{l +1} e^\rho \]</span></p>
+<p>which blows up at large <span class="math inline">\(\,\rho\)</span>. <span class="math inline">\(\,\)</span>The positive exponential is precisely the asymptotic behavior we didn’t want</p></li>
+<li><p>There is only one way out of this dilemma: <em>The series must terminate</em>. <span class="math inline">\(\,\)</span>There must occur some maximal integer, <span class="math inline">\(\,k_{max}\)</span>, <span class="math inline">\(\,\)</span>such that</p>
+<p><span class="math display">\[ c_{k_{max}\, +1} = 0 \]</span></p>
+<p>and beyond which all coefficient vanish automatically. <span class="math inline">\(\,\)</span>Evidently</p>
+<p><span class="math display">\[ 2(k_{max} +l +1) -\rho_0 = 0 \]</span></p></li>
+<li><p>Defining the so-called principle quantum number</p>
+<p><span class="math display">\[ n = k_{max} +l +1 \]</span></p>
+<p>we have</p>
+<p><span class="math display">\[ \rho_0 = 2n \]</span></p></li>
+<li><p>But <span class="math inline">\(\,\rho_0\,\)</span> determine <span class="math inline">\(\,E\)</span></p>
+<p><span class="math display">\[ E = -\frac{\hbar^2 \kappa^2}{2 \mu} = -\frac{2\mu e^4}{\hbar^2 \rho_0^2} \]</span></p>
+<p>so the allowed energies are</p>
+<p><span class="math display">\[ E_n = - \left[ \frac{\mu e^4}{2\hbar^2} \right] \frac{1}{n^2}, \;\;\;n=1,2,3,\cdots \]</span></p>
+<p>This is the famous <strong>Bohr formula</strong>. <span class="math inline">\(\,\)</span>The ground state (that is, <span class="math inline">\(\,\)</span>the state of lowest energy) is the case <span class="math inline">\(\,n=1\)</span>; <span class="math inline">\(\,\)</span>putting in the accepted values for the physical constants, <span class="math inline">\(\,\)</span>we get</p>
+<p><span class="math display">\[ E_1 = - \left[ \frac{\mu e^4}{2\hbar^2} \right] =-13.6\,eV \]</span></p>
+<p>and we find that</p>
+<p><span class="math display">\[ \kappa = \frac{\mu e^2}{\hbar^2} \frac{1}{n} = \frac{1}{a_0 n},\;\;\rho = \frac{r}{a_0 n} \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ a_0 = \frac{\hbar^2}{\mu e^2} = 0.529 \times 10^{-10} m \]</span></p>
+<p>is the so-called <strong>Bohr radius</strong></p></li>
+<li><p>Anyway the radial equation gives</p>
+<p><span class="math display">\[ \color{red}{R_{nl}(r) = \frac{1}{r} \rho^{l +1} e^{-\rho} v(\rho)} \]</span></p>
+<p>in which <span class="math inline">\(\,v(\rho)\,\)</span> is a polynomial of degree <span class="math inline">\(\,k_{max} = n -l -1\,\)</span> in <span class="math inline">\(\,\rho,\)</span> <span class="math inline">\(\,\)</span>whose coefficients are determined by the recursion formula</p>
+<p><span class="math display">\[ c_{k +1} = \frac{2(k +l +1 -n)}{(k +1)(k +2l +2)} c_k \]</span></p>
+<p>For arbitrary <span class="math inline">\(\,n\)</span>, <span class="math inline">\(\,\)</span>the possible values of <span class="math inline">\(\,l\,\)</span> are</p>
+<p><span class="math display">\[ l=0,1,2,\cdots,n-1 \]</span></p>
+<p>and for each <span class="math inline">\(\,l\)</span>, <span class="math inline">\(\,\)</span>there are <span class="math inline">\(\,(2l +1)\,\)</span> possible values of <span class="math inline">\(\,m\)</span>, <span class="math inline">\(\,\)</span>so the total degeneracy of the energy level <span class="math inline">\(\,E_n\,\)</span> is</p>
+<p><span class="math display">\[ d(n)=\sum_{l=0}^{n-1}(2l +1)=n^2 \]</span></p></li>
+<li><p>The polynomial <span class="math inline">\(\,v(\rho)\,\)</span> is a function well known to applied mathematicians; <span class="math inline">\(\,\)</span>it can be written as</p>
+<p><span class="math display">\[ \color{red}{v(\rho) = L_{n -l -1}^{2l +1}(2\rho)} \]</span></p>
+<p>where</p>
+<p><span class="math display">\[ L_{q-p}^p(x)=(-1)^p \left( \frac{d}{dx} \right)^p L_q(x) =\sum_{k=0}^{q-p} \frac{(-1)^k}{k!} \binom{q}{q-p-k} x^k \]</span></p>
+<p>is a generalized Laguerre polynomial, <span class="math inline">\(\,\)</span>and</p>
+<p><span class="math display">\[ L_q(x) =\frac{e^x}{q!} \left( \frac{d}{dx} \right)^q (e^{-x} x^q) = \sum_{k=0}^q \frac{(-1)^k}{k!} \binom{q}{k} x^k  \]</span></p>
+<p>is the <span class="math inline">\(\,q\)</span>-th Laguerre polynomial</p></li>
+<li><p>The radial wave functions are given by</p>
+<p><span class="math display">\[ \color{red}{R_{nl}(r) = \sqrt{\left( \frac{2}{na_0}\right)^3 \frac{(n -l -1)!}{2n (n +l)!}} e^{-r/na_0}
+\left( \frac{2r}{na_0} \right)^l \, L_{n -l -1}^{2l +1} \left( \frac{2r}{na_0} \right)} \]</span></p>
+<p>The combinatorial factor in front assures that <span class="math inline">\(\,R_{nl}(r)\,\)</span> are normalized with respect to an integration over <span class="math inline">\(\,r\)</span>:</p>
+<p><span class="math display">\[ \int_0^\infty R^2_{nl}(r) \, r^2 dr = 1\]</span></p>
+<p>Note that the volume element here is <span class="math inline">\(\,r^2 dr\)</span>, which is the <span class="math inline">\(\,r\,\)</span> part of the spherical coordinate volume element <span class="math inline">\(\,r^2 \sin \phi \,dr \,d\phi \,d\theta\)</span></p></li>
+<li><p>The complete hydrogen atomic wave functions are</p>
+<p><span class="math display">\[ \color{red}{\psi_{nlm}(r, \phi, \theta) = R_{nl}(r)\,Y_l^m(\phi,\theta)} \]</span></p></li>
+<li><p>The normalization condition is</p>
+<p><span class="math display">\[ \scriptsize\int_0^{2\pi} \int_0^{\pi} \int_0^\infty \psi_{nlm}^2(r,\phi,\theta) \,r^2 \sin\phi \,dr \,d\phi \, d\theta = 1 \]</span></p></li>
+<li><p>The functions <span class="math inline">\(\,\psi_{nml}\,\)</span> must also be orthogonal. <span class="math inline">\(\,\)</span>This orthonomality relationship is given by</p>
+<p><span class="math display">\[ \scriptsize\int_0^{2\pi} \int_0^{\pi} \int_0^\infty \psi^*_{nlm}(r',\phi',\theta')\,\psi_{nlm}(r,\phi,\theta) \,r^2 \sin\phi \,dr \,d\phi \, d\theta = \delta_{nn'} \delta_{ll'}\delta_{mm'}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="worked-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 
 
 </section>
