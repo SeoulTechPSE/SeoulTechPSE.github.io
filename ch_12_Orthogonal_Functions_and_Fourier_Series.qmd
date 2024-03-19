@@ -120,6 +120,30 @@ $$\begin{aligned}
 $~$
 
 ```{python}
+from sympy import fourier_series, Piecewise, pi, plot
+from sympy.abc import x
+
+f = Piecewise((0, x < 0), (1, True))
+s = fourier_series(f, (x, -pi, pi))
+s.truncate(5)
+```
+
+```{python}
+s3 = s.truncate(n = 3)
+s6 = s.truncate(n = 6)
+s9 = s.truncate(n = 9)
+
+p = plot(f, s3, s6, s9, (x, -1.5 *pi, 1.5 *pi), show=False, legend=True)
+
+p[0].label = 'f'
+p[1].label = 'n = 3'
+p[2].label = 'n = 6'
+p[3].label = 'n = 9'
+
+p.show()
+```
+
+```{python}
 import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 10
@@ -171,7 +195,7 @@ $~$
 
 ## Fourier Cosine and Sine Series {#sec-12-3}
 
-![](figures/ch12_figure01_02.png "even and odd function"){fig-align="center" width="60%"}
+![](figures/ch12_figure01_02.png "even and odd function"){width="90%" fig-align="center"}
 
 * If $\,f\,$ is even, $~$ then 
 
