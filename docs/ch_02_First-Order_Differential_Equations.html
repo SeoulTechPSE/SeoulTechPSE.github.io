@@ -375,7 +375,7 @@ window.Quarto = {
     (d) &amp;\;\; y(0)=0
 \end{aligned}\]</span></p></li>
 </ul>
-<div id="de85c875" class="cell" data-execution_count="1">
+<div id="57e296d1" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -491,11 +491,39 @@ window.Quarto = {
 <li><p><span class="math inline">\(\displaystyle \frac{dy}{dx} = x\sqrt{1 -y^2}\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
+<div id="51ed3e6f" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> pi, dsolve</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span>x <span class="op">*</span> sympy.sqrt(<span class="dv">1</span> <span class="op">-</span>y(x) <span class="op">*</span>y(x))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
+<p><span class="math inline">\(\displaystyle y{\left(x \right)} = \sin{\left(C_{1} + \frac{x^{2}}{2} \right)}\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find an implicit and an explicit solution of the given initial-value problem</p>
 <ul>
 <li><p><span class="math inline">\(\displaystyle x^2 \frac{dy}{dx} = y -xy, \;\;y(-1)=-1\)</span></p></li>
 <li><p><span class="math inline">\(\displaystyle \frac{dx}{dt}=4(x^2 + 1), \;\;x(\pi/4)=1\)</span></p></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="350dc492" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.Symbol(<span class="st">'t'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Function(<span class="st">'x'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> x(t).diff(t) <span class="op">-</span><span class="dv">4</span> <span class="op">*</span> (t <span class="op">*</span>t <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{x(pi<span class="op">/</span><span class="dv">4</span>): <span class="dv">1</span>}, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
+<p><span class="math inline">\(\displaystyle x{\left(t \right)} = \frac{4 t^{3}}{3} + 4 t - \pi - \frac{\pi^{3}}{48} + 1\)</span></p>
+</div>
+</div>
 <p><span class="math inline">\(~\)</span></p>
 </section>
 <section id="sec-2-3" class="level2" data-number="2.3">
@@ -541,6 +569,18 @@ window.Quarto = {
 <li><p><span class="math inline">\(~\displaystyle y\frac{dx}{dy} -x=2y^2, \;\; y(1)=5\)</span></p></li>
 <li><p><span class="math inline">\(~\displaystyle (x+1)\frac{dy}{dx}+y = \ln x, \;\;y(1)=10\)</span></p></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
+<div id="1687ec17" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> (x <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> y(x).diff(x) <span class="op">-</span>y(x) <span class="op">-</span>sympy.log(x)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">1</span>): <span class="dv">10</span>}, hint<span class="op">=</span><span class="st">'1st_linear'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<p><span class="math inline">\(\displaystyle y{\left(x \right)} = \left(x + 1\right) \left(\log{\left(x \right)} - \log{\left(x + 1 \right)} + \log{\left(2 \right)} + 5 - \frac{\log{\left(x \right)}}{x + 1}\right)\)</span></p>
+</div>
+</div>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> The given differential equation is not linear in <span class="math inline">\(y\)</span>. <span class="math inline">\(~\)</span>Nevertheless, find a general solution of the equation</p>
 <ul>
@@ -609,6 +649,18 @@ window.Quarto = {
 <li><p><span class="math inline">\(~(x^2 -y^2)dx+(x^2-2xy)dy=0\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
+<div id="10b8c2c6" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span>x <span class="op">-</span><span class="dv">1</span>) <span class="op">+</span> (<span class="dv">3</span> <span class="op">*</span>y(x) <span class="op">+</span><span class="dv">7</span>) <span class="op">*</span>y(x).diff(x)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_exact'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
+<p><span class="math inline">\(\displaystyle \left[ y{\left(x \right)} = - \frac{\sqrt{C_{1} - 6 x^{2} + 6 x}}{3} - \frac{7}{3}, \  y{\left(x \right)} = \frac{\sqrt{C_{1} - 6 x^{2} + 6 x}}{3} - \frac{7}{3}\right]\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem</p>
 <ul>
 <li><p><span class="math inline">\(~(x+y)^2 dx + (2xy +x^2-1)dy = 0, \;\;y(1)=1\)</span></p></li>
@@ -633,6 +685,18 @@ window.Quarto = {
 <p>Let <span class="math inline">\(\,u=-2x+y\)</span>,</p>
 <p>then <span class="math inline">\(~\displaystyle\frac{du}{dx}=-2 + \frac{dy}{dx}~\)</span> giving <span class="math inline">\(~\displaystyle\frac{du}{dx} = u^2 -9\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
+<div id="74a6cc6b" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span>x <span class="op">+</span>y(x))<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">7</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>sympy.cancel(dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">0</span>): <span class="dv">0</span>}))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<p><span class="math inline">\(\displaystyle y{\left(x \right)} = \frac{2 x e^{6 x} + 2 x - 3 e^{6 x} + 3}{e^{6 x} + 1}\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 <ul>
 <li><p><strong>Homogeneous</strong> first-order DE</p>
 <p>A first-order ordinary DE in the form:</p>
@@ -656,6 +720,18 @@ window.Quarto = {
 <p>Changing variables <span class="math inline">\(\displaystyle u=\tfrac{1}{y}\)</span>, <span class="math inline">\(~\)</span><span class="math inline">\(\displaystyle u'=-\tfrac{1}{y^2}y'\)</span> gives the equation</p>
 <p><span class="math display">\[ u'+\frac{2}{x}u=x^2\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
+<div id="740e92c0" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span><span class="dv">2</span> <span class="op">/</span>x <span class="op">*</span>y(x) <span class="op">+</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> y(x)<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'Bernoulli'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
+<p><span class="math inline">\(\displaystyle y{\left(x \right)} = \frac{5 x^{2}}{C_{1} + x^{5}}\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 <ul>
 <li><p><strong>Riccati</strong> DE</p>
 <ul>
@@ -678,6 +754,18 @@ window.Quarto = {
 <li><p><span class="math inline">\(~\displaystyle x\frac{dy}{dx}=y+\sqrt{x^2-y^2}, \;\;x&gt;0\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
+<div id="cf558f49" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> x <span class="op">*</span>y(x).diff(x) <span class="op">-</span>y(x) <span class="op">-</span>sympy.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span>y(x)<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_homogeneous_coeff_best'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
+<p><span class="math inline">\(\displaystyle y{\left(x \right)} = - x \sin{\left(C_{1} - \log{\left(x \right)} \right)}\)</span></p>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the given initial-value problem</p>
 <ul>
 <li><p><span class="math inline">\(~\displaystyle xy^2 \frac{dy}{dx}=y^3-x^3, \;\;y(1)=2\)</span></p></li>
@@ -690,6 +778,7 @@ window.Quarto = {
 <li><p><span class="math inline">\(~\displaystyle 3(1+t^2)\frac{dy}{dt}=2ty(y^3-1)\)</span></p></li>
 <li><p><span class="math inline">\(~\displaystyle \frac{dy}{dx}=\cos (x+y), \;\;y(0)=\frac{\pi}{4}\)</span></p></li>
 </ul>
+<p><span class="math inline">\(~\)</span></p>
 </section>
 <section id="sec-2-6" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="sec-2-6"><span class="header-section-number">2.6</span> A Numerical Method</h2>
@@ -721,31 +810,31 @@ window.Quarto = {
       y_5 &amp;= 5.0768
 \end{aligned}\]</span></p></li>
 </ul>
-<div id="7b977b22" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">2.0</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="fl">4.0</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.5</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>((xf <span class="op">-</span> x0)<span class="op">/</span>h) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(x0, xf, n)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.zeros(n)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">0</span>] <span class="op">=</span> y0</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="op">=</span> y[i <span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> h<span class="op">*</span>(<span class="fl">0.1</span> <span class="op">*</span> np.sqrt(y[i <span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> x[i <span class="op">-</span><span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'x = </span><span class="sc">{</span>x[i] <span class="sc">: 3.1f}</span><span class="ss">, y = </span><span class="sc">{</span>y[i] <span class="sc">: 5.4f}</span><span class="ss">'</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, <span class="st">'o'</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x$"</span>)</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$y$"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"$h=0.1$"</span>)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5c5e399d" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">2.0</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="fl">4.0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.5</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="bu">int</span>((xf <span class="op">-</span> x0)<span class="op">/</span>h) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(x0, xf, n)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.zeros(n)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">0</span>] <span class="op">=</span> y0</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n):</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    y[i] <span class="op">=</span> y[i <span class="op">-</span><span class="dv">1</span>] <span class="op">+</span> h<span class="op">*</span>(<span class="fl">0.1</span> <span class="op">*</span> np.sqrt(y[i <span class="op">-</span><span class="dv">1</span>]) <span class="op">+</span> <span class="fl">0.4</span> <span class="op">*</span> x[i <span class="op">-</span><span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'x = </span><span class="sc">{</span>x[i] <span class="sc">: 3.1f}</span><span class="ss">, y = </span><span class="sc">{</span>y[i] <span class="sc">: 5.4f}</span><span class="ss">'</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.plot(x, y, <span class="st">'o'</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$x$"</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$y$"</span>)</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"$h=0.1$"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x =  2.1, y =  4.1800
 x =  2.2, y =  4.3768
@@ -756,7 +845,7 @@ x =  2.5, y =  5.0768</code></pre>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="ch_02_First-Order_Differential_Equations_files/figure-html/cell-3-output-2.png" width="368" height="381" class="figure-img"></p>
+<p><img src="ch_02_First-Order_Differential_Equations_files/figure-html/cell-10-output-2.png" width="368" height="381" class="figure-img"></p>
 <figcaption>Euler’s Method</figcaption>
 </figure>
 </div>
@@ -825,46 +914,46 @@ x =  2.5, y =  5.0768</code></pre>
 <ul>
 <li>Use a numerical solver to graph <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span></li>
 </ul>
-<div id="2e8a6ce7" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lotka-Volterra predator-prey model</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>a, b, c, d <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.02</span>, <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.025</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(t, xy):</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> xy</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [a <span class="op">*</span>x <span class="op">+</span>b <span class="op">*</span>x <span class="op">*</span>y, c <span class="op">*</span>y <span class="op">+</span>d <span class="op">*</span>x <span class="op">*</span>y]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial condition and Time span</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>xy0 <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">6</span>]</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>tf <span class="op">=</span> <span class="dv">400</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tf, <span class="dv">5</span><span class="op">*</span>tf)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical Solver</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> integrate.solve_ivp(f, [<span class="dv">0</span>, tf], xy0, t_eval<span class="op">=</span>t_eval)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sol.t</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>xy_t <span class="op">=</span> sol.y.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b7311555" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lotka-Volterra predator-prey model</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>a, b, c, d <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.02</span>, <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.025</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(t, xy):</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    x, y <span class="op">=</span> xy</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [a <span class="op">*</span>x <span class="op">+</span>b <span class="op">*</span>x <span class="op">*</span>y, c <span class="op">*</span>y <span class="op">+</span>d <span class="op">*</span>x <span class="op">*</span>y]</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial condition and Time span</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>xy0 <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">6</span>]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>tf <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, tf, <span class="dv">5</span><span class="op">*</span>tf)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Numerical Solver</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> integrate.solve_ivp(f, [<span class="dv">0</span>, tf], xy0, t_eval<span class="op">=</span>t_eval)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sol.t</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>xy_t <span class="op">=</span> sol.y.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 <ul>
 <li>Use the graphs to approximate the period of each population</li>
 </ul>
-<div id="626fd575" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">0</span>], <span class="st">'r'</span>, label<span class="op">=</span><span class="st">"Predator"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">1</span>], <span class="st">'b'</span>, label<span class="op">=</span><span class="st">"Prey"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Time"</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of animals"</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, tf)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="213d8029" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">0</span>], <span class="st">'r'</span>, label<span class="op">=</span><span class="st">"Predator"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">1</span>], <span class="st">'b'</span>, label<span class="op">=</span><span class="st">"Prey"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Time"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Number of animals"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, tf)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="ch_02_First-Order_Differential_Equations_files/figure-html/cell-5-output-1.png" width="526" height="437" class="figure-img"></p>
+<p><img src="ch_02_First-Order_Differential_Equations_files/figure-html/cell-12-output-1.png" width="526" height="437" class="figure-img"></p>
 <figcaption>Lotka-Volterra predator-prey model</figcaption>
 </figure>
 </div>
