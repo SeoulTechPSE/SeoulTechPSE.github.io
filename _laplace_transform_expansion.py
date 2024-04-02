@@ -12,7 +12,7 @@ def subs_(e, s1, s2):
         s_ = e.args[2]
         return e.subs(s_, s).subs(s1, s2).subs(s, s_)
 
-    if isinstance(e, (sympy.Add, sympy.Mul,  
+    if isinstance(e, (sympy.Add, sympy.Mul, 
                       sympy.Derivative, sympy.Integral, sympy.Subs)):
         tp = type(e)      
         return tp(*[subs_(arg, s1, s2) for arg in e.args])
@@ -21,9 +21,68 @@ def subs_(e, s1, s2):
 
 
 def laplace_transform_(*e, **f):
+    
+    t_ = e[1]
+    
+    if isinstance(e[0], (int, float)):
+        return laplace_transform(*e, **f)[0]
 
+    k = len(e[0].args)
+    #print(f'--------- {k = } ---------')
+    
+    terms = []
+    for i in range(k):
+        if  k == 1:
+            #print(e[0])
+            terms.append(e[0])
+        else:
+            if isinstance(e[0], (sympy.Mul, sympy.Derivative, sympy.Integral)):
+                #print(e[0])
+                terms.append(e[0])
+                break
+            else:
+                #print(e[0].args[i])
+                terms.append(e[0].args[i])
+    
+    Leq = sympy.Float('0')
+    for i in range(len(terms)):
 
-    return laplace_transform_expansion(laplace_transform(*e, **f)[0])
+        flag = 0
+        l = len(terms[i].args)    
+        if l == 1:
+            terms__ = terms[i]
+        else:
+            terms__ = sympy.Integer('1')
+            for j in range(l):
+                if isinstance(terms[i], (sympy.Derivative, sympy.Integral)):
+                    terms__ = terms[i]
+                    break
+                else: 
+                    if isinstance(terms[i].args[j], sympy.exp):
+                        a = terms[i].args[j].args[0].args
+                        if len(a) == 2:
+                            flag = a[0]
+                        else:
+                            flag = a[0] *a[2]                                    
+                    # if sympy.simplify(terms[i].args[j] - t_) == 0:
+                    #     flag = 1
+                    #     continue
+                    # elif isinstance(terms[i].args[j], sympy.Pow):
+                    #     flag = terms[i].args[j].args[1]
+                    #     continue                       
+                    else:
+                        terms__ *= terms[i].args[j]
+
+        Leq_ = laplace_transform_expansion(laplace_transform(terms__, e[1], e[2], **f)[0])
+
+        if flag != 0: 
+            Leq_ = Leq_.subs(e[2], e[2] -flag)
+
+        Leq += Leq_
+
+    #print(Leq) 
+
+    return Leq.doit()
 
 
 def laplace_transform_expansion(e):
