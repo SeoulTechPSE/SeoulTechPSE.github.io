@@ -1,6 +1,6 @@
 # Process Systems Lab., SeoulTech
 # April 15, 2021 Authored by Kee-Youn Yoo
-# March 19, 2024
+# April 4, 2024 Modifed for sympy version 1.12
 
 import sympy
 from sympy import integrate, laplace_transform
@@ -28,27 +28,27 @@ def laplace_transform_(*e, **f):
         return laplace_transform(*e, **f)[0]
 
     k = len(e[0].args)
-    #print(f'--------- {k = } ---------')
     
     terms = []
     for i in range(k):
         if  k == 1:
-            #print(e[0])
             terms.append(e[0])
         else:
             if isinstance(e[0], (sympy.Mul, sympy.Derivative, sympy.Integral)):
-                #print(e[0])
                 terms.append(e[0])
                 break
             else:
-                #print(e[0].args[i])
                 terms.append(e[0].args[i])
     
+    m = len(terms)
+    if m == 0:
+        return laplace_transform(*e, **f)[0]
+    
     Leq = sympy.Float('0')
-    for i in range(len(terms)):
+    for i in range(m):
 
         flag = 0
-        l = len(terms[i].args)    
+        l = len(terms[i].args) 
         if l == 1:
             terms__ = terms[i]
         else:
@@ -63,13 +63,7 @@ def laplace_transform_(*e, **f):
                         if len(a) == 2:
                             flag = a[0]
                         else:
-                            flag = a[0] *a[2]                                    
-                    # if sympy.simplify(terms[i].args[j] - t_) == 0:
-                    #     flag = 1
-                    #     continue
-                    # elif isinstance(terms[i].args[j], sympy.Pow):
-                    #     flag = terms[i].args[j].args[1]
-                    #     continue                       
+                            flag = a[0] *a[2]                                                         
                     else:
                         terms__ *= terms[i].args[j]
 
@@ -79,8 +73,6 @@ def laplace_transform_(*e, **f):
             Leq_ = Leq_.subs(e[2], e[2] -flag)
 
         Leq += Leq_
-
-    #print(Leq) 
 
     return Leq.doit()
 
