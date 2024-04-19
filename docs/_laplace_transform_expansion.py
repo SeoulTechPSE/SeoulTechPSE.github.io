@@ -223,15 +223,3 @@ def laplace_transform_expansion(e):
         return tp(*[laplace_transform_expansion(arg) for arg in e.args])
 
     return e
-
-
-def solve_lode_ivp_laplace_transform(t, y, ode, ics):
-    
-    s, Y = sympy.symbols("s, Y", real=True)
-    Ly = sympy.laplace_transform(y(t), t, s)
-    
-    Lode = laplace_transform_expansion(sympy.laplace_transform(ode, t, s, noconds=True)).subs(Ly, Y).subs(ics)
-    Y_sol = sympy.solve(Lode, Y)[0]
-    y_sol = sympy.inverse_laplace_transform(Y_sol, s, t)
-    
-    return y_sol.simplify()  
