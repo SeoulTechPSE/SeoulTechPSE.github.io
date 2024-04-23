@@ -24,7 +24,7 @@ We will now begin to study the second major class of PDEs, $\,$<font color="red"
 
 * In the vertical component of Newton's second law, $\,$the mass of this piece $\,\rho\Delta x\,$ times its acceleration $\,u_{tt}$ will be equal to the net force on the piece:
 
-  $${\begin{aligned}
+  $$\begin{aligned}
    \rho\Delta x u_{tt} &= T_2 \sin\beta +T_1 \sin\alpha \\ 
    &\Downarrow \\ 
    \frac{\rho\Delta x}{T} u_{tt} &= \frac{T_2 \sin\beta}{T_2 \cos\beta} 
@@ -34,7 +34,7 @@ We will now begin to study the second major class of PDEs, $\,$<font color="red"
    u_{tt} &=\frac{T}{\rho} \frac{u_x(x+\Delta x) -u_x(x)}{\Delta x} \\
    &\Downarrow\; c^2 = T/\rho,\;\Delta x \to 0 \\
    u_{tt} &= c^2 u_{xx}
-  \end{aligned}}$$
+  \end{aligned}$$
 
   This is the <font color="blue">wave equation</font> for $\,u(x,t)\,$ and <font color="green">$\,c$ is the speed of propagation of the wave</font> in the string
 
@@ -140,8 +140,6 @@ This is what we were aiming for, $\,$and it is called the **D'Alembert solution*
 
   Suppose now the initial position of the string is at equilibrium and we impose an initial velocity (as in a piano string) of $\,\sin x$
 
-
-
   $$\begin{aligned}
    u(x,0)&= 0\\ 
    u_t(x,0)&=\sin x 
@@ -167,7 +165,6 @@ plt.rcParams['font.size'] = 12
 plt.rcParams['xtick.direction'] = 'in'
 plt.rcParams['ytick.direction'] = 'in'
 ```
-
 ```{python}
 fig = plt.figure(figsize=(6, 4))
 ax = plt.axes(xlim=(-6.0*np.pi, 6.0*np.pi), ylim=(-1.5, 1.5))
@@ -488,7 +485,6 @@ def init():
     time_text.set_text('t = 0.0')
     line.set_data([], [])
     return (line,)
-
 ```
 
 ```{python}
@@ -1315,35 +1311,31 @@ $~$
 #| fig-align: center
 from scipy.special import jv, yv, jn_zeros
 
-def example_plot_jnyn():
+fig = plt.figure(figsize=(6, 8))
+ax1 = fig.add_subplot(211)
+ax2 = fig.add_subplot(212)
 
-    fig = plt.figure(figsize=(6, 8))
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
+ax1.axis((0, 10, -0.6, 1))    
+ax1.set_ylabel('$J_n$')
 
-    ax1.axis((0, 10, -0.6, 1))    
-    ax1.set_ylabel('$J_n$')
+ax2.axis((0, 10, -3, 1))    
+ax2.set_xlabel('$\sqrt{\lambda}$')
+ax2.set_ylabel('$Y_n$')
 
-    ax2.axis((0, 10, -3, 1))    
-    ax2.set_xlabel('$\sqrt{\lambda}$')
-    ax2.set_ylabel('$Y_n$')
+ax1.plot([0, 10], [0, 0], 'k:')
+ax2.plot([0, 10], [0, 0], 'k:')
 
-    ax1.plot([0, 10], [0, 0], 'k:')
-    ax2.plot([0, 10], [0, 0], 'k:')
+x = np.linspace(0, 10, 200)
+for n in range(4):
+    y1 = jv(n, x)
+    y2 = yv(n, x)
+    ax1.plot(x, y1, label=r'$J_%d(\sqrt{\lambda})$' % n)
+    ax2.plot(x, y2, label=r'$Y_%d(\sqrt{\lambda})$' % n)
 
-    x = np.linspace(0, 10, 200)
-    for n in range(4):
-        y1 = jv(n, x)
-        y2 = yv(n, x)
-        ax1.plot(x, y1, label=r'$J_%d(\sqrt{\lambda})$' % n)
-        ax2.plot(x, y2, label=r'$Y_%d(\sqrt{\lambda})$' % n)
-    
-    ax1.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
-    ax2.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
+ax1.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
+ax2.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
 
-    plt.show()
-
-example_plot_jnyn()    
+plt.show()
 ```
 
 $~$
@@ -1369,34 +1361,30 @@ $~$
 #| fig-align: center
 ncols = 4
 nrows = 4
-
-def example_plot_he():
     
-    fig, axs = plt.subplots(ncols=ncols, 
-       nrows=ncols, figsize=(7, 7), 
-       subplot_kw=dict(projection='polar'))
+fig, axs = plt.subplots(ncols=ncols, 
+    nrows=ncols, figsize=(7, 7), 
+    subplot_kw=dict(projection='polar'))
 
-    for ax in axs.flat:
-        ax.set(xticks=[], yticks=[])
+for ax in axs.flat:
+    ax.set(xticks=[], yticks=[])
 
-    azimuths = np.radians(np.linspace(0, 360, 100))
-    zeniths = np.linspace(0, 1, 100)
+azimuths = np.radians(np.linspace(0, 360, 100))
+zeniths = np.linspace(0, 1, 100)
 
-    theta, r = np.meshgrid(azimuths, zeniths)
+theta, r = np.meshgrid(azimuths, zeniths)
 
-    for n in range(ncols):
-        alpha_nm = jn_zeros(n, nrows)
-        for m in range(nrows):
-            U_nm = jv(n, alpha_nm[m] *r) *np.cos(n *theta)
-            axs[n, m].contourf(theta, r, U_nm, levels=[0, 10])
-            if m == 0:
-                axs[n, 0].set_ylabel(f'n = {n}') 
-            if n == 0:
-                axs[nrows -1, m].set_xlabel(f'm = {m +1}')
-     
-    plt.show()
-
-example_plot_he()
+for n in range(ncols):
+    alpha_nm = jn_zeros(n, nrows)
+    for m in range(nrows):
+        U_nm = jv(n, alpha_nm[m] *r) *np.cos(n *theta)
+        axs[n, m].contourf(theta, r, U_nm, levels=[0, 10])
+        if m == 0:
+            axs[n, 0].set_ylabel(f'n = {n}') 
+        if n == 0:
+            axs[nrows -1, m].set_xlabel(f'm = {m +1}')
+  
+plt.show()
 ```
 
 $~$
@@ -1465,54 +1453,50 @@ $~$
 #| fig-align: center
 from mpl_toolkits.axisartist.axislines import SubplotZero
 
-def example_plot_dh():
+fig = plt.figure(figsize=(7, 8))
+ax1 = SubplotZero(fig, 211)
+ax2 = SubplotZero(fig, 212)
 
-    fig = plt.figure(figsize=(7, 8))
-    ax1 = SubplotZero(fig, 211)
-    ax2 = SubplotZero(fig, 212)
+fig.add_subplot(ax1)
+ax1.axis["left", "right", "bottom", "top"].set_visible(False)
+ax1.axis["xzero", "yzero"].set_visible(True)
+ax1.axis["xzero", "yzero"].set_axisline_style("-|>")
 
-    fig.add_subplot(ax1)
-    ax1.axis["left", "right", "bottom", "top"].set_visible(False)
-    ax1.axis["xzero", "yzero"].set_visible(True)
-    ax1.axis["xzero", "yzero"].set_axisline_style("-|>")
+ax1.set_xticks([2, 4, 6, 8, 10])
+ax1.set_ylim(-0.5, 1.1)
+ax1.set_yticks([-0.5, 0.5, 1.0])
+ax1.text(11, -0.03, '$\sqrt{\lambda}$', fontsize=14)
 
-    ax1.set_xticks([2, 4, 6, 8, 10])
-    ax1.set_ylim(-0.5, 1.1)
-    ax1.set_yticks([-0.5, 0.5, 1.0])
-    ax1.text(11, -0.03, '$\sqrt{\lambda}$', fontsize=14)
+fig.add_subplot(ax2)
+ax2.axis["left", "right", "bottom", "top"].set_visible(False)
+ax2.axis["xzero", "yzero"].set_visible(True)
+ax2.axis["xzero", "yzero"].set_axisline_style("-|>")
 
-    fig.add_subplot(ax2)
-    ax2.axis["left", "right", "bottom", "top"].set_visible(False)
-    ax2.axis["xzero", "yzero"].set_visible(True)
-    ax2.axis["xzero", "yzero"].set_axisline_style("-|>")
+ax2.set_xticks([0.2, 0.4, 0.6, 0.8, 1.0])
+ax2.set_ylim(-0.5, 1.1)   
+ax2.set_yticks([-0.5, 0.5, 1.0])
+ax2.text(1.1, -0.03, '$r$', fontsize=12)
 
-    ax2.set_xticks([0.2, 0.4, 0.6, 0.8, 1.0])
-    ax2.set_ylim(-0.5, 1.1)   
-    ax2.set_yticks([-0.5, 0.5, 1.0])
-    ax2.text(1.1, -0.03, '$r$', fontsize=12)
+mm = 3
+alpha_0m =jn_zeros(0, mm)
 
-    mm = 3
-    alpha_0m =jn_zeros(0, mm)
+r1 = np.linspace(0, 10, 100)
+y1 = jv(0, r1)
+ax1.plot(r1, y1, label=r'$J_0(\sqrt{\lambda})$')
+ax1.plot(alpha_0m, np.zeros(mm), 'ro')
 
-    r1 = np.linspace(0, 10, 100)
-    y1 = jv(0, r1)
-    ax1.plot(r1, y1, label=r'$J_0(\sqrt{\lambda})$')
-    ax1.plot(alpha_0m, np.zeros(mm), 'ro')
+for m in range(mm):
+    ax1.text(alpha_0m[m] -0.2, 0.1, rf'$\alpha_{m +1}$', fontsize=12)
+ax1.legend()
 
-    for m in range(mm):
-        ax1.text(alpha_0m[m] -0.2, 0.1, rf'$\alpha_{m +1}$', fontsize=12)
-    ax1.legend()
+r2 = np.linspace(0, 1, 100)
+for m in range(mm):   
+    y2 = jv(0, alpha_0m[m]*r2)
+    ax2.plot(r2, y2, label=rf'$J_0(\alpha_{m +1}r)$')
+    ax2.plot(alpha_0m[:m +1] /alpha_0m[m], np.zeros(m +1), 'x')
+ax2.legend()
 
-    r2 = np.linspace(0, 1, 100)
-    for m in range(mm):   
-        y2 = jv(0, alpha_0m[m]*r2)
-        ax2.plot(r2, y2, label=rf'$J_0(\alpha_{m +1}r)$')
-        ax2.plot(alpha_0m[:m +1] /alpha_0m[m], np.zeros(m +1), 'x')
-    ax2.legend()
-
-    plt.show()
-
-example_plot_dh()    
+plt.show()  
 ```
 
 $~$
@@ -1568,7 +1552,6 @@ anim = animation.FuncAnimation(fig, animate,
          init_func=init, frames=tt, interval=200, blit=True)
 
 HTML('<center>' + anim.to_html5_video() + '</center>')
-
 ```
 
 $~$
