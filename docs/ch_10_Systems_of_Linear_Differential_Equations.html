@@ -356,6 +356,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Pandas</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
     </ul>
@@ -438,7 +444,7 @@ window.Quarto = {
   \vdots &amp;        &amp;        &amp; \vdots \\
   a_{n1} &amp; a_{n2} &amp; \cdots &amp; a_{nn}
 \end{pmatrix}, \;
-\mathbf{f}
+\mathbf{f} =
 \begin{pmatrix} f_1 \\ f_2 \\ \vdots \\ f_n \end{pmatrix}\]</span></p>
 <p>then the system of linear first-order DEs can be written as</p>
 <p><span class="math display">\[\frac{d\mathbf{x}}{dt}=\mathbf{A}\mathbf{x} +\mathbf{f} \tag{LSM}\label{eq:LSM}\]</span></p></li>
@@ -457,7 +463,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2 +\cdots +c_k\mathbf{x}_k
 \]</span></p>
-<p>where <span class="math inline">\(c_i\)</span>, <span class="math inline">\(i=1,2,\cdots,k\)</span> are arbitrary constants, is also a solution on the interval</p></li>
+<p>where <span class="math inline">\(c_i\)</span>, <span class="math inline">\(i=1,2,\cdots,k,\)</span> are arbitrary constants, is also a solution on the interval</p></li>
 <li><p>We can introduce the concept of the <strong>Wronskian</strong> determinant as a test for linear independence. Let <span class="math inline">\(\,\mathbf{x}_1\)</span>, <span class="math inline">\(\mathbf{x}_2\)</span>, <span class="math inline">\(\cdots\)</span>, <span class="math inline">\(\mathbf{x}_n\)</span> be <span class="math inline">\(n\)</span> solution vectors of the homogeneous system on <span class="math inline">\(I\)</span>. Then the set of solution vectors is linearly independent on <span class="math inline">\(I\,\)</span> if and only if the Wronskian</p>
 <p><span class="math display">\[\scriptsize
   W(\mathbf{x}_1, \mathbf{x}_2, \cdots, \mathbf{x}_n)=
@@ -558,7 +564,7 @@ window.Quarto = {
 <p>the general solution of the system is</p>
 <p><span class="math display">\[\mathbf{x}=c_1 \mathbf{x}_1 +c_2\mathbf{x}_2\]</span></p></li>
 </ul>
-<div id="cc2fd999" class="cell" data-execution_count="1">
+<div id="3265342d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -597,7 +603,7 @@ Figure&nbsp;7.1: Lotka-Volterra predator-prey model
 </div>
 </div>
 </div>
-<div id="7bf6ffef" class="cell" data-execution_count="3">
+<div id="ae018cef" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">1</span>]])</span>
@@ -612,7 +618,7 @@ array([[ 0.83205029, -0.70710678],
        [ 0.5547002 ,  0.70710678]])</code></pre>
 </div>
 </div>
-<div id="93c5d75f" class="cell" data-execution_count="4">
+<div id="03815c7e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -875,7 +881,7 @@ c_3\left[
   \frac{dx}{dt} &amp;= 3x -18y\\
   \frac{dy}{dt} &amp;= 2x -9y
 \end{aligned}\]</span></p>
-<div id="70f55fa9" class="cell" data-execution_count="5">
+<div id="ef4c1a6d" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]])</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ld, k <span class="op">=</span> np.linalg.eig(A)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -888,7 +894,7 @@ array([[0.9487, 0.9487],
        [0.3162, 0.3162]])</code></pre>
 </div>
 </div>
-<div id="4a0f10c1" class="cell" data-execution_count="6">
+<div id="aa25e67d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A_.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
@@ -1033,7 +1039,7 @@ Figure&nbsp;7.2: Phase Portrait of defective system
 <p>The eigenvalues are <span class="math inline">\(\lambda_1=2i\)</span> and <span class="math inline">\(\lambda_2=\bar{\lambda}_1\)</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="c6cfcb6a" class="cell" data-execution_count="8">
+<div id="85140e51" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[<span class="dv">2</span>, <span class="dv">8</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>A_ <span class="op">=</span> sympy.Matrix(A)</span>
@@ -1086,7 +1092,7 @@ c_1\left[\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>ax.plot(sol.t, sol.y[<span class="dv">0</span>], <span class="st">'r-'</span>, label <span class="op">=</span> <span class="st">'x'</span>)</span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>ax.plot(sol.t, sol.y[<span class="dv">1</span>], <span class="st">'b-'</span>, label <span class="op">=</span> <span class="st">'y'</span>)</span>
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="dv">0</span>, <span class="dv">20</span>, <span class="op">-</span><span class="dv">4</span>, <span class="dv">4</span>))</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">8</span>)</span>
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'t'</span>)</span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'x, y'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1094,7 +1100,7 @@ c_1\left[\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t
 <div id="fig-ch10-times-series-complex-eigenvalues" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ch10-times-series-complex-eigenvalues-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ch_10_Systems_of_Linear_Differential_Equations_files/figure-html/fig-ch10-times-series-complex-eigenvalues-output-1.png" width="523" height="282" class="figure-img">
+<img src="ch_10_Systems_of_Linear_Differential_Equations_files/figure-html/fig-ch10-times-series-complex-eigenvalues-output-1.png" width="529" height="288" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ch10-times-series-complex-eigenvalues-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;7.3: Time series of system with complex eigenvalues
@@ -1628,7 +1634,7 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
 \end{array}\right)\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="03095b66" class="cell" data-execution_count="11">
+<div id="01cc7a53" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>]])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> sympy.symbols(<span class="st">'s'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.symbols(<span class="st">'t'</span>, real<span class="op">=</span><span class="va">True</span>, positive<span class="op">=</span><span class="va">True</span>)</span>
@@ -1659,7 +1665,7 @@ Figure&nbsp;7.4: Phase Portrait of system with complex eigenvalues
 \end{array}\right)\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="ee963def" class="cell" data-execution_count="12">
+<div id="1641c90a" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sympy.Matrix([[<span class="op">-</span><span class="dv">2</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>]])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.symbols(<span class="st">'t'</span>, real <span class="op">=</span> <span class="va">True</span>, positive <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sympy.exp(A<span class="op">*</span>t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
