@@ -1317,13 +1317,13 @@ $~$
 #| label: fig-impulse-response-function
 #| fig-cap: "Impulse-response function"
 #| fig-align: center
-def example_plot5(alpha, omega, t, x):
+def example_plot5(alpha, xi, t, x):
 
     plt.figure(figsize=(7, 5))
 
     for tt in t:
       plt.plot(x, 0.5 /np.sqrt(alpha *np.pi *tt) 
-            *np.exp(-(x -omega)**2 /(4.0 *alpha *tt)), 
+            *np.exp(-(x -xi)**2 /(4.0 *alpha *tt)), 
           label=f'$t={tt:0.2f}$')
     plt.legend(loc='upper right')          
 
@@ -1337,17 +1337,17 @@ def example_plot5(alpha, omega, t, x):
     plt.xlabel('$x$')
     plt.ylabel(r'$G(x-\xi,t)$')
 
-    plt.title(rf'$\alpha={alpha:2.1f}, \;\xi={omega:2.1f}$')
+    plt.title(rf'$\alpha={alpha:2.1f}, \;\xi={xi:2.1f}$')
 
     plt.show()
 
 alpha = 1
-omega = 0
+xi = 0
 
 t = [0.05, 0.1, 0.2, 0.4, 0.8, 1.6, 3.2]
 x = np.linspace(-6, 6, 1000)
 
-example_plot5(alpha, omega, t, x) 
+example_plot5(alpha, xi, t, x) 
 ```
 
 **NOTES**
@@ -1439,9 +1439,9 @@ does not exist. $\,$Only functions that damp to zero sufficiently fast as $|x| \
      \omega^2\mathcal{F}_c\left[ f(x) \right]}
   \end{aligned}}$$
 
-* **Solution of an Infinite-Diffusion Problem via the Sine Transform**
+* **Solution of an Semi-infinite-Diffusion Problem via the Sine Transform**
 
-  The problem we are interested in is the *infinite diffusion problem*
+  The problem we are interested in is the *semi-infinite diffusion problem*
 
   $$
   \begin{aligned}
@@ -1496,7 +1496,7 @@ $$ u(x,t)=A\, \mathrm{erfc} \left( \frac{x}{2\sqrt{\alpha t}} \right)$$
 
 where $\mathrm{erfc}(\eta), \;0 < \eta < \infty$, $\,$is called the complementary-error function and is given by
 
-$$ \mathrm{erfc}(\eta)=\frac{2}{\sqrt{\pi}} \int_\eta^\infty e^{-t^2}\,dt$$
+$$ \mathrm{erfc}(\eta)=\frac{2}{\sqrt{\pi}} \int_\eta^\infty e^{-\beta^2}\,d\beta$$
 
 $~$
 
@@ -1504,13 +1504,13 @@ $~$
 #| label: fig-semi-infinite-domain-1
 #| fig-cap: "Heat conduction in semi-infinite domain with fixed temperature at the boundary"
 #| fig-align: center
-from scipy import special
+from scipy.special import erf, erfc
 
 def example_plot6(A, alpha, t, x):
     plt.figure(figsize=(7, 5))
     for tt in t:
-        plt.plot(x, A *special.erfc(x /(2 *np.sqrt(alpha *tt))), 
-          label='$t=%0.1f$' % tt)
+        plt.plot(x, A *erfc(x /(2 *np.sqrt(alpha *tt))), 
+          label=rf'$t={tt:0.1f}$')
     plt.xlim(0, x[-1])
     plt.ylim(0, 1.2)
     plt.legend(loc='upper right')
@@ -1519,7 +1519,7 @@ def example_plot6(A, alpha, t, x):
     plt.text(2, 0.8, 
       r'$$u(x,t)=A\, \mathrm{erfc}' 
       r'\left( \dfrac{x}{2\sqrt{\alpha t}} \right)$$')
-    plt.title(r'$A=%3.1f, \; \alpha=%3.1f$' %(A, alpha))
+    plt.title(rf'$A={A:3.1f}, \; \alpha={alpha:3.1f}$')
     plt.show()
 
 A = 1
@@ -1760,8 +1760,8 @@ def example_plot7(t, x, u0, u_solution):
 def u_solution(t, x, u0):
     sqrt_t = np.sqrt(t)
     x_2sqrt_t = x /(2 *sqrt_t)
-    return u0 -u0*(special.erfc(x_2sqrt_t) 
-              -special.erfc(sqrt_t +x_2sqrt_t) *np.exp(x +t))
+    return u0 -u0*(erfc(x_2sqrt_t) 
+              -erfc(sqrt_t +x_2sqrt_t) *np.exp(x +t))
 
 u0 = 1
 t = np.logspace(-3, 0, 6)
@@ -1772,7 +1772,137 @@ example_plot7(t, x, u0, u_solution)
 
 $~$
 
-## $~$Duhamel's Principle {#sec-x1-16}
+## $~$The Convection Term $u_x$ in the Diffusion Problems {#sec-x1-16}
+
+* Suppose now we consider the problem of finding the concentration of a substance upwards from the surface of the earth where the substance both diffuses through the air and is carried upwards (convected) by moving currents (moving with velocity $V$)
+
+* In any case, $\,$it is our purpose here to solve the diffusion-convection equation
+
+  $$ u_t = Du_{xx} -V u_x$$
+
+* To get an idea of what solutions look like or how they behave with the convection term included, $\,$let's first work a problem that is pure convection (the diffusion term is zero)
+
+* A typical problem would be dumping a substance into a clean air (moving with upward velocity $V$) and observing the concentration of the substance at the upperside. $\,$Then the concentration of substance $u(x,t)$ can be found by solving the following mathematical model:
+
+  $$
+  \begin{aligned}
+     u_t &= -Vu_x && \phantom{xx}\color{red}{0 < x < \infty}, \; 0 < t < \infty \\ \\
+     u(0,t) &= P &&\longleftarrow\; \text{Constant Input of the Substance} \\
+     u(x,0) &= 0 &&\longleftarrow\; \text{Initially a Clean Air}
+  \end{aligned} \tag{CV}\label{eq:CV}$$
+
+* Since the $x$-variable is unbounded, $\,$we use the Laplace transform on $t$
+
+  $$\begin{aligned}
+    sU(x) &=-V\frac{dU}{dx}, \;\;\; 0 < x < \infty \\ 
+    U(0) &= \frac{P}{s}\\ 
+    &\Downarrow \\ 
+    U(x) &=\frac{P}{s} e^{-\frac{x}{V}s}  \\ 
+    &\Downarrow \\
+    u(x,t) &= P \,H(t -x/V) \\
+    &\Downarrow \\
+    u(x,t) &=
+    \begin{cases}
+      P & x \leq Vt \\
+      0 & x > Vt  
+    \end{cases}
+  \end{aligned}$$
+
+* To see what happens when a moving wave diffuses, $\,$we solve the following problem $(P=1)$
+  
+  $$
+  \begin{aligned}
+     u_t &= Du_{xx}-Vu_x && -\infty < x < \infty, \;0 < t < \infty \\
+     u(x,0) &= P\left(1 -H(x)\right) && -\infty < x < \infty
+  \end{aligned} \tag{DC}\label{eq:DC}$$ 
+  
+  Note that in the new problem \eqref{eq:DC}, $\,$we have moved the boundary to $-\infty$ (we now have an initial-value problem)
+
+* In this case, $\,$we introduce a new coordinate $\xi$, $\,$which moves along the $x$-axis with velocity $V$. $\,$In other words, $\,$we now place our coordinate system so that it moves with the wave front (of course, $\,$now when diffusion in addition to convection, $\,$we won't have a sharp wave front)
+
+* Mathematically this says that we change our space coordinate $\,x\,$ to $\,\xi=x -Vt$. $\,$It's now clear that when $\xi=0,$ $\,$we are on the wave front
+
+* To begin, $\,$we introduce new coordinates $(\xi, \tau)$ and use the chain rule to get the new IVP in terms of $\xi$ and $\tau$:
+
+  $$\begin{aligned}
+    u_t&= D u_{xx} -Vu_x\\ 
+    &\Downarrow\; \xi=x-Vt, \;\tau=t \\ 
+    u_t&= u_{\xi}\xi_t+u_\tau\tau_t=-Vu_\xi+u_\tau\\ 
+    u_x&= u_\xi \xi_x+u_\tau\tau_x =u_\xi\\
+    u_{xx}&=(u_\xi)_x=u_{\xi\xi}\xi_x=u_{\xi\xi} \\
+    &\Downarrow \\
+    -Vu_\xi+u_\tau &=Du_{\xi\xi} -Vu_\xi\\
+    &\big\Downarrow \;\xi=x \text{ at } t=0\\
+    u_\tau &=D u_{\xi\xi},\;\;\;-\infty<\xi<\infty \\
+    u(\xi,0)&=P(1-H(\xi))=\phi(\xi) 
+  \end{aligned}$$
+
+* This problem has already been solved in @sec-x1-13 by the Fourier transform and has the solution
+
+  $$ {\scriptsize u(\xi,\tau)=\frac{1}{2\sqrt{D\pi\tau}} \int_{-\infty}^{\infty}\phi(\omega) e^{-(\xi-\omega)^2/4D\tau}\,d\omega
+  =\frac{P}{2\sqrt{D\pi\tau}} \int_{-\infty}^0 e^{-(\xi-\omega)^2/4D\tau}\,d\omega } $$
+
+  where $\,\phi(\omega)$ is the initial condition
+
+* By letting
+
+  $${\beta=\frac{\xi -\omega}{2\sqrt{D\tau}},\;\; d\beta=-\frac{1}{2\sqrt{D\tau}}d\omega}$$
+
+  we get the interesting result
+
+  $$\begin{aligned}
+    \displaystyle u(\xi,\tau)&=\frac{P}{2} \left[ \frac{2}{\sqrt{\pi}} \int_{\frac{\xi}{2\sqrt{D\tau}}}^\infty e^{-\beta^2}\,d\beta \right]  
+     = {\scriptsize \begin{cases}
+    \displaystyle\;\frac{P}{2} \left[ 1+\mathrm{erf}\left( -\frac{\xi}{2\sqrt{D\tau}} \right) \right],& \xi<0 \\ 
+    \displaystyle\;\frac{P}{2}\, \mathrm{erfc}\left( \frac{\xi}{2\sqrt{D\tau}} \right), & \xi \geq 0 
+      \end{cases}}
+    \end{aligned}$$
+
+* Finally, $\,$the solution of our problem in terms of  the coordinates $x$ and $t\,$ is
+
+  $$u(x,t)=\begin{cases}
+    \displaystyle\;\frac{P}{2} \left[ 1+\mathrm{erf}\left( \frac{Vt -x}{2\sqrt{Dt}} \right) \right], & Vt>x \\ 
+    \displaystyle\;\frac{P}{2}\, \mathrm{erfc}\left( \frac{x-Vt}{2\sqrt{Dt}} \right), & Vt \leq x 
+  \end{cases}$$
+
+$~$
+
+```{python}
+#| label: fig-diffusion-convection
+#| fig-cap: "Diffusion-convection Heat transfer in semi-infinite domain"
+#| fig-align: center
+
+def example_plot8(D, V, t, x, u_solution):
+    plt.figure(figsize=(8, 6))
+    plt.plot([-1, 0, 0, x[-1]], [1, 1, 0, 0], 'r:', label='$t=0.0$')
+    for tt in t:
+        x_tt = V*tt 
+        plt.plot(x, u_solution(D, V, tt, x), label=rf'$t={tt:3.1f}$')
+        plt.plot([-1, x_tt, x_tt, x[-1]], [1, 1, 0, 0], 'k:') 
+    plt.xlim(-1, x[-1])
+    plt.ylim(0, 1.2)
+    plt.legend(loc='upper left', bbox_to_anchor=(1.0, 1.0))
+    plt.xlabel('$x$')
+    plt.ylabel('$u(x,t)$')
+    plt.title(rf'$D={D:4.1f},\;V={V:3.1f},\;P=1.0$')    
+    plt.show()        
+
+def u_solution(D, V, t, x):
+    x_t = (x -V*t) /(2.0 *np.sqrt(D*t))      
+    return [0.5*(1.0 +erf(-q)) if q <= 0.0 else 0.5*erfc(q) for q in x_t] 
+
+D = 0.1
+V = 1.0
+
+t = [2.0, 4.0, 6.0, 8.0]
+x = np.linspace(0, 16, 400)
+
+example_plot8(D, V, t, x, u_solution)  
+```
+
+$~$
+
+## $~$Duhamel's Principle {#sec-x1-17}
 
 * Quite often, $\,$it is important to find the temperature inside a medium due to time-varying boundary conditions. $\,$For example, $\,$consider an insulated rod with temperature specified as $\,f(t)$ on the right end
 
@@ -1855,138 +1985,5 @@ $~$
 
   allows us to find $u(x,t)$ to an arbitrary boundary temperature $\,f(t)$ once we have carried out an experiment to determine the temperature response $\,v(x,t)$ from an impulse temperature
 
-## $~$The Convection Term $u_x$ in the Diffusion Problems {#sec-x1-17}
-
-* Suppose now we consider the problem of finding the concentration of a substance upwards from the surface of the earth where the substance both diffuses through the air and is carried upwards (convected) by moving currents (moving with velocity $V$)
-
-* In any case, $\,$it is our purpose here to solve the diffusion-convection equation
-
-  $$ u_t = Du_{xx} -V u_x$$
-
-* To get an idea of what solutions look like or how they behave with the convection term included, $\,$let's first work a problem that is pure convection (the diffusion term is zero)
-
-* A typical problem would be dumping a substance into a clean air (moving with upward velocity $V$) and observing the concentration of the substance at the upperside. $\,$Then the concentration of substance $u(x,t)$ can be found by solving the following mathematical model:
-
-  $$
-  \begin{aligned}
-     u_t &= -Vu_x && \phantom{xx}\color{red}{0 < x < \infty}, \; 0 < t < \infty \\ \\
-     u(0,t) &= P &&\longleftarrow\; \text{Constant Input of the Substance} \\
-     u(x,0) &= 0 &&\longleftarrow\; \text{Initially a Clean Air}
-  \end{aligned} \tag{CV}\label{eq:CV}$$
-
-* Since the $x$-variable is unbounded, $\,$we use the Laplace transform on $t$
-
-  $$\begin{aligned}
-    sU(x) &=-V\frac{dU}{dx}, \;\;\; 0 < x < \infty \\ 
-    U(0) &= \frac{P}{s}\\ 
-    &\Downarrow \\ 
-    U(x) &=\frac{P}{s} e^{-\frac{x}{V}s}  \\ 
-    &\Downarrow \\
-    u(x,t) &= P \,H(t -x/V) \\
-    &\Downarrow \\
-    u(x,t) &=
-    \begin{cases}
-      \,0 & t < x/V \\ 
-      P & t \geq x/V 
-    \end{cases}
-  \end{aligned}$$
-
-* To see what happens when a moving wave diffuses, $\,$we solve the following problem $(P=1)$
-  
-  $$
-  \begin{aligned}
-     u_t &= Du_{xx}-Vu_x && -\infty < x < \infty, \;0 < t < \infty \\
-     u(x,0) &= P\left(1 -H(x)\right) && -\infty < x < \infty
-  \end{aligned} \tag{DC}\label{eq:DC}$$ 
-  
-  Note that in the new problem \eqref{eq:DC}, $\,$we have moved the boundary to $-\infty$ (we now have an initial-value problem)
-
-* In this case, $\,$we introduce a new coordinate $\xi$, $\,$which moves along the $x$-axis with velocity $V$. $\,$In other words, $\,$we now place our coordinate system so that it moves with the wave front (of course, $\,$now when diffusion in addition to convection, $\,$we won't have a sharp wave front)
-
-* Mathematically this says that we change our space coordinate $\,x\,$ to $\,\xi=x -Vt$. $\,$It's now clear that when $\xi=0,$ $\,$we are on the wave front
-
-* To begin, $\,$we introduce new coordinates $(\xi, \tau)$ and use the chain rule to get the new IVP in terms of $\xi$ and $\tau$:
-
-  $$\begin{aligned}
-    u_t&= D u_{xx} -Vu_x\\ 
-    &\Downarrow\; \xi=x-Vt, \;\tau=t \\ 
-    u_t&= u_{\xi}\xi_t+u_\tau\tau_t=-Vu_\xi+u_\tau\\ 
-    u_x&= u_\xi \xi_x+u_\tau\tau_x =u_\xi\\
-    u_{xx}&=(u_\xi)_x=u_{\xi\xi}\xi_x=u_{\xi\xi} \\
-    &\Downarrow \\
-    -Vu_\xi+u_\tau &=Du_{\xi\xi} -Vu_\xi\\
-    &\big\Downarrow \;\xi=x \text{ at } t=0\\
-    u_\tau &=D u_{\xi\xi},\;\;\;-\infty<\xi<\infty \\
-    u(\xi,0)&=P(1-H(\xi))=\phi(\xi) 
-  \end{aligned}$$
-
-* This problem has already been solved in @sec-x1-13 by the Fourier transform and has the solution
-
-  $$ {\scriptsize u(\xi,\tau)=\frac{1}{2\sqrt{D\pi\tau}} \int_{-\infty}^{\infty}\phi(\omega) e^{-(\xi-\omega)^2/4D\tau}\,d\omega
-  =\frac{P}{2\sqrt{D\pi\tau}} \int_{-\infty}^0 e^{-(\xi-\omega)^2/4D\tau}\,d\omega } $$
-
-  where $\,\phi(\omega)$ is the initial condition
-
-* By letting
-
-  $${\beta=\frac{\xi -\omega}{2\sqrt{D\tau}},\;\; d\beta=-\frac{1}{2\sqrt{D\tau}}d\omega}$$
-
-  we get the interesting result
-
-  $$\begin{aligned}
-    \displaystyle u(\xi,\tau)&=\frac{P}{2} \left[ \frac{2}{\sqrt{\pi}} \int_{\frac{\xi}{2\sqrt{D\tau}}}^\infty e^{-\beta^2}\,d\beta \right]  
-     = {\scriptsize \begin{cases}
-    \displaystyle\;\frac{P}{2} \left[ 1+\mathrm{erf}\left( -\frac{\xi}{2\sqrt{D\tau}} \right) \right],& \xi<0 \\ 
-    \displaystyle\;\frac{P}{2}\, \mathrm{erfc}\left( \frac{\xi}{2\sqrt{D\tau}} \right), & \xi \geq 0 
-      \end{cases}}
-    \end{aligned}$$
-
-* Finally, $\,$the solution of our problem in terms of  the coordinates $x$ and $t\,$ is
-
-  $$u(x,t)=\begin{cases}
-    \displaystyle\;\frac{P}{2} \left[ 1+\mathrm{erf}\left( \frac{Vt -x}{2\sqrt{Dt}} \right) \right], & Vt>x \\ 
-    \displaystyle\;\frac{P}{2}\, \mathrm{erfc}\left( \frac{x-Vt}{2\sqrt{Dt}} \right), & Vt \leq x 
-  \end{cases}$$
-
-$~$
-
-```{python}
-#| label: fig-diffusion-convection
-#| fig-cap: "Diffusion-convection Heat transfer in semi-infinite domain"
-#| fig-align: center
-
-def example_plot8(D, V, t, x, u_solution):
-    plt.figure(figsize=(7, 5))
-    plt.plot([-1, 0, 0, x[-1]], [1, 1, 0, 0], 'r:', label='$t=0.0$')
-    for tt in t:
-        x_tt = V*tt 
-        plt.plot(x, u_solution(D, V, tt, x), label='$t=%3.1f$' % tt)
-        plt.plot([-1, x_tt, x_tt, x[-1]], [1, 1, 0, 0], 'k:') 
-    plt.legend(loc='upper right')
-
-    plt.xlim(-1, x[-1])
-    plt.ylim(0, 1.2)
-    
-    plt.xlabel('$x$')
-    plt.ylabel('$u(x,t)$')
-    plt.title(r'$D=%4.2f,\;V=%3.1f,\;P=1.0$' % (D, V))
-
-    plt.show()        
-
-def u_solution(D, V, t, x):
-    x_t = (x -V*t)/(2.0 *np.sqrt(D*t))      
-    return [0.5*(1.0 +special.erf(-q)) 
-            if q <= 0.0 else 0.5*special.erfc(q) for q in x_t] 
-
-D = 0.5
-V = 1.0
-
-t = [2.0, 4.0, 6.0, 8.0]
-x = np.linspace(-1, 16, 400)
-
-example_plot8(D, V, t, x, u_solution)  
-```
-
-$~$
 
 ## Worked Exercises {.unnumbered}
