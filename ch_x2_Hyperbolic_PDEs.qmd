@@ -170,7 +170,7 @@ fig = plt.figure(figsize=(6, 4))
 ax = plt.axes(xlim=(-6.0*np.pi, 6.0*np.pi), ylim=(-1.5, 1.5))
 
 ax.set_xticks([-6.0*np.pi,-3.0*np.pi, 0, 3.0*np.pi, 6.0*np.pi])
-ax.set_xticklabels(['$-6\pi$','$-3\pi$','$0$','$3\pi$','$6\pi$'])
+ax.set_xticklabels([r'$-6\pi$',r'$-3\pi$','$0$',r'$3\pi$',r'$6\pi$'])
 ax.set_yticks([-1.2, -0.6, 0, 0.6, 1.2])
 ax.set_xlabel('$x$')
 ax.set_ylabel('$u(x,t)$')
@@ -189,7 +189,7 @@ def init():
 
 c = 1
 def animate(t):
-    time_text.set_text('t = %3.1f' % t)
+    time_text.set_text(f't = {t:3.1f}')
     x = np.linspace(-6.0*np.pi, 6.0*np.pi, 300)
     u = 1.0/(2.0*c)*(np.cos(x -c*t) -np.cos(x +c*t))
     line.set_data(x, u)
@@ -327,7 +327,7 @@ def init():
 ```{python}
 c = 1
 def animate(t):
-    time_text.set_text('t = %3.1f' % t)    
+    time_text.set_text(f't = {t:3.1f}')    
     xx = np.linspace(-15, 15, 300)   
     uu = np.zeros_like(xx)
     
@@ -497,7 +497,7 @@ def f_i(x):
     return u
     
 def animate(t):
-    time_text.set_text('t = %3.1f' % t)        
+    time_text.set_text(f't = {t:3.1f}')        
     xx = np.linspace(0, 5, 400)   
     uu = np.zeros_like(xx)
     
@@ -1319,7 +1319,7 @@ ax1.axis((0, 10, -0.6, 1))
 ax1.set_ylabel('$J_n$')
 
 ax2.axis((0, 10, -3, 1))    
-ax2.set_xlabel('$\sqrt{\lambda}$')
+ax2.set_xlabel(r'$\sqrt{\lambda}$')
 ax2.set_ylabel('$Y_n$')
 
 ax1.plot([0, 10], [0, 0], 'k:')
@@ -1329,8 +1329,8 @@ x = np.linspace(0, 10, 200)
 for n in range(4):
     y1 = jv(n, x)
     y2 = yv(n, x)
-    ax1.plot(x, y1, label=r'$J_%d(\sqrt{\lambda})$' % n)
-    ax2.plot(x, y2, label=r'$Y_%d(\sqrt{\lambda})$' % n)
+    ax1.plot(x, y1, label=rf'$J_{n:d}(\sqrt{{\lambda}})$')
+    ax2.plot(x, y2, label=rf'$Y_{n:d}(\sqrt{{\lambda}})$')
 
 ax1.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
 ax2.legend(bbox_to_anchor=(1.01, 1), loc='upper left')
@@ -1465,7 +1465,7 @@ ax1.axis["xzero", "yzero"].set_axisline_style("-|>")
 ax1.set_xticks([2, 4, 6, 8, 10])
 ax1.set_ylim(-0.5, 1.1)
 ax1.set_yticks([-0.5, 0.5, 1.0])
-ax1.text(11, -0.03, '$\sqrt{\lambda}$', fontsize=14)
+ax1.text(11, -0.03, r'$\sqrt{\lambda}$', fontsize=14)
 
 fig.add_subplot(ax2)
 ax2.axis["left", "right", "bottom", "top"].set_visible(False)
