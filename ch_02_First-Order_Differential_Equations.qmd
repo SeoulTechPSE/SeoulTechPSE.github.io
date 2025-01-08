@@ -28,8 +28,6 @@ For example, $~\displaystyle\frac{dy}{dx}=\sin y$
 ```{python}
 #| fig-align: "center"
 import numpy as np
-from scipy import integrate
-
 import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
@@ -154,7 +152,7 @@ sympy.init_printing()
 x = sympy.Symbol('x')
 y = sympy.Function('y')
 
-eq = y(x).diff(x) -x * sympy.sqrt(1 -y(x) *y(x))
+eq = y(x).diff(x) -x *sympy.sqrt(1 -y(x) *y(x))
 
 dsolve(eq, hint='separable')
 ```
@@ -173,7 +171,7 @@ $~$
 t = sympy.Symbol('t')
 x = sympy.Function('x')
 
-eq = x(t).diff(t) -4 * (t *t +1)
+eq = x(t).diff(t) -4 *(t *t +1)
 
 dsolve(eq, ics={x(pi/4): 1}, hint='separable')
 ```
@@ -239,7 +237,7 @@ $~$
 x = sympy.Symbol('x')
 y = sympy.Function('y')
 
-eq = (x + 1) * y(x).diff(x) -y(x) -sympy.log(x)
+eq = (x + 1) *y(x).diff(x) +y(x) -sympy.log(x)
 
 dsolve(eq, ics={y(1): 10}, hint='1st_linear')
 ```
@@ -642,6 +640,8 @@ where the populations $x(t)$ (predator) and $y(t)$ (prey) are measured in the th
 ```{python}
 # | echo: true
 # Lotka-Volterra predator-prey model
+from scipy import integrate
+
 a, b, c, d = -0.1, 0.02, 0.2, -0.025
 
 def f(t, xy):
