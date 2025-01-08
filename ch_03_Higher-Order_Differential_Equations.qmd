@@ -96,7 +96,7 @@ $~$
      &\Downarrow \;{\scriptsize\times\, y_1, \; u'=w}\\ 
      (y_1^2 w)' &= -(y_1^2 w) P(x) \\
      &\Downarrow \\
-     \color{red}{y_2(x)} &\color{red}{= y_1(x) \int \frac{\exp\left(-\int P(x) \,dx \right)}{y_1^2(x)} \,dx} 
+     \color{red}{y_2(x)} &\color{red}{= y_1(x) {\LARGE\int} {\small\frac{\exp\left(-{\displaystyle\int} P(x) \,dx \right)}{y_1^2(x)} \,dx}} 
   \end{aligned}$$
 
 **Example** $\,$ The indicated function $y_1(x)$ is a solution of the given equation. Use the reduction of order to find a second solution $y_2(x)$
@@ -135,13 +135,6 @@ $~$
 $~$
 
 **Example** $\,$ Solve $~3y'''+5y''+10y'-4y=0$
-
-```{python}
-import numpy as np
-from scipy.integrate import solve_ivp
-
-import matplotlib.pyplot as plt
-```
 
 ```{python}
 # | echo: true
@@ -260,13 +253,15 @@ To solve,
 
   $$y_p = \color{red}{u_1(x)} \color{blue}{y_1} +\color{red}{u_2(x)} \color{blue}{y_2}$$
 
+$~$
+
 $$
 \begin{aligned} 
      y_p''+P(x)y_p' &+Q(x)y_p = f(x)\\ 
-     &\Downarrow \, y_p = u_1 y_1 +u_2 y_2 \\ 
-     \frac{d}{dx}[\color{blue}{y_1 u_1' +y_2 u_2'}] +P(x) [\color{blue}{y_1 u_1' +y_2 u_2'}] +\color{red}{y_1' u_1'} &+\color{red}{y_2' u_2'}= f(x) \\
-     &\Downarrow \,\text{let } y_1 u_1' +y_2 u_2' =0, \; \text{then }
-     y_1' u_1' +y_2' u_2'= f(x) \\
+     &{\Big\Downarrow} \; {\small y_p = u_1 y_1 +u_2 y_2} \\ 
+     \frac{d}{dx}[\color{blue}{y_1 u_1' +y_2 u_2'}] +P(x) [\color{blue}{y_1 u_1' +y_2 u_2'}] &+\color{red}{y_1' u_1'} +\color{red}{y_2' u_2'}= f(x) \\
+     {\small\text{let } y_1 u_1' +y_2 u_2' =0,}\; &{\Big\Downarrow} \; {\small\text{then }
+     y_1' u_1' +y_2' u_2'= f(x)} \\
      \color{red}{\begin{bmatrix}
         y_1 & y_2\\ 
         y_1' & y_2' 
