@@ -10,7 +10,7 @@
         "\n",
         "## Importing modules\n"
       ],
-      "id": "939adf58"
+      "id": "0f5d280f"
     },
     {
       "cell_type": "code",
@@ -25,7 +25,7 @@
         "import matplotlib as mpl\n",
         "from mpl_toolkits.mplot3d.axes3d import Axes3D"
       ],
-      "id": "2735d681",
+      "id": "7c7fc4b1",
       "execution_count": null,
       "outputs": []
     },
@@ -110,7 +110,7 @@
         "\n",
         "  with the initial value $T(0) = T_0$\n"
       ],
-      "id": "5f1961c7"
+      "id": "b840dece"
     },
     {
       "cell_type": "code",
@@ -126,7 +126,7 @@
         "\n",
         "sympy.Eq(ode, 0) "
       ],
-      "id": "6301d87e",
+      "id": "b2840a3a",
       "execution_count": null,
       "outputs": []
     },
@@ -137,7 +137,7 @@
         "ode_sol = sympy.dsolve(ode)\n",
         "ode_sol"
       ],
-      "id": "88361873",
+      "id": "7b0d3914",
       "execution_count": null,
       "outputs": []
     },
@@ -147,7 +147,7 @@
       "source": [
         "* The return value from `sympy.dsolve` is an instance of `sympy.Eq`, which is a symbolic representation of an equality\n"
       ],
-      "id": "ef84f814"
+      "id": "c1e326b0"
     },
     {
       "cell_type": "code",
@@ -155,7 +155,7 @@
       "source": [
         "ode_sol.lhs, ode_sol.rhs"
       ],
-      "id": "5bb50797",
+      "id": "e0f84596",
       "execution_count": null,
       "outputs": []
     },
@@ -167,7 +167,7 @@
         "\n",
         "* We first create a dictionary that describes the initial condition, `ics = {T(0): T0}`, which we can use with `sympy`'s `subs` method to apply the initial condition to the solution of the ODE. This results in an equation for the unknown integration constant $C_1$:\n"
       ],
-      "id": "40b864d0"
+      "id": "25379fc2"
     },
     {
       "cell_type": "code",
@@ -178,7 +178,7 @@
         "                ode_sol.rhs.subs(t, 0))\n",
         "C_eq"
       ],
-      "id": "0716026b",
+      "id": "e543a97c",
       "execution_count": null,
       "outputs": []
     },
@@ -188,7 +188,7 @@
       "source": [
         "* In the present example, the equation for $C_1$ is trivial to solve, but for the sake of generality, here we solve it using `sympy.solve`:\n"
       ],
-      "id": "717a3c91"
+      "id": "37c1dedb"
     },
     {
       "cell_type": "code",
@@ -197,7 +197,7 @@
         "C_sol = sympy.solve(C_eq)\n",
         "C_sol"
       ],
-      "id": "d0e28d5e",
+      "id": "1e243d5e",
       "execution_count": null,
       "outputs": []
     },
@@ -207,7 +207,7 @@
       "source": [
         "ode_sol.subs(C_sol[0])"
       ],
-      "id": "f87fb8ed",
+      "id": "b1f7cdfd",
       "execution_count": null,
       "outputs": []
     },
@@ -218,7 +218,7 @@
         "* Applying the initial conditions and solving for the undetermined integration constants can be slightly tedious, and it worth while to collect these steps in a reusable function. The following function `apply_ics` is a basic\n",
         "implementation that generalizes these steps to a differential equation of arbitrary order\n"
       ],
-      "id": "d2afe75a"
+      "id": "bb35d6b6"
     },
     {
       "cell_type": "code",
@@ -248,7 +248,7 @@
         "    \n",
         "    return sol.subs(sol_params)"
       ],
-      "id": "f56c4616",
+      "id": "2c1a1dc3",
       "execution_count": null,
       "outputs": []
     },
@@ -259,7 +259,7 @@
         "T_sol = apply_ics(ode_sol, ics, t, [k, Ta])\n",
         "T_sol"
       ],
-      "id": "9dcfc65f",
+      "id": "23940655",
       "execution_count": null,
       "outputs": []
     },
@@ -285,7 +285,7 @@
         "ax.set_ylim(1, 5)\n",
         "ax.tick_params(which='both', direction='in', axis='x', pad=7)"
       ],
-      "id": "4cc60eeb",
+      "id": "4da0bc53",
       "execution_count": null,
       "outputs": []
     },
@@ -300,7 +300,7 @@
         "  where $x(t)$ is the position of the oscillator at time $t$, $\\,\\omega_0$ is\n",
         "the frequency for the undamped case, and $\\,\\gamma$ is the damping ratio\n"
       ],
-      "id": "07a484ce"
+      "id": "15b77508"
     },
     {
       "cell_type": "code",
@@ -315,7 +315,7 @@
         "      +omega0**2 *x(t))\n",
         "sympy.Eq(ode, 0)"
       ],
-      "id": "07a154a6",
+      "id": "b5b52733",
       "execution_count": null,
       "outputs": []
     },
@@ -326,7 +326,7 @@
         "ode_sol = sympy.dsolve(ode)\n",
         "ode_sol"
       ],
-      "id": "8b9efb82",
+      "id": "d9f5abac",
       "execution_count": null,
       "outputs": []
     },
@@ -336,7 +336,7 @@
       "source": [
         "* Since this is a second-order ODE, there are two undetermined integration constants in the general solution. We need to specify initial conditions for both the position $x(0)$ and the velocity $x'(0)$ to single out a particular solution to the ODE\n"
       ],
-      "id": "4b49c666"
+      "id": "7785a352"
     },
     {
       "cell_type": "code",
@@ -347,7 +347,7 @@
         "C1 = x_sol.rhs.args[0].args[0]\n",
         "C1"
       ],
-      "id": "ab600f0e",
+      "id": "992bfe70",
       "execution_count": null,
       "outputs": []
     },
@@ -358,7 +358,7 @@
         "C2 = x_sol.rhs.args[1].args[0]\n",
         "C2"
       ],
-      "id": "84d35c28",
+      "id": "3c79454c",
       "execution_count": null,
       "outputs": []
     },
@@ -368,7 +368,7 @@
       "source": [
         "* This is the solution for the dynamics of the oscillator for arbitrary values of $t$, $\\omega_0$ and $\\gamma$. $~$However, substituting $\\gamma = 1$, $\\,$which corresponds to critical damping, directly into this expression results in *a division by zero* error, and for this particular choice of $\\gamma$, we need to be careful and compute the limit where $\\gamma \\rightarrow 1$\n"
       ],
-      "id": "36a5d9b2"
+      "id": "c66bebfb"
     },
     {
       "cell_type": "code",
@@ -377,7 +377,7 @@
         "x_critical = sympy.limit(x_sol.rhs, gamma, 1)\n",
         "x_critical"
       ],
-      "id": "0102a142",
+      "id": "061c9262",
       "execution_count": null,
       "outputs": []
     },
@@ -387,7 +387,7 @@
       "source": [
         "* Finally, $\\,$we plot the solutions for $\\omega_0 = 2\\pi$ and a sequence of different values of the damping ratio $\\gamma$\n"
       ],
-      "id": "4291bd2f"
+      "id": "9de5bcb2"
     },
     {
       "cell_type": "code",
@@ -412,7 +412,7 @@
         "ax.set_ylim(-1, 1.5)\n",
         "ax.tick_params(which='both', direction='in', axis='x', pad=7)"
       ],
-      "id": "654d4b36",
+      "id": "8fe98347",
       "execution_count": null,
       "outputs": []
     },
@@ -425,7 +425,7 @@
         "* Even many first-order ODEs cannot be solved exactly in terms of elementary functions. \n",
         "For example, consider $\\displaystyle\\frac{dy}{dx} = x +y^2$, $\\,$which is an example of an ODE that does not have any closed-form solution\n"
       ],
-      "id": "82b120ab"
+      "id": "533ddb37"
     },
     {
       "cell_type": "code",
@@ -440,7 +440,7 @@
         "ode = y(x).diff(x) -f\n",
         "ode"
       ],
-      "id": "5fe6025d",
+      "id": "60c8b831",
       "execution_count": null,
       "outputs": []
     },
@@ -450,7 +450,7 @@
       "source": [
         "sympy.classify_ode(ode)"
       ],
-      "id": "e2db5479",
+      "id": "e420200a",
       "execution_count": null,
       "outputs": []
     },
@@ -460,7 +460,7 @@
       "source": [
         "* See @sec-2-5\n"
       ],
-      "id": "f55b61c3"
+      "id": "3f77a629"
     },
     {
       "cell_type": "code",
@@ -478,7 +478,7 @@
         "u_sol = sympy.dsolve(ode_).rhs\n",
         "u_sol"
       ],
-      "id": "75099b07",
+      "id": "e46c9337",
       "execution_count": null,
       "outputs": []
     },
@@ -489,7 +489,7 @@
         "y_sol = -u_sol.diff(x) /(q2 *u_sol)\n",
         "y_sol"
       ],
-      "id": "7dd785ae",
+      "id": "aa3f9d28",
       "execution_count": null,
       "outputs": []
     },
@@ -501,7 +501,7 @@
         "C1_ = sympy.solve(y_sol.subs({x: 0}), C1)[0]\n",
         "C1_"
       ],
-      "id": "88000e76",
+      "id": "b157b7da",
       "execution_count": null,
       "outputs": []
     },
@@ -512,7 +512,7 @@
         "y_sol = y_sol.subs({C1: C1_}).cancel()\n",
         "y_sol"
       ],
-      "id": "05d89185",
+      "id": "30d571fe",
       "execution_count": null,
       "outputs": []
     },
@@ -526,7 +526,7 @@
         "\n",
         "  $$\\frac{d^2y}{dx^2} =x +y^2$$\n"
       ],
-      "id": "b74a4d7d"
+      "id": "d1a59d39"
     },
     {
       "cell_type": "code",
@@ -534,7 +534,7 @@
       "source": [
         "sympy.Eq(y(x).diff(x, 2), f)"
       ],
-      "id": "11302c83",
+      "id": "c12b16c2",
       "execution_count": null,
       "outputs": []
     },
@@ -547,7 +547,7 @@
         "except Exception as e:\n",
         "  print(e)"
       ],
-      "id": "f8199782",
+      "id": "c44cf70b",
       "execution_count": null,
       "outputs": []
     },
@@ -563,7 +563,7 @@
         "\n",
         "  The reason why the direction field graph is useful is that smooth and continuous curves that tangent the slope lines (at every point) in the direction field graph are possible solutions to the ODE\n"
       ],
-      "id": "3824a3e4"
+      "id": "f631aeab"
     },
     {
       "cell_type": "code",
@@ -601,7 +601,7 @@
         "    \n",
         "    return ax"
       ],
-      "id": "664fed0b",
+      "id": "e566666c",
       "execution_count": null,
       "outputs": []
     },
@@ -611,7 +611,7 @@
       "source": [
         "* With this function, we can produce the direction field graphs for the ODEs. The direction lines in the graphs suggest how the curves that are solutions to the corresponding ODE behave, and direction field graphs are therefore a useful tool for visualizing solutions to ODEs that cannot be solved analytically\n"
       ],
-      "id": "5454cefc"
+      "id": "af911ec0"
     },
     {
       "cell_type": "code",
@@ -622,7 +622,7 @@
         "\n",
         "f = y(x)**2 +x"
       ],
-      "id": "80fb76c7",
+      "id": "a40bdacb",
       "execution_count": null,
       "outputs": []
     },
@@ -646,7 +646,7 @@
         "\n",
         "ax.plot(x_vec, y_vec, 'r', lw=2)  "
       ],
-      "id": "1973364e",
+      "id": "e89cd4e9",
       "execution_count": null,
       "outputs": []
     },
@@ -662,7 +662,7 @@
         "  \n",
         "  $f(x,y(x))=y^2(x)/x$\n"
       ],
-      "id": "695c0d0b"
+      "id": "e164a80b"
     },
     {
       "cell_type": "code",
@@ -678,7 +678,7 @@
         "plot_direction_field(x, y(x), -x /y(x), ax=axes[1])\n",
         "plot_direction_field(x, y(x), y(x)**2 /x, ax=axes[2])"
       ],
-      "id": "cea196b1",
+      "id": "1fd07606",
       "execution_count": null,
       "outputs": []
     },
@@ -698,7 +698,7 @@
         "\n",
         "  * `subs_()` is the modified function of `sub()` method\n"
       ],
-      "id": "b388fb2a"
+      "id": "cebc0061"
     },
     {
       "cell_type": "code",
@@ -931,7 +931,7 @@
         "\n",
         "    return e"
       ],
-      "id": "ef89477e",
+      "id": "d224ba1a",
       "execution_count": null,
       "outputs": []
     },
@@ -950,7 +950,7 @@
         "\n",
         "ode"
       ],
-      "id": "dc269bf2",
+      "id": "c407d0ab",
       "execution_count": null,
       "outputs": []
     },
@@ -963,7 +963,7 @@
         "\n",
         "Ly = laplace_transform_(y(t), t, s)"
       ],
-      "id": "2c7ff4e6",
+      "id": "09ca0935",
       "execution_count": null,
       "outputs": []
     },
@@ -974,7 +974,7 @@
         "Lode = subs_(laplace_transform_(ode, t, s), Ly, Y(s)).subs(ics)\n",
         "Lode"
       ],
-      "id": "a943b433",
+      "id": "a31fe26f",
       "execution_count": null,
       "outputs": []
     },
@@ -985,7 +985,7 @@
         "Y_sol = sympy.solve(Lode, Y(s))[0]\n",
         "Y_sol "
       ],
-      "id": "2896e810",
+      "id": "a25e9ead",
       "execution_count": null,
       "outputs": []
     },
@@ -996,7 +996,7 @@
         "y_sol = sympy.inverse_laplace_transform(Y_sol, s, t)\n",
         "y_sol"
       ],
-      "id": "f0050dd6",
+      "id": "9ae31d03",
       "execution_count": null,
       "outputs": []
     },
@@ -1006,7 +1006,7 @@
       "source": [
         "y_t = sympy.lambdify(t, y_sol, modules=['numpy'])"
       ],
-      "id": "92f16301",
+      "id": "016f3198",
       "execution_count": null,
       "outputs": []
     },
@@ -1023,7 +1023,7 @@
         "ax.set_ylabel(r\"$y(t)$\", fontsize=12)\n",
         "fig.tight_layout()"
       ],
-      "id": "23702158",
+      "id": "85042fd4",
       "execution_count": null,
       "outputs": []
     },
@@ -1150,7 +1150,7 @@
         "\n",
         "  $$y'(x) = f(x, y(x)) = x + y^2(x)$$\n"
       ],
-      "id": "360b795f"
+      "id": "7973b21e"
     },
     {
       "cell_type": "code",
@@ -1166,7 +1166,7 @@
         "sol_p = integrate.solve_ivp(dydx, [0, 1.9], y0)\n",
         "sol_m = integrate.solve_ivp(dydx, [0, -5], y0)"
       ],
-      "id": "fca354fc",
+      "id": "8d45ac06",
       "execution_count": null,
       "outputs": []
     },
@@ -1180,7 +1180,7 @@
         "ax.plot(sol_p.t, sol_p.y.T, 'g', lw=2)\n",
         "ax.plot(sol_m.t, sol_m.y.T, 'r', lw=2)"
       ],
-      "id": "e85e4a45",
+      "id": "6e3cb2e3",
       "execution_count": null,
       "outputs": []
     },
@@ -1200,7 +1200,7 @@
         "\n",
         "  where $x(t)$ is the number of prey animals and $y(t)$ is the number of predator animals, and the coefficients $a$, $b$, $c$, and $d$ describe the rates of the processes in the model\n"
       ],
-      "id": "809bdc26"
+      "id": "37f07daf"
     },
     {
       "cell_type": "code",
@@ -1211,7 +1211,7 @@
         "  x, y = xy\n",
         "  return [a *x -b *x *y, c *x *y -d *y]"
       ],
-      "id": "143aae34",
+      "id": "3e0fc0a6",
       "execution_count": null,
       "outputs": []
     },
@@ -1226,7 +1226,7 @@
         "t = sol.t\n",
         "xy_t = sol.y.T"
       ],
-      "id": "1dfa71b5",
+      "id": "43f99c5e",
       "execution_count": null,
       "outputs": []
     },
@@ -1253,7 +1253,7 @@
         "axes[1].set_ylim(50, 450)\n",
         "axes[1].tick_params(which='both', direction='in')"
       ],
-      "id": "839a5b17",
+      "id": "9f608654",
       "execution_count": null,
       "outputs": []
     },
@@ -1272,7 +1272,7 @@
         "    \\end{aligned}\n",
         "  $$\n"
       ],
-      "id": "d156abd5"
+      "id": "a48e2a1e"
     },
     {
       "cell_type": "code",
@@ -1284,7 +1284,7 @@
         "  x, y, z = xyz\n",
         "  return [sigma *(y -x), x *(rho -z) -y, x *y -beta *z]"
       ],
-      "id": "7136f10e",
+      "id": "f80c5752",
       "execution_count": null,
       "outputs": []
     },
@@ -1304,7 +1304,7 @@
         "sol3 = integrate.solve_ivp(f, t_span, xyz0, \n",
         "          t_eval=t_eval, args=(rho, 2*sigma, 0.6*beta))"
       ],
-      "id": "71454aaf",
+      "id": "3e67b811",
       "execution_count": null,
       "outputs": []
     },
@@ -1332,7 +1332,7 @@
         "    ax.set_yticks([-20, 0, 20])\n",
         "    ax.set_zticks([0, 20, 40])"
       ],
-      "id": "b72f3694",
+      "id": "e9e5f946",
       "execution_count": null,
       "outputs": []
     },
@@ -1369,7 +1369,7 @@
         "    \\end{bmatrix} \n",
         "  $$\n"
       ],
-      "id": "1b70c1eb"
+      "id": "6a73a8dd"
     },
     {
       "cell_type": "code",
@@ -1383,7 +1383,7 @@
         "          y[3], \n",
         "        - k2/m2 *(y[2] -y[0]) -g2/m2 *y[3]]"
       ],
-      "id": "2a553856",
+      "id": "1aca4e2c",
       "execution_count": null,
       "outputs": []
     },
@@ -1397,7 +1397,7 @@
         "y0 = [1.0, 0, 0.5, 0]\n",
         "t = np.linspace(0, 20, 1000)"
       ],
-      "id": "66834bb1",
+      "id": "836bb60c",
       "execution_count": null,
       "outputs": []
     },
@@ -1407,7 +1407,7 @@
       "source": [
         "* Instead of calling the `solve_ivp` function, $\\,$we now need to create an instance of the class `integrate.ode`, $\\,$passing the ODE function $f$ as an argument:\n"
       ],
-      "id": "920696c9"
+      "id": "f7e37083"
     },
     {
       "cell_type": "code",
@@ -1415,7 +1415,7 @@
       "source": [
         "r = integrate.ode(f)"
       ],
-      "id": "fb16c06a",
+      "id": "a38abcf7",
       "execution_count": null,
       "outputs": []
     },
@@ -1437,7 +1437,7 @@
         "  r.integrate(r.t +dt)\n",
         "  idx += 1"
       ],
-      "id": "c041d53a",
+      "id": "19d16150",
       "execution_count": null,
       "outputs": []
     },
@@ -1447,7 +1447,7 @@
       "source": [
         "* This is arguably not as convenient as simply calling the `solive_ivp`, but it offers extra flexibility that sometimes is exactly what is needed\n"
       ],
-      "id": "9d2ed729"
+      "id": "a4a432df"
     },
     {
       "cell_type": "code",
@@ -1489,7 +1489,7 @@
         "\n",
         "fig.tight_layout()"
       ],
-      "id": "c5111a5f",
+      "id": "1429ff02",
       "execution_count": null,
       "outputs": []
     },
@@ -1499,7 +1499,7 @@
       "source": [
         "* Python functions for both $f(t, y(t))$ and its Jacobian can conveniently be generated using `sympy`'s `lambdify`, provided that the ODE problem first can be defined as a `sympy` expression. This symbolic-numeric hybrid approach is a powerful method to solving ODE problems(See @sec-double-pendulum)"
       ],
-      "id": "9224f8e9"
+      "id": "33403a4c"
     }
   ],
   "metadata": {

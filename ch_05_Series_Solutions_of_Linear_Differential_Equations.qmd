@@ -279,8 +279,9 @@ $~$
 # | fig-cap: Gamma Function
 
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.special import gamma, factorial
+
+import matplotlib.pyplot as plt
 
 x = np.linspace(-3.5, 5.5, 2251)
 y = gamma(x)
@@ -379,12 +380,8 @@ $~$
 ```{python}
 # | label: fig-ch05-Bessel-Function
 # | fig-cap: Bessel functions
+from scipy.special import jv, yv
 
-import numpy as np
-from scipy.special import jv, yv, spherical_jn
-from scipy.special import eval_legendre
-
-import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 
 fig = plt.figure(figsize=(6, 8))
@@ -416,7 +413,7 @@ ax2.legend()
 plt.show()
 ```
 
-* **Differential Recurence Relation**
+* **Differential Recurrence Relation**
 
   $$
    \begin{aligned}
@@ -538,11 +535,11 @@ $\displaystyle \, J_{-1/2}(x)=\sqrt{\frac{2}{\pi x}}\cos x$
 ```{python}
 # | label: fig-ch05-Spherical-Bessel_Function
 # | fig-cap: Spherical Bessel Function
+from scipy.special import spherical_jn
 
 plt.style.use('ggplot')
 
-fig = plt.figure(figsize=(6, 4))
-ax = fig.add_subplot(111)
+fig, ax = plt.subplots(figsize=(6, 4))
 
 x = np.linspace(np.finfo(np.float32).eps, 10, 200)
 for n in range(5):
@@ -552,7 +549,6 @@ for n in range(5):
 
 ax.axis((0, 10, -0.4, 1.0))
 
-ax.set_title(r'$j_{n}(x), n=0,1,2,3,4$')
 ax.set_xlabel('$x$')
 ax.set_ylabel('$j_n(x)$')
 ax.legend()
@@ -703,15 +699,16 @@ specific values for $c_0$ or $c_1$, depending on whether $n$ is an even or odd p
 # | label: fig-ch05-Legendre-Polynomials
 # | fig-cap: Legendre polynomials
 
-fig = plt.figure(figsize=(5, 5))
-ax = fig.add_subplot(111)
+from scipy.special import eval_legendre
+
+fig, ax = plt.subplots(figsize=(5, 5))
 
 x = np.linspace(-1, 1, 100)
 for n in range(6):
     y = eval_legendre(n, x)
     ax.plot(x, y, label=f'$P_{n}(x)$')
 
-ax.axis((-1.05, 1.05, -1.05, 1.05))
+ax.axis((-1.1, 1.1, -1.1, 1.1))
 ax.set_xlabel('x')
 ax.set_ylabel('$P_n(x)$')
 ax.legend(loc='lower left', bbox_to_anchor=(1, 0))
@@ -735,7 +732,7 @@ plt.show()
 
   This can be demonstrated through the following observations
 
-  * The right hand side of \eqref{eq:RF} is a $n$-th order polynomial
+  * The right hand side of \eqref{eq:RF} is an $n$-th order polynomial
 
   * Treating $\left(x^2 -1\right)^n = (x -1)^n (x + 1)^n$ as a product and using Leibnitz’ rule to differentiate $n$ times, $~$we have
     
