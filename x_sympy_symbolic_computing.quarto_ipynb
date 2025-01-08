@@ -1,0 +1,2502 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Sympy: Symbolic Computing {#sec-sympy}\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "[![](https://www.sympy.org/static/images/logo.png)](https://docs.sympy.org/latest/index.html)\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "## Importing sympy\n"
+      ],
+      "id": "903a64ca"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import sympy\n",
+        "from sympy import I, pi, oo\n",
+        "sympy.init_printing()\n",
+        "\n",
+        "from IPython.display import display\n",
+        "\n",
+        "print(\"sympy: \", sympy.__version__)"
+      ],
+      "id": "241687f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Symbols\n"
+      ],
+      "id": "60fd43f2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "print(x.is_real)"
+      ],
+      "id": "995414cd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y = sympy.Symbol('y', real=True)\n",
+        "y.is_real"
+      ],
+      "id": "757c2f80",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "z = sympy.Symbol('z', complex=True)\n",
+        "z.is_complex"
+      ],
+      "id": "36bf14f4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "print(z.is_real)"
+      ],
+      "id": "16e28499",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "5d96bec2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "y = sympy.Symbol('y', positive=True)\n",
+        "z = sympy.Symbol('z', negative=True)"
+      ],
+      "id": "e555af0e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sqrt(x**2)"
+      ],
+      "id": "bb115fd2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sqrt(y**2)"
+      ],
+      "id": "7277e125",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sqrt(z**2)"
+      ],
+      "id": "ce3a31ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "0cbedff2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "n1 = sympy.Symbol('n')\n",
+        "n2 = sympy.Symbol('n', integer=True)\n",
+        "n3 = sympy.Symbol('n', odd=True)\n",
+        "n4 = sympy.Symbol('n', even=True)"
+      ],
+      "id": "49e9cf4c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.cos(n1*pi)"
+      ],
+      "id": "0f9a1d79",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.cos(n2*pi)"
+      ],
+      "id": "459b4f33",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.cos(n3*pi)"
+      ],
+      "id": "aff1a17a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.cos(n4*pi)"
+      ],
+      "id": "dec94283",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "721fbedd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, c = sympy.symbols('a, b, c', negative=True)"
+      ],
+      "id": "79dd90b6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d, e, f = sympy.symbols('d, e, f', positive=True)"
+      ],
+      "id": "a251d5d5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Numbers\n",
+        "\n",
+        "* We cannot directly use the built-in Python objects for integers, `int`, and floating-point numbers, `float`, and so on. Instead, `sympy` provides the classes `sympy.Integer` and `sympy.Float` for representing integers and floating-point numbers within the `sympy` framework\n",
+        "\n",
+        "* This distinction is important to be aware of when working with `sympy`, but fortunately we rarely\n",
+        "need to concern ourselves with creating objects of type `sympy.Integer` and `sympy.Float` to representing\n",
+        "specific numbers, $~$since `sympy` automatically promotes Python numbers to instances of these classes when they occur in `sympy` expressions\n"
+      ],
+      "id": "4260fef1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "i = sympy.Integer(18)\n",
+        "type(i)"
+      ],
+      "id": "9aeb8f1f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "i.is_Integer, i.is_real, i.is_odd, i.is_even"
+      ],
+      "id": "959bcf78",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = sympy.Float(2.3)\n",
+        "type(f)"
+      ],
+      "id": "96c6d821",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f.is_Float, f.is_real, f.is_complex"
+      ],
+      "id": "3acabc2a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "db366e4a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "i, f = sympy.sympify(19), sympy.sympify(2.3)\n",
+        "type(i), type(f)"
+      ],
+      "id": "ee79a2b7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Integer \n",
+        "\n",
+        "* While the `Symbol` with `integer=True` represents some integer, $\\,$the `Integer` instance represents a\n",
+        "specific integer\n",
+        "\n",
+        "* For both cases, $\\,$the `is_integer` attribute is `True`, $\\,$but there is also an attribute `is_Integer`\n",
+        "(note the capital `I`), $\\,$which is only `True` for `Integer` instances\n"
+      ],
+      "id": "604dc803"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "n = sympy.Symbol('n', integer=True)\n",
+        "n.is_integer, n.is_Integer, n.is_positive, n.is_Symbol"
+      ],
+      "id": "c9526cc8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "i = sympy.Integer(19)\n",
+        "i.is_integer, i.is_Integer, i.is_positive, i.is_Symbol"
+      ],
+      "id": "049ded9f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Integer('19' *20)"
+      ],
+      "id": "fa5986e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Integer('12_345_678'), sympy.Integer(12_345_678)"
+      ],
+      "id": "2f5354ab",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# great common division, leat common multiple\n",
+        "sympy.igcd(36, 15), sympy.ilcm(7, 34)"
+      ],
+      "id": "28c4a96e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* Integers in `sympy` are <font color='red'>**arbitrary precision**</font>, $\\,$meaning that they have <font color='blue'>no fixed lower and upper bounds</font>,\n",
+        "$\\,$which is the case when representing integers with a specific bit-size, as, for example, in `numpy`\n"
+      ],
+      "id": "b7dcf94f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "i = sympy.Integer(19)\n",
+        "i**100"
+      ],
+      "id": "94e8b4f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.factorial(100)"
+      ],
+      "id": "4fe93b50",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Float\n",
+        "\n",
+        "* Like `Integer`, $\\,$`Float` is <font color='red'>**arbitrary precision**</font>, $\\,$in contrast to Python’s built-in `float` type and the `float` types in `numpy`. $\\,$This means that any `Float` can represent a `float` with arbitrary number of decimals\n",
+        "\n",
+        "* When a `Float` instance is created using its constructor, $\\,$there are two arguments: the first argument is **a Python `float` or a string representing a floating-point number**, and the second (optional) argument is the **precision** (number of significant decimal digits) of the `Float` object\n"
+      ],
+      "id": "20dfd8a7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# create a string representation with 25 decimals\n",
+        "f'{0.3:.25f}'  "
+      ],
+      "id": "5d48d207",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Float(0.3, 25) "
+      ],
+      "id": "f02e1968",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Float('0.3', 25)"
+      ],
+      "id": "61b8031a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Float('123 456 789.123_456', '')"
+      ],
+      "id": "50df00c8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Rational\n"
+      ],
+      "id": "92e4f62c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r0 = sympy.Rational(11, 13)\n",
+        "r0"
+      ],
+      "id": "e80b9623",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r0.p, r0.q"
+      ],
+      "id": "565c8327",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r1 = sympy.Rational(2, 3)\n",
+        "r2 = sympy.Rational(4, 5)"
+      ],
+      "id": "53785ae9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r1 * r2"
+      ],
+      "id": "e07d446a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r1 / r2"
+      ],
+      "id": "3b284b6a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Rational(0.2), sympy.Rational('0.2')"
+      ],
+      "id": "598eb1e0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Constants and special symbols\n",
+        "\n",
+        "$\\displaystyle \\gamma = \\lim_{n \\to \\infty} \\left( \\sum_{k=1}^n \\frac{1}{k} -\\ln n\\right)$\n"
+      ],
+      "id": "216274c4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.pi, sympy.E, sympy.EulerGamma, sympy.I, sympy.oo"
+      ],
+      "id": "8ac5ed05",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Functions\n"
+      ],
+      "id": "478154d9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, y, z = sympy.symbols('x, y, z')"
+      ],
+      "id": "f8c9ec73",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = sympy.Function('f')\n",
+        "type(f)"
+      ],
+      "id": "d61787d2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f(x)"
+      ],
+      "id": "8971b26d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g = sympy.Function('g')(x, y, z)\n",
+        "g"
+      ],
+      "id": "5c09751d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g.free_symbols"
+      ],
+      "id": "4df1ba43",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "4f2ed8c7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin"
+      ],
+      "id": "087bd8d3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin(x)"
+      ],
+      "id": "3e35dd19",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin(pi *1.5)"
+      ],
+      "id": "6be78eda",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "n = sympy.Symbol('n', integer=True)\n",
+        "sympy.sin(pi * n)"
+      ],
+      "id": "5937a374",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "h = sympy.Lambda(x, x**2)\n",
+        "h"
+      ],
+      "id": "c1892dd8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "h(5)"
+      ],
+      "id": "b4241e7f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "h(1 + x)"
+      ],
+      "id": "4e801f42",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Expressions\n"
+      ],
+      "id": "510fd068"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "\n",
+        "expr = 1 +2*x**2 +3*x**3\n",
+        "expr"
+      ],
+      "id": "d84202a7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args"
+      ],
+      "id": "0c3ba56b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2]"
+      ],
+      "id": "2445cbb3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2].args"
+      ],
+      "id": "d8ade616",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2].args[1]"
+      ],
+      "id": "3ae13743",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2].args[1].args"
+      ],
+      "id": "456b6e84",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2].args[1].args[1]"
+      ],
+      "id": "2a6d8421",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.args[2].args[1].args[1].args"
+      ],
+      "id": "b36b9e60",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Manipulating expressions\n",
+        "\n",
+        "### Simplication\n"
+      ],
+      "id": "1b360a58"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = 2 * (x**2 - x) - x * (x + 1)\n",
+        "expr"
+      ],
+      "id": "3b69dde6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.simplify(expr)"
+      ],
+      "id": "8fea474e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.simplify()"
+      ],
+      "id": "ec2f2a9d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr"
+      ],
+      "id": "c3c0962b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "18e702a9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = 2 * sympy.cos(x) * sympy.sin(x)\n",
+        "expr"
+      ],
+      "id": "2d5f93b8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.simplify(expr)"
+      ],
+      "id": "65888fba",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.exp(x) * sympy.exp(y)\n",
+        "expr"
+      ],
+      "id": "60ca2100",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.simplify(expr)"
+      ],
+      "id": "2c7ee4dc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Expand\n"
+      ],
+      "id": "4303f19b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = (x + 1) * (x + 2)\n",
+        "expr"
+      ],
+      "id": "1d6ae610",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.expand()"
+      ],
+      "id": "530522c2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "74674beb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin(x + y).expand(trig=True)"
+      ],
+      "id": "2f54f496",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b = sympy.symbols('a, b', positive=True)\n",
+        "sympy.log(a * b).expand(log=True)"
+      ],
+      "id": "be371b9c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.exp(I*a + b).expand(complex=True)"
+      ],
+      "id": "97f11d4f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.expand((a * b)**x, power_base=True)"
+      ],
+      "id": "de172e47",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.exp(I*(a -b)*x).expand(power_exp=True)"
+      ],
+      "id": "a727c8ad",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Factor, collect and combine\n"
+      ],
+      "id": "c1b39063"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.factor(x**2 - 1)"
+      ],
+      "id": "a8384e3d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.factor(x *sympy.cos(y) + x *sympy.sin(z))"
+      ],
+      "id": "eab3df90",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "6d3bc231"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = x + y + x * y * z\n",
+        "expr"
+      ],
+      "id": "9b938b88",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.collect(x)"
+      ],
+      "id": "f8f9458e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.collect(y)"
+      ],
+      "id": "a9c108b6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "65c49ec0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.cos(x + y) + sympy.sin(x - y)"
+      ],
+      "id": "e7dcb119",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr1 = expr.expand(trig=True)\n",
+        "expr1"
+      ],
+      "id": "6aed0d16",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr2 = expr1.collect([sympy.cos(x), sympy.sin(x)])\n",
+        "expr2"
+      ],
+      "id": "8d8ffe2a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr3 = expr2.collect(sympy.cos(y) - sympy.sin(y))\n",
+        "expr3"
+      ],
+      "id": "8e275be4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "bca7685c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.logcombine(sympy.log(a) - sympy.log(b))"
+      ],
+      "id": "7dd34e65",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Apart, together and cancel\n"
+      ],
+      "id": "314daea4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr1 = 1/(x**2 + 3*x + 2)\n",
+        "expr1"
+      ],
+      "id": "c9538977",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.apart(expr1, x)"
+      ],
+      "id": "efd7a4c4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr2 = 1 / (y * x + y) + 1 / (1+x)\n",
+        "expr2"
+      ],
+      "id": "2fd08b52",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.together(expr2)"
+      ],
+      "id": "d56db687",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr3 = y / (y * x + y)\n",
+        "expr3"
+      ],
+      "id": "1cbdb440",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.cancel(expr3)"
+      ],
+      "id": "a85ea71b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Substitutions\n"
+      ],
+      "id": "b1cb71d6"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "(x + y).subs(x, y)"
+      ],
+      "id": "2b698080",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin(x * sympy.exp(x)).subs(x, y)"
+      ],
+      "id": "0407ec7f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sin(x * z).subs({z: sympy.exp(y), x: y, sympy.sin: sympy.cos})"
+      ],
+      "id": "1544de2c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = x * y + z**2 *x\n",
+        "expr"
+      ],
+      "id": "1fe17cf8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "values = {x: 1.25, y: 0.4, z: 3.2}\n",
+        "expr.subs(values)"
+      ],
+      "id": "c4ed5956",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Numerical evaluation\n"
+      ],
+      "id": "ad8fa67d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.N(1 + pi)"
+      ],
+      "id": "b2a96ddb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.N(1 + pi, 50)"
+      ],
+      "id": "18e4a4df",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "594440fe"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "(x + 1/pi).evalf(10)"
+      ],
+      "id": "adaac909",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "33b36c65"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.sin(pi * x * sympy.exp(x))\n",
+        "expr"
+      ],
+      "id": "20f93ba5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "[expr.subs(x, i).evalf(3) for i in range(0, 10)]  # rather slow"
+      ],
+      "id": "775dd1bc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "a89c9740"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr_func = sympy.lambdify(x, expr)\n",
+        "expr_func(1.0)"
+      ],
+      "id": "718f9d65",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "4072babc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "xvalues = np.arange(0, 10)\n",
+        "\n",
+        "expr_func = sympy.lambdify(x, expr, 'numpy')\n",
+        "expr_func(xvalues)  # efficient method"
+      ],
+      "id": "846c68e6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Calculus\n",
+        "\n",
+        "### Derivatives\n"
+      ],
+      "id": "4952d90a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = sympy.Function('f')(x)\n",
+        "sympy.diff(f, x)  # equivalent to f.diff(x)"
+      ],
+      "id": "eaa5aa65",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.diff(f, x, x)"
+      ],
+      "id": "84adfe28",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.diff(f, x, 3)  # equivalent to sympy.diff(f, x, x, x)"
+      ],
+      "id": "e634cfe5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "863c2156"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g = sympy.Function('g')(x, y)\n",
+        "g.diff(x, y) # equivalent to sympy.diff(g, x, y)"
+      ],
+      "id": "0a57f9cb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g.diff(x, 3, y, 2) # equivalent to sympy.diff(g, x, x, x, y, y)"
+      ],
+      "id": "cd7f03f0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "c1846e60"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = x**4 + x**3 + x**2 + x + 1\n",
+        "expr"
+      ],
+      "id": "6e99c460",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.diff(x)"
+      ],
+      "id": "df2a8908",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.diff(x, x)"
+      ],
+      "id": "0edd0f37",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "4910e2bb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = (x + 1)**3 * y ** 2 * (z - 1)\n",
+        "expr"
+      ],
+      "id": "f5e79f1f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.diff(x, y, z)"
+      ],
+      "id": "6651edd1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "866893b7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.sin(x * y) * sympy.cos(x / 2)\n",
+        "expr"
+      ],
+      "id": "5a7ccf92",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.diff(x)"
+      ],
+      "id": "1c880a4d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "f77557f5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.functions.special.polynomials.hermite(x, 0)\n",
+        "expr"
+      ],
+      "id": "326d354f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr.diff(x)"
+      ],
+      "id": "f67601ce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "f07503cd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d = sympy.Derivative(sympy.exp(sympy.cos(x)), x)\n",
+        "d"
+      ],
+      "id": "53694518",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d.doit()"
+      ],
+      "id": "a2593df1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Integrals\n"
+      ],
+      "id": "11a6648e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, x, y = sympy.symbols('a, b, x, y')\n",
+        "f = sympy.Function('f')(x)\n",
+        "sympy.integrate(f)"
+      ],
+      "id": "23026acb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(f, (x, a, b))"
+      ],
+      "id": "90ddd989",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "f0047617"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(sympy.sin(x))"
+      ],
+      "id": "86fc3474",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(sympy.sin(x), (x, a, b))"
+      ],
+      "id": "74c60532",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(sympy.exp(-x**2), (x, 0, oo))"
+      ],
+      "id": "6d404ee8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, c = sympy.symbols('a, b, c', positive=True)\n",
+        "sympy.integrate(a * sympy.exp(-((x -b)/c)**2), (x, -oo, oo))"
+      ],
+      "id": "a8cb95ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(sympy.sin(x * sympy.cos(x))) # No analytic integration"
+      ],
+      "id": "4dcef59b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "e47834b5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = sympy.sin(x*sympy.exp(y))\n",
+        "expr"
+      ],
+      "id": "1e71fbeb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(expr, x)"
+      ],
+      "id": "7d14aff8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "5b6634c4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = (x + y)**2\n",
+        "expr"
+      ],
+      "id": "13a57fa4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(expr, x)"
+      ],
+      "id": "1ac502a3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(expr, x, y)"
+      ],
+      "id": "ada41840",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.integrate(expr, (x, 0, 1), (y, 0, 1))"
+      ],
+      "id": "728af416",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Series\n"
+      ],
+      "id": "9cdf62ef"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.limit(sympy.sin(x) / x, x, 0)"
+      ],
+      "id": "99202e32",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "e1809a73"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, h = sympy.symbols('x, h')\n",
+        "f = sympy.Function('f')\n",
+        "diff_limit = (f(x + h) - f(x)) / h"
+      ],
+      "id": "b59316a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.limit(diff_limit.subs(f, sympy.cos), h, 0)"
+      ],
+      "id": "01f36765",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.limit(diff_limit.subs(f, sympy.sin), h, 0)"
+      ],
+      "id": "869ec604",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "expr = (x**2 - 3*x) / (2*x - 2)\n",
+        "expr"
+      ],
+      "id": "06d120f2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "p = sympy.limit(expr/x, x, sympy.oo)"
+      ],
+      "id": "3e790cfb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "q = sympy.limit(expr - p*x, x, sympy.oo)"
+      ],
+      "id": "35466039",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "p, q"
+      ],
+      "id": "040c6c07",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Sums and products\n"
+      ],
+      "id": "c31e54cf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "n = sympy.symbols('n', integer=True)\n",
+        "x = sympy.Sum(1/(n**2), (n, 1, oo))\n",
+        "x"
+      ],
+      "id": "e2032da4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x.doit()"
+      ],
+      "id": "1aad7815",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Product(n, (n, 1, 7))\n",
+        "x"
+      ],
+      "id": "fdc3981b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x.doit()"
+      ],
+      "id": "fd796b5b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "02f14478"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "sympy.Sum((x)**n/(sympy.factorial(n)), (n, 1, oo)).doit().simplify()"
+      ],
+      "id": "f5118428",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Equations\n"
+      ],
+      "id": "e731097b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "sympy.solve(x**2 +2*x -3)"
+      ],
+      "id": "8e3cbbe1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, c = sympy.symbols('a, b, c')\n",
+        "sympy.solve(a *x**2 +b *x +c, x)"
+      ],
+      "id": "4d711ffb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.solve(sympy.sin(x) - sympy.cos(x), x)"
+      ],
+      "id": "95c8f04d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "30ad4435"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.solve(sympy.exp(x) + 2 *x, x)"
+      ],
+      "id": "136be7ff",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "The value of `LambertW` function $W(z)$ is such that $z = W(z)\\exp(W(z))$ for any complex number $z$\n"
+      ],
+      "id": "42987fa4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "-sympy.LambertW(1/2)"
+      ],
+      "id": "db5b28b4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "3d5c7bbe"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sols = sympy.solve(x**5 - x**2 + 1, x)\n",
+        "for i in range(5):\n",
+        "    display(sols[i])"
+      ],
+      "id": "53fb6f6c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#sympy.solve(sympy.tan(x) + x, x)"
+      ],
+      "id": "eb4dc5d1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "`NotImplementedError: multiple generators [x, tan(x)]`\n",
+        "`No algorithms are implemented to solve equation x + tan(x)`\n",
+        "\n",
+        "---\n"
+      ],
+      "id": "8cef255e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "eq1 = x +2 *y -1 \n",
+        "eq2 = x -y +1"
+      ],
+      "id": "cff64317",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.solve([eq1, eq2], [x, y], dict=True)"
+      ],
+      "id": "8fa9411b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "eq1 = x**2 -y\n",
+        "eq2 = y**2 -x"
+      ],
+      "id": "243e8549",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sols = sympy.solve([eq1, eq2], [x, y], dict=True)\n",
+        "for i in range(4):\n",
+        "    display(sols[i])"
+      ],
+      "id": "f4f27fa6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "[eq1.subs(sol).simplify() == 0 and \n",
+        " eq2.subs(sol).simplify() == 0 for sol in sols]"
+      ],
+      "id": "28780c0f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Linear algebra\n"
+      ],
+      "id": "aef6cf8b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix([1, 2])"
+      ],
+      "id": "c63a527b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix([[1, 2]])"
+      ],
+      "id": "f31d33ea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix([[1, 2], [3, 4]])"
+      ],
+      "id": "be892860",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix(3, 4, lambda m, n: 10 * m + n)"
+      ],
+      "id": "abf1ff8e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "14d27425"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, c, d = sympy.symbols('a, b, c, d')\n",
+        "\n",
+        "M = sympy.Matrix([[a, b], [c, d]])\n",
+        "M"
+      ],
+      "id": "74975a6a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "M * M  # Matrix multiplication"
+      ],
+      "id": "88e9d9cc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Matrix(sympy.symbols('x_1, x_2'))\n",
+        "x"
+      ],
+      "id": "30b0ec66",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "M * x"
+      ],
+      "id": "aaab39e9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "3cedd824"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "p, q = sympy.symbols('p, q')\n",
+        "M = sympy.Matrix([[1, p], [q, 1]])\n",
+        "M"
+      ],
+      "id": "4573eae3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "b = sympy.Matrix(sympy.symbols('b_1, b_2'))\n",
+        "b"
+      ],
+      "id": "4c46ff29",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = M.LUsolve(b)\n",
+        "x"
+      ],
+      "id": "e4eb6d3c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = M.inv() *b\n",
+        "x"
+      ],
+      "id": "c2c4621e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## ODE\n"
+      ],
+      "id": "30331821"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.Symbol('x')\n",
+        "f = sympy.Function('f')"
+      ],
+      "id": "0a8167e1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.dsolve(sympy.Derivative(f(x), x, x) +9 *f(x), f(x))"
+      ],
+      "id": "41aac989",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "eq = (sympy.sin(x) *sympy.cos(f(x)) \n",
+        "    + sympy.cos(x) *sympy.sin(f(x)) *f(x).diff(x))\n",
+        "eq"
+      ],
+      "id": "51be17a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.dsolve(eq, hint='1st_exact')"
+      ],
+      "id": "3c9be335",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "5023013d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "t = sympy.Symbol('t')\n",
+        "x, y = sympy.Function('x'), sympy.Function('y')\n",
+        "\n",
+        "eq = (sympy.Eq(sympy.Derivative(x(t),t), 12 *t *x(t) + 8 *y(t)),\n",
+        "      sympy.Eq(sympy.Derivative(y(t),t), 21 *x(t) + 7 *t *y(t)))\n",
+        "eq"
+      ],
+      "id": "b77955a9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sols = sympy.dsolve(eq)\n",
+        "for i in [0, 1]:\n",
+        "    display(sols[i])"
+      ],
+      "id": "823eab88",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "83586bf9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "eq = (sympy.Eq(sympy.Derivative(x(t),t), x(t) *y(t) *sympy.sin(t)), \n",
+        "      sympy.Eq(sympy.Derivative(y(t),t), y(t)**2 *sympy.sin(t)))\n",
+        "eq"
+      ],
+      "id": "468f8740",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.dsolve(eq)"
+      ],
+      "id": "fe4bd33f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Plot\n"
+      ],
+      "id": "a8fc5872"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import plot\n",
+        "\n",
+        "x = sympy.symbols('x')\n",
+        "p1 = plot(x**2, (x - 1) * x * (x + 1), (x, -1.2, 1.2))"
+      ],
+      "id": "0efcfcd5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import plot_parametric\n",
+        "\n",
+        "u = sympy.symbols('u')\n",
+        "p2 = plot_parametric((sympy.cos(u), sympy.sin(u)), \n",
+        "                     (u, sympy.cos(u)), (u, -3, 3))"
+      ],
+      "id": "e0e874ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "expr1 = (u, sympy.cos(2 *pi *u)/2 + 1/2)\n",
+        "expr2 = (u, sympy.sin(2 *pi *u)/2 + 1/2)\n",
+        "\n",
+        "p3 = plot_parametric(expr1, expr2, (u, 0, 1), line_color='blue')"
+      ],
+      "id": "f717c464",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "p3[0].line_color = 'red'\n",
+        "p3.show()"
+      ],
+      "id": "1fddc27c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import plot3d\n",
+        "\n",
+        "x, y = sympy.symbols('x y')\n",
+        "p4 = plot3d((x**2 + y**2, (x, -5, 5), (y, -5, 5)),\n",
+        "    (x*y, (x, -3, 3), (y, -3, 3)))"
+      ],
+      "id": "0f1650fe",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import plot3d_parametric_line\n",
+        "\n",
+        "u = sympy.symbols('u')\n",
+        "p5 = plot3d_parametric_line(sympy.cos(u), sympy.sin(u), u, (u, -5, 5))"
+      ],
+      "id": "e45d8f86",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import plot3d_parametric_surface\n",
+        "\n",
+        "u, v = sympy.symbols('u v')\n",
+        "p6 = plot3d_parametric_surface(sympy.cos(u + v), \n",
+        "    sympy.sin(u - v), u - v, (u, -5, 5), (v, -5, 5))"
+      ],
+      "id": "c16c86c3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy import plot_implicit, Eq, And\n",
+        "\n",
+        "p7 = plot_implicit(\n",
+        "    Eq(x**2 + y**2, 3), (x, -3, 3), (y, -3, 3))"
+      ],
+      "id": "3afec7bd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "p8 = plot_implicit(And(y > x, y > -x))"
+      ],
+      "id": "3df346f2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# | fig-align: center\n",
+        "from sympy.plotting import PlotGrid\n",
+        "\n",
+        "p9 = PlotGrid(2, 1, p1, p2)"
+      ],
+      "id": "2ec5f3ba",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "fenicsx",
+      "language": "python",
+      "display_name": "fenicsx",
+      "path": "/Users/kyyoo/Library/Jupyter/kernels/fenicsx"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
