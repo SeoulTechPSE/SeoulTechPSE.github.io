@@ -830,8 +830,8 @@ $~$
    The initial condition yields $2c_1 +2c_2=2$, $-c_1=-1$ $\,$whose solution is $c_1=1$, $c_2=0$. $\,$Thus solution is
     
    $$\mathbf{x}=
-      \left[\begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t 
-           -\begin{pmatrix} 2\\ 0 \end{pmatrix}\sin 2t \right]$$
+      \begin{pmatrix} \;\;\,2\\ -1 \end{pmatrix}\cos 2t 
+           -\begin{pmatrix} 2\\ 0 \end{pmatrix}\sin 2t $$
 
 $~$
 
@@ -845,13 +845,16 @@ from scipy.integrate import solve_ivp
 def myODE(t, y):
     return [2*y[0] +8*y[1], -y[0] -2*y[1]]
 
-sol = solve_ivp(myODE, [0, 20], [2, -1], t_eval = np.linspace(0, 20, 200))
+tf = 20.0
 
-fig, ax = plt.subplots(figsize=(6, 3))
+sol = solve_ivp(myODE, [0, tf], [2, -1], 
+                t_eval = np.linspace(0, tf, 200))
+
+fig, ax = plt.subplots(figsize=(6, 4))
 
 ax.plot(sol.t, sol.y[0], 'r-', label = 'x')
 ax.plot(sol.t, sol.y[1], 'b-', label = 'y')
-ax.axis((0, 20, -4, 4))
+ax.axis((0, tf, -4, 4))
 ax.tick_params(axis='both', direction='in', pad=8)
 ax.legend()
 ax.set_xlabel('t')
@@ -861,7 +864,7 @@ ax.set_ylabel('x, y');
 ```{python}
 # | echo: true
 # | label: fig-ch10-Complex-Eigenvalues 
-# | fig-cap: "Phase Portrait of system with complex eigenvalues"
+# | fig-cap: "Phase portrait of system with complex eigenvalues"
 # | output-location: column
 
 w = 6
@@ -873,9 +876,7 @@ x, y = np.meshgrid(xl, yl)
 xdot = 2*x +8*y
 ydot = -x -2*y
 
-fig = plt.figure(figsize=(5, 5))
-
-ax = fig.add_subplot(111)
+fig, ax = plt.subplots(figsize=(5, 5))
 
 ax.streamplot(x, y, xdot, ydot, color='blue')
 ax.plot(sol.y[0], sol.y[1], 'r:')
@@ -958,7 +959,7 @@ $$
     0 & -4 & 9
   \end{array}\right)\mathbf{x}$$
 
-* We begin by finding the eigenvalues and corresponding eigenvectors of the coefficient matrix. $\,$From $\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=-(\lambda +2)(\lambda -1)(\lambda -5)=0$, $\,$we get $\lambda_1=-2$, $\lambda_2=1$, and $\lambda_3=5$. $\,$Since the eigenvalues are distinct, the eigenvectors are linearly independent. Solving $(\mathbf{A} -\lambda_i\mathbf{I})=\mathbf{0}$ for $i=1,2,$ and $3$ gives, respectively,
+* We begin by finding the eigenvalues and corresponding eigenvectors of the coefficient matrix. $\,$From $\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=0$, $\,$we get $\lambda_1=-2$, $\lambda_2=1$, and $\lambda_3=5$. $\,$Since the eigenvalues are distinct, the eigenvectors are linearly independent. Solving $(\mathbf{A} -\lambda_i\mathbf{I})=\mathbf{0}$ for $i=1,2,$ and $3$ gives, respectively,
    
   $$
     \mathbf{k}_1=
@@ -1004,7 +1005,8 @@ $$
 * Hence the solution of the given system is
    
   $$
-    \mathbf{x}=\mathbf{P}\mathbf{y}=
+  \begin{aligned}
+    \mathbf{x}=\mathbf{P}\mathbf{y}&=
     \left(\begin{array}{rrr}
       1 & 2 & 1 \\ 
       0 & 2 & 1 \\ 
@@ -1014,10 +1016,11 @@ $$
       c_1 e^{-2t}\\ 
       c_2 e^{t}\\ 
       c_3 e^{5t}
-    \end{array}\right)=
+    \end{array}\right) \\&=
     c_1 \left(\begin{array}{l} 1\\ 0\\ 0 \end{array}\right) e^{-2t}+
     c_2 \left(\begin{array}{l} 2\\ 2\\ 1 \end{array}\right) e^{t}+
-    c_3 \left(\begin{array}{l} 1\\ 1\\ 1 \end{array}\right) e^{5t}$$ 
+    c_3 \left(\begin{array}{l} 1\\ 1\\ 1 \end{array}\right) e^{5t}
+\end{aligned}$$ 
 
 $~$
 
@@ -1138,12 +1141,12 @@ $$
 
 * The eigenvalues and corresponding eigenvectors of the associated homogeneous system are found to be $\lambda_1=2$, $\lambda_2=7$, 
   
-  $$\mathbf{k}_1=\begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} \;\text{ and } \;\mathbf{k}_2=\begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
+  $$\mathbf{k}_1=\begin{pmatrix} \phantom{-}1 \\ -4 \end{pmatrix} \;\text{ and } \;\mathbf{k}_2=\begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
   
   Hence the complementary function is
   
   $$\mathbf{x}_h=
-    c_1 \begin{pmatrix} \;\;1 \\ -4 \end{pmatrix} e^{2t}
+    c_1 \begin{pmatrix} \phantom{-}1 \\ -4 \end{pmatrix} e^{2t}
    +c_2 \begin{pmatrix} 1 \\ 1 \end{pmatrix} e^{7t}$$  
 
 * Now we shall try to find the particular solution of the form
@@ -1156,8 +1159,8 @@ $$
   Substituting this assumption into the given system and solving the resultant algebraic equations yields
    
   $$\mathbf{x}_p=
-     \begin{pmatrix} -2 \\ \;\;6 \end{pmatrix} t
-    +\begin{pmatrix} -\frac{4}{7} \\ \;\;\frac{10}{7} \end{pmatrix}
+     \begin{pmatrix} -2 \\ \phantom{-}6 \end{pmatrix} t
+    +\frac{1}{7}\begin{pmatrix} -4 \\ \;10 \end{pmatrix}
   $$
 
 $~$
@@ -1177,8 +1180,8 @@ $$
 * Because $\mathbf{f}$ can be written in matrix terms as
   
   $$\mathbf{f}=
-      \begin{pmatrix} -2 \\ \;\;1 \end{pmatrix} e^{-t}
-      +\begin{pmatrix} \;\;0 \\ -5 \end{pmatrix} t
+      \begin{pmatrix} -2 \\ \phantom{-}1 \end{pmatrix} e^{-t}
+      +\begin{pmatrix} \phantom{-}0 \\ -5 \end{pmatrix} t
        +\begin{pmatrix} 1 \\ 7 \end{pmatrix}$$
   
   a natural assumption for a particular solution would be
@@ -1266,26 +1269,22 @@ $~$
        &\;\Big\Downarrow \;\;\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)\\
     \boldsymbol{\Phi}(t)\mathbf{u}'(t)&=\mathbf{f}(t)\\
        &\Downarrow \\
-    \mathbf{u}(t)&=\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt\\
+    \mathbf{u}(t)&=\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt +\mathbf{c}_0\\
        &\Downarrow \\
     \mathbf{x}_p&=\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+      +\boldsymbol{\Phi}(t) \mathbf{c}_0
   \end{aligned}$$
 
 * Thus the general solution is
   
   $$
-   \mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
+   \mathbf{x}=\boldsymbol{\Phi}(t)\bar{\mathbf{c}}+\boldsymbol{\Phi}(t)
+     \int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt
   $$
   
-  or can be written in an alternative manner
+  where $\;\bar{\mathbf{c}}=\mathbf{c} +\mathbf{c}_0$ 
   
-  $$
-   \mathbf{x}=\boldsymbol{\Phi}(t)\mathbf{c}+\boldsymbol{\Phi}(t)\int_{t_0}^t\boldsymbol{\Phi}^{-1}(s)\mathbf{f}(s)\;ds
-  $$
-  
-* The last form is useful in solving the problem subject to an initial condition $\mathbf{x}(t_0)=\mathbf{x}_0$.
-  Substituting $t=t_0$ yields $\mathbf{x}_0=\boldsymbol{\Phi}(t_0)\mathbf{c}$, from which 
-  we get $\mathbf{c}=\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0$. Then the solution of the initial value problem is
+* If we set $\mathbf{x}_0=\boldsymbol{\Phi}(t_0)\bar{\mathbf{c}}\,$ with an initial condition $\mathbf{x}(t_0)=\mathbf{x}_0$, $\,$the solution of the initial value problem is
   
   $$
    \mathbf{x}=\boldsymbol{\Phi}(t)\boldsymbol{\Phi}^{-1}(t_0)\mathbf{x}_0
@@ -1333,11 +1332,11 @@ $$
   $$
   \begin{aligned}
        \mathbf{x}_p &=\boldsymbol{\Phi}(t)\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt\\ 
-       &=\left(\begin{array}{rr}
+       &= \left(\begin{array}{rr}
             e^{-2t} & \;\;\;\;e^{-5t}\\ 
             e^{-2t} & -2e^{-5t}
          \end{array}\right)
-       \int\frac{1}{3}
+       {\Large\int} \frac{1}{3}
          \left(\begin{array}{rr}
             2e^{2t} & \;\;\;\;e^{2t} \\ 
             e^{5t} & -e^{5t}
@@ -1368,7 +1367,7 @@ nonhomogeneous system gives
     \mathbf{y}'&= \mathbf{D}\mathbf{y} +\mathbf{g}
   \end{aligned}$$
 
-  In the last equation, $\mathbf{g}$ ia a column vector. So each differential equation has the form of $y'_i=\lambda_i y_i +g_i(t)$, $\scriptsize i=1,\cdots,n$. $\,$Unlike the procedure for solving a homogeneous system, $\,$we now are required to compute the inverse of $\mathbf{P}$
+  In the last equation, $\mathbf{g}$ ia a column vector. So each differential equation has the form of $y'_i=\lambda_i y_i +g_i(t)$, $i=1,\cdots,n$. $\,$Unlike the procedure for solving a homogeneous system, $\,$we now are required to compute the inverse of $\mathbf{P}$
 
 ## Matrix Exponential {#sec-10-5}
 
