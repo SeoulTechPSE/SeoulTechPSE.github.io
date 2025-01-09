@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Kee-Youn Yoo">
-<meta name="dcterms.date" content="2024-03-06">
 
-<title>Engineering Mathematics</title>
+<title>8&nbsp; Systems of Nonlinear Differential Equations – Engineering Mathematics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -32,7 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./ch_01_Introduction_to_Differential_Equations.html" rel="next">
+<link href="./ch_07_Vectors.html" rel="next">
+<link href="./ch_10_Systems_of_Linear_Differential_Equations.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -70,6 +69,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -82,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Welcome</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch_01_Introduction_to_Differential_Equations.html"><strong>First Semester</strong></a></li><li class="breadcrumb-item"><a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Systems of Nonlinear Differential Equations</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -109,7 +137,7 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Welcome</span></a>
   </div>
 </li>
@@ -166,8 +194,8 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Chapter 11. Systems of Nonlinear Differential Equations</span></span></a>
+  <a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Systems of Nonlinear Differential Equations</span></span></a>
   </div>
 </li>
       </ul>
@@ -312,43 +340,23 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a></li>
-  <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a>
-  <ul class="collapse">
-  <li><a href="#part-i" id="toc-part-i" class="nav-link" data-scroll-target="#part-i">Part I</a></li>
-  <li><a href="#part-ii" id="toc-part-ii" class="nav-link" data-scroll-target="#part-ii">Part II</a></li>
-  <li><a href="#scientific-computing-in-python" id="toc-scientific-computing-in-python" class="nav-link" data-scroll-target="#scientific-computing-in-python">Scientific Computing in Python</a></li>
-  <li><a href="#ploting-and-data-analysis-in-python" id="toc-ploting-and-data-analysis-in-python" class="nav-link" data-scroll-target="#ploting-and-data-analysis-in-python">Ploting and Data Analysis in Python</a></li>
-  </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#sec-11-1" id="toc-sec-11-1" class="nav-link active" data-scroll-target="#sec-11-1"><span class="header-section-number">8.1</span> Autonomous Systems</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch_01_Introduction_to_Differential_Equations.html"><strong>First Semester</strong></a></li><li class="breadcrumb-item"><a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Systems of Nonlinear Differential Equations</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Engineering Mathematics</h1>
+<h1 class="title"><span id="sec-11" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Systems of Nonlinear Differential Equations</span></span></h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Kee-Youn Yoo </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 6, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -358,77 +366,56 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-
-<section id="welcome" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="welcome">Welcome</h2><p><img src="SeoulTech.png" title="Engineering Mathematics" class="quarto-cover-image img-fluid"></p>
-<p><strong>Chemical engineering</strong> occupies a unique position at the interface between molecular sciences and engineering. Intimately linked with the fundamental subjects of chemistry, biology, <strong>mathematics</strong>, and physics — and in close collaboration with fellow engineering disciplines like materials science, computer science, and mechanical, electrical, and civil engineering — chemical engineering offers unparalleled opportunities to do great things</p>
-<!-- [Lecture Notes (pdf)](Engineering-Mathematics.pdf) -->
-<hr>
-</section>
-<section id="contents" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="contents">Contents</h2>
-<section id="part-i" class="level3">
-<h3 class="anchored" data-anchor-id="part-i">Part I</h3>
+<section id="sec-11-1" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="sec-11-1"><span class="header-section-number">8.1</span> Autonomous Systems</h2>
+<p>A system of first-order differential equations is called <strong>autonomous</strong> when the system can be written in the form</p>
+<p><span class="math display">\[
+    \begin{aligned}
+    \frac{dx_1}{dt} &amp;=g_1(x_1,x_2,\cdots,x_n) \\
+    \frac{dx_2}{dt} &amp;=g_2(x_1,x_2,\cdots,x_n) \\
+        &amp; \;\vdots \\
+    \frac{dx_n}{dt} &amp;=g_n(x_1,x_2,\cdots,x_n)
+    \end{aligned}
+\]</span></p>
+<p>Notice that the independent variable <span class="math inline">\(t\)</span> does not appear explicitly on the right-hand side of each differential equation</p>
 <ul>
-<li><a href="./ch_01_Introduction_to_Differential_Equations.html">Introduction to Differential Equations</a></li>
-<li><a href="./ch_02_First-Order_Differential_Equations.html">First-Order Differential Equations</a></li>
-<li><a href="./ch_03_Higher-Order_Differential_Equations.html">Higher-Order Differential Equations</a></li>
-<li><a href="./ch_04_The_Laplace_Transform.html">The Laplace Transform</a></li>
-<li><a href="./ch_05_Series_Solutions_of_Linear_Differential_Equations.html">Series Solutions of Linear Differential Equations</a></li>
-<li><a href="./ch_08_Matrices.html">Matrices</a></li>
-<li><a href="./ch_10_Systems_of_Linear_Differential_Equations.html">Systems of Linear Differential Equations</a></li>
-<li><ul>
-<li><a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html">Systems of Nonlinear Differential Equations</a></li>
-</ul></li>
+<li><p><strong>Second-Order DE as a System</strong></p>
+<p>Any second-order differential equation <span class="math inline">\(x''=g(x,x')\)</span> can be written as an autonomous system. If we let <span class="math inline">\(y=x'\)</span>, the second-order differential equation becomes the system of two first-order equations</p>
+<p><span class="math display">\[
+  \begin{aligned}
+      x' &amp;= y\\
+      y' &amp;= g(x,y)
+  \end{aligned}
+  \]</span></p></li>
 </ul>
-<hr>
-</section>
-<section id="part-ii" class="level3">
-<h3 class="anchored" data-anchor-id="part-ii">Part II</h3>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span> The displacement angle <span class="math inline">\(\theta\)</span> for a pendulum satisfies the nonlinear second-order differential equation</p>
+<p><span class="math display">\[\frac{d^2 \theta}{dt^2} +\frac{g}{l}\sin\theta=0\]</span></p>
+<p>If we let <span class="math inline">\(x=\theta\)</span> and <span class="math inline">\(y=\dot{\theta}\)</span>, <span class="math inline">\(~\)</span> this second-order differential equation can be written as the autonomous system</p>
+<p><span class="math display">\[\dot{x} = y,\;\; \dot{y} = -\frac{g}{l}\sin x\]</span></p>
 <ul>
-<li><a href="./ch_07_Vectors.html">Vectors</a></li>
-<li><a href="./ch_09_Vector_Calculus.html">Vector Calculus</a></li>
-<li><a href="./ch_12_Orthogonal_Functions_and_Fourier_Series.html">Orthogonal Functions and Fourier Series</a></li>
-<li><a href="./ch_x1_Parabolic_PDEs.html">Parabolic Partial Differential Equations</a></li>
-<li><a href="./ch_x2_Hyperbolic_PDEs.html">Hyperbolic Partial Differential Equations</a></li>
-<li><a href="./ch_x3_Elliptic_PDEs.html">Elliptic Partial Differential Equations</a></li>
+<li><p><strong>Plane Autonomous System</strong></p>
+<p>When <span class="math inline">\(n=2\)</span>, the system is called a <font color="blue"><strong>plane autonomous system</strong></font>, and we write the system as</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \frac{dx}{dt} &amp;= P(x,y)\\
+   \frac{dy}{dt} &amp;= Q(x,y)
+\end{aligned}
+\]</span></p>
+<p>If <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>, and the first-order partial derivatives <span class="math inline">\(\partial P/\partial x\)</span>, <span class="math inline">\(\partial P/\partial y\)</span>, <span class="math inline">\(\partial Q/\partial x\)</span>, and <span class="math inline">\(\partial Q/\partial y\)</span> are continuous in a region <span class="math inline">\(R\)</span> of the plane, then a solution to the plane autonomous system that satisfies <span class="math inline">\(\mathbf{x}(0)=\mathbf{x}_0\)</span> is unique and one of three basic types:</p>
+<ul>
+<li><p>A <strong>constant solution</strong>, <span class="math inline">\(\mathbf{x}(t)=\mathbf{x}_0\)</span> for all <span class="math inline">\(t\)</span>. A constant solution is called a <strong>critical</strong> or <strong>stationary point</strong></p>
+<p><span class="math display">\[\begin{aligned}
+   P(x,y) &amp;= 0 \\
+   Q(x,y) &amp;= 0
+\end{aligned}\]</span></p>
+<p>Note that since <span class="math inline">\(\mathbf{x}'=\mathbf{0}\)</span>, a critical point is a solution of the system of algebraic equations</p></li>
+<li><p>An <strong>arc</strong>, <span class="math inline">\(\mathbf{x}(t)\)</span> - a plane curve that does not cross itself</p></li>
 </ul>
-<hr>
-</section>
-<section id="scientific-computing-in-python" class="level3">
-<h3 class="anchored" data-anchor-id="scientific-computing-in-python">Scientific Computing in Python</h3>
+<p><img src="figures/ch11_figure01.png" width="400"></p>
 <ul>
-<li><a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html">Numpy: Vectors, Matrices, and Multidimensional Arrays</a></li>
-<li><a href="./x_sympy_symbolic_computing.html">Sympy: Symbolic Computing</a></li>
-<li><a href="./x_sympy_Laplace_transform.html">Sympy: Laplace Transform</a></li>
-<li><a href="./x_equation_solving.html">Equation Solving</a></li>
-<li><a href="./x_optimization.html">Optimization</a></li>
-<li><a href="./x_interpolation.html">Interpolation</a></li>
-<li><a href="./x_integration.html">Integration</a></li>
-<li><a href="./x_ordinary_differential_equations.html">Ordinary Differential Equations</a></li>
-<li><a href="./x_double_pendulum.html">Double Pendulum</a></li>
-<li><a href="./x_partial_differential_equations.html">Partial Differential Equations</a></li>
+<li>A <strong>periodic solution</strong> or <strong>cycle</strong>, <span class="math inline">\(\mathbf{x}(t +p)=\mathbf{x}(t)\)</span></li>
 </ul>
-<hr>
-</section>
-<section id="ploting-and-data-analysis-in-python" class="level3">
-<h3 class="anchored" data-anchor-id="ploting-and-data-analysis-in-python">Ploting and Data Analysis in Python</h3>
-<ul>
-<li><a href="./x_matplotlib.html">Matplotlib</a></li>
-<li><a href="./x_Mandelbrot_set.html">Mandelbrot Set in Python</a> <!-- * [Pandas](x_pandas.qmd) --></li>
-</ul>
-<hr>
-</section>
-</section>
-<section id="references" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
-<ul>
-<li>D.G. Zill and W.S. Wright, <strong>Advanced Engineering Mathematics</strong>, <em>7<sup>th</sup> ed.</em>, Jones and Bartlett, 2022.</li>
-<li>E.A. Coddington, <strong>An Introduction to Ordinary Differential Equations</strong>, Prentice-Hall, 1961. (Dover Publications Inc., 1989 - Unabridged, corrected republication)</li>
-<li>G.E. Shilov, <strong>Linear Algebra</strong>, Prentice-Hall, 1971. (Dover Publications Inc., 1977 - Unabridged republication)</li>
-<li>S.J. Farlow, <strong>Partial Differential Equations for Scientists and Engineers</strong>, John Wiely &amp; Sons, 1982. (Dover Publications Inc., 1993 – Unabridged, corrected republication)</li>
-<li>H.F. Weinberger, <strong>A First Course in Partial Differential Equations with Complex Variables and Transform Methods</strong>, Blaisdell Publishing Company, 1965. (Dover Publications Inc., 1995 - New edition)</li>
-<li>R. Johansson, <strong>Numerical Python: Scientific Computing and Data Science Applications with Numpy, Scipy and Matplotlib</strong>, <em>2<sup>nd</sup> ed.</em>, Apress, 2018.</li>
+<p><img src="figures/ch11_figure02.png" width="150"></p></li>
 </ul>
 
 
@@ -854,10 +841,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./ch_10_Systems_of_Linear_Differential_Equations.html" class="pagination-link" aria-label="Systems of Linear Differential Equations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Systems of Linear Differential Equations</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./ch_01_Introduction_to_Differential_Equations.html" class="pagination-link" aria-label="Introduction to Differential Equations">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Differential Equations</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./ch_07_Vectors.html" class="pagination-link" aria-label="Vectors">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectors</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
