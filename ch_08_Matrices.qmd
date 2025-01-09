@@ -1309,13 +1309,7 @@ $$\mathbf{k}_3=
 
 ```{python}
 # | echo: true
-import pprint
-
-import numpy as np
-from scipy.linalg import lu
-
 import sympy
-from sympy import plot_implicit, symbols, Eq
 sympy.init_printing()
 
 A = sympy.Matrix([[1, 2, 1], [6, -1, 0], [-1, -2, -1]])
@@ -1703,7 +1697,7 @@ B = sympy.Matrix(sympy.GramSchmidt([v1, v2, v3], orthonormal=True)).T; B
 
 ```{python}
 # | echo: true
-B.T * B
+B.T *B
 ```
 
 $~$
@@ -1809,6 +1803,8 @@ $~$
 
 ```{python}
 # | echo: true
+import numpy as np
+import pprint
 
 def power_method(A, n_iteration):
     # Ideally choose a random vector
@@ -2081,9 +2077,12 @@ $~$
 ```{python}
 # | echo: true
 # | fig-align: center
+
+from sympy import symbols, Eq, plot_implicit
+
 x, y = symbols('x y')
 
-p1 = plot_implicit(Eq(2*x**2 + 4*x*y - y**2, 1), 
+p1 = plot_implicit(Eq(2*x**2 +4*x*y -y**2, 1), 
                    (x, -3, 3), (y, -3, 3),
                    aspect_ratio=(1, 1), size=(5, 5))
 ```
@@ -2137,9 +2136,10 @@ $~$
 # | fig-align: center
 bar_x, bar_y = symbols('bar_x bar_y')
 
-p1 = plot_implicit(Eq(-bar_x**2 + 3*bar_y**2, 1), 
+p1 = plot_implicit(Eq(-bar_x**2 +3*bar_y**2, 1), 
                    (bar_x, -3, 3), (bar_y, -3, 3), 
-                   aspect_ratio=(1, 1), size=(5, 5))
+                   aspect_ratio=(1, 1), size=(5, 5),
+                   xlabel=r'$\bar{x}$', ylabel=r'$\bar{y}$')
 
 ```
 
@@ -2360,6 +2360,8 @@ $~$
 
 ```{python}
 # | echo: true
+
+from scipy.linalg import lu
 
 A = np.array([[7, 3, -1, 2], [3, 8, 1, -4], [-1, 1, 4, -1],
              [2, -4, -1, 6]], dtype='float64')
