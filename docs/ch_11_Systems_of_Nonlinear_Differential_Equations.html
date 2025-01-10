@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -342,6 +376,7 @@ window.Quarto = {
   <ul>
   <li><a href="#sec-11-1" id="toc-sec-11-1" class="nav-link active" data-scroll-target="#sec-11-1"><span class="header-section-number">8.1</span> Autonomous Systems</a></li>
   <li><a href="#sec-11-2" id="toc-sec-11-2" class="nav-link" data-scroll-target="#sec-11-2"><span class="header-section-number">8.2</span> Stability of Linear Systems</a></li>
+  <li><a href="#sec-11-3" id="toc-sec-11-3" class="nav-link" data-scroll-target="#sec-11-3"><span class="header-section-number">8.3</span> Linearization and Local Stability</a></li>
   </ul>
 </nav>
     </div>
@@ -446,21 +481,335 @@ y'&amp;= x^2 -y
 </ol>
 <ul>
 <li><p><strong>Stability Analysis</strong></p>
-<p>A careful geometric analysis of the solutions to the <em>linear</em> plane autonomous system</p>
+<ul>
+<li><p>A careful geometric analysis of the solutions to the <em>linear</em> plane autonomous system</p>
 <p><span class="math display">\[
-  \begin{aligned}
-     x'&amp;= ax +by\\
-     y'&amp;= cx +dy
-  \end{aligned}
+\begin{aligned}
+   x'&amp;= ax +by\\
+   y'&amp;= cx +dy
+\end{aligned}
 \]</span></p>
 <p>in terms of the eigenvalues and eigenvectors of the coefficient matrix</p>
 <p><span class="math display">\[\mathbf{A}=
-  \begin{pmatrix}
-   a &amp; b\\
-   c &amp; d
-  \end{pmatrix}
+\begin{pmatrix}
+a &amp; b\\
+c &amp; d
+\end{pmatrix}
 \]</span></p>
 <p>drives the stabilty analysis</p></li>
+<li><p>To ensure that <span class="math inline">\(\mathbf{x}_0=(0,\,0)\)</span> is the only critical point, we will assume that the determinant <span class="math inline">\(\Delta = ad -bc \neq 0\)</span>. If <span class="math inline">\(\tau = a + d\)</span> is the trace of matrix <span class="math inline">\(\mathbf{A}\)</span>, then the characteristic equation, <span class="math inline">\(\mathrm{det}(\mathbf{A} -\lambda\mathbf{I})=0,\)</span> can be rewritten as</p>
+<p><span class="math display">\[\lambda^2 -\tau\lambda +\Delta =0\]</span></p>
+<p>Therefore the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are</p>
+<p><span class="math display">\[\lambda =\frac{\tau \pm \sqrt{\tau^2 -4\Delta}}{2}\]</span></p>
+<p>and the usual three cases for these roots occur according to whether <span class="math inline">\(\tau^2 -4\Delta\)</span> is positive, negative, or zero</p></li>
+</ul></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span> Find the eigenvalues of the linear system</p>
+<p><span class="math display">\[
+    \begin{aligned}
+       x'&amp;= -x +y\\
+       y'&amp;= cx -y
+    \end{aligned}
+\]</span></p>
+<p>in terms of <span class="math inline">\(c\)</span>, and use a numerical solver to discover the shapes of solutions corresponding to the cases <span class="math inline">\(c=\frac{1}{4}\)</span>, <span class="math inline">\(4\)</span>, <span class="math inline">\(0\)</span>, and <span class="math inline">\(-9\)</span>. <span class="math inline">\(\mathbf{A}\)</span> has trace <span class="math inline">\(\tau=-2\)</span> and determinant <span class="math inline">\(\Delta=1 -c\)</span>, and so the eigenvalues are</p>
+<p><span class="math display">\[ \lambda =-1 \pm \sqrt{c} \]</span></p>
+<p>The nature of the eigenvalues is therefore determined by the value of <span class="math inline">\(c\)</span></p>
+<div id="6fc375f3" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> sp.Symbol(<span class="st">'c'</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sp.Matrix([[<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [c, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
+<p><span class="math inline">\(\displaystyle \left[ \left( - \sqrt{c} - 1, \  1, \  \left[ \left[\begin{matrix}\frac{- \sqrt{c} - 1}{c} + \frac{1}{c}\\1\end{matrix}\right]\right]\right), \  \left( \sqrt{c} - 1, \  1, \  \left[ \left[\begin{matrix}\frac{\sqrt{c} - 1}{c} + \frac{1}{c}\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
+</div>
+</div>
+<div id="be878c23" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sp.init_printing(use_unicode<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>c_ <span class="op">=</span> np.array([<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">9</span>])</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>c_title <span class="op">=</span> [<span class="vs">r'$c=\frac</span><span class="sc">{1}{4}</span><span class="vs">$'</span>, <span class="vs">r'$c=4$'</span>, <span class="vs">r'$c=0$'</span>, <span class="vs">r'$c=-9$'</span>]</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> <span class="op">-</span>x <span class="op">+</span>y</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> c_[i]<span class="op">*</span>x <span class="op">-</span>y</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c_[i] <span class="op">&gt;=</span> <span class="fl">0.0</span>:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> <span class="op">-</span>np.sqrt(c_[i]) <span class="op">*</span>xp</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> np.sqrt(c_[i]) <span class="op">*</span>xp</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'</span><span class="sc">{</span>c_title[i]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>        labelsize<span class="op">=</span><span class="dv">8</span>)     </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;=</span> <span class="dv">2</span>: </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> i <span class="op">==</span> <span class="dv">2</span>: </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="vs">r'$y$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_11_Systems_of_Nonlinear_Differential_Equations_files/figure-html/cell-3-output-1.png" width="522" height="520" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><font color="red">Trajectory behaviors in phase portraits can be explained with eigenvalue-eigenvector of <span class="math inline">\(\mathbf{A}\)</span></font></p></li>
+<li><p><strong>Real Distinct Eigenvalues</strong>, <span class="math inline">\(\tau^2 -4\Delta &gt; 0\)</span></p>
+<p><span class="math display">\[
+  \begin{aligned}
+      \mathbf{x}(t) &amp;= c_1\mathbf{k}_1 e^{\lambda_1 t} +c_2\mathbf{k}_2 e^{\lambda_2 t}\\
+      &amp;\;\big\Downarrow \;{\scriptstyle \lambda_1 &gt;\lambda_2}\\
+      &amp;= e^{\lambda_1 t} \left[c_1\mathbf{k}_1 +c_2\mathbf{k}_2 e^{(\lambda_2 -\lambda_1)t} \right ] \\
+      &amp;\;\big\Downarrow \;\,{\scriptstyle t \to \infty}\\
+      &amp;\simeq c_1\mathbf{k}_1 e^{\lambda_1 t}
+  \end{aligned}
+\]</span></p>
+<ul>
+<li><p><strong>Both eigenvalues negative</strong>, <span class="math inline">\(\tau^2 -4\Delta &gt; 0\)</span>, <span class="math inline">\(\tau&lt;0\)</span>, <span class="math inline">\(\Delta&gt;0\)</span></p>
+<p><strong>Stable Node:</strong> Since both eigenvalues are negative, it follows that <span class="math inline">\(\lim_{t \to \infty} \mathbf{x}(t)=\mathbf{0}\)</span> in the direction of <span class="math inline">\(\mathbf{k}_1\)</span> when <span class="math inline">\(c_1 \neq 0\)</span> or in the direction of <span class="math inline">\(\mathbf{k}_2\)</span> when <span class="math inline">\(c_1=0\)</span></p></li>
+<li><p><strong>Both eigenvalues positive</strong>, <span class="math inline">\(\tau^2 -4\Delta &gt; 0\)</span>, <span class="math inline">\(\tau&gt;0\)</span>, <span class="math inline">\(\Delta&gt;0\)</span></p>
+<p><strong>Unstable Node:</strong> <span class="math inline">\(\mathbf{x}(t)\)</span> becomes unbounded in the direction of <span class="math inline">\(\mathbf{k}_1\)</span> when <span class="math inline">\(c_1 \neq 0\)</span> or in the direction of <span class="math inline">\(\mathbf{k}_2\)</span> when <span class="math inline">\(c_1=0\)</span></p></li>
+<li><p><strong>Eigenvalues have opposite signs</strong>, <span class="math inline">\(\tau^2 -4\Delta &gt; 0\)</span>, <span class="math inline">\(\Delta&lt;0\)</span></p>
+<p><strong>Saddle Point:</strong> When <span class="math inline">\(c_1=0\)</span>, <span class="math inline">\(\mathbf{x}(t)\)</span> will approach <span class="math inline">\(\mathbf{0}\)</span> along the line determined by <span class="math inline">\(\mathbf{k}_2\)</span>. If <span class="math inline">\(\mathbf{x}(0)\)</span> does not lie on the line determined by <span class="math inline">\(\mathbf{k}_2\)</span>, the direction determined by <span class="math inline">\(\mathbf{k}_1\)</span> serves as an asymtote for <span class="math inline">\(\mathbf{x}(t)\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span> Classify the critical point <span class="math inline">\((0,0)\)</span> of each of the following linear system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> as either a stable node, an unstable node, or a saddle point</p>
+<center>
+<span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} -2 &amp; -2\\ -2 &amp; -5 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; -2\\ \;\;3 &amp; \;\;4 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{c})\)</span> <span class="math inline">\(\begin{pmatrix} 2 &amp; -1\\ 3 &amp; -2 \end{pmatrix}\)</span>
+</center>
+<div id="905dfae1" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">5</span>]], </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">2</span>]]])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Stable Node'</span>, <span class="st">'Unstable Node'</span>, <span class="st">'Saddle Point'</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lamda[<span class="dv">0</span>] <span class="op">&gt;=</span> lamda[<span class="dv">1</span>]:</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp       </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_11_Systems_of_Nonlinear_Differential_Equations_files/figure-html/cell-4-output-1.png" width="348" height="964" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>A Repeated Real Eigenvalue</strong>, <span class="math inline">\(\tau^2 -4\Delta = 0\)</span></p>
+<p>The general solution takes on one of two different forms depending on whether <strong>one</strong> or <strong>two</strong> linearly independent eigenvectors can be found for the repeated eigenvalues <span class="math inline">\(\lambda_1\)</span></p>
+<ul>
+<li><p><strong>Two linearly independent eigenvectors</strong></p>
+<p>If <span class="math inline">\(\mathbf{k}_1\)</span> and <span class="math inline">\(\mathbf{k}_2\)</span> are two linearly independent eigenvectors corresponding to <span class="math inline">\(\lambda_1\)</span>, then the general solution is given by</p>
+<p><span class="math display">\[\mathbf{x}(t)=c_1\mathbf{k}_1 e^{\lambda_1 t} +c_2\mathbf{k}_2 e^{\lambda_1 t}=
+\left(c_1\mathbf{k}_1 + c_2\mathbf{k}_2 \right) e^{\lambda_1 t}\]</span></p>
+<p>If <span class="math inline">\(\lambda_1&lt;0\)</span>, the <span class="math inline">\(\mathbf{x}(t)\)</span> approaches <span class="math inline">\(\mathbf{0}\)</span> along the line determined by the vector <span class="math inline">\(c_1\mathbf{k}_1 + c_2\mathbf{k}_2\)</span> and the critical point is a <strong>degenerate stable node</strong>. The arrows are reversed when <span class="math inline">\(\lambda_1&gt;0\)</span>, and the critical point is a <strong>degenerate unstable node</strong></p></li>
+<li><p><strong>A single linearly independent eigenvectors</strong></p>
+<p>When only a single linearly independent eigenvector <span class="math inline">\(\mathbf{k}_{11}\)</span> exists, the general solution is given by</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbf{x}(t)&amp;=c_1\mathbf{k}_{11} e^{\lambda_1 t} +c_2\left(\mathbf{k}_{11} te^{\lambda_1 t}
+        +\mathbf{k}_{12} e^{\lambda_1 t}\right)\\
+     &amp;=te^{\lambda_1 t}\left[c_2 \mathbf{k}_{11} +\frac{1}{t} \left(c_1\mathbf{k}_{11}
+        +c_2\mathbf{k}_{12}\right) \right]
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\((\mathbf{A} -\lambda_1\mathbf{I})\mathbf{k}_{12}=\mathbf{k}_{11}\)</span>. If <span class="math inline">\(\lambda_1&lt;0\)</span>, then <span class="math inline">\(\lim_{t \to \infty} te^{\lambda_1 t}=0\)</span> and it follows that <span class="math inline">\(\mathbf{x}(t)\)</span> approaches <span class="math inline">\(\mathbf{0}\)</span> in the line determined by <span class="math inline">\(\mathbf{k}_{11}\)</span>. The critical point is again a <strong>degenerate stable node</strong>. When <span class="math inline">\(\lambda_1&gt;0\)</span>, <span class="math inline">\(\mathbf{x}(t)\)</span> becomes unbounded as <span class="math inline">\(t\)</span> increases, and the critical point is a <strong>degenerate unstable node</strong></p></li>
+</ul></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span> Classify the critical point <span class="math inline">\((0,0)\)</span> of each of the following linear system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span></p>
+<center>
+<span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} 1 &amp; 0\\ 0 &amp; 1 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} 3 &amp; -18\\ 2 &amp;\; -9 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{c})\)</span> <span class="math inline">\(\begin{pmatrix} \;\;2 &amp; 4\\ -1 &amp; 6 \end{pmatrix}\)</span>
+</center>
+<div id="a3f93232" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">1</span>]], </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]], </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>]]])</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Degenerate Unstable'</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Stable'</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Unstable'</span>]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>] <span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>] <span class="op">*</span>xp</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_11_Systems_of_Nonlinear_Differential_Equations_files/figure-html/cell-5-output-1.png" width="348" height="964" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Complex Eigenvalues</strong>, <span class="math inline">\(\tau^2 -4\Delta &lt; 0\)</span></p>
+<p>If <span class="math inline">\(\lambda_1=\alpha +i\beta\)</span> and <span class="math inline">\(\bar{\lambda}_1\)</span> are the complex eigenvalues and <span class="math inline">\(\mathbf{k}_1=\mathbf{b}_1 +i\mathbf{b}_2\)</span> is a complex eigenvector corresponding to <span class="math inline">\(\lambda_1\)</span>, the general solution can be written as <span class="math inline">\(\mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{x}_1(t) &amp;=e^{\alpha t}\left(\mathbf{b}_1\cos\beta t -\mathbf{b}_2\sin\beta t\right) \\
+\mathbf{x}_2(t) &amp;=e^{\alpha t}\left(\mathbf{b}_2\cos\beta t +\mathbf{b}_1\sin\beta t\right)
+\end{aligned}\]</span></p>
+<ul>
+<li><p><strong>Pure imaginary roots</strong>, <span class="math inline">\(\tau^2 -4\Delta &lt; 0\)</span>, <span class="math inline">\(~\tau=0\)</span></p>
+<p><strong>Center:</strong> When <span class="math inline">\(\alpha=0\)</span>, all solutions are ellipses with center at the origin and are periodic with period <span class="math inline">\(p=2\pi/\beta\)</span>. The critical point is called a <strong>center</strong></p></li>
+<li><p><strong>Nonezero real part</strong>, <span class="math inline">\(\tau^2 -4\Delta &lt; 0\)</span>, <span class="math inline">\(~\tau\neq 0\)</span></p>
+<p><strong>Spiral Point:</strong> When <span class="math inline">\(\alpha&lt;0\)</span>, <span class="math inline">\(e^{\alpha t}\to 0\)</span>, and the elliptical-like solution spirals closer and closer to the origin. The critical point is called a <strong>stable spiral point</strong>. When <span class="math inline">\(\alpha&gt;0\)</span>, the effect is the opposite. An elliptical-like solution is driven farther and farther from the origin, and the critical point is now called an <strong>unstable spiral point</strong></p></li>
+</ul></li>
+</ul>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span> Classify the critical point <span class="math inline">\((0,0)\)</span> of each of the following linear system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span></p>
+<center>
+<span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; 2\\ -1 &amp; 1 \end{pmatrix}\)</span>,<span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; -4\\ \;\;1 &amp; -1 \end{pmatrix}\)</span>
+</center>
+<div id="2a7564c2" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]],</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]]])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Center'</span>, <span class="st">'Stable Spiral'</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">8</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">1</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_11_Systems_of_Nonlinear_Differential_Equations_files/figure-html/cell-6-output-1.png" width="356" height="669" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch11_figure04.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+</figure>
+</div>
+<p>For a linear plane autonomous system <span class="math inline">\(\mathbf{x}'=\mathbf{A}\mathbf{x}\)</span> with <span class="math inline">\(\mathrm{det}\,\mathbf{A}\neq 0\)</span>, let <span class="math inline">\(\mathbf{x}\)</span> denote the solution that satisfies the initial condition <span class="math inline">\(\mathbf{x}(0)=\mathbf{x}_0\)</span>, where <span class="math inline">\(\mathbf{x}_0\neq\mathbf{0}\)</span></p>
+<ol type="1">
+<li><span class="math inline">\(\lim_{t \to \infty}\mathbf{x}(t)=\mathbf{0}\)</span> if and only if the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> have negative real parts. This will occur when <span class="math inline">\(\Delta&gt;0\)</span> and <span class="math inline">\(\tau&lt;0\)</span></li>
+<li><span class="math inline">\(\mathbf{x}(t)\)</span> is periodic if and only if the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> are pure imaginary. This will occur when <span class="math inline">\(\Delta&gt;0\)</span> and <span class="math inline">\(\tau=0\)</span></li>
+<li>In all other cases, given any neighborhood of the origin, there is at least one <span class="math inline">\(\mathbf{x}_0\)</span> in the neighborhood for which <span class="math inline">\(\mathbf{x}(t)\)</span> becomes unbounded as <span class="math inline">\(t\)</span> increases</li>
+</ol>
+</section>
+<section id="sec-11-3" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="sec-11-3"><span class="header-section-number">8.3</span> Linearization and Local Stability</h2>
+<p>Here we will use linearization as a means of analyzing nonlinear DEs and nonlinear systems; the idea is to replace them by linear DEs and linear systems. Let <span class="math inline">\(\mathbf{x}_1\)</span> be a critical point of an autonomous system, and let <span class="math inline">\(\mathbf{x}=\mathbf{x}(t)\)</span> denote the solution that satisfies the initial condition <span class="math inline">\(\mathbf{x}(0)=\mathbf{x}_0\)</span>, where <span class="math inline">\(\mathbf{x}\neq\mathbf{x}_1\)</span>.</p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{x}_1\)</span> is a <strong>stable critical point</strong></p>
+<p>when, given any <span class="math inline">\(\rho &gt; 0\)</span>, there is a <span class="math inline">\(r&gt;0\)</span> such that if <span class="math inline">\(\mathbf{x}_0\)</span> satisfies <span class="math inline">\(|\mathbf{x}_0 -\mathbf{x}_1|&lt;r\)</span>, then <span class="math inline">\(\mathbf{x}(t)\)</span> satisfies <span class="math inline">\(|\mathbf{x}(t) -\mathbf{x}_1|&lt;\rho\)</span> <span class="math inline">\(\,\)</span> for all <span class="math inline">\(t&gt;0\)</span>. If, in addition, <span class="math inline">\(\lim_{t \to \infty} \mathbf{x}(t)=\mathbf{x}_1\)</span> whenever <span class="math inline">\(|\mathbf{x}_0 -\mathbf{x}_1|&lt;r\)</span>, we call <span class="math inline">\(\mathbf{x}_1\)</span> an <strong>asymptotically stable critical point</strong></p></li>
+<li><p><span class="math inline">\(\mathbf{x}_1\)</span> is a <strong>unstable critical point</strong></p>
+<p>if there is <span class="math inline">\(\rho&gt;0\)</span> with the property that, for any <span class="math inline">\(r&gt;0\)</span>, there is at least one <span class="math inline">\(\mathbf{x}_0\)</span> that satisfies <span class="math inline">\(|\mathbf{x}_0 -\mathbf{x}_1|&lt;r\)</span>, yet the corresponding solution <span class="math inline">\(\mathbf{x}(t)\)</span> satisfies <span class="math inline">\(|\mathbf{x}(t) -\mathbf{x}_1|\geq\rho\)</span> <span class="math inline">\(\,\)</span> for at least one <span class="math inline">\(t&gt;0\)</span></p></li>
 </ul>
 
 
