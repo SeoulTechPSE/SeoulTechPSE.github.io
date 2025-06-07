@@ -250,8 +250,8 @@ y_2 = 2/3 *xl
 
 ```{python}
 # | echo: true
-# | label: fig-ch10-Lotka-Volterra 
-# | fig-cap: "Lotka-Volterra predator-prey model"
+# | label: fig-ch10
+# | fig-cap: "Phase Portrait of Saddle-Point System"
 # | output-location: column
 
 fig, ax = plt.subplots(figsize=(5, 5))
@@ -635,7 +635,7 @@ A_.eigenvects()
 ```{python}
 # | echo: true
 # | label: fig-ch10-defective-system 
-# | fig-cap: "Phase Portrait of defective system"
+# | fig-cap: "Phase Portrait of Defective System"
 # | output-location: column
 w = 6
 xl = np.arange(-w, w, 0.1)
@@ -838,7 +838,7 @@ $~$
 ```{python}
 # | echo: true
 # | label: fig-ch10-Times-Series-Complex-Eigenvalues 
-# | fig-cap: "Time series of system with complex eigenvalues"
+# | fig-cap: "Time Series of System with Complex Eigenvalues"
 
 from scipy.integrate import solve_ivp
 
@@ -864,7 +864,7 @@ ax.set_ylabel('x, y');
 ```{python}
 # | echo: true
 # | label: fig-ch10-Complex-Eigenvalues 
-# | fig-cap: "Phase portrait of system with complex eigenvalues"
+# | fig-cap: "Phase Portrait of System with Complex Eigenvalues"
 # | output-location: column
 
 w = 6
@@ -894,7 +894,7 @@ ax.tick_params(axis='both', direction='in')
 * A homogeneous system
 
   $$
-  \begin{pmatrix} x_1' \\ x_2' \\ \vdots \\ x_n' 
+  \begin{pmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \vdots \\ \dot{x}_n 
   \end{pmatrix} =
     \begin{pmatrix}
      a_{11} & a_{12} & \cdots & a_{1n}\\ 
@@ -905,22 +905,22 @@ ax.tick_params(axis='both', direction='in')
     \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n 
   \end{pmatrix}$$
  
-  is said to be **coupled** if each $x_i'$ is expressed as a linear combination of $x_1, x_2, \cdots, x_n$.
- $\,$If $\mathbf{A}$ is diagonalizable, $\,$the system can be **decoupled** so each $x_i'$ is expressed solely in terms of $x_i$
+  is said to be **coupled** if each $\dot{x}_i$ is expressed as a linear combination of $x_1, x_2, \cdots, x_n$.
+ $\,$If $\mathbf{A}$ is diagonalizable, $\,$the system can be **decoupled** so each $\dot{x}_i$ is expressed solely in terms of $x_i$
 
 * If $\mathbf{A}$ has $n$ linearly independent eigenvectors, $\,$we can find a matrix $\mathbf{P}$ such that
   $\mathbf{P}^{-1}\mathbf{A}\mathbf{P}=\mathbf{D}\text{ }$ where $\text{ }\mathbf{D}$ is a diagonal matrix
 
-* Making the substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{x}'=\mathbf{A}\mathbf{x}$,
+* Making the substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{\dot{x}}=\mathbf{A}\mathbf{x}$,
 
   $$
   \begin{aligned}
-     \mathbf{x}' &= \mathbf{A}\mathbf{x}\\ 
+     \mathbf{\dot{x}} &= \mathbf{A}\mathbf{x}\\ 
          &\Downarrow \; 
       \mathbf{x}=\mathbf{P}\mathbf{y}\\ 
-      \mathbf{P}\mathbf{y}' &= 
+      \mathbf{P}\mathbf{\dot{y}} &= 
       \mathbf{A}\mathbf{P}\mathbf{y}\\ 
-      \mathbf{y}' &= 
+      \mathbf{\dot{y}} &= 
       \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y}= 
       \mathbf{D}\mathbf{y} 
   \end{aligned}$$ 
@@ -928,7 +928,7 @@ ax.tick_params(axis='both', direction='in')
   The last equation is the same as
   
   $$
-    \begin{pmatrix} y_1' \\ y_2' \\ \vdots \\ y_n' \end{pmatrix}=
+    \begin{pmatrix} \dot{y}_1 \\ \dot{y}_2 \\ \vdots \\ \dot{y}_n \end{pmatrix}=
     \begin{pmatrix}
      \lambda_1 & 0 & \cdots & 0\\ 
      0 & \lambda_2 & \cdots & 0\\ 
@@ -938,13 +938,13 @@ ax.tick_params(axis='both', direction='in')
     \begin{pmatrix} y_1 \\ y_2 \\ \vdots \\ y_n \end{pmatrix} 
    $$
 
-* The general solution of $\mathbf{y}'=\mathbf{D}\mathbf{y}$ can be written as
+* The general solution of $\mathbf{\dot{y}}=\mathbf{D}\mathbf{y}$ can be written as
    
   $$\mathbf{y}=\begin{pmatrix} c_1 e^{\lambda_1 t} \\ c_2 e^{\lambda_2 t} \\ 
      \vdots \\ c_n e^{\lambda_n t} \end{pmatrix}$$
      
   Then the general solution of 
-  $\mathbf{x}'=\mathbf{A}\mathbf{x}$ is obtained from 
+  $\mathbf{\dot{x}} =\mathbf{A}\mathbf{x}$ is obtained from 
   $\mathbf{x}=\mathbf{P}\mathbf{y}$
 
 $~$
@@ -952,7 +952,7 @@ $~$
 **Example** $\,$ Solve
    
 $$
-\mathbf{x}' =
+\mathbf{\dot{x}} =
   \left(\begin{array}{rrr}
    -2 & -1 & 8 \\ 
     0 & -3 & 8 \\ 
@@ -992,7 +992,7 @@ $$
       0 & 1 & 1
     \end{array}\right)$$
    
-  The substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{x}'=\mathbf{A}\mathbf{x}$ gives the decoupled system $\mathbf{y}'=\mathbf{D}\mathbf{y}$. The entries on the main diagonal of $\mathbf{D}$ are the eigenvalues of $\mathbf{A}$ corresponding to the order in which the eigenvectors appear in $\mathbf{P}$. The general solution of the decoupled system is
+  The substitution $\mathbf{x}=\mathbf{P}\mathbf{y}$ in $\mathbf{\dot{x}}=\mathbf{A}\mathbf{x}$ gives the decoupled system $\mathbf{\dot{y}}=\mathbf{D}\mathbf{y}$. The entries on the main diagonal of $\mathbf{D}$ are the eigenvalues of $\mathbf{A}$ corresponding to the order in which the eigenvectors appear in $\mathbf{P}$. The general solution of the decoupled system is
    
    $$
     \mathbf{y}=
@@ -1026,7 +1026,7 @@ $~$
 
 ## Nonhomogeneous Linear Systems {#sec-10-4}
 
-* The general solution of a nonhomogeneous linear system $\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$ is
+* The general solution of a nonhomogeneous linear system $\mathbf{\dot{x}}=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$ is
 $\mathbf{x}=\mathbf{x}_h +\mathbf{x}_p$ where $\mathbf{x}_h$ is the complementary function of the associated homogeneous linear system and $\mathbf{x}_p$ is any particular solution of the nonhomogeneous system
 
 ### Method of undetermined coefficients {#sec-10-4-1}
@@ -1040,7 +1040,7 @@ $~$
 **Example** $\,$ Solve
 
 $$
-   \mathbf{x}' =
+   \mathbf{\dot{x}} =
    \left(\begin{array}{rr}
      -1 & 2 \\ 
      -1 & 1
@@ -1053,7 +1053,7 @@ $$
 * We first solve the associated homogeneous system
   
   $$
-   \mathbf{x}' =
+   \mathbf{\dot{x}} =
    \left(\begin{array}{rr}
      -1 & 2 \\ 
      -1 & 1
@@ -1129,7 +1129,7 @@ $~$
 **Example** $\,$ Solve
 
 $$
-  \mathbf{x}' =
+  \mathbf{\dot{x}} =
   \left(\begin{array}{rr}
     6 & 1 \\ 
     4 & 3
@@ -1168,7 +1168,7 @@ $~$
 **Example** $\,$ Determine the form of a particular solution vector $\mathbf{x}_p$, $\,$for the system
 
 $$
-   \mathbf{x}' =
+   \mathbf{\dot{x}} =
    \left(\begin{array}{rr}
      5 & 3 \\ 
     -1 & 1
@@ -1222,7 +1222,7 @@ $~$
 * **A Fundamental Matrix**
   
   If $\mathbf{x}_1$, $\mathbf{x}_2$, $\cdots$, $\mathbf{x}_n$ is a fundamental set of solutions of 
-  the homogeneous system $\mathbf{x}'=\mathbf{A}\mathbf{x}$, then its general solution is the linear
+  the homogeneous system $\mathbf{\dot{x}}=\mathbf{A}\mathbf{x}$, then its general solution is the linear
   combination $\mathbf{x}=c_1\mathbf{x}_1 +c_2\mathbf{x}_2 +\cdots +c_n\mathbf{x}_n$ or
     
   $$\scriptsize
@@ -1248,9 +1248,9 @@ $~$
 * We need to know two properties of a fundamental matrix:
     
   * A fundamental matrix $\boldsymbol{\Phi}(t)$ is nonsingular
-  * If $\boldsymbol{\Phi}(t)$ is a fundamental matrix of $\mathbf{x}'=\mathbf{A}\mathbf{x}$, then
+  * If $\boldsymbol{\Phi}(t)$ is a fundamental matrix of $\mathbf{\dot{x}}=\mathbf{A}\mathbf{x}$, then
     
-    $$\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)$$
+    $$\boldsymbol{\dot{\Phi}}(t)=\mathbf{A}\boldsymbol{\Phi}(t)$$
 
 * **Variation of Parameters**
 
@@ -1258,16 +1258,16 @@ $~$
 
   $$\mathbf{u}(t)= \begin{pmatrix} u_1(t) \\ u_2(t) \\ \vdots \\ u_n(t) \end{pmatrix}\;\text{ so that }\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)$$
   
-  is a particular solution of $\,\mathbf{x}'=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$
+  is a particular solution of $\,\mathbf{\dot{x}}=\mathbf{A}\mathbf{x} +\mathbf{f}(t)$
 
   $$
   \begin{aligned}
-    \mathbf{x}'&=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\\ 
+    \mathbf{\dot{x}}&=\mathbf{A}\mathbf{x} +\mathbf{f}(t)\\ 
        &\;\Big\Downarrow \;\;\mathbf{x}_p=\boldsymbol{\Phi}(t)\mathbf{u}(t)\\ 
-    \boldsymbol{\Phi}'(t)\mathbf{u}(t) 
-       +\boldsymbol{\Phi}(t)\mathbf{u}'(t)&=\mathbf{A}\boldsymbol{\Phi}(t)\mathbf{u}(t) +\mathbf{f}(t)\\
-       &\;\Big\Downarrow \;\;\boldsymbol{\Phi}'(t)=\mathbf{A}\boldsymbol{\Phi}(t)\\
-    \boldsymbol{\Phi}(t)\mathbf{u}'(t)&=\mathbf{f}(t)\\
+    \boldsymbol{\dot{\Phi}}(t)\mathbf{u}(t) 
+       +\boldsymbol{\Phi}(t)\mathbf{\dot{u}}(t)&=\mathbf{A}\boldsymbol{\Phi}(t)\mathbf{u}(t) +\mathbf{f}(t)\\
+       &\;\Big\Downarrow \;\;\boldsymbol{\dot{\Phi}}(t)=\mathbf{A}\boldsymbol{\Phi}(t)\\
+    \boldsymbol{\Phi}(t)\mathbf{\dot{u}}(t)&=\mathbf{f}(t)\\
        &\Downarrow \\
     \mathbf{u}(t)&=\int\boldsymbol{\Phi}^{-1}(t)\mathbf{f}(t)\;dt +\mathbf{c}_0\\
        &\Downarrow \\
@@ -1296,7 +1296,7 @@ $~$
 **Example** $\,$ Find the general solution of the nonhomogeneous system
 
 $$
-   \mathbf{x}' =
+   \mathbf{\dot{x}} =
    \left(\begin{array}{rr}
     -3 & 1 \\ 
      2 &-4
@@ -1356,22 +1356,21 @@ $$
 $\mathbf{D}$ is a diagonal matrix. Substituting $\mathbf{x}=\mathbf{P}\mathbf{y}$ into the
 nonhomogeneous system gives
 
-  $$
-  \begin{aligned}
-    \mathbf{x}'&=\mathbf{A}\mathbf{x} +\mathbf{f}\\ 
+  $$\begin{aligned}
+    \mathbf{\dot{x}} &=\mathbf{A}\mathbf{x} +\mathbf{f}\\ 
       &\;\big\Downarrow \;\mathbf{x}=\mathbf{P}\mathbf{y} \\ 
-    \mathbf{P}\mathbf{y}'&=\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{f}\\ 
-    \mathbf{y}'&= \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\ 
-    \mathbf{y}'&= \mathbf{D}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\
+    \mathbf{P}\mathbf{\dot{y}}&=\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{f}\\ 
+    \mathbf{\dot{y}} &= \mathbf{P}^{-1}\mathbf{A}\mathbf{P}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\ 
+    \mathbf{\dot{y}} &= \mathbf{D}\mathbf{y} +\mathbf{P}^{-1}\mathbf{f}\\
       &\;\big\Downarrow \;\mathbf{g}=\mathbf{P}^{-1}\mathbf{f}\\
-    \mathbf{y}'&= \mathbf{D}\mathbf{y} +\mathbf{g}
+    \mathbf{\dot{y}} &= \mathbf{D}\mathbf{y} +\mathbf{g}
   \end{aligned}$$
 
-  In the last equation, $\mathbf{g}$ ia a column vector. So each differential equation has the form of $y'_i=\lambda_i y_i +g_i(t)$, $i=1,\cdots,n$. $\,$Unlike the procedure for solving a homogeneous system, $\,$we now are required to compute the inverse of $\mathbf{P}$
+  In the last equation, $\mathbf{g}$ ia a column vector. So each differential equation has the form of $\dot{y}_i=\lambda_i y_i +g_i(t)$, $i=1,\cdots,n$. $\,$Unlike the procedure for solving a homogeneous system, $\,$we now are required to compute the inverse of $\mathbf{P}$
 
 ## Matrix Exponential {#sec-10-5}
 
-* We can define a **matrix exponential** $e^{\mathbf{A}t}$ so that $\mathbf{x}'=\mathbf{A}\mathbf{x}$
+* We can define a **matrix exponential** $e^{\mathbf{A}t}$ so that $\mathbf{\dot{x}} =\mathbf{A}\mathbf{x}$
 has a solution $\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}$
 
   $$e^{\mathbf{A}t}=\mathbf{I} +\mathbf{A}t +\mathbf{A}^2\frac{t^2}{2!} 
@@ -1390,17 +1389,16 @@ has a solution $\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}$
        +\cdots +\mathbf{A}^k\frac{t^k}{k!} +\cdots\right]=\mathbf{A}e^{\mathbf{A}t}
   \end{aligned}$$    
 
-* Now we can prove that $\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}$ is the solution of $\mathbf{x}'=\mathbf{A}\mathbf{x}$ for every constant vector $\mathbf{c}$
+* Now we can prove that $\mathbf{x}=e^{\mathbf{A}t}\mathbf{c}$ is the solution of $\mathbf{\dot{x}} =\mathbf{A}\mathbf{x}$ for every constant vector $\mathbf{c}$
 
-  $$\mathbf{x}'=\frac{d}{dt}e^{\mathbf{A}t}\mathbf{c}=\mathbf{A}e^{\mathbf{A}t}\mathbf{c}
+  $$\mathbf{\dot{x}} =\frac{d}{dt}e^{\mathbf{A}t}\mathbf{c}=\mathbf{A}e^{\mathbf{A}t}\mathbf{c}
     =\mathbf{A}\left(e^{\mathbf{A}t}\mathbf{c}\right)=\mathbf{A}\mathbf{x}$$
 
-* If we denote $e^{\mathbf{A}t}$ by the symbol $\boldsymbol{\Psi}(t)$, 
-then $\frac{d}{dt}e^{\mathbf{A}t}=\mathbf{A}e^{\mathbf{A}t}$ is equivalent to 
-$\boldsymbol{\Psi}'(t)=\mathbf{A}\boldsymbol{\Psi}(t)$. 
+* If we denote $e^{\mathbf{A}t}$ by the symbol $\boldsymbol{\Psi}(t)$, then $\frac{d}{dt}e^{\mathbf{A}t}=\mathbf{A}e^{\mathbf{A}t}$ is equivalent to 
+$\boldsymbol{\dot{\Psi}}(t)=\mathbf{A}\boldsymbol{\Psi}(t)$. 
 In addition, $\boldsymbol{\Psi}(0)=e^{\mathbf{A}0}=\mathbf{I}$ and so $\mathrm{det}\,\boldsymbol{\Psi}(0)\neq 0$.
 These two properties are sufficient to conclude that $\boldsymbol{\Psi}(t)$ is a **fundamental matrix** of 
-$\mathbf{x}'=\mathbf{A}\mathbf{x}$. Then it is always nonsingular and 
+$\mathbf{\dot{x}} =\mathbf{A}\mathbf{x}$. Then it is always nonsingular and 
 $\left(e^{\mathbf{A}t}\right)^{-1}=e^{-\mathbf{A}t}$
 
 * For a nonhomogeneous system of linear first-order DEs, the general solution is
@@ -1414,7 +1412,7 @@ $\left(e^{\mathbf{A}t}\right)^{-1}=e^{-\mathbf{A}t}$
 
   $\mathbf{x}=e^{\mathbf{A}t}$ is a solution of the initial value problem
   
-  $$\mathbf{x}'=\mathbf{A}\mathbf{x}, \;\;\mathbf{x}(0)=\mathbf{I}$$
+  $$\mathbf{\dot{x}}=\mathbf{A}\mathbf{x}, \;\;\mathbf{x}(0)=\mathbf{I}$$
   
   If $\mathbf{x}(s)=\mathcal{L}\{e^{\mathbf{A}t}\}$, $\,$then the Laplace transform of the above initial
   value problem is
