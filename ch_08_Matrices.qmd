@@ -808,7 +808,7 @@ $~$
   \end{vmatrix}}$$
 
 * <font color='green'>If $\mathbf{B}$ is the matrix obtained by multiplying a row (column) by a nonzero real number $k$,
-  $~$ then $\mathrm{det}(\mathbf{B})=k\mathrm{det}(\mathbf{A})$</font>
+  $~$ then $\mathrm{det}(\mathbf{B})=k\,\mathrm{det}(\mathbf{A})$</font>
   
   $${\scriptsize\begin{vmatrix}
    a_{11} & a_{12} & a_{13}\\ 
@@ -1495,6 +1495,14 @@ A = sympy.Matrix([[3, 4], [-1, 7]])
 A.eigenvects()
 ```
 
+```{python}
+# | echo: true
+lambda1 = A.eigenvects()[0][0]
+k1 = A.eigenvects()[0][2][0]
+A1 = A -lambda1 *sympy.eye(2)
+A1.pinv_solve(k1)
+```
+
 $~$
 
 * Let $\mathbf{A}$ be a square matrix with real entries. If $\lambda=\alpha +i\beta$, $~\beta \neq 0$, $~$is a complex eigenvalue of $\mathbf{A}$,
@@ -1579,11 +1587,11 @@ $~$
 
   And we can write
   
-  $$\mathbf{A}^m = a_0 \mathbf{I} +a_1 \mathbf{A} +\cdots +a_{n-1}\mathbf{A}^{n-1}$$
+  $$\mathbf{A}^m = a_{n-1}\mathbf{A}^{n-1} +a_{n-2}\mathbf{A}^{n-2} + \cdots +a_1 \mathbf{A} +a_0 \mathbf{I} $$
     
   and the equation for the eigenvalues
     
-  $$\lambda^m = a_0 +a_1 \lambda +\cdots +a_{n-1}\lambda^{n-1}$$
+  $$\lambda^m = a_{n-1}\lambda^{n-1} +a_{n-2}\lambda^{n-2} + \cdots +a_1 \lambda +a_0$$
     
   hold for the same constants
 
@@ -2375,6 +2383,14 @@ print('\nU =')
 pprint.pprint(U)
 ```
 
+```{python}
+A_ = sympy.Matrix([[7, 3, -1, 2], [3, 8, 1, -4], [-1, 1, 4, -1],
+             [2, -4, -1, 6]])
+L_, U_, _ = A_.LUdecomposition()
+L_, U_
+```
+
+
 * **Solving Linear Equations**
 
   Given a system of linear equations in matrix form
@@ -2443,6 +2459,14 @@ print('\nb =', end=' '); pprint.pprint(b)
 print('\nx =', end=' '); pprint.pprint(x)
 ```
 
+```{python}
+A_ = sympy.Matrix([[7, 3, -1, 2], [3, 8, 1, -4], 
+              [-1, 1, 4, -1], [2, -4, -1, 6]])
+b_ = sympy.Matrix([1, 2, 3, 4])
+
+A_.LUsolve(b_)
+```
+
 $~$
 
 * **Inverting a Matrix**
@@ -2453,6 +2477,9 @@ $~$
   
   We can use the same algorithm presented earlier to solve for each column of matrix $\mathbf{X}$
 
+```{python}
+A_.inv(method='LU')
+```
 * **Computing the Determinant**
 
   Given the LUP decomposition $\mathbf{A}=\mathbf{P}^{-1}\mathbf{L}\mathbf{U}$ of a square matrix $\mathbf{A}$, 
