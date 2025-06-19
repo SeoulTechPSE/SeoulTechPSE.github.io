@@ -856,3 +856,300 @@ $~$
 * $\,$ Verify that $y=P_1^1(x)$ satisfies the associated Legendre equation when $n=1$ and $m=1$
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $\phantom{1}$ The differential equation 
+
+$$\displaystyle xy'' +(1-x) y' +\alpha y=0$$
+
+$~$ is known as Laguerre's equation
+
+  (a)$~$ Find two linearly independent solutions for $0 \le x <\infty$
+  
+  (b)$~$ Show that there is a polynomial solution of degree $n$, in case $\alpha=n$ is a non-negative integer
+  
+  (c)$~$ These solutions are naturally called Laguerre polynomials and are denoted by $L_n(x)$. Rodrigues' formula for the Laguerre polynomials is
+
+$$\displaystyle L_n(x) = \frac{e^x}{n!} \frac{d^n}{dx^n} x^n e^{-x}$$
+
+  Use this formula to find the Laguerre polynomials corresponding to $n=0,1,2,3,4$
+
+  **Solution (a)**
+
+Let’s apply the Frobenius method to solve the differential equation near the regular singular point at $x = 0$
+
+**Step 1: Frobenius Series Assumption**
+
+Assume a solution of the form:
+
+$$\displaystyle \color{blue}{y(x) = x^r \sum_{k=0}^{\infty} a_k x^k = \sum_{k=0}^{\infty} a_k x^{k + r}, \quad a_0 \ne 0}$$
+
+Then,
+
+$$\displaystyle y'(x) = \sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}$$
+
+$$\displaystyle
+y''(x) = \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 2}$$
+
+**Step 2: Substitute into the Equation**
+
+Substitute into the original equation:
+
+$$\scriptsize\begin{aligned}
+& x y'' + (1 - x) y' + n y \\
+&= \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 1}
++\sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}
+-\sum_{k=0}^{\infty} a_k (k + r) x^{k + r}
++\sum_{k=0}^{\infty} \alpha a_k x^{k + r} = 0
+\end{aligned}$$
+
+Group and simplify:
+
+$$\displaystyle
+\sum_{k=0}^{\infty} a_k (k + r)^2 x^{k + r - 1}
++\sum_{k=0}^{\infty} a_k (\alpha - k - r) x^{k + r} = 0
+$$
+
+**Step 3: Indicial Equation**
+
+The lowest power of $x$ is $x^{r - 1}$. Its coefficient is:
+
+$$\displaystyle
+a_0 r^2$$
+
+Set this to zero:
+
+$$\displaystyle
+\color{blue}{r^2 = 0 \quad \Rightarrow \quad r = 0}$$
+
+**Step 4: Recurrence Relation**
+
+Now use $r = 0$, so:
+
+$$\displaystyle \sum_{k=0}^{\infty} \left[ a_{k+1} (k + 1)^2 + a_k (\alpha - k) \right] x^k = 0$$
+
+So the recurrence relation is:
+
+$$\displaystyle \color{blue}{a_{k+1} = - \frac{(\alpha - k)}{(k + 1)^2} a_k}$$
+
+Choose $a_0 = 1$ (arbitrary constant), this gives a general form:
+
+$$\displaystyle \color{blue}{a_k = \frac{(-1)^k \alpha(\alpha - 1) \cdots (\alpha - k + 1)}{(k!)^2}}
+$$
+
+Thus the first solution is
+
+$$\displaystyle \color{blue}{y_1(x) = \sum_{k=0}^{\infty} a_k x^k}$$
+
+When the indicial equation has a repeated root $r=0$, the second solution has the form:
+
+$$\displaystyle \color{blue}{y_2(x) = y_1(x) \ln x + \sum_{k=0}^{\infty} b_k x^k}$$
+
+We plug this into the original equation. This leads to 
+
+$$\displaystyle 2y_1' -y_1 +\sum_{k=0}^\infty \left[ (k+1)^2 b_{k+1} +(\alpha -k) b_k \right] x^k = 0$$
+
+**Solution (b)**
+
+When $\alpha = n$, 
+
+$$\displaystyle 
+a_k = \frac{(-1)^k n!}{(n - k)! (k!)^2}
+\quad \text{for } k \le n$$
+
+For $k > n$, we get $a_k = 0$, so the series terminates. The series becomes a polynomial of degree $n$:
+
+$$\displaystyle \color{blue}{y_1(x) = \sum_{k=0}^{n} \frac{(-1)^k n!}{(n - k)! (k!)^2} x^k = L_n(x)}$$
+
+The second linearly independent solution is of the form:
+
+$$\displaystyle y_2(x) = L_n(x) \ln x + \sum_{k=0}^{\infty} d_k x^k$$
+
+**Solution (c)**
+
+To find the Laguerre polynomials $L_n(x)$ for $n = 0, 1, 2, 3, 4$, we will use Rodrigues’ formula.
+
+$$\displaystyle \color{blue}{L_0(x) = \frac{e^x}{0!} \frac{d^0}{dx^0} \left( x^0 e^{-x} \right) = e^x \cdot e^{-x} = 1}$$
+
+$$\displaystyle \color{blue}{L_1(x) = \frac{e^x}{1!} \frac{d}{dx} \left( x e^{-x} \right) = e^x \cdot (1 - x) e^{-x} = 1 - x}$$
+
+$$\displaystyle \color{blue}{L_2(x) = \frac{e^x}{2!} \frac{d^2}{dx^2} \left( x^2 e^{-x} \right) = 1 - 2x + \frac{1}{2}x^2}$$
+
+$$\displaystyle \color{blue}{L_3(x) = 1 - 3x + \frac{3}{2}x^2 - \frac{1}{6}x^3}$$
+
+$$\displaystyle \color{blue}{ L_4(x) = 1 - 4x + 3x^2 - \frac{2}{3}x^3 + \frac{1}{24}x^4}$$
+
+**2.** $\phantom{1}$ The differential equation 
+
+$$\displaystyle (1 -x^2) y'' -xy' +\alpha^2 y=0$$
+
+$~$ where $\alpha$ is a parameter, is known as Chebyshev's equation
+
+  (a)$~$ Find two power series solutions centered at the ordinary point $0$
+  
+  (b)$~$ When $\alpha=n$ is a nonnegative integer, show that Chebyshev's differential equation always possesses a polynomial solution of degree $n$
+  
+  (c)$~$ These solutions are naturally called Chebyshev polynomials and are denoted by $T_n(x)$. Rodrigues' formula for the Chebyshev polynomials is
+
+$$\displaystyle T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1-x^2}\frac{d^n}{dx^n} (1-x^2)^{n-1/2}$$
+
+  Use this formula to find the Chebyshev polynomials corresponding to $n=0,1,2,3$
+
+**Solution (a)**
+
+We are to find two linearly independent power series solutions centered at $x = 0$, which is an ordinary point (i.e., the coefficients of $y’’$ and $y’$ are analytic at $x = 0$)
+
+**Step 1: Assume a Power Series Solution**
+
+Let’s assume a solution of the form:
+
+$$\color{blue}{y(x) = \sum_{k=0}^{\infty} a_k x^k}$$
+
+Then compute the derivatives:
+
+$$y’(x) = \sum_{k=1}^{\infty} k a_k x^{k-1}, \quad
+y’’(x) = \sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}$$
+
+Now substitute $y, y’, y’’$ into the differential equation:
+
+$$\scriptsize\sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}
+	-\sum_{k=2}^{\infty} k(k-1) a_k x^k
+	-\sum_{k=1}^{\infty} k a_k x^k
+	+\sum_{k=0}^{\infty} \alpha^2 a_k x^k = 0$$
+
+Shift the first term to match powers of $x^k$ and  combine all terms and simplify the coefficients:
+
+$$\color{blue}{\sum_{k=0}^{\infty} \left[
+(k+2)(k+1) a_{k+2}
+	+(\alpha^2 - k^2) a_k
+\right] x^k = 0}$$
+
+Set each coefficient of $x^k$ to $0$, we get the recurrence relation:
+
+$$ \displaystyle
+\color{blue}{a_{k+2} = -\frac{\alpha^2 - k^2}{(k+2)(k+1)} a_k}$$
+
+
+**Step 2: Build Two Linearly Independent Solutions**
+
+We choose $a_0$ and $a_1$ arbitrarily to construct two independent solutions
+
+* First solution: even powers only (let $a_0 = 1$, $a_1 = 0$)
+
+    Then the series becomes:
+    
+    $$y_1(x) = a_0 + a_2 x^2 + a_4 x^4 + \cdots$$
+    
+    Use recurrence:
+  
+    $$a_2 = -\frac{\alpha^2 - 0^2}{2 \cdot 1} a_0 = -\frac{\alpha^2}{2}$$
+  
+    $$a_4 = -\frac{\alpha^2 - 2^2}{4 \cdot 3} a_2 = -\frac{\alpha^2 - 4}{12} a_2 = \frac{(\alpha^2 - 4)(\alpha^2)}{24}$$
+        
+    And so on
+
+* Second solution: odd powers only (let $a_0 = 0$, $a_1 = 1$)
+
+    Then the series becomes:
+    
+    $$y_2(x) = a_1 x + a_3 x^3 + a_5 x^5 + \cdots$$
+    
+    Use recurrence:
+    
+    $$a_3 = -\frac{\alpha^2 - 1^2}{3 \cdot 2} a_1 = -\frac{\alpha^2 - 1}{6}$$
+    
+    $$a_5 = -\frac{\alpha^2 - 3^2}{5 \cdot 4} a_3 = \frac{(\alpha^2 - 9)(\alpha^2 - 1)}{120}$$
+        
+    And so on
+
+Two linearly independent power series solutions centered at $x = 0$ are:
+
+$$
+\color{blue}{y_1(x) = a_0 \left[ 1 - \frac{\alpha^2}{2} x^2 + \frac{(\alpha^2 - 4)\alpha^2}{24} x^4 - \cdots \right]}
+$$
+
+$$
+\color{blue}{y_2(x) = a_1 \left[ x - \frac{\alpha^2 - 1}{6} x^3 + \frac{(\alpha^2 - 1)(\alpha^2 - 9)}{120} x^5 - \cdots \right]}
+$$
+
+**Solution (b)**
+
+Let $\alpha = n$, a nonnegative integer. Then the recurrence becomes:
+
+$$\displaystyle a_{k+2} = -\frac{n^2 - k^2}{(k+2)(k+1)} a_k$$
+
+Observe that when $\color{blue}{k = n}$, we get:
+
+$$\displaystyle \color{blue}{a_{n+2} = -\frac{n^2 - n^2}{(n+2)(n+1)} a_n = 0}$$
+
+If we start with $a_0 \ne 0$, and define the even-power solution:
+
+$$\color{red}{y(x) = a_0 + a_2 x^2 + a_4 x^4 + \cdots}$$
+
+then for even $n$, the recurrence will produce:
+	
+$$\color{red}{a_{n+2} = 0 \Rightarrow \text{ the series terminates at } x^n}$$
+
+So, the solution is a polynomial of degree $n$
+
+Similarly, if $a_1 \ne 0$, the odd-power series will terminate at $x^n$ when $n$ is odd.
+Thus, we get a polynomial solution of degree exactly $n$
+
+These solutions are known as the Chebyshev polynomials of the first kind, usually denoted $T_n(x).$
+However the recurrence continues — unless we start with initial coefficients $a_0$, $a_1$ that make the series terminate
+
+**Solution (c)**
+
+Let’s define:
+
+$$\displaystyle f_n(x) = (1 - x^2)^{n - \frac{1}{2}}, \quad \text{then} \quad T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1 - x^2} \cdot \frac{d^n}{dx^n} f_n(x)$$
+
+* $n = 0$
+
+    We have:
+    > $\displaystyle f_0(x) = (1 - x^2)^{-1/2}, \quad \text{but} \quad \frac{d^0}{dx^0} f_0 = f_0$
+    
+    > $T_0(x) = \frac{1}{1} \cdot \sqrt{1 - x^2} \cdot (1 - x^2)^{-1/2} = 1$
+    
+    > $\color{red}{T_0(x) = 1}$
+
+* $n = 1$
+
+    > $f_1(x) = (1 - x^2)^{1 - \frac{1}{2}} = (1 - x^2)^{1/2}$
+    
+    Differentiate:
+    
+    > $\displaystyle \frac{d}{dx} (1 - x^2)^{1/2} = \frac{1}{2}(1 - x^2)^{-1/2} \cdot (-2x) = -\frac{x}{\sqrt{1 - x^2}}$
+    
+    Now plug into the formula:
+    
+    >$\displaystyle \color{red}{T_1(x)} = (-1)^1 \cdot \frac{2^1 \cdot 1!}{2!} \cdot \sqrt{1 - x^2} \cdot \left( -\frac{x}{\sqrt{1 - x^2}} \right) = x$
+
+
+* $n = 2$
+
+    > $f_2(x) = (1 - x^2)^{3/2}$
+    
+    Differentiate twice:
+    
+    First derivative:
+    
+    >$f_2'(x) = \frac{3}{2}(1 - x^2)^{1/2} \cdot (-2x) = -3x (1 - x^2)^{1/2}$
+    
+    Second derivative:
+    
+    >$f_2''(x) = \frac{d}{dx} [-3x (1 - x^2)^{1/2}]
+    = -3(1 - x^2)^{1/2} + 3x^2 (1 - x^2)^{-1/2}$
+    
+    Now plug into Rodrigues' formula:
+    
+    >$\color{red}{T_2(x)} = \frac{2^2 \cdot 2!}{(4)!} \cdot \sqrt{1 - x^2} \cdot f_2''(x)
+    = \frac{4 \cdot 2}{24} \cdot \sqrt{1 - x^2} \cdot \left[ -3(1 - x^2)^{1/2} + 3x^2(1 - x^2)^{-1/2} \right] = 2x^2 - 1$
+
+* $n = 3$
+
+    > $f_3(x) = (1 - x^2)^{5/2}$
+    
+    We’ll compute the 3rd derivative and plug it into the formula:
+    
+    > $\color{red}{T_3(x)} = (-1)^3 \cdot \frac{2^3 \cdot 3!}{(6)!} \cdot \sqrt{1 - x^2} \cdot f_3’’’(x)
+    = -\frac{8 \cdot 6}{720} \cdot \sqrt{1 - x^2} \cdot \left[ 45x(1 - x^2)^{1/2} - 15x^3 (1 - x^2)^{-1/2} \right] = 4x^3 - 3x$

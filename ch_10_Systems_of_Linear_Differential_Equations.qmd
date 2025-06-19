@@ -1552,3 +1552,266 @@ sympy.exp(A*t)
 $~$
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $\phantom{1}$ Compute $e^{\mathbf{A}t}$ for the matrix
+
+$$\begin{pmatrix}
+ -1 & 1 & 1 \\
+ -1 & 0 &  1\\
+ -1 & 1 &  1\\
+\end{pmatrix}$$
+
+and then use the matrix exponential to solve the system $\mathbf{\dot{x}}=\mathbf{Ax}$
+
+$~$
+
+**Solution A**
+
+**Step 1: Characteristic Polynomial**
+
+$$\color{red}{\det(\mathbf{A} - \lambda \mathbf{I}) = -\lambda^3=0}$$
+
+So the eigenvalue is $\lambda=0$ with algebraic multiplicity 3. This means $\mathbf{A}$ is nilpotent (some power of $\mathbf{A}$ equals zero), and not diagonalizable
+
+**Step 2: Matrix Exponential**
+
+Since $\mathbf{A}$ is nilpotent of index 3 (i.e., $\mathbf{A}^3 = \mathbf{0}$), the matrix exponential can be computed using the truncated power series:
+
+$$\color{red}{e^{\mathbf{A}t} = \mathbf{I} + \mathbf{A}t + \frac{1}{2!} \mathbf{A}^2 t^2}$$
+
+We compute:
+
+$$\mathbf{A}^2 = \begin{pmatrix}
+-1 & 0 & 1 \\
+\phantom{-}0 & 0 & 0 \\
+-1 & 0 & 1
+\end{pmatrix}$$
+
+Then:
+
+$$\color{red}{e^{\mathbf{A}t} =
+\begin{pmatrix}
+1 - t - \frac{t^2}{2} & t & t + \frac{t^2}{2} \\
+-t & 1 & t \\
+-t - \frac{t^2}{2} & t & 1 + t +\frac{t^2}{2}
+\end{pmatrix}}$$
+
+**Step 3: Final Solution**
+
+$$\mathbf{x}(t) = e^{\mathbf{A}t} \mathbf{x}_0 =
+\begin{pmatrix}
+1 - t - \frac{t^2}{2} & t & t + \frac{t^2}{2} \\
+-t & 1 & t \\
+-t - \frac{t^2}{2} & t & 1 + t +\frac{t^2}{2}
+\end{pmatrix}
+\mathbf{x}_0$$
+
+**Solution B**
+
+**Step 1: Compute $s\mathbf{I} - \mathbf{A}$**
+
+$$
+s \mathbf{I} - \mathbf{A} =
+\begin{pmatrix}
+s + 1 & -1 & -1 \\
+1 & s & -1 \\
+1 & -1 & s -1
+\end{pmatrix}$$
+
+**Step 2: Inverse of $s\mathbf{I} - \mathbf{A}$**
+
+After computing the inverse, we obtain:
+
+$$\displaystyle (s \mathbf{I} - \mathbf{A})^{-1} = \dfrac{1}{s^3}
+\begin{pmatrix}
+s^2 - s - 1 & s & s+1 \\
+-s & s^2 & s \\
+-s-1 & s & s^2 +s+1
+\end{pmatrix}
+$$
+
+**Step 3: Inverse Laplace Transform**
+
+So the time-domain solution becomes:
+
+$$e^{\mathbf{A}t} =
+\begin{pmatrix}
+1 - t - \frac{t^2}{2} & t & t + \frac{t^2}{2} \\
+-t & 1 & t \\
+-t - \frac{t^2}{2} & t & 1 + t +\frac{t^2}{2}
+\end{pmatrix}$$
+
+**Step 3: Final Solution**
+
+$$
+\mathbf{x}(t) = e^{\mathbf{A}t} \mathbf{x}_0 =
+\begin{pmatrix}
+1 - t - \frac{t^2}{2} & t & t + \frac{t^2}{2} \\
+-t & 1 & t \\
+t - \frac{t^2}{2} & t & 1 + t +\frac{t^2}{2}
+\end{pmatrix}
+\mathbf{x}_0$$
+
+**2.** $\phantom{1}$ Solve the given system
+
+$$\mathbf{\dot{x}} = \begin{pmatrix}
+ 1 & 1 & 0 \\
+ 1 & 1 & 0 \\
+ 0 & 0 & 3 \\
+\end{pmatrix} \mathbf{x} +\begin{pmatrix}
+e^t \\
+ e^{2t}\\
+te^{3t}
+\end{pmatrix}$$
+
+$~$
+
+**Solution**
+
+We are given the nonhomogeneous system of differential equations:
+
+$$\dot{\mathbf{x}} = \mathbf{A} \mathbf{x} + \mathbf{f}(t),
+\quad \text{where} \quad
+\mathbf{A} = \begin{pmatrix}
+1 & 1 & 0 \\
+1 & 1 & 0 \\
+0 & 0 & 3
+\end{pmatrix}, \quad
+\mathbf{f}(t) = \begin{pmatrix}
+e^t \\
+e^{2t} \\
+t e^{3t}
+\end{pmatrix}$$
+
+**Step 1: Solve the Homogeneous System**
+
+We first solve:
+
+$$\dot{\mathbf{x}}_h = \mathbf{A} \mathbf{x}_h$$
+
+Let’s find the general solution to the homogeneous system using eigenvalues and eigenvectors of $\mathbf{A}$
+
+* Characteristic Polynomial
+
+    We compute the determinant of this matrix:
+
+    $$\det(\mathbf{A} - \lambda \mathbf{I}) =
+    (3 - \lambda) \cdot \begin{vmatrix}
+    1 - \lambda & 1 \\
+    1 & 1 - \lambda
+    \end{vmatrix}=\lambda(\lambda-2)(\lambda-3)=0$$
+
+    Thus, the eigenvalues are:
+    
+    $$\color{blue}{\lambda_1 = 0, \,\lambda_2=2, \; \lambda_3 = 3}$$
+
+* Eigenvectors
+
+    For $\lambda_1 = 0$: Solve $(\mathbf{A} -0\mathbf{I}) \mathbf{v}_1 = \mathbf{0}$:
+    
+    $$\displaystyle 
+    \begin{pmatrix}
+                    1 & 1 & 0 \\
+                    1 & 1 & 0 \\
+                    0 & 0 & 3
+                 \end{pmatrix} \mathbf{v}_1 
+    = \mathbf{0} \Rightarrow 
+    \color{blue}{\mathbf{v}_{1} 
+    = \begin{pmatrix}
+       -1 \\ \phantom{-}1 \\ \phantom{-}0
+    \end{pmatrix}}$$
+    
+    For $\lambda_2 = 2$: Solve $(\mathbf{A} -2\mathbf{I}) \mathbf{v}_2 = \mathbf{0}$:
+    
+    $$\displaystyle 
+    \begin{pmatrix}
+                    -1 & \phantom{-}1 & 0 \\
+                    \phantom{-}1 & -1 & 0 \\
+                    \phantom{-}0 & \phantom{-}0 & 2
+                 \end{pmatrix} \mathbf{v}_2 
+    = \mathbf{0} \Rightarrow 
+    \color{blue}{\mathbf{v}_{2} 
+    = \begin{pmatrix}
+       1 \\ 1 \\ 0
+    \end{pmatrix}}$$
+
+    For $\lambda = 3$:
+    
+    Solve $(\mathbf{A} - 3\mathbf{I})\mathbf{v}_3 = \mathbf{0}$:
+    
+    
+    $$\displaystyle\begin{pmatrix}
+    -2 & \phantom{-}1 & \phantom{-}0 \\
+    \phantom{-}1 & -2 & \phantom{-}0 \\
+    \phantom{-}0 & \phantom{-}0 & \phantom{-}0
+    \end{pmatrix} \mathbf{v}_3 = \mathbf{0}
+    \Rightarrow \color{blue}{\mathbf{v}_3 = \begin{pmatrix} 0 \\ 0 \\ 1 \end{pmatrix}}$$
+    
+So, the homogeneous solution is:
+
+$$\color{blue}{
+\mathbf{x}_h(t) = c_1 \begin{pmatrix}
+-1 \\ \phantom{-}1 \\ \phantom{-}0
+\end{pmatrix} + c_2  \begin{pmatrix}
+1 \\ 1 \\ 0
+\end{pmatrix}e^{2t} + c_3  \begin{pmatrix}
+0 \\ 0 \\ 1
+\end{pmatrix}e^{3t}}
+$$
+
+**Step 2: Find a Particular Solution**
+
+So the fundamental matrix is:
+
+$$\color{blue}{\Phi(t) =
+\begin{pmatrix}
+-1 & e^{2t} & 0 \\
+\phantom{-}1 & e^{2t} & 0 \\
+\phantom{-}0 & 0 & e^{3t}
+\end{pmatrix}}$$
+
+Then
+
+$$\Phi(t)^{-1} =
+\begin{pmatrix}
+-\frac{1}{2} & \frac{1}{2} & 0 \\
+\frac{1}{2} e^{-2t} & \frac{1}{2}e^{-2t} & 0 \\
+0 & 0 & e^{-3t}
+\end{pmatrix}$$
+
+We compute:
+
+$$\displaystyle \mathbf{x}_p(t) = \Phi(t) \int \Phi(t)^{-1} \mathbf{f}(t) \, dt$$
+
+Compute $\Phi(t)^{-1} \mathbf{f}(t)$:
+
+$$\Phi(t)^{-1} \mathbf{f}(t) =
+\begin{pmatrix}
+-\frac{1}{2} e^t +\frac{1}{2}e^{2t}\\
+\frac{1}{2}e^{-t} +\frac{1}{2} \\
+t
+\end{pmatrix}$$
+
+Now integrate:
+
+$$\displaystyle \color{blue}{\int \Phi(t)^{-1} \mathbf{f}(t) \, dt = \begin{pmatrix}
+-\frac{1}{2} e^t +\frac{1}{4}e^{2t}\\
+\frac{1}{2}t -\frac{1}{2}e^{-t} \\
+\frac{1}{2}t^2
+\end{pmatrix}}
+$$
+
+
+Let’s simplify and write the particular solution in general form:
+
+$$ \displaystyle
+\color{blue}{\mathbf{x}_p(t) = \Phi(t) \int \Phi(t)^{-1} \mathbf{f}(t) \, dt = \begin{pmatrix}
+-\frac{1}{4} e^{2t} +\frac{1}{2}te^{2t}\\
+-e^t +\frac{1}{4}e^{2t} +\frac{1}{2} te^{2t} \\
+\frac{1}{2}t^2 e^{3t}
+\end{pmatrix}}$$
+
+**Step 3: Final General Solution**
+
+$$\displaystyle
+\mathbf{x}(t) =\mathbf{x}_h(t) + \mathbf{x}_p(t)$$

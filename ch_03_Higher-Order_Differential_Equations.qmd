@@ -1032,3 +1032,307 @@ plt.show()
 ```
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $\phantom{1}$ Solve the given differential equation
+
+> $3y'' -6y' +30y = 15\sin x +e^x \tan 3x$
+
+
+**Solution**
+
+**Step 1:** Solve the homogeneous equation
+
+> $3y’’ - 6y’ + 30y = 0$
+
+Divide through by $3$:
+
+> $y’’ - 2y’ + 10y = 0$
+
+This is a linear equation with constant coefficients. The characteristic equation is:
+
+> $p^2 - 2p + 10 = 0$
+
+Solve using the quadratic formula:
+
+> $p = 1 \pm 3i$
+
+So the general solution to the homogeneous equation is:
+
+> $y_h(x) = e^{x} \left(c_1 \cos 3x + c_2 \sin 3x\right)$
+
+**Step 2:** Find a particular solution
+
+The nonhomogeneous term is:
+
+> $15\sin x + e^x \tan 3x$
+
+We’ll treat each part separately:
+
+(a) For $15 \sin x$:
+
+We use the method of undetermined coefficients
+
+Guess:
+
+> $y_{p1}(x) = A \cos x + B \sin x$
+
+Plug into the left-hand side of the homogeneous operator and simplify
+
+> $3y’’ -6y’ + 30y = (27A + 6B)\cos x + (27B - 6A)\sin x$
+
+We want this equal to the right-hand side: $15\sin x$
+
+So:
+
+> $27A + 6B = 0$
+
+> $27B - 6A = 15$
+
+Then:
+
+> $A = -\frac{2}{17}$
+
+> $B = \frac{9}{17}$
+
+(b) For $e^x \tan 3x$:
+
+We use the method of variation of parameters or note that the particular solution involving $e^x \tan 3x$ will not be expressible in elementary functions directly
+
+We now solve:
+
+> $y’’ - 2y’ + 10y = \frac{1}{3} e^x \tan 3x$
+
+The fundamental solutions to the homogeneous part are:
+
+* $y_1 = e^x \cos 3x$
+
+* $y_2 = e^x \sin 3x$
+
+We apply the method of variation of parameters:
+
+> $y_{p2}(x) = u_1(x)y_1 (x) + u_2(x)y_2(x)$
+
+where:
+
+> $\begin{aligned}
+u_1’ &= -\frac{y_2 f}{W} \\
+u_2’ &= \frac{y_1 f}{W}
+\end{aligned}$
+
+Compute the Wronskian $W$
+
+> $W =
+\begin{vmatrix}
+y_1 & y_2 \\
+y_1’ & y_2’
+\end{vmatrix}
+= 3e^{2x}$
+
+Compute $u_1’$, $u_2’$
+
+> $u_1’ = \frac{-e^x \sin 3x \cdot \frac{1}{3} e^x \tan 3x}{3e^{2x}} = -\frac{1}{9} \sin 3x \tan 3x$
+
+> $u_2’ = \frac{e^x \cos 3x \cdot \frac{1}{3} e^x \tan 3x}{3e^{2x}} = \frac{1}{9} \sin 3x$
+
+Now integrate:
+
+> $u_1(x) = -\frac{1}{9} \int \sin 3x \tan 3x\, dx =-\frac{1}{27} e^x \cos 3x \ln|\sec 3x + \tan 3x|$
+
+> $u_2(x) = \frac{1}{9} \int \sin 3x dx = -\frac{1}{27} \cos 3x$
+
+$~$
+
+**2.** $\phantom{1}$ Solve the given differential equation
+
+$$y'' -2y' +y = 4x^2 -3 +x^{-1} e^x$$
+
+**Solution**
+
+**Step 1:** Solve the homogeneous equation
+
+The associated homogeneous equation is:
+
+> $y’’ - 2y’ + y = 0$
+
+This is a linear equation with constant coefficients. Its characteristic equation is:
+
+> $p^2 - 2p + 1 = 0 \quad \Rightarrow \quad (p - 1)^2 = 0$
+
+So we have a repeated root: $p = 1$
+
+Thus, the general solution to the homogeneous equation is:
+
+> $y_h(x) = (c_1 + c_2 x)e^x$
+
+**Step 2:** Find a particular solution
+
+We now look for a particular solution to:
+
+> $\displaystyle y’’ - 2y’ + y = 4x^2 - 3 + \frac{e^x}{x}$
+
+This is a nonhomogeneous term with two parts:
+
+* $f_1(x) = 4x^2 - 3$ (a polynomial)
+* $\displaystyle f_2(x) = \frac{e^x}{x}$ (a non-polynomial term)
+
+We’ll compute the particular solution as:
+
+> $y_p = y_{p1} + y_{p2}$
+
+* For $4x^2 - 3$
+
+Since the right-hand side is a polynomial, we use undetermined coefficients. Try a solution of the form:
+
+> $y_{p1} = Ax^2 + Bx + C$
+
+Substitute into the differential operator:
+
+> $y_{p1}’’ - 2y_{p1}’ + y_{p1} = 2A - 2(2Ax + B) + (Ax^2 + Bx + C)$
+
+Set this equal to the right-hand side:
+
+> $Ax^2 + (-4A + B)x + (2A - 2B + C) = 4x^2 - 3$
+
+Match coefficients and so:
+
+> $y_{p1}(x) = 4x^2 + 16x + 21$
+
+* For $\displaystyle\frac{e^x}{x}$
+
+This is not suitable for undetermined coefficients — instead, we use variation of parameters.
+
+We already have two linearly independent solutions to the homogeneous equation:
+
+* $y_1 = e^x$
+* $y_2 = x e^x$
+
+Let:
+
+> $y_{p2}(x) = u_1(x) y_1(x) + u_2(x) y_2(x)$
+
+Where:
+
+> $\begin{aligned}
+u_1’ &= \frac{-y_2(x) \cdot f(x)}{W(y_1, y_2)} \\
+u_2’ &= \frac{y_1(x) \cdot f(x)}{W(y_1, y_2)}
+\end{aligned}$
+
+Compute the Wronskian
+
+> $W(y_1, y_2) = \begin{vmatrix}
+e^x & x e^x \\
+e^x & (1 + x)e^x
+\end{vmatrix}
+= e^x (1 + x)e^x - x e^x \cdot e^x = e^{2x}(1 + x - x) = e^{2x}$
+
+Then:
+
+> $u_1’ = \frac{-x e^x \cdot \frac{e^x}{x}}{e^{2x}} = \frac{-e^{2x}}{e^{2x}} = -1 \quad \Rightarrow \quad u_1 = -x$
+
+> $u_2’ = \frac{e^x \cdot \frac{e^x}{x}}{e^{2x}} = \frac{1}{x} \quad \Rightarrow \quad u_2 = \ln|x|$
+
+So:
+
+> $y_{p2}(x) = u_1 y_1 + u_2 y_2 = (-x)e^x + \ln|x| \cdot (x e^x)
+= e^x \left( -x + x \ln|x| \right) = x e^x (\ln|x| - 1)$
+
+$~$
+
+**3.** $\phantom{1}$ Find a member of the family of solutions of
+
+$$xy''+y'+\sqrt{x}=0$$
+
+whose graph is tangent to the x-axis at $x=1$
+
+$~$
+
+**Solution**
+
+We are given the second-order linear nonhomogeneous differential equation:
+
+$$xy’’ + y’ + \sqrt{x} = 0$$
+
+and the condition that the solution’s graph is tangent to the x-axis at $x = 1$
+
+This implies:
+
+* The solution satisfies $y(1) = 0$
+
+* The slope is zero at $x = 1$, so $y’(1) = 0$
+
+**Step 1:** Solve the homogeneous differential equation
+
+We can treat this as a linear second-order ODE:
+
+> $xy'' + y' = -\sqrt{x}$
+
+This is a linear ODE in standard form:
+
+> $y'' + \frac{1}{x} y' = -\frac{\sqrt{x}}{x}
+= -x^{-1/2}$
+
+Let’s solve the homogeneous equation first:
+
+> $y'' + \frac{1}{x} y' = 0$
+
+Use standard method for linear homogeneous equations
+
+Let $y' = u$, then $y'' = u'$, so:
+
+> $u' + \frac{1}{x} u = 0$
+
+This is a separable first-order equation:
+
+> $\frac{du}{u} = -\frac{dx}{x}
+\quad\Rightarrow\quad
+\ln|u| = -\ln|x| + C
+\quad\Rightarrow\quad
+u = \frac{c_1}{x}
+\quad\Rightarrow\quad
+y' = \frac{c_1}{x}
+\quad\Rightarrow\quad
+y = c_1 \ln x + c_2$
+
+So the general solution of the homogeneous equation is:
+
+> $y_h(x) = c_1 \ln x + c_2$
+
+**Step 2:** Find a particular solution to the nonhomogeneous equation
+
+We need a particular solution $y_p$ to:
+
+> $y'' + \frac{1}{x} y' = -x^{-1/2}$
+
+We can use variation of parameters, since we already have two independent solutions to the homogeneous equation:
+
+> $y_1 = \ln x,\quad y_2 = 1$
+
+Compute the Wronskian:
+
+> $W =
+\begin{vmatrix}
+\ln x & 1 \\
+\frac{1}{x} & 0 \\
+\end{vmatrix}
+= -\frac{1}{x}$
+
+The particular solution is:
+
+> $\displaystyle y_p = -\ln x \int \frac{1 \cdot (-x^{-1/2})}{-1/x} \, dx +	1 \cdot \int \frac{\ln x \cdot (-x^{-1/2})}{-1/x} \, dx = -\frac{4}{9} x^{3/2}$
+
+**Step 3:** General solution
+
+> $y(x) = c_1 \ln x + c_2 - \frac{4}{9} x^{3/2}$
+
+We are told the graph is tangent to the x-axis at $x=1$. 
+Compute $y(1)$ and $y'(x)$:
+
+> $y(1) = c_1 \ln 1 + c_2 - \frac{4}{9} (1)^{3/2} = 0 + c_2 - \frac{4}{9} = 0 \Rightarrow c_2 = \frac{4}{9}$
+
+> $y'(1) = c_1 - \frac{2}{3} = 0 \Rightarrow c_1 = \frac{2}{3}$
+
+The solution is
+
+> $y(x) = \frac{2}{3} \ln x + \frac{4}{9} - \frac{4}{9} x^{3/2}$
+
+

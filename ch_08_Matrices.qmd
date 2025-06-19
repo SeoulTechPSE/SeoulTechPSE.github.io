@@ -2976,3 +2976,434 @@ for month in range(13):
 ```
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $\phantom{1}$ Use the inverse of the matrix $\mathbf{A}$ to solve the system $\mathbf{Ax}=\mathbf{b}_i$, where
+
+$$\displaystyle \mathbf{A}=\begin{pmatrix}
+ 1 & 2 & 3 \\
+ 2 & 3 & 0 \\
+ 0 & 1 & 2 \\
+\end{pmatrix}$$
+
+and the vectors $\mathbf{b}_i$, $i=1,2$ are given by 
+(a) $~\mathbf{b}_1=\begin{pmatrix}
+ 1\\
+ 1\\
+ 1
+\end{pmatrix}$, (b) $~\mathbf{b}_2=\begin{pmatrix}
+ -2\\
+ \phantom{-}1\\
+ \phantom{-}3
+\end{pmatrix}$
+
+**Solution**
+
+$$\displaystyle \color{blue}{\mathbf{A}^{-1} = \frac{1}{\det(\mathbf{A})} \cdot \text{adj}(\mathbf{A}) = \frac{1}{4} \begin{pmatrix}
+\phantom{-}6 & -1 & -9 \\
+-4 & \phantom{-}2 & \phantom{-}6 \\
+\phantom{-}2 & -1 & -1 \\
+\end{pmatrix}}$$
+
+For $\mathbf{b}_1 = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}$
+
+> $\displaystyle \mathbf{x}_1 = \mathbf{A}^{-1} \mathbf{b}_1 
+= \frac{1}{4} 
+\begin{pmatrix}
+  \phantom{-}6 & -1 & -9 \\
+  -4 & \phantom{-}2 & \phantom{-}6 \\
+  \phantom{-}2 & -1 & -1 \\
+\end{pmatrix}
+\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} = 
+\color{blue}{\begin{pmatrix} -1 \\ \phantom{-}1 \\ \phantom{-}0 \end{pmatrix}}$
+
+For $\mathbf{b}_2 = \begin{pmatrix} -2 \\ \phantom{-}1 \\ \phantom{-}3 \end{pmatrix}$
+
+> $\displaystyle \mathbf{x}_2 = \frac{1}{4} \begin{pmatrix}
+\phantom{-}6 & -1 & -9 \\
+-4 & \phantom{-}2 & \phantom{-}6 \\
+\phantom{-}2 & -1 & -1 \\
+\end{pmatrix}
+\begin{pmatrix} -2 \\ \phantom{-}1 \\ \phantom{-}3 \end{pmatrix} = \color{blue}{\begin{pmatrix} -10 \\ \phantom{-}7 \\ -2 \end{pmatrix}}$
+
+**2.** $\phantom{1}$ Use the given LU-factorization
+
+$$\displaystyle \mathbf{A} = \begin{pmatrix}
+ 1 & 1 & 1 \\
+ 1 & 2 & 2\\
+ 1&  2 & 3 \\
+\end{pmatrix} =
+\begin{pmatrix}
+ 1 & 0 & 0 \\
+ 1 & 1 & 0 \\
+ 1 & 1 & 1 \\
+\end{pmatrix} 
+\begin{pmatrix}
+ 1 & 1 & 1 \\
+ 0 & 1& 1 \\
+ 0 & 0 & 1 \\
+\end{pmatrix}$$
+
+to solve the linear system $\mathbf{Ax}=\mathbf{b_i}$ for the given column matrix $\mathbf{b}_i$, $i=1,2,3,4$
+
+(a) $~\mathbf{b}_1=\begin{pmatrix}
+ 2\\
+ 4\\
+ 1
+\end{pmatrix}$, (b) $~\mathbf{b}_2=\begin{pmatrix}
+ -4\\
+ \phantom{-}7\\
+ 10
+\end{pmatrix}$, (c) $~\mathbf{b}_3=\begin{pmatrix}
+ \phantom{-}\frac{1}{2}\\
+ \phantom{-}\frac{3}{4}\\
+ -\frac{1}{2}
+\end{pmatrix}$, (d) $~\mathbf{b}_4=\begin{pmatrix}
+ \phantom{-}30\\
+ -42\\
+ -18
+\end{pmatrix}$
+
+**Solution**
+
+To solve $\mathbf{A}\mathbf{x} = \mathbf{b}$, we use the factorization:
+
+
+>$\mathbf{A}\mathbf{x} = \mathbf{L}\mathbf{U}\mathbf{x} = \mathbf{b}$
+
+* <font color='red'>Step 1: Solve $\mathbf{L}\mathbf{y} = \mathbf{b}$ (forward substitution)
+</font>
+
+
+* <font color='red'>Step 2: Solve $\mathbf{U}\mathbf{x} = \mathbf{y}$ (backward substitution)
+</font>
+
+We will apply this for each given $\mathbf{b}_i$
+
+
+**(a)** $~\mathbf{b}_1 = \begin{pmatrix} 2 \\ 4 \\ 1 \end{pmatrix}$
+
+**Step 1:** Solve $\mathbf{L}\mathbf{y} = \mathbf{b}_1$
+
+> $\begin{pmatrix}
+1 & 0 & 0 \\
+1 & 1 & 0 \\
+1 & 1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+y_1 \\ y_2 \\ y_3
+\end{pmatrix} =
+\begin{pmatrix}
+2 \\ 4 \\ 1
+\end{pmatrix}$
+
+
+* $y_1 = 2$
+* $y_1 + y_2 = 4 \Rightarrow y_2 = 2$
+* $y_1 + y_2 + y_3 = 1 \Rightarrow  y_3 = -3$
+
+
+So:
+
+>$\mathbf{y} = \begin{pmatrix} \phantom{-}2 \\ \phantom{-}2 \\ -3 \end{pmatrix}$
+
+**Step 2:** Solve $\mathbf{U}\mathbf{x} = \mathbf{y}$
+
+> $\begin{pmatrix}
+1 & 1 & 1 \\
+0 & 1 & 1 \\
+0 & 0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+x_1 \\ x_2 \\ x_3
+\end{pmatrix} =
+\begin{pmatrix}
+\phantom{-}2 \\ \phantom{-}2 \\ -3
+\end{pmatrix}$
+
+Back substitution:
+
+* $x_3 = -3$
+
+* $x_2 + x_3 = 2 \Rightarrow x_2 = 5$
+ 
+* $x_1 + x_2 + x_3 = 2 \Rightarrow  x_1 = 0$
+
+> $\color{red}{\mathbf{x}_1 = \begin{pmatrix} \phantom{-}0 \\ \phantom{-}5 \\ -3 \end{pmatrix}}$
+
+**(b)** $~\mathbf{b}_2=\begin{pmatrix}
+ -4\\
+ \phantom{-}7\\
+ 10
+\end{pmatrix}$
+
+**Step 1:** $\mathbf{L}\mathbf{y} = \mathbf{b}_2$
+
+* $y_1 = -4$
+
+* $y_1 + y_2 = 7 \Rightarrow y_2 = 11$
+
+* $y_1 + y_2 + y_3 = 10 \Rightarrow  y_3 = 3$
+
+$\mathbf{y} = \begin{pmatrix} -4 \\ \phantom{-}11 \\ \phantom{-}3 \end{pmatrix}$
+
+**Step 2:** $\mathbf{U}\mathbf{x} = \mathbf{y}$
+
+* $x_3 = 3$
+* $x_2 + x_3 = 11 \Rightarrow x_2 = 8$
+* $x_1 + x_2 + x_3 = -4 \Rightarrow x_1 = -15$
+
+> $\color{red}{\mathbf{x}_2 = \begin{pmatrix} -15 \\ \phantom{-}8 \\ \phantom{-}3 \end{pmatrix}}
+$
+
+**(c)** $\mathbf{b}_3 = \begin{pmatrix} \phantom{-}\frac{1}{2} \\ \phantom{-}\frac{3}{4} \\ -\frac{1}{2} \end{pmatrix}$
+
+**Step 1:**
+
+* $y_1 = \frac{1}{2}$
+* $y_1 + y_2 = \frac{3}{4} \Rightarrow y_2 = \frac{1}{4}$
+* $y_1 + y_2 + y_3 = -\frac{1}{2} \Rightarrow  y_3 = -\frac{5}{4}$
+
+> $\mathbf{y} = \begin{pmatrix} \phantom{-}\frac{1}{2} \\ \phantom{-}\frac{1}{4} \\ -\frac{5}{4} \end{pmatrix}$
+
+**Step 2:**
+
+* $x_3 = -\frac{5}{4}$
+*  $x_2 + x_3 = \frac{1}{4} \Rightarrow x_2 = \frac{3}{2}$
+* $x_1 + x_2 + x_3 = \frac{1}{2} \Rightarrow  x_1 = \frac{1}{4}$
+
+>$\color{red}{\mathbf{x}_3 = \begin{pmatrix} \phantom{-}\frac{1}{4} \\ \phantom{-}\frac{3}{2} \\ -\frac{5}{4} \end{pmatrix}}$
+
+**(d)** $\mathbf{b}_4 = \begin{pmatrix} \phantom{-}30 \\ -42 \\ -18 \end{pmatrix}$
+
+**Step 1:**
+
+* $y_1 = 30$
+* $y_1 + y_2 = -42 \Rightarrow y_2 = -72$
+* $y_1 + y_2 + y_3 = -18 \Rightarrow y_3 = 24$
+
+> $\mathbf{y} = \begin{pmatrix} \phantom{-}30 \\ -72 \\ \phantom{-}24 \end{pmatrix}$
+
+**Step 2:**
+
+* $x_3 = 24$
+* $x_2 + x_3 = -72 \Rightarrow x_2 = -96$
+* $x_1 + x_2 + x_3 = 30 \Rightarrow  x_1 = 102$
+
+> $\color{red}{\mathbf{x}_4 = \begin{pmatrix} \phantom{-}102 \\ -96 \\ \phantom{-}24 \end{pmatrix}}
+$
+
+**3.** $~$Consider the matrix
+
+$$\mathbf{A}=\begin{pmatrix}
+ 3 & 0 & 1\\ 
+ 0 & 1 & 0\\ 
+ 1 & 0 & 1
+\end{pmatrix}$$
+
+(a) Find an orthogonal matrix $\mathbf{P}$ that diagonalizes $\mathbf{A}$ and the diagonal matrix $\mathbf{D}$
+
+(b) Calculate the eigenvalues and eigenvectors of the matrix
+
+$$3\mathbf{A}^2 +4\mathbf{A}^{-1} -7\mathbf{I}$$
+
+**Solution (a)**
+
+Compute $\det(\mathbf{A} - \lambda \mathbf{I})$:
+
+> $\mathbf{A} - \lambda \mathbf{I} =
+\begin{pmatrix}
+3 - \lambda & 0 & 1 \\
+0 & 1 - \lambda & 0 \\
+1 & 0 & 1 - \lambda
+\end{pmatrix}$
+
+Use cofactor expansion along the 2nd row:
+
+> $\det(\mathbf{A} - \lambda \mathbf{I}) = (1 -\lambda)(\lambda^2 -4\lambda +2) = 0$
+
+So the eigenvalues are:
+
+> $\color{blue}{\lambda_1 = 1,\quad \lambda_2 = 2 + \sqrt{2},\quad \lambda_3 = 2 - \sqrt{2}}$
+
+
+Let’s find eigenvectors for each eigenvalue. We’ll normalize them at the end.
+
+* For $\lambda = 1$,
+
+    Solve $(\mathbf{A} - \mathbf{I}) \mathbf{v}_1 = \mathbf{0}$:
+    
+    > $\displaystyle \mathbf{A} - \mathbf{I} = \begin{pmatrix}
+    2 & 0 & 1 \\
+    0 & 0 & 0 \\
+    1 & 0 & 0
+    \end{pmatrix} \; \Rightarrow \;
+    \color{blue}{\mathbf{v}_1 = \begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix}}$
+
+* For $\lambda = 2 + \sqrt{2}$,
+
+    Solve $(\mathbf{A} - \lambda \mathbf{I}) \mathbf{v}_2 = \mathbf{0}$:
+    
+    This yields:
+    
+    > $\color{blue}{\mathbf{v}_2 = \begin{pmatrix}
+    1 \\
+    0 \\
+    -1 + \sqrt{2}
+    \end{pmatrix}}$
+    
+    Normalize:
+    
+    > $\displaystyle \|\mathbf{v}_2\| = \sqrt{1^2 + (-1 + \sqrt{2})^2} = \sqrt{4 - 2\sqrt{2}}$
+    
+    Let’s denote the normalized vector as $\color{blue}{\mathbf{u}_2 = \mathbf{v}_2 /\| \mathbf{v_2}\|}$
+
+* For $\lambda = 2 - \sqrt{2}$,
+
+    Similarly:
+    
+    > $\displaystyle \color{blue}{\mathbf{v}_3 = \begin{pmatrix}
+    1 \\
+    0 \\
+    -1 - \sqrt{2}
+    \end{pmatrix}}$
+    
+    > $\displaystyle \|\mathbf{v}_3\| = \sqrt{1^2 + (1 + \sqrt{2})^2} = \sqrt{4 + 2\sqrt{2}}$
+    
+    Normalize to get $\color{blue}{\mathbf{u}_3 = \mathbf{v}_3 /\| \mathbf{v_3}\|}$
+
+Let:
+
+>$\displaystyle \color{blue}{\mathbf{P} = \begin{pmatrix} \mathbf{v}_1 & \mathbf{u}_2 & \mathbf{u}_3 \end{pmatrix}, \quad
+\mathbf{D} = \begin{pmatrix}
+1 & 0 & 0 \\
+0 & 2 + \sqrt{2} & 0 \\
+0 & 0 & 2 - \sqrt{2}
+\end{pmatrix}}$
+
+**Solution (b)**
+
+Let’s use the fact that if $\mathbf{v}$ is an eigenvector of $\mathbf{A}$ with eigenvalue $\lambda$, then:
+
+> $\mathbf{A}^2 \mathbf{v} = \lambda^2 \mathbf{v}$
+> 
+> $\mathbf{A}^{-1} \mathbf{v} = \lambda^{-1} \mathbf{v}$
+> 
+> $\mathbf{I} \mathbf{v} = \mathbf{v}$
+
+So:
+
+> $\color{blue}{\left( 3\mathbf{A}^2 + 4\mathbf{A}^{-1} - 7\mathbf{I} \right) \mathbf{v} = \left( 3\lambda^2 + 4\lambda^{-1} - 7 \right) \mathbf{v}}$
+
+So the eigenvalues of this new matrix are:
+
+> $\displaystyle \mu_i = 3\lambda_i^2 + \frac{4}{\lambda_i} - 7$
+
+This matrix shares the same set of eigenvectors with matrix $\mathbf{A}$
+
+Now compute for each $\lambda_i$:
+
+> $\color{blue}{\mu_1 = 3(1)^2 + \frac{4}{1} - 7 = 3 + 4 - 7 = 0}$
+>
+> $\color{blue}{\mu_2 = 3(6 + 4\sqrt{2}) + 4 \cdot \frac{2 - \sqrt{2}}{2} - 7 = 15 + 10\sqrt{2}}$
+>
+> $\color{blue}{\mu_3 = 3(6 - 4\sqrt{2}) + 4 \cdot \frac{2 + \sqrt{2}}{2} - 7 = 15 - 10\sqrt{2}}$
+
+**4.** $\phantom{1}$ Simplify the following equation of conic section in two-dimensional space, and give the corresponding coordinate tranformation:
+
+$$16 x^2 + 24xy +9y^2 -3x +4y =0$$
+
+and plot the transformed conic section
+
+**Solution**
+
+We diagonalized the quadratic part:
+
+>$\color{red}{\mathbf{A} = \begin{pmatrix} 16 & 12 \\ 12 & 9 \end{pmatrix}}$
+
+The eigenvalues of this matrix give the coefficients of the conic in the rotated $(u,v)$ coordinate system, and the eigenvectors provide the rotation matrix
+
+**Eigenvalues:**
+
+> $\color{red}{\lambda_1 = 0, \quad \lambda_2 = 25}$
+
+These are the new coefficients of the quadratic terms in the rotated coordinate system. That is, the conic becomes:
+
+> $\color{red}{0 \cdot u^2 + 25v^2 + \text{(linear terms in } u, v) = 0}$
+
+**Eigenvectors (columns of rotation matrix):**
+
+> $\color{red}{\mathbf{P} = \begin{pmatrix}
+\phantom{-}\frac{3}{5} & -\frac{4}{5} \\
+ -\frac{4}{5} &  -\frac{3}{5}
+\end{pmatrix}}$
+
+This gives the coordinate transformation from $(u, v)$ to $(x, y)$:
+
+> $\color{red}{\mathbf{x} = \mathbf{P}\mathbf{y}}, \quad \mathbf{x}=\begin{pmatrix} x \\ y\end{pmatrix}, 
+\quad \mathbf{y}=\begin{pmatrix} u \\ v\end{pmatrix}$
+
+The linear terms come from substituting $x = \frac{3}{5}u - \frac{4}{5}v$, $y = -\frac{4}{5}u - \frac{3}{5}v$ into the original equation’s linear part:
+
+> $-3x + 4y = -3(\frac{3}{5}u - \frac{4}{5}v) + 4(-\frac{4}{5}u - \frac{3}{5}v)
+= -5u$
+
+So, the full rotated equation becomes:
+
+> $\color{red}{5v^2 - u = 0}$
+
+This is a parabola that opens along the $u$-axis with its vertex at the origin in the $(u, v)$ coordinate system
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define v values
+v_vals = np.linspace(-2, 2, 400)
+
+# Compute corresponding u values from u = 5 *v^2
+u_vals = 5 *v_vals**2
+
+# Plot the parabola in (u, v) coordinates
+plt.figure(figsize=(8, 6))
+
+plt.plot(u_vals, v_vals, label=r'$5v^2 -u = 0$', color='purple')
+plt.gca().set_aspect('equal')
+
+plt.title("Conic Section in Rotated Coordinates (u, v)")
+plt.xlabel("u")
+plt.ylabel("v")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
+
+```{python}
+# Step 1: Define the (u, v) parabola
+v_vals = np.linspace(-2, 2, 400)
+u_vals = 5 *v_vals**2  # From u = 5v^2
+
+# Step 2: Rotation matrix (from previous eigenvectors)
+P = np.array([[ 0.6, -0.8],
+              [-0.8, -0.6]])
+
+# Step 3: Stack u and v into coordinate array
+UV = np.vstack((u_vals, v_vals))  # Shape (2, N)
+
+# Step 4: Transform back to original (x, y) 
+# using inverse rotation: [x, y]^T = P @ [u, v]^T
+XY = P @ UV
+x_vals, y_vals = XY[0, :], XY[1, :]
+
+# Step 5: Plot the result in original (x, y) coordinates
+plt.figure(figsize=(8, 6))
+
+plt.plot(x_vals, y_vals, label="Conic in (x, y)", color='darkgreen')
+plt.gca().set_aspect('equal')
+
+plt.title("Original Conic in (x, y) Coordinates (Back-Transformed)")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.legend()
+plt.show()
+```
