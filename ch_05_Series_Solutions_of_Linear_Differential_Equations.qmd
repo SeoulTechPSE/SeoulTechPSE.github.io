@@ -859,7 +859,7 @@ $~$
 
 **1.** $\phantom{1}$ The differential equation 
 
-$$\displaystyle xy'' +(1-x) y' +\alpha y=0$$
+$$ xy'' +(1-x) y' +\alpha y=0$$
 
 $~$ is known as Laguerre's equation
 
@@ -869,9 +869,11 @@ $~$ is known as Laguerre's equation
   
   (c)$~$ These solutions are naturally called Laguerre polynomials and are denoted by $L_n(x)$. Rodrigues' formula for the Laguerre polynomials is
 
-$$\displaystyle L_n(x) = \frac{e^x}{n!} \frac{d^n}{dx^n} x^n e^{-x}$$
+$$ L_n(x) = \frac{e^x}{n!} \frac{d^n}{dx^n} x^n e^{-x}$$
 
   Use this formula to find the Laguerre polynomials corresponding to $n=0,1,2,3,4$
+
+$~$
 
   **Solution (a)**
 
@@ -881,20 +883,20 @@ Let’s apply the Frobenius method to solve the differential equation near the r
 
 Assume a solution of the form:
 
-$$\displaystyle \color{blue}{y(x) = x^r \sum_{k=0}^{\infty} a_k x^k = \sum_{k=0}^{\infty} a_k x^{k + r}, \quad a_0 \ne 0}$$
+$$ \color{blue}{y(x) = x^r \sum_{k=0}^{\infty} a_k x^k = \sum_{k=0}^{\infty} a_k x^{k + r}, \quad a_0 \ne 0}$$
 
 Then,
 
-$$\displaystyle y'(x) = \sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}$$
+$$ y'(x) = \sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}$$
 
-$$\displaystyle
+$$
 y''(x) = \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 2}$$
 
 **Step 2: Substitute into the Equation**
 
 Substitute into the original equation:
 
-$$\scriptsize\begin{aligned}
+$$\begin{aligned}
 & x y'' + (1 - x) y' + n y \\
 &= \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 1}
 +\sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}
@@ -904,7 +906,7 @@ $$\scriptsize\begin{aligned}
 
 Group and simplify:
 
-$$\displaystyle
+$$
 \sum_{k=0}^{\infty} a_k (k + r)^2 x^{k + r - 1}
 +\sum_{k=0}^{\infty} a_k (\alpha - k - r) x^{k + r} = 0
 $$
@@ -913,74 +915,76 @@ $$
 
 The lowest power of $x$ is $x^{r - 1}$. Its coefficient is:
 
-$$\displaystyle
+$$
 a_0 r^2$$
 
 Set this to zero:
 
-$$\displaystyle
+$$
 \color{blue}{r^2 = 0 \quad \Rightarrow \quad r = 0}$$
 
 **Step 4: Recurrence Relation**
 
 Now use $r = 0$, so:
 
-$$\displaystyle \sum_{k=0}^{\infty} \left[ a_{k+1} (k + 1)^2 + a_k (\alpha - k) \right] x^k = 0$$
+$$ \sum_{k=0}^{\infty} \left[ a_{k+1} (k + 1)^2 + a_k (\alpha - k) \right] x^k = 0$$
 
 So the recurrence relation is:
 
-$$\displaystyle \color{blue}{a_{k+1} = - \frac{(\alpha - k)}{(k + 1)^2} a_k}$$
+$$ \color{blue}{a_{k+1} = - \frac{(\alpha - k)}{(k + 1)^2} a_k}$$
 
 Choose $a_0 = 1$ (arbitrary constant), this gives a general form:
 
-$$\displaystyle \color{blue}{a_k = \frac{(-1)^k \alpha(\alpha - 1) \cdots (\alpha - k + 1)}{(k!)^2}}
+$$\color{blue}{a_k = \frac{(-1)^k \alpha(\alpha - 1) \cdots (\alpha - k + 1)}{(k!)^2}}
 $$
 
 Thus the first solution is
 
-$$\displaystyle \color{blue}{y_1(x) = \sum_{k=0}^{\infty} a_k x^k}$$
+$$ \color{blue}{y_1(x) = \sum_{k=0}^{\infty} a_k x^k}$$
 
 When the indicial equation has a repeated root $r=0$, the second solution has the form:
 
-$$\displaystyle \color{blue}{y_2(x) = y_1(x) \ln x + \sum_{k=0}^{\infty} b_k x^k}$$
+$$ \color{blue}{y_2(x) = y_1(x) \ln x + \sum_{k=0}^{\infty} b_k x^k}$$
 
 We plug this into the original equation. This leads to 
 
-$$\displaystyle 2y_1' -y_1 +\sum_{k=0}^\infty \left[ (k+1)^2 b_{k+1} +(\alpha -k) b_k \right] x^k = 0$$
+$$ 2y_1' -y_1 +\sum_{k=0}^\infty \left[ (k+1)^2 b_{k+1} +(\alpha -k) b_k \right] x^k = 0$$
 
 **Solution (b)**
 
 When $\alpha = n$, 
 
-$$\displaystyle 
+$$
 a_k = \frac{(-1)^k n!}{(n - k)! (k!)^2}
 \quad \text{for } k \le n$$
 
 For $k > n$, we get $a_k = 0$, so the series terminates. The series becomes a polynomial of degree $n$:
 
-$$\displaystyle \color{blue}{y_1(x) = \sum_{k=0}^{n} \frac{(-1)^k n!}{(n - k)! (k!)^2} x^k = L_n(x)}$$
+$$\color{blue}{y_1(x) = \sum_{k=0}^{n} \frac{(-1)^k n!}{(n - k)! (k!)^2} x^k = L_n(x)}$$
 
 The second linearly independent solution is of the form:
 
-$$\displaystyle y_2(x) = L_n(x) \ln x + \sum_{k=0}^{\infty} d_k x^k$$
+$$ y_2(x) = L_n(x) \ln x + \sum_{k=0}^{\infty} d_k x^k$$
 
 **Solution (c)**
 
 To find the Laguerre polynomials $L_n(x)$ for $n = 0, 1, 2, 3, 4$, we will use Rodrigues’ formula.
 
-$$\displaystyle \color{blue}{L_0(x) = \frac{e^x}{0!} \frac{d^0}{dx^0} \left( x^0 e^{-x} \right) = e^x \cdot e^{-x} = 1}$$
+$$\color{blue}{L_0(x) = \frac{e^x}{0!} \frac{d^0}{dx^0} \left( x^0 e^{-x} \right) = e^x \cdot e^{-x} = 1}$$
 
-$$\displaystyle \color{blue}{L_1(x) = \frac{e^x}{1!} \frac{d}{dx} \left( x e^{-x} \right) = e^x \cdot (1 - x) e^{-x} = 1 - x}$$
+$$ \color{blue}{L_1(x) = \frac{e^x}{1!} \frac{d}{dx} \left( x e^{-x} \right) = e^x \cdot (1 - x) e^{-x} = 1 - x}$$
 
-$$\displaystyle \color{blue}{L_2(x) = \frac{e^x}{2!} \frac{d^2}{dx^2} \left( x^2 e^{-x} \right) = 1 - 2x + \frac{1}{2}x^2}$$
+$$ \color{blue}{L_2(x) = \frac{e^x}{2!} \frac{d^2}{dx^2} \left( x^2 e^{-x} \right) = 1 - 2x + \frac{1}{2}x^2}$$
 
-$$\displaystyle \color{blue}{L_3(x) = 1 - 3x + \frac{3}{2}x^2 - \frac{1}{6}x^3}$$
+$$\color{blue}{L_3(x) = 1 - 3x + \frac{3}{2}x^2 - \frac{1}{6}x^3}$$
 
-$$\displaystyle \color{blue}{ L_4(x) = 1 - 4x + 3x^2 - \frac{2}{3}x^3 + \frac{1}{24}x^4}$$
+$$ \color{blue}{ L_4(x) = 1 - 4x + 3x^2 - \frac{2}{3}x^3 + \frac{1}{24}x^4}$$
+
+$~$
 
 **2.** $\phantom{1}$ The differential equation 
 
-$$\displaystyle (1 -x^2) y'' -xy' +\alpha^2 y=0$$
+$$ (1 -x^2) y'' -xy' +\alpha^2 y=0$$
 
 $~$ where $\alpha$ is a parameter, is known as Chebyshev's equation
 
@@ -990,9 +994,11 @@ $~$ where $\alpha$ is a parameter, is known as Chebyshev's equation
   
   (c)$~$ These solutions are naturally called Chebyshev polynomials and are denoted by $T_n(x)$. Rodrigues' formula for the Chebyshev polynomials is
 
-$$\displaystyle T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1-x^2}\frac{d^n}{dx^n} (1-x^2)^{n-1/2}$$
+$$T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1-x^2}\frac{d^n}{dx^n} (1-x^2)^{n-1/2}$$
 
   Use this formula to find the Chebyshev polynomials corresponding to $n=0,1,2,3$
+
+  $~$
 
 **Solution (a)**
 
@@ -1025,7 +1031,7 @@ $$\color{blue}{\sum_{k=0}^{\infty} \left[
 
 Set each coefficient of $x^k$ to $0$, we get the recurrence relation:
 
-$$ \displaystyle
+$$
 \color{blue}{a_{k+2} = -\frac{\alpha^2 - k^2}{(k+2)(k+1)} a_k}$$
 
 
@@ -1075,11 +1081,11 @@ $$
 
 Let $\alpha = n$, a nonnegative integer. Then the recurrence becomes:
 
-$$\displaystyle a_{k+2} = -\frac{n^2 - k^2}{(k+2)(k+1)} a_k$$
+$$ a_{k+2} = -\frac{n^2 - k^2}{(k+2)(k+1)} a_k$$
 
 Observe that when $\color{blue}{k = n}$, we get:
 
-$$\displaystyle \color{blue}{a_{n+2} = -\frac{n^2 - n^2}{(n+2)(n+1)} a_n = 0}$$
+$$ \color{blue}{a_{n+2} = -\frac{n^2 - n^2}{(n+2)(n+1)} a_n = 0}$$
 
 If we start with $a_0 \ne 0$, and define the even-power solution:
 
@@ -1101,55 +1107,61 @@ However the recurrence continues — unless we start with initial coefficients $
 
 Let’s define:
 
-$$\displaystyle f_n(x) = (1 - x^2)^{n - \frac{1}{2}}, \quad \text{then} \quad T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1 - x^2} \cdot \frac{d^n}{dx^n} f_n(x)$$
+$$ f_n(x) = (1 - x^2)^{n - \frac{1}{2}}, \quad \text{then} \quad T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1 - x^2} \cdot \frac{d^n}{dx^n} f_n(x)$$
 
 * $n = 0$
 
     We have:
-    > $\displaystyle f_0(x) = (1 - x^2)^{-1/2}, \quad \text{but} \quad \frac{d^0}{dx^0} f_0 = f_0$
+    $\displaystyle f_0(x) = (1 - x^2)^{-1/2}, \quad \text{but} \quad \frac{d^0}{dx^0} f_0 = f_0$
     
-    > $T_0(x) = \frac{1}{1} \cdot \sqrt{1 - x^2} \cdot (1 - x^2)^{-1/2} = 1$
-    
-    > $\color{red}{T_0(x) = 1}$
+    $\color{red}{T_0(x) = \frac{1}{1} \cdot \sqrt{1 - x^2} \cdot (1 - x^2)^{-1/2} = 1}$
 
 * $n = 1$
 
-    > $f_1(x) = (1 - x^2)^{1 - \frac{1}{2}} = (1 - x^2)^{1/2}$
+    $f_1(x) = (1 - x^2)^{1 - \frac{1}{2}} = (1 - x^2)^{1/2}$
     
     Differentiate:
     
-    > $\displaystyle \frac{d}{dx} (1 - x^2)^{1/2} = \frac{1}{2}(1 - x^2)^{-1/2} \cdot (-2x) = -\frac{x}{\sqrt{1 - x^2}}$
+    $\displaystyle \frac{d}{dx} (1 - x^2)^{1/2} = \frac{1}{2}(1 - x^2)^{-1/2} \cdot (-2x) = -\frac{x}{\sqrt{1 - x^2}}$
     
     Now plug into the formula:
     
-    >$\displaystyle \color{red}{T_1(x)} = (-1)^1 \cdot \frac{2^1 \cdot 1!}{2!} \cdot \sqrt{1 - x^2} \cdot \left( -\frac{x}{\sqrt{1 - x^2}} \right) = x$
+    $\displaystyle \color{red}{T_1(x)} = (-1)^1 \cdot \frac{2^1 \cdot 1!}{2!} \cdot \sqrt{1 - x^2} \cdot \left( -\frac{x}{\sqrt{1 - x^2}} \right) = x$
 
 
 * $n = 2$
 
-    > $f_2(x) = (1 - x^2)^{3/2}$
+    $f_2(x) = (1 - x^2)^{3/2}$
     
     Differentiate twice:
     
     First derivative:
     
-    >$f_2'(x) = \frac{3}{2}(1 - x^2)^{1/2} \cdot (-2x) = -3x (1 - x^2)^{1/2}$
+    $f_2'(x) = \frac{3}{2}(1 - x^2)^{1/2} \cdot (-2x) = -3x (1 - x^2)^{1/2}$
     
     Second derivative:
     
-    >$f_2''(x) = \frac{d}{dx} [-3x (1 - x^2)^{1/2}]
+    $f_2''(x) = \frac{d}{dx} [-3x (1 - x^2)^{1/2}]
     = -3(1 - x^2)^{1/2} + 3x^2 (1 - x^2)^{-1/2}$
     
     Now plug into Rodrigues' formula:
     
-    >$\color{red}{T_2(x)} = \frac{2^2 \cdot 2!}{(4)!} \cdot \sqrt{1 - x^2} \cdot f_2''(x)
-    = \frac{4 \cdot 2}{24} \cdot \sqrt{1 - x^2} \cdot \left[ -3(1 - x^2)^{1/2} + 3x^2(1 - x^2)^{-1/2} \right] = 2x^2 - 1$
+    $\color{red}{
+      \begin{aligned}
+      T_2(x) &= \frac{2^2 \cdot 2!}{(4)!} \cdot \sqrt{1 - x^2} \cdot f_2''(x) \\
+     &= {\scriptsize\frac{4 \cdot 2}{24} \cdot \sqrt{1 - x^2} \cdot \left[ -3(1 - x^2)^{1/2} + 3x^2(1 - x^2)^{-1/2} \right]} \\
+     &= 2x^2 - 1
+     \end{aligned}}$
 
 * $n = 3$
 
-    > $f_3(x) = (1 - x^2)^{5/2}$
+    $f_3(x) = (1 - x^2)^{5/2}$
     
     We’ll compute the 3rd derivative and plug it into the formula:
     
-    > $\color{red}{T_3(x)} = (-1)^3 \cdot \frac{2^3 \cdot 3!}{(6)!} \cdot \sqrt{1 - x^2} \cdot f_3’’’(x)
-    = -\frac{8 \cdot 6}{720} \cdot \sqrt{1 - x^2} \cdot \left[ 45x(1 - x^2)^{1/2} - 15x^3 (1 - x^2)^{-1/2} \right] = 4x^3 - 3x$
+    $\color{red}{
+    \begin{aligned}
+      T_3(x) &= (-1)^3 \cdot \frac{2^3 \cdot 3!}{(6)!} \cdot \sqrt{1 - x^2} \cdot f_3’’’(x)\\
+      &= {\scriptsize-\frac{8 \cdot 6}{720} \cdot \sqrt{1 - x^2} \cdot \left[ 45x(1 - x^2)^{1/2} - 15x^3 (1 - x^2)^{-1/2} \right]}\\
+      &= 4x^3 - 3x
+    \end{aligned}}$
