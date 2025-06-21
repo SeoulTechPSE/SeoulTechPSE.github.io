@@ -413,62 +413,60 @@ $$
  4x +y' &=0
 \end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=2$
 
+$~$
+
 **Solution**
 
 **Step 1:** Take Laplace transforms
 
-(a) $\displaystyle ~\mathcal{L}\{x’\} + Y(s) = \mathcal{L}\{t\}
+$$\scriptsize \mathcal{L}\{x’\} + Y(s) = \mathcal{L}\{t\}
 \Rightarrow sX(s) - x(0) + Y(s) = \frac{1}{s^2}
-\Rightarrow sX(s) + Y(s) = \frac{1}{s^2}$
-(b) $~4X(s) + \mathcal{L}\{y’\} = 0
+\Rightarrow sX(s) + Y(s) = \frac{1}{s^2} \tag{a}\label{ch04:e1}$$
+
+$$\scriptsize 4X(s) + \mathcal{L}\{y’\} = 0
 \Rightarrow 4X(s) + (sY(s) - y(0)) = 0
-\Rightarrow 4X(s) + sY(s) = 2$
+\Rightarrow 4X(s) + sY(s) = 2\tag{b}\label{ch04:e2}$$
 
 **Step 2:** Solve the algebraic system
 
-From equation a:
+From equation \eqref{ch04:e1}:
 
-> $\displaystyle Y(s) = \frac{1}{s^2} - sX(s)$
+$$Y(s) = \frac{1}{s^2} - sX(s)$$
 
-Substitute into equation b:
+Substitute into equation \eqref{ch04:e2}:
 
-> $\displaystyle 4X(s) + s\left( \frac{1}{s^2} - sX(s) \right) = 2
-\Rightarrow (4 - s^2)X(s) = 2 - \frac{1}{s}$
+$$4X(s) + s\left( \frac{1}{s^2} - sX(s) \right) = 2
+\Rightarrow X(s) = \frac{2s - 1}{s(4 - s^2)}$$
 
-Multiply both sides by $s$:
+Then, from \eqref{ch04:e1}:
 
-> $\displaystyle (4 - s^2)sX(s) = 2s - 1
-\Rightarrow X(s) = \frac{2s - 1}{s(4 - s^2)} \tag{3}$
-
-Then, from a:
-
-> $\displaystyle Y(s) = \frac{1}{s^2} - sX(s) = \frac{1}{s^2} - \frac{2s - 1}{4 - s^2} \tag{4}$
+$$ Y(s) = \frac{1}{s^2} - sX(s) = \frac{1}{s^2} - \frac{2s - 1}{4 - s^2}$$
 
 **Step 3:** Partial fraction decomposition
 
 For $X(s)$,
 
-> $\displaystyle X(s) = \frac{-1}{4s} + \frac{3}{8(2 - s)} + \frac{5}{8(2 + s)}$
+$$ X(s) = \frac{-1}{4s} + \frac{3}{8(2 - s)} + \frac{5}{8(2 + s)}$$
 
-For $Y(s)$
+For $Y(s)$,
 
-> $\displaystyle Y(s) = \frac{1}{s^2} + \frac{3}{4(s - 2)} + \frac{5}{4(s + 2)}$
+$$ Y(s) = \frac{1}{s^2} + \frac{3}{4(s - 2)} + \frac{5}{4(s + 2)}$$
 
 **Step 4:** Inverse Laplace Transform
 
-> $\displaystyle \begin{aligned}
-x(t) &= -\frac{1}{4} + \frac{3}{8} e^{2t} + \frac{5}{8} e^{-2t} \\
+$$ \begin{aligned}
+x(t) &= -\frac{1}{4} -\frac{3}{8} e^{2t} + \frac{5}{8} e^{-2t} \\
 y(t) &= t + \frac{3}{4} e^{2t} + \frac{5}{4} e^{-2t}
-\end{aligned}$
+\end{aligned}$$
 
 $~$
 
 **2.** $\phantom{1}$ Solve the system
 
-> $\begin{aligned}
+$$\begin{aligned}
  x'' +y'' &= e^{2t}\\
  2x' +y'' &=-e^{2t}
-\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=0, \;x'(0)=0, \;y'(0)=0$
+\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=0, \;x'(0)=0, \;y'(0)=0$$
 
 $~$
 
@@ -476,43 +474,40 @@ $~$
 
 **Step 1:** Apply Laplace Transforms
 
-a. $\displaystyle \mathcal{L}\{x’’ + y’’\} = \mathcal{L}\{e^{2t}\}
-\Rightarrow s^2 X(s) + s^2 Y(s) = \frac{1}{s - 2}$
+$$\mathcal{L}\{x’’ + y’’\} = \mathcal{L}\{e^{2t}\}
+\Rightarrow s^2 X(s) + s^2 Y(s) = \frac{1}{s - 2}\tag{a}\label{eq:ch04e3}$$
 
-b. $\displaystyle \mathcal{L}\{2x’ + y’’\} = \mathcal{L}\{-e^{2t}\}
-\Rightarrow 2sX(s) + s^2 Y(s) = -\frac{1}{s - 2}$
+$$\mathcal{L}\{2x’ + y’’\} = \mathcal{L}\{-e^{2t}\}
+\Rightarrow 2sX(s) + s^2 Y(s) = -\frac{1}{s - 2}
+\tag{b}\label{eq:ch04e4}$$
 
 **Step 2:** Solve the system algebraically
 
-Subtract b from a:
+Subtract \eqref{eq:ch04e4} from \eqref{eq:ch04e3}:
 
-c. $\displaystyle \begin{aligned}(s^2 X &+ s^2 Y) - (2s X + s^2 Y) = \frac{1}{s - 2} - \left(-\frac{1}{s - 2}\right) \\
+$$\begin{aligned}(s^2 X &+ s^2 Y) - (2s X + s^2 Y) = \frac{1}{s - 2} - \left(-\frac{1}{s - 2}\right) \\
  &\Rightarrow X(s) = \frac{2}{(s - 2)(s^2 - 2s)}
- \end{aligned}$
+ \end{aligned}
+ $$
 
-Now substitute into a to find $Y(s)$:
+Now substitute into \eqref{eq:ch04e3} to find $Y(s)$:
 
-> $\displaystyle s^2 X(s) + s^2 Y(s) = \frac{1}{s - 2}
-\Rightarrow s^2 Y(s) = \frac{1}{s - 2} - s^2 X(s)$
-
-Substitute c into this:
-
-> $\displaystyle Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{(s - 2)(s^2 - 2s)} \tag{4}$
+$$ Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{(s - 2)(s^2 - 2s)}$$
 
 
 **Step 3:** Simplify and compute inverse Laplace transforms
 
-> $\displaystyle X(s) = \frac{2}{(s - 2)(s^2 - 2s)} = \frac{1}{2s} - \frac{1}{2(s - 2)} + \frac{1}{(s - 2)^2}$
+$$X(s) = \frac{2}{(s - 2)(s^2 - 2s)} = \frac{1}{2s} - \frac{1}{2(s - 2)} + \frac{1}{(s - 2)^2}$$
 
 Take inverse Laplace:
 
-> $\displaystyle x(t) = \frac{1}{2} - \frac{1}{2} e^{2t} + t e^{2t}
-= \frac{1}{2}(1 - e^{2t}) + t e^{2t}$
+$$ x(t) = \frac{1}{2} - \frac{1}{2} e^{2t} + t e^{2t}
+= \frac{1}{2}(1 - e^{2t}) + t e^{2t}$$
 
 Recall:
 
-> $\displaystyle Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{s(s - 2)^2} = -\frac{5}{4s} - \frac{1}{2s^2} + \frac{5}{4(s - 2)} - \frac{2}{(s - 2)^2}$
+$$ Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{s(s - 2)^2} = -\frac{5}{4s} - \frac{1}{2s^2} + \frac{5}{4(s - 2)} - \frac{2}{(s - 2)^2}$$
 
 Thus:
 
-> $\displaystyle y(t) = -\frac{5}{4} - \frac{1}{2} t + \frac{5}{4} e^{2t} - 2t e^{2t}$
+$$ y(t) = -\frac{5}{4} - \frac{1}{2} t + \frac{5}{4} e^{2t} - 2t e^{2t}$$
