@@ -896,7 +896,7 @@ y''(x) = \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 2}$$
 
 Substitute into the original equation:
 
-$$\begin{aligned}
+$$\scriptsize\begin{aligned}
 & x y'' + (1 - x) y' + n y \\
 &= \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 1}
 +\sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}
@@ -1002,7 +1002,7 @@ $$T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1-x^2}\frac{d^n}{dx^n} (1-x^2)^{n-1
 
 **Solution (a)**
 
-We are to find two linearly independent power series solutions centered at $x = 0$, which is an ordinary point (i.e., the coefficients of $y’’$ and $y’$ are analytic at $x = 0$)
+We are to find two linearly independent power series solutions centered at $x = 0$, which is an ordinary point (i.e., the coefficients of $y''$ and $y'$ are analytic at $x = 0$)
 
 **Step 1: Assume a Power Series Solution**
 
@@ -1012,10 +1012,10 @@ $$\color{blue}{y(x) = \sum_{k=0}^{\infty} a_k x^k}$$
 
 Then compute the derivatives:
 
-$$y’(x) = \sum_{k=1}^{\infty} k a_k x^{k-1}, \quad
-y’’(x) = \sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}$$
+$$y'(x) = \sum_{k=1}^{\infty} k a_k x^{k-1}, \quad
+y''(x) = \sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}$$
 
-Now substitute $y, y’, y’’$ into the differential equation:
+Now substitute $y, y', y''$ into the differential equation:
 
 $$\scriptsize\sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}
 	-\sum_{k=2}^{\infty} k(k-1) a_k x^k
@@ -1165,3 +1165,275 @@ $$ f_n(x) = (1 - x^2)^{n - \frac{1}{2}}, \quad \text{then} \quad T_n(x) = (-1)^n
       &= {\scriptsize-\frac{8 \cdot 6}{720} \cdot \sqrt{1 - x^2} \cdot \left[ 45x(1 - x^2)^{1/2} - 15x^3 (1 - x^2)^{-1/2} \right]}\\
       &= 4x^3 - 3x
     \end{aligned}}$
+
+    $~$
+
+**3.** $~$  If $n$ is an integer, you can use the substitution $R(x)=(\alpha x)^{-1/2} \, Z(x)$ to solve that the differential equation
+
+$$ x^2 \frac{d^2R}{dx^2} +2x \frac{dR}{dx} +\left[ \alpha^2 x^2 - n(n+1) \right] R = 0 $$
+
+Find the general solution of the differential equation on the interval $(0, \infty)$
+
+**Solution**
+
+**Step 1:** $~$ Apply the substitution
+
+Let:
+
+$$R(x) = (\alpha x)^{-1/2} Z(x) = \frac{1}{\sqrt{\alpha x}} Z(x)$$
+
+We compute derivatives of $R(x)$:
+
+* First derivative:
+
+  Using the product rule:
+
+  $$\frac{dR}{dx} = \frac{d}{dx} \left( \frac{1}{\sqrt{\alpha x}} Z(x) \right)
+= \frac{d}{dx} \left( \alpha^{-1/2} x^{-1/2} Z(x) \right)$$
+
+  Now differentiate:
+
+  $$\frac{dR}{dx} = \alpha^{-1/2} \left( -\frac{1}{2} x^{-3/2} Z(x) + x^{-1/2} Z’(x) \right)$$
+
+* Second derivative:
+
+  Differentiate again:
+
+  $$\frac{d^2R}{dx^2} = \alpha^{-1/2} 
+  \left[ \frac{3}{4} x^{-5/2} Z(x) - x^{-3/2} Z’(x) + x^{-1/2} Z’’(x) \right]$$
+
+**Step 2:** $~$ Plug into the original equation
+
+Now substitute $R$, $R'$, $R''$ into the equation:
+
+$$x^2 R'' + 2x R' + \left( \alpha^2 x^2 - n(n+1) \right) R = 0$$
+
+Thus the equation becomes:
+
+$$\alpha^{-1/2} \left[ x^{3/2} Z'' + x^{1/2} Z' + \left( \alpha^2 x^{3/2} - \left(n(n+1) + \frac{1}{4} \right) x^{-1/2} \right) Z \right] = 0$$
+
+Factor out $x^{1/2}$:
+
+$$\alpha^{-1/2} x^{1/2} \left[
+x Z'' + Z' + \left( \alpha^2 x - \frac{n(n+1) + \tfrac{1}{4}}{x} \right) Z
+\right] = 0$$
+
+So the reduced equation is:
+
+$$x Z'' + Z' + \left( \alpha^2 x - \frac{n(n+1) + \tfrac{1}{4}}{x} \right) Z = 0$$
+
+**Step 3:** $~$ Change variable to standard form
+
+Let’s define:
+
+$$u = \alpha x
+\;\Rightarrow\;
+\frac{dZ}{dx} = \alpha \frac{dZ}{du}, \quad \frac{d^2Z}{dx^2} = \alpha^2 \frac{d^2Z}{du^2}$$
+
+Plug into the reduced equation and simplify:
+
+$$u Z'' + Z' + \left( u - \frac{n(n+1) + \frac{1}{4}}{u} \right) Z = 0$$
+
+Now multiply through by $u$:
+
+$$u^2 Z'' + u Z' + \left( u^2 - \left(n(n+1) + \tfrac{1}{4} \right) \right) Z = 0$$
+
+**Step 4:** $~$ Identify the equation
+
+This is Bessel’s equation of order $\nu$, where:
+
+$$\nu^2 = n(n+1) + \tfrac{1}{4}
+\;\Rightarrow\;
+\nu = \sqrt{n(n+1) + \tfrac{1}{4}} = n + \tfrac{1}{2}$$
+
+(because $n$ is an integer, and this square root simplifies nicely)
+
+So we now recognize:
+
+$$u^2 Z'' + u Z' + (u^2 - (n + \tfrac{1}{2})^2) Z = 0$$
+
+**Final Answer**
+
+The general solution is:
+
+$$R(x) = \frac{1}{\sqrt{\alpha x}} \left[ A J_{n + 1/2} (\alpha x) + B Y_{n + 1/2} (\alpha x) \right]$$
+
+$~$
+
+**4.** $~$ Use the indicated change of variable to find the general solution of the given differential equation on the interval $(0, \infty)$
+
+$$ x^2 y'' +\left( \alpha^2 x^2 - \nu^2 +\frac{1}{4} \right)y = 0, \;\;y= \sqrt{x} \,u(x)$$
+
+**Solution**
+
+**Step 1:** $~$ Compute derivatives of $y = \sqrt{x} u(x)$
+
+* First derivative:
+
+$$y' = \frac{1}{2} x^{-1/2} u(x) + x^{1/2} u'(x)$$
+
+* Second derivative:
+
+$$y'' = -\frac{1}{4} x^{-3/2} u(x) + x^{-1/2} u'(x) + x^{1/2} u''(x)$$
+
+**Step 2:** $~$ Plug into the original equation
+
+Now the full equation becomes:
+
+$$\left( -\frac{1}{4} x^{1/2} u + x^{3/2} u' + x^{5/2} u'' \right)
+	+	\left( \alpha^2 x^2 - \nu^2 + \frac{1}{4} \right) x^{1/2} u = 0$$
+
+Group like terms and factor out $x^{1/2}$:
+
+$$x^{1/2} \left( x^2 u'' + x u' + (\alpha^2 x^2 - \nu^2) u \right) = 0$$
+
+Since $x^{1/2} > 0$ on $(0, \infty)$, we divide both sides:
+
+$$x^2 u'' + x u' + (\alpha^2 x^2 - \nu^2) u = 0$$
+
+This is a parameterized Bessel differential equation
+
+**Final Answer**
+
+The general solution is:
+
+$$y(x) = \sqrt{x} \left[ A J_\nu(\alpha x) + B Y_\nu(\alpha x) \right]$$
+
+$~$
+
+**5.** $~$ When $n=0$, Legendre's differential equation has the polynomial solution $y=P_0(x)=1$. Use reduction of order to find a second Legendre function satisfying the DE on the interval $(-1,1)$
+
+**Solution**
+
+**Step 1:** $~$Use reduction of order
+
+Let:
+
+$$y_2(x) = v(x) y_1(x) = v(x) \cdot 1 = v(x)$$
+
+So we’re seeking a second solution $y_2(x) = v(x)$, where $y_1(x) = 1$ is a known solution
+
+⸻
+
+**Step 2:** $~$ Plug into the equation
+
+Start from the reduced equation:
+
+$$(1 - x^2) y'' - 2x y' = 0$$
+
+Since $y = v(x)$, we compute:
+
+$$y' = v', \quad y'' = v''$$
+
+So the equation becomes:
+
+$$(1 - x^2) v'' - 2x v' = 0$$
+
+This is a first-order ODE in $v'$ if we let $w = v'$. Then:
+
+$$(1 - x^2) w' - 2x w = 0
+\quad \text{(a linear first-order equation in \( w \))}$$
+
+**Step 3:** $~$ Solve for $w$
+
+We rewrite the equation as:
+
+$$w' - \frac{2x}{1 - x^2} w = 0$$
+
+This is a linear first-order ODE. Use integrating factor:
+
+$$\mu(x) = \exp\left( -\int \frac{2x}{1 - x^2} dx \right)$$
+
+Let $u = 1 - x^2 \Rightarrow du = -2x dx$
+
+Then:
+
+$$\int \frac{2x}{1 - x^2} dx = -\int \frac{1}{u} du = -\ln|1 - x^2|$$
+
+So:
+
+$$\mu(x) = e^{\ln|1 - x^2|} = |1 - x^2|$$
+
+but on $(-1, 1)$, $1 - x^2 > 0$ so:, 
+
+$$\mu(x) = 1 - x^2$$$$
+
+Now solve:
+
+$$\frac{d}{dx}(w \cdot \mu(x)) = 0 
+\Rightarrow w(1 - x^2) = C
+\Rightarrow w = \frac{C}{1 - x^2}$$
+
+Recall $w = v'$, so:
+
+$$v’ = \frac{C}{1 - x^2}
+\Rightarrow v(x) = C \int \frac{1}{1 - x^2} dx$$
+
+So:
+
+$$v(x) = \frac{C}{2} \ln\left| \frac{1 + x}{1 - x} \right| + D$$
+
+**Step 4:** $~$ General solution
+
+We already had $y_1(x) = 1$, and now we have:
+
+$$y_2(x) = v(x) = \frac{1}{2} \ln\left( \frac{1 + x}{1 - x} \right)
+\quad \text{(valid on } (-1,1) \text{ where the log is real)}$$
+
+$~$
+
+**6.** $~$ When $n=1$, Legendre's differential equation has the polynomial solution $y=P_1(x)=x$. Use reduction of order to find a second Legendre function satisfying the DE on the interval $(-1,1)$
+
+**Solution**
+
+**Step 1:** $~$ Use reduction of order
+
+Let:
+
+$$y_2(x) = v(x) \cdot y_1(x) = v(x) \cdot x$$
+
+Plug into the differential equation:
+
+$$(1 - x^2)(v''x + 2v') - 2x(v'x + v) + 2(vx) = 0$$
+
+Expand and simplify:
+
+$$x(1 - x^2)v'' + (2 - 4x^2)v' = 0$$
+
+**Step 2:** $~$ Let $w = v'$, then solve
+
+Let $w = v'$, so $w' = v''$. Then:
+
+$$x(1 - x^2) w' + (2 - 4x^2) w = 0$$
+
+We rewrite as:
+
+$$w' + \frac{2 - 4x^2}{x(1 - x^2)} w = 0$$
+
+**Step 3:** $~$ Solve a first-order linear ODE
+
+Integrating factor:
+
+$$\scriptsize\mu(x) = \exp\left( \int \frac{2 - 4x^2}{x(1 - x^2)} dx \right) = \exp \left( \int \left( \frac{2}{x} - \frac{1}{1 - x} + \frac{1}{1 + x} \right) dx \right)
+= x^2 \cdot \frac{1}{1 - x} \cdot (1 + x)
+$$
+
+Now solve the equation:
+
+$$\frac{d}{dx} \left( w \cdot \mu(x) \right) = 0 \Rightarrow w \cdot \mu(x) = C \Rightarrow w = \frac{C}{\mu(x)} = C \cdot \frac{1 - x}{x^2(1 + x)}$$
+
+Now integrate to find $v$:
+
+$$\begin{aligned}
+v &= \int w \, dx = C \int \frac{1 - x}{x^2(1 + x)} dx\\
+  &= C \int \left( \frac{1}{x^2} - \frac{2}{x} + \frac{2}{1 + x} \right) dx \\
+  &= C \left( -\frac{1}{x} - 2\ln|x| + 2\ln|1 + x| \right) + D
+\end{aligned}$$
+
+**Final Answer:**
+
+The second linearly independent solution for $n = 1$ on $(-1, 1)$ is:
+
+$$
+y_2(x) = -1 - 2x \ln|x| + 2x \ln|1 + x|
+\quad \text{(up to constant multiples)}$$
