@@ -23,7 +23,7 @@
         "\n",
         "* The entire Mandelbrot set fits in a circle with a radius of two when depicted on the complex plane. This is a handy fact that’ll let you skip many unnecessary calculations for points that certainly don’t belong to the set\n"
       ],
-      "id": "93ad45e6"
+      "id": "cd51e802"
     },
     {
       "cell_type": "code",
@@ -35,7 +35,7 @@
         "    yield z\n",
         "    z = z**2 +c"
       ],
-      "id": "fed6ef2b",
+      "id": "0fdeb670",
       "execution_count": null,
       "outputs": []
     },
@@ -48,7 +48,7 @@
         "  if n >= 9:\n",
         "    break"
       ],
-      "id": "88463cf5",
+      "id": "b708db19",
       "execution_count": null,
       "outputs": []
     },
@@ -58,7 +58,7 @@
       "source": [
         "* Most numbers will make this sequence diverge to infinity. $\\,$However, $\\,$some will keep it **stable** by either converging the sequence to a single value or staying within a bounded range. Others will make the sequence **periodically stable** by cycling back and forth between the same few values. <font color='blue'>Stable and periodically stable values make up the Mandelbrot set</font>\n"
       ],
-      "id": "8ab87b9a"
+      "id": "55f39a21"
     },
     {
       "cell_type": "code",
@@ -69,7 +69,7 @@
         "  if n >= 9:\n",
         "    break"
       ],
-      "id": "9b978bd8",
+      "id": "82bd640e",
       "execution_count": null,
       "outputs": []
     },
@@ -82,7 +82,7 @@
         "  if n >= 9:\n",
         "    break"
       ],
-      "id": "a4dd6fef",
+      "id": "f0840035",
       "execution_count": null,
       "outputs": []
     },
@@ -98,7 +98,7 @@
         "\n",
         "* To generate the initial set of candidate values, $~$you can take advantage of `np.linspace()`, $\\,$which creates evenly spaced numbers in a given range:\n"
       ],
-      "id": "82e92c23"
+      "id": "fe622189"
     },
     {
       "cell_type": "code",
@@ -114,7 +114,7 @@
         "\n",
         "  return re[np.newaxis, :] + im[:, np.newaxis] *1j"
       ],
-      "id": "67f422f3",
+      "id": "98b3ae56",
       "execution_count": null,
       "outputs": []
     },
@@ -128,7 +128,7 @@
         "    z = z**2 +c\n",
         "  return abs(z) <= 2"
       ],
-      "id": "bb06cc46",
+      "id": "7c21ae67",
       "execution_count": null,
       "outputs": []
     },
@@ -138,7 +138,7 @@
       "source": [
         "### Low-Resolution Scatter Plot\n"
       ],
-      "id": "9003b213"
+      "id": "22478db4"
     },
     {
       "cell_type": "code",
@@ -160,7 +160,7 @@
         "\n",
         "  plt.show()"
       ],
-      "id": "ff8a71bb",
+      "id": "596087c2",
       "execution_count": null,
       "outputs": []
     },
@@ -171,7 +171,7 @@
         "#| fig-align: center\n",
         "plot_low_resolution_scatter()"
       ],
-      "id": "0747ecdf",
+      "id": "dcb6a375",
       "execution_count": null,
       "outputs": []
     },
@@ -181,7 +181,7 @@
       "source": [
         "### High-Resolution Black-and-White Visualization\n"
       ],
-      "id": "dbe643ba"
+      "id": "fd8bfaca"
     },
     {
       "cell_type": "code",
@@ -200,7 +200,7 @@
         "\n",
         "  plt.show()"
       ],
-      "id": "1bafb493",
+      "id": "c5dfe6d5",
       "execution_count": null,
       "outputs": []
     },
@@ -211,7 +211,7 @@
         "#| fig-align: center\n",
         "plot_high_resolution_black_and_white()"
       ],
-      "id": "325f4af7",
+      "id": "4b0b2774",
       "execution_count": null,
       "outputs": []
     },
@@ -233,7 +233,7 @@
         "\n",
         "### Finding Convergent Elements of the Set\n"
       ],
-      "id": "bd22422e"
+      "id": "879ac6a6"
     },
     {
       "cell_type": "code",
@@ -254,7 +254,7 @@
         "        return False     \n",
         "    return True"
       ],
-      "id": "d618f148",
+      "id": "4e4bc01f",
       "execution_count": null,
       "outputs": []
     },
@@ -264,7 +264,7 @@
       "source": [
         "mandelbrot_set = MandelbrotSet(max_iterations=30)"
       ],
-      "id": "a30ab2f7",
+      "id": "ffff4d84",
       "execution_count": null,
       "outputs": []
     },
@@ -274,7 +274,7 @@
       "source": [
         "0.26 in mandelbrot_set"
       ],
-      "id": "4833dd84",
+      "id": "08d4ce31",
       "execution_count": null,
       "outputs": []
     },
@@ -284,7 +284,7 @@
       "source": [
         "0.25 in mandelbrot_set"
       ],
-      "id": "3d2ff7be",
+      "id": "ec2441a4",
       "execution_count": null,
       "outputs": []
     },
@@ -294,7 +294,7 @@
       "source": [
         "---\n"
       ],
-      "id": "927e8b72"
+      "id": "936301e2"
     },
     {
       "cell_type": "code",
@@ -313,7 +313,7 @@
         "    c = scale *complex(x -width /1.35, height /2 -y)\n",
         "    image.putpixel((x, y), c not in mandelbrot_set)"
       ],
-      "id": "3ea2752a",
+      "id": "a03d7d88",
       "execution_count": null,
       "outputs": []
     },
@@ -324,7 +324,7 @@
         "#| fig-align: center\n",
         "display(image)"
       ],
-      "id": "3dccb305",
+      "id": "b645f366",
       "execution_count": null,
       "outputs": []
     },
@@ -338,7 +338,7 @@
         "\n",
         "* However, $\\,$it’s usually more convenient to deal with <font color='green'>normalized escape counts</font> so that their values are on a scale from zero to one regardless of the maximum number of iterations\n"
       ],
-      "id": "8d14dc1d"
+      "id": "f059c86d"
     },
     {
       "cell_type": "code",
@@ -363,7 +363,7 @@
         "        return iteration\n",
         "    return self.max_iterations"
       ],
-      "id": "d2c6d67b",
+      "id": "c68df052",
       "execution_count": null,
       "outputs": []
     },
@@ -373,7 +373,7 @@
       "source": [
         "mandelbrot_set = MandelbrotSet(max_iterations=30)"
       ],
-      "id": "055fc88e",
+      "id": "0004e06b",
       "execution_count": null,
       "outputs": []
     },
@@ -383,7 +383,7 @@
       "source": [
         "mandelbrot_set.escape_count(0.25)"
       ],
-      "id": "6535adab",
+      "id": "7334e103",
       "execution_count": null,
       "outputs": []
     },
@@ -393,7 +393,7 @@
       "source": [
         "mandelbrot_set.stability(0.25)"
       ],
-      "id": "123181a4",
+      "id": "6fdf0191",
       "execution_count": null,
       "outputs": []
     },
@@ -403,7 +403,7 @@
       "source": [
         "0.25 in mandelbrot_set"
       ],
-      "id": "74706268",
+      "id": "a30919c4",
       "execution_count": null,
       "outputs": []
     },
@@ -413,7 +413,7 @@
       "source": [
         "mandelbrot_set.escape_count(0.26)"
       ],
-      "id": "df9a1be5",
+      "id": "3b2fd70a",
       "execution_count": null,
       "outputs": []
     },
@@ -423,7 +423,7 @@
       "source": [
         "mandelbrot_set.stability(0.26)"
       ],
-      "id": "4afa2f3f",
+      "id": "c90c0089",
       "execution_count": null,
       "outputs": []
     },
@@ -433,7 +433,7 @@
       "source": [
         "0.26 in mandelbrot_set"
       ],
-      "id": "355d6996",
+      "id": "f5170609",
       "execution_count": null,
       "outputs": []
     },
@@ -445,7 +445,7 @@
         "\n",
         "* But you’ll need to change the pixel mode to `L`, $\\,$which stands for *luminance*. $\\,$In this mode, $\\,$each pixel takes an integer value between `0` and `255`, $\\,$so you’ll also need to scale the fractional stability appropriately:\n"
       ],
-      "id": "614cbb63"
+      "id": "23552a6d"
     },
     {
       "cell_type": "code",
@@ -463,7 +463,7 @@
         "    instability = 1 -mandelbrot_set.stability(c)\n",
         "    image.putpixel((x, y), int(instability *255))"
       ],
-      "id": "80d307ac",
+      "id": "e827332b",
       "execution_count": null,
       "outputs": []
     },
@@ -474,7 +474,7 @@
         "#| fig-align: center\n",
         "display(image)"
       ],
-      "id": "b374fc26",
+      "id": "e2d04e3b",
       "execution_count": null,
       "outputs": []
     },
@@ -488,7 +488,7 @@
         "\n",
         "* One way to interpolate their intermediate values is to use [logarithms](https://linas.org/art-gallery/escape/smooth.html)\n"
       ],
-      "id": "d795cc17"
+      "id": "d55e52aa"
     },
     {
       "cell_type": "code",
@@ -519,7 +519,7 @@
         "        return iteration\n",
         "    return self.max_iterations"
       ],
-      "id": "8285ec1e",
+      "id": "2ebae7d2",
       "execution_count": null,
       "outputs": []
     },
@@ -540,7 +540,7 @@
         "    instability = 1 -mandelbrot_set.stability(c, smooth=True)\n",
         "    image.putpixel((x, y), int(instability *255))"
       ],
-      "id": "1e5a2b2d",
+      "id": "2cb516cb",
       "execution_count": null,
       "outputs": []
     },
@@ -551,7 +551,7 @@
         "#| fig-align: center\n",
         "display(image)"
       ],
-      "id": "cfa71ab9",
+      "id": "512e0698",
       "execution_count": null,
       "outputs": []
     },
@@ -565,7 +565,7 @@
         "\n",
         "* You can build a smart pixel data type that’ll encapsulate the conversion between the coordinate systems, account for scaling, and handle the colors\n"
       ],
-      "id": "c93e5178"
+      "id": "40124b4a"
     },
     {
       "cell_type": "code",
@@ -595,7 +595,7 @@
         "      for x in range(self.image.width):\n",
         "        yield Pixel(self, x, y)"
       ],
-      "id": "d434800d",
+      "id": "23f94aba",
       "execution_count": null,
       "outputs": []
     },
@@ -621,7 +621,7 @@
         "  def __complex__(self):\n",
         "    return complex(self.x, -self.y) *self.viewport.scale +self.viewport.offset"
       ],
-      "id": "bbef5578",
+      "id": "9937b7a6",
       "execution_count": null,
       "outputs": []
     },
@@ -637,7 +637,7 @@
         "  instability = 1 -mandelbrot_set.stability(c, smooth=True)\n",
         "  pixel.color = int(instability *255)"
       ],
-      "id": "8d5a1ab0",
+      "id": "2c16ad84",
       "execution_count": null,
       "outputs": []
     },
@@ -647,7 +647,7 @@
       "source": [
         "* The `viewport` spans `0.002` world units and is centered at `-0.7435 +0.1314j`, $\\,$which is close to <font color='red'>a Misiurewicz point</font> that produces a beautiful spiral\n"
       ],
-      "id": "57dbc460"
+      "id": "366866ec"
     },
     {
       "cell_type": "code",
@@ -656,7 +656,7 @@
         "#| fig-align: center\n",
         "display(image)"
       ],
-      "id": "b75eb3e1",
+      "id": "3c376d4c",
       "execution_count": null,
       "outputs": []
     },
@@ -670,7 +670,7 @@
         "enhancer = ImageEnhance.Brightness(image)\n",
         "display(enhancer.enhance(1.4))"
       ],
-      "id": "04f879e5",
+      "id": "17291b2e",
       "execution_count": null,
       "outputs": []
     },
@@ -680,7 +680,7 @@
       "source": [
         "* We can find many more unique points producing such spectacular results. $\\,$Wikipedia hosts an entire [image gallery](https://en.wikipedia.org/wiki/Mandelbrot_set#Image_gallery_of_a_zoom_sequence) of various details of the Mandelbrot set that are worth exploring\n"
       ],
-      "id": "b9c29be1"
+      "id": "1fb42b18"
     },
     {
       "cell_type": "code",
@@ -694,7 +694,7 @@
         "  instability = 1 -mandelbrot_set.stability(c, smooth=True)\n",
         "  pixel.color = int(instability *255)"
       ],
-      "id": "7e077bd5",
+      "id": "60d6ea26",
       "execution_count": null,
       "outputs": []
     },
@@ -706,7 +706,7 @@
         "enhancer = ImageEnhance.Brightness(image)\n",
         "display(enhancer.enhance(1.4))"
       ],
-      "id": "daaf1d50",
+      "id": "2c847afa",
       "execution_count": null,
       "outputs": []
     },
@@ -730,7 +730,7 @@
         "\n",
         "* `Matplotlib` library includes [several colormaps](https://matplotlib.org/3.5.0/tutorials/colors/colormaps.html) with normalized color channels. $\\,$Some colormaps are fixed lists of colors, $\\,$while others are able to interpolate values given as a parameter\n"
       ],
-      "id": "1c0940c8"
+      "id": "979894ae"
     },
     {
       "cell_type": "code",
@@ -741,7 +741,7 @@
         "colormap = matplotlib.cm.get_cmap('twilight').colors\n",
         "colormap[:5]"
       ],
-      "id": "1e778a17",
+      "id": "256636d6",
       "execution_count": null,
       "outputs": []
     },
@@ -751,7 +751,7 @@
       "source": [
         "* `Pillow` only understands integers in the range of `0` through `255` for the color channels. $\\,$We need another function that’ll reverse the normalization process to make the Pillow library happy:\n"
       ],
-      "id": "dfffbe17"
+      "id": "1a0c65c4"
     },
     {
       "cell_type": "code",
@@ -763,7 +763,7 @@
         "palette = denormalize(colormap)\n",
         "palette[:5] "
       ],
-      "id": "f48cd0fc",
+      "id": "0dc69409",
       "execution_count": null,
       "outputs": []
     },
@@ -775,7 +775,7 @@
         "\n",
         "* If you’d like to test out a couple of different palettes, $\\,$then it might be convenient to introduce a helper function to avoid retyping the same commands over and over again:\n"
       ],
-      "id": "f95e3ea0"
+      "id": "b6ab39b3"
     },
     {
       "cell_type": "code",
@@ -787,7 +787,7 @@
         "    index = int(min(stability *len(palette), len(palette) -1))\n",
         "    pixel.color = palette[index % len(palette)]"
       ],
-      "id": "3facca63",
+      "id": "d31ea16e",
       "execution_count": null,
       "outputs": []
     },
@@ -797,7 +797,7 @@
       "source": [
         "* The number of colors in your palette doesn’t necessarily have to equal the maximum number of iterations. $\\,$After all, it’s unknown how many stability values there’ll be until we run the recursive formula. $\\,$When we enable smoothing, $\\,$the number of fractional escape counts can be greater than the number of iterations!\n"
       ],
-      "id": "f318065c"
+      "id": "d5559c9c"
     },
     {
       "cell_type": "code",
@@ -811,7 +811,7 @@
         "\n",
         "display(image)"
       ],
-      "id": "a3e2635f",
+      "id": "8cf0901a",
       "execution_count": null,
       "outputs": []
     },
@@ -821,7 +821,7 @@
       "source": [
         "* Feel free to try other color palettes included in `Matplotlib` or one of the third-party libraries that they mention in the documentation. $\\,$Additionally, $\\,$`Matplotlib` lets you reverse the color order by appending the `_r` suffix to a colormap’s name\n"
       ],
-      "id": "4a4cfe66"
+      "id": "9d57b6a3"
     },
     {
       "cell_type": "code",
@@ -834,7 +834,7 @@
         "\n",
         "display(image)"
       ],
-      "id": "326f6e00",
+      "id": "c2a001a9",
       "execution_count": null,
       "outputs": []
     },
@@ -852,7 +852,7 @@
         "\n",
         "display(image)"
       ],
-      "id": "5f5d164f",
+      "id": "ac69f4bf",
       "execution_count": null,
       "outputs": []
     },
@@ -862,7 +862,7 @@
       "source": [
         "* Suppose you wanted to emphasize the fractal’s edge. In such a case, you can divide the fractal into three parts and assign different colors to each:\n"
       ],
-      "id": "3874ab70"
+      "id": "0eefc595"
     },
     {
       "cell_type": "code",
@@ -881,7 +881,7 @@
         "\n",
         "display(image)"
       ],
-      "id": "6e694de9",
+      "id": "53345ef2",
       "execution_count": null,
       "outputs": []
     },
@@ -891,7 +891,7 @@
       "source": [
         "### Color Gradient\n"
       ],
-      "id": "ae0c5e08"
+      "id": "4379baa6"
     },
     {
       "cell_type": "code",
@@ -908,7 +908,7 @@
         "  \n",
         "  return lambda x: [np.clip(channel(x), 0, 1) for channel in channels]"
       ],
-      "id": "5b172f1f",
+      "id": "075f214f",
       "execution_count": null,
       "outputs": []
     },
@@ -925,7 +925,7 @@
         "colors = [black, navy, blue, maroon, red, black]\n",
         "gradient = make_gradient(colors, interpolation='cubic')"
       ],
-      "id": "05f81c8e",
+      "id": "73504e76",
       "execution_count": null,
       "outputs": []
     },
@@ -936,7 +936,7 @@
         "num_colors = 256\n",
         "palette = denormalize([gradient(i /num_colors) for i in range(num_colors)])"
       ],
-      "id": "e509afd0",
+      "id": "6db3f680",
       "execution_count": null,
       "outputs": []
     },
@@ -953,7 +953,7 @@
         "\n",
         "display(image)"
       ],
-      "id": "fa6da008",
+      "id": "b177e1c5",
       "execution_count": null,
       "outputs": []
     },
@@ -975,7 +975,7 @@
         "\n",
         "  To use such coordinates in `Pillow`, $~$we must translate them to a tuple of RGB values in the familiar range of `0` to `255`:\n"
       ],
-      "id": "2dc7bb45"
+      "id": "e9089a7c"
     },
     {
       "cell_type": "code",
@@ -1004,7 +1004,7 @@
         "\n",
         "display(image) "
       ],
-      "id": "9e3e725c",
+      "id": "61e439a0",
       "execution_count": null,
       "outputs": []
     },
@@ -1023,7 +1023,7 @@
         "\n",
         "  Now we know how to use Python to plot and draw the famous fractal discovered by Benoît Mandelbrot"
       ],
-      "id": "c8a6ceab"
+      "id": "ab986cb3"
     }
   ],
   "metadata": {

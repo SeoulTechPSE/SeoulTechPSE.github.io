@@ -793,3 +793,247 @@ $$
  &\Downarrow \\ 
  r(t)  &= -0.0003 t + 0.01 = 0 \; \Rightarrow \; t =\frac{0.01}{0.0003} \approx 33.3 \;\text{sec}
 \end{aligned}$$
+
+$~$
+
+**1.** $~$Find an explicit solution of the given initial value problem
+
+$$\sqrt{1-y^2} \,dx -\sqrt{1-x^2}\,dy=0, \;y(0)=\sqrt{3}/2$$
+
+**Solution**
+
+**Step 1:** $~$Rearrange the Equation
+
+We write the equation in differential form:
+
+$$\sqrt{1 - y^2} \, dx = \sqrt{1 - x^2} \, dy$$
+
+Separate variables:
+
+$$\frac{dx}{\sqrt{1 - x^2}} = \frac{dy}{\sqrt{1 - y^2}}$$
+
+**Step 2:** $~$Integrate Both Sides
+
+$$\int \frac{dx}{\sqrt{1 - x^2}} = \int \frac{dy}{\sqrt{1 - y^2}}$$
+
+These are standard integrals:
+
+* $\displaystyle\scriptsize \int \frac{dx}{\sqrt{1 - x^2}} = \arcsin x + C$
+
+* $\displaystyle\scriptsize \int \frac{dy}{\sqrt{1 - y^2}} = \arcsin y + C$
+
+So:
+
+$$\arcsin x = \arcsin y + C$$
+
+**Step 3:** $~$Solve for the Constant Using the Initial Condition
+
+We’re given $y(0) = \frac{\sqrt{3}}{2}$, so plug in $x = 0$, $y = \frac{\sqrt{3}}{2}$:
+
+$$\arcsin(0) = \arcsin\left(\frac{\sqrt{3}}{2}\right) + C$$
+
+$$0 = \frac{\pi}{3} + C \Rightarrow C = -\frac{\pi}{3}$$
+
+**Step 4:** $~$Write the Explicit Solution
+
+From earlier:
+
+$$\arcsin x = \arcsin y - \frac{\pi}{3}$$
+
+Solve for $y$:
+
+$$\arcsin y = \arcsin x + \frac{\pi}{3}$$
+
+Now apply $\sin$ to both sides:
+
+$$y = \sin\left(\arcsin x + \frac{\pi}{3}\right)$$
+
+$~$
+
+**2.** $~$Find an explicit solution of the given initial value problem
+
+$$\frac{dy}{dx} =-y\ln y, \;y(0)=e$$
+
+**Solution**
+
+**Step 1:** $~$Separate Variables
+
+We want to isolate $y$ and $x$:
+
+$$\frac{dy}{dx} = -y \ln y
+\quad \Rightarrow \quad
+\frac{1}{y \ln y} \, dy = -dx$$
+
+**Step 2:** $~$Integrate Both Sides
+
+Let’s handle the left-hand side:
+
+Let $u = \ln y$, then:
+
+$$\frac{du}{dy} = \frac{1}{y} \Rightarrow du = \frac{1}{y} \, dy$$
+
+So:
+
+$$\frac{1}{y \ln y} \, dy = \frac{1}{u} \cdot du = \frac{du}{u}$$
+
+Thus, we have:
+
+$$\int \frac{dy}{y \ln y} = \int \frac{du}{u} = \ln |\ln y|$$
+
+So now integrate both sides:
+
+$$\int \frac{dy}{y \ln y} = \int -dx \quad \Rightarrow \quad \ln|\ln y| = -x + C$$
+
+**Step 3:** $~$Solve for $y(x)$
+
+Start with:
+
+$$\ln|\ln y| = -x + C$$
+
+Exponentiate both sides:
+
+$$|\ln y| = e^{-x + C} = A e^{-x}, \quad A > 0$$
+
+So:
+
+$$\ln y = \pm A e^{-x}$$
+
+We drop the $\pm$ by using a general constant $B = \pm A$, so:
+
+$$\ln y = B e^{-x} \Rightarrow y = e^{B e^{-x}}$$
+
+**Step 4:** $~$Apply Initial Condition $y(0) = e$
+
+Plug in:
+
+$$y(0) = e^{B e^0} = e^{B} = e
+\Rightarrow B = 1$$
+
+Final Answer:
+
+$$y(x) = e^{e^{-x}}$$
+
+This is the explicit solution satisfying the differential equation and the initial condition $y(0) = e$
+
+$~$
+
+**3.** $~$Solve the given initial-value problem
+
+$$\frac{dy}{dx} = \frac{3x+2y}{3x+2y+2}, \;y(-1)=-1$$
+
+**Solution**
+
+**Step 1:** $~$Make a Substitution
+
+Let us simplify the expression by setting:
+
+$$u = 3x + 2y$$
+
+Differentiate both sides with respect to x:
+
+$$\frac{du}{dx} = 3 + 2\frac{dy}{dx}$$
+
+Now solve for \frac{dy}{dx} from this:
+
+$$\frac{dy}{dx} = \frac{1}{2} \left( \frac{du}{dx} - 3 \right)$$
+
+But also, from the original equation:
+
+$$\frac{dy}{dx} = \frac{u}{u + 2}$$
+
+So equating both expressions:
+
+$$\frac{1}{2} \left( \frac{du}{dx} - 3 \right) = \frac{u}{u + 2}$$
+
+So:
+
+$$\frac{du}{dx} = 3 + \frac{2u}{u + 2}$$
+
+**Step 2:** $~$Simplify the Right-Hand Side
+
+We simplify and so:
+
+$$\frac{du}{dx} = \frac{5u + 6}{u + 2}$$
+
+**Step 3:** $~$Separate Variables and Integrate
+
+We separate:
+
+$$\frac{u + 2}{5u + 6} \, du = dx$$
+
+Let’s integrate the left-hand side. Let’s simplify:
+
+$$\int \frac{u + 2}{5u + 6} \, du = \int \left[ \frac{1}{5} + \frac{4}{5(5u + 6)} \right] du
+= \frac{1}{5} u + \frac{4}{25} \ln |5u + 6| + C$$
+
+So:
+
+$$x = \frac{1}{5} u + \frac{4}{25} \ln |5u + 6| + C$$
+
+**Step 4:** $~$Substitute Back $u = 3x + 2y$
+
+Recall $u = 3x + 2y$. So we substitute:
+
+$$x = \frac{1}{5}(3x + 2y) + \frac{4}{25} \ln |5(3x + 2y) + 6| + C$$
+
+This is an implicit solution
+
+**Step 5:** $~$Apply the Initial Condition $y(-1) = -1$
+
+Recall $u = 3x + 2y$, so at $x = -1$, $y = -1$:
+
+$$u = 3(-1) + 2(-1) = -5
+\Rightarrow 5u + 6 = -25 + 6 = -19$$
+
+Then:
+
+$$-1 = \frac{1}{5}(-5) + \frac{4}{25} \ln(19) + C
+\Rightarrow C = - \frac{4}{25} \ln 19$$
+
+**Final Answer:**
+
+$$
+x = \frac{1}{5}(3x + 2y) + \frac{4}{25} \ln |5(3x + 2y) + 6| - \frac{4}{25} \ln 19
+$$
+
+$~$
+
+**4.** $~$Solve the given differential equation
+
+$$\frac{dy}{dx} = \tan^2(x+y)$$
+
+**Solution**
+
+**Step 1:** $~$Make a Substitution
+
+Let’s simplify the expression using substitution.
+
+Let:
+
+$$u = x + y \quad \Rightarrow \quad \frac{du}{dx} = 1 + \frac{dy}{dx}$$
+
+From the original equation:
+
+$$\frac{dy}{dx} = \tan^2(x + y) = \tan^2 u$$
+
+So:
+
+$$\frac{du}{dx} = 1 + \tan^2 u = \sec^2 u$$
+
+**Step 2:** $~$Separate Variables and Integrate
+
+$$\frac{du}{\sec^2 u} = dx \quad \Rightarrow \quad \cos^2 u \, du = dx$$
+
+So integrate both sides:
+
+$$\int \cos^2 u \, du = \int \frac{1 + \cos(2u)}{2} \, du = \frac{1}{2} \left[ u + \frac{1}{2} \sin(2u) \right]$$
+
+So:
+
+$$\frac{1}{2} u + \frac{1}{4} \sin(2u) = x + C$$
+
+**Step 3:** $~$Substitute Back $u = x + y$
+
+$$\frac{1}{2}(x + y) + \frac{1}{4} \sin(2(x + y)) = x + C$$
+
+where $C$ is a constant of integration. This is an implicit solution to the original differential equation
