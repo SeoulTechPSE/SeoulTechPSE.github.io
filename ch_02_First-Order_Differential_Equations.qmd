@@ -1037,3 +1037,153 @@ $$\frac{1}{2} u + \frac{1}{4} \sin(2u) = x + C$$
 $$\frac{1}{2}(x + y) + \frac{1}{4} \sin(2(x + y)) = x + C$$
 
 where $C$ is a constant of integration. This is an implicit solution to the original differential equation
+
+$~$
+
+**5.** $~$ Find the solution of period $2\pi$ of the equation
+
+$$ y' +(\cos x) y = \sin 2x$$
+
+**Solution**
+
+**Step 1:** $~$Solve Using the Integrating Factor Method
+
+**Integrating Factor**
+
+$$\mu(x) = e^{\int \cos x \, dx} = e^{\sin x}$$
+
+Multiply both sides of the ODE by $\mu(x) = e^{\sin x}$:
+
+$$e^{\sin x} y’ + e^{\sin x} \cos x \, y = e^{\sin x} \sin 2x$$
+
+Left-hand side becomes:
+
+$$\frac{d}{dx}\left( e^{\sin x} y \right) = e^{\sin x} \sin 2x$$
+
+**Step 2:** $~$Integrate Both Sides
+
+$$\int \frac{d}{dx}(e^{\sin x} y) \, dx = \int e^{\sin x} \sin 2x \, dx$$
+
+So:
+
+$$y(x) = e^{-\sin x} \left( \int e^{\sin x} \sin 2x \, dx + C \right)$$
+
+**Step 3:** $~$Impose Periodicity
+
+Let’s denote:
+
+$$I(x) := \int e^{\sin x} \sin 2x \, dx
+\Rightarrow y(x) = e^{-\sin x} (I(x) + C)$$
+
+Let’s write the condition:
+
+$$
+\begin{aligned}
+y(x + 2\pi) = y(x) \; &\Rightarrow \; e^{-\sin x} (I(x + 2\pi) + C) = e^{-\sin x} (I(x) + C)\\
+&\Rightarrow I(x + 2\pi) = I(x)
+\end{aligned}$$
+
+But:
+
+$$
+I(x + 2\pi) = \int_{0}^{x + 2\pi} e^{\sin t} \sin 2t \, dt = \int_{0}^{x} e^{\sin t} \sin 2t \, dt + \int_{x}^{x+2\pi} e^{\sin t} \sin 2t \, dt$$
+
+Therefore, periodicity condition is:
+
+$$I(x + 2\pi) - I(x) = \int_{x}^{x + 2\pi} e^{\sin t} \sin 2t \, dt = 0$$
+
+So the $2\pi$-periodic solution is:
+
+$$y(x) = e^{-\sin x} \int_0^x e^{\sin t} \sin 2t \, dt$$
+
+$~$
+
+**6.** $~$ Find the solution of period $2\pi$ of the equation
+
+$$ y' +3 y = \cos x$$
+
+**Solution**
+
+**Step 1:** $~$General Solution via Integrating Factor
+
+This is a first-order linear ODE. Let’s solve it using the integrating factor method.
+
+Let:
+
+$\mu(x) = e^{\int 3 \, dx} = e^{3x}$
+
+Multiply both sides of the equation by $e^{3x}$:
+
+$$e^{3x} y’ + 3 e^{3x} y = e^{3x} \cos x
+\Rightarrow \frac{d}{dx}(e^{3x} y) = e^{3x} \cos x$$
+
+Now integrate both sides:
+
+$$e^{3x} y = \int e^{3x} \cos x \, dx$$
+
+**Step 2:** $~$Compute the Integral
+
+$$\int e^{3x} \cos x \, dx = \frac{e^{3x}}{10}(3 \cos x + \sin x) + C$$
+
+Thus:
+
+$$e^{3x} y = \frac{e^{3x}}{10}(3 \cos x + \sin x) + C
+\Rightarrow y(x) = \frac{1}{10}(3 \cos x + \sin x) + C e^{-3x}$$
+
+**Step 3:** $~$Impose Periodicity
+
+We are asked to find a solution with period $2\pi$. Let’s analyze:
+
+* The term $\frac{1}{10}(3 \cos x + \sin x)$ is clearly $2\pi$-periodic
+* But the term $C e^{-3x}$ is not periodic unless $C = 0$
+
+So to obtain a periodic solution, we must take:
+$C = 0$
+
+**Final Answer:**
+
+$$y(x) = \frac{1}{10}(3 \cos x + \sin x)$$
+
+
+$~$
+
+**7.** $~$ Solve the given differential equation by using an appropriate substitution
+
+$$ \frac{dy}{dx} = \sin(x+y)$$
+
+**Solution**
+
+**Step 1:** $~$Use Substitution
+
+Let:
+
+$$u = x + y \quad \Rightarrow \quad \frac{du}{dx} = 1 + \frac{dy}{dx}$$
+
+Substitute into the derivative of $u$:
+$$\frac{du}{dx} = 1 + \sin u$$
+
+**Step 2:** $~$Separate Variables
+
+We now have the separable equation:
+
+$$\frac{du}{1 + \sin u} = dx$$
+
+We simplify the left-hand side:
+
+$$\frac{1}{1 + \sin u} = \frac{1 - \sin u}{(1 + \sin u)(1 - \sin u)} 
+= \frac{1 - \sin u}{1 - \sin^2 u} = \frac{1 - \sin u}{\cos^2 u}$$
+
+Now integrate:
+
+$$\int \sec^2 u \, du = \tan u, \quad
+\int \sec u \tan u \, du = \sec u$$
+
+So:
+
+$$\int \frac{du}{1 + \sin u} = \tan u - \sec u + C = x + C$$
+
+**Step 3:** $~$Substitute Back $u = x + y$
+
+$$\tan(x + y) - \sec(x + y) = x + C$$
+
+This is the implicit general solution to the differential equation
