@@ -719,7 +719,7 @@ x(t) &amp;= -\frac{1}{4} -\frac{3}{8} e^{2t} + \frac{5}{8} e^{-2t} \\
 y(t) &amp;= t + \frac{3}{4} e^{2t} + \frac{5}{4} e^{-2t}
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<p><strong>2.</strong> <span class="math inline">\(\phantom{1}\)</span> Solve the system</p>
+<p><strong>2.</strong> <span class="math inline">\(~\)</span> Solve the system</p>
 <p><span class="math display">\[\begin{aligned}
 x'' +y'' &amp;= e^{2t}\\
 2x' +y'' &amp;=-e^{2t}
@@ -749,6 +749,81 @@ x'' +y'' &amp;= e^{2t}\\
 <p><span class="math display">\[ Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{s(s - 2)^2} = -\frac{5}{4s} - \frac{1}{2s^2} + \frac{5}{4(s - 2)} - \frac{2}{(s - 2)^2}\]</span></p>
 <p>Thus:</p>
 <p><span class="math display">\[ y(t) = -\frac{5}{4} - \frac{1}{2} t + \frac{5}{4} e^{2t} - 2t e^{2t}\]</span></p>
+<p><strong>3.</strong> <span class="math inline">\((a)\)</span> Show that <span class="math inline">\(y = e^{-t^2}\)</span> is a solution of the initial value problem</p>
+<p><span class="math display">\[ \frac{dy}{dt} +2ty=0,\;\;y(0)=1 \]</span></p>
+<p><span class="math inline">\((b)\)</span> Find <span class="math inline">\(Y(s)=\mathcal{L}\left[ e^{-t^2} \right]\)</span> by applying the Laplace transform to the above differential equation</p>
+<p><span class="math display">\[\phantom{**}\]</span> Hint) <span class="math inline">\(\displaystyle \mathrm{erfc}(t) = \frac{2}{\sqrt{\pi}} \int_t^\infty \, e^{-u^2}\, du\)</span></p>
+<p><strong>Solution (a)</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Plug into the differential equation</p>
+<p>Let <span class="math inline">\(y(t) = e^{-t^2}\)</span></p>
+<p>Then:</p>
+<p><span class="math display">\[\frac{dy}{dt} = \frac{d}{dt}(e^{-t^2}) = -2t e^{-t^2}\]</span></p>
+<p>Now substitute into the equation:</p>
+<p><span class="math display">\[\frac{dy}{dt} + 2t y = -2t e^{-t^2} + 2t e^{-t^2} = 0\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Check initial condition</p>
+<p><span class="math display">\[y(0) = e^{0} = 1\]</span></p>
+<p><strong>Solution (b)</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Take Laplace transforms</p>
+<p>Let <span class="math inline">\(Y(s) = \mathcal{L}\{y(t)\}\)</span></p>
+<p>Apply Laplace transform:</p>
+<p><span class="math display">\[\mathcal{L}\left\{ \frac{dy}{dt} + 2t y \right\}
+= sY(s) - y(0) - 2 \frac{dY}{ds} = 0\]</span></p>
+<p>Given <span class="math inline">\(y(0) = 1\)</span>, the transformed equation becomes:</p>
+<p><span class="math display">\[\frac{dY}{ds} = \frac{1}{2}\left[sY(s) - 1\right]\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Solve the first-order linear ODE</p>
+<p>We solve:</p>
+<p><span class="math display">\[\frac{dY}{ds} = \frac{1}{2}sY(s) - \frac{1}{2}\]</span></p>
+<p>This is a first-order linear ODE for <span class="math inline">\(Y(s)\)</span>. Standard form:</p>
+<p><span class="math display">\[\frac{dY}{ds} - \frac{1}{2}sY = -\frac{1}{2}\]</span></p>
+<p>Use integrating factor:</p>
+<p><span class="math display">\[\mu(s) = e^{-\frac{1}{4}s^2}\]</span></p>
+<p>Multiply both sides:</p>
+<p><span class="math display">\[e^{-\frac{1}{4}s^2} \frac{dY}{ds} - \frac{1}{2}s e^{-\frac{1}{4}s^2} Y = -\frac{1}{2} e^{-\frac{1}{4}s^2}\]</span></p>
+<p>LHS becomes derivative of the product:</p>
+<p><span class="math display">\[\frac{d}{ds} \left( e^{-\frac{1}{4}s^2} Y \right) = -\frac{1}{2} e^{-\frac{1}{4}s^2}\]</span></p>
+<p>Now integrate both sides:</p>
+<p><span class="math display">\[\int \frac{d}{ds} \left( e^{-\frac{1}{4}s^2} Y \right) ds = \int -\frac{1}{2} e^{-\frac{1}{4}s^2} ds\]</span></p>
+<p><span class="math display">\[e^{-\frac{1}{4}s^2} Y(s) = -\frac{1}{2} \int e^{-\frac{1}{4}s^2} ds + C\]</span></p>
+<p>There’s no elementary antiderivative for <span class="math inline">\(e^{-\frac{1}{4}s^2}\)</span>, so we leave the integral unevaluated:</p>
+<p><span class="math display">\[Y(s) = e^{\frac{1}{4}s^2} \left( C - \frac{1}{2} \int e^{-\frac{1}{4}s^2} ds \right)\]</span></p>
+<p>The constant <span class="math inline">\(C\)</span> that appears when solving a differential equation via the Laplace transform is determined by the initial condition (e.g., <span class="math inline">\(y(0) = 1\)</span>)</p>
+<p><span class="math display">\[C = \frac{\sqrt{\pi}}{2} \operatorname{erfc}\left( \frac{s}{2} \right) + \frac{1}{2} \int e^{-s^2/4} ds\]</span></p>
+<p>Then:</p>
+<p><span class="math display">\[
+\mathcal{L} \{ e^{-t^2} \} = \frac{\sqrt{\pi}}{2} e^{\frac{s^2}{4}} \operatorname{erfc}\left( \frac{s}{2} \right)
+\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>4.</strong> <span class="math inline">\(~\)</span> One definition of the gamma function <span class="math inline">\(\Gamma(\alpha)\)</span> is given by the improper integral</p>
+<p><span class="math display">\[ \Gamma(\alpha) = \int_0^\infty t^{\alpha-1} \,e^{-t} \, dt, \;\alpha &gt; 0 \]</span></p>
+<p><span class="math inline">\((a)\)</span> Use this definition to show that <span class="math inline">\(\Gamma(\alpha+1) = \alpha \Gamma(\alpha)\)</span></p>
+<p><span class="math inline">\((b)\)</span> and find that <span class="math inline">\(\mathcal{L}\left[ t^\alpha \right]\)</span></p>
+<p><strong>Solution (a)</strong></p>
+<p>Start with <span class="math inline">\(\Gamma(\alpha + 1)\)</span></p>
+<p><span class="math display">\[ \Gamma(\alpha + 1) = \int_0^\infty t^{\alpha} e^{-t} dt \]</span></p>
+<p>We’ll use integration by parts:</p>
+<ul>
+<li>Let <span class="math inline">\(u = t^\alpha \Rightarrow du = \alpha t^{\alpha - 1} dt\)</span></li>
+<li>Let <span class="math inline">\(dv = e^{-t} dt \Rightarrow v = -e^{-t}\)</span></li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\Gamma(\alpha + 1) &amp;= \left. -t^{\alpha} e^{-t} \right|_0^\infty + \int_0^\infty \alpha t^{\alpha - 1} e^{-t} dt \\
+&amp;= 0 + \alpha \int_0^\infty t^{\alpha - 1} e^{-t} dt \\
+&amp;= \alpha \Gamma(\alpha)
+\end{aligned}\]</span></p>
+<p><strong>Solution (b)</strong></p>
+<p><span class="math display">\[ \mathcal{L} \{ t^\alpha \} = \int_0^\infty e^{-s t} t^\alpha dt \]</span></p>
+<p>Make substitution <span class="math inline">\(u = s t \Rightarrow t = \frac{u}{s}, \; dt = \frac{du}{s}\)</span></p>
+<p>Then:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathcal{L} \{ t^\alpha \}
+&amp;= \int_0^\infty e^{-s t} t^\alpha dt
+= \int_0^\infty e^{-u} \left( \frac{u}{s} \right)^\alpha \cdot \frac{du}{s} \\
+&amp;= \frac{1}{s^{\alpha + 1}} \int_0^\infty u^\alpha e^{-u} du \\
+&amp;= \frac{1}{s^{\alpha + 1}} \Gamma(\alpha + 1)
+\end{aligned}\]</span></p>
 
 
 </section>

@@ -461,7 +461,7 @@ y(t) &= t + \frac{3}{4} e^{2t} + \frac{5}{4} e^{-2t}
 
 $~$
 
-**2.** $\phantom{1}$ Solve the system
+**2.** $~$ Solve the system
 
 $$\begin{aligned}
  x'' +y'' &= e^{2t}\\
@@ -511,3 +511,136 @@ $$ Y(s) = \frac{1}{s^2(s - 2)} - \frac{2}{s(s - 2)^2} = -\frac{5}{4s} - \frac{1}
 Thus:
 
 $$ y(t) = -\frac{5}{4} - \frac{1}{2} t + \frac{5}{4} e^{2t} - 2t e^{2t}$$
+
+
+**3.** $(a)$ Show that $y = e^{-t^2}$ is a solution of the initial value problem
+
+$$ \frac{dy}{dt} +2ty=0,\;\;y(0)=1 $$
+
+$(b)$ Find $Y(s)=\mathcal{L}\left[ e^{-t^2} \right]$ by applying the Laplace transform to the above differential equation
+
+$$\phantom{**}$$ Hint) $\displaystyle \mathrm{erfc}(t) = \frac{2}{\sqrt{\pi}} \int_t^\infty \, e^{-u^2}\, du$
+
+**Solution (a)**
+
+**Step 1:** $~$ Plug into the differential equation
+
+Let $y(t) = e^{-t^2}$
+
+Then:
+
+$$\frac{dy}{dt} = \frac{d}{dt}(e^{-t^2}) = -2t e^{-t^2}$$
+
+Now substitute into the equation:
+
+$$\frac{dy}{dt} + 2t y = -2t e^{-t^2} + 2t e^{-t^2} = 0$$
+
+**Step 2:** $~$ Check initial condition
+
+$$y(0) = e^{0} = 1$$
+
+**Solution (b)**
+
+**Step 1:** $~$ Take Laplace transforms
+
+Let $Y(s) = \mathcal{L}\{y(t)\}$
+
+Apply Laplace transform:
+
+$$\mathcal{L}\left\{ \frac{dy}{dt} + 2t y \right\}
+= sY(s) - y(0) - 2 \frac{dY}{ds} = 0$$
+
+Given $y(0) = 1$, the transformed equation becomes:
+
+$$\frac{dY}{ds} = \frac{1}{2}\left[sY(s) - 1\right]$$
+
+**Step 2:** $~$ Solve the first-order linear ODE
+
+We solve:
+
+$$\frac{dY}{ds} = \frac{1}{2}sY(s) - \frac{1}{2}$$
+
+This is a first-order linear ODE for $Y(s)$. Standard form:
+
+$$\frac{dY}{ds} - \frac{1}{2}sY = -\frac{1}{2}$$
+
+Use integrating factor:
+
+$$\mu(s) = e^{-\frac{1}{4}s^2}$$
+
+Multiply both sides:
+
+$$e^{-\frac{1}{4}s^2} \frac{dY}{ds} - \frac{1}{2}s e^{-\frac{1}{4}s^2} Y = -\frac{1}{2} e^{-\frac{1}{4}s^2}$$
+
+LHS becomes derivative of the product:
+
+$$\frac{d}{ds} \left( e^{-\frac{1}{4}s^2} Y \right) = -\frac{1}{2} e^{-\frac{1}{4}s^2}$$
+
+Now integrate both sides:
+
+$$\int \frac{d}{ds} \left( e^{-\frac{1}{4}s^2} Y \right) ds = \int -\frac{1}{2} e^{-\frac{1}{4}s^2} ds$$
+
+$$e^{-\frac{1}{4}s^2} Y(s) = -\frac{1}{2} \int e^{-\frac{1}{4}s^2} ds + C$$
+
+There’s no elementary antiderivative for $e^{-\frac{1}{4}s^2}$, so we leave the integral unevaluated:
+
+$$Y(s) = e^{\frac{1}{4}s^2} \left( C - \frac{1}{2} \int e^{-\frac{1}{4}s^2} ds \right)$$
+
+The constant $C$ that appears when solving a differential equation via the Laplace transform
+is determined by the initial condition (e.g., $y(0) = 1$)
+
+$$C = \frac{\sqrt{\pi}}{2} \operatorname{erfc}\left( \frac{s}{2} \right) + \frac{1}{2} \int e^{-s^2/4} ds$$
+
+Then:
+
+$$
+\mathcal{L} \{ e^{-t^2} \} = \frac{\sqrt{\pi}}{2} e^{\frac{s^2}{4}} \operatorname{erfc}\left( \frac{s}{2} \right)
+$$
+
+$~$
+
+**4.** $~$ One definition of the gamma function $\Gamma(\alpha)$
+ is given by the improper integral
+
+$$ \Gamma(\alpha) = \int_0^\infty t^{\alpha-1} \,e^{-t} \, dt, \;\alpha > 0 $$
+
+$(a)$ Use this definition to show that $\Gamma(\alpha+1) = \alpha \Gamma(\alpha)$
+
+$(b)$ and find that $\mathcal{L}\left[ t^\alpha \right]$
+
+**Solution (a)**
+
+Start with $\Gamma(\alpha + 1)$
+
+$$ \Gamma(\alpha + 1) = \int_0^\infty t^{\alpha} e^{-t} dt $$
+
+We’ll use integration by parts:
+
+* Let $u = t^\alpha \Rightarrow du = \alpha t^{\alpha - 1} dt$
+* Let $dv = e^{-t} dt \Rightarrow v = -e^{-t}$
+
+Then:
+
+$$
+\begin{aligned}
+\Gamma(\alpha + 1) &= \left. -t^{\alpha} e^{-t} \right|_0^\infty + \int_0^\infty \alpha t^{\alpha - 1} e^{-t} dt \\
+&= 0 + \alpha \int_0^\infty t^{\alpha - 1} e^{-t} dt \\
+&= \alpha \Gamma(\alpha)
+\end{aligned}$$
+
+**Solution (b)**
+
+$$ \mathcal{L} \{ t^\alpha \} = \int_0^\infty e^{-s t} t^\alpha dt $$
+
+Make substitution $u = s t \Rightarrow t = \frac{u}{s}, \; dt = \frac{du}{s}$
+
+Then:
+
+$$
+\begin{aligned}
+\mathcal{L} \{ t^\alpha \}
+&= \int_0^\infty e^{-s t} t^\alpha dt
+= \int_0^\infty e^{-u} \left( \frac{u}{s} \right)^\alpha \cdot \frac{du}{s} \\
+&= \frac{1}{s^{\alpha + 1}} \int_0^\infty u^\alpha e^{-u} du \\
+&= \frac{1}{s^{\alpha + 1}} \Gamma(\alpha + 1)
+\end{aligned}$$
