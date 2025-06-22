@@ -601,7 +601,7 @@ y &amp;= \frac{1}{1 -4 e^{-x}}
    &amp;\Downarrow \\
    y &amp;= \frac{1}{x^2 -1}
 \end{aligned}\]</span></p>
-<div id="0e38f580" class="cell" data-execution_count="1">
+<div id="be953750" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -645,6 +645,21 @@ y &amp;= \frac{1}{1 -4 e^{-x}}
 <p><strong><a href="#sec-1-2" class="quarto-xref"><span>1.2</span></a>: 17.</strong> <span class="math inline">\(\,\)</span> Determine a region of the xy-plane for which the given differential equation would have a unique solution whose graph passes through a point <span class="math inline">\((x_0, y_0)\)</span> in the region.</p>
 <p><span class="math display">\[\frac{dy}{dx}=y^{2/3}\]</span></p>
 <p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span>Identify the Function and Its Partial Derivative</p>
+<p>Let:</p>
+<p><span class="math display">\[f(x, y) = y^{2/3}\]</span></p>
+<p>Then the partial derivative with respect to <span class="math inline">\(y\)</span> is:</p>
+<p><span class="math display">\[\frac{\partial f}{\partial y} = \frac{2}{3} y^{-1/3}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span>Analyze Continuity</p>
+<ul>
+<li><p><span class="math inline">\(f(x, y) = y^{2/3}\)</span> is continuous for all real values of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span></p></li>
+<li><p>However, <span class="math inline">\(\frac{\partial f}{\partial y} = \frac{2}{3} y^{-1/3}\)</span> is undefined at <span class="math inline">\(y = 0\)</span>, since <span class="math inline">\(y^{-1/3}\)</span> is not defined at <span class="math inline">\(y = 0\)</span></p></li>
+</ul>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span>Apply the Existence and Uniqueness Theorem</p>
+<ul>
+<li>The Existence and Uniqueness Theorem requires both <span class="math inline">\(f(x, y)\)</span> and <span class="math inline">\(\frac{\partial f}{\partial y}\)</span> to be continuous in a neighborhood of the initial point <span class="math inline">\((x_0, y_0)\)</span></li>
+<li>So, a unique solution exists through <span class="math inline">\((x_0, y_0)\)</span> only if <span class="math inline">\(y_0 \ne 0\)</span></li>
+</ul>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong><a href="#sec-1-2" class="quarto-xref"><span>1.2</span></a>: 29.</strong></p>
 <ol type="1">
@@ -658,6 +673,33 @@ y &amp;= \frac{1}{1 -4 e^{-x}}
 <p>satisfies the condition <span class="math inline">\(y(0)=0\)</span>. Determine whether this function is also a solution of the initial-value problem in part 1</p></li>
 </ol>
 <p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span>Solve by Inspection</p>
+<p>Let’s try separating variables or guessing solutions:</p>
+<p>Given: <span class="math display">\[xy’ = y \quad \Rightarrow \quad y’ = \frac{y}{x}\]</span></p>
+<p>This is separable:</p>
+<p><span class="math display">\[\frac{dy}{y} = \frac{dx}{x}\]</span></p>
+<p>Integrate both sides:</p>
+<p><span class="math display">\[\ln |y| = \ln |x| + C_1\]</span></p>
+<p>Exponentiate:</p>
+<p><span class="math display">\[|y| = C_2|x| \quad \Rightarrow \quad y = Cx\]</span></p>
+<p>for some constant <span class="math inline">\(C \in \mathbb{R}\)</span>, because the sign of <span class="math inline">\(C_2\)</span> absorbs the absolute values. So the one-parameter family of solutions is:</p>
+<p><span class="math display">\[y = Cx\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span>Verify with the Initial Condition</p>
+<p>We are given the initial value problem:</p>
+<p><span class="math display">\[xy’ = y, \quad y(0) = 0\]</span></p>
+<p>Let’s plug <span class="math inline">\(x = 0\)</span> into the general solution:</p>
+<p><span class="math display">\[y = Cx \Rightarrow y(0) = C \cdot 0 = 0\]</span></p>
+<p>So for any value of <span class="math inline">\(C\)</span>, the condition <span class="math inline">\(y(0) = 0\)</span> is satisfied.</p>
+<p>❗ But Wait – What About Uniqueness?</p>
+<p>Let’s look back at the original differential equation:</p>
+<p><span class="math display">\[y’ = \frac{y}{x}\]</span></p>
+<p>This function <span class="math inline">\(f(x, y) = \frac{y}{x}\)</span> is not defined at <span class="math inline">\(x = 0\)</span>, so the existence and uniqueness theorem does not apply at <span class="math inline">\(x = 0\)</span></p>
+<p>That means:</p>
+<ul>
+<li>Infinitely many solutions of the form <span class="math inline">\(y = Cx\)</span> pass through <span class="math inline">\((0, 0)\)</span>,</li>
+<li>But there is no unique solution to the initial value problem,</li>
+<li>So although each <span class="math inline">\(y = Cx\)</span> satisfies both the differential equation and the initial condition, the IVP does not have a unique solution</li>
+</ul>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong><a href="#sec-1-3" class="quarto-xref"><span>1.3</span></a>: 5.</strong> <span class="math inline">\(\,\)</span> A cup of coffee cools according to Newton’s law of cooling. Use data from the graph of the temperature <span class="math inline">\(T(t)\)</span> in figure to estimate the constants <span class="math inline">\(T_m\)</span>, <span class="math inline">\(T_0\)</span>, and <span class="math inline">\(k\)</span> in a model of the form of the first-order initial-value problem</p>
 <p><span class="math display">\[ \frac{dT}{dt}=k(T -T_m), \;\;T(0)=T_0 \]</span></p>
@@ -684,7 +726,39 @@ T(\infty) &amp;= T_m \\
 </figure>
 </div>
 <p><strong>Solution</strong></p>
-<p><span class="math inline">\(~\)</span></p>
+<p>To model the vertical motion of a spring-mass system as described, we need to:</p>
+<ul>
+<li>Use Newton’s Second Law: <span class="math inline">\(~F = ma\)</span>,</li>
+<li>Use Hooke’s Law: The restoring force is proportional to the total elongation of the spring,</li>
+<li>Let <span class="math inline">\(y(t)\)</span> denote the displacement from equilibrium (positive downward),</li>
+<li>Assume only gravity and the spring’s restoring force act</li>
+</ul>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span>Define the Forces</p>
+<p>Let:</p>
+<ul>
+<li><span class="math inline">\(m =\)</span> mass (kg),</li>
+<li><span class="math inline">\(g =\)</span> acceleration due to gravity (m/s²),</li>
+<li><span class="math inline">\(k =\)</span> spring constant (N/m),</li>
+<li><span class="math inline">\(y(t) =\)</span> displacement from equilibrium (m), with positive direction downward</li>
+</ul>
+<p>From equilibrium condition:</p>
+<ul>
+<li>When the mass is at rest (before any motion), gravity is balanced by the spring force:</li>
+</ul>
+<p><span class="math display">\[mg = k \Delta l \quad \text{(equilibrium stretch)}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span>After the System is Set in Motion</p>
+<p>When displaced by <span class="math inline">\(y(t)\)</span> from equilibrium:</p>
+<ul>
+<li>Weight (constant force downward): <span class="math inline">\(~F_g = mg\)</span></li>
+<li>Spring force (upward restoring force): <span class="math inline">\(~F_s = -k(\Delta l + y)\)</span></li>
+</ul>
+<p>But since we’re measuring <span class="math inline">\(y(t)\)</span> from equilibrium, the net restoring force becomes:</p>
+<p><span class="math display">\[F_{\text{net}} = -k y(t)\]</span></p>
+<p>Thus, from Newton’s second law:</p>
+<p><span class="math display">\[m \ddot{y}(t) = -k y(t)\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span>Final Differential Equation</p>
+<p><span class="math display">\[m \ddot{y} + k y = 0\]</span></p>
+<p>This is a second-order linear differential equation that governs the vertical motion of the mass from equilibrium</p>
 
 
 </section>

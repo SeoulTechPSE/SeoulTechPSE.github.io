@@ -238,6 +238,27 @@ $$\frac{dy}{dx}=y^{2/3}$$
 
 **Solution**
 
+**Step 1:** $~$Identify the Function and Its Partial Derivative
+
+Let:
+
+$$f(x, y) = y^{2/3}$$
+
+Then the partial derivative with respect to $y$ is:
+
+$$\frac{\partial f}{\partial y} = \frac{2}{3} y^{-1/3}$$
+
+**Step 2:** $~$Analyze Continuity
+
+* $f(x, y) = y^{2/3}$ is continuous for all real values of $x$ and $y$
+
+* However, $\frac{\partial f}{\partial y} = \frac{2}{3} y^{-1/3}$ is undefined at $y = 0$, since $y^{-1/3}$ is not defined at $y = 0$
+
+**Step 3:** $~$Apply the Existence and Uniqueness Theorem
+
+* The Existence and Uniqueness Theorem requires both $f(x, y)$ and $\frac{\partial f}{\partial y}$ to be continuous in a neighborhood of the initial point $(x_0, y_0)$
+* So, a unique solution exists through $(x_0, y_0)$ only if $y_0 \ne 0$
+
 $~$
 
 **[-@sec-1-2]: 29.** 
@@ -254,6 +275,55 @@ $~$
    satisfies the condition $y(0)=0$. Determine whether this function is also a solution of the initial-value problem in part 1
 
 **Solution**
+
+**Step 1:** $~$Solve by Inspection
+
+Let’s try separating variables or guessing solutions:
+
+Given:
+$$xy’ = y \quad \Rightarrow \quad y’ = \frac{y}{x}$$
+
+This is separable:
+
+$$\frac{dy}{y} = \frac{dx}{x}$$
+
+Integrate both sides:
+
+$$\ln |y| = \ln |x| + C_1$$
+
+Exponentiate:
+
+$$|y| = C_2|x| \quad \Rightarrow \quad y = Cx$$
+
+for some constant $C \in \mathbb{R}$, because the sign of $C_2$ absorbs the absolute values. So the one-parameter family of solutions is:
+
+$$y = Cx$$
+
+**Step 2:** $~$Verify with the Initial Condition
+
+We are given the initial value problem:
+
+$$xy’ = y, \quad y(0) = 0$$
+
+Let’s plug $x = 0$ into the general solution:
+
+$$y = Cx \Rightarrow y(0) = C \cdot 0 = 0$$
+
+So for any value of $C$, the condition $y(0) = 0$ is satisfied.
+
+❗ But Wait – What About Uniqueness?
+
+Let’s look back at the original differential equation:
+
+$$y’ = \frac{y}{x}$$
+
+This function $f(x, y) = \frac{y}{x}$ is not defined at $x = 0$, so the existence and uniqueness theorem does not apply at $x = 0$
+
+That means:
+
+* Infinitely many solutions of the form $y = Cx$ pass through $(0, 0)$,
+* But there is no unique solution to the initial value problem,
+* So although each $y = Cx$ satisfies both the differential equation and the initial condition, the IVP does not have a unique solution
 
 $~$
 
@@ -282,4 +352,45 @@ $$
 
 **Solution**
 
-$~$
+To model the vertical motion of a spring-mass system as described, we need to:
+
+* Use Newton’s Second Law: $~F = ma$,
+* Use Hooke’s Law: The restoring force is proportional to the total elongation of the spring,
+* Let $y(t)$ denote the displacement from equilibrium (positive downward),
+* Assume only gravity and the spring’s restoring force act
+
+**Step 1:** $~$Define the Forces
+
+Let:
+
+* $m =$ mass (kg),
+* $g =$ acceleration due to gravity (m/s²),
+* $k =$ spring constant (N/m),
+* $y(t) =$ displacement from equilibrium (m), with positive direction downward
+
+From equilibrium condition:
+
+* When the mass is at rest (before any motion), gravity is balanced by the spring force:
+
+$$mg = k \Delta l \quad \text{(equilibrium stretch)}$$
+
+**Step 2:** $~$After the System is Set in Motion
+
+When displaced by $y(t)$ from equilibrium:
+
+* Weight (constant force downward): $~F_g = mg$
+* Spring force (upward restoring force): $~F_s = -k(\Delta l + y)$
+
+But since we’re measuring $y(t)$ from equilibrium, the net restoring force becomes:
+
+$$F_{\text{net}} = -k y(t)$$
+
+Thus, from Newton’s second law:
+
+$$m \ddot{y}(t) = -k y(t)$$
+
+**Step 3:** $~$Final Differential Equation
+
+$$m \ddot{y} + k y = 0$$
+
+This is a second-order linear differential equation that governs the vertical motion of the mass from equilibrium
