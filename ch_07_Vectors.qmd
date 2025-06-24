@@ -587,3 +587,94 @@ $~$
 
 ## Worked Exercises {.unnumbered}
 
+**1.** $~$ Determine whether the given vectors are linearly independent or linearly dependent:
+
+$$1, (x+1), (x+1)^2, x^2 \text{ in } P_2$$
+
+**Solution**
+
+**Step 1:** $~$ Understand the space $P_2$
+
+The vector space $P_2$ consists of all real polynomials of degree at most 2. So any element in $P_2$ has the form:
+
+$$a_0 + a_1 x + a_2 x^2$$
+
+That means the dimension of $P_2$ is 3. Therefore, any set of more than 3 vectors in $P_2$ must be linearly dependent
+
+**Step 2:** $~$ Count the number of vectors
+
+We are given 4 vectors:
+
+$$1, \quad (x+1), \quad (x+1)^2, \quad x^2$$
+
+Since $\dim P_2 = 3$, and we are given 4 vectors, they must be linearly dependent
+
+**(Optional) Step 3:** $~$ Verify dependence explicitly
+
+To see this more concretely, write each vector in terms of the standard basis $\{1, x, x^2\}$:
+
+* $1 = 1 + 0x + 0x^2 \Rightarrow (1, 0, 0)$
+* $x+1 = 1x + 1 \Rightarrow (1, 1, 0)$
+* $(x+1)^2 = x^2 + 2x + 1 \Rightarrow (1, 2, 1)$
+* $x^2 = x^2 \Rightarrow (0, 0, 1)$
+
+Write these as column vectors:
+
+$$\begin{bmatrix}
+1\\0\\0
+\end{bmatrix}, \quad
+\begin{bmatrix}
+1\\1\\0
+\end{bmatrix}, \quad
+\begin{bmatrix}
+1\\2\\1
+\end{bmatrix}, \quad
+\begin{bmatrix}
+0\\0\\1
+\end{bmatrix}$$
+
+You can now see, for instance:
+
+$$(x+1)^2 = x^2 + 2(x) + 1 = x^2 + 2(x+1) - 1
+\Rightarrow (x+1)^2 - 2(x+1) + x^2 - 1 = 0$$
+
+So there is a nontrivial linear combination:
+
+$$1\cdot(x+1)^2 - 2\cdot(x+1) + 1\cdot x^2 - 1 = 0$$
+
+$~$
+
+**2.** $~$ Explain why $\displaystyle f(x)=\frac{x}{x^2 +4x +3}$ is a vector in $C[0, 3]$ but not a vector in $C[-3,0]$
+
+**Solution**
+
+**Step 1:** $~$ Understand the vector space $C[a,b]$
+
+* $C[a,b]$ is the vector space of all continuous real-valued functions defined on the interval $[a,b]$
+* So, a function $f(x)$ is a vector in $C[a,b]$ if and only if it is continuous on the entire interval $[a,b]$
+
+**Step 2:** $~$ Analyze $f(x) = \dfrac{x}{x^2 + 4x + 3}$
+
+Factor the denominator:
+
+$$x^2 + 4x + 3 = (x+1)(x+3)$$
+
+So the function becomes:
+
+$$f(x) = \frac{x}{(x+1)(x+3)}$$
+
+This function is undefined at $x = -1$ and $x = -3$, since the denominator becomes 0 at those points.
+
+**Step 3:** $~$ Behavior on $[0, 3]$
+
+* The interval $[0,3]$ lies entirely to the right of both singularities $x = -1$ and $x = -3$
+* On this interval, $f(x)$ is:
+	*	Defined (denominator never zero),
+	* Continuous (since it’s a rational function with no discontinuities on this domain).
+
+**Conclusion:**
+
+$f(x) \in C[0,3]$ — it is a continuous function on that interval, so it is a vector in $C[0,3]$
+
+$~$
+
