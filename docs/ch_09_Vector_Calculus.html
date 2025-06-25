@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -1503,9 +1537,366 @@ z=\rho\cos\phi \\
 <h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 <p><strong>1.</strong> <span class="math inline">\(~\)</span> Find an equation of the plane containing the lines <span class="math inline">\(x=t\)</span>, <span class="math inline">\(~y=4t\)</span>, <span class="math inline">\(~z=-2t\)</span>, and <span class="math inline">\(~x=1+t\)</span>, <span class="math inline">\(~y=1+4t\)</span>, <span class="math inline">\(~z=3-2t\)</span></p>
 <p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Write the parametric forms of both lines</p>
+<p>First line:</p>
+<p><span class="math display">\[
+L_1: \begin{cases}
+x = t \\
+y = 4t \\
+z = -2t
+\end{cases}\\
+\;\Rightarrow\;
+\begin{aligned}
+&amp;\text{Point: } P_1 = (0, 0, 0)\\ &amp;\text{Direction vector: } \mathbf{d}_1 = \langle 1, 4, -2 \rangle
+\end{aligned}\]</span></p>
+<p>Second line:</p>
+<p><span class="math display">\[
+L_2: \begin{cases}
+x = 1 + t \\
+y = 1 + 4t \\
+z = 3 - 2t
+\end{cases}
+\;\Rightarrow\;
+\begin{aligned}
+&amp;\text{Point: } P_2 = (1, 1, 3)\\
+&amp;\text{Direction vector: } \mathbf{d}_2 = \langle 1, 4, -2 \rangle
+\end{aligned}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Observe relationship between the lines</p>
+<ul>
+<li>Both lines share the same direction vector: <span class="math inline">\(\mathbf{d}_1 = \mathbf{d}_2 = \langle 1, 4, -2 \rangle\)</span></li>
+<li>But they pass through different points</li>
+</ul>
+<p>So the lines are parallel and distinct, and therefore they lie in a common plane</p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find two vectors in the plane</p>
+<p>The plane is determined by:</p>
+<ol type="1">
+<li><p>Direction vector of the lines: <span class="math display">\[\mathbf{v}_1 = \langle 1, 4, -2 \rangle\]</span></p></li>
+<li><p>Vector connecting a point on one line to a point on the other line:</p></li>
+</ol>
+<p><span class="math display">\[\mathbf{v}_2 = P_2 - P_1 = \langle 1, 1, 3\rangle - \langle0, 0, 0\rangle = \langle 1, 1, 3 \rangle\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Find a normal vector to the plane</p>
+<p>Take the cross product:</p>
+<p><span class="math display">\[\mathbf{n} = \mathbf{v}_1 \times \mathbf{v}_2 =
+\begin{vmatrix}
+\mathbf{i} &amp; \mathbf{j} &amp; \phantom{-}\mathbf{k} \\
+1 &amp; 4 &amp; -2 \\
+1 &amp; 1 &amp; \phantom{-}3
+\end{vmatrix}\]</span></p>
+<p>Compute:</p>
+<p><span class="math display">\[\mathbf{n} = {\scriptsize\mathbf{i}(4 \cdot 3 - (-2)\cdot 1) - \mathbf{j}(1 \cdot 3 - (-2)\cdot 1) + \mathbf{k}(1 \cdot 1 - 4 \cdot 1)}
+\;\Rightarrow\;
+\mathbf{n} = \langle 14, -5, -3 \rangle\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Use the point-normal form of a plane</p>
+<p>With point <span class="math inline">\(P_1 = (0,0,0)\)</span> and normal vector <span class="math inline">\(\langle 14, -5, -3 \rangle\)</span>, the equation is:</p>
+<p><span class="math display">\[14(x - 0) - 5(y - 0) - 3(z - 0) = 0
+\Rightarrow 14x - 5y - 3z = 0\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>2.</strong> <span class="math inline">\(~\)</span> Find an equation of the plane containing <span class="math inline">\((1, 7, -1)\)</span> that is perpendicular to the line of intersection of <span class="math inline">\(-x +y -8z=4~\)</span> and <span class="math inline">\(~3x -y +2z=0\)</span></p>
 <p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Find direction vector of the line of intersection</p>
+<p>The line of intersection of two planes lies in both planes, and its direction vector is perpendicular to both normals of the planes</p>
+<p>So, compute the cross product of the normal vectors of the two planes</p>
+<ul>
+<li>Normal to <span class="math inline">\(\pi_1\)</span>: <span class="math inline">\(~\mathbf{n}_1 = \langle -1, 1, -8 \rangle\)</span></li>
+<li>Normal to <span class="math inline">\(\pi_2\)</span>: <span class="math inline">\(~\mathbf{n}_2 = \langle 3, -1, 2 \rangle\)</span></li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[
+\mathbf{d} = \mathbf{n}_1 \times \mathbf{n}_2 =
+\begin{vmatrix}
+\phantom{-}\mathbf{i} &amp; \phantom{-}\mathbf{j} &amp; \phantom{-}\mathbf{k} \\
+-1 &amp; \phantom{-}1 &amp; -8 \\
+\phantom{-}3 &amp; -1 &amp; \phantom{-}2
+\end{vmatrix}\]</span></p>
+<p>Compute the determinant:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbf{d} &amp;= {\scriptsize\mathbf{i}(1\cdot2 - (-8)\cdot(-1)) - \mathbf{j}((-1)\cdot2 - (-8)\cdot3) + \mathbf{k}((-1)\cdot(-1) - 1\cdot3)} \\
+&amp;= \langle -6, -22, -2 \rangle
+\end{aligned}\]</span></p>
+<p>This is the direction vector of the line of intersection.</p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Use the fact that the desired plane is perpendicular to this line</p>
+<p>So the direction vector <span class="math inline">\(~\mathbf{d} = \langle -6, -22, -2 \rangle\)</span> is the normal vector of the desired plane</p>
+<p>We now have:</p>
+<ul>
+<li>Point on the plane: <span class="math inline">\((1, 7, -1)\)</span></li>
+<li>Normal vector: <span class="math inline">\(~\mathbf{n} = \langle -6, -22, -2 \rangle\)</span></li>
+</ul>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Use point-normal form of a plane</p>
+<p><span class="math display">\[-6(x - 1) -22(y - 7) -2(z + 1) = 0\]</span></p>
+<p>Expand:</p>
+<p><span class="math display">\[-6x + 6 -22y + 154 -2z -2 = 0
+\Rightarrow -6x - 22y - 2z + 158 = 0\]</span></p>
+<p>Multiply both sides by -1 to make the leading coefficient positive:</p>
+<p><span class="math display">\[6x + 22y + 2z = 158\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>3.</strong> <span class="math inline">\(~\)</span> Use Green’s theorem to evaluate the given double integral by a line integral</p>
+<p><span class="math display">\[\iint_R x^2 \,dA\]</span></p>
+<p>where <span class="math inline">\(R~\)</span> is the region bounded by the ellipse <span class="math inline">\(\displaystyle\frac{x^2}{9} +\frac{y^2}{4}=1\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Green’s Theorem</p>
+<p>Green’s Theorem relates a line integral over a positively oriented, simple closed curve <span class="math inline">\(C\)</span> to a double integral over the region <span class="math inline">\(R\)</span> it encloses:</p>
+<p><span class="math display">\[\iint_R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA = \oint_C P\,dx + Q\,dy\]</span></p>
+<p>We need to rewrite <span class="math inline">\(\displaystyle \iint_R x^2 \, dA\)</span> as the right-hand side of Green’s Theorem.</p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Choose <span class="math inline">\(P(x, y)\)</span> and <span class="math inline">\(Q(x, y)\)</span></p>
+<p>We want:</p>
+<p><span class="math display">\[\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2\]</span></p>
+<p>Let’s choose:</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle P = 0 \Rightarrow \frac{\partial P}{\partial y} = 0\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle Q = \frac{1}{3} x^3 \Rightarrow \frac{\partial Q}{\partial x} = x^2\)</span></p></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Set up the line integral</p>
+<p>Then by Green’s Theorem:</p>
+<p><span class="math display">\[\iint_R x^2 \, dA = \oint_C P\,dx + Q\,dy = \oint_C \frac{1}{3} x^3 \, dy\]</span></p>
+<p>where <span class="math inline">\(C\)</span> is the positively oriented boundary of the ellipse.</p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Parametrize the ellipse</p>
+<p>Given:</p>
+<p><span class="math display">\[\frac{x^2}{9} + \frac{y^2}{4} = 1\]</span></p>
+<p>Use the parametric equations:</p>
+<p><span class="math display">\[x = 3\cos\theta, \quad y = 2\sin\theta, \quad 0 \leq \theta \leq 2\pi\]</span></p>
+<p>Compute:</p>
+<ul>
+<li><p><span class="math inline">\(x^3 = (3\cos\theta)^3 = 27\cos^3\theta\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle dy = \frac{dy}{d\theta} \, d\theta = 2\cos\theta \, d\theta\)</span></p></li>
+</ul>
+<p>Now plug into the line integral:</p>
+<p><span class="math display">\[\oint_C \frac{1}{3} x^3 \, dy
+= \int_0^{2\pi} \frac{1}{3} \cdot 27 \cos^3\theta \cdot 2\cos\theta \, d\theta
+= \int_0^{2\pi} 18\cos^4\theta \, d\theta\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p>Use the identity:</p>
+<p><span class="math display">\[\cos^4\theta = \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta)\]</span></p>
+<p>So:</p>
+<p><span class="math display">\[\int_0^{2\pi} 18 \cos^4\theta \, d\theta
+= 18 \int_0^{2\pi} \left( \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta) \right) d\theta\]</span></p>
+<p>Now integrate:</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \frac{3}{8} \, d\theta = \frac{3}{8} \cdot 2\pi = \frac{3\pi}{4}\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \cos(2\theta) \, d\theta = 0\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \cos(4\theta) \, d\theta = 0\)</span></p></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\iint_R x^2\,dA = 18 \cdot \frac{3\pi}{4} = \frac{27\pi}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>4.</strong> <span class="math inline">\(~\)</span> Find the work done by the given force <span class="math inline">\(~\mathbf{f}=(x-y)\mathbf{i} +(x+y)\mathbf{j}~\)</span> around the closed curve in the following</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_worked01.jpg" title="worked01" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+<p><strong>Solution</strong></p>
+<p>The image shows a region bounded between two quarter circles:</p>
+<ul>
+<li>Outer curve: <span class="math inline">\(x^2 + y^2 = 4\)</span> (radius 2)</li>
+<li>Inner curve: <span class="math inline">\(x^2 + y^2 = 1\)</span> (radius 1)</li>
+</ul>
+<p>The region is the quarter annulus in the first quadrant, swept from the positive <span class="math inline">\(x\)</span>-axis to the positive <span class="math inline">\(y\)</span>-axis, and the curve is oriented counterclockwise, forming a positively oriented closed curve <span class="math inline">\(C\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use Green’s Theorem</p>
+<p>We are to compute:</p>
+<p><span class="math display">\[\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R \left( \frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} \right)\,dA\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(M = x - y \Rightarrow \frac{\partial M}{\partial y} = -1\)</span></li>
+<li><span class="math inline">\(N = x + y \Rightarrow \frac{\partial N}{\partial x} = 1\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} = 1 - (-1) = 2\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Area of the Region <span class="math inline">\(R\)</span></p>
+<p>The region <span class="math inline">\(R\)</span> is a quarter annulus between radius 1 and 2, in the first quadrant.</p>
+<p>Area of an annulus between <span class="math inline">\(r = 1\)</span> and <span class="math inline">\(r = 2\)</span> is:</p>
+<p><span class="math display">\[\text{Full area} = \pi(2^2) - \pi(1^2) = 4\pi - \pi = 3\pi \]</span></p>
+<p>But we only have <span class="math inline">\(1/4\)</span> of it:</p>
+<p><span class="math display">\[\text{Area}(R) = \frac{1}{4} \cdot 3\pi = \frac{3\pi}{4}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Apply Green’s Theorem</p>
+<p><span class="math display">\[\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R 2\, dA = 2 \cdot \frac{3\pi}{4} = \frac{3\pi}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>5.</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p><span class="math display">\[\iint_R \frac{1}{\sqrt{(x-y)^2 +2(x+y) +1}} \,dA\]</span></p>
+<p>where <span class="math inline">\(R\)</span> is the region bounded by the graphs of <span class="math inline">\(y=x\)</span>, <span class="math inline">\(x=2\)</span>, and <span class="math inline">\(y=0\)</span> by means of the change of variables <span class="math inline">\(x=u +uv\)</span>, <span class="math inline">\(y=v +uv\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Understand the transformation</p>
+<p>We compute:</p>
+<ul>
+<li><span class="math inline">\(x - y = (u + uv) - (v + uv) = u - v\)</span></li>
+<li><span class="math inline">\(x + y = (u + uv) + (v + uv) = u + v + 2uv\)</span></li>
+</ul>
+<p>Then,</p>
+<p><span class="math display">\[(x - y)^2 + 2(x + y) + 1 = (u - v)^2 + 2(u + v + 2uv) + 1 = (u +v +1)^2\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Jacobian of the transformation</p>
+<p>We need the Jacobian determinant <span class="math inline">\(J = \left| \frac{\partial(x,y)}{\partial(u,v)} \right|\)</span>. Compute partial derivatives:</p>
+<p><span class="math display">\[x = u + uv \Rightarrow
+\begin{cases}
+\frac{\partial x}{\partial u} = 1 + v, \\
+\frac{\partial x}{\partial v} = u,
+\end{cases}
+\quad
+y = v + uv \Rightarrow
+\begin{cases}
+\frac{\partial y}{\partial u} = v, \\
+\frac{\partial y}{\partial v} = 1 + u.
+\end{cases}\]</span></p>
+<p>So the Jacobian matrix is:</p>
+<p><span class="math display">\[J = \begin{vmatrix}
+1 + v &amp; u \\
+v &amp; 1 + u
+\end{vmatrix} = (1 + v)(1 + u) - uv = 1 + u + v + uv - uv = 1 + u + v\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find the region <span class="math inline">\(S\)</span> in the <span class="math inline">\(uv\)</span>-plane</p>
+<p>We translate the region <span class="math inline">\(R\)</span> into the <span class="math inline">\(uv\)</span>-coordinates</p>
+<p>From the substitution:</p>
+<p><span class="math display">\[x = u + uv = u(1 + v), \quad y = v + uv = v(1 + u)\]</span></p>
+<p>We now rewrite the boundaries:</p>
+<ul>
+<li><span class="math inline">\(y = 0 \Rightarrow v(1 + u) = 0 \Rightarrow v = 0\)</span> (since <span class="math inline">\(1 + u \ne 0\)</span>)</li>
+<li><span class="math inline">\(y = x \Rightarrow v(1 + u) = u(1 + v) \Rightarrow v = u\)</span></li>
+<li><span class="math inline">\(x = 2 \Rightarrow u(1 + v) = 2 ⇒ u = \frac{2}{1 + v}\)</span></li>
+</ul>
+<p>So the region in the <span class="math inline">\(uv\)</span>-plane is:</p>
+<ul>
+<li>lower bound: <span class="math inline">\(v = 0\)</span></li>
+<li>upper bound: <span class="math inline">\(v = u\)</span></li>
+<li>and <span class="math inline">\(u \le \frac{2}{1 + v}\)</span></li>
+</ul>
+<p>Let’s fix bounds:</p>
+<p>Since <span class="math inline">\(u = \frac{2}{1 + v}\)</span>, and also <span class="math inline">\(v = u\)</span>, we substitute:</p>
+<p><span class="math display">\[v = \frac{2}{1 + v} \Rightarrow v(1 + v) = 2 \Rightarrow (v - 1)(v + 2) = 0\]</span></p>
+<p>So <span class="math inline">\(v = 1\)</span> is the upper limit (since <span class="math inline">\(v &gt; 0\)</span>), and the region <span class="math inline">\(S\)</span> is bounded by:</p>
+<ul>
+<li><span class="math inline">\(0 \le v \le 1\)</span></li>
+<li><span class="math inline">\(v \le u \le \frac{2}{1 + v}\)</span></li>
+</ul>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Change of variables in the integral</p>
+<p>We rewrite the integral in terms of <span class="math inline">\(u\)</span>, <span class="math inline">\(v\)</span>:</p>
+<p><span class="math display">\[\iint_S \frac{1}{\sqrt{(u + v +1)^2}} \cdot |J| \, du\, dv\]</span></p>
+<p>So the integrand becomes simply 1. Then the integral becomes the area of the region <span class="math inline">\(S\)</span>:</p>
+<p><span class="math display">\[\iint_S 1 \, du\, dv = \int_{v=0}^{1} \int_{u=v}^{\frac{2}{1 + v}} 1 \, du\, dv = \int_0^1 \left( \frac{2}{1 + v} - v \right) dv =2 \ln 2 - \frac{1}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>6.</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p><span class="math display">\[ \iint_R (x^2 +y^2) \sqrt[3]{x^2 -y^2} \,dA \]</span></p>
+<p>where <span class="math inline">\(R\)</span> is the region bounded by the graphs of <span class="math inline">\(x=0\)</span>, <span class="math inline">\(x=1\)</span>, <span class="math inline">\(y=0\)</span>, and <span class="math inline">\(y=1\)</span> by means of the change of variables <span class="math inline">\(u=2xy\)</span>, <span class="math inline">\(v=x^2 -y^2\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute the Jacobian</p>
+<p>We need the Jacobian determinant <span class="math inline">\(J = \left| \frac{\partial(x, y)}{\partial(u, v)} \right|\)</span>, but we are given <span class="math inline">\(u = 2xy\)</span>, <span class="math inline">\(v = x^2 - y^2\)</span>, so we compute <span class="math inline">\(\frac{\partial(u, v)}{\partial(x, y)}\)</span> and then take the reciprocal for the change of variables</p>
+<p>Compute partial derivatives:</p>
+<ul>
+<li><span class="math inline">\(\displaystyle u = 2xy \;\Rightarrow \frac{\partial u}{\partial x} = 2y, \; \frac{\partial u}{\partial y} = 2x\)</span></li>
+<li><span class="math inline">\(\displaystyle v = x^2 - y^2 \;\Rightarrow \frac{\partial v}{\partial x} = 2x, \; \frac{\partial v}{\partial y} = -2y\)</span></li>
+</ul>
+<p>So the Jacobian matrix is:</p>
+<p><span class="math display">\[\frac{\partial(u,v)}{\partial(x,y)} =
+\begin{pmatrix}
+2y &amp; \phantom{-}2x \\
+2x &amp; -2y
+\end{pmatrix}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[\left| \frac{\partial(x,y)}{\partial(u,v)} \right| = \frac{1}{|J|} = \frac{1}{| -4(x^2 + y^2) |} = \frac{1}{4(x^2 + y^2)}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Substituting the integrand and Jacobian</p>
+<p>The integrand is <span class="math inline">\((x^2 + y^2)\sqrt[3]{x^2 - y^2}\)</span>, <span class="math inline">\(~\)</span> and from the transformation:</p>
+<ul>
+<li><span class="math inline">\(v = x^2 - y^2 \Rightarrow \sqrt[3]{x^2 - y^2} = \sqrt[3]{v}\)</span></li>
+<li><span class="math inline">\(x^2 + y^2\)</span> appears in both the integrand and the Jacobian, so:</li>
+</ul>
+<p><span class="math display">\[(x^2 + y^2) \cdot \sqrt[3]{x^2 - y^2} \cdot \left| \frac{\partial(x,y)}{\partial(u,v)} \right| = (x^2 + y^2) \cdot \sqrt[3]{v} \cdot \frac{1}{4(x^2 + y^2)} = \frac{1}{4} \sqrt[3]{v}\]</span></p>
+<p>So the transformed integral becomes:</p>
+<p><span class="math display">\[\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find the region <span class="math inline">\(S\)</span> in <span class="math inline">\(uv\)</span>-coordinates</p>
+<p>We are given the transformation:</p>
+<p><span class="math display">\[u = 2xy, \quad v = x^2 - y^2\]</span></p>
+<p>and the original region <span class="math inline">\(R\)</span> is the unit square:</p>
+<p><span class="math display">\[0 \le x \le 1,\quad 0 \le y \le 1\]</span></p>
+<p>We compute the image of the four corners of the square under the transformation:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\((x, y)\)</span></th>
+<th><span class="math inline">\(u = 2xy\)</span></th>
+<th><span class="math inline">\(v = x^2 - y^2\)</span></th>
+<th><span class="math inline">\((u, v)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\((0, 0)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(\phantom{-}0\)</span></td>
+<td><span class="math inline">\((0, \phantom{-}0)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\((1, 0)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(\phantom{-}1\)</span></td>
+<td><span class="math inline">\((0, \phantom{-}1)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\((0, 1)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\((0, -1)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\((1, 1)\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(\phantom{-}0\)</span></td>
+<td><span class="math inline">\((2, \phantom{-}0)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We examine how each edge of the square transforms under the change of variables:</p>
+<ul>
+<li>Edge <span class="math inline">\(x = 0\)</span>: <span class="math inline">\(~u = 0, v = -y^2 \in [-1, 0] \Rightarrow\; {\scriptsize\text{Vertical segment on the } u = 0}\)</span></li>
+<li>Edge <span class="math inline">\(y = 0\)</span>: <span class="math inline">\(~u = 0, v = x^2 \in [0, 1] \Rightarrow\; {\scriptsize\text{Another vertical segment on the } u = 0}\)</span></li>
+<li>Edge <span class="math inline">\(x = 1\)</span>: <span class="math inline">\(~u = 2y \in [0, 2], v = 1 - y^2 = 1 - \frac{u^2}{4} \Rightarrow\; {\scriptsize\text{Upper parabola}}\)</span></li>
+<li>Edge <span class="math inline">\(y = 1\)</span>: <span class="math inline">\(~u = 2x \in [0, 2], v = x^2 - 1 = \frac{u^2}{4} - 1 \Rightarrow\; {\scriptsize\text{Lower parabola}}\)</span></li>
+</ul>
+<p>So, the transformed region is:</p>
+<p><span class="math display">\[S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}\]</span></p>
+<div id="8b24498a" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create u values</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">400</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the upper and lower boundaries of v</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>v_upper <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span>(u<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">4</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>v_lower <span class="op">=</span> (u<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">4</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the region S</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.plot(u, v_upper, <span class="st">'r'</span>, label<span class="op">=</span><span class="vs">r'$v = 1 -\frac{u^2}</span><span class="sc">{4}</span><span class="vs">$'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.plot(u, v_lower, <span class="st">'b'</span>, label<span class="op">=</span><span class="vs">r'$v = \frac{u^2}</span><span class="sc">{4}</span><span class="vs"> -1$'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.fill_between(u, v_lower, v_upper, color<span class="op">=</span><span class="st">'lightgray'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Region S in the uv-plane"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"u"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"v"</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.gca().set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-2-output-1.png" width="506" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p>Since the integrand <span class="math inline">\(v^{1/3}\)</span> is an odd function, and the bounds of <span class="math inline">\(u\)</span> are symmetric in <span class="math inline">\(v\)</span>, the integral is:</p>
+<p><span class="math display">\[\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv = 0\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
 
 
 </section>

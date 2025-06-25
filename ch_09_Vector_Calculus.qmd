@@ -1205,6 +1205,76 @@ $~$
 
 **Solution**
 
+**Step 1:** $~$ Write the parametric forms of both lines
+
+First line:
+
+$$
+L_1: \begin{cases}
+x = t \\
+y = 4t \\
+z = -2t
+\end{cases}\\
+\;\Rightarrow\; 
+\begin{aligned}
+&\text{Point: } P_1 = (0, 0, 0)\\ &\text{Direction vector: } \mathbf{d}_1 = \langle 1, 4, -2 \rangle
+\end{aligned}$$
+
+Second line:
+
+$$
+L_2: \begin{cases}
+x = 1 + t \\
+y = 1 + 4t \\
+z = 3 - 2t
+\end{cases}
+\;\Rightarrow\; 
+\begin{aligned}
+&\text{Point: } P_2 = (1, 1, 3)\\
+&\text{Direction vector: } \mathbf{d}_2 = \langle 1, 4, -2 \rangle
+\end{aligned}$$
+
+**Step 2:** $~$ Observe relationship between the lines
+
+* Both lines share the same direction vector: $\mathbf{d}_1 = \mathbf{d}_2 = \langle 1, 4, -2 \rangle$
+* But they pass through different points
+
+So the lines are parallel and distinct, and therefore they lie in a common plane
+
+**Step 3:** $~$ Find two vectors in the plane
+
+The plane is determined by:
+
+1.	Direction vector of the lines:
+$$\mathbf{v}_1 = \langle 1, 4, -2 \rangle$$
+
+2.	Vector connecting a point on one line to a point on the other line:
+
+$$\mathbf{v}_2 = P_2 - P_1 = \langle 1, 1, 3\rangle - \langle0, 0, 0\rangle = \langle 1, 1, 3 \rangle$$
+
+**Step 4:** $~$ Find a normal vector to the plane
+
+Take the cross product:
+
+$$\mathbf{n} = \mathbf{v}_1 \times \mathbf{v}_2 =
+\begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \phantom{-}\mathbf{k} \\
+1 & 4 & -2 \\
+1 & 1 & \phantom{-}3
+\end{vmatrix}$$
+
+Compute:
+
+$$\mathbf{n} = {\scriptsize\mathbf{i}(4 \cdot 3 - (-2)\cdot 1) - \mathbf{j}(1 \cdot 3 - (-2)\cdot 1) + \mathbf{k}(1 \cdot 1 - 4 \cdot 1)}
+\;\Rightarrow\;
+\mathbf{n} = \langle 14, -5, -3 \rangle$$
+
+**Step 5:** $~$ Use the point-normal form of a plane
+
+With point $P_1 = (0,0,0)$ and normal vector $\langle 14, -5, -3 \rangle$, the equation is:
+
+$$14(x - 0) - 5(y - 0) - 3(z - 0) = 0
+\Rightarrow 14x - 5y - 3z = 0$$
 
 $~$
 
@@ -1212,3 +1282,386 @@ $~$
 
 **Solution**
 
+**Step 1:** $~$ Find direction vector of the line of intersection
+
+The line of intersection of two planes lies in both planes, and its direction vector is perpendicular to both normals of the planes
+
+So, compute the cross product of the normal vectors of the two planes
+
+* Normal to $\pi_1$: $~\mathbf{n}_1 = \langle -1, 1, -8 \rangle$
+* Normal to $\pi_2$: $~\mathbf{n}_2 = \langle 3, -1, 2 \rangle$
+
+Then:
+
+$$
+\mathbf{d} = \mathbf{n}_1 \times \mathbf{n}_2 =
+\begin{vmatrix}
+\phantom{-}\mathbf{i} & \phantom{-}\mathbf{j} & \phantom{-}\mathbf{k} \\
+-1 & \phantom{-}1 & -8 \\
+\phantom{-}3 & -1 & \phantom{-}2
+\end{vmatrix}$$
+
+Compute the determinant:
+
+$$\begin{aligned}
+\mathbf{d} &= {\scriptsize\mathbf{i}(1\cdot2 - (-8)\cdot(-1)) - \mathbf{j}((-1)\cdot2 - (-8)\cdot3) + \mathbf{k}((-1)\cdot(-1) - 1\cdot3)} \\
+ &= \langle -6, -22, -2 \rangle
+\end{aligned}$$
+
+This is the direction vector of the line of intersection.
+
+**Step 2:** $~$ Use the fact that the desired plane is perpendicular to this line
+
+So the direction vector $~\mathbf{d} = \langle -6, -22, -2 \rangle$ is the normal vector of the desired plane
+
+We now have:
+
+* Point on the plane: $(1, 7, -1)$
+* Normal vector: $~\mathbf{n} = \langle -6, -22, -2 \rangle$
+
+**Step 3:** $~$ Use point-normal form of a plane
+
+$$-6(x - 1) -22(y - 7) -2(z + 1) = 0$$
+
+Expand:
+
+$$-6x + 6 -22y + 154 -2z -2 = 0
+\Rightarrow -6x - 22y - 2z + 158 = 0$$
+
+Multiply both sides by -1 to make the leading coefficient positive:
+
+$$6x + 22y + 2z = 158$$
+
+$~$
+
+**3.** $~$ Use Green's theorem to evaluate the given double integral by a line integral
+
+$$\iint_R x^2 \,dA$$
+
+where $R~$ is the region bounded by the ellipse $\displaystyle\frac{x^2}{9} +\frac{y^2}{4}=1$
+
+**Solution**
+
+**Step 1:** $~$ Green’s Theorem 
+
+Green’s Theorem relates a line integral over a positively oriented, simple closed curve $C$ to a double integral over the region $R$ it encloses:
+
+$$\iint_R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA = \oint_C P\,dx + Q\,dy$$
+
+We need to rewrite $\displaystyle \iint_R x^2 \, dA$ as the right-hand side of Green’s Theorem.
+
+**Step 2:** $~$ Choose $P(x, y)$ and $Q(x, y)$
+
+We want:
+
+$$\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2$$
+
+Let’s choose:
+
+* $\displaystyle P = 0 \Rightarrow \frac{\partial P}{\partial y} = 0$
+
+* $\displaystyle Q = \frac{1}{3} x^3 \Rightarrow \frac{\partial Q}{\partial x} = x^2$
+
+So:
+
+$$\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2$$
+
+**Step 3:** $~$ Set up the line integral
+
+Then by Green’s Theorem:
+
+$$\iint_R x^2 \, dA = \oint_C P\,dx + Q\,dy = \oint_C \frac{1}{3} x^3 \, dy$$
+
+where $C$ is the positively oriented boundary of the ellipse.
+
+**Step 4:** $~$ Parametrize the ellipse
+
+Given:
+
+$$\frac{x^2}{9} + \frac{y^2}{4} = 1$$
+
+Use the parametric equations:
+
+$$x = 3\cos\theta, \quad y = 2\sin\theta, \quad 0 \leq \theta \leq 2\pi$$
+
+Compute:
+
+* $x^3 = (3\cos\theta)^3 = 27\cos^3\theta$
+
+* $\displaystyle dy = \frac{dy}{d\theta} \, d\theta = 2\cos\theta \, d\theta$
+
+Now plug into the line integral:
+
+$$\oint_C \frac{1}{3} x^3 \, dy
+= \int_0^{2\pi} \frac{1}{3} \cdot 27 \cos^3\theta \cdot 2\cos\theta \, d\theta
+= \int_0^{2\pi} 18\cos^4\theta \, d\theta$$
+
+**Step 5:** $~$ Evaluate the integral
+
+Use the identity:
+
+$$\cos^4\theta = \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta)$$
+
+So:
+
+$$\int_0^{2\pi} 18 \cos^4\theta \, d\theta
+= 18 \int_0^{2\pi} \left( \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta) \right) d\theta$$
+
+Now integrate:
+
+* $\displaystyle\int_0^{2\pi} \frac{3}{8} \, d\theta = \frac{3}{8} \cdot 2\pi = \frac{3\pi}{4}$
+
+* $\displaystyle\int_0^{2\pi} \cos(2\theta) \, d\theta = 0$
+
+* $\displaystyle\int_0^{2\pi} \cos(4\theta) \, d\theta = 0$
+
+So:
+
+$$\iint_R x^2\,dA = 18 \cdot \frac{3\pi}{4} = \frac{27\pi}{2}$$
+
+$~$
+
+**4.** $~$ Find the work done by the given force $~\mathbf{f}=(x-y)\mathbf{i} +(x+y)\mathbf{j}~$ around the closed curve in the following
+
+![](figures/ch09_worked01.jpg "worked01"){width="55%" fig-align="center"}
+
+**Solution**
+
+The image shows a region bounded between two quarter circles:
+
+* Outer curve: $x^2 + y^2 = 4$ (radius 2)
+* Inner curve: $x^2 + y^2 = 1$ (radius 1)
+
+The region is the quarter annulus in the first quadrant, swept from the positive $x$-axis to the positive $y$-axis, and the curve is oriented counterclockwise, forming a positively oriented closed curve $C$
+
+**Step 1:** $~$ Use Green’s Theorem
+
+We are to compute:
+
+$$\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R \left( \frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} \right)\,dA$$
+
+Where:
+
+* $M = x - y \Rightarrow \frac{\partial M}{\partial y} = -1$
+* $N = x + y \Rightarrow \frac{\partial N}{\partial x} = 1$
+
+So:
+
+$$\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} = 1 - (-1) = 2$$
+
+**Step 2:** $~$ Area of the Region $R$
+
+The region $R$ is a quarter annulus between radius 1 and 2, in the first quadrant.
+
+Area of an annulus between $r = 1$ and $r = 2$ is:
+
+$$\text{Full area} = \pi(2^2) - \pi(1^2) = 4\pi - \pi = 3\pi $$
+
+But we only have $1/4$ of it:
+
+$$\text{Area}(R) = \frac{1}{4} \cdot 3\pi = \frac{3\pi}{4}$$
+
+**Step 3:** $~$ Apply Green’s Theorem
+
+$$\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R 2\, dA = 2 \cdot \frac{3\pi}{4} = \frac{3\pi}{2}$$
+
+$~$
+
+**5.** $~$ Evaluate the integral
+
+$$\iint_R \frac{1}{\sqrt{(x-y)^2 +2(x+y) +1}} \,dA$$
+
+where $R$ is the region bounded by the graphs of $y=x$, $x=2$, and $y=0$ by means of the change of variables $x=u +uv$, $y=v +uv$
+
+**Solution**
+
+**Step 1:** $~$ Understand the transformation
+
+We compute:
+
+* $x - y = (u + uv) - (v + uv) = u - v$
+* $x + y = (u + uv) + (v + uv) = u + v + 2uv$
+
+Then,
+
+$$(x - y)^2 + 2(x + y) + 1 = (u - v)^2 + 2(u + v + 2uv) + 1 = (u +v +1)^2$$
+
+**Step 2:** $~$ Jacobian of the transformation
+
+We need the Jacobian determinant $J = \left| \frac{\partial(x,y)}{\partial(u,v)} \right|$. Compute partial derivatives:
+
+$$x = u + uv \Rightarrow
+\begin{cases}
+\frac{\partial x}{\partial u} = 1 + v, \\
+\frac{\partial x}{\partial v} = u,
+\end{cases}
+\quad
+y = v + uv \Rightarrow
+\begin{cases}
+\frac{\partial y}{\partial u} = v, \\
+\frac{\partial y}{\partial v} = 1 + u.
+\end{cases}$$
+
+So the Jacobian matrix is:
+
+$$J = \begin{vmatrix}
+1 + v & u \\
+v & 1 + u
+\end{vmatrix} = (1 + v)(1 + u) - uv = 1 + u + v + uv - uv = 1 + u + v$$
+
+**Step 3:** $~$ Find the region $S$ in the $uv$-plane
+
+We translate the region $R$ into the $uv$-coordinates
+
+From the substitution:
+
+$$x = u + uv = u(1 + v), \quad y = v + uv = v(1 + u)$$
+
+We now rewrite the boundaries:
+
+* $y = 0 \Rightarrow v(1 + u) = 0 \Rightarrow v = 0$ (since $1 + u \ne 0$)
+* $y = x \Rightarrow v(1 + u) = u(1 + v) \Rightarrow v = u$
+* $x = 2 \Rightarrow u(1 + v) = 2 ⇒ u = \frac{2}{1 + v}$
+
+So the region in the $uv$-plane is:
+
+* lower bound: $v = 0$
+* upper bound: $v = u$
+* and $u \le \frac{2}{1 + v}$
+
+Let’s fix bounds:
+
+Since $u = \frac{2}{1 + v}$, and also $v = u$, we substitute:
+
+$$v = \frac{2}{1 + v} \Rightarrow v(1 + v) = 2 \Rightarrow (v - 1)(v + 2) = 0$$
+
+So $v = 1$ is the upper limit (since $v > 0$), and the region $S$ is bounded by:
+
+* $0 \le v \le 1$
+* $v \le u \le \frac{2}{1 + v}$
+
+**Step 4:** $~$ Change of variables in the integral
+
+We rewrite the integral in terms of $u$, $v$:
+
+$$\iint_S \frac{1}{\sqrt{(u + v +1)^2}} \cdot |J| \, du\, dv$$
+
+So the integrand becomes simply 1. Then the integral becomes the area of the region $S$:
+
+$$\iint_S 1 \, du\, dv = \int_{v=0}^{1} \int_{u=v}^{\frac{2}{1 + v}} 1 \, du\, dv = \int_0^1 \left( \frac{2}{1 + v} - v \right) dv =2 \ln 2 - \frac{1}{2}$$
+
+$~$
+
+**6.** $~$ Evaluate the integral 
+
+$$ \iint_R (x^2 +y^2) \sqrt[3]{x^2 -y^2} \,dA $$
+
+where $R$ is the region bounded by the graphs of $x=0$, $x=1$, $y=0$, and $y=1$ by means of the change of variables $u=2xy$, $v=x^2 -y^2$
+
+**Solution**
+
+**Step 1:** $~$ Compute the Jacobian
+
+We need the Jacobian determinant $J = \left| \frac{\partial(x, y)}{\partial(u, v)} \right|$, but we are given $u = 2xy$, $v = x^2 - y^2$, so we compute $\frac{\partial(u, v)}{\partial(x, y)}$ and then take the reciprocal for the change of variables
+
+Compute partial derivatives:
+
+* $\displaystyle u = 2xy \;\Rightarrow \frac{\partial u}{\partial x} = 2y, \; \frac{\partial u}{\partial y} = 2x$
+* $\displaystyle v = x^2 - y^2 \;\Rightarrow \frac{\partial v}{\partial x} = 2x, \; \frac{\partial v}{\partial y} = -2y$
+
+So the Jacobian matrix is:
+
+$$\frac{\partial(u,v)}{\partial(x,y)} =
+\begin{pmatrix}
+2y & \phantom{-}2x \\
+2x & -2y
+\end{pmatrix}$$
+
+Therefore,
+
+$$\left| \frac{\partial(x,y)}{\partial(u,v)} \right| = \frac{1}{|J|} = \frac{1}{| -4(x^2 + y^2) |} = \frac{1}{4(x^2 + y^2)}$$
+
+**Step 2:** $~$ Substituting the integrand and Jacobian
+
+The integrand is $(x^2 + y^2)\sqrt[3]{x^2 - y^2}$, $~$ and from the transformation:
+
+* $v = x^2 - y^2 \Rightarrow \sqrt[3]{x^2 - y^2} = \sqrt[3]{v}$
+* $x^2 + y^2$ appears in both the integrand and the Jacobian, so:
+
+$$(x^2 + y^2) \cdot \sqrt[3]{x^2 - y^2} \cdot \left| \frac{\partial(x,y)}{\partial(u,v)} \right| = (x^2 + y^2) \cdot \sqrt[3]{v} \cdot \frac{1}{4(x^2 + y^2)} = \frac{1}{4} \sqrt[3]{v}$$
+
+So the transformed integral becomes:
+
+$$\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv$$
+
+**Step 3:** $~$ Find the region $S$ in $uv$-coordinates
+
+We are given the transformation:
+
+$$u = 2xy, \quad v = x^2 - y^2$$
+
+and the original region $R$ is the unit square:
+
+$$0 \le x \le 1,\quad 0 \le y \le 1$$
+
+We compute the image of the four corners of the square under the transformation:
+
+| $(x, y)$ | $u = 2xy$ | $v = x^2 - y^2$ | $(u, v)$ |
+|--------------|-------------|----------------|-----------------|
+| $(0, 0)$      | $0$             | $\phantom{-}0$    | $(0, \phantom{-}0)$ |
+| $(1, 0)$      | $0$             | $\phantom{-}1$    | $(0, \phantom{-}1)$ |
+| $(0, 1)$      | $0$             | $-1$              | $(0, -1)$           |
+| $(1, 1)$      | $2$             | $\phantom{-}0$    | $(2, \phantom{-}0)$ |
+
+We examine how each edge of the square transforms under the change of variables:
+
+* Edge $x = 0$:
+  $~u = 0, v = -y^2 \in [-1, 0] \Rightarrow\; {\scriptsize\text{Vertical segment on the } u = 0}$
+* Edge $y = 0$:
+  $~u = 0, v = x^2 \in [0, 1] \Rightarrow\; {\scriptsize\text{Another vertical segment on the } u = 0}$
+* Edge $x = 1$:
+  $~u = 2y \in [0, 2], v = 1 - y^2 = 1 - \frac{u^2}{4} \Rightarrow\; {\scriptsize\text{Upper parabola}}$
+* Edge $y = 1$:
+$~u = 2x \in [0, 2], v = x^2 - 1 = \frac{u^2}{4} - 1 \Rightarrow\; {\scriptsize\text{Lower parabola}}$
+
+So, the transformed region is:
+
+$$S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Create u values
+u = np.linspace(0, 2, 400)
+
+# Define the upper and lower boundaries of v
+v_upper = 1 -(u**2)/4
+v_lower = (u**2)/4 -1
+
+# Plot the region S
+plt.figure(figsize=(6, 6))
+plt.plot(u, v_upper, 'r', label=r'$v = 1 -\frac{u^2}{4}$')
+plt.plot(u, v_lower, 'b', label=r'$v = \frac{u^2}{4} -1$')
+plt.fill_between(u, v_lower, v_upper, color='lightgray', alpha=0.6)
+
+# Formatting
+plt.title("Region S in the uv-plane")
+plt.xlabel("u")
+plt.ylabel("v")
+plt.legend()
+plt.grid(True)
+plt.xlim(0, 2)
+plt.ylim(-1.1, 1.1)
+plt.gca().set_aspect('equal')
+
+plt.show()
+```
+
+**Step 4:** $~$ Evaluate the integral
+
+Since the integrand $v^{1/3}$ is an odd function, and the bounds of $u$ are symmetric in $v$, the integral is:
+
+$$\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv = 0$$
+
+$~$
