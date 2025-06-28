@@ -956,5 +956,366 @@ $~$
 
 ![](./figures/ch12_ex01.jpg)
 
+$$f(x) = \begin{cases}
+ 0 & 0 \displaystyle \leq x < \frac{L}{2} \\
+\displaystyle -\sin \frac{2\pi x}{L} & \displaystyle \frac{L}{2} \leq x \leq L
+\end{cases}$$
+
 **Solution**
+
+**1. Cosine Series (Even Extension)**
+
+* A cosine series is the Fourier cosine series, which assumes that the function is extended evenly about $x=0$
+* The extended function is even, meaning $f(-x) = f(x)$
+* The domain is extended to $[-L, L]$ and periodically repeated with period $2L$
+
+So the full even extension on $[-L, L]$:
+
+$$f_{\text{even}}(x) = \begin{cases}
+\sin\left(\frac{2\pi x}{L}\right) & -L \le x < -\frac{L}{2} \\
+0 & -\frac{L}{2} \le x < \frac{L}{2} \\
+-\sin\left(\frac{2\pi x}{L}\right) & \frac{L}{2} \le x \le L
+\end{cases}$$
+
+Then repeat with period $2L$
+
+**2. Sine Series (Odd Extension)**
+
+* A sine series extends the function oddly about $x=0$
+* The extended function is odd, so $f(-x) = -f(x)$
+* Defined on $[-L, L]$ and repeated every $2L$
+
+So the odd extension is:
+
+$$f_{\text{odd}}(x) = \begin{cases}
+\sin\left(\frac{2\pi x}{L}\right) & -L \le x < -\frac{L}{2} \\
+0 & -\frac{L}{2} \le x < \frac{L}{2} \\
+-\sin\left(\frac{2\pi x}{L}\right) & \frac{L}{2} \le x \le L
+\end{cases}$$
+
+Then repeated every $2L$
+
+**3. Full Fourier Series (Periodic Extension)**
+
+* The full Fourier series uses both sine and cosine terms
+* The function is extended periodically with period $L$
+
+This shape repeats every $L$ units
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define function f(x) on [0, L]
+L = 2 * np.pi  # for easy visualization, let L = 2π
+x = np.linspace(-2*L, 2*L, 2000)
+
+# Define the base function f(x) on [0, L]
+def f_base(x):
+    x_mod = x % L
+    return np.where(
+        x_mod < L/2,
+        0,
+        -np.sin(2 * np.pi * x_mod / L)
+    )
+
+# Even extension (cosine series)
+
+def f_even(x):
+    # Reflect across x = 0 and repeat with period 2L
+    x_mod = np.mod(x, 2*L)
+    reflected = np.where(x_mod < L, x_mod, 2*L - x_mod)
+    return f_base(reflected)
+
+# Odd extension (sine series)    
+
+def f_odd(x):
+    # Reflect and invert across x = 0, repeat with period 2L
+    x_mod = np.mod(x, 2*L)
+    reflected = np.where(x_mod < L, x_mod, 2*L - x_mod)
+    sign = np.where(x_mod < L, 1, -1)
+    return sign * f_base(reflected)
+
+# Full periodic extension (Fourier series)
+def f_periodic(x):
+    return f_base(x)
+
+# Redefine x-axis from -L to 2L
+x_zoom = np.linspace(-L, 2*L, 1000)
+
+xticks = [-L, -L/2, 0, L/2, L, 3*L/2, 2*L]
+xtick_labels = [r"$-L$", r"$-\frac{L}{2}$", 
+  r"$0$", r"$\frac{L}{2}$", r"$L$", r"$\frac{3L}{2}$", r"$2L$"]
+
+# Plotting with labeled ticks
+fig, axs = plt.subplots(3, 1, figsize=(6, 8), sharex=True)
+
+axs[0].plot(x_zoom, f_even(x_zoom), color='blue')
+axs[0].set_title('Even Extension (Cosine Series)')
+axs[0].grid(True)
+axs[0].set_xlim([-L, 2*L])
+axs[0].set_ylim([-1.1, 1.1])
+
+axs[1].plot(x_zoom, f_odd(x_zoom), color='green')
+axs[1].set_title('Odd Extension (Sine Series)')
+axs[1].grid(True)
+axs[1].set_xlim([-L, 2*L])
+axs[1].set_ylim([-1.1, 1.1])
+
+axs[2].plot(x_zoom, f_periodic(x_zoom), color='red')
+axs[2].set_title('Periodic Extension (Full Fourier Series)')
+axs[2].grid(True)
+axs[2].set_xlim([-L, 2*L])
+axs[2].set_ylim([-1.1, 1.1])
+
+# Set common x-axis ticks and labels
+axs[2].set_xticks(xticks)
+axs[2].set_xticklabels(xtick_labels, fontsize=12)
+plt.xlabel('x')
+plt.tight_layout()
+plt.show()
+```
+
+$~$
+
+**2.** $~$ Find the half-range cosine and sine expansions of the given function:
+
+$$ f(x)=x(2-x), \;\;0 < x < 2$$
+
+**Solution**
+
+**1. Half-Range Cosine Series (Even Extension)**
+
+We write $f(x)$ on $0 < x < 2$ as a cosine series:
+
+$$f(x) \sim \frac{a_0}{2} + \sum_{n=1}^{\infty} a_n \cos\left(\frac{n\pi x}{L}\right)$$
+where $L = 2$, and the coefficients are:
+
+$$a_0 = \frac{1}{L} \int_0^L f(x) \, dx = \frac{1}{2} \int_0^2 x(2 - x) \, dx$$
+
+$$a_n = \frac{1}{L} \int_0^L f(x) \cos\left(\frac{n\pi x}{L}\right) \, dx = \frac{1}{2} \int_0^2 x(2 - x) \cos\left(\frac{n\pi x}{2}\right) \, dx$$
+
+* Compute $a_0$:
+
+$$a_0 = \frac{1}{2} \int_0^2 (2x - x^2) \, dx = \frac{1}{2} \left[ x^2 - \frac{x^3}{3} \right]_0^2 = \frac{1}{2} \left(4 - \frac{8}{3} \right) = \frac{2}{3}$$
+
+* Compute $a_n$:
+
+We split the integral:
+
+$$a_n = \frac{1}{2} \left[ 2 \int_0^2 x \cos\left(\frac{n\pi x}{2}\right) dx - \int_0^2 x^2 \cos\left(\frac{n\pi x}{2}\right) dx \right]
+= \frac{-4 \left[(-1)^n + 1\right]}{\pi^2 n^2}$$
+
+Therefore, the final simplified form is:
+
+$$a_n =
+\begin{cases}
+\displaystyle \frac{-8}{\pi^2 n^2}, & \text{if } n \text{ is even} \\
+0, & \text{if } n \text{ is odd}
+\end{cases}
+\quad \text{for } n \ge 1$$
+
+$~$
+
+**2. Half-Range Sine Series (Odd Extension)**
+
+We write $f(x)$ on $0 < x < 2$ as a sine series:
+
+$$f(x) \sim  \sum_{n=1}^{\infty} a_n \sin\left(\frac{n\pi x}{L}\right)$$
+where $L = 2$, and the coefficients are:
+
+$$b_n = \frac{1}{L} \int_0^L f(x) \sin\left(\frac{n\pi x}{L}\right) \, dx = \frac{1}{2} \int_0^2 x(2 - x) \sin\left(\frac{n\pi x}{2}\right) \, dx$$
+
+The exact expression for the sine series coefficients $b_n$ 
+is:
+
+$$b_n =
+\begin{cases}
+\displaystyle \frac{-4\pi n \sin(n\pi) - 8\cos(n\pi) + 8}{\pi^3 n^3}, & n \ne 0 \\
+0, & n = 0
+\end{cases}$$
+
+So the final simplified form is:
+
+$$b_n =
+\begin{cases}
+\displaystyle \frac{16}{\pi^3 n^3}, & \text{if } n \text{ is odd} \\
+0, & \text{if } n \text{ is even}
+\end{cases}
+\quad \text{for } n \ge 1$$
+
+$~$
+
+**3.** $~$ (a) Find the eigenvalues and eigenfunctions of the boundary value problem
+
+$$ y'' +2y' +(\lambda +1) y =0, \;\;y(0)=0, \;y(1)=0$$
+
+(b) Put the differential equation in self-adjoint form, (c) Give an orthogonality relation
+
+**Solution (a)**
+
+**Step 1:** $~$ Solve the ODE
+
+Given:
+
+$$y''+ 2y' + (\lambda + 1)y = 0$$
+
+Let’s reduce it to a homogeneous constant-coefficient equation.
+
+The characteristic equation is:
+
+$$p^2 + 2p + (\lambda + 1) = 0
+\; \Rightarrow \; p = -1 \pm \sqrt{1 - \lambda}$$
+
+We’ll split into cases based on the sign of $1 - \lambda$:
+
+**Step 2.1: $~\lambda > 1$**
+
+Let $\lambda = 1 + \mu^2$ with $\mu > 0$
+
+Then:
+
+$$p = -1 \pm i\mu$$
+
+The general solution is:
+
+$$y(x) = e^{-x} \left[ A \cos(\mu x) + B \sin(\mu x) \right]$$
+
+Apply boundary conditions:
+
+* $y(0) = e^{0}\,A = A = 0 \Rightarrow A = 0$
+* $y(1) = e^{-1} B \sin(\mu) = 0$
+
+Since $e^{-1} \ne 0$ and $B \ne 0$ (nontrivial solution), we require:
+
+$$\sin(\mu) = 0 \; \Rightarrow \; \mu = n\pi, \; n = 1, 2, 3, \dots$$
+
+So:
+
+$$\lambda_n = 1 + \mu^2 = 1 + n^2 \pi^2$$
+
+And the corresponding eigenfunctions:
+
+$$y_n(x) = e^{-x} \sin(n\pi x)$$
+
+$~$
+
+**Step 2.2: $~\lambda < 1$**
+
+The characteristic equation is:
+
+$$p^2 + 2p + (\lambda + 1) = 0 \Rightarrow p = -1 \pm \sqrt{1 - \lambda}$$
+
+Since $\lambda < 1$, the discriminant $\sqrt{1 - \lambda}$ is real and positive, so the roots are real and distinct. Let:
+
+$$\alpha = \sqrt{1 - \lambda} > 0$$
+
+Then the general solution is:
+
+$$y(x) = A e^{(-1 + \alpha)x} + B e^{(-1 - \alpha)x}$$
+
+Apply boundary conditions:
+
+1.	$y(0) = A + B = 0 \Rightarrow B = -A$
+
+So:
+
+$$y(x) = A \left(e^{(-1 + \alpha)x} - e^{(-1 - \alpha)x} \right)$$
+
+2.	Apply $y(1) = 0$:
+
+$$y(1) = A\left(e^{-1 + \alpha} - e^{-1 - \alpha} \right) = 0
+\Rightarrow e^{-1 + \alpha} = e^{-1 - \alpha} \Rightarrow \alpha = 0$$
+
+But we assumed $\alpha > 0$, so this is a contradiction.
+For $\lambda < 1$, the only solution satisfying the boundary conditions is the trivial solution $y(x) = 0$ . Therefore, no eigenvalue exists for $\lambda < 1$
+
+$~$
+
+**Step 2.3: $~\lambda = 1$**
+
+In this case:
+
+$$p = -1 \pm \sqrt{1 - \lambda} = -1 \pm 0 = -1 \quad \text{(repeated root)}$$
+
+The general solution becomes:
+
+$$y(x) = (A + Bx) e^{-x}$$
+
+Apply boundary conditions:
+
+* $y(0) = A = 0 \Rightarrow y(x) = Bx e^{-x}$
+* $y(1) = Be^{-1} = 0 \Rightarrow B = 0$
+
+So again, the only solution is the trivial one $\Rightarrow$ no eigenvalue at $\lambda = 1$
+
+**Conclusion**
+
+Eigenvalues only exist for $\lambda > 1$, specifically $\lambda_n = 1 + n^2 \pi^2,\; n = 1, 2, 3, \dots$. The corresponding eigenfunctions are
+$y_n(x) = e^{-x} \sin(n\pi x)$
+
+$~$
+
+**Solution (b)**
+
+We are given:
+
+$$y'' + 2y' + (\lambda + 1)y = 0$$
+
+We want to rewrite this in self-adjoint form, that is, in the general form:
+
+$$\frac{d}{dx} \left[ p(x) y' \right] + [\lambda w(x) +q(x)] y = 0$$
+
+Or more specifically:
+
+$$\frac{d}{dx}\left[ p(x) y’ \right] + \lambda w(x) y = 0$$
+
+**Step 1:** $~$ Multiply by an integrating factor
+
+We remove the first derivative term by multiplying the equation by an integrating factor $\mu(x)$ such that:
+
+$$\mu(x)y'' + 2\mu(x)y' + \mu(x)(\lambda + 1)y = 0$$
+
+We want:
+
+$$\mu(x) y'' + 2\mu(x) y' = \frac{d}{dx} \left[ \mu(x) y’ \right]$$
+
+So the condition is:
+
+$$\frac{d}{dx} \mu(x) = 2 \mu(x) \Rightarrow \mu(x) = e^{2x}$$
+
+**Step 2:** $~$ Multiply the ODE by $\mu(x) = e^{2x}$:
+
+$$e^{2x} y’’ + 2e^{2x} y’ + (\lambda + 1)e^{2x} y = 0
+\Rightarrow \frac{d}{dx} \left( e^{2x} y’ \right) + (\lambda + 1) e^{2x} y = 0$$
+
+**Self-adjoint form:**
+
+$$
+\frac{d}{dx} \left( e^{2x} y' \right) + (\lambda + 1) e^{2x} y = 0$$
+
+$~$
+
+**Solution (c)**
+
+From part $(a)$, the eigenfunctions were:
+
+$$y_n(x) = e^{-x} \sin(n\pi x)$$
+
+And from part $(b)$, the weight function (from the self-adjoint form) is:
+
+$$w(x) = e^{2x}$$
+
+Then, the eigenfunctions $y_n(x)$ are orthogonal with respect to the weight function $w(x) = e^{2x}$ on the interval $[0,1]$
+
+**Orthogonality relation:**
+
+$$
+\int_0^1 e^{2x} y_m(x) y_n(x) \, dx = 0 \quad \text{for } m \ne n$$
+
+or equivalently:
+
+$$
+\int_0^1 e^{2x} e^{-x} \sin(m\pi x) \cdot e^{-x} \sin(n\pi x) \, dx = 0, \quad m \ne n
+$$
 
