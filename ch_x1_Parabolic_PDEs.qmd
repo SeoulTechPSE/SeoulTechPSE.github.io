@@ -1987,3 +1987,362 @@ $~$
 
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $~$ Solve the problem
+
+$$
+\begin{aligned}
+ u_t &= \alpha u_{xx}, \;\;a < x < b, \;\; t>0\\ 
+ &u(a,t)=0, \;u(b,t)=0, \;u(x,0)=(x-a)(b-x) 
+\end{aligned}
+$$
+
+**Solution**
+
+**Step 1:** $~$ Separation of Variables
+
+We look for solutions of the form:
+
+$$u(x,t) = X(x)T(t)$$
+
+Substitute into the PDE:
+
+$$X(x) T’(t) = \alpha X’’(x) T(t)
+\; \Rightarrow \; \frac{T’(t)}{\alpha T(t)} = \frac{X’’(x)}{X(x)} = -\lambda$$
+
+We get two ODEs:
+
+$$\begin{aligned}
+T’(t) + \alpha \lambda T(t) &= 0 \\
+X’’(x) + \lambda X(x) &= 0
+\end{aligned}$$
+
+with boundary conditions:
+
+$$X(a) = 0, \quad X(b) = 0$$
+
+**Step 2:** $~$ Solve the Spatial Part
+
+We solve:
+
+$$X'' + \lambda X = 0, \quad X(a) = 0, \quad X(b) = 0$$
+
+This is a standard Sturm–Liouville problem
+
+The eigenfunctions are:
+
+$$X_n(x) = \sin\left( \frac{n\pi (x - a)}{b - a} \right), \quad n = 1, 2, 3, \dots$$
+
+The corresponding eigenvalues are:
+
+$$\lambda_n = \left( \frac{n\pi}{b - a} \right)^2$$
+
+**Step 3:** $~$ Solve the Temporal Part
+
+$$T_n(t) = e^{-\alpha \lambda_n t} = \exp\left( -\alpha \left( \frac{n\pi}{b - a} \right)^2 t \right)$$
+
+**Step 4:** $~$ General Solution
+
+$$u(x,t) = \sum_{n=1}^\infty B_n \sin\left( \frac{n\pi(x - a)}{b - a} \right)
+e^{- \alpha \left( \frac{n\pi}{b - a} \right)^2 t}$$
+
+**Step 5:** $~$ Apply Initial Condition
+
+$$u(x,0) = (x - a)(b - x) = \sum_{n=1}^\infty B_n \sin\left( \frac{n\pi(x - a)}{b - a} \right)$$
+
+To find coefficients $B_n$, use Fourier sine series:
+
+$$B_n = \frac{2}{b - a} \int_a^b (x - a)(b - x) \sin\left( \frac{n\pi(x - a)}{b - a} \right) dx$$
+
+Let’s use substitution:
+Let $\xi = \frac{x - a}{b - a}$, so $x = (b-a)\xi + a$, $dx = (b-a) d\xi$, and when $x = a \Rightarrow \xi = 0, x = b \Rightarrow \xi = 1$
+
+Then:
+
+$$(x - a)(b - x) = (b - a)^2 \xi (1 - \xi)$$
+
+and:
+
+$$B_n = 2 \int_0^1 \xi(1 - \xi) \sin(n\pi \xi) d\xi =
+\begin{cases}
+\displaystyle \frac{8}{n^3 \pi^3}, & n \text{ odd} \\
+0, & n \text{ even}
+\end{cases}$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+a = 0
+b = 1
+alpha = 1
+t_values = [0, 0.05, 0.10, 0.15]  # Times to plot
+x_vals = np.linspace(a, b, 400)
+N_terms = 50  # Number of terms in Fourier series
+
+# Solution series function
+def u_series(x, t, N=N_terms):
+    u = np.zeros_like(x)
+    for n in range(1, N + 1, 2):  # Only odd n
+        coeff = 8 /(n**3 * np.pi**3)
+        term = coeff *(np.sin(n *np.pi *(x - a) /(b - a)) 
+          *np.exp(-alpha *(n *np.pi /(b - a))**2 *t))
+        u += term
+    return u
+
+# Plotting
+plt.figure(figsize=(7.5, 5))
+for t in t_values:
+    u_vals = u_series(x_vals, t)
+    plt.plot(x_vals, u_vals, label=f"t = {t}")
+
+plt.title("Solution $u(x,t)$ of the Heat Equation")
+plt.xlabel("x")
+plt.ylabel("u(x,t)")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+$~$
+
+**2.** $~$ Solve the problem
+
+$$
+\begin{aligned}
+ u_t &= \alpha u_{xx}, \;\; 0 < x < \pi, \;\; t>0\\ 
+ &u_x(0,t)=0, \;u_x(\pi,t)=0, \;u(x,0)=1 +\frac{1}{2}\cos 3x 
+\end{aligned}
+$$
+
+**Solution**
+
+**Step 1:** $~$ Separation of Variables
+
+Let’s look for a solution of the form:
+
+$$u(x,t) = X(x)T(t)$$
+
+Plug into the PDE:
+
+$$X(x) T’(t) = \alpha X’’(x) T(t)
+\; \Rightarrow \; \frac{T’(t)}{\alpha T(t)} = \frac{X’’(x)}{X(x)} = -\lambda$$
+
+Which gives us two ODEs:
+
+$$
+\begin{aligned}
+T'(t) + \alpha \lambda T(t) &= 0 \\
+X''(x) + \lambda X(x) &= 0
+\end{aligned}$$
+
+With Neumann boundary conditions:
+
+$$X'(0) = 0, \quad X'(\pi) = 0$$
+
+**Step 2:** $~$ Solve the Spatial ODE
+
+$$X'' + \lambda X = 0$$
+
+Solutions depend on the value of $\lambda$:	
+
+* The eigenfunctions satisfying Neumann BCs are:
+
+$$X_n(x) =
+\begin{cases}
+1, & n = 0 \\
+\cos(nx), & n = 1, 2, 3, \dots
+\end{cases}$$
+
+* Corresponding eigenvalues:
+
+$$\lambda_n = n^2, \quad n = 0, 1, 2, \dots$$
+
+**Step 3:** $~$ Solve the Time Part
+
+$$T_n(t) = e^{-\alpha n^2 t}$$
+
+**Step 4:** $~$ General Solution
+
+$$u(x,t) = \frac{A_0}{2} +\sum_{n=1}^\infty A_n \cos(nx) e^{-\alpha n^2 t}$$
+
+**Step 5:** $~$ The initial condition is:
+
+$$u(x,0) = 1 + \cos 3x$$
+
+This already matches our eigenfunctions:
+* $1$ corresponds to $\frac{A_0}{2}$
+* $\frac{1}{2}\cos 3x$ corresponds to $A_3\cos(3x)$
+
+So the expansion is:
+
+$$u(x,t) = \frac{A_0}{2} + A_3 \cos(3x) e^{-9\alpha t}$$
+
+Comparing with $u(x,0) = 1 + \frac{1}{2}\cos 3x$, we get:
+
+$$A_0 = 2, \quad A_3 = \frac{1}{2}$$
+
+All other $A_n = 0$
+
+**Final Answer:**
+
+$$u(x,t) = 1 + \frac{1}{2}\cos(3x) e^{-9\alpha t}$$
+
+$~$
+
+**3.** $~$ Solve the problem
+$$
+\begin{aligned}
+ u_{t} &= u_{xx} +F(x,t), \;\; -\infty < x < \infty, \;\; t>0\\ 
+ &u(x,0) = 0, \;u(x, t) \sim \text{bounded}\\
+\end{aligned}
+$$
+
+**Solution**
+
+For the heat equation on $\mathbb{R}$, the Green’s function (or heat kernel) is:
+$$G(x,t) = \frac{1}{\sqrt{4\pi t}} e^{-x^2/(4t)}$$
+
+The solution to the nonhomogeneous heat equation with zero initial condition is given by the Duhamel’s principle:
+$$u(x,t) = \int_0^t \int_{-\infty}^\infty G(x - \xi, t - \tau) F(\xi, \tau) \, d\xi \, d\tau$$
+
+So,
+
+$$
+u(x,t) = \int_0^t \int_{-\infty}^\infty \frac{1}{\sqrt{4\pi(t - \tau)}} \exp\left(-\frac{(x - \xi)^2}{4(t - \tau)}\right) F(\xi, \tau) \, d\xi \, d\tau
+$$
+
+$~$
+
+**4.** $~$ Solve the problem
+$$
+\begin{aligned}
+ u_{t} &= u_{xx}, \;\; 0 < x < \infty, \;\; t>0\\ 
+ &u(0, t) = g(t), \;u(x, 0) = 0, \;u(x, t) \sim \text{bounded}\\
+\end{aligned}
+$$
+
+**Solution**
+
+This is a classical problem with the Dirichlet boundary condition on a semi-infinite domain.
+
+Since the initial condition is zero and the boundary condition is nonzero at $x = 0$, we apply a Green’s function method for the semi-infinite domain
+
+The appropriate solution is:
+
+$$
+u(x,t) = \int_0^t \frac{x}{\sqrt{4\pi (t - \tau)^3}} \exp\left(-\frac{x^2}{4(t - \tau)}\right) g(\tau) \, d\tau
+$$
+
+This is the Poisson kernel representation for the half-line heat problem with a source at the boundary
+
+$~$
+
+**5.** $~$ Solve the problem
+
+$$\begin{aligned}
+ u_t &= \alpha u_{xx} -\nu u_{x} -\beta u, \;\;0 < x < 1, \quad t>0\\
+ &u(0, t) = 0, \;u(1, t) = 0, \;u(x,0) = \exp \left(\frac{\nu}{2\alpha}x\right)
+\end{aligned}$$
+
+**Solution**
+
+**Step 1:** $~$ Change of variables
+
+We use the substitution:
+
+$$u(x,t) = e^{r x - \lambda t} w(x,t)$$
+
+with the goal of choosing $r$ and \lambda so that the PDE for $w(x,t)$ becomes the standard heat equation
+
+Compute derivatives:
+
+$$\begin{aligned}
+u_x &= r e^{r x - \lambda t} w + e^{r x - \lambda t} w_x = e^{r x - \lambda t}(r w + w_x) \\
+u_{xx} &= e^{r x - \lambda t} (r^2 w + 2r w_x + w_{xx})\\
+u_t &= e^{r x - \lambda t} (-\lambda w + w_t)
+\end{aligned}$$
+
+Now plug into the PDE:
+
+$$u_t = \alpha u_{xx} - \nu u_x - \beta u$$
+
+Substituting everything:
+
+$$e^{r x - \lambda t} (-\lambda w + w_t) = \alpha e^{r x - \lambda t} (r^2 w + 2r w_x + w_{xx}) - \nu e^{r x - \lambda t} (r w + w_x) - \beta e^{r x - \lambda t} w$$
+
+Cancel the common exponential $e^{r x - \lambda t}$:
+
+$$-\lambda w + w_t = \alpha (r^2 w + 2r w_x + w_{xx}) - \nu (r w + w_x) - \beta w$$
+
+Group terms:
+
+$$w_t = \alpha w_{xx} + (2\alpha r - \nu) w_x + (\alpha r^2 - \nu r - \beta + \lambda) w$$
+
+We want to choose $r$ and $\lambda$ so that:
+
+* Coefficient of $w_x$ is 0: $~2\alpha r - \nu = 0$
+* Coefficient of $w$ is 0: $~\alpha r^2 - \nu r - \beta + \lambda = 0$
+
+Solve for $r$:
+
+$$2\alpha r = \nu \; \Rightarrow \; r = \frac{\nu}{2\alpha}$$
+
+Plug $r = \frac{\nu}{2\alpha}$ into the second equation to find $\lambda$:
+
+$$\lambda = \alpha r^2 - \nu r + \beta = \alpha \left( \frac{\nu}{2\alpha} \right)^2 - \nu \cdot \frac{\nu}{2\alpha} + \beta \\
+= \frac{\nu^2}{4\alpha} - \frac{\nu^2}{2\alpha} + \beta = -\frac{\nu^2}{4\alpha} + \beta$$
+
+**Step 2:** $~$ Resulting equation for $w$
+
+We now have:
+
+$$u(x,t) = e^{\frac{\nu}{2\alpha} x - \lambda t} w(x,t),
+\quad \text{with } \lambda = -\frac{\nu^2}{4\alpha} + \beta$$
+
+Then $w(x,t)$ satisfies the heat equation:
+
+$$w_t = \alpha w_{xx},
+\quad 0 < x < 1,\; t > 0$$
+
+with boundary conditions:
+
+$$w(0,t) = 0, \quad w(1,t) = 0$$
+
+and initial condition:
+
+$$w(x,0) = u(x,0) \cdot e^{ -\frac{\nu}{2\alpha} x } = \exp\left( \frac{\nu}{2\alpha} x \right) \cdot \exp\left( -\frac{\nu}{2\alpha} x \right) = 1$$
+
+**Step 3:** $~$ Solve the heat equation with constant initial condition
+
+We solve:
+
+$$\begin{aligned}
+w_t &= \alpha w_{xx}, \quad 0 < x < 1, \\
+w(0,t) &= w(1,t) = 0, \\
+w(x,0) &= 1.
+\end{aligned}$$
+
+Use Fourier sine series:
+
+$$w(x,t) = \sum_{n=1}^\infty b_n e^{-\alpha (n\pi)^2 t} \sin(n\pi x)$$
+
+where the coefficients $b_n$ come from:
+
+$$b_n = 2 \int_0^1 1 \cdot \sin(n\pi x)\, dx = \frac{2}{n\pi}(1 - \cos(n\pi)) = \begin{cases}
+\frac{4}{n\pi}, & \text{if } n \text{ odd}, \\
+0, & \text{if } n \text{ even}.
+\end{cases}$$
+
+So,
+
+$$w(x,t) = \sum_{\substack{n=1 \\ n \text{ odd}}}^\infty \frac{4}{n\pi} e^{-\alpha (n\pi)^2 t} \sin(n\pi x)$$
+
+**Step 4:** $~$ Final answer for $u(x,t)$
+
+$$
+u(x,t) = e^{\frac{\nu}{2\alpha}x + \frac{\nu^2}{4\alpha}t - \beta t} \sum_{\substack{n=1\\n \text{ odd}}}^{\infty} \frac{4}{n\pi} e^{-\alpha (n\pi)^2 t} \sin(n\pi x)
+$$
+
+$~$
