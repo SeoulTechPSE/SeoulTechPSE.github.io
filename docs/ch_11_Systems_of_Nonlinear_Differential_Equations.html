@@ -462,7 +462,7 @@ window.Quarto = {
 </div></li>
 </ul></li>
 </ul>
-<p><strong>Example</strong> <span class="math inline">\(~\)</span>Find all criticl points of the following plane autonomous system</p>
+<p><strong>Example</strong> <span class="math inline">\(~\)</span>Find all critical points of the following plane autonomous system</p>
 <p><span class="math display">\[
 \begin{aligned}
 x'&amp;= x^2 +y^2 -6\\
@@ -517,68 +517,59 @@ c &amp; d
 <p>in terms of <span class="math inline">\(c\)</span>, and use a numerical solver to discover the shapes of solutions corresponding to the cases <span class="math inline">\(c=\frac{1}{4}\)</span>, <span class="math inline">\(4\)</span>, <span class="math inline">\(0\)</span>, and <span class="math inline">\(-9\)</span>. <span class="math inline">\(\mathbf{A}\)</span> has trace <span class="math inline">\(\tau=-2\)</span> and determinant <span class="math inline">\(\Delta=1 -c\)</span>, and so the eigenvalues are</p>
 <p><span class="math display">\[ \lambda =-1 \pm \sqrt{c} \]</span></p>
 <p>The nature of the eigenvalues is therefore determined by the value of <span class="math inline">\(c\)</span></p>
-<div id="1ebe30d0" class="cell" data-execution_count="1">
+<div id="c47e2e42" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy <span class="im">as</span> sp</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> sp.Symbol(<span class="st">'c'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sp.Matrix([[<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [c, <span class="op">-</span><span class="dv">1</span>]])</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>[(-sqrt(c) - 1,
-  1,
-  [Matrix([
-   [(-sqrt(c) - 1)/c + 1/c],
-   [                     1]])]),
- (sqrt(c) - 1,
-  1,
-  [Matrix([
-   [(sqrt(c) - 1)/c + 1/c],
-   [                    1]])])]</code></pre>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sp.init_printing(use_unicode<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> sp.Symbol(<span class="st">'c'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> sp.Matrix([[<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], [c, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>A.eigenvects()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<p><span class="math inline">\(\displaystyle \left[ \left( - \sqrt{c} - 1, \  1, \  \left[ \left[\begin{matrix}\frac{- \sqrt{c} - 1}{c} + \frac{1}{c}\\1\end{matrix}\right]\right]\right), \  \left( \sqrt{c} - 1, \  1, \  \left[ \left[\begin{matrix}\frac{\sqrt{c} - 1}{c} + \frac{1}{c}\\1\end{matrix}\right]\right]\right)\right]\)</span></p>
 </div>
 </div>
-<div id="b21df40a" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sp.init_printing(use_unicode<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>c_ <span class="op">=</span> np.array([<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">9</span>])</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>c_title <span class="op">=</span> [<span class="vs">r'$c=\frac</span><span class="sc">{1}{4}</span><span class="vs">$'</span>, <span class="vs">r'$c=4$'</span>, <span class="vs">r'$c=0$'</span>, <span class="vs">r'$c=-9$'</span>]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> <span class="op">-</span>x <span class="op">+</span>y</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> c_[i]<span class="op">*</span>x <span class="op">-</span>y</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c_[i] <span class="op">&gt;=</span> <span class="fl">0.0</span>:</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> <span class="op">-</span>np.sqrt(c_[i]) <span class="op">*</span>xp</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> np.sqrt(c_[i]) <span class="op">*</span>xp</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'</span><span class="sc">{</span>c_title[i]<span class="sc">}</span><span class="ss">'</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, </span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        labelsize<span class="op">=</span><span class="dv">8</span>)     </span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;=</span> <span class="dv">2</span>: </span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> i <span class="op">==</span> <span class="dv">2</span>: </span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="vs">r'$y$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8dcd65c6" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">50</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>c_ <span class="op">=</span> np.array([<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="op">-</span><span class="dv">9</span>])</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>c_title <span class="op">=</span> [<span class="vs">r'$c=\frac</span><span class="sc">{1}{4}</span><span class="vs">$'</span>, <span class="vs">r'$c=4$'</span>, <span class="vs">r'$c=0$'</span>, <span class="vs">r'$c=-9$'</span>]</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> <span class="op">-</span>x <span class="op">+</span>y</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> c_[i]<span class="op">*</span>x <span class="op">-</span>y</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> c_[i] <span class="op">&gt;=</span> <span class="fl">0.0</span>:</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> <span class="op">-</span>np.sqrt(c_[i]) <span class="op">*</span>xp</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> np.sqrt(c_[i]) <span class="op">*</span>xp</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'</span><span class="sc">{</span>c_title[i]<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        labelsize<span class="op">=</span><span class="dv">8</span>)     </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">&gt;=</span> <span class="dv">2</span>: </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> i <span class="op">==</span> <span class="dv">2</span>: </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="vs">r'$y$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -612,52 +603,52 @@ c &amp; d
 <center>
 <span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} -2 &amp; -2\\ -2 &amp; -5 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; -2\\ \;\;3 &amp; \;\;4 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{c})\)</span> <span class="math inline">\(\begin{pmatrix} 2 &amp; -1\\ 3 &amp; -2 \end{pmatrix}\)</span>
 </center>
-<div id="f93dd0d0" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">5</span>]], </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">2</span>]]])</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Stable Node'</span>, <span class="st">'Unstable Node'</span>, <span class="st">'Saddle Point'</span>]</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lamda[<span class="dv">0</span>] <span class="op">&gt;=</span> lamda[<span class="dv">1</span>]:</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp       </span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="26b0cb88" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">5</span>]], </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">2</span>], [<span class="dv">3</span>, <span class="dv">4</span>]], </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>], [<span class="dv">3</span>, <span class="op">-</span><span class="dv">2</span>]]])</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Stable Node'</span>, <span class="st">'Unstable Node'</span>, <span class="st">'Saddle Point'</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> lamda[<span class="dv">0</span>] <span class="op">&gt;=</span> lamda[<span class="dv">1</span>]:</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>xp</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        y_2 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>xp       </span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    ax.plot(xp, y_1, <span class="st">'r:'</span>, xp, y_2, <span class="st">'g:'</span>)    </span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -690,48 +681,48 @@ c &amp; d
 <center>
 <span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} 1 &amp; 0\\ 0 &amp; 1 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} 3 &amp; -18\\ 2 &amp;\; -9 \end{pmatrix}\)</span>, <span class="math inline">\(\;\)</span> <span class="math inline">\((\text{c})\)</span> <span class="math inline">\(\begin{pmatrix} \;\;2 &amp; 4\\ -1 &amp; 6 \end{pmatrix}\)</span>
 </center>
-<div id="6ca390fa" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">1</span>]], </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]], </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>]]])</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Degenerate Unstable'</span>, </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Stable'</span>, </span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Unstable'</span>]</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">!=</span> <span class="dv">0</span>:</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>] <span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>] <span class="op">*</span>xp</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>)</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="32ad4a36" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">1</span>]], </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">3</span>, <span class="op">-</span><span class="dv">18</span>], [<span class="dv">2</span>, <span class="op">-</span><span class="dv">9</span>]], </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>              [[<span class="dv">2</span>, <span class="dv">4</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">6</span>]]])</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Degenerate Unstable'</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Stable'</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">'Degenerate Unstable'</span>]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">12</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">!=</span> <span class="dv">0</span>:</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        y_1 <span class="op">=</span> v[<span class="dv">1</span>,<span class="dv">0</span>] <span class="op">/</span>v[<span class="dv">0</span>,<span class="dv">0</span>] <span class="op">*</span>xp</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        ax.plot(xp, y_1, <span class="st">'r:'</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -759,41 +750,41 @@ c &amp; d
 <center>
 <span class="math inline">\((\text{a})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; 2\\ -1 &amp; 1 \end{pmatrix}\)</span>,<span class="math inline">\(\;\)</span> <span class="math inline">\((\text{b})\)</span> <span class="math inline">\(\begin{pmatrix} -1 &amp; -4\\ \;\;1 &amp; -1 \end{pmatrix}\)</span>
 </center>
-<div id="9f5625b0" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]],</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]]])</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Center'</span>, <span class="st">'Stable Spiral'</span>]</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">8</span>))</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            </span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">1</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5c2472e8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">6</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> np.array([[[<span class="op">-</span><span class="dv">1</span>, <span class="dv">2</span>], [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>]],</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>              [[<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="dv">4</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]]])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>A_title <span class="op">=</span> [<span class="st">'Center'</span>, <span class="st">'Stable Spiral'</span>]</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">8</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> A[i,<span class="dv">0</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">0</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> A[i,<span class="dv">1</span>,<span class="dv">0</span>]<span class="op">*</span>x <span class="op">+</span>A[i,<span class="dv">1</span>,<span class="dv">1</span>]<span class="op">*</span>y</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    lamda, v <span class="op">=</span> np.linalg.eig(A[i])</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    ax.set_title(A_title[i])</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">1</span>: ax.set_xlabel(<span class="vs">r'$x$'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -845,7 +836,7 @@ x' = -y -x\sqrt{x^2 +y^2}, \;\; y' = x -y\sqrt{x^2 +y^2}\]</span></p>
 \end{aligned}
 \]</span></p>
 <p>Show that <span class="math inline">\((x,y)=(0,0)\)</span> is unstable critical point</p>
-<p>We see that <span class="math inline">\(dr/dt=0\)</span> when <span class="math inline">\(r=0\)</span> and can conclude that <span class="math inline">\((x,y)=(0,0)\)</span> is a critical point. The differential equation can be solved using separation of variables. If <span class="math inline">\(r(0)=r_0\)</span> and <span class="math inline">\(r_0\neq 0\)</span>, then</p>
+<p>We see that <span class="math inline">\(dr/dt=0\)</span> when <span class="math inline">\(r=0\)</span> and can conclude that <span class="math inline">\((x,y)=(0,0)\)</span> is a critical point. <span class="math inline">\(~\)</span> The differential equation can be solved using separation of variables. If <span class="math inline">\(r(0)=r_0\)</span> and <span class="math inline">\(r_0\neq 0,\)</span> then</p>
 <p><span class="math display">\[ r=\frac{3}{1 +c_0 e^{-0.15t}} \]</span></p>
 <p>where <span class="math inline">\(c_0=(3 -r_0)/r_0\)</span>. Since</p>
 <p><span class="math display">\[\lim_{t \to \infty}\frac{3}{1 +c_0 e^{-0.15t}}=3\]</span></p>
@@ -961,46 +952,46 @@ y'&amp;= x^3 -x
 <p>If <span class="math inline">\(\mathbf{x}(0)=(x_0,0)\)</span>, where <span class="math inline">\(0&lt;x_0&lt;1\)</span>, then <span class="math inline">\(c=-\frac{x_0^4}{2} +x_0^2\)</span>, and so</p>
 <p><span class="math display">\[ y^2=\frac{(2 -x^2 -x_0^2)(x_0^2 -x^2)}{2} \]</span></p>
 <p>Note that <span class="math inline">\(y=0\)</span> when <span class="math inline">\(x=-x_0\)</span>. In addition, the right-hand side is positive when <span class="math inline">\(-x_0&lt;x&lt;x_0\)</span>, and so each <span class="math inline">\(x\)</span> has two corresponding values of <span class="math inline">\(y\)</span>. The solution <span class="math inline">\(\mathbf{x}(t)\)</span> that satisfies <span class="math inline">\(\mathbf{x}(0)=(x_0,0)\)</span> is therefore periodic, and so <span class="math inline">\((0,0)\)</span> is a center</p>
-<div id="bb0879a5" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="dv">1</span>], y[<span class="dv">0</span>]<span class="op">**</span><span class="dv">3</span> <span class="op">-</span>y[<span class="dv">0</span>]]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plotPhasePortrait(ax, g, td, x0, y0, color):</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(x0.shape[<span class="dv">0</span>]):</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        sol <span class="op">=</span> solve_ivp(g, [<span class="dv">0</span>, td[<span class="op">-</span><span class="dv">1</span>]], </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>               [x0[i], y0], t_eval <span class="op">=</span> td)    </span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        ax.plot(x0[i], y0, color <span class="op">+</span><span class="st">'x'</span>)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], color <span class="op">+</span><span class="st">'-'</span>, lw<span class="op">=</span><span class="fl">0.2</span>)    </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">2000</span>)    </span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>x0_0, y0_0 <span class="op">=</span> np.linspace( <span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="dv">10</span>),  <span class="fl">0.0</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>x0_1, y0_1 <span class="op">=</span> np.linspace( <span class="fl">1.6</span>, <span class="fl">2.6</span>, <span class="dv">30</span>), <span class="op">-</span><span class="fl">3.0</span>  </span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>x0_2, y0_2 <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.6</span>,<span class="op">-</span><span class="fl">1.6</span>, <span class="dv">30</span>),  <span class="fl">3.0</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_0,  y0_0, <span class="st">'k'</span>)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_1,  y0_1, <span class="st">'b'</span>)</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_2,  y0_2, <span class="st">'r'</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Phase Portrait'</span>)</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e7c4837c" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="dv">1</span>], y[<span class="dv">0</span>]<span class="op">**</span><span class="dv">3</span> <span class="op">-</span>y[<span class="dv">0</span>]]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plotPhasePortrait(ax, g, td, x0, y0, color):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(x0.shape[<span class="dv">0</span>]):</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        sol <span class="op">=</span> solve_ivp(g, [<span class="dv">0</span>, td[<span class="op">-</span><span class="dv">1</span>]], </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>               [x0[i], y0], t_eval <span class="op">=</span> td)    </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        ax.plot(x0[i], y0, color <span class="op">+</span><span class="st">'x'</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], color <span class="op">+</span><span class="st">'-'</span>, lw<span class="op">=</span><span class="fl">0.2</span>)    </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">50</span>, <span class="dv">2000</span>)    </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>x0_0, y0_0 <span class="op">=</span> np.linspace( <span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="dv">10</span>),  <span class="fl">0.0</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>x0_1, y0_1 <span class="op">=</span> np.linspace( <span class="fl">1.6</span>, <span class="fl">2.6</span>, <span class="dv">30</span>), <span class="op">-</span><span class="fl">3.0</span>  </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>x0_2, y0_2 <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">2.6</span>,<span class="op">-</span><span class="fl">1.6</span>, <span class="dv">30</span>),  <span class="fl">3.0</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_0,  y0_0, <span class="st">'k'</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_1,  y0_1, <span class="st">'b'</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>plotPhasePortrait(ax, myODE, td, x0_2,  y0_2, <span class="st">'r'</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="vs">r'Phase Portrait: $\times$ - initial conditions'</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1038,39 +1029,39 @@ y'&amp;= x^3 -x
 <p><span class="math display">\[ y^2=\frac{2g}{l}(\cos x -\cos x_0)\]</span></p>
 <p>Note that <span class="math inline">\(y=0\)</span> when <span class="math inline">\(x=-x_0\)</span>, and that <span class="math inline">\((2g/l)(\cos x -\cos x_0)&gt;0\)</span> for <span class="math inline">\(|x|&lt;|x_0|&lt;\pi\)</span>. Thus each such <span class="math inline">\(x\)</span> has two corresponding values of <span class="math inline">\(y\)</span>, and so the solution <span class="math inline">\(\mathbf{x}(t)\)</span> that satisfies <span class="math inline">\(\mathbf{x}(0)=(x_0,0)\)</span> is periodic. We may conclude that <span class="math inline">\((0,0)\)</span> is a center. In the case of large initial velocities, the pendulum spins in complete circles about the pivot</p></li>
 </ul>
-<div id="c56c68dc" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.pi</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>w2 <span class="op">=</span> np.pi</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w1, w1, <span class="dv">100</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w2, w2, <span class="dv">100</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.8</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>xdot <span class="op">=</span> y</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>ydot <span class="op">=</span> <span class="op">-</span>g<span class="op">/</span>l<span class="op">*</span>np.sin(x)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>ax.streamplot(x, y, xdot, ydot, </span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>             linewidth<span class="op">=</span><span class="fl">0.5</span>, density<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Nonlinear Pendulum'</span>)</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="op">-</span>w1, w1, <span class="op">-</span>w2, w2))</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w1, w1, <span class="dv">5</span>))</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticklabels([<span class="vs">r'$-4\pi$'</span>, <span class="vs">r'$-2\pi$'</span>, <span class="vs">r'$0$'</span>,</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                         <span class="vs">r'$2\pi$'</span>, <span class="vs">r'$4\pi$'</span>])</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w2, w2, <span class="dv">3</span>))</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticklabels([<span class="vs">r'$-\pi$'</span>, <span class="vs">r'$0$'</span>, <span class="vs">r'$\pi$'</span>])</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="68963217" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>w1 <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>np.pi</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>w2 <span class="op">=</span> np.pi</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w1, w1, <span class="dv">100</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w2, w2, <span class="dv">100</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.8</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>l <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>xdot <span class="op">=</span> y</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>ydot <span class="op">=</span> <span class="op">-</span>g<span class="op">/</span>l<span class="op">*</span>np.sin(x)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">3</span>))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ax.streamplot(x, y, xdot, ydot, </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>             linewidth<span class="op">=</span><span class="fl">0.5</span>, density<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Nonlinear Pendulum'</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="op">-</span>w1, w1, <span class="op">-</span>w2, w2))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w1, w1, <span class="dv">5</span>))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticklabels([<span class="vs">r'$-4\pi$'</span>, <span class="vs">r'$-2\pi$'</span>, <span class="vs">r'$0$'</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                         <span class="vs">r'$2\pi$'</span>, <span class="vs">r'$4\pi$'</span>])</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w2, w2, <span class="dv">3</span>))</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticklabels([<span class="vs">r'$-\pi$'</span>, <span class="vs">r'$0$'</span>, <span class="vs">r'$\pi$'</span>])</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1087,7 +1078,7 @@ y'&amp;= x^3 -x
 <p><img src="figures/ch11_figure06.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
 </figure>
 </div>
-<p>The tangential force <span class="math inline">\(\mathbf{F}\)</span> due to the weight <span class="math inline">\(W=mg\)</span> <span class="math inline">\(\,\)</span> has a magnitude <span class="math inline">\(mg\sin\theta\)</span>, and therefore the <span class="math inline">\(x\)</span>-component of <span class="math inline">\(\mathbf{F}\)</span> is <span class="math inline">\(F_x=-mg\sin\theta\cos\theta\)</span>. Since <span class="math inline">\(\tan\theta=f'(x)\)</span>, <span class="math inline">\(\,\)</span> we can use the identity <span class="math inline">\(1+\tan^2\theta=\sec^2\theta\)</span> to conclude that</p>
+<p>The tangential force <span class="math inline">\(\mathbf{F}\)</span> due to the weight <span class="math inline">\(W=mg\)</span> <span class="math inline">\(\,\)</span> has a magnitude <span class="math inline">\(mg\sin\theta\)</span>, and therefore the <span class="math inline">\(x\)</span>-component of <span class="math inline">\(\mathbf{F}\)</span> is <span class="math inline">\(F_x=-mg\sin\theta\cos\theta\)</span>. Since <span class="math inline">\(f'(x)=\tan\theta\)</span>, <span class="math inline">\(\,\)</span> we can use the identity <span class="math inline">\(1+\tan^2\theta=\sec^2\theta\)</span> to conclude that</p>
 <p><span class="math display">\[
 \begin{aligned}
 F_x &amp;= -mg\sin\theta\cos\theta
@@ -1133,46 +1124,46 @@ F_x &amp;= -mg\sin\theta\cos\theta
 </ul></li>
 </ul>
 <p><strong>Example</strong> <span class="math inline">\(~\)</span> A bead is released from the position <span class="math inline">\(x(0)=x_0\)</span> on the curve <span class="math inline">\(z=\cosh(x)\)</span> with initial velocity <span class="math inline">\(x'(0)=\nu_0\)</span>. Use the phase-plane method to show that the resulting solution is periodic when the system is undamped</p>
-<div id="26944005" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">200</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">200</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.8</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>]</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>sb_title <span class="op">=</span> [<span class="vs">r'$\beta=0$'</span>, <span class="vs">r'$\beta=0.25$'</span>, <span class="vs">r'$\beta=0.5$'</span>]</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> df(x):</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sinh(x)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">15</span>))</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> y</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="op">-</span>g<span class="op">*</span>df(x) <span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span>df(x)<span class="op">**</span><span class="dv">2</span>) <span class="op">-</span>beta[i] <span class="op">/</span>m <span class="op">*</span>y</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>, </span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>                  linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    ax.set_title(sb_title[i])</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>:</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>plt.show()    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="32607dcc" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">200</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">200</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> <span class="fl">9.8</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> [<span class="dv">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>sb_title <span class="op">=</span> [<span class="vs">r'$\beta=0$'</span>, <span class="vs">r'$\beta=0.25$'</span>, <span class="vs">r'$\beta=0.5$'</span>]</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> df(x):</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.sinh(x)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">15</span>))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> y</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="op">-</span>g<span class="op">*</span>df(x) <span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span>df(x)<span class="op">**</span><span class="dv">2</span>) <span class="op">-</span>beta[i] <span class="op">/</span>m <span class="op">*</span>y</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">3</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>, </span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                  linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    ax.set_title(sb_title[i])</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">5</span>))</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>plt.show()    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1219,41 +1210,41 @@ F_x &amp;= -mg\sin\theta\cos\theta
 </ul></li>
 </ul>
 <p><strong>Example</strong> <span class="math inline">\(~\)</span> If we let <span class="math inline">\(a=0.1\)</span>, <span class="math inline">\(b=0.002\)</span>, <span class="math inline">\(c=0.0025\)</span>, and <span class="math inline">\(d=0.2\)</span> in the Lotka-Volterra predator-prey model, the critical point in the first quadrant is <span class="math inline">\((d/c,a/b)=(80,50)\)</span>, and we know that this critical point is a center. The eigenvalues of <span class="math inline">\(\mathbf{g}'((80,50))\)</span> are <span class="math inline">\(\lambda=\pm(\sqrt{2}/10)i\)</span>, and so the solutions near the critical point have period <span class="math inline">\(p\simeq 10\sqrt{2}\pi\)</span></p>
-<div id="53fe2b5a" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0.1</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">0.002</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">0.0025</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="op">-</span>a<span class="op">*</span>y[<span class="dv">0</span>] <span class="op">+</span>b<span class="op">*</span>y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">1</span>], <span class="op">-</span>c<span class="op">*</span>y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">1</span>] <span class="op">+</span>d<span class="op">*</span>y[<span class="dv">1</span>]]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> <span class="dv">80</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, td, <span class="dv">300</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">15</span>):</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x0 <span class="op">+</span><span class="dv">5</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> solve_ivp(myODE, [<span class="dv">0</span>, td], [x0, y0], </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>         t_eval<span class="op">=</span>t_eval)    </span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    ax.plot(x0, y0, <span class="st">'ro'</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Lotka-Volterra model'</span>)</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">400</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="dv">0</span>, w, <span class="dv">0</span>, w))</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>   </span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">5</span>))</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$, predator'</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">5</span>))</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$, prey'</span>)</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="25ee4e60" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">0.002</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="fl">0.0025</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="op">-</span>a<span class="op">*</span>y[<span class="dv">0</span>] <span class="op">+</span>b<span class="op">*</span>y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">1</span>], <span class="op">-</span>c<span class="op">*</span>y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">1</span>] <span class="op">+</span>d<span class="op">*</span>y[<span class="dv">1</span>]]</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> <span class="dv">80</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, td, <span class="dv">300</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">15</span>):</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    x0 <span class="op">=</span> x0 <span class="op">+</span><span class="dv">5</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    sol <span class="op">=</span> solve_ivp(myODE, [<span class="dv">0</span>, td], [x0, y0], </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>         t_eval<span class="op">=</span>t_eval)    </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    ax.plot(x0, y0, <span class="st">'ro'</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], <span class="st">'b-'</span>, linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Lotka-Volterra model'</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">400</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>ax.axis((<span class="dv">0</span>, w, <span class="dv">0</span>, w))</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>ax.grid()</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>   </span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">5</span>))</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r'$x$, predator'</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">5</span>))</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r'$y$, prey'</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1284,49 +1275,49 @@ y' &amp;= 0.001 y\,(100 -y -3.0x)
 \end{aligned}
 \]</span></p>
 <p>Find and classify all critical points of the system</p>
-<div id="a6dab455" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">120</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="dv">0</span>, w, <span class="dv">200</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="dv">0</span>, w, <span class="dv">200</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>r1_K1 <span class="op">=</span> <span class="fl">0.004</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>r2_K2 <span class="op">=</span> <span class="fl">0.001</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>K1 <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>K2 <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>a_12 <span class="op">=</span> np.array([<span class="fl">0.75</span>, <span class="fl">0.4</span>])</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>a_21 <span class="op">=</span> np.array([<span class="fl">3.00</span>, <span class="fl">1.5</span>])</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">12</span>))</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> r1_K1<span class="op">*</span>x<span class="op">*</span>(K1 <span class="op">-</span>x <span class="op">-</span>a_12[i]<span class="op">*</span>y)</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> r2_K2<span class="op">*</span>y<span class="op">*</span>(K2 <span class="op">-</span>y <span class="op">-</span>a_21[i]<span class="op">*</span>x)</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    cpt_x <span class="op">=</span> np.array([<span class="dv">0</span>, K1, <span class="dv">0</span>, (K1 <span class="op">-</span>a_12[i]<span class="op">*</span>K2)</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span>a_12[i]<span class="op">*</span>a_21[i])])</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    cpt_y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, K2, (K2 <span class="op">-</span>a_21[i]<span class="op">*</span>K1)</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span>a_12[i]<span class="op">*</span>a_21[i])])</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>, </span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                  linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    ax.plot(cpt_x, cpt_y, <span class="st">'ro'</span>)</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="vs">r'$\alpha_</span><span class="sc">{12}</span><span class="vs">=$'</span> <span class="op">+</span><span class="bu">str</span>(a_12[i]) </span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>                 <span class="op">+</span><span class="vs">r'$, \alpha_</span><span class="sc">{21}</span><span class="vs">=$'</span> <span class="op">+</span><span class="bu">str</span>(a_21[i]))</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="dv">0</span>, w, <span class="dv">0</span>, w))</span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">4</span>))</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">4</span>))</span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6bcb33d0" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">120</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="dv">0</span>, w, <span class="dv">200</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="dv">0</span>, w, <span class="dv">200</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>r1_K1 <span class="op">=</span> <span class="fl">0.004</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>r2_K2 <span class="op">=</span> <span class="fl">0.001</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>K1 <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>K2 <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>a_12 <span class="op">=</span> np.array([<span class="fl">0.75</span>, <span class="fl">0.4</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>a_21 <span class="op">=</span> np.array([<span class="fl">3.00</span>, <span class="fl">1.5</span>])</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">12</span>))</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> r1_K1<span class="op">*</span>x<span class="op">*</span>(K1 <span class="op">-</span>x <span class="op">-</span>a_12[i]<span class="op">*</span>y)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> r2_K2<span class="op">*</span>y<span class="op">*</span>(K2 <span class="op">-</span>y <span class="op">-</span>a_21[i]<span class="op">*</span>x)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    cpt_x <span class="op">=</span> np.array([<span class="dv">0</span>, K1, <span class="dv">0</span>, (K1 <span class="op">-</span>a_12[i]<span class="op">*</span>K2)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span>a_12[i]<span class="op">*</span>a_21[i])])</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    cpt_y <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>, K2, (K2 <span class="op">-</span>a_21[i]<span class="op">*</span>K1)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>                      <span class="op">/</span>(<span class="dv">1</span> <span class="op">-</span>a_12[i]<span class="op">*</span>a_21[i])])</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>, </span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>                  linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    ax.plot(cpt_x, cpt_y, <span class="st">'ro'</span>)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="vs">r'$\alpha_</span><span class="sc">{12}</span><span class="vs">=$'</span> <span class="op">+</span><span class="bu">str</span>(a_12[i]) </span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>                 <span class="op">+</span><span class="vs">r'$, \alpha_</span><span class="sc">{21}</span><span class="vs">=$'</span> <span class="op">+</span><span class="bu">str</span>(a_21[i]))</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="dv">0</span>, w, <span class="dv">0</span>, w))</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">4</span>))</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="dv">0</span>, w, <span class="dv">4</span>))</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1427,40 +1418,40 @@ x' &amp;= y\\
 y' &amp;= -\mu (x^2 -1)y -x
 \end{aligned}\]</span></p>
 <p>Show that the Van der Pol DE has a periodic solution when <span class="math inline">\(\mu&gt;0\)</span></p>
-<div id="16b13f82" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">3</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">100</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">100</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>])</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>vdp_title <span class="op">=</span> [<span class="vs">r'$\mu=1$'</span>, <span class="vs">r'$\mu=3$'</span>]</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> y</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="op">-</span>mu[i]<span class="op">*</span>(x<span class="op">*</span>x <span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>y <span class="op">-</span>x</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>,  </span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>       linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="dv">0</span>, <span class="dv">0</span>, <span class="st">'ro'</span>)</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(vdp_title[i])</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1fcbda4e" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>xp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">100</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>yp <span class="op">=</span> np.linspace(<span class="op">-</span>w, w, <span class="dv">100</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>x, y <span class="op">=</span> np.meshgrid(xp, yp)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>])</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>vdp_title <span class="op">=</span> [<span class="vs">r'$\mu=1$'</span>, <span class="vs">r'$\mu=3$'</span>]</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    xdot <span class="op">=</span> y</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    ydot <span class="op">=</span> <span class="op">-</span>mu[i]<span class="op">*</span>(x<span class="op">*</span>x <span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>y <span class="op">-</span>x</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    ax.streamplot(x, y, xdot, ydot, density<span class="op">=</span><span class="fl">1.5</span>,  </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>       linewidth<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">'blue'</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(<span class="dv">0</span>, <span class="dv">0</span>, <span class="st">'ro'</span>)</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    ax.set_title(vdp_title[i])</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1478,46 +1469,46 @@ y' &amp;= -\mu (x^2 -1)y -x
 \end{pmatrix}
 \]</span></p>
 <p>Therefore, <span class="math inline">\(\tau=\mu\)</span>, <span class="math inline">\(\Delta=1\)</span>, and <span class="math inline">\(\tau^2 -4\Delta=\mu^2-4\)</span>. Since <span class="math inline">\(\mu &gt;0\)</span>, the critical point is either an unstable spiral point or an unstable node. By part (a) of <strong>Poincaré-Benedixon I</strong>, the system has at least one periodic solution in <span class="math inline">\(\mathbb{R}\)</span></p>
-<div id="20d0568f" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> <span class="dv">15</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">5</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>mu_ <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="fl">2.5</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">0.5</span>, <span class="fl">0.5</span>], [<span class="dv">3</span>, <span class="dv">3</span>], [<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">3</span>], [<span class="dv">0</span>, <span class="fl">0.1</span>]])</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="dv">1</span>], <span class="op">-</span>mu<span class="op">*</span>(y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">0</span>] <span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>y[<span class="dv">1</span>] <span class="op">-</span>y[<span class="dv">0</span>]]</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>vdp_title <span class="op">=</span> [<span class="vs">r'$\mu=1$'</span>, <span class="vs">r'$\mu=2.5$'</span>]</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>vdp_line <span class="op">=</span> [<span class="st">'b:'</span>, <span class="st">'r:'</span>, <span class="st">'k:'</span>, <span class="st">'g:'</span>]</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> mu_[i]</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> x0[j]</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>        t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, td, <span class="dv">500</span>)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        sol <span class="op">=</span> solve_ivp(myODE, [<span class="dv">0</span>, td], y0, t_eval<span class="op">=</span>t_eval)    </span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], vdp_line[j], </span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>            linewidth<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>        ax.plot(y0[<span class="dv">0</span>], y0[<span class="dv">1</span>], <span class="st">'ro'</span>)</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    ax.set_title(vdp_title[i])</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="437c86f5" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>td <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>mu_ <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="fl">2.5</span>])</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> np.array([[<span class="fl">0.5</span>, <span class="fl">0.5</span>], [<span class="dv">3</span>, <span class="dv">3</span>], [<span class="op">-</span><span class="dv">3</span>,<span class="op">-</span><span class="dv">3</span>], [<span class="dv">0</span>, <span class="fl">0.1</span>]])</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> myODE(t, y):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [y[<span class="dv">1</span>], <span class="op">-</span>mu<span class="op">*</span>(y[<span class="dv">0</span>]<span class="op">*</span>y[<span class="dv">0</span>] <span class="op">-</span><span class="dv">1</span>)<span class="op">*</span>y[<span class="dv">1</span>] <span class="op">-</span>y[<span class="dv">0</span>]]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>vdp_title <span class="op">=</span> [<span class="vs">r'$\mu=1$'</span>, <span class="vs">r'$\mu=2.5$'</span>]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>vdp_line <span class="op">=</span> [<span class="st">'b:'</span>, <span class="st">'r:'</span>, <span class="st">'k:'</span>, <span class="st">'g:'</span>]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">10</span>))</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">1</span>, i <span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    mu <span class="op">=</span> mu_[i]</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">4</span>):</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        y0 <span class="op">=</span> x0[j]</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        t_eval <span class="op">=</span> np.linspace(<span class="dv">0</span>, td, <span class="dv">500</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        sol <span class="op">=</span> solve_ivp(myODE, [<span class="dv">0</span>, td], y0, t_eval<span class="op">=</span>t_eval)    </span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        ax.plot(sol.y[<span class="dv">0</span>], sol.y[<span class="dv">1</span>], vdp_line[j], </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>            linewidth<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>        ax.plot(y0[<span class="dv">0</span>], y0[<span class="dv">1</span>], <span class="st">'ro'</span>)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    ax.set_title(vdp_title[i])</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    ax.axis((<span class="op">-</span>w, w, <span class="op">-</span>w, w))</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    ax.set_aspect(aspect<span class="op">=</span><span class="st">'equal'</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    ax.grid()</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    ax.tick_params(axis<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>, pad<span class="op">=</span><span class="dv">5</span>)     </span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    ax.xaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="vs">r'$x$'</span>)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    ax.yaxis.set_ticks(np.linspace(<span class="op">-</span>w, w, <span class="dv">4</span>))</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="vs">r'$y$'</span>)</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">

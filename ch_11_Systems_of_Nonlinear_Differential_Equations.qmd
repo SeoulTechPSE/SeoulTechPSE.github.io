@@ -68,7 +68,7 @@ $$
     
     ![](figures/ch11_figure02.png){width="25%" fig-align="center"}
     
- **Example** $~$Find all criticl points of the following plane autonomous system
+ **Example** $~$Find all critical points of the following plane autonomous system
 
 $$
 \begin{aligned}
@@ -140,6 +140,7 @@ The nature of the eigenvalues is therefore determined by the value of $c$
 ```{python}
 import numpy as np
 import sympy as sp
+sp.init_printing(use_unicode=True)
 
 c = sp.Symbol('c')
 A = sp.Matrix([[-1, 1], [c, -1]])
@@ -148,7 +149,6 @@ A.eigenvects()
 
 ```{python}
 import matplotlib.pyplot as plt
-sp.init_printing(use_unicode=True)
 
 w = 1
 xp = np.linspace(-w, w, 50)
@@ -487,7 +487,7 @@ $$
 
 Show that $(x,y)=(0,0)$ is unstable critical point
 
-We see that $dr/dt=0$ when $r=0$ and can conclude that $(x,y)=(0,0)$ is a critical point. The differential equation can be solved using separation of variables. If $r(0)=r_0$ and $r_0\neq 0$, then
+We see that $dr/dt=0$ when $r=0$ and can conclude that $(x,y)=(0,0)$ is a critical point. $~$ The differential equation can be solved using separation of variables. If $r(0)=r_0$ and $r_0\neq 0,$ then
 
 $$ r=\frac{3}{1 +c_0 e^{-0.15t}} $$
 
@@ -676,7 +676,7 @@ plotPhasePortrait(ax, myODE, td, x0_0,  y0_0, 'k')
 plotPhasePortrait(ax, myODE, td, x0_1,  y0_1, 'b')
 plotPhasePortrait(ax, myODE, td, x0_2,  y0_2, 'r')
     
-ax.set_title('Phase Portrait')
+ax.set_title(r'Phase Portrait: $\times$ - initial conditions')
 
 w = 3
 ax.axis((-w, w, -w, w))
@@ -776,7 +776,7 @@ plt.show()
   ![](figures/ch11_figure06.png){width="55%" fig-align="center"}
 
   The tangential force $\mathbf{F}$ due to the weight $W=mg$ $\,$ has a magnitude $mg\sin\theta$, and therefore
-  the $x$-component of $\mathbf{F}$ is $F_x=-mg\sin\theta\cos\theta$. Since $\tan\theta=f'(x)$, $\,$ we can use the identity $1+\tan^2\theta=\sec^2\theta$ to conclude that
+  the $x$-component of $\mathbf{F}$ is $F_x=-mg\sin\theta\cos\theta$. Since $f'(x)=\tan\theta$, $\,$ we can use the identity $1+\tan^2\theta=\sec^2\theta$ to conclude that
 
   $$ 
   \begin{aligned}
