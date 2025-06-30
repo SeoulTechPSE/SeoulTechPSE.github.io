@@ -2473,3 +2473,135 @@ $$\begin{aligned}
 $~$
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $~$ Find $u(0,0,0,t)$
+
+$$
+\begin{aligned}
+ u_{tt} &= \nabla^2 u, \;\; t > 0\\ 
+ &u(x, y, z, 0) = 0, \;
+ u_t(x, y, z, 0) = x^2 +y^2 +z^2
+\end{aligned}
+$$
+
+**Solution**
+
+**Step 1:** $~$ Use the Kirchhoff’s formula (solution to 3D wave equation)
+
+For the 3D wave equation (with wave speed $c= 1$), the solution with initial conditions $u(\mathbf{x},0) = f(\mathbf{x})$, $u_t(\mathbf{x},0) = g(\mathbf{x})$ is:
+
+$$u(\mathbf{x},t) = \frac{1}{4\pi t} \int_{|\xi - \mathbf{x}| = t} g(\xi) \, dS(\xi) + \frac{1}{4\pi t^2} \int_{|\xi - \mathbf{x}| = t} f(\xi) \, dS(\xi) $$
+
+where the integrals are over the sphere of radius $t$ centered at $\mathbf{x}$
+
+In our problem:
+
+* $f(x,y,z) = 0$
+* $g(x,y,z) = x^2 + y^2 + z^2 = |\xi|^2$
+* Point of interest: $\mathbf{x} = (0,0,0)$
+
+Thus:
+
+$$u(0,0,0,t) = \frac{1}{4\pi t} \int_{|\xi| = t} |\xi|^2 \, dS(\xi)$$
+
+**Step 2:** $~$ Evaluate the integral
+
+On the sphere $|\xi| = t$, we have $|\xi|^2 = t^2$ constant
+
+Then:
+
+$$u(0,0,0,t) = \frac{1}{4\pi t} \int_{|\xi| = t} t^2 \, dS(\xi) = \frac{t^2}{4\pi t} \cdot \text{Surface area of sphere of radius } t$$
+
+The surface area of a sphere of radius $t$ is $4\pi t^2$, so:
+
+$$u(0,0,0,t) = \frac{t^2}{4\pi t} \cdot 4\pi t^2 = t^2 \cdot t = \boxed{t^3}$$
+
+$~$
+
+**2.** $~$ Find $u(x,y,z,t)$
+
+$$
+\begin{aligned}
+ u_{tt} &= \nabla^2 u, \;\; t > 0\\ 
+ &u(x, y, z, 0) = 0, \;
+ u_t(x, y, z, 0) = x
+\end{aligned}
+$$
+
+**Solution**
+
+**Step 1:** $~$ Use Kirchhoff’s formula (3D wave equation)
+
+For the 3D wave equation $u_{tt} = \nabla^2 u$ with wave speed $c = 1$, the general solution with initial data
+
+$$u(\mathbf{x},0) = f(\mathbf{x}), \quad u_t(\mathbf{x},0) = g(\mathbf{x})$$
+
+is given by:
+
+$$u(\mathbf{x},t) = \frac{1}{4\pi t} \int_{|\xi - \mathbf{x}| = t} g(\xi) \, dS(\xi) + \frac{1}{4\pi t^2} \int_{|\xi - \mathbf{x}| = t} f(\xi) \, dS(\xi)$$
+
+In our case:
+
+* $f(x,y,z) = 0$
+* $g(x,y,z) = x$ (we’ll write this as $\xi_1$ to distinguish from the field point $\mathbf{x} = (x_1,x_2,x_3)$)
+* Therefore:
+
+$$u(\mathbf{x},t) = \frac{1}{4\pi t} \int_{|\xi - \mathbf{x}| = t} \xi_1 \, dS(\xi)$$
+
+**Step 2:** $~$ Use coordinate shift
+
+Let’s simplify by performing a change of variables to center the sphere
+
+Let $\mathbf{x} = (x_1, x_2, x_3)$, and let $\xi = \mathbf{x} + t\omega$, where $\omega \in S^2$ is a unit vector.
+Then $|\xi - \mathbf{x}| = t$, and $dS(\xi) = t^2\, d\omega$. So:
+
+$$u(\mathbf{x},t) = \frac{1}{4\pi t} \int_{|\xi - \mathbf{x}| = t} \xi_1 \, dS(\xi)
+= \frac{1}{4\pi t} \int_{S^2} (x_1 + t\omega_1) \cdot t^2 \, d\omega$$
+
+Simplify:
+
+$$u(\mathbf{x},t) = \frac{t}{4\pi} \int_{S^2} (x_1 + t\omega_1) \, d\omega
+= \frac{t}{4\pi} \left[ x_1 \int_{S^2} d\omega + t \int_{S^2} \omega_1 \, d\omega \right]$$
+
+Now compute the integrals:
+
+* $\displaystyle \int_{S^2} d\omega = 4\pi$
+
+* $\displaystyle \int_{S^2} \omega_1 \, d\omega = 0~$ (odd function over symmetric sphere)
+
+So:
+
+$$u(\mathbf{x},t) = \frac{t}{4\pi} \cdot x_1 \cdot 4\pi = x_1 t = x t$$
+
+$~$
+
+**3.** $~$ Solve the vibrations of a membrane which is in the $xy$ plane:
+
+$$
+\begin{aligned}
+ u_{tt} &= \frac{\rho}{T} \left[ \frac{\partial^2 u}{\partial x^2} +\frac{\partial^2 u}{\partial y^2} \right] , \;\; 0 < x < \pi, \;0 < y < \pi \\
+ u&(0, y, t) =0, \; u(\pi, y, t) =0 \\ 
+ u&(x, 0, t) =0, \; u(x, \pi, t) =0 \\ 
+ u&(x,y,0) = \sin 2x \sin 3y +\sin 3x \sin2y. \;
+ u_t(x,y,0) =0
+\end{aligned}$$
+
+**Solution**
+
+$~$
+
+**4.** $~$ Solve the vibrations of a membrane which is in the $xy$ plane:
+
+$$\begin{aligned}
+ u_{tt} &= \frac{\rho}{T} \left[ \frac{\partial^2 u}{\partial x^2} +\frac{\partial^2 u}{\partial y^2} \right] , \;\; 0 < x < \pi, \;0 < y < \pi \\
+ u&(0, y, t) =0, \; u(\pi, y, t) =0 \\ 
+ u&(x, 0, t) =0, \; u(x, \pi, t) =0 \\ 
+ u&(x,y,0) = \sin x \sin 4y +\sin 4x \sin y, \;
+ u_t(x,y,0) =0
+\end{aligned}$$
+
+**Solution**
+
+$~$
+
+**5.** $~$ 

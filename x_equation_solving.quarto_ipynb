@@ -12,7 +12,7 @@
         "\n",
         "## Importing modules\n"
       ],
-      "id": "020c0341"
+      "id": "3bef494b"
     },
     {
       "cell_type": "code",
@@ -28,7 +28,7 @@
         "import matplotlib as mpl\n",
         "import matplotlib.pyplot as plt"
       ],
-      "id": "e191acd8",
+      "id": "65c6db07",
       "execution_count": null,
       "outputs": []
     },
@@ -44,7 +44,7 @@
         "\n",
         "print('matplotlib: ', mpl.__version__)"
       ],
-      "id": "17360acc",
+      "id": "77a5227b",
       "execution_count": null,
       "outputs": []
     },
@@ -91,7 +91,7 @@
         "\\end{aligned}\n",
         "$$\n"
       ],
-      "id": "02c421c8"
+      "id": "caa36f56"
     },
     {
       "cell_type": "code",
@@ -102,7 +102,7 @@
         "x = la.solve(A, b)\n",
         "x"
       ],
-      "id": "daf606d7",
+      "id": "3d880ebd",
       "execution_count": null,
       "outputs": []
     },
@@ -115,7 +115,7 @@
         "x2_1 = (4 -2 *x1) /3\n",
         "x2_2 = (3 -5 *x1) /4"
       ],
-      "id": "78e10a6c",
+      "id": "98ec2fb4",
       "execution_count": null,
       "outputs": []
     },
@@ -146,7 +146,7 @@
         "ax.set_ylabel(r\"$x_2$\", fontsize=16)\n",
         "ax.legend()"
       ],
-      "id": "aca6dfc0",
+      "id": "eb70974b",
       "execution_count": null,
       "outputs": []
     },
@@ -156,7 +156,7 @@
       "source": [
         "#### Symbolic approach\n"
       ],
-      "id": "661f408e"
+      "id": "12df3e26"
     },
     {
       "cell_type": "code",
@@ -165,7 +165,7 @@
         "A = sympy.Matrix([[2, 3], [5, 4]])\n",
         "b = sympy.Matrix([4, 3])"
       ],
-      "id": "3c1861b9",
+      "id": "1a096d43",
       "execution_count": null,
       "outputs": []
     },
@@ -175,7 +175,7 @@
       "source": [
         "A.condition_number()"
       ],
-      "id": "bf7239d0",
+      "id": "ad171c7a",
       "execution_count": null,
       "outputs": []
     },
@@ -185,7 +185,7 @@
       "source": [
         "sympy.N(_)"
       ],
-      "id": "6dbd4581",
+      "id": "a2f7da25",
       "execution_count": null,
       "outputs": []
     },
@@ -195,7 +195,7 @@
       "source": [
         "---\n"
       ],
-      "id": "e5cf75d7"
+      "id": "20bf5d54"
     },
     {
       "cell_type": "code",
@@ -203,7 +203,7 @@
       "source": [
         "L, U, _ = A.LUdecomposition()"
       ],
-      "id": "4c8778d4",
+      "id": "879237b4",
       "execution_count": null,
       "outputs": []
     },
@@ -213,7 +213,7 @@
       "source": [
         "L, U, L * U"
       ],
-      "id": "9d704101",
+      "id": "8a4c6d59",
       "execution_count": null,
       "outputs": []
     },
@@ -223,7 +223,7 @@
       "source": [
         "x = A.solve(b); x  # equivalent to A.LUsolve(b)"
       ],
-      "id": "0372dea3",
+      "id": "a86baf17",
       "execution_count": null,
       "outputs": []
     },
@@ -233,7 +233,7 @@
       "source": [
         "#### Numerical approach\n"
       ],
-      "id": "94e446d6"
+      "id": "c61c6083"
     },
     {
       "cell_type": "code",
@@ -242,7 +242,7 @@
         "A = np.array([[2, 3], [5, 4]])\n",
         "b = np.array([4, 3])"
       ],
-      "id": "4cec2e60",
+      "id": "b61a8f50",
       "execution_count": null,
       "outputs": []
     },
@@ -252,7 +252,7 @@
       "source": [
         "np.linalg.cond(A)"
       ],
-      "id": "b35d2ca6",
+      "id": "12abd7b4",
       "execution_count": null,
       "outputs": []
     },
@@ -262,7 +262,7 @@
       "source": [
         "P, L, U = la.lu(A)"
       ],
-      "id": "b80b8ba6",
+      "id": "60009a2b",
       "execution_count": null,
       "outputs": []
     },
@@ -272,7 +272,7 @@
       "source": [
         "P, L, U, P @ (L @ U)"
       ],
-      "id": "1e26773e",
+      "id": "17177acd",
       "execution_count": null,
       "outputs": []
     },
@@ -282,7 +282,7 @@
       "source": [
         "la.solve(A, b)"
       ],
-      "id": "ed53b846",
+      "id": "74bbc413",
       "execution_count": null,
       "outputs": []
     },
@@ -317,7 +317,7 @@
         "\n",
         "* A comparison between this symbolic solution and the numerical solution is shown in Figure below. Here the errors in the numerical solution are due to numerical floating-point errors, and the numerical errors are significantly larger in the vicinity of $p=1$, where the system has a large condition number. Also, if there are other sources of errors in either $\\mathbf{A}$ or $\\mathbf{b}$, the corresponding errors in $\\mathbf{x}$ can be even more severe    \n"
       ],
-      "id": "ca86bb8f"
+      "id": "e83344b9"
     },
     {
       "cell_type": "code",
@@ -333,7 +333,7 @@
         "x_sym_sol.simplify()\n",
         "x_sym_sol"
       ],
-      "id": "fa3fae3e",
+      "id": "52972c90",
       "execution_count": null,
       "outputs": []
     },
@@ -344,7 +344,7 @@
         "Acond = A.condition_number().simplify()\n",
         "Acond"
       ],
-      "id": "4d55344a",
+      "id": "727151a1",
       "execution_count": null,
       "outputs": []
     },
@@ -357,7 +357,7 @@
         "bb = np.array([1, 2])\n",
         "x_num_sol = lambda p: np.linalg.solve(AA(p), bb)"
       ],
-      "id": "600ab767",
+      "id": "0f5902fa",
       "execution_count": null,
       "outputs": []
     },
@@ -398,7 +398,7 @@
         "axes[1].set_xticks(np.arange(0.9, 1.1, 0.05))\n",
         "axes[1].set_yticks([3000, 6000, 9000])"
       ],
-      "id": "d781ae06",
+      "id": "25ac397b",
       "execution_count": null,
       "outputs": []
     },
@@ -427,7 +427,7 @@
         "    \\end{pmatrix}\n",
         "  $$\n"
       ],
-      "id": "9dfbc1bf"
+      "id": "c97656d4"
     },
     {
       "cell_type": "code",
@@ -439,7 +439,7 @@
         "b = sympy.Matrix([7, 8])\n",
         "sympy.solve(A*x - b, x_vars)"
       ],
-      "id": "56e58592",
+      "id": "5c1016a2",
       "execution_count": null,
       "outputs": []
     },
@@ -479,7 +479,7 @@
         "\n",
         "* In `sympy`, we can solve for the least square solution of an over-determined system using the `solve_least_squares` method, and for numerical problems we can use the `scipy` function `la.lstsq`\n"
       ],
-      "id": "bd4afb15"
+      "id": "462718a6"
     },
     {
       "cell_type": "code",
@@ -503,7 +503,7 @@
         "sol, r, rank, sv = la.lstsq(A.T, Y)\n",
         "y_fit = sol[0] +sol[1] *x +sol[2] *x**2"
       ],
-      "id": "13947075",
+      "id": "1de33d05",
       "execution_count": null,
       "outputs": []
     },
@@ -523,7 +523,7 @@
         "ax.set_ylabel(r\"$y$\", fontsize=12)\n",
         "ax.legend(loc=2)"
       ],
-      "id": "eaae1892",
+      "id": "b4d96665",
       "execution_count": null,
       "outputs": []
     },
@@ -543,7 +543,7 @@
         "sol, r, rank, sv = la.lstsq(A.T, Y)\n",
         "y_fit15 = sum([s*x**n for n, s in enumerate(sol)])"
       ],
-      "id": "61a271dc",
+      "id": "6b9df0cb",
       "execution_count": null,
       "outputs": []
     },
@@ -565,7 +565,7 @@
         "ax.set_ylabel(r\"$y$\", fontsize=12)\n",
         "ax.legend(loc=2)"
       ],
-      "id": "eb67adff",
+      "id": "9f42c535",
       "execution_count": null,
       "outputs": []
     },
@@ -575,7 +575,7 @@
       "source": [
         "## Eigenvalue problems\n"
       ],
-      "id": "ab39d33c"
+      "id": "77d1f707"
     },
     {
       "cell_type": "code",
@@ -585,7 +585,7 @@
         "H = sympy.Matrix([[eps, delta], [delta, -eps]])\n",
         "H "
       ],
-      "id": "38ab544b",
+      "id": "64c1e97b",
       "execution_count": null,
       "outputs": []
     },
@@ -595,7 +595,7 @@
       "source": [
         "H.eigenvals()"
       ],
-      "id": "6d28a1bc",
+      "id": "939822ec",
       "execution_count": null,
       "outputs": []
     },
@@ -605,7 +605,7 @@
       "source": [
         "H.eigenvects()[0]"
       ],
-      "id": "66f65a67",
+      "id": "20b320ef",
       "execution_count": null,
       "outputs": []
     },
@@ -615,7 +615,7 @@
       "source": [
         "H.eigenvects()[1]"
       ],
-      "id": "86df762c",
+      "id": "160ca194",
       "execution_count": null,
       "outputs": []
     },
@@ -625,7 +625,7 @@
       "source": [
         "(_, _, evec1), (_, _, evec2) = H.eigenvects()"
       ],
-      "id": "e06e857a",
+      "id": "dfd06fbf",
       "execution_count": null,
       "outputs": []
     },
@@ -635,7 +635,7 @@
       "source": [
         "sympy.simplify(evec1[0].T*evec2[0])"
       ],
-      "id": "aba299ce",
+      "id": "731005af",
       "execution_count": null,
       "outputs": []
     },
@@ -649,7 +649,7 @@
         "\n",
         "* Matrices that are either Hermitian or real symmetric have real-valued eigenvalues, and for such matrices, it is advantageous to instead use the functions `la.eigvalsh` and `la.eigh`, which guarantees that the eigenvalues returned by the function is stored in a `numpy` array with real values\n"
       ],
-      "id": "357f18b6"
+      "id": "36576c81"
     },
     {
       "cell_type": "code",
@@ -658,7 +658,7 @@
         "A = np.array([[1, 3, 5], [3, 5, 3], [5, 3, 9]])\n",
         "A"
       ],
-      "id": "aee7016e",
+      "id": "19a8401d",
       "execution_count": null,
       "outputs": []
     },
@@ -668,7 +668,7 @@
       "source": [
         "la.eigvals(A)"
       ],
-      "id": "770a6381",
+      "id": "8d7be639",
       "execution_count": null,
       "outputs": []
     },
@@ -678,7 +678,7 @@
       "source": [
         "evals, evecs = la.eig(A)"
       ],
-      "id": "25cd627c",
+      "id": "1fbad7f0",
       "execution_count": null,
       "outputs": []
     },
@@ -688,7 +688,7 @@
       "source": [
         "evecs"
       ],
-      "id": "966503b0",
+      "id": "e67649dc",
       "execution_count": null,
       "outputs": []
     },
@@ -698,7 +698,7 @@
       "source": [
         "la.eigvalsh(A)"
       ],
-      "id": "c58d8383",
+      "id": "9a0274e4",
       "execution_count": null,
       "outputs": []
     },
@@ -708,7 +708,7 @@
       "source": [
         "evals, evecs = la.eigh(A)"
       ],
-      "id": "5e95e37c",
+      "id": "50519932",
       "execution_count": null,
       "outputs": []
     },
@@ -718,7 +718,7 @@
       "source": [
         "evecs"
       ],
-      "id": "a5c12983",
+      "id": "66d028b3",
       "execution_count": null,
       "outputs": []
     },
@@ -734,7 +734,7 @@
         "\n",
         "* In `sympy`, we can solve many analytically solvable univariate and nonlinear equations using the `sympy.solve` function. For example,\n"
       ],
-      "id": "a57c6fef"
+      "id": "e2e9a59b"
     },
     {
       "cell_type": "code",
@@ -742,7 +742,7 @@
       "source": [
         "x, a, b, c = sympy.symbols(\"x, a, b, c\")"
       ],
-      "id": "62220475",
+      "id": "5986c6c9",
       "execution_count": null,
       "outputs": []
     },
@@ -752,7 +752,7 @@
       "source": [
         "sympy.solve(a + b*x + c*x**2, x)"
       ],
-      "id": "e5490eb2",
+      "id": "6b43e633",
       "execution_count": null,
       "outputs": []
     },
@@ -762,7 +762,7 @@
       "source": [
         "sympy.solve(a*sympy.cos(x) - b*sympy.sin(x), x)"
       ],
-      "id": "2a01b3fe",
+      "id": "675e0bc8",
       "execution_count": null,
       "outputs": []
     },
@@ -781,7 +781,7 @@
         "\n",
         "* In this type of situation, we need to resort to various numerical techniques. As a first step, it is often very useful to graph the function. This can give important clues about the number of solutions to the equation, and their approximate locations\n"
       ],
-      "id": "1d33126e"
+      "id": "676f3894"
     },
     {
       "cell_type": "code",
@@ -795,7 +795,7 @@
         "f3 = np.exp(x) -2\n",
         "f4 = 1 -x**2 +np.sin(50 /(1 +x**2))"
       ],
-      "id": "effe84c9",
+      "id": "c569d701",
       "execution_count": null,
       "outputs": []
     },
@@ -826,7 +826,7 @@
         "    \n",
         "fig.tight_layout()"
       ],
-      "id": "a6ae846d",
+      "id": "77715e75",
       "execution_count": null,
       "outputs": []
     },
@@ -836,7 +836,7 @@
       "source": [
         "### Bisection method\n"
       ],
-      "id": "1a45b864"
+      "id": "0634269b"
     },
     {
       "cell_type": "code",
@@ -849,7 +849,7 @@
         "tol = 0.1\n",
         "a, b = -2, 2"
       ],
-      "id": "a762b6d1",
+      "id": "cff303a8",
       "execution_count": null,
       "outputs": []
     },
@@ -906,7 +906,7 @@
         "ax.set_title(\"Bisection method\")\n",
         "plt.show()"
       ],
-      "id": "f3f30c3f",
+      "id": "f98f385b",
       "execution_count": null,
       "outputs": []
     },
@@ -916,7 +916,7 @@
       "source": [
         "### Newton's method\n"
       ],
-      "id": "caa71599"
+      "id": "9c4bf08d"
     },
     {
       "cell_type": "code",
@@ -934,7 +934,7 @@
         "tol = 0.01\n",
         "xk = 2"
       ],
-      "id": "510dec89",
+      "id": "0406a4c4",
       "execution_count": null,
       "outputs": []
     },
@@ -982,7 +982,7 @@
         "ax.set_title(\"Newton's method\")\n",
         "plt.show()"
       ],
-      "id": "8fd6dcac",
+      "id": "1d72e2dc",
       "execution_count": null,
       "outputs": []
     },
@@ -992,7 +992,7 @@
       "source": [
         "* The `scipy optimize` module provides multiple functions for numerical root finding. The `optimize.bisect` and `optimize.newton` functions implement variants of bisection and Newton methods\n"
       ],
-      "id": "52f37ba2"
+      "id": "91127830"
     },
     {
       "cell_type": "code",
@@ -1000,7 +1000,7 @@
       "source": [
         "f = lambda x: np.exp(x) -2"
       ],
-      "id": "c3f2ea65",
+      "id": "d26d9024",
       "execution_count": null,
       "outputs": []
     },
@@ -1010,7 +1010,7 @@
       "source": [
         "optimize.bisect(f, -2, 2)"
       ],
-      "id": "ccd0ed3a",
+      "id": "d54837bc",
       "execution_count": null,
       "outputs": []
     },
@@ -1021,7 +1021,7 @@
         "x_root_guess = 2\n",
         "fprime = lambda x: np.exp(x)"
       ],
-      "id": "3a4886af",
+      "id": "c17e55aa",
       "execution_count": null,
       "outputs": []
     },
@@ -1031,7 +1031,7 @@
       "source": [
         "optimize.newton(f, x_root_guess)"
       ],
-      "id": "1c003ed3",
+      "id": "402c0288",
       "execution_count": null,
       "outputs": []
     },
@@ -1041,7 +1041,7 @@
       "source": [
         "optimize.newton(f, x_root_guess, fprime=fprime)"
       ],
-      "id": "56f1660b",
+      "id": "038f4490",
       "execution_count": null,
       "outputs": []
     },
@@ -1051,7 +1051,7 @@
       "source": [
         "* The `scipy` `optimize` module provides additional functions for root finding. In particular, the `optimize.brentq` and `optimize.brenth` functions, which are variants of the bisection method, and also work on an interval where the function changes sign\n"
       ],
-      "id": "9d4dac9f"
+      "id": "264e2c04"
     },
     {
       "cell_type": "code",
@@ -1059,7 +1059,7 @@
       "source": [
         "optimize.brentq(f, -2, 2)"
       ],
-      "id": "d7518c4d",
+      "id": "8e4dc868",
       "execution_count": null,
       "outputs": []
     },
@@ -1069,7 +1069,7 @@
       "source": [
         "optimize.brenth(f, -2, 2)"
       ],
-      "id": "cb70cc87",
+      "id": "f50df0fd",
       "execution_count": null,
       "outputs": []
     },
@@ -1079,7 +1079,7 @@
       "source": [
         "optimize.ridder(f, -2, 2)"
       ],
-      "id": "ea70b82a",
+      "id": "377a3840",
       "execution_count": null,
       "outputs": []
     },
@@ -1098,7 +1098,7 @@
         "    \\end{aligned}\n",
         "  $$\n"
       ],
-      "id": "c5b69856"
+      "id": "16b16be8"
     },
     {
       "cell_type": "code",
@@ -1107,7 +1107,7 @@
         "def f(x):\n",
         "  return [x[1] -x[0]**3 -2*x[0]**2 +1, x[1] +x[0]**2 -1]"
       ],
-      "id": "fabed920",
+      "id": "b7aea685",
       "execution_count": null,
       "outputs": []
     },
@@ -1117,7 +1117,7 @@
       "source": [
         "optimize.fsolve(f, [1, 1])"
       ],
-      "id": "5b00a48b",
+      "id": "d3c640e6",
       "execution_count": null,
       "outputs": []
     },
@@ -1127,7 +1127,7 @@
       "source": [
         "optimize.broyden1(f, [1, 1])"
       ],
-      "id": "b8de6a5a",
+      "id": "248ba1bc",
       "execution_count": null,
       "outputs": []
     },
@@ -1137,7 +1137,7 @@
       "source": [
         "optimize.broyden2(f, [1, 1])"
       ],
-      "id": "722b9463",
+      "id": "4eec176c",
       "execution_count": null,
       "outputs": []
     },
@@ -1147,7 +1147,7 @@
       "source": [
         "---\n"
       ],
-      "id": "4f9e9a5d"
+      "id": "891a37f5"
     },
     {
       "cell_type": "code",
@@ -1157,7 +1157,7 @@
         "f_mat = sympy.Matrix([y - x**3 -2*x**2 + 1, y + x**2 - 1])\n",
         "f_mat.jacobian(sympy.Matrix([x, y]))"
       ],
-      "id": "6f414b0d",
+      "id": "ace4ff25",
       "execution_count": null,
       "outputs": []
     },
@@ -1168,7 +1168,7 @@
         "def f_jacobian(x):\n",
         "  return [[-3*x[0]**2 - 4*x[0], 1], [2*x[0], 1]]"
       ],
-      "id": "cce0fea9",
+      "id": "1d49faf3",
       "execution_count": null,
       "outputs": []
     },
@@ -1178,7 +1178,7 @@
       "source": [
         "optimize.fsolve(f, [1, 1], fprime=f_jacobian)"
       ],
-      "id": "703a69f9",
+      "id": "16f1744f",
       "execution_count": null,
       "outputs": []
     },
@@ -1188,7 +1188,7 @@
       "source": [
         "---\n"
       ],
-      "id": "d9cabe3a"
+      "id": "221b27db"
     },
     {
       "cell_type": "code",
@@ -1224,7 +1224,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "8af7b358",
+      "id": "8438258d",
       "execution_count": null,
       "outputs": []
     },
@@ -1272,7 +1272,7 @@
         "\n",
         "plt.show()"
       ],
-      "id": "72c3039c",
+      "id": "da7f4f78",
       "execution_count": null,
       "outputs": []
     }
