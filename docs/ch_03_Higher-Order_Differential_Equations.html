@@ -504,14 +504,14 @@ window.Quarto = {
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~y'' +\omega^2y=0\,\)</span> and <span class="math inline">\(\,y'' -\omega^2y=0\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve <span class="math inline">\(~3y'''+5y''+10y'-4y=0\)</span></p>
-<div id="e64c610e" class="cell" data-output-location="fragment" data-execution_count="1">
+<div id="087a650c" class="cell" data-output-location="fragment" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> Symbol, init_printing</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.solvers <span class="im">import</span> solve</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>init_printing()</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> Symbol(<span class="st">'x'</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>solve(<span class="dv">3</span><span class="op">*</span>x<span class="op">**</span><span class="dv">3</span> <span class="op">+</span><span class="dv">5</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">10</span><span class="op">*</span>x <span class="op">-</span><span class="dv">4</span>, x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <p><span class="math inline">\(\displaystyle \left[ \frac{1}{3}, \  -1 - \sqrt{3} i, \  -1 + \sqrt{3} i\right]\)</span></p>
 </div>
 </div>
@@ -1123,7 +1123,7 @@ r^2 &amp;u'' +2r u' -n(n +1) u = -r^2 F(r), \;\; 0 &lt; r &lt; R \\
   \dot{x} &amp;= u\\
   \dot{u} &amp;= -x -x^3 -u
 \end{aligned}\]</span></p>
-<div id="9ccfa637" class="cell" data-execution_count="2">
+<div id="00f92dd2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.integrate <span class="im">import</span> solve_ivp</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1182,7 +1182,7 @@ Figure&nbsp;3.1: <span class="math inline">\(\displaystyle\frac{d^2x}{dt^2} +\fr
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Example</strong> <span class="math inline">\(\,\)</span> Solve the above equation under the assumption that <span class="math inline">\(k_1=6\)</span>, <span class="math inline">\(k_2=4\)</span>, <span class="math inline">\(m_1=1\)</span>, and <span class="math inline">\(m_2=1\)</span> subject to</p>
 <p><span class="math display">\[x_1(0)=0,\; x'_1(0)=1,\; x_2(0)=0,\; x'_2(0)=-1\]</span></p>
-<div id="20148312" class="cell" data-execution_count="4">
+<div id="fde59be7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>k1, k2, m1, m2 <span class="op">=</span> <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> func(t, y):</span>
@@ -1564,6 +1564,49 @@ r^0 &amp;: a_0 = 0
 <p><span class="math display">\[
 x^3 y’’’ + x^2 y’’ = 0
 \]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Solve <span class="math inline">\(~2y'' + 2y' +y = 4\sqrt{x}\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Homogeneous part</p>
+<p><span class="math display">\[
+\begin{aligned}
+2y'' +&amp; 2y' + y =0 \\
+&amp;\Downarrow \;\; y=e^{px} \\
+2p^2 + 2p + 1 = 0 \;\; &amp;\rightarrow p = -\frac{1}{2} \pm\frac{1}{2}i \\
+&amp;\Downarrow \\
+y_1 = e^{-\frac{1}{2}x} \cos \frac{1}{2}x, &amp;\;\; y_2 = e^{-\frac{1}{2}x} \sin \frac{1}{2}x
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Nonhomogeneous part: Method of variation of parameters</p>
+<p><span class="math display">\[
+W = \begin{vmatrix}
+e^{-\frac{1}{2}x} \cos \frac{1}{2}x &amp; e^{-\frac{1}{2}x} \sin \frac{1}{2}x\\
+-\frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x +\sin \frac{1}{2}x  \right ) &amp;
+  \frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x -\sin \frac{1}{2}x  \right )
+\end{vmatrix} = \frac{1}{2} e^{-x}
+\]</span></p>
+<p><span class="math display">\[
+W_1 = \begin{vmatrix}
+0 &amp; e^{-\frac{1}{2}x} \sin \frac{1}{2}x\\
+2\sqrt{x} &amp;
+  \frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x -\sin \frac{1}{2}x  \right )
+\end{vmatrix} = -2\sqrt{x} \,e^{-\frac{1}{2}x} \sin \frac{1}{2}x
+\]</span></p>
+<p><span class="math display">\[
+W_2 = \begin{vmatrix}
+e^{-\frac{1}{2}x} \cos \frac{1}{2}x &amp; 0 \\
+-\frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x +\sin \frac{1}{2}x  \right ) &amp; 2\sqrt{x}  
+\end{vmatrix} = 2\sqrt{x} \,e^{-\frac{1}{2}x} \cos \frac{1}{2}x
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+&amp;\Downarrow \\
+u_1 &amp;= \int \frac{W_1}{W}\, dx = -4\int \sqrt{x} \,e^{\frac{1}{2}x} \sin \frac{1}{2}x \, dx\\
+u_2 &amp;= \int \frac{W_2}{W}\, dx = 4\int \sqrt{x} \,e^{\frac{1}{2}x} \cos \frac{1}{2}x \, dx\\
+&amp;\Downarrow \\
+\color{red}{y} &amp; \color{red}{= c_1 y_1 + c_2 y_2 + u_1 y_1 + u_2 y_2}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
 
 
 </section>

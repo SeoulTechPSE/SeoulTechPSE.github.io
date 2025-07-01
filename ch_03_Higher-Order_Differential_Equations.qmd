@@ -1609,3 +1609,61 @@ So the equation is:
 $$
 x^3 y’’’ + x^2 y’’ = 0
 $$
+
+$~$
+
+**7.** $~$ Solve $~2y'' + 2y' +y = 4\sqrt{x}$
+
+**Solution**
+
+**Step 1:** $~$ Homogeneous part
+
+$$
+\begin{aligned}
+ 2y'' +& 2y' + y =0 \\ 
+ &\Downarrow \;\; y=e^{px} \\ 
+ 2p^2 + 2p + 1 = 0 \;\; &\rightarrow p = -\frac{1}{2} \pm\frac{1}{2}i \\ 
+ &\Downarrow \\ 
+ y_1 = e^{-\frac{1}{2}x} \cos \frac{1}{2}x, &\;\; y_2 = e^{-\frac{1}{2}x} \sin \frac{1}{2}x
+\end{aligned}$$
+
+$~$
+
+**Step 2:** $~$ Nonhomogeneous part: Method of variation of parameters
+
+
+$$
+W = \begin{vmatrix}
+ e^{-\frac{1}{2}x} \cos \frac{1}{2}x & e^{-\frac{1}{2}x} \sin \frac{1}{2}x\\ 
+ -\frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x +\sin \frac{1}{2}x  \right ) &
+  \frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x -\sin \frac{1}{2}x  \right ) 
+\end{vmatrix} = \frac{1}{2} e^{-x}
+$$
+
+
+$$
+W_1 = \begin{vmatrix}
+ 0 & e^{-\frac{1}{2}x} \sin \frac{1}{2}x\\ 
+ 2\sqrt{x} &
+  \frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x -\sin \frac{1}{2}x  \right ) 
+\end{vmatrix} = -2\sqrt{x} \,e^{-\frac{1}{2}x} \sin \frac{1}{2}x
+$$
+
+
+$$
+W_2 = \begin{vmatrix}
+ e^{-\frac{1}{2}x} \cos \frac{1}{2}x & 0 \\ 
+ -\frac{1}{2} e^{-\frac{1}{2}x} \left(\cos \frac{1}{2}x +\sin \frac{1}{2}x  \right ) & 2\sqrt{x}  
+\end{vmatrix} = 2\sqrt{x} \,e^{-\frac{1}{2}x} \cos \frac{1}{2}x
+$$
+
+$$
+\begin{aligned}
+ &\Downarrow \\
+ u_1 &= \int \frac{W_1}{W}\, dx = -4\int \sqrt{x} \,e^{\frac{1}{2}x} \sin \frac{1}{2}x \, dx\\ 
+ u_2 &= \int \frac{W_2}{W}\, dx = 4\int \sqrt{x} \,e^{\frac{1}{2}x} \cos \frac{1}{2}x \, dx\\
+ &\Downarrow \\
+ \color{red}{y} & \color{red}{= c_1 y_1 + c_2 y_2 + u_1 y_1 + u_2 y_2} 
+\end{aligned}$$
+
+$~$

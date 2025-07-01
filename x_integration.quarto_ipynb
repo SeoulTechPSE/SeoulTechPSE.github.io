@@ -10,7 +10,7 @@
         "\n",
         "## Importing modules\n"
       ],
-      "id": "0bee3916"
+      "id": "854e2cf8"
     },
     {
       "cell_type": "code",
@@ -25,7 +25,7 @@
         "import matplotlib.pyplot as plt\n",
         "import matplotlib as mpl"
       ],
-      "id": "adb0501d",
+      "id": "2e00c907",
       "execution_count": null,
       "outputs": []
     },
@@ -38,7 +38,7 @@
         "print(\"sympy: \", sympy.__version__)\n",
         "print(\"scipy: \", __version__)"
       ],
-      "id": "63b6a141",
+      "id": "e624871a",
       "execution_count": null,
       "outputs": []
     },
@@ -76,7 +76,7 @@
         "\n",
         "  which uses function evaluations at the endpoints and the midpoint. This method is of polynomial degree three, meaning that it integrates exactly polynomials up to order three\n"
       ],
-      "id": "c27699bd"
+      "id": "b0193bee"
     },
     {
       "cell_type": "code",
@@ -91,7 +91,7 @@
         "q_rule = sum([w[i] *f(x[i]) for i in range(len(x))])\n",
         "q_rule"
       ],
-      "id": "04662e83",
+      "id": "3b527fa6",
       "execution_count": null,
       "outputs": []
     },
@@ -101,7 +101,7 @@
       "source": [
         "* To compute the appropriate values of the weight factors $w_i$, we choose the polynomial basis functions $\\{ \\phi_n(x) = x^n \\}_{n=0}^2$ for the interpolation of $f(x)$\n"
       ],
-      "id": "5be73957"
+      "id": "65b69292"
     },
     {
       "cell_type": "code",
@@ -110,7 +110,7 @@
         "phi = [sympy.Lambda(X, X**n) for n in range(len(x))]\n",
         "phi"
       ],
-      "id": "d834e8a7",
+      "id": "ba5ce05b",
       "execution_count": null,
       "outputs": []
     },
@@ -123,7 +123,7 @@
         "          for n in range(len(phi))]\n",
         "eqs"
       ],
-      "id": "f089653d",
+      "id": "4b9afab1",
       "execution_count": null,
       "outputs": []
     },
@@ -134,7 +134,7 @@
         "w_sol = sympy.solve(eqs, w)\n",
         "w_sol"
       ],
-      "id": "859d58d3",
+      "id": "3486e130",
       "execution_count": null,
       "outputs": []
     },
@@ -144,7 +144,7 @@
       "source": [
         "q_rule.subs(w_sol).simplify()"
       ],
-      "id": "51392701",
+      "id": "7a42baad",
       "execution_count": null,
       "outputs": []
     },
@@ -175,7 +175,7 @@
         "\n",
         "  $$ \\int_{-1}^1 \\, e^{-x^2}\\, dx$$\n"
       ],
-      "id": "608fa3fc"
+      "id": "20ddf30d"
     },
     {
       "cell_type": "code",
@@ -186,7 +186,7 @@
         "\n",
         "val, err = integrate.quad(f, -1, 1)"
       ],
-      "id": "bf035ae7",
+      "id": "163ad82a",
       "execution_count": null,
       "outputs": []
     },
@@ -196,7 +196,7 @@
       "source": [
         "val, err"
       ],
-      "id": "035d5196",
+      "id": "f8c480fd",
       "execution_count": null,
       "outputs": []
     },
@@ -212,7 +212,7 @@
         "\n",
         "  for the specific values of the parameters $a=1$, $b=2$, and $c=3$\n"
       ],
-      "id": "d4fc3d35"
+      "id": "54ade107"
     },
     {
       "cell_type": "code",
@@ -223,7 +223,7 @@
         "\n",
         "val, err = integrate.quad(f, -1, 1, args=(1, 2, 3))"
       ],
-      "id": "dcb60a25",
+      "id": "63471527",
       "execution_count": null,
       "outputs": []
     },
@@ -233,7 +233,7 @@
       "source": [
         "val, err"
       ],
-      "id": "411eaeb5",
+      "id": "dc985d55",
       "execution_count": null,
       "outputs": []
     },
@@ -249,7 +249,7 @@
         "\n",
         "  where the integrand $J_0(x)$ is the zero-th order Bessel function of the first kind,\n"
       ],
-      "id": "30d46cf2"
+      "id": "58433a14"
     },
     {
       "cell_type": "code",
@@ -261,7 +261,7 @@
         "\n",
         "val, err = integrate.quad(f, 0, 5)"
       ],
-      "id": "1608fcbc",
+      "id": "ac5162b3",
       "execution_count": null,
       "outputs": []
     },
@@ -271,7 +271,7 @@
       "source": [
         "val, err"
       ],
-      "id": "3272f5d3",
+      "id": "5e00b23b",
       "execution_count": null,
       "outputs": []
     },
@@ -283,7 +283,7 @@
         "\n",
         "* Consider the integral $$ \\int_{-\\infty}^\\infty e^{-x^2} \\,dx $$\n"
       ],
-      "id": "112ddbee"
+      "id": "cf6c405e"
     },
     {
       "cell_type": "code",
@@ -293,7 +293,7 @@
         "\n",
         "val, err = integrate.quad(f, -np.inf, np.inf, epsabs=1.49e-14, epsrel=1.49e-14)"
       ],
-      "id": "394c6030",
+      "id": "212ed8db",
       "execution_count": null,
       "outputs": []
     },
@@ -303,7 +303,7 @@
       "source": [
         "val, err"
       ],
-      "id": "dac8e591",
+      "id": "14606b37",
       "execution_count": null,
       "outputs": []
     },
@@ -317,7 +317,7 @@
         "\n",
         "* The integrand diverges at $x=0$, but the value of the integral does not diverge, and its value is $4$. Naively trying to compute this integral using `quad` may fail because of the diverging integrand:\n"
       ],
-      "id": "fb377621"
+      "id": "b6bb7c8a"
     },
     {
       "cell_type": "code",
@@ -335,7 +335,7 @@
         "except Exception as e:\n",
         "  print(e)"
       ],
-      "id": "e8a7df68",
+      "id": "9f1c6ead",
       "execution_count": null,
       "outputs": []
     },
@@ -356,7 +356,7 @@
         "ax.set_ylim(0, 25)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "80a96f63",
+      "id": "277d499e",
       "execution_count": null,
       "outputs": []
     },
@@ -366,7 +366,7 @@
       "source": [
         "* In this case, the evaluation of the integral fails because the integrand diverges exactly at one of the sample points in the Gaussian quadrature rule (the midpoint). We can guide the `quad` routine by specifying a list of points that should be avoided using the `points` keyword arguments, and using `points=[0]` in the current example allows quad to correctly evaluate the integral:\n"
       ],
-      "id": "77d2e12a"
+      "id": "727dae54"
     },
     {
       "cell_type": "code",
@@ -374,7 +374,7 @@
       "source": [
         "val, err = integrate.quad(f, a, b, points=[0])"
       ],
-      "id": "d1fcfd71",
+      "id": "fb37b245",
       "execution_count": null,
       "outputs": []
     },
@@ -384,7 +384,7 @@
       "source": [
         "val, err"
       ],
-      "id": "de5cafe7",
+      "id": "26efe2f5",
       "execution_count": null,
       "outputs": []
     },
@@ -396,7 +396,7 @@
         "\n",
         "* Let’s evaluate the integral $\\displaystyle\\int_0^2 \\sqrt{x}\\, dx$ by taking $25$ samples of the integrand in the integration interval $[0, 2]$,\n"
       ],
-      "id": "45897fba"
+      "id": "a88846f8"
     },
     {
       "cell_type": "code",
@@ -425,7 +425,7 @@
         "ax.set_ylabel(r\"$f(x)$\", fontsize=12)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "c0e8aa86",
+      "id": "e604fabe",
       "execution_count": null,
       "outputs": []
     },
@@ -436,7 +436,7 @@
         "val_trapz = integrate.trapz(y, x)\n",
         "val_trapz"
       ],
-      "id": "224cfd26",
+      "id": "34c960ef",
       "execution_count": null,
       "outputs": []
     },
@@ -447,7 +447,7 @@
         "val_simps = integrate.simps(y, x)\n",
         "val_simps"
       ],
-      "id": "521d8bf8",
+      "id": "2b6097fc",
       "execution_count": null,
       "outputs": []
     },
@@ -458,7 +458,7 @@
         "val_exact = 2.0/3.0 *(b-a)**(3.0/2.0)\n",
         "val_exact"
       ],
-      "id": "d80c06e8",
+      "id": "c408411f",
       "execution_count": null,
       "outputs": []
     },
@@ -468,7 +468,7 @@
       "source": [
         "val_exact -val_trapz"
       ],
-      "id": "b1a5d903",
+      "id": "afe7a93d",
       "execution_count": null,
       "outputs": []
     },
@@ -478,7 +478,7 @@
       "source": [
         "val_exact -val_simps"
       ],
-      "id": "62b176d9",
+      "id": "ba9c7719",
       "execution_count": null,
       "outputs": []
     },
@@ -488,7 +488,7 @@
       "source": [
         "---\n"
       ],
-      "id": "3e297bdb"
+      "id": "0c4bbfd0"
     },
     {
       "cell_type": "code",
@@ -500,7 +500,7 @@
         "\n",
         "val_exact -integrate.romb(y, dx=dx)"
       ],
-      "id": "a498d9f8",
+      "id": "9cc33514",
       "execution_count": null,
       "outputs": []
     },
@@ -510,7 +510,7 @@
       "source": [
         "val_exact -integrate.simps(y, dx=dx)"
       ],
-      "id": "3f18d146",
+      "id": "1914e1a5",
       "execution_count": null,
       "outputs": []
     },
@@ -529,7 +529,7 @@
         "\n",
         "* Consider the integral $\\displaystyle\\int_0^1 \\int_0^1 e^{-(x^2+y^2)}\\,dxdy$,\n"
       ],
-      "id": "80931c9a"
+      "id": "c76459e2"
     },
     {
       "cell_type": "code",
@@ -542,7 +542,7 @@
         "g = lambda y: 0\n",
         "h = lambda y: 1"
       ],
-      "id": "08648abc",
+      "id": "0d04543c",
       "execution_count": null,
       "outputs": []
     },
@@ -552,7 +552,7 @@
       "source": [
         "integrate.dblquad(f, a, b, g, h)"
       ],
-      "id": "23ae7851",
+      "id": "cc20beb8",
       "execution_count": null,
       "outputs": []
     },
@@ -568,7 +568,7 @@
         "\n",
         "  $$\\int_0^1 \\int_0^1 \\int_0^1 e^{-(x^2+y^2+z^2)}\\,dxdydz$$\n"
       ],
-      "id": "22cf07f0"
+      "id": "9c7f17ee"
     },
     {
       "cell_type": "code",
@@ -583,7 +583,7 @@
         "\n",
         "integrate.tplquad(f, 0, 1, g, h, q, r)"
       ],
-      "id": "3c02ccc7",
+      "id": "60529c76",
       "execution_count": null,
       "outputs": []
     },
@@ -593,7 +593,7 @@
       "source": [
         "* For arbitrary number of integrations, we can use the `nquad` function\n"
       ],
-      "id": "b01b3c23"
+      "id": "e9487f88"
     },
     {
       "cell_type": "code",
@@ -601,7 +601,7 @@
       "source": [
         "integrate.nquad(f, [(0, 1), (0, 1), (0, 1)])"
       ],
-      "id": "babfe5e7",
+      "id": "288597dd",
       "execution_count": null,
       "outputs": []
     },
@@ -611,7 +611,7 @@
       "source": [
         "---\n"
       ],
-      "id": "b96d09b2"
+      "id": "8d830017"
     },
     {
       "cell_type": "code",
@@ -620,7 +620,7 @@
         "def f(*args):\n",
         "  return np.exp(-np.sum(np.array(args)**2))"
       ],
-      "id": "f4983370",
+      "id": "9eabd541",
       "execution_count": null,
       "outputs": []
     },
@@ -630,7 +630,7 @@
       "source": [
         "%time integrate.nquad(f, [(0, 1)] *1)"
       ],
-      "id": "40d44190",
+      "id": "a23c93d0",
       "execution_count": null,
       "outputs": []
     },
@@ -640,7 +640,7 @@
       "source": [
         "%time integrate.nquad(f, [(0, 1)] *2)"
       ],
-      "id": "e31a45aa",
+      "id": "42d7e37e",
       "execution_count": null,
       "outputs": []
     },
@@ -650,7 +650,7 @@
       "source": [
         "%time integrate.nquad(f, [(0, 1)] *3)"
       ],
-      "id": "ed7824ed",
+      "id": "eee4985d",
       "execution_count": null,
       "outputs": []
     },
@@ -660,7 +660,7 @@
       "source": [
         "%time integrate.nquad(f, [(0, 1)] *4)"
       ],
-      "id": "82b2206f",
+      "id": "4553df14",
       "execution_count": null,
       "outputs": []
     },
@@ -672,7 +672,7 @@
         "\n",
         "* For example, to compute the integral $\\displaystyle\\int_{-1}^{1} 2\\sqrt{1-x^2}\\,dx$, $~$we first create a symbol for $x$, and define expressions for the integrand and the integration\n"
       ],
-      "id": "81b4db95"
+      "id": "b3797ff6"
     },
     {
       "cell_type": "code",
@@ -685,7 +685,7 @@
         "val_sym = sympy.integrate(f, (x, a, b))\n",
         "val_sym"
       ],
-      "id": "1b31f869",
+      "id": "016d05bb",
       "execution_count": null,
       "outputs": []
     },
@@ -699,7 +699,7 @@
         "\n",
         "* For example, if we require 75 accurate decimal places, we set:\n"
       ],
-      "id": "31942d7c"
+      "id": "adf53bc4"
     },
     {
       "cell_type": "code",
@@ -707,7 +707,7 @@
       "source": [
         "import mpmath"
       ],
-      "id": "1a1306de",
+      "id": "9e8dca94",
       "execution_count": null,
       "outputs": []
     },
@@ -718,7 +718,7 @@
         "mpmath.mp.dps = 75\n",
         "f_mpmath = sympy.lambdify(x, f, 'mpmath')"
       ],
-      "id": "9fabf1a9",
+      "id": "ddd8789d",
       "execution_count": null,
       "outputs": []
     },
@@ -729,7 +729,7 @@
         "val = mpmath.quad(f_mpmath, (a, b))\n",
         "sympy.sympify(val)"
       ],
-      "id": "60010544",
+      "id": "eb6ea95b",
       "execution_count": null,
       "outputs": []
     },
@@ -739,7 +739,7 @@
       "source": [
         "sympy.N(val_sym, mpmath.mp.dps +1) -val"
       ],
-      "id": "35bb198b",
+      "id": "5b06e2f2",
       "execution_count": null,
       "outputs": []
     },
@@ -749,7 +749,7 @@
       "source": [
         "---\n"
       ],
-      "id": "a205ff9b"
+      "id": "c8b7e3b6"
     },
     {
       "cell_type": "code",
@@ -757,7 +757,7 @@
       "source": [
         "%time mpmath.quad(f_mpmath, [a, b])"
       ],
-      "id": "3f93e731",
+      "id": "f1269693",
       "execution_count": null,
       "outputs": []
     },
@@ -768,7 +768,7 @@
         "f_numpy = sympy.lambdify(x, f, 'numpy')\n",
         "%time integrate.quad(f_numpy, a, b)"
       ],
-      "id": "c05d931e",
+      "id": "f0bc1b1e",
       "execution_count": null,
       "outputs": []
     },
@@ -790,7 +790,7 @@
         "\n",
         "  to 30 significant decimals (this example cannot be solved symbolically with `sympy`)\n"
       ],
-      "id": "91976199"
+      "id": "b0a447fa"
     },
     {
       "cell_type": "code",
@@ -798,7 +798,7 @@
       "source": [
         "x, y, z = sympy.symbols('x, y, z')"
       ],
-      "id": "6e4f5385",
+      "id": "67064469",
       "execution_count": null,
       "outputs": []
     },
@@ -812,7 +812,7 @@
         "f2_mpmath = sympy.lambdify((x, y), f2, 'mpmath')\n",
         "f3_mpmath = sympy.lambdify((x, y, z), f3, 'mpmath')"
       ],
-      "id": "cec534cb",
+      "id": "f1d46492",
       "execution_count": null,
       "outputs": []
     },
@@ -825,7 +825,7 @@
         "res2 = mpmath.quad(f2_mpmath, (0, 1), (0, 1))\n",
         "res3 = mpmath.quad(f3_mpmath, (0, 1), (0, 1), (0, 1))"
       ],
-      "id": "b9d682eb",
+      "id": "c8d5020d",
       "execution_count": null,
       "outputs": []
     },
@@ -835,7 +835,7 @@
       "source": [
         "sympy.sympify(res2), sympy.sympify(res3)"
       ],
-      "id": "4ae6b4d4",
+      "id": "c197441a",
       "execution_count": null,
       "outputs": []
     },
@@ -883,7 +883,7 @@
         "  >`sympy.inverse_laplace_transform` and \n",
         "  >`sympy.inverse_fourier_transform`\n"
       ],
-      "id": "b93cb981"
+      "id": "2b73f91d"
     },
     {
       "cell_type": "code",
@@ -895,7 +895,7 @@
         "f = sympy.sin(a*t)\n",
         "sympy.laplace_transform(f, t, s)"
       ],
-      "id": "4594e552",
+      "id": "ad248f46",
       "execution_count": null,
       "outputs": []
     },
@@ -906,7 +906,7 @@
         "F = sympy.laplace_transform(f, t, s, noconds=True)\n",
         "F"
       ],
-      "id": "97272004",
+      "id": "9e1f4fe3",
       "execution_count": null,
       "outputs": []
     },
@@ -916,7 +916,7 @@
       "source": [
         "sympy.inverse_laplace_transform(F, s, t, noconds=True)"
       ],
-      "id": "75aaef04",
+      "id": "59a8a188",
       "execution_count": null,
       "outputs": []
     },
@@ -926,7 +926,7 @@
       "source": [
         "---\n"
       ],
-      "id": "da90cf0f"
+      "id": "574e0019"
     },
     {
       "cell_type": "code",
@@ -934,7 +934,7 @@
       "source": [
         "[sympy.laplace_transform(f, t, s, noconds=True) for f in [t, t**2, t**3, t**4]]"
       ],
-      "id": "947744cd",
+      "id": "3aa0bf7d",
       "execution_count": null,
       "outputs": []
     },
@@ -945,7 +945,7 @@
         "a = sympy.symbols('a', positive=True)\n",
         "sympy.laplace_transform(t**a, t, s, noconds=True)"
       ],
-      "id": "307d1c99",
+      "id": "70f434c6",
       "execution_count": null,
       "outputs": []
     },
@@ -955,7 +955,7 @@
       "source": [
         "sympy.laplace_transform((1 -a*t) *sympy.exp(-a*t), t, s, noconds=True)"
       ],
-      "id": "30f167f5",
+      "id": "defaa813",
       "execution_count": null,
       "outputs": []
     },
@@ -965,7 +965,7 @@
       "source": [
         "---\n"
       ],
-      "id": "3f5bc7e9"
+      "id": "2a0e19e4"
     },
     {
       "cell_type": "code",
@@ -977,7 +977,7 @@
         "F = sympy.fourier_transform(f, x, w)\n",
         "F"
       ],
-      "id": "c4d24259",
+      "id": "65559ee1",
       "execution_count": null,
       "outputs": []
     },
@@ -987,7 +987,7 @@
       "source": [
         "sympy.inverse_fourier_transform(F, w, x)"
       ],
-      "id": "9965b18f",
+      "id": "fd8404f2",
       "execution_count": null,
       "outputs": []
     }
