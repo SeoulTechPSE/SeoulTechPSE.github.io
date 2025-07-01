@@ -685,12 +685,10 @@ window.Quarto = {
 <section id="worked-exercises" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 <p><strong>1.</strong> <span class="math inline">\(\phantom{1}\)</span> Solve the system</p>
-<blockquote class="blockquote">
-<p><span class="math inline">\(\begin{aligned}
+<p><span class="math display">\[\begin{aligned}
 x' +y &amp;= t\\
 4x +y' &amp;=0
-\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=2\)</span></p>
-</blockquote>
+\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=2\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Solution</strong></p>
 <p><strong>Step 1:</strong> Take Laplace transforms</p>
@@ -823,6 +821,41 @@ x'' +y'' &amp;= e^{2t}\\
 = \int_0^\infty e^{-u} \left( \frac{u}{s} \right)^\alpha \cdot \frac{du}{s} \\
 &amp;= \frac{1}{s^{\alpha + 1}} \int_0^\infty u^\alpha e^{-u} du \\
 &amp;= \frac{1}{s^{\alpha + 1}} \Gamma(\alpha + 1)
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>5.</strong> <span class="math inline">\(~\)</span> Solve the given differential equation</p>
+<p><span class="math display">\[y''+2y'+y=(t-1) u(t-1) +\delta(t-5), \;y(0)=0, \;y'(0)=0\]</span></p>
+<p><strong>Solution</strong></p>
+<p><span class="math display">\[\begin{aligned}
+y''+2y'+y=(t-1) u(t-1) &amp;+\delta(t-5), \;\;y(0)=0,\; y'(0)=0 \\
+&amp;\Downarrow \\
+(s^2 +2s +1)\,Y &amp;= \frac{e^{-s}}{s^2} + e^{-5s}\\
+&amp;\Downarrow \\
+Y = \frac{e^{-s}}{s^2(s+1)^2} + \frac{e^{-5s}}{(s+1)^2} &amp;= \left[ -\frac{2}{s} +\frac{1}{s^2} +\frac{2}{s+1} +\frac{1}{(s+1)^2}\right] e^{-s} + \frac{e^{-5s}}{(s+1)^2} \\
+&amp;\Downarrow \\
+\color{red}{y(t) = \left[-3 +t +(t+1)e^{-(t-1)} \right]} \; &amp; \color{red}{\;u(t -1) +(t-5) e^{-(t-5)} u(t-5)}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>6.</strong> <span class="math inline">\(~\)</span> Solve <span class="math inline">\(~y'' + 4y' + 3y =e^t \delta (t-1), \;\;y(0)=0, \;y'(0)=2\)</span></p>
+<p><strong>Solution</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+y'' + 4y' + 3y &amp;= e^t \delta (t-1), \;\;y(0)=0, \;y'(0)=2\\
+&amp;\Downarrow \\
+(s^2 + 4s +3) Y(s) - 2 &amp;= e e^{-s} \\
+Y(s) &amp;= \frac{2}{(s+1)(s+3)} + \frac{e}{(s+1)(s+3)} e^{-s}\\
+&amp;\Downarrow \\
+\color{red}{y(t)} &amp;\color{red}{= e^{-t} - e^{-3t} +\frac{e}{2} \left[e^{-(t-1)} - e^{-3(t-1)}\right] u(t-1)}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Use the Laplace transform to find the numerical value of the improper integral <span class="math display">\[\int_0^\infty t e^{-2t} \sin 4t \,dt\]</span></p>
+<p><strong>Solution</strong></p>
+<p><span class="math display">\[\begin{aligned}
+F(s) &amp;= \mathcal{L} \left[ t\, \sin 4t\right ] = \int_0^\infty t\, \sin 4t \, e^{-st} \,dt\\
+&amp;\Downarrow \\
+F(s) &amp;= -\frac{d}{ds} \left(\frac{4}{s^2 + 4^2} \right) = \frac{8s}{(s^2 + 4^2)^2}\\
+&amp;\Downarrow \\
+\color{red}{F(2)} \; &amp;\color{red}{= \frac{1}{25}}
 \end{aligned}\]</span></p>
 
 

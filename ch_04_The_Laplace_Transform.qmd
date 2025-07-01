@@ -408,10 +408,10 @@ $$
 
 **1.** $\phantom{1}$ Solve the system
 
-> $\begin{aligned}
+$$\begin{aligned}
  x' +y &= t\\
  4x +y' &=0
-\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=2$
+\end{aligned} \quad \text{at} \;\; x(0)=0, \;y(0)=2$$
 
 $~$
 
@@ -645,3 +645,53 @@ $$
 &= \frac{1}{s^{\alpha + 1}} \int_0^\infty u^\alpha e^{-u} du \\
 &= \frac{1}{s^{\alpha + 1}} \Gamma(\alpha + 1)
 \end{aligned}$$
+
+$~$
+
+**5.** $~$ Solve the given differential equation 
+
+$$y''+2y'+y=(t-1) u(t-1) +\delta(t-5), \;y(0)=0, \;y'(0)=0$$
+
+**Solution**
+
+$$\begin{aligned}
+ y''+2y'+y=(t-1) u(t-1) &+\delta(t-5), \;\;y(0)=0,\; y'(0)=0 \\ 
+ &\Downarrow \\ 
+ (s^2 +2s +1)\,Y &= \frac{e^{-s}}{s^2} + e^{-5s}\\ 
+ &\Downarrow \\ 
+ Y = \frac{e^{-s}}{s^2(s+1)^2} + \frac{e^{-5s}}{(s+1)^2} &= \left[ -\frac{2}{s} +\frac{1}{s^2} +\frac{2}{s+1} +\frac{1}{(s+1)^2}\right] e^{-s} + \frac{e^{-5s}}{(s+1)^2} \\
+ &\Downarrow \\
+ \color{red}{y(t) = \left[-3 +t +(t+1)e^{-(t-1)} \right]} \; & \color{red}{\;u(t -1) +(t-5) e^{-(t-5)} u(t-5)}
+\end{aligned}$$
+
+$~$
+
+**6.** $~$ Solve $~y'' + 4y' + 3y =e^t \delta (t-1), \;\;y(0)=0, \;y'(0)=2$
+
+**Solution**
+
+$$
+\begin{aligned}
+ y'' + 4y' + 3y &= e^t \delta (t-1), \;\;y(0)=0, \;y'(0)=2\\ 
+ &\Downarrow \\ 
+ (s^2 + 4s +3) Y(s) - 2 &= e e^{-s} \\ 
+ Y(s) &= \frac{2}{(s+1)(s+3)} + \frac{e}{(s+1)(s+3)} e^{-s}\\ 
+ &\Downarrow \\ 
+ \color{red}{y(t)} &\color{red}{= e^{-t} - e^{-3t} +\frac{e}{2} \left[e^{-(t-1)} - e^{-3(t-1)}\right] u(t-1)}
+\end{aligned}$$
+
+$~$
+
+**7.** $~$ Use the Laplace transform to find the numerical value of the improper integral 
+$$\int_0^\infty t e^{-2t} \sin 4t \,dt$$
+
+**Solution**
+
+$$\begin{aligned}
+ F(s) &= \mathcal{L} \left[ t\, \sin 4t\right ] = \int_0^\infty t\, \sin 4t \, e^{-st} \,dt\\ 
+ &\Downarrow \\ 
+ F(s) &= -\frac{d}{ds} \left(\frac{4}{s^2 + 4^2} \right) = \frac{8s}{(s^2 + 4^2)^2}\\ 
+ &\Downarrow \\
+ \color{red}{F(2)} \; &\color{red}{= \frac{1}{25}}
+\end{aligned}$$
+
