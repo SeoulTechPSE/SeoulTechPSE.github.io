@@ -1582,3 +1582,166 @@ $~$
 $~$
 
 ## Worked Exercises {.unnumbered}
+
+**1.** $~$ Solve the exterior Dirichlet problem in a circle:
+$$
+\begin{align*}
+ \nabla^2 u &= 0, \;\;1 < r < \infty \\ 
+ &u(1,\theta) =  \sin\theta + \cos 3\theta
+\end{align*}
+$$
+
+**Solution**
+
+**Step 1:** $~$ General Solution in Polar Coordinates
+
+The general solution to Laplace’s equation in polar coordinates for $r > 1$ (the exterior region) is:
+
+$$u(r, \theta) = a_0 + b_0 \ln r + \sum_{n=1}^\infty \left( a_n r^n + b_n r^{-n} \right) \cos n\theta + \sum_{n=1}^\infty \left( c_n r^n + d_n r^{-n} \right) \sin n\theta$$
+
+**Step 2:** $~$ Apply the decay condition $u(r,\theta) \to 0$ as $r \to \infty$
+
+This requires:
+
+* $a_0 = 0$
+* $b_0 = 0$
+* $a_n = 0$, $c_n = 0$ for all $n \ge 1$
+
+Hence, the solution becomes:
+
+$$u(r, \theta) = \sum_{n=1}^\infty b_n r^{-n} \cos n\theta + \sum_{n=1}^\infty d_n r^{-n} \sin n\theta$$
+
+**Step 3:** $~$ Use Boundary Condition $u(1, \theta) = \sin\theta + \cos 3\theta$
+
+At $r = 1$, we get:
+
+$$u(1, \theta) = \sum_{n=1}^\infty b_n \cos n\theta + \sum_{n=1}^\infty d_n \sin n\theta = \sin\theta + \cos 3\theta$$
+
+So:
+
+* $b_3 = 1$, $d_1 = 1$
+* All other $b_n$, $d_n$ are $0$
+
+**Final Solution**
+
+$$
+u(r, \theta) = \frac{\cos 3\theta}{r^3} + \frac{\sin\theta}{r}
+$$
+
+This satisfies Laplace’s equation in $r > 1$, the boundary condition at $r = 1$, and decays at infinity
+
+$~$
+
+**2.** $~$ Solve the interior Dirichlet problem in a sphere
+$$
+\begin{align*}
+ \nabla^2 u &= 0, \;r <1\\ 
+ &u(1,\phi) = 1 + \cos\phi
+\end{align*}
+$$
+
+**Solution**
+
+We are solving the interior Dirichlet problem for Laplace’s equation inside the unit sphere. The boundary condition is given only in terms of $\phi$, which suggests axial symmetry (i.e., the function does not depend on the azimuthal angle $\theta$).
+Hence, we can solve the axisymmetric Laplace equation in spherical coordinates
+
+**Step 1:** $~$ Axisymmetric Laplace Equation
+
+In spherical coordinates with axial symmetry (no \theta dependence), Laplace’s equation becomes:
+
+$$\frac{1}{r^2} \frac{\partial}{\partial r} \left( r^2 \frac{\partial u}{\partial r} \right) +\frac{1}{r^2 \sin \phi} \frac{\partial}{\partial \phi} \left( \sin \phi \frac{\partial u}{\partial \phi} \right) = 0$$
+
+**Step 2:** $~$ Separation of Variables
+
+Assume $u(r, \phi) = R(r) P(\phi)$. Substituting and separating variables gives:
+
+$$\frac{1}{R} \frac{d}{dr} \left( r^2 \frac{dR}{dr} \right)
+	+\frac{1}{P \sin \phi} \frac{d}{d\phi} \left( \sin \phi \frac{dP}{d\phi} \right) = 0$$
+
+Set both parts equal to $\ell(\ell+1)$. Then:
+
+* $R(r) = A_\ell r^\ell$ (we discard $r^{-(\ell+1)}$ since $u$ must be finite at $r = 0$),
+* $P(\phi)$ satisfies Legendre’s equation:
+
+$$\frac{1}{\sin \phi} \frac{d}{d\phi} \left( \sin \phi \frac{dP}{d\phi} \right) + \ell(\ell+1) P = 0 \Rightarrow P(\phi) = P_\ell(\cos\phi)$$ 
+
+**Step 3:** $~$ General Solution
+
+The general solution is:
+
+$$u(r, \phi) = \sum_{\ell=0}^\infty A_\ell r^\ell P_\ell(\cos\phi)$$
+
+**Step 4:** $~$ Apply Boundary Condition
+
+At $r = 1$, the boundary condition is:
+
+$$u(1, \phi) = \sum_{\ell=0}^\infty A_\ell P_\ell(\cos\phi) = 1 + \cos\phi$$
+
+We expand $1 + \cos\phi$ in terms of Legendre polynomials
+
+* $P_0(\cos\phi) = 1$
+* $P_1(\cos\phi) = \cos\phi$
+
+So:
+
+$$1 + \cos\phi = P_0(\cos\phi) + P_1(\cos\phi)
+\Rightarrow A_0 = 1, \; A_1 = 1, \; A_\ell = 0 \text{ for } \ell \geq 2$$
+
+**Final Solution**
+
+$$u(r, \phi) = P_0(\cos\phi) + r P_1(\cos\phi)
+= 1 + r \cos\phi$$
+
+This satisfies Laplace’s equation inside the unit ball and matches the boundary condition
+
+$~$
+
+**3.** $~$ Solve the exterior Dirichlet problem in a sphere
+$$
+\begin{align*}
+ \nabla^2 u &= 0, \;1 < r \\ 
+ &u(1,\phi) = 1 + \cos2\phi
+\end{align*}
+$$
+
+**Solution**
+
+We are solving the exterior Dirichlet problem for Laplace’s equation in a spherically symmetric setting. The boundary condition depends only on the polar angle $\phi$, so we assume axial symmetry (i.e., no $\theta$-dependence)
+
+**Step 1:** $~$ General Axisymmetric Solution to Laplace’s Equation (Exterior)
+
+The axisymmetric solution to Laplace’s equation in spherical coordinates (no $\theta$ dependence) is:
+
+$$u(r, \phi) = \sum_{\ell=0}^{\infty} \left( A_\ell r^{-\ell-1} + B_\ell r^\ell \right) P_\ell(\cos\phi)$$
+
+To ensure the solution decays at infinity:
+
+* Set $B_\ell = 0$
+
+So the solution becomes:
+
+$$u(r, \phi) = \sum_{\ell=0}^{\infty} A_\ell r^{-\ell - 1} P_\ell(\cos\phi)$$
+
+**Step 2:** $~$ Apply Boundary Condition
+
+At $r = 1$, the boundary condition is:
+
+$$u(1, \phi) = \sum_{\ell=0}^\infty A_\ell P_\ell(\cos\phi) = 1 + \cos 2\phi$$
+
+Recall:
+
+* $P_0(\cos\phi) = 1$
+* $P_2(\cos\phi) = \frac{1}{2}(3\cos^2\phi - 1) = \cos 2\phi$ (identity on the sphere)
+
+So this corresponds to:
+
+$$A_0 = 1, \quad A_2 = 1, \quad A_\ell = 0 \text{ for } \ell \ne 0,2$$
+
+**Final Solution**
+
+$$u(r, \phi) = \frac{1}{r} P_0(\cos\phi) + \frac{1}{r^3} P_2(\cos\phi)
+= \frac{1}{r} + \frac{1}{r^3} \cos 2\phi$$
+
+This is harmonic for $r > 1$, satisfies the boundary condition at $r = 1$, and decays as $r \to \infty$
+
+$~$
