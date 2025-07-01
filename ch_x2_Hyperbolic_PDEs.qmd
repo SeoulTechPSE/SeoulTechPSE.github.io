@@ -2588,6 +2588,85 @@ $$
 
 **Solution**
 
+**Step 1:** $~$ Separation of Variables
+
+Assume a solution of the form:
+$$u(x, y, t) = X(x) Y(y) T(t)$$
+Plugging into the wave equation:
+
+$$X Y T'' = c^2 \left( X'' Y T + X Y'' T \right)$$
+
+Divide both sides by $XYT$:
+
+$$\frac{T''}{c^2 T} = \frac{X''}{X} + \frac{Y''}{Y} = -\lambda$$
+
+We separate variables:
+$$\frac{X''}{X} + \frac{Y''}{Y} = -\lambda \Rightarrow
+\begin{cases}
+X’’ + \mu X = 0 \\
+Y’’ + (\lambda - \mu) Y = 0
+\end{cases}$$
+
+With the boundary conditions:
+$$\begin{aligned}
+X(0) &= X(\pi) = 0 \Rightarrow X_n(x) = \sin(nx),\quad \mu = n^2 \\
+Y(0) &= Y(\pi) = 0 \Rightarrow Y_m(y) = \sin(my),\quad \lambda - \mu = m^2 \Rightarrow \lambda = n^2 + m^2
+\end{aligned}$$
+
+Then the time part:
+$$T'' + c^2(n^2 + m^2)T = 0 \Rightarrow
+T_{n,m}(t) = A_{n,m} \cos(c\sqrt{n^2 + m^2}t) + B_{n,m} \sin(c\sqrt{n^2 + m^2}t)$$
+
+**Step 2:** $~$ General Solution
+
+$$u(x, y, t) = \sum_{n=1}^{\infty} \sum_{m=1}^{\infty} \left[ A_{n,m} \cos(c\sqrt{n^2 + m^2} t) + B_{n,m} \sin(c\sqrt{n^2 + m^2} t) \right] \sin(nx) \sin(my)$$
+
+**Step 3:** $~$ Apply Initial Conditions
+
+Initial displacement:
+
+$$u(x, y, 0) = \sum_{n,m} A_{n,m} \sin(nx)\sin(my) = \sin 2x \sin 3y + \sin 3x \sin 2y$$
+
+So $A_{2,3} = 1$, $A_{3,2} = 1$, all others zero
+
+Initial velocity:
+$$u_t(x, y, 0) = -c\sum_{n,m} c\sqrt{n^2 + m^2} B_{n,m} \sin(nx)\sin(my) = 0 \Rightarrow B_{n,m} = 0$$
+
+**Final Answer**
+
+$$u(x, y, t) = \cos\left(c \sqrt{13}\, t\right) \sin(2x) \sin(3y)
+	+\cos\left(c \sqrt{13}\, t\right) \sin(3x) \sin(2y)$$
+
+where $c = \sqrt{\rho/T}$
+
+$~$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def plot_rectangle_membrane_normal_modes(n, m):
+    
+    fig, ax = plt.subplots(figsize=(3, 3))
+
+    ax.set(xticks=[], yticks=[])
+
+    x_ = np.linspace(0, np.pi, 100)
+    y_ = np.linspace(0, np.pi, 100)
+
+    X_, Y_ = np.meshgrid(x_, y_)
+    U_ = np.sin(n*X_) *np.sin(m*Y_) +np.sin(m*X_) *np.sin(n*Y_) 
+    
+    ax.contourf(X_, Y_, U_, levels=[0, 10])
+    
+    ax.set_title(f'$n={n}$, $m={m}$')
+    
+    plt.show()
+```
+```{python}
+plot_rectangle_membrane_normal_modes(2, 3)
+```
+
 $~$
 
 **4.** $~$ Solve the vibrations of a membrane which is in the $xy$ plane:
@@ -2601,6 +2680,43 @@ $$\begin{aligned}
 \end{aligned}$$
 
 **Solution**
+
+**Step 1:** $~$ Use Separation of Variables
+
+Assume a solution of the form:
+
+$$u(x,y,t) = \sum_{n=1}^\infty \sum_{m=1}^\infty \left[ A_{nm} \cos(c\sqrt{n^2 + m^2} \, t) + B_{nm} \sin(c\sqrt{n^2 + m^2} \, t) \right] \sin(nx) \sin(my)$$
+
+From the initial displacement:
+$$u(x,y,0) = \sum_{n,m} A_{nm} \sin(nx)\sin(my) = \sin x \sin 4y + \sin 4x \sin y$$
+
+So the only nonzero coefficients are:
+$$A_{1,4} = 1,\quad A_{4,1} = 1$$
+
+From the initial velocity condition:
+$$u_t(x,y,0) = 0 \Rightarrow B_{nm} = 0$$
+
+**Step 2:** $~$ Final Solution
+
+$$\begin{aligned}
+u(x, y, t) &= A_{1,4} \cos(c \sqrt{1^2 + 4^2} \, t) \sin x \sin 4y
+	+	A_{4,1} \cos(c \sqrt{4^2 + 1^2} \, t) \sin 4x \sin y \\
+&= \cos(c\sqrt{17} \, t) \sin x \sin 4y + \cos(c\sqrt{17} \, t) \sin 4x \sin y
+\end{aligned}$$
+
+Thus, the solution is:
+
+$$
+u(x, y, t) = \cos(c\sqrt{17} \, t) \left[ \sin x \sin 4y + \sin 4x \sin y \right]
+$$
+
+where $c = \sqrt{\frac{\rho}{T}}$
+
+$~$
+
+```{python}
+plot_rectangle_membrane_normal_modes(1, 4)
+```
 
 $~$
 
