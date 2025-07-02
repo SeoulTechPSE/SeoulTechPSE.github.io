@@ -1077,6 +1077,15 @@ $$
 \color{blue}{y_2(x) = a_1 \left[ x - \frac{\alpha^2 - 1}{6} x^3 + \frac{(\alpha^2 - 1)(\alpha^2 - 9)}{120} x^5 - \cdots \right]}
 $$
 
+In general,
+
+$$ \begin{aligned}
+ a_{2k} &= (-1)^k \frac{\left(\alpha^2 - (2k-2)^2\right) \left(\alpha^2 - (2k-4)^2\right) \cdots \left(\alpha^2 - 2^2\right) \alpha^2}{(2k)!} a_0 = \hat{a}_{2k} a_0 \\
+ a_{2k+1} &= (-1)^k \frac{\left(\alpha^2 - (2k-1)^2\right) \left(\alpha^2 - (2k-3)^2\right) \cdots \left(\alpha^2 - 1\right)}{(2k+1)!} a_1 =\hat{a}_{2k+1} a_1 \\
+ &\Downarrow \\
+ y &= a_0 \sum_{k=1}^\infty \hat{a}_{2k} x^{2k} +a_1 \sum_{k=1}^\infty \hat{a}_{2k+1} x^{2k+1} = a_0 y_0(x) + a_1 y_1(x)
+\end{aligned}$$  
+
 **Solution (b)**
 
 Let $\alpha = n$, a nonnegative integer. Then the recurrence becomes:
@@ -1435,3 +1444,100 @@ The second linearly independent solution for $n = 1$ on $(-1, 1)$ is:
 $$
 y_2(x) = -1 - 2x \ln|x| + 2x \ln|1 + x|
 \quad \text{(up to constant multiples)}$$
+
+$~$
+
+**7.** $~$ Find the general solution of the differential equation on the interval $(0, \infty)$
+
+$$ x y'' +y=0 $$ 
+
+Hint) $~$Use the substitution $\displaystyle y(x)=\sqrt{x}u(x)$, $~2\sqrt{x}=z$
+
+**Solution**
+
+By using  $\displaystyle y(x)=\sqrt{x}u(x)~$ and $~2\sqrt{x}=z$, the differential equation becomes
+
+$$\begin{aligned}
+ y' &=\frac{1}{2\sqrt{x}}u +\sqrt{x}u'\\
+ y''&=-\frac{1}{4x\sqrt{x}} u +\frac{1}{\sqrt{x}} u' +\sqrt{x}u''\\
+ &\Downarrow \\
+ x\sqrt{x} u'' &+\sqrt{x} u' +\left( \sqrt{x} - \frac{1}{4\sqrt{x}} \right )u = 0 \\ 
+ u' &=\frac{du}{dz}\frac{dz}{dx}=\frac{1}{\sqrt{x}} \frac{du}{dz} \\
+ u'' &=\frac{d}{dz}\left( \frac{du}{dx}\right) \frac{dz}{dx} =\frac{1}{x}\frac{d^2u}{dz^2}-\frac{1}{2x\sqrt{x}}\frac{du}{dz}\\ 
+ &\Downarrow \\
+ z^2 \frac{d^2u}{dz^2} + z \frac{du}{dz}&+ ( z^2-1)u = 0 
+\end{aligned}$$
+
+The general solution of the above differential equation on the interval $(0, \infty)$ is
+
+$$ u(z)=c_1 J_1(z) + c_2 Y_1 (z) $$
+
+Thus the general solution on the interval $(0, \infty)$ is
+
+$$ y(x)=c_1 \sqrt{x} J_1 (2\sqrt{x}) + c_2 \sqrt{x} Y_1(2\sqrt{x}) $$
+
+$~$
+
+**8.** $~$ The equation
+
+$$ y'' -2xy' +2\alpha y=0 $$
+
+   where $\alpha$ is a constant, is called the *Hermite* equation.
+  
+  $(a)~$ Find two linearly independent solutions for $-\infty < x <\infty$
+  
+  $(b)~$ Show that there is a polynomial solution of degree $n$, in case $\alpha=n$ is a non-negative integer
+
+  **Solution**
+
+$(a)$
+
+$$\begin{aligned}
+y'' &-2xy' +2\alpha y=0 \\
+ &\Downarrow \;\;y=\sum_{k=0}^\infty c_nk x^k, \;\;x=0 \text{ is an ordinary point}\\ 
+ \sum_{k=2}^\infty &c_k k(k-1)x^{k-2} -2\sum_{k=1}^\infty c_k k x^{k} +2\alpha\sum_{k=0}^\infty c_k x^k =0 \\ 
+ 2c_2 &+ 2\alpha c_0 +\sum_{k=1}^\infty
+ \left[(k+2)(k+1) c_{k+2} -2(k -\alpha)c_k \right] x^k = 0\\ 
+ &\Downarrow \\ 
+ c_2&=-\alpha c_0, \;\; c_{k+2} =-\frac{2(\alpha -k)}{(k+2)(k+1)} c_k \\
+ &\Downarrow \\
+ c_{2k} &= (-2)^k \frac{\left(\alpha - (2k-2)\right) \left(\alpha - (2k-4)\right) \cdots \left(\alpha - 2\right) \alpha}{(2k)!} c_0 = \hat{c}_{2k} c_0 \\
+ c_{2k+1} &= (-2)^k \frac{\left(\alpha - (2k-1)\right) \left(\alpha - (2k-3)\right) \cdots \left(\alpha - 1\right)}{(2k+1)!} c_1 =\hat{c}_{2k+1} c_1 \\
+ &\Downarrow \\
+ y &= c_0 \sum_{k=1}^\infty \hat{c}_{2k} x^{2k} +c_1 \sum_{k=1}^\infty \hat{c}_{2k+1} x^{2k+1} = c_0 y_0(x) + c_1 y_1(x)
+\end{aligned}$$
+
+$(b)$ $~$If $n$ is an even integer, the first series terminates, whereas $y_1(x)$ is an infinite series. For example, if $n=4$, then
+
+$$ y_0(x) = c_0 \left[ 1 - 2\frac{4}{2!}x^2 +2^2 \frac{(4 - 2) 4}{4!} x^4 \right] =c_0 \left[1 -4x^2 +\frac{4}{3}x^4 \right] $$
+
+  Similarly, when $n$ is an odd integer, the series for $y_1(x)$ terminates with $x^n$. For exampe, if $n=5$, then
+  
+$$ y_1(x) = c_1 \left[ x - 2\frac{(5 -1)}{3!}x^3 +4 \frac{(5 - 3)(5-1)}{5!} x^5 \right] =c_1 \left[x -\frac{4}{3}x^3 +\frac{4}{15}x^5 \right] $$
+  
+  That is, when $n$ is a nonnegative integer, we obtain an $n$-th degree polynomial solution of *Hermite* equation
+  
+  $~$
+
+  **9.** $~$ Find the general solution of the differential equation on the interval $(0, \infty)$
+
+$$ x^2 y'' +2x y'+\left(\alpha^2x^2 -n(n+1)\right)y=0, \;\; n \text{ is an integer}$$ 
+
+Hint) $~$ Use the substitution $\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)$
+
+**Solution**
+
+By using $\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)$, the differential equation becomes
+
+$$ x^2 z'' +x z' +\left[\alpha^2x^2 -\left( n + \frac{1}{2} \right)^2 \right]z=0$$
+
+The general solution of the above differential equation on the interval $(0, \infty)$ is
+
+$$ z(x)=c_1 J_{n+\frac{1}{2}}(\alpha x) + c_2 Y_{n+\frac{1}{2}}(\alpha x) $$
+
+Thus the general solution on the interval $(0, \infty)$ is
+
+$$ y(x)=c_1 \frac{1}{\sqrt{x}}J_{n+\frac{1}{2}}(\alpha x) + c_2 \frac{1}{\sqrt{x}}Y_{n+\frac{1}{2}}(\alpha x) $$
+
+$~$
+

@@ -658,7 +658,7 @@ c_{2n} &amp; = \frac{(-1)^n c_0}{2^{2n} n! (1 +\nu)(2 +\nu)\cdots(n +\nu)}\\
 <div id="fig-ch03-gamma-function" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ch03-gamma-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="ch_05_Series_Solutions_of_Linear_Differential_Equations_files/figure-html/fig-ch03-gamma-function-output-1.png" width="524" height="363" class="figure-img">
+<img src="ch_05_Series_Solutions_of_Linear_Differential_Equations_files/figure-html/fig-ch03-gamma-function-output-1.png" width="522" height="361" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ch03-gamma-function-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;5.1: Gamma Function
@@ -1243,6 +1243,13 @@ y''(x) = \sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}\]</span></p>
 <p><span class="math display">\[
 \color{blue}{y_2(x) = a_1 \left[ x - \frac{\alpha^2 - 1}{6} x^3 + \frac{(\alpha^2 - 1)(\alpha^2 - 9)}{120} x^5 - \cdots \right]}
 \]</span></p>
+<p>In general,</p>
+<p><span class="math display">\[ \begin{aligned}
+a_{2k} &amp;= (-1)^k \frac{\left(\alpha^2 - (2k-2)^2\right) \left(\alpha^2 - (2k-4)^2\right) \cdots \left(\alpha^2 - 2^2\right) \alpha^2}{(2k)!} a_0 = \hat{a}_{2k} a_0 \\
+a_{2k+1} &amp;= (-1)^k \frac{\left(\alpha^2 - (2k-1)^2\right) \left(\alpha^2 - (2k-3)^2\right) \cdots \left(\alpha^2 - 1\right)}{(2k+1)!} a_1 =\hat{a}_{2k+1} a_1 \\
+&amp;\Downarrow \\
+y &amp;= a_0 \sum_{k=1}^\infty \hat{a}_{2k} x^{2k} +a_1 \sum_{k=1}^\infty \hat{a}_{2k+1} x^{2k+1} = a_0 y_0(x) + a_1 y_1(x)
+\end{aligned}\]</span></p>
 <p><strong>Solution (b)</strong></p>
 <p>Let <span class="math inline">\(\alpha = n\)</span>, a nonnegative integer. Then the recurrence becomes:</p>
 <p><span class="math display">\[ a_{k+2} = -\frac{n^2 - k^2}{(k+2)(k+1)} a_k\]</span></p>
@@ -1445,6 +1452,65 @@ v &amp;= \int w \, dx = C \int \frac{1 - x}{x^2(1 + x)} dx\\
 <p><span class="math display">\[
 y_2(x) = -1 - 2x \ln|x| + 2x \ln|1 + x|
 \quad \text{(up to constant multiples)}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Find the general solution of the differential equation on the interval <span class="math inline">\((0, \infty)\)</span></p>
+<p><span class="math display">\[ x y'' +y=0 \]</span></p>
+<p>Hint) <span class="math inline">\(~\)</span>Use the substitution <span class="math inline">\(\displaystyle y(x)=\sqrt{x}u(x)\)</span>, <span class="math inline">\(~2\sqrt{x}=z\)</span></p>
+<p><strong>Solution</strong></p>
+<p>By using <span class="math inline">\(\displaystyle y(x)=\sqrt{x}u(x)~\)</span> and <span class="math inline">\(~2\sqrt{x}=z\)</span>, the differential equation becomes</p>
+<p><span class="math display">\[\begin{aligned}
+y' &amp;=\frac{1}{2\sqrt{x}}u +\sqrt{x}u'\\
+y''&amp;=-\frac{1}{4x\sqrt{x}} u +\frac{1}{\sqrt{x}} u' +\sqrt{x}u''\\
+&amp;\Downarrow \\
+x\sqrt{x} u'' &amp;+\sqrt{x} u' +\left( \sqrt{x} - \frac{1}{4\sqrt{x}} \right )u = 0 \\
+u' &amp;=\frac{du}{dz}\frac{dz}{dx}=\frac{1}{\sqrt{x}} \frac{du}{dz} \\
+u'' &amp;=\frac{d}{dz}\left( \frac{du}{dx}\right) \frac{dz}{dx} =\frac{1}{x}\frac{d^2u}{dz^2}-\frac{1}{2x\sqrt{x}}\frac{du}{dz}\\
+&amp;\Downarrow \\
+z^2 \frac{d^2u}{dz^2} + z \frac{du}{dz}&amp;+ ( z^2-1)u = 0
+\end{aligned}\]</span></p>
+<p>The general solution of the above differential equation on the interval <span class="math inline">\((0, \infty)\)</span> is</p>
+<p><span class="math display">\[ u(z)=c_1 J_1(z) + c_2 Y_1 (z) \]</span></p>
+<p>Thus the general solution on the interval <span class="math inline">\((0, \infty)\)</span> is</p>
+<p><span class="math display">\[ y(x)=c_1 \sqrt{x} J_1 (2\sqrt{x}) + c_2 \sqrt{x} Y_1(2\sqrt{x}) \]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>8.</strong> <span class="math inline">\(~\)</span> The equation</p>
+<p><span class="math display">\[ y'' -2xy' +2\alpha y=0 \]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is a constant, is called the <em>Hermite</em> equation.</p>
+<p><span class="math inline">\((a)~\)</span> Find two linearly independent solutions for <span class="math inline">\(-\infty &lt; x &lt;\infty\)</span></p>
+<p><span class="math inline">\((b)~\)</span> Show that there is a polynomial solution of degree <span class="math inline">\(n\)</span>, in case <span class="math inline">\(\alpha=n\)</span> is a non-negative integer</p>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\((a)\)</span></p>
+<p><span class="math display">\[\begin{aligned}
+y'' &amp;-2xy' +2\alpha y=0 \\
+&amp;\Downarrow \;\;y=\sum_{k=0}^\infty c_nk x^k, \;\;x=0 \text{ is an ordinary point}\\
+\sum_{k=2}^\infty &amp;c_k k(k-1)x^{k-2} -2\sum_{k=1}^\infty c_k k x^{k} +2\alpha\sum_{k=0}^\infty c_k x^k =0 \\
+2c_2 &amp;+ 2\alpha c_0 +\sum_{k=1}^\infty
+\left[(k+2)(k+1) c_{k+2} -2(k -\alpha)c_k \right] x^k = 0\\
+&amp;\Downarrow \\
+c_2&amp;=-\alpha c_0, \;\; c_{k+2} =-\frac{2(\alpha -k)}{(k+2)(k+1)} c_k \\
+&amp;\Downarrow \\
+c_{2k} &amp;= (-2)^k \frac{\left(\alpha - (2k-2)\right) \left(\alpha - (2k-4)\right) \cdots \left(\alpha - 2\right) \alpha}{(2k)!} c_0 = \hat{c}_{2k} c_0 \\
+c_{2k+1} &amp;= (-2)^k \frac{\left(\alpha - (2k-1)\right) \left(\alpha - (2k-3)\right) \cdots \left(\alpha - 1\right)}{(2k+1)!} c_1 =\hat{c}_{2k+1} c_1 \\
+&amp;\Downarrow \\
+y &amp;= c_0 \sum_{k=1}^\infty \hat{c}_{2k} x^{2k} +c_1 \sum_{k=1}^\infty \hat{c}_{2k+1} x^{2k+1} = c_0 y_0(x) + c_1 y_1(x)
+\end{aligned}\]</span></p>
+<p><span class="math inline">\((b)\)</span> <span class="math inline">\(~\)</span>If <span class="math inline">\(n\)</span> is an even integer, the first series terminates, whereas <span class="math inline">\(y_1(x)\)</span> is an infinite series. For example, if <span class="math inline">\(n=4\)</span>, then</p>
+<p><span class="math display">\[ y_0(x) = c_0 \left[ 1 - 2\frac{4}{2!}x^2 +2^2 \frac{(4 - 2) 4}{4!} x^4 \right] =c_0 \left[1 -4x^2 +\frac{4}{3}x^4 \right] \]</span></p>
+<p>Similarly, when <span class="math inline">\(n\)</span> is an odd integer, the series for <span class="math inline">\(y_1(x)\)</span> terminates with <span class="math inline">\(x^n\)</span>. For exampe, if <span class="math inline">\(n=5\)</span>, then</p>
+<p><span class="math display">\[ y_1(x) = c_1 \left[ x - 2\frac{(5 -1)}{3!}x^3 +4 \frac{(5 - 3)(5-1)}{5!} x^5 \right] =c_1 \left[x -\frac{4}{3}x^3 +\frac{4}{15}x^5 \right] \]</span></p>
+<p>That is, when <span class="math inline">\(n\)</span> is a nonnegative integer, we obtain an <span class="math inline">\(n\)</span>-th degree polynomial solution of <em>Hermite</em> equation</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>9.</strong> <span class="math inline">\(~\)</span> Find the general solution of the differential equation on the interval <span class="math inline">\((0, \infty)\)</span></p>
+<p><span class="math display">\[ x^2 y'' +2x y'+\left(\alpha^2x^2 -n(n+1)\right)y=0, \;\; n \text{ is an integer}\]</span></p>
+<p>Hint) <span class="math inline">\(~\)</span> Use the substitution <span class="math inline">\(\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)\)</span></p>
+<p><strong>Solution</strong></p>
+<p>By using <span class="math inline">\(\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)\)</span>, the differential equation becomes</p>
+<p><span class="math display">\[ x^2 z'' +x z' +\left[\alpha^2x^2 -\left( n + \frac{1}{2} \right)^2 \right]z=0\]</span></p>
+<p>The general solution of the above differential equation on the interval <span class="math inline">\((0, \infty)\)</span> is</p>
+<p><span class="math display">\[ z(x)=c_1 J_{n+\frac{1}{2}}(\alpha x) + c_2 Y_{n+\frac{1}{2}}(\alpha x) \]</span></p>
+<p>Thus the general solution on the interval <span class="math inline">\((0, \infty)\)</span> is</p>
+<p><span class="math display">\[ y(x)=c_1 \frac{1}{\sqrt{x}}J_{n+\frac{1}{2}}(\alpha x) + c_2 \frac{1}{\sqrt{x}}Y_{n+\frac{1}{2}}(\alpha x) \]</span></p>
+<p><span class="math inline">\(~\)</span></p>
 
 
 </section>
