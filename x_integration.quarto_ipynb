@@ -1,0 +1,1005 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Integration {#sec-integration}\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "## Importing modules\n"
+      ],
+      "id": "b040bdd9"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "from scipy import integrate\n",
+        "import sympy\n",
+        "sympy.init_printing()\n",
+        "\n",
+        "import matplotlib.pyplot as plt\n",
+        "import matplotlib as mpl"
+      ],
+      "id": "4d25dcf5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from scipy import __version__\n",
+        "print(\"numpy: \", np.__version__)\n",
+        "print(\"sympy: \", sympy.__version__)\n",
+        "print(\"scipy: \", __version__)"
+      ],
+      "id": "2220d584",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Numerical integration methods\n",
+        "\n",
+        "* Here we are concerned with evaluating definite integrals on the form\n",
+        "\n",
+        "  $$I(f) = \\int_a^b \\,f(x)\\, dx$$\n",
+        "\n",
+        "  with given integration limits $a$ and $b$. The interval $[a,b]$ can be finite, semi-infinite (where either $a=-\\infty$ or $b=\\infty$), or infinite (where $a=-\\infty$ and $b=\\infty$)\n",
+        "\n",
+        "  $$ I(f) \\approx \\sum_{i=0}^{n-1} \\omega_i f(x_i) +r_n$$\n",
+        "\n",
+        "* Quadrature rules can be derived from interpolations of $f(x)$ on the interval $[a,b]$. If the points $x_i$ are evenly spaced in the interval $[a,b]$, and a polynomial interpolation is used, then the resulting quadrature rule is known as a *Newton-Cotes quadrature rule*\n",
+        "\n",
+        "* For instance, approximating $f(x)$ with a zeroth order polynomial (constant value) using the midpoint value $x_0 = (a +b) /2$, $\\,$we obtain\n",
+        "\n",
+        "  $$ I(f) \\approx f \\left( \\frac{b -a}{2} \\right)  \\int_a^b dx = (b -a) f \\left( \\frac{b -a}{2} \\right) $$\n",
+        "\n",
+        "  This is known as the *midpoint rule*, and it integrates polynomials up to order one (linear functions) exactly, and it is therefore said to be of polynomial degree one\n",
+        "\n",
+        "* Approximating $f(x)$ by a polynomial of degree one, evaluated at the endpoints of the interval, results in\n",
+        "\n",
+        "  $$ I(f) \\approx \\frac{b -a}{2} \\left[ f(a) +f(b) \\right] $$\n",
+        "\n",
+        "  This is known as the *trapezoidal rule*, and it is also of polynomial degree one\n",
+        "\n",
+        "* Using an interpolation polynomial of second order results in *Simpson’s rule*,\n",
+        "\n",
+        "  $$ I(f) \\approx \\frac{b -a}{6} \\left[ f(a) +4 f \\left( \\frac{a +b}{2} \\right) +f(b) \\right] $$\n",
+        "\n",
+        "  which uses function evaluations at the endpoints and the midpoint. This method is of polynomial degree three, meaning that it integrates exactly polynomials up to order three\n"
+      ],
+      "id": "42f43b4c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a, b, X = sympy.symbols(\"a, b, x\")\n",
+        "f = sympy.Function(\"f\")\n",
+        "\n",
+        "x = a, (a +b)/2, b # for Simpson's rule\n",
+        "w = [sympy.symbols(f\"w_{i}\") for i in range(len(x))]\n",
+        "\n",
+        "q_rule = sum([w[i] *f(x[i]) for i in range(len(x))])\n",
+        "q_rule"
+      ],
+      "id": "894824c1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* To compute the appropriate values of the weight factors $w_i$, we choose the polynomial basis functions $\\{ \\phi_n(x) = x^n \\}_{n=0}^2$ for the interpolation of $f(x)$\n"
+      ],
+      "id": "a8f72ffb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "phi = [sympy.Lambda(X, X**n) for n in range(len(x))]\n",
+        "phi"
+      ],
+      "id": "3bca31f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "eqs = [q_rule.subs(f, phi[n]) \n",
+        "        -sympy.integrate(phi[n](X), (X, a, b)) \n",
+        "          for n in range(len(phi))]\n",
+        "eqs"
+      ],
+      "id": "8c83690a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "w_sol = sympy.solve(eqs, w)\n",
+        "w_sol"
+      ],
+      "id": "25612c1d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "q_rule.subs(w_sol).simplify()"
+      ],
+      "id": "9642f950",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* We recognize this result as Simpson's quadrature rule given above. Choosing different sample points (the $x$ tuple in this code), results in different quadrature rules\n",
+        "\n",
+        "* Higher-order quadrature rules can similarly be derived using higher-order polynomial interpolation (more sample points in the $[a,b]$). However, high-order polynomial interpolation can have undesirable behavior between the sample points\n",
+        "\n",
+        "* Rather than using higher-order quadrature rules, it is therefore often better to divide the integration interval $[a,b]$ into subintervals $[a=x_0, x_1], [x_1, x_2], \\cdots, [x_{n-1},x_n = b]$ and use a low-order quadrature rule in each of these sub-intervals. Such methods are known as *composite quadrature rules*\n",
+        "\n",
+        "* An important parameter that characterize composite quadrature rules is the sub-interval length $h=(b-a)/N$. Estimates for the errors in an approximate quadrature rule, and the scaling of the error with respect to $h$, can be obtained from Taylor series expansions of the integrand and the analytical integration of the term in the resulting series\n",
+        "\n",
+        "* We have seen that the Newton-Cotes quadrature rules uses evenly spaced sample points of the integrand $f(x)$. However, this is not necessarily the most efficient choice of quadrature nodes, and then it can be advantageous to use quadrature rules that do not use evenly spaced sample points\n",
+        "\n",
+        "* An example of such a method is a *Gaussian quadrature*, which also uses polynomial interpolation to determine the values of the weight factors in the quadrature rule, but where the quadrature nodes $x_i$ are chosen to maximize the order of polynomials that can be integrated exactly (the polynomial degree) given a fixed number of quadrature points\n",
+        "\n",
+        "\n",
+        "## Numerical integration with Scipy\n",
+        "\n",
+        "* The numerical quadrature routines in the `scipy` `integrate` module can be categorized into two types: routines that take the integrand as a python function, and routines that take arrays with samples of the integrand at given points\n",
+        "\n",
+        "* The functions of the first type use Gaussian quadrature (`quad`, `quadrature`, `fixed_quad`), while functions of the second type use Newton-Cotes methods (`trapz`, `simps`, and `romb`)\n",
+        "\n",
+        "* As a concrete example, consider the numerical evaluation of the integral\n",
+        "\n",
+        "  $$ \\int_{-1}^1 \\, e^{-x^2}\\, dx$$\n"
+      ],
+      "id": "e35c7d84"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(x):\n",
+        "  return np.exp(-x**2)\n",
+        "\n",
+        "val, err = integrate.quad(f, -1, 1)"
+      ],
+      "id": "b9914f5c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err"
+      ],
+      "id": "cc51f266",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Extra arguments\n",
+        "\n",
+        "* We wish to evaluate\n",
+        "\n",
+        "  $$ \\int_{-1}^1 \\, a e^{-(x -b)^2/c^2} \\,dx $$\n",
+        "\n",
+        "  for the specific values of the parameters $a=1$, $b=2$, and $c=3$\n"
+      ],
+      "id": "70450d99"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(x, a, b, c):\n",
+        "  return a *np.exp(-((x -b)/c)**2)\n",
+        "\n",
+        "val, err = integrate.quad(f, -1, 1, args=(1, 2, 3))"
+      ],
+      "id": "0db25258",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err"
+      ],
+      "id": "89156b10",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Reshuffle arguments\n",
+        "\n",
+        "* We wish to compute the integral\n",
+        "\n",
+        "  $$\\int_{0}^5 J_0(x) \\,dx$$\n",
+        "\n",
+        "  where the integrand $J_0(x)$ is the zero-th order Bessel function of the first kind,\n"
+      ],
+      "id": "bbf14b15"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "from scipy.special import jv\n",
+        "\n",
+        "f = lambda x: jv(0, x)\n",
+        "\n",
+        "val, err = integrate.quad(f, 0, 5)"
+      ],
+      "id": "8a52567c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err"
+      ],
+      "id": "72c85e70",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Infinite limits\n",
+        "\n",
+        "* Consider the integral $$ \\int_{-\\infty}^\\infty e^{-x^2} \\,dx $$\n"
+      ],
+      "id": "a9680071"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = lambda x: np.exp(-x**2)\n",
+        "\n",
+        "val, err = integrate.quad(f, -np.inf, np.inf, epsabs=1.49e-14, epsrel=1.49e-14)"
+      ],
+      "id": "d336ee74",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err"
+      ],
+      "id": "2b4f82cf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Singularity\n",
+        "\n",
+        "* Consider the integral $$ \\int_{-1}^1 \\frac{1}{\\sqrt{|x|}} \\,dx $$\n",
+        "\n",
+        "* The integrand diverges at $x=0$, but the value of the integral does not diverge, and its value is $4$. Naively trying to compute this integral using `quad` may fail because of the diverging integrand:\n"
+      ],
+      "id": "5322807e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import warnings\n",
+        "warnings.filterwarnings(\"error\")\n",
+        "\n",
+        "f = lambda x: 1/np.sqrt(abs(x))\n",
+        "\n",
+        "a, b = -1, 1\n",
+        "\n",
+        "try:\n",
+        "  integrate.quad(f, a, b)\n",
+        "except Exception as e:\n",
+        "  print(e)"
+      ],
+      "id": "27cd4d59",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| fig-align: center\n",
+        "x = np.linspace(a, b, 10000)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(6, 4))\n",
+        "\n",
+        "ax.plot(x, f(x), lw=2)\n",
+        "ax.fill_between(x, f(x), color='green', alpha=0.5)\n",
+        "ax.set_xlabel(\"$x$\", fontsize=12)\n",
+        "ax.set_ylabel(\"$f(x)$\", fontsize=12)\n",
+        "ax.set_xlim(-1, 1)\n",
+        "ax.set_ylim(0, 25)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "f62de281",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* In this case, the evaluation of the integral fails because the integrand diverges exactly at one of the sample points in the Gaussian quadrature rule (the midpoint). We can guide the `quad` routine by specifying a list of points that should be avoided using the `points` keyword arguments, and using `points=[0]` in the current example allows quad to correctly evaluate the integral:\n"
+      ],
+      "id": "f35bbf92"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err = integrate.quad(f, a, b, points=[0])"
+      ],
+      "id": "fc0f5f14",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val, err"
+      ],
+      "id": "8ed498e8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Tabulated integrand\n",
+        "\n",
+        "* Let’s evaluate the integral $\\displaystyle\\int_0^2 \\sqrt{x}\\, dx$ by taking $25$ samples of the integrand in the integration interval $[0, 2]$,\n"
+      ],
+      "id": "d751e290"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| fig-align: center\n",
+        "f = lambda x: np.sqrt(x)\n",
+        "\n",
+        "a, b = 0, 2\n",
+        "x = np.linspace(a, b, 25)\n",
+        "y = f(x)\n",
+        "\n",
+        "#----------------\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(6, 4))\n",
+        "\n",
+        "ax.plot(x, y, 'bo')\n",
+        "\n",
+        "xx = np.linspace(a, b, 500)\n",
+        "ax.plot(xx, f(xx), 'b-')\n",
+        "ax.fill_between(xx, f(xx), color='green', alpha=0.5)\n",
+        "\n",
+        "ax.set_xlim(0, 2)\n",
+        "ax.set_ylim(0, 1.6)\n",
+        "ax.set_xlabel(r\"$x$\", fontsize=12)\n",
+        "ax.set_ylabel(r\"$f(x)$\", fontsize=12)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "9d623126",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_trapz = integrate.trapz(y, x)\n",
+        "val_trapz"
+      ],
+      "id": "224aef19",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_simps = integrate.simps(y, x)\n",
+        "val_simps"
+      ],
+      "id": "50664e42",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_exact = 2.0/3.0 *(b-a)**(3.0/2.0)\n",
+        "val_exact"
+      ],
+      "id": "76c0548a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_exact -val_trapz"
+      ],
+      "id": "d34ac1f5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_exact -val_simps"
+      ],
+      "id": "0b4c5033",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "a4a06a88"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.linspace(a, b, 1 +2**6)\n",
+        "y = f(x)\n",
+        "dx = x[1] -x[0]\n",
+        "\n",
+        "val_exact -integrate.romb(y, dx=dx)"
+      ],
+      "id": "c5660f20",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val_exact -integrate.simps(y, dx=dx)"
+      ],
+      "id": "b94ac1b5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Multiple integration\n",
+        "\n",
+        "* The double integral routine `dblquad` can evaluate integrals on the form\n",
+        "\n",
+        "  $$\\int_a^b \\int_{g(y)}^{h(y)} f(x,y)\\, dxdy $$\n",
+        "\n",
+        "  and it has the function signature `dblquad(f, a, b, g, h)`, $~$where `f` is a python function for the integrand,\n",
+        "`a` and `b` are constant integration limits along the $y$ dimension, and `g` and `h` are python functions (taking $y$ as argument) that specify the integration limits along the $x$ dimension\n",
+        "\n",
+        "* Consider the integral $\\displaystyle\\int_0^1 \\int_0^1 e^{-(x^2+y^2)}\\,dxdy$,\n"
+      ],
+      "id": "4581b7c5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(x, y):\n",
+        "  return np.exp(-x**2 -y**2)\n",
+        "\n",
+        "a, b = 0, 1\n",
+        "g = lambda y: 0\n",
+        "h = lambda y: 1"
+      ],
+      "id": "dc51a81d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "integrate.dblquad(f, a, b, g, h)"
+      ],
+      "id": "eb40555d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* The `tplquad` function can compute integrals on the form\n",
+        "\n",
+        "  $$ \\int_a^b \\int_{g(z)}^{h(z)} \\int_{q(y, z)}^{r(y, z)} f(x,y,z)\\,dxdydz $$\n",
+        "\n",
+        "* Consider the generalization of the previous integral to three variables: \n",
+        "\n",
+        "  $$\\int_0^1 \\int_0^1 \\int_0^1 e^{-(x^2+y^2+z^2)}\\,dxdydz$$\n"
+      ],
+      "id": "70571eef"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(x, y, z):\n",
+        "  return np.exp(-x**2 -y**2 -z**2)\n",
+        "\n",
+        "a, b = 0, 1\n",
+        "g, h = lambda z: 0, lambda z: 1\n",
+        "q, r = lambda y, z: 0, lambda y, z: 1\n",
+        "\n",
+        "integrate.tplquad(f, 0, 1, g, h, q, r)"
+      ],
+      "id": "9f70c716",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* For arbitrary number of integrations, we can use the `nquad` function\n"
+      ],
+      "id": "a7413c61"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "integrate.nquad(f, [(0, 1), (0, 1), (0, 1)])"
+      ],
+      "id": "4acfff12",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "2e1535e3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(*args):\n",
+        "  return np.exp(-np.sum(np.array(args)**2))"
+      ],
+      "id": "659fd2af",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "%time integrate.nquad(f, [(0, 1)] *1)"
+      ],
+      "id": "7d79a345",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "%time integrate.nquad(f, [(0, 1)] *2)"
+      ],
+      "id": "599fe19f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "%time integrate.nquad(f, [(0, 1)] *3)"
+      ],
+      "id": "baf6af1c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "%time integrate.nquad(f, [(0, 1)] *4)"
+      ],
+      "id": "f68ad276",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Symbolic and arbitrary-precision integration\n",
+        "\n",
+        "* For example, to compute the integral $\\displaystyle\\int_{-1}^{1} 2\\sqrt{1-x^2}\\,dx$, $~$we first create a symbol for $x$, and define expressions for the integrand and the integration\n"
+      ],
+      "id": "c3a00f98"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = sympy.symbols(\"x\")\n",
+        "f = 2 *sympy.sqrt(1 -x**2)\n",
+        "\n",
+        "a, b = -1, 1\n",
+        "val_sym = sympy.integrate(f, (x, a, b))\n",
+        "val_sym"
+      ],
+      "id": "27e0e540",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* As pointed out earlier, this situation is the exception, and in general we will not be able to find an analytical closed-form expression. We then need to resort to numerical quadrature, for example, using scipy's `integrate.quad`\n",
+        "\n",
+        "* However, the `mpmath` library, which comes bundled with sympy, $~$provides an alternative implementation of numerical quadrature, using multiple-precision computations. With this library, we can evaluate an integral to arbitrary precision, without being restricted to the limitations of floating-point numbers\n",
+        "\n",
+        "* For example, if we require 75 accurate decimal places, we set:\n"
+      ],
+      "id": "0ad30139"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import mpmath"
+      ],
+      "id": "b12ec22f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "mpmath.mp.dps = 75\n",
+        "f_mpmath = sympy.lambdify(x, f, 'mpmath')"
+      ],
+      "id": "9c001ea6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "val = mpmath.quad(f_mpmath, (a, b))\n",
+        "sympy.sympify(val)"
+      ],
+      "id": "ad79d4c0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.N(val_sym, mpmath.mp.dps +1) -val"
+      ],
+      "id": "83550308",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "ecb833ea"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "%time mpmath.quad(f_mpmath, [a, b])"
+      ],
+      "id": "166d8e20",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f_numpy = sympy.lambdify(x, f, 'numpy')\n",
+        "%time integrate.quad(f_numpy, a, b)"
+      ],
+      "id": "94f5ef15",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Double and triple integrals\n",
+        "\n",
+        "* The `mpmath` library's `quad` function can also be used to evaluate double and triple integrals. \n",
+        "\n",
+        "  For example, to compute the double integral:\n",
+        "\n",
+        "  $$ \\int_0^1 \\int_0^1 \\cos(x) \\cos(y)\\, e^{-(x^2+y^2)}\\, dxdy $$\n",
+        "\n",
+        "  and the triple integral:\n",
+        "\n",
+        "  $$ \\int_0^1 \\int_0^1 \\int_0^1 \\cos(x) \\cos(y) \\cos(z)\\, e^{-(x^2+y^2+z^2)}\\, dx dy dz $$\n",
+        "\n",
+        "  to 30 significant decimals (this example cannot be solved symbolically with `sympy`)\n"
+      ],
+      "id": "a0624522"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, y, z = sympy.symbols('x, y, z')"
+      ],
+      "id": "454a3c14",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f2 = sympy.cos(x) *sympy.cos(y) *sympy.exp(-x**2 -y**2)\n",
+        "f3 = sympy.cos(x) *sympy.cos(y) *sympy.cos(z) *sympy.exp(-x**2 -y**2 -z**2)\n",
+        "\n",
+        "f2_mpmath = sympy.lambdify((x, y), f2, 'mpmath')\n",
+        "f3_mpmath = sympy.lambdify((x, y, z), f3, 'mpmath')"
+      ],
+      "id": "ed7d34c1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "mpmath.mp.dps = 30\n",
+        "\n",
+        "res2 = mpmath.quad(f2_mpmath, (0, 1), (0, 1))\n",
+        "res3 = mpmath.quad(f3_mpmath, (0, 1), (0, 1), (0, 1))"
+      ],
+      "id": "ccb5c1c7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.sympify(res2), sympy.sympify(res3)"
+      ],
+      "id": "c1018066",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Integral transforms\n",
+        "\n",
+        "* In general, an integral transform of a function $f(t)$ can be written as\n",
+        "\n",
+        "  $$ T_f(u) = \\int_{t_1}^{t_2} \\, K(t, u) f(t) \\,dt$$\n",
+        "\n",
+        "  where $T_f(u)$ is the transformed function. The choice of the kernel $K(t, u)$ and the integration limits\n",
+        "determines the type of integral transform. The inverse of the integral transform is given by\n",
+        "\n",
+        "  $$ f(t)=\\int_{u_1}^{u_2} K^{-1}(u, t) \\, T_f(u) \\, du$$\n",
+        "\n",
+        "  where $K^{-1} (u,t)$ is the kernel of the inverse transform\n",
+        "\n",
+        "* `Sympy` provides functions for several types of integral transform, but here we focus on the Laplace transform\n",
+        "\n",
+        "  $$ L_f(s) = \\int_0^{\\infty} e^{-st} f(t) \\,dt $$\n",
+        "\n",
+        "  with the inverse transform\n",
+        "\n",
+        "  $$ f(t) = \\frac{1}{2\\pi i} \\int_{\\gamma -i\\infty}^{\\gamma +i \\infty} e^{st} L_f(s)\\,ds$$\n",
+        "\n",
+        "  and the Fourier transform\n",
+        "\n",
+        "  $$ F_f(\\omega) = \\frac{1}{\\sqrt{2\\pi}} \\int_{-\\infty}^{\\infty} e^{-i\\omega t} f(t)\\,dt$$\n",
+        "\n",
+        "  with the inverse transform\n",
+        "\n",
+        "  $$ f(t) = \\frac{1}{\\sqrt{2\\pi}} \\int_{-\\infty}^{\\infty} e^{i\\omega t} F_f(\\omega)\\,d\\omega$$\n",
+        "\n",
+        "* With `sympy`, we can perform these transforms with the \n",
+        "\n",
+        "  > `sympy.laplace_transform` and\n",
+        "  > `sympy.fourier_transform`, respectively, \n",
+        "\n",
+        "  and the corresponding inverse transforms can be computed with\n",
+        "the \n",
+        "\n",
+        "  >`sympy.inverse_laplace_transform` and \n",
+        "  >`sympy.inverse_fourier_transform`\n"
+      ],
+      "id": "5703e2af"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "s = sympy.symbols('s')\n",
+        "a, t = sympy.symbols('a, t', positive=True)\n",
+        "\n",
+        "f = sympy.sin(a*t)\n",
+        "sympy.laplace_transform(f, t, s)"
+      ],
+      "id": "a378cb4e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "F = sympy.laplace_transform(f, t, s, noconds=True)\n",
+        "F"
+      ],
+      "id": "60c7e10a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.inverse_laplace_transform(F, s, t, noconds=True)"
+      ],
+      "id": "02251a67",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "c755c4bd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "[sympy.laplace_transform(f, t, s, noconds=True) for f in [t, t**2, t**3, t**4]]"
+      ],
+      "id": "76c9f2a2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = sympy.symbols('a', positive=True)\n",
+        "sympy.laplace_transform(t**a, t, s, noconds=True)"
+      ],
+      "id": "b17eb2ce",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.laplace_transform((1 -a*t) *sympy.exp(-a*t), t, s, noconds=True)"
+      ],
+      "id": "065515c3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "b229f85c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, w = sympy.symbols(\"x, omega\")\n",
+        "f = sympy.exp(-x**2)\n",
+        "\n",
+        "F = sympy.fourier_transform(f, x, w)\n",
+        "F"
+      ],
+      "id": "c838551a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.inverse_fourier_transform(F, w, x)"
+      ],
+      "id": "d58b45e4",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "fenicsx",
+      "language": "python",
+      "display_name": "fenicsx",
+      "path": "/Users/kyyoo/Library/Jupyter/kernels/fenicsx"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
