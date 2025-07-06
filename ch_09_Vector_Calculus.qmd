@@ -1668,3 +1668,374 @@ Since the integrand $v^{1/3}$ is an odd function, and the bounds of $u$ are symm
 $$\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv = 0$$
 
 $~$
+
+**7.** $~$ Find the tangential and normal components of acceleration for the path:
+
+$$ \mathbf{x}(t) = \left(2t, e^{2t} \right)$$
+
+**Solution**
+
+**Step 1:** $~$ Compute the velocity vector
+
+$$\mathbf{v}(t) = \frac{d\mathbf{x}}{dt} = \left(2, 2e^{2t} \right)$$
+
+**Step 2:** $~$ Compute the acceleration vector
+
+$$\mathbf{a}(t) = \frac{d\mathbf{v}}{dt} = \left(0, 4e^{2t} \right)$$
+
+**Step 3:** $~$ Compute the speed
+
+$$|\mathbf{v}(t)| = \sqrt{2^2 + (2e^{2t})^2} = \sqrt{4 + 4e^{4t}} = 2\sqrt{1 + e^{4t}}$$
+
+**Step 4:** $~$ Tangential component of acceleration
+
+The tangential component of acceleration is given by the derivative of speed:
+
+$$a_T = \frac{d}{dt}|\mathbf{v}(t)| = \frac{d}{dt} \left(2\sqrt{1 + e^{4t}} \right)
+= \frac{2 \cdot \frac{1}{2} \cdot 4e^{4t}}{\sqrt{1 + e^{4t}}}
+= \frac{4e^{4t}}{\sqrt{1 + e^{4t}}}$$
+
+**Step 5:** $~$ Normal component of acceleration
+
+The normal component of acceleration is given by:
+
+$$a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}$$
+
+We compute:
+
+* $|\mathbf{a}(t)| = \sqrt{0^2 + (4e^{2t})^2} = 4e^{2t}$
+* So $|\mathbf{a}(t)|^2 = 16e^{4t}$
+* And $a_T^2 = \left(\frac{4e^{4t}}{\sqrt{1 + e^{4t}}}\right)^2 = \frac{16e^{8t}}{1 + e^{4t}}$
+
+Now plug into the normal acceleration formula:
+
+$$
+\begin{aligned}
+a_N &= \sqrt{16e^{4t} - \frac{16e^{8t}}{1 + e^{4t}}} \\
+&= \sqrt{ \frac{16e^{4t}(1 + e^{4t}) - 16e^{8t}}{1 + e^{4t}} } \\
+&= \sqrt{ \frac{16e^{4t}}{1 + e^{4t}} } \\
+&= \frac{4e^{2t}}{\sqrt{1 + e^{4t}}}
+\end{aligned}
+$$
+
+$~$
+
+**8.** $~$ Find the tangential and normal components of acceleration for the path:
+
+$$ \mathbf{x}(t) = \left(t, t, t^2 \right) $$
+
+**Solution**
+
+**Step 1:** $~$ Compute velocity and acceleration
+
+$$
+\begin{aligned}
+\mathbf{v}(t) &= \frac{d\mathbf{x}}{dt} = (1, 1, 2t)\\
+\mathbf{a}(t) &= \frac{d\mathbf{v}}{dt} = (0, 0, 2)
+\end{aligned}$$
+
+**Step 2:** $~$ Compute speed
+
+$$|\mathbf{v}(t)| = \sqrt{1^2 + 1^2 + (2t)^2} = \sqrt{2 + 4t^2}$$
+
+**Step 3:** $~$ Tangential component of acceleration
+
+The tangential component is:
+
+$$a_T = \frac{d}{dt} |\mathbf{v}(t)| = \frac{d}{dt} \sqrt{2 + 4t^2}
+= \frac{1}{2\sqrt{2 + 4t^2}} \cdot 8t = \frac{4t}{\sqrt{2 + 4t^2}}$$
+
+**Step 4:** $~$ Normal component of acceleration
+
+The normal component is given by:
+
+$$a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}$$
+
+We have:
+
+* $|\mathbf{a}(t)| = \sqrt{0^2 + 0^2 + 2^2} = 2$
+* $|\mathbf{a}(t)|^2 = 4$
+* $a_T^2 = \left( \frac{4t}{\sqrt{2 + 4t^2}} \right)^2 = \frac{16t^2}{2 + 4t^2}$
+
+Now compute:
+
+$$
+\begin{aligned}
+a_N &= \sqrt{4 - \frac{16t^2}{2 + 4t^2}} = \sqrt{ \frac{4(2 + 4t^2) - 16t^2}{2 + 4t^2} } \\
+&= \sqrt{ \frac{8 + 16t^2 - 16t^2}{2 + 4t^2} } = \sqrt{ \frac{8}{2 + 4t^2} }\\
+&= \frac{2\sqrt{2}}{\sqrt{2 + 4t^2}}
+\end{aligned}$$
+
+$~$
+
+**9.** $~$ Let $\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}$ and $r$ denote $\| \mathbf{r} \|$. Evaluate the following:
+
+$$\nabla \cdot (r^n \mathbf{r})$$
+
+**Solution**
+
+**Step 1:** $~$ Use product rule for divergence
+
+Let’s use the identity:
+
+$$\nabla \cdot (f \mathbf{v}) = (\nabla f) \cdot \mathbf{v} + f (\nabla \cdot \mathbf{v})$$
+
+Set:
+
+* $f = r^n$
+* $\mathbf{v} = \mathbf{r}$
+
+Then:
+
+$$\nabla \cdot (r^n \mathbf{r}) = (\nabla r^n) \cdot \mathbf{r} + r^n (\nabla \cdot \mathbf{r})$$
+
+**Step 2:** $~$ Compute the terms
+
+1. Gradient of $r^n$:
+
+We use the chain rule:
+
+$$\nabla r^n = n r^{n-1} \nabla r$$
+
+and since $r = \sqrt{x^2 + y^2 + z^2}$, $\,$ we know:
+
+$$\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}$$
+
+So:
+
+$$\nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}$$
+
+Therefore,
+
+$$(\nabla r^n) \cdot \mathbf{r} = n r^{n-2} \mathbf{r} \cdot \mathbf{r} = n r^{n-2} r^2 = n r^n$$
+
+2. Divergence of $\mathbf{r}$:
+
+$$\nabla \cdot \mathbf{r} = \frac{\partial x}{\partial x} + \frac{\partial y}{\partial y} + \frac{\partial z}{\partial z} = 1 + 1 + 1 = 3$$
+
+**Step 3:** $~$ Combine everything
+
+$$\nabla \cdot (r^n \mathbf{r}) = n r^n + 3 r^n = (n + 3) r^n$$
+
+$~$
+
+**10.** $~$ Let $\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}$ and $r$ denote $\| \mathbf{r} \|$. Evaluate the following:
+
+$$\nabla \times (r^n \mathbf{r})$$
+
+**Solution**
+
+**Step 1:** $~$ Use Vector Identity
+
+We apply the identity:
+
+$$\nabla \times (f \mathbf{v}) = (\nabla f) \times \mathbf{v} + f (\nabla \times \mathbf{v})$$
+
+Let:
+
+* $f = r^n$
+* $\mathbf{v} = \mathbf{r}$
+
+So:
+
+$$\nabla \times (r^n \mathbf{r}) = (\nabla r^n) \times \mathbf{r} + r^n (\nabla \times \mathbf{r})$$
+
+**Step 2:** $~$ Compute Each Term
+
+(1) $\nabla \times \mathbf{r}$
+
+$$\nabla \times \mathbf{r} = \nabla \times (x\mathbf{i} + y\mathbf{j} + z\mathbf{k}) = \mathbf{0}$$
+
+(2) $\nabla r^n$
+
+We compute:
+
+$$\nabla r^n = n r^{n-1} \nabla r$$
+
+and since:
+
+$$\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}
+\Rightarrow \nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}$$
+
+(3) Compute the cross product
+
+$$(\nabla r^n) \times \mathbf{r} = (n r^{n-2} \mathbf{r}) \times \mathbf{r} = n r^{n-2} (\mathbf{r} \times \mathbf{r}) = n r^{n-2} \cdot \mathbf{0} = \mathbf{0}$$
+
+$~$
+
+**11.** $~$ Let $\mathbf{v} = u(x,y) \mathbf{i} - v(x,y) \mathbf{j}$ be an **incompressible**, **irrotational** velocity field
+
+$(a)$ Show that the functions $u$ and $v$ (which determine the component functions of $\mathbf{v}$) satisfy the **Cauchy-Riemann equations**
+
+  $$\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\, \;\text{and}\; \,
+  \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}$$
+
+  $(b)$ Show that $u$ and $v$ are **harmonic**, that is, that
+
+    $$\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}=0\, \;\text{and}\; \,
+    \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0$$
+
+  **Solution**
+
+We are given a 2D velocity field and told that this flow is:
+
+* Incompressible (i.e., $\nabla \cdot \mathbf{v} = 0$)
+* Irrotational (i.e., $\nabla \times \mathbf{v} = 0$)
+
+$(a)$ 
+
+**Step 1:** $~$ Incompressibility condition
+
+The divergence of a 2D vector field $\mathbf{v} = (u, -v)$ is:
+
+$$\nabla \cdot \mathbf{v} = \frac{\partial u}{\partial x} + \frac{\partial (-v)}{\partial y}
+= \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}$$
+
+Incompressibility implies:
+
+$$\frac{\partial u}{\partial x} - \frac{\partial v}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}}$$
+
+**Step 2:** $~$ Irrotationality condition
+
+In 2D, the scalar curl of a vector field $\mathbf{v} = (u, -v)$ is:
+
+$$\nabla \times \mathbf{v} = \frac{\partial (-v)}{\partial x} - \frac{\partial u}{\partial y}
+= -\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}$$
+
+Irrotationality implies:
+
+$$-\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}} $$
+
+$(b)$
+
+**Step 1:** $~$ Differentiate the Cauchy-Riemann equations
+
+Start with the first:
+
+$$\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}$$
+
+Differentiate both sides with respect to $x$:
+
+$$\frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y}
+\quad\text{(1)}$$
+
+Now differentiate the second Cauchy-Riemann equation:
+
+$$\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}$$
+
+Differentiate both sides with respect to $y$:
+
+$$\frac{\partial^2 u}{\partial y^2} = -\frac{\partial^2 v}{\partial y \partial x}
+\quad\text{(2)}$$
+
+**Step 2:** $~$ Add the second derivatives of $u$
+
+From equations (1) and (2):
+
+$$\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}
+= \frac{\partial^2 v}{\partial x \partial y} - \frac{\partial^2 v}{\partial y \partial x} = 0$$
+
+(because mixed partial derivatives are equal under continuity)
+
+So,
+
+$$\boxed{\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0}$$
+
+**Step 3:** $~$ Do the same for $v$
+
+Start again from:
+
+$$\frac{\partial v}{\partial y} = \frac{\partial u}{\partial x}
+\Rightarrow \frac{\partial^2 v}{\partial y^2} = \frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(3)}$$
+
+$$\frac{\partial v}{\partial x} = -\frac{\partial u}{\partial y}
+\Rightarrow \frac{\partial^2 v}{\partial x^2} = -\frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(4)}$$
+
+Now add:
+
+$$\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2}
+= -\frac{\partial^2 u}{\partial x \partial y} + \frac{\partial^2 u}{\partial x \partial y} = 0$$
+
+Thus:
+
+$$\boxed{\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0}$$
+
+  $~$
+
+  **12.** $~$ Let a particle of mass $m$ travel along a differentiable path $\mathbf{x}$ in a Newtonian vector field $\mathbf{F}$ (i.e., one that satisfies Newton's second law $\mathbf{F} = m\mathbf{a}$, where $\mathbf{a}$ is the acceleration of $\mathbf{x}$). We define the **angular momentum** $\mathbf{l}(t)$ of the particle to be the cross product of the position vector and the linear momentum $m\mathbf{v}$, i.e.,
+
+  $$\mathbf{l}(t) = \mathbf{x}(t) \times m \mathbf{v}(t)$$
+
+(Here $\mathbf{v}$ denotes the velocity of $\mathbf{x}$.) The **torque** about the origin of the coordinate system due to the force $\mathbf{F}$ is the cross product of position and force:
+
+  $$\mathbf{M}(t) = \mathbf{x}(t) \times \mathbf{F}(t)$$
+
+
+$(a)$ Show that 
+
+  $$\frac{d\mathbf{l}}{dt} = \mathbf{M}$$
+  
+Thus, we see that the rate of change of angular momentum is equal to the torque imparted to the particle by the vector field $\mathbf{F}$
+ 
+
+$(b)$ Suppose that $\mathbf{F}$ is a central force (i.e., a force that always points directly towards or away from the origin). Show that in this case the angular momentum is **conserved**, that is, that it must remain constant
+
+**Solution**
+
+$(a)$
+
+Start from the definition of angular momentum:
+
+$$\mathbf{l}(t) = \mathbf{x}(t) \times m\mathbf{v}(t)$$
+
+Differentiate using the product rule for cross products:
+
+$$\frac{d\mathbf{l}}{dt} = \frac{d}{dt} \left[ \mathbf{x}(t) \times m\mathbf{v}(t) \right]
+= \dot{\mathbf{x}}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\dot{\mathbf{v}}(t)$$
+
+Since $\dot{\mathbf{x}}(t) = \mathbf{v}(t)$, and $\dot{\mathbf{v}}(t) = \mathbf{a}(t),$ this becomes:
+
+$$\frac{d\mathbf{l}}{dt} = \mathbf{v}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\mathbf{a}(t)$$
+
+Now note:
+
+* $\mathbf{v}(t) \times \mathbf{v}(t) = \mathbf{0}$ (any vector crossed with itself is zero)
+* So the first term vanishes
+
+Thus:
+
+$$\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times m\mathbf{a}(t)
+= \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)$$
+
+$(b)$
+
+What is a central force?
+
+A central force is a vector field where the force always points directly toward or away from the origin. That is:
+
+$$\mathbf{F}(t) = f(r)\, \hat{\mathbf{r}} = f(r) \frac{\mathbf{x}(t)}{r}
+\quad \text{where} \quad r = \|\mathbf{x}(t)\|$$
+
+In other words, $\mathbf{F}(t)$ is parallel to $\mathbf{x}(t)$, so:
+
+$$\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0}$$
+
+Recall from part (a):
+
+We showed that:
+
+$$\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)$$
+
+Now if $\mathbf{F}$ is a central force, then $\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0},$ so:
+
+$$\frac{d\mathbf{l}}{dt} = \mathbf{0}$$
+
+This implies that:
+
+$$\boxed{\mathbf{l}(t) = \text{constant vector}}$$

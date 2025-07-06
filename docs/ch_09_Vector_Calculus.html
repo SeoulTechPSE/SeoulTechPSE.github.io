@@ -1857,7 +1857,7 @@ v &amp; 1 + u
 </ul>
 <p>So, the transformed region is:</p>
 <p><span class="math display">\[S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}\]</span></p>
-<div id="dd93bbbc" class="cell" data-execution_count="1">
+<div id="2d7840df" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1900,6 +1900,236 @@ v &amp; 1 + u
 <p>Since the integrand <span class="math inline">\(v^{1/3}\)</span> is an odd function, and the bounds of <span class="math inline">\(u\)</span> are symmetric in <span class="math inline">\(v\)</span>, the integral is:</p>
 <p><span class="math display">\[\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv = 0\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Find the tangential and normal components of acceleration for the path:</p>
+<p><span class="math display">\[ \mathbf{x}(t) = \left(2t, e^{2t} \right)\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute the velocity vector</p>
+<p><span class="math display">\[\mathbf{v}(t) = \frac{d\mathbf{x}}{dt} = \left(2, 2e^{2t} \right)\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute the acceleration vector</p>
+<p><span class="math display">\[\mathbf{a}(t) = \frac{d\mathbf{v}}{dt} = \left(0, 4e^{2t} \right)\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Compute the speed</p>
+<p><span class="math display">\[|\mathbf{v}(t)| = \sqrt{2^2 + (2e^{2t})^2} = \sqrt{4 + 4e^{4t}} = 2\sqrt{1 + e^{4t}}\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Tangential component of acceleration</p>
+<p>The tangential component of acceleration is given by the derivative of speed:</p>
+<p><span class="math display">\[a_T = \frac{d}{dt}|\mathbf{v}(t)| = \frac{d}{dt} \left(2\sqrt{1 + e^{4t}} \right)
+= \frac{2 \cdot \frac{1}{2} \cdot 4e^{4t}}{\sqrt{1 + e^{4t}}}
+= \frac{4e^{4t}}{\sqrt{1 + e^{4t}}}\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Normal component of acceleration</p>
+<p>The normal component of acceleration is given by:</p>
+<p><span class="math display">\[a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}\]</span></p>
+<p>We compute:</p>
+<ul>
+<li><span class="math inline">\(|\mathbf{a}(t)| = \sqrt{0^2 + (4e^{2t})^2} = 4e^{2t}\)</span></li>
+<li>So <span class="math inline">\(|\mathbf{a}(t)|^2 = 16e^{4t}\)</span></li>
+<li>And <span class="math inline">\(a_T^2 = \left(\frac{4e^{4t}}{\sqrt{1 + e^{4t}}}\right)^2 = \frac{16e^{8t}}{1 + e^{4t}}\)</span></li>
+</ul>
+<p>Now plug into the normal acceleration formula:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_N &amp;= \sqrt{16e^{4t} - \frac{16e^{8t}}{1 + e^{4t}}} \\
+&amp;= \sqrt{ \frac{16e^{4t}(1 + e^{4t}) - 16e^{8t}}{1 + e^{4t}} } \\
+&amp;= \sqrt{ \frac{16e^{4t}}{1 + e^{4t}} } \\
+&amp;= \frac{4e^{2t}}{\sqrt{1 + e^{4t}}}
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>8.</strong> <span class="math inline">\(~\)</span> Find the tangential and normal components of acceleration for the path:</p>
+<p><span class="math display">\[ \mathbf{x}(t) = \left(t, t, t^2 \right) \]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute velocity and acceleration</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{v}(t) &amp;= \frac{d\mathbf{x}}{dt} = (1, 1, 2t)\\
+\mathbf{a}(t) &amp;= \frac{d\mathbf{v}}{dt} = (0, 0, 2)
+\end{aligned}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute speed</p>
+<p><span class="math display">\[|\mathbf{v}(t)| = \sqrt{1^2 + 1^2 + (2t)^2} = \sqrt{2 + 4t^2}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Tangential component of acceleration</p>
+<p>The tangential component is:</p>
+<p><span class="math display">\[a_T = \frac{d}{dt} |\mathbf{v}(t)| = \frac{d}{dt} \sqrt{2 + 4t^2}
+= \frac{1}{2\sqrt{2 + 4t^2}} \cdot 8t = \frac{4t}{\sqrt{2 + 4t^2}}\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Normal component of acceleration</p>
+<p>The normal component is given by:</p>
+<p><span class="math display">\[a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}\]</span></p>
+<p>We have:</p>
+<ul>
+<li><span class="math inline">\(|\mathbf{a}(t)| = \sqrt{0^2 + 0^2 + 2^2} = 2\)</span></li>
+<li><span class="math inline">\(|\mathbf{a}(t)|^2 = 4\)</span></li>
+<li><span class="math inline">\(a_T^2 = \left( \frac{4t}{\sqrt{2 + 4t^2}} \right)^2 = \frac{16t^2}{2 + 4t^2}\)</span></li>
+</ul>
+<p>Now compute:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_N &amp;= \sqrt{4 - \frac{16t^2}{2 + 4t^2}} = \sqrt{ \frac{4(2 + 4t^2) - 16t^2}{2 + 4t^2} } \\
+&amp;= \sqrt{ \frac{8 + 16t^2 - 16t^2}{2 + 4t^2} } = \sqrt{ \frac{8}{2 + 4t^2} }\\
+&amp;= \frac{2\sqrt{2}}{\sqrt{2 + 4t^2}}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>9.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}\)</span> and <span class="math inline">\(r\)</span> denote <span class="math inline">\(\| \mathbf{r} \|\)</span>. Evaluate the following:</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r})\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use product rule for divergence</p>
+<p>Let’s use the identity:</p>
+<p><span class="math display">\[\nabla \cdot (f \mathbf{v}) = (\nabla f) \cdot \mathbf{v} + f (\nabla \cdot \mathbf{v})\]</span></p>
+<p>Set:</p>
+<ul>
+<li><span class="math inline">\(f = r^n\)</span></li>
+<li><span class="math inline">\(\mathbf{v} = \mathbf{r}\)</span></li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r}) = (\nabla r^n) \cdot \mathbf{r} + r^n (\nabla \cdot \mathbf{r})\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute the terms</p>
+<ol type="1">
+<li>Gradient of <span class="math inline">\(r^n\)</span>:</li>
+</ol>
+<p>We use the chain rule:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \nabla r\]</span></p>
+<p>and since <span class="math inline">\(r = \sqrt{x^2 + y^2 + z^2}\)</span>, <span class="math inline">\(\,\)</span> we know:</p>
+<p><span class="math display">\[\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}\]</span></p>
+<p>So:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[(\nabla r^n) \cdot \mathbf{r} = n r^{n-2} \mathbf{r} \cdot \mathbf{r} = n r^{n-2} r^2 = n r^n\]</span></p>
+<ol start="2" type="1">
+<li>Divergence of <span class="math inline">\(\mathbf{r}\)</span>:</li>
+</ol>
+<p><span class="math display">\[\nabla \cdot \mathbf{r} = \frac{\partial x}{\partial x} + \frac{\partial y}{\partial y} + \frac{\partial z}{\partial z} = 1 + 1 + 1 = 3\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Combine everything</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r}) = n r^n + 3 r^n = (n + 3) r^n\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>10.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}\)</span> and <span class="math inline">\(r\)</span> denote <span class="math inline">\(\| \mathbf{r} \|\)</span>. Evaluate the following:</p>
+<p><span class="math display">\[\nabla \times (r^n \mathbf{r})\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use Vector Identity</p>
+<p>We apply the identity:</p>
+<p><span class="math display">\[\nabla \times (f \mathbf{v}) = (\nabla f) \times \mathbf{v} + f (\nabla \times \mathbf{v})\]</span></p>
+<p>Let:</p>
+<ul>
+<li><span class="math inline">\(f = r^n\)</span></li>
+<li><span class="math inline">\(\mathbf{v} = \mathbf{r}\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\nabla \times (r^n \mathbf{r}) = (\nabla r^n) \times \mathbf{r} + r^n (\nabla \times \mathbf{r})\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute Each Term</p>
+<ol type="1">
+<li><span class="math inline">\(\nabla \times \mathbf{r}\)</span></li>
+</ol>
+<p><span class="math display">\[\nabla \times \mathbf{r} = \nabla \times (x\mathbf{i} + y\mathbf{j} + z\mathbf{k}) = \mathbf{0}\]</span></p>
+<ol start="2" type="1">
+<li><span class="math inline">\(\nabla r^n\)</span></li>
+</ol>
+<p>We compute:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \nabla r\]</span></p>
+<p>and since:</p>
+<p><span class="math display">\[\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}
+\Rightarrow \nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}\]</span></p>
+<ol start="3" type="1">
+<li>Compute the cross product</li>
+</ol>
+<p><span class="math display">\[(\nabla r^n) \times \mathbf{r} = (n r^{n-2} \mathbf{r}) \times \mathbf{r} = n r^{n-2} (\mathbf{r} \times \mathbf{r}) = n r^{n-2} \cdot \mathbf{0} = \mathbf{0}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>11.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{v} = u(x,y) \mathbf{i} - v(x,y) \mathbf{j}\)</span> be an <strong>incompressible</strong>, <strong>irrotational</strong> velocity field</p>
+<p><span class="math inline">\((a)\)</span> Show that the functions <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> (which determine the component functions of <span class="math inline">\(\mathbf{v}\)</span>) satisfy the <strong>Cauchy-Riemann equations</strong></p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\, \;\text{and}\; \,
+  \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}\]</span></p>
+<p><span class="math inline">\((b)\)</span> Show that <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are <strong>harmonic</strong>, that is, that</p>
+<pre><code>$$\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}=0\, \;\text{and}\; \,
+\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0$$</code></pre>
+<p><strong>Solution</strong></p>
+<p>We are given a 2D velocity field and told that this flow is:</p>
+<ul>
+<li>Incompressible (i.e., <span class="math inline">\(\nabla \cdot \mathbf{v} = 0\)</span>)</li>
+<li>Irrotational (i.e., <span class="math inline">\(\nabla \times \mathbf{v} = 0\)</span>)</li>
+</ul>
+<p><span class="math inline">\((a)\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Incompressibility condition</p>
+<p>The divergence of a 2D vector field <span class="math inline">\(\mathbf{v} = (u, -v)\)</span> is:</p>
+<p><span class="math display">\[\nabla \cdot \mathbf{v} = \frac{\partial u}{\partial x} + \frac{\partial (-v)}{\partial y}
+= \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}\]</span></p>
+<p>Incompressibility implies:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} - \frac{\partial v}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Irrotationality condition</p>
+<p>In 2D, the scalar curl of a vector field <span class="math inline">\(\mathbf{v} = (u, -v)\)</span> is:</p>
+<p><span class="math display">\[\nabla \times \mathbf{v} = \frac{\partial (-v)}{\partial x} - \frac{\partial u}{\partial y}
+= -\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}\]</span></p>
+<p>Irrotationality implies:</p>
+<p><span class="math display">\[-\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}} \]</span></p>
+<p><span class="math inline">\((b)\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Differentiate the Cauchy-Riemann equations</p>
+<p>Start with the first:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\]</span></p>
+<p>Differentiate both sides with respect to <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y}
+\quad\text{(1)}\]</span></p>
+<p>Now differentiate the second Cauchy-Riemann equation:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}\]</span></p>
+<p>Differentiate both sides with respect to <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial y^2} = -\frac{\partial^2 v}{\partial y \partial x}
+\quad\text{(2)}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Add the second derivatives of <span class="math inline">\(u\)</span></p>
+<p>From equations (1) and (2):</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}
+= \frac{\partial^2 v}{\partial x \partial y} - \frac{\partial^2 v}{\partial y \partial x} = 0\]</span></p>
+<p>(because mixed partial derivatives are equal under continuity)</p>
+<p>So,</p>
+<p><span class="math display">\[\boxed{\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Do the same for <span class="math inline">\(v\)</span></p>
+<p>Start again from:</p>
+<p><span class="math display">\[\frac{\partial v}{\partial y} = \frac{\partial u}{\partial x}
+\Rightarrow \frac{\partial^2 v}{\partial y^2} = \frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(3)}\]</span></p>
+<p><span class="math display">\[\frac{\partial v}{\partial x} = -\frac{\partial u}{\partial y}
+\Rightarrow \frac{\partial^2 v}{\partial x^2} = -\frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(4)}\]</span></p>
+<p>Now add:</p>
+<p><span class="math display">\[\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2}
+= -\frac{\partial^2 u}{\partial x \partial y} + \frac{\partial^2 u}{\partial x \partial y} = 0\]</span></p>
+<p>Thus:</p>
+<p><span class="math display">\[\boxed{\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>12.</strong> <span class="math inline">\(~\)</span> Let a particle of mass <span class="math inline">\(m\)</span> travel along a differentiable path <span class="math inline">\(\mathbf{x}\)</span> in a Newtonian vector field <span class="math inline">\(\mathbf{F}\)</span> (i.e., one that satisfies Newton’s second law <span class="math inline">\(\mathbf{F} = m\mathbf{a}\)</span>, where <span class="math inline">\(\mathbf{a}\)</span> is the acceleration of <span class="math inline">\(\mathbf{x}\)</span>). We define the <strong>angular momentum</strong> <span class="math inline">\(\mathbf{l}(t)\)</span> of the particle to be the cross product of the position vector and the linear momentum <span class="math inline">\(m\mathbf{v}\)</span>, i.e.,</p>
+<p><span class="math display">\[\mathbf{l}(t) = \mathbf{x}(t) \times m \mathbf{v}(t)\]</span></p>
+<p>(Here <span class="math inline">\(\mathbf{v}\)</span> denotes the velocity of <span class="math inline">\(\mathbf{x}\)</span>.) The <strong>torque</strong> about the origin of the coordinate system due to the force <span class="math inline">\(\mathbf{F}\)</span> is the cross product of position and force:</p>
+<p><span class="math display">\[\mathbf{M}(t) = \mathbf{x}(t) \times \mathbf{F}(t)\]</span></p>
+<p><span class="math inline">\((a)\)</span> Show that</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{M}\]</span></p>
+<p>Thus, we see that the rate of change of angular momentum is equal to the torque imparted to the particle by the vector field <span class="math inline">\(\mathbf{F}\)</span></p>
+<p><span class="math inline">\((b)\)</span> Suppose that <span class="math inline">\(\mathbf{F}\)</span> is a central force (i.e., a force that always points directly towards or away from the origin). Show that in this case the angular momentum is <strong>conserved</strong>, that is, that it must remain constant</p>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\((a)\)</span></p>
+<p>Start from the definition of angular momentum:</p>
+<p><span class="math display">\[\mathbf{l}(t) = \mathbf{x}(t) \times m\mathbf{v}(t)\]</span></p>
+<p>Differentiate using the product rule for cross products:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \frac{d}{dt} \left[ \mathbf{x}(t) \times m\mathbf{v}(t) \right]
+= \dot{\mathbf{x}}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\dot{\mathbf{v}}(t)\]</span></p>
+<p>Since <span class="math inline">\(\dot{\mathbf{x}}(t) = \mathbf{v}(t)\)</span>, and <span class="math inline">\(\dot{\mathbf{v}}(t) = \mathbf{a}(t),\)</span> this becomes:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{v}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\mathbf{a}(t)\]</span></p>
+<p>Now note:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{v}(t) \times \mathbf{v}(t) = \mathbf{0}\)</span> (any vector crossed with itself is zero)</li>
+<li>So the first term vanishes</li>
+</ul>
+<p>Thus:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times m\mathbf{a}(t)
+= \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)\]</span></p>
+<p><span class="math inline">\((b)\)</span></p>
+<p>What is a central force?</p>
+<p>A central force is a vector field where the force always points directly toward or away from the origin. That is:</p>
+<p><span class="math display">\[\mathbf{F}(t) = f(r)\, \hat{\mathbf{r}} = f(r) \frac{\mathbf{x}(t)}{r}
+\quad \text{where} \quad r = \|\mathbf{x}(t)\|\]</span></p>
+<p>In other words, <span class="math inline">\(\mathbf{F}(t)\)</span> is parallel to <span class="math inline">\(\mathbf{x}(t)\)</span>, so:</p>
+<p><span class="math display">\[\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0}\]</span></p>
+<p>Recall from part (a):</p>
+<p>We showed that:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)\]</span></p>
+<p>Now if <span class="math inline">\(\mathbf{F}\)</span> is a central force, then <span class="math inline">\(\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0},\)</span> so:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{0}\]</span></p>
+<p>This implies that:</p>
+<p><span class="math display">\[\boxed{\mathbf{l}(t) = \text{constant vector}}\]</span></p>
 
 
 </section>
