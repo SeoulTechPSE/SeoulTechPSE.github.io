@@ -1104,8 +1104,10 @@ $$a_0 = \frac{1}{2} \int_0^2 (2x - x^2) \, dx = \frac{1}{2} \left[ x^2 - \frac{x
 
 We split the integral:
 
-$$a_n = \frac{1}{2} \left[ 2 \int_0^2 x \cos\left(\frac{n\pi x}{2}\right) dx - \int_0^2 x^2 \cos\left(\frac{n\pi x}{2}\right) dx \right]
-= \frac{-4 \left[(-1)^n + 1\right]}{\pi^2 n^2}$$
+$$\begin{aligned}
+ a_n &= \frac{1}{2} \left[ 2 \int_0^2 x \cos\left(\frac{n\pi x}{2}\right) dx - \int_0^2 x^2 \cos\left(\frac{n\pi x}{2}\right) dx \right] \\
+&= \frac{-4 \left[(-1)^n + 1\right]}{\pi^2 n^2}
+\end{aligned}$$
 
 Therefore, the final simplified form is:
 
@@ -1320,3 +1322,531 @@ $$
 \int_0^1 e^{2x} e^{-x} \sin(m\pi x) \cdot e^{-x} \sin(n\pi x) \, dx = 0, \quad m \ne n
 $$
 
+$~$
+
+**4.** $~$ $(a)~$ Find the Fourier series of $f$ on the given interval
+
+$$f(x) = |x|, \;\;-\pi \le x \le \pi$$
+
+$(b)~$ Use the result of (a) and Parseval's Theorem to evaluate the following series:
+
+$$ 1 + \frac{1}{3^4} + \frac{1}{5^4} + \frac{1}{7^4} + \cdots$$
+
+
+**Parseval's Theorem** $~$ If $f$ is piecewise continuous, of period $2\pi$, then
+
+$$\frac{1}{\pi} \int_0^{2\pi} \left[ f(x) \right]^2 \,dx = \frac{1}{2}a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)$$
+
+where $a_0$, $a_n$, and $b_n$ are Fourier coefficients
+
+**Solution**
+
+$(a)~$
+
+**Step 1:** $~$ Determine symmetry
+
+Since
+
+$$f(-x) = |-x| = |x| = f(x)$$
+
+the function is even
+
+So the Fourier series of $f(x)$ will have the form:
+
+$$f(x) \sim \frac{a_0}{2} + \sum_{n=1}^{\infty} a_n \cos(nx)$$
+
+(No sine terms appear, because $\sin(nx)$ is odd)
+
+**Step 2:** $~$ Compute the coefficients
+
+Constant term:
+
+$$a_0 = \frac{1}{\pi} \int_{-\pi}^{\pi} |x| \, dx = \frac{2}{\pi} \int_{0}^{\pi} x \, dx = \frac{2}{\pi} \cdot \left[ \frac{x^2}{2} \right]_0^\pi = \pi$$
+
+Cosine coefficients:
+
+$$a_n = \frac{1}{\pi} \int_{-\pi}^{\pi} |x| \cos(nx) \, dx
+= \frac{2}{\pi} \int_{0}^{\pi} x \cos(nx) \, dx$$
+
+Now evaluate:
+
+$$\int_0^\pi x \cos(nx)\, dx = \left. \frac{x \sin(nx)}{n} \right|_0^\pi + \left. \frac{\cos(nx)}{n^2} \right|_0^\pi
+= 0 + \frac{(-1)^n - 1}{n^2}$$
+
+Then:
+
+$$a_n = \frac{2}{\pi} \cdot \frac{(-1)^n - 1}{n^2}
+= \begin{cases}
+0 & \text{if } n \text{ even} \\
+-\dfrac{4}{\pi n^2} & \text{if } n \text{ odd}
+\end{cases}$$
+
+**Final Answer:** $~$ Fourier series of $f(x) = |x|$
+
+$$\begin{aligned}
+ f(x) &= \frac{\pi}{2} - \frac{4}{\pi} \sum_{\substack{n=1\\n\text{ odd}}}^\infty \frac{1}{n^2} \cos(nx) \\
+&= \frac{\pi}{2} - \frac{4}{\pi} \left( \frac{\cos x}{1^2} + \frac{\cos 3x}{3^2} + \frac{\cos 5x}{5^2} + \cdots \right)
+\end{aligned}$$
+
+$(b)~$
+
+**Step 1:** $~$ Recall the Fourier Series for $f(x) = |x|$
+
+From part $(a)$, the Fourier series is:
+
+$$f(x) = |x| \sim \frac{\pi}{2} - \frac{4}{\pi} \sum_{n=1,3,5,\dots}^\infty \frac{\cos(nx)}{n^2}$$
+
+So the coefficients are:
+
+* $a_0 = \pi \Rightarrow \frac{a_0^2}{2} = \frac{\pi^2}{2}$
+* $a_n = -\frac{4}{\pi n^2}~$ for odd $n$, and $a_n = 0$ for even $n$
+* $b_n = 0~$ for all $n$ (because $f(x)$ is even)
+
+**Step 2:** $~$ Apply Parseval’s Theorem
+
+Recall Parseval’s identity for $f$ with period $2\pi$:
+
+$$\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{1}{2} a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)$$
+
+* Over $[0, \pi]$, $~f(x) = x$
+* Over $[\pi, 2\pi]$, $~f(x) = 2\pi - x$
+
+So:
+
+$$\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{1}{\pi} \left( \int_0^\pi x^2 dx + \int_\pi^{2\pi} (2\pi - x)^2 dx \right)$$
+
+Change variable $u = 2\pi - x$ in second integral, $du = -dx$, it becomes:
+
+$$\int_\pi^{2\pi} (2\pi - x)^2 dx = \int_0^\pi x^2 dx $$
+
+So:
+
+$$\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{2}{\pi} \int_0^\pi x^2 dx = \frac{2\pi^2}{3}$$
+
+**Step 3:** $~$ Compute RHS from Fourier coefficients
+
+Recall:
+
+* $a_0 = \pi \Rightarrow \frac{a_0^2}{2} = \frac{\pi^2}{2}$
+* For odd $n$, $~a_n = -\frac{4}{\pi n^2}$, so $~a_n^2 = \frac{16}{\pi^2 n^4}$
+
+So:
+
+$$\sum_{n=1}^\infty a_n^2 = \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}$$
+
+Plug into Parseval’s identity:
+
+$$\frac{2\pi^2}{3} = \frac{\pi^2}{2} + \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}$$
+
+Subtract $\frac{\pi^2}{2}$ from both sides:
+
+$$\frac{2\pi^2}{3} - \frac{\pi^2}{2} = \frac{\pi^2}{6}
+= \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}$$
+
+Solve for the sum:
+
+$$\sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4} = \frac{\pi^4}{96}$$
+
+$~$
+
+**5.** $~$ The **root-mean-square value** of a function $f(x)$ defined over an interval $(a, b)$ is given by
+
+$$\text{RMS}(f) = \sqrt{\frac{\displaystyle\int_a^b \,f^2(x)\,dx}{b-a}}$$
+
+Show that the RMS value of $f$ over the interval $(-p, p)$ is given by
+
+$$\text{RMS}(f) = \sqrt{\frac{1}{4} a_0^2 +\frac{1}{2} \sum_{n=1}^\infty \left(a_n^2 + b_n^2 \right)}$$
+
+where $a_0$, $a_n$, and $b_n$ are the Fourier coefficients, respectively
+
+**Solution**
+
+**Step 1:** $~$ Fourier Series on $(-p, p)$
+
+Assume $f(x)$ has a Fourier series expansion on $(-p, p)$, with period $2p$:
+
+$$f(x) = \frac{a_0}{2} + \sum_{n=1}^\infty \left[ a_n \cos\left(\frac{n\pi x}{p}\right) + b_n \sin\left(\frac{n\pi x}{p}\right) \right]$$
+
+**Step 2:** $~$ Parseval’s Theorem (general interval)
+
+Parseval’s identity for a function with period $2p$ is:
+
+$$\frac{1}{p} \int_{-p}^{p} f^2(x)\, dx = \frac{1}{2} a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)$$
+
+Now multiply both sides by $\frac{1}{2}$ to match the RMS definition, which has $\frac{1}{2p}$:
+
+$$\frac{1}{2p} \int_{-p}^{p} f^2(x)\, dx
+= \frac{1}{4} a_0^2 + \frac{1}{2} \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)$$
+
+Take square root of both sides:
+
+$$\text{RMS}(f) = \sqrt{ \frac{1}{2p} \int_{-p}^p f^2(x)\,dx }
+= \sqrt{ \frac{1}{4} a_0^2 + \frac{1}{2} \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right) }$$
+
+
+$~$
+
+**6.** $~$ $(a)~$ Find the eigenvalues and eigenfunctions of the boundary-value problem
+
+$$y''+y'+\lambda y=0, \;y(0)=0, \; y(2)=0$$
+
+$(b)~$ Put the differential equation in self-adjoint form
+
+$(c)~$ Give an orthogonality condition
+
+**Solution**
+
+$(a)$
+
+**Step 1:** $~$ Solve the ODE
+
+Consider the characteristic equation:
+
+$$r^2 + r + \lambda = 0
+\Rightarrow r = \frac{-1 \pm \sqrt{1 - 4\lambda}}{2}$$
+
+We consider three cases depending on the discriminant $D = 1 - 4\lambda$:
+
+**Case 1:** $~\lambda < \frac{1}{4} \Rightarrow D > 0$
+
+Real and distinct roots:
+
+$$r_{1,2} = \frac{-1 \pm \sqrt{1 - 4\lambda}}{2}$$
+
+General solution:
+
+$$y(x) = c_1 e^{r_1 x} + c_2 e^{r_2 x}$$
+
+Apply boundary conditions:
+
+* $y(0) = c_1 + c_2 = 0 \Rightarrow c_2 = -c_1$
+* $y(2) = c_1 (e^{r_1 \cdot 2} - e^{r_2 \cdot 2}) = 0$
+
+This implies $e^{2r_1} = e^{2r_2} \Rightarrow r_1 = r_2$, but they are distinct $\Rightarrow$ only trivial solution.
+So, no nontrivial solution for $\lambda < \frac{1}{4}$
+
+**Case 2:** $~\lambda = \frac{1}{4} \Rightarrow D = 0$
+
+Double root:
+
+$$r = -\frac{1}{2}
+\Rightarrow y(x) = (c_1 + c_2 x) e^{-x/2}$$
+
+Apply BCs:
+
+* $y(0) = c_1 = 0$
+* $y(2) = c_2 \cdot 2 e^{-1} = 0 \Rightarrow c_2 = 0$
+
+So again, only trivial solution $\Rightarrow$ no eigenvalue at $\lambda = \frac{1}{4}$
+
+**Case 3:** $~\lambda > \frac{1}{4} \Rightarrow D < 0$
+
+Now roots are complex:
+
+$$r = -\frac{1}{2} \pm i \mu, \quad \text{where } \mu = \frac{\sqrt{4\lambda - 1}}{2}$$
+
+Then the general solution becomes:
+
+$$y(x) = e^{-x/2} \left( c_1 \cos(\mu x) + c_2 \sin(\mu x) \right)$$
+
+Apply BCs:
+
+* $y(0) = e^0 (c_1) = 0 \Rightarrow c_1 = 0$
+* $y(2) = e^{-1} \cdot c_2 \sin(2\mu) = 0$
+
+So $\sin(2\mu) = 0 \Rightarrow 2\mu = n\pi \Rightarrow \mu = \frac{n\pi}{2}, \; n = 1,2,3,\dots$
+
+Then:
+
+$$\mu = \frac{\sqrt{4\lambda - 1}}{2} = \frac{n\pi}{2} 
+\Rightarrow \lambda_n = \frac{1 + n^2 \pi^2}{4}$$
+
+**Eigenvalues and Eigenfunctions:**
+
+* Eigenvalues:
+$$\boxed{\lambda_n = \frac{1 + n^2 \pi^2}{4}, \quad n = 1,2,3,\dots}$$
+* Eigenfunctions:
+$$\boxed{y_n(x) = e^{-x/2} \sin\left( \frac{n\pi x}{2} \right)}$$
+
+$(b)~$
+
+We want to rewrite the equation:
+
+$$y'' + y' + \lambda y = 0$$
+
+in the form:
+
+$$\frac{d}{dx} \left[ p(x) y’ \right] + q(x) y + \lambda w(x) y = 0$$
+
+We do this by finding an integrating factor $\mu(x)$ such that:
+
+$$\mu(x) y'' + \mu(x) y' = \frac{d}{dx} \left[ \mu(x) y’ \right]$$
+
+We want:
+
+$$
+\begin{aligned}
+\frac{d}{dx} [\mu(x) y'] &= \mu(x) y'' + \mu'(x) y' = \mu(x) y'' + \mu(x) y'\\ &\Rightarrow \mu'(x) = \mu(x) \Rightarrow \mu(x) = e^x
+\end{aligned}$$
+
+Multiply the original equation by $e^x$:
+
+$$e^x y'' + e^x y' + \lambda e^x y = 0
+\Rightarrow \frac{d}{dx} \left( e^x y’ \right) + \lambda e^x y = 0$$
+
+So the self-adjoint form is:
+
+$$\boxed{
+\frac{d}{dx} \left( e^x y’ \right) + \lambda e^x y = 0
+}$$
+
+$(c)~$ Orthogonality Condition
+
+In a Sturm-Liouville problem, eigenfunctions corresponding to distinct eigenvalues are orthogonal with respect to the weight function $w(x)$
+
+From $(b)$, we see the weight function is:
+
+$$w(x) = e^x$$
+
+So, the orthogonality condition is:
+
+$$\boxed{
+\int_0^2 e^x y_m(x) y_n(x)\, dx = 0 \quad \text{if } m \ne n
+}$$
+
+$~$
+
+**7.** $~$ Find the eigenfuctions and the equation that defines the eigenvalues for the given boundary-value problem:
+
+$$ y''+\lambda y = 0, \;y(0) +y'(0) = 0, \; y(1)=0$$
+
+**Solution**
+
+**Step 1:** $~$ General Solution of the ODE
+
+We consider $\lambda > 0$, since we typically expect nontrivial eigenfunctions.
+Let $\lambda = \mu^2$, $~$ with $\mu > 0$. Then the general solution to the differential equation
+
+$$y'' + \mu^2 y = 0$$
+
+is:
+
+$$y(x) = A \cos(\mu x) + B \sin(\mu x)$$
+
+and
+
+$$y'(x) = -A \mu \sin(\mu x) + B \mu \cos(\mu x)$$
+
+**Step 2:** $~$ Apply the Boundary Conditions
+
+* Condition 1: $~y(0) + y'(0) = 0$
+	
+$$A + B \mu = 0 \quad \Rightarrow \quad A = -B \mu$$
+
+* Condition 2: $~y(1) = 0$
+
+$$y(1) = A \cos(\mu) + B \sin(\mu)
+= B\left( \sin(\mu) - \mu \cos(\mu) \right)$$
+
+We seek nontrivial solutions $B \ne 0$, so we must have:
+
+$$\boxed{
+\sin(\mu) = \mu \cos(\mu)
+}$$
+
+This is the equation that defines the eigenvalues $\lambda = \mu^2$
+
+**Step 3:** $~$ Eigenfunctions
+
+So the eigenfunctions are (up to constant multiples):
+
+$$\boxed{
+y_\mu(x) = \sin(\mu x) - \mu \cos(\mu x)
+}$$
+
+where $\mu$ satisfies $\sin(\mu) = \mu \cos(\mu)$, and the eigenvalue is $\lambda = \mu^2$
+
+**Final Answer**
+
+* Eigenvalue equation:
+
+$$\boxed{ \sin(\mu) = \mu \cos(\mu) \quad \text{with } \lambda = \mu^2 }$$
+
+* Eigenfunctions:
+
+$$\boxed{ y(x) = \sin(\mu x) - \mu \cos(\mu x) }$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import fsolve
+
+# Define the function whose roots we want to find: 
+# f(mu) = sin(mu) - mu*cos(mu)
+def f(mu):
+  return np.sin(mu) - mu *np.cos(mu)
+
+# Find the first few roots numerically using initial guesses
+initial_guesses = [0.5, 4.5, 7.5, 11]
+mu_roots = [fsolve(f, guess)[0] for guess in initial_guesses]
+lambda_roots = [mu**2 for mu in mu_roots]
+
+# Define eigenfunction for given mu
+def eigenfunction(mu, x):
+  return np.sin(mu *x) - mu *np.cos(mu *x)
+
+# Plot the first few eigenfunctions on [0, 1]
+x_vals = np.linspace(0, 1, 500)
+plt.figure(figsize=(6, 4))
+
+for i, mu in enumerate(mu_roots):
+    y_vals = eigenfunction(mu, x_vals)
+    plt.plot(x_vals, y_vals, label=fr"$\mu_{i +1} \approx {mu:6.3f}$")
+
+plt.title("First Few Eigenfunctions")
+plt.xlabel("x")
+plt.ylabel("y(x)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+$~$
+
+**8.** $~$ Expand $f(x)=x^4$, $-1<x<1$ in a Fourier-Legendre series
+
+**Solution**
+
+**Step 1:** $~$ Legendre Polynomials
+
+The first few Legendre polynomials are:
+
+$$\begin{aligned}
+P_0(x) &= 1 \\
+P_1(x) &= x \\
+P_2(x) &= \frac{1}{2}(3x^2 - 1) \\
+P_3(x) &= \frac{1}{2}(5x^3 - 3x) \\
+P_4(x) &= \frac{1}{8}(35x^4 - 30x^2 + 3) \\
+\end{aligned}$$
+
+Since $f(x) = x^4$ is a polynomial of degree 4, the Legendre expansion will have at most 5 nonzero terms:
+
+$$f(x) = a_0 P_0(x) + a_1 P_1(x) + a_2 P_2(x) + a_3 P_3(x) + a_4 P_4(x)$$
+
+But since $f(x) = x^4$ is even, and odd Legendre polynomials are odd functions (so their integrals with even functions vanish), we expect:
+
+$$a_1 = a_3 = 0$$
+
+**Step 2:** $~$ Compute coefficients
+
+We compute:
+
+$$a_n = \frac{2n+1}{2} \int_{-1}^1 x^4 P_n(x)\, dx$$
+
+* $a_0$
+
+$$a_0 = \frac{1}{2} \int_{-1}^{1} x^4 \cdot 1 \, dx = \frac{1}{2} \cdot \int_{-1}^1 x^4 dx = \frac{1}{2} \cdot \frac{2}{5} = \frac{1}{5}$$
+
+* $a_2$
+
+$$a_2 = \frac{5}{4} \cdot \int_{-1}^{1} (3x^6 - x^4) dx
+= \frac{4}{7} $$
+
+* $a_4$
+
+$$a_4 = \frac{9}{16} \cdot \int_{-1}^{1} (35x^8 - 30x^6 + 3x^4) dx
+= \frac{8}{35} $$
+
+**Final Answer:** $~$ Fourier–Legendre Expansion of $f(x) = x^4$
+
+$$\boxed{
+x^4 = \frac{1}{5} P_0(x) + \frac{4}{7} P_2(x) + \frac{8}{35} P_4(x)
+}$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-1, 1, 400)
+P0 = np.ones_like(x)
+P2 = 0.5 *(3*x**2 -1)
+P4 = (1/8) *(35*x**4 -30*x**2 +3)
+
+f = (1/5)*P0 +(4/7)*P2 +(8/35)*P4
+
+plt.figure(figsize=(6, 4))
+plt.plot(x, x**4)
+plt.plot(x, f, 
+  label=r'$ \frac{1}{5} P_0(x) +\frac{4}{7} P_2(x) +\frac{8}{35} P_4(x)$')
+plt.axhline(0, color='gray', lw=0.7)
+plt.axvline(0, color='gray', lw=0.7)
+plt.title("Legendre Polynomial Combination")
+plt.xlabel("x")
+plt.ylabel("f(x)")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+$~$
+
+**9.** $~$ Expand the given function in a Fourier-Bessel series using Bessel functions of the same order as in the indicated boundary condition: 
+
+$$ f(x)=x^2, \;\;0<x<3, \;\;J_0'(3\alpha)=0$$
+
+**Solution**
+
+**Step 1:** $~$ Understand the eigenfunctions and the orthogonality
+
+This is a Fourier-Bessel series of order $0$ with a Neumann boundary condition $J_0’(3\alpha_n) = 0$, so the eigenfunctions are:
+
+$$\phi_n(x) = J_0(\alpha_n x)$$
+
+where $\alpha_n$ are such that $J_0’(3\alpha_n) = 0$, or equivalently $\alpha_n = \frac{\beta_n}{3}$, with $\beta_n$ being the $n$-th positive zero of $J_0’(z)$
+
+These $\phi_n(x)$ are orthogonal with respect to the weight $x$ on $(0, 3)$:
+
+$$\int_0^3 x J_0(\alpha_m x) J_0(\alpha_n x) dx = 0 \quad \text{for } m \ne n$$
+
+**Step 2:** $~$ General Fourier-Bessel expansion formula
+
+The coefficients $a_n$ are given by:
+
+$$a_n = \frac{\displaystyle\int_0^3 x f(x) J_0(\alpha_n x) dx}{\displaystyle\int_0^3 x J_0^2(\alpha_n x) dx}$$
+
+Here, $f(x) = x^2$, so the numerator becomes:
+
+$$\int_0^3 x \cdot x^2 \cdot J_0(\alpha_n x) dx = \int_0^3 x^3 J_0(\alpha_n x) dx$$
+
+**Step 3:** $~$ Define the coefficients
+
+Let’s write:
+
+* $\alpha_n = \frac{\beta_n}{3}$, where $\beta_n$ is the $n$-th zero of $J_0’$
+* Then the expansion is:
+
+$$f(x) = x^2 = \sum_{n=1}^{\infty} a_n J_0\left( \frac{\beta_n}{3} x \right)$$
+
+with
+
+$$a_n = \frac{\displaystyle\int_0^3 x^3 J_0\left( \frac{\beta_n}{3} x \right) dx}{\displaystyle\int_0^3 x J_0^2\left( \frac{\beta_n}{3} x \right) dx}$$
+
+Now, do a substitution to simplify:
+
+Let $u = \frac{\beta_n}{3} x \Rightarrow x = \frac{3}{\beta_n} u$, and when $x = 0$, $u = 0$; when $x = 3$, $u = \beta_n$. Then:
+
+* $dx = \frac{3}{\beta_n} du$
+* $x^3 = \left(\frac{3}{\beta_n}\right)^3 u^3$
+
+So numerator becomes:
+
+$$\int_0^3 x^3 J_0\left( \frac{\beta_n}{3} x \right) dx = \left( \frac{3}{\beta_n} \right)^4 \int_0^{\beta_n} u^3 J_0(u) du$$
+
+Similarly, denominator becomes:
+
+$$\int_0^3 x J_0^2\left( \frac{\beta_n}{3} x \right) dx = \left( \frac{3}{\beta_n} \right)^2 \int_0^{\beta_n} u J_0^2(u) du$$
+
+So the coefficient is:
+
+$$a_n = \frac{\displaystyle\left( \frac{3}{\beta_n} \right)^4 \int_0^{\beta_n} u^3 J_0(u) du}{\displaystyle\left( \frac{3}{\beta_n} \right)^2 \int_0^{\beta_n} u J_0^2(u) du} = \left( \frac{3}{\beta_n} \right)^2 \cdot \frac{\displaystyle \int_0^{\beta_n} u^3 J_0(u) du }{\displaystyle \int_0^{\beta_n} u J_0^2(u) du }$$

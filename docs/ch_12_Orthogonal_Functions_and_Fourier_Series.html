@@ -494,18 +494,18 @@ f(x)&amp;= \frac{1}{2}
 +\sum_{m=1}^\infty \frac{2}{(2m -1)\pi} \sin{(2m -1)x}
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="148d6a7b" class="cell" data-execution_count="1">
+<div id="e384b278" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> fourier_series, Piecewise, pi, plot</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy.abc <span class="im">import</span> x</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> Piecewise((<span class="dv">0</span>, x <span class="op">&lt;</span> <span class="dv">0</span>), (<span class="dv">1</span>, <span class="va">True</span>))</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> fourier_series(f, (x, <span class="op">-</span>pi, pi))</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>s.truncate(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="61">
 <p><span class="math inline">\(\displaystyle \frac{2 \sin{\left(x \right)}}{\pi} + \frac{2 \sin{\left(3 x \right)}}{3 \pi} + \frac{2 \sin{\left(5 x \right)}}{5 \pi} + \frac{2 \sin{\left(7 x \right)}}{7 \pi} + \frac{1}{2}\)</span></p>
 </div>
 </div>
-<div id="67823e9f" class="cell" data-execution_count="2">
+<div id="1dd91a6b" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>s3 <span class="op">=</span> s.truncate(n <span class="op">=</span> <span class="dv">3</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>s6 <span class="op">=</span> s.truncate(n <span class="op">=</span> <span class="dv">6</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>s9 <span class="op">=</span> s.truncate(n <span class="op">=</span> <span class="dv">9</span>)</span>
@@ -526,7 +526,7 @@ f(x)&amp;= \frac{1}{2}
 </div>
 </div>
 </div>
-<div id="082a9ae5" class="cell" data-execution_count="3">
+<div id="22a0ec24" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'font.size'</span>] <span class="op">=</span> <span class="dv">10</span></span>
@@ -616,7 +616,7 @@ Figure&nbsp;11.1: Fourier Series
       \frac{1}{(2m -1)^2} \cos{\frac{(2m -1)\pi}{2}x}
   \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="25dc9eaf" class="cell" data-execution_count="5">
+<div id="ee69569a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x_t1 <span class="op">=</span> [<span class="op">-</span><span class="dv">4</span>,<span class="op">-</span><span class="dv">2</span>,<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">4</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y_t1 <span class="op">=</span> [ <span class="dv">0</span>, <span class="dv">2</span>,<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>,<span class="op">-</span><span class="dv">2</span>, <span class="dv">0</span>]</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -802,7 +802,7 @@ Figure&nbsp;11.3: Cosine Series
      \;\rightarrow \;c_2 \neq 0, \;\tan\sqrt{\lambda}=-\sqrt{\lambda}
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
-<div id="5ba28a73" class="cell" data-execution_count="8">
+<div id="6e96e7e4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">4</span><span class="op">*</span>np.pi, <span class="dv">1000</span>)  </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.tan(x)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -824,7 +824,7 @@ Figure&nbsp;11.3: Cosine Series
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    plt.grid()</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b587323c" class="cell" data-execution_count="9">
+<div id="fb65e787" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> optimize</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sqrt_eigenvalues <span class="op">=</span> np.zeros(<span class="dv">4</span>)</span>
@@ -839,7 +839,7 @@ Figure&nbsp;11.3: Cosine Series
 <pre><code>sqrt_eigenvalues =array([ 2.0288,  4.9132,  7.9787, 11.0855])</code></pre>
 </div>
 </div>
-<div id="e690975d" class="cell" data-execution_count="10">
+<div id="80fea464" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>examle_plot3(sqrt_eigenvalues)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -962,7 +962,7 @@ xJ_n'(x)&amp;=nJ_n(x)-xJ_{n+1}(x)\\
 \end{aligned}\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="21d3e118" class="cell" data-execution_count="12">
+<div id="ddef6857" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> jv, jn_zeros</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpl_toolkits.axisartist.axislines <span class="im">import</span> SubplotZero</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1020,7 +1020,7 @@ xJ_n'(x)&amp;=nJ_n(x)-xJ_{n+1}(x)\\
 <span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>    ax2.legend(bbox_to_anchor<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">1</span>), loc<span class="op">=</span><span class="st">"upper left"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e7736c5c" class="cell" data-execution_count="13">
+<div id="12afb2ce" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eval_eigfn(x):</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jv(<span class="dv">0</span>, x)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1059,7 +1059,7 @@ xJ_n'(x)&amp;=nJ_n(x)-xJ_{n+1}(x)\\
 </div>
 </div>
 </div>
-<div id="184fc454" class="cell" data-execution_count="14">
+<div id="33b8523d" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eval_eigfn(x):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> jv(<span class="dv">1</span>, x)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1113,7 +1113,7 @@ h=0\; \text{ and } \; n=0 \]</span> </font></p>
   \end{aligned}\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="47c78179" class="cell" data-execution_count="15">
+<div id="f013437e" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> j0, j1</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1175,7 +1175,7 @@ h=0\; \text{ and } \; n=0 \]</span> </font></p>
 \end{aligned}\]</span></p></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
-<div id="201f9d4f" class="cell" data-execution_count="16">
+<div id="26029e93" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.special <span class="im">import</span> jnp_zeros</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eval_eigfn(x):</span>
@@ -1345,7 +1345,7 @@ Figure&nbsp;11.5: Legendre Polynomials
 <li>The function is extended periodically with period <span class="math inline">\(L\)</span></li>
 </ul>
 <p>This shape repeats every <span class="math inline">\(L\)</span> units</p>
-<div id="df08f4ee" class="cell" data-execution_count="18">
+<div id="e358a561" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1442,8 +1442,10 @@ Figure&nbsp;11.5: Legendre Polynomials
 <li>Compute <span class="math inline">\(a_n\)</span>:</li>
 </ul>
 <p>We split the integral:</p>
-<p><span class="math display">\[a_n = \frac{1}{2} \left[ 2 \int_0^2 x \cos\left(\frac{n\pi x}{2}\right) dx - \int_0^2 x^2 \cos\left(\frac{n\pi x}{2}\right) dx \right]
-= \frac{-4 \left[(-1)^n + 1\right]}{\pi^2 n^2}\]</span></p>
+<p><span class="math display">\[\begin{aligned}
+a_n &amp;= \frac{1}{2} \left[ 2 \int_0^2 x \cos\left(\frac{n\pi x}{2}\right) dx - \int_0^2 x^2 \cos\left(\frac{n\pi x}{2}\right) dx \right] \\
+&amp;= \frac{-4 \left[(-1)^n + 1\right]}{\pi^2 n^2}
+\end{aligned}\]</span></p>
 <p>Therefore, the final simplified form is:</p>
 <p><span class="math display">\[a_n =
 \begin{cases}
@@ -1570,6 +1572,366 @@ Figure&nbsp;11.5: Legendre Polynomials
 <p><span class="math display">\[
 \int_0^1 e^{2x} e^{-x} \sin(m\pi x) \cdot e^{-x} \sin(n\pi x) \, dx = 0, \quad m \ne n
 \]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>4.</strong> <span class="math inline">\(~\)</span> <span class="math inline">\((a)~\)</span> Find the Fourier series of <span class="math inline">\(f\)</span> on the given interval</p>
+<p><span class="math display">\[f(x) = |x|, \;\;-\pi \le x \le \pi\]</span></p>
+<p><span class="math inline">\((b)~\)</span> Use the result of (a) and Parseval’s Theorem to evaluate the following series:</p>
+<p><span class="math display">\[ 1 + \frac{1}{3^4} + \frac{1}{5^4} + \frac{1}{7^4} + \cdots\]</span></p>
+<p><strong>Parseval’s Theorem</strong> <span class="math inline">\(~\)</span> If <span class="math inline">\(f\)</span> is piecewise continuous, of period <span class="math inline">\(2\pi\)</span>, then</p>
+<p><span class="math display">\[\frac{1}{\pi} \int_0^{2\pi} \left[ f(x) \right]^2 \,dx = \frac{1}{2}a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)\]</span></p>
+<p>where <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_n\)</span>, and <span class="math inline">\(b_n\)</span> are Fourier coefficients</p>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\((a)~\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Determine symmetry</p>
+<p>Since</p>
+<p><span class="math display">\[f(-x) = |-x| = |x| = f(x)\]</span></p>
+<p>the function is even</p>
+<p>So the Fourier series of <span class="math inline">\(f(x)\)</span> will have the form:</p>
+<p><span class="math display">\[f(x) \sim \frac{a_0}{2} + \sum_{n=1}^{\infty} a_n \cos(nx)\]</span></p>
+<p>(No sine terms appear, because <span class="math inline">\(\sin(nx)\)</span> is odd)</p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute the coefficients</p>
+<p>Constant term:</p>
+<p><span class="math display">\[a_0 = \frac{1}{\pi} \int_{-\pi}^{\pi} |x| \, dx = \frac{2}{\pi} \int_{0}^{\pi} x \, dx = \frac{2}{\pi} \cdot \left[ \frac{x^2}{2} \right]_0^\pi = \pi\]</span></p>
+<p>Cosine coefficients:</p>
+<p><span class="math display">\[a_n = \frac{1}{\pi} \int_{-\pi}^{\pi} |x| \cos(nx) \, dx
+= \frac{2}{\pi} \int_{0}^{\pi} x \cos(nx) \, dx\]</span></p>
+<p>Now evaluate:</p>
+<p><span class="math display">\[\int_0^\pi x \cos(nx)\, dx = \left. \frac{x \sin(nx)}{n} \right|_0^\pi + \left. \frac{\cos(nx)}{n^2} \right|_0^\pi
+= 0 + \frac{(-1)^n - 1}{n^2}\]</span></p>
+<p>Then:</p>
+<p><span class="math display">\[a_n = \frac{2}{\pi} \cdot \frac{(-1)^n - 1}{n^2}
+= \begin{cases}
+0 &amp; \text{if } n \text{ even} \\
+-\dfrac{4}{\pi n^2} &amp; \text{if } n \text{ odd}
+\end{cases}\]</span></p>
+<p><strong>Final Answer:</strong> <span class="math inline">\(~\)</span> Fourier series of <span class="math inline">\(f(x) = |x|\)</span></p>
+<p><span class="math display">\[\begin{aligned}
+f(x) &amp;= \frac{\pi}{2} - \frac{4}{\pi} \sum_{\substack{n=1\\n\text{ odd}}}^\infty \frac{1}{n^2} \cos(nx) \\
+&amp;= \frac{\pi}{2} - \frac{4}{\pi} \left( \frac{\cos x}{1^2} + \frac{\cos 3x}{3^2} + \frac{\cos 5x}{5^2} + \cdots \right)
+\end{aligned}\]</span></p>
+<p><span class="math inline">\((b)~\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Recall the Fourier Series for <span class="math inline">\(f(x) = |x|\)</span></p>
+<p>From part <span class="math inline">\((a)\)</span>, the Fourier series is:</p>
+<p><span class="math display">\[f(x) = |x| \sim \frac{\pi}{2} - \frac{4}{\pi} \sum_{n=1,3,5,\dots}^\infty \frac{\cos(nx)}{n^2}\]</span></p>
+<p>So the coefficients are:</p>
+<ul>
+<li><span class="math inline">\(a_0 = \pi \Rightarrow \frac{a_0^2}{2} = \frac{\pi^2}{2}\)</span></li>
+<li><span class="math inline">\(a_n = -\frac{4}{\pi n^2}~\)</span> for odd <span class="math inline">\(n\)</span>, and <span class="math inline">\(a_n = 0\)</span> for even <span class="math inline">\(n\)</span></li>
+<li><span class="math inline">\(b_n = 0~\)</span> for all <span class="math inline">\(n\)</span> (because <span class="math inline">\(f(x)\)</span> is even)</li>
+</ul>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Apply Parseval’s Theorem</p>
+<p>Recall Parseval’s identity for <span class="math inline">\(f\)</span> with period <span class="math inline">\(2\pi\)</span>:</p>
+<p><span class="math display">\[\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{1}{2} a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)\]</span></p>
+<ul>
+<li>Over <span class="math inline">\([0, \pi]\)</span>, <span class="math inline">\(~f(x) = x\)</span></li>
+<li>Over <span class="math inline">\([\pi, 2\pi]\)</span>, <span class="math inline">\(~f(x) = 2\pi - x\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{1}{\pi} \left( \int_0^\pi x^2 dx + \int_\pi^{2\pi} (2\pi - x)^2 dx \right)\]</span></p>
+<p>Change variable <span class="math inline">\(u = 2\pi - x\)</span> in second integral, <span class="math inline">\(du = -dx\)</span>, it becomes:</p>
+<p><span class="math display">\[\int_\pi^{2\pi} (2\pi - x)^2 dx = \int_0^\pi x^2 dx \]</span></p>
+<p>So:</p>
+<p><span class="math display">\[\frac{1}{\pi} \int_0^{2\pi} f(x)^2 dx = \frac{2}{\pi} \int_0^\pi x^2 dx = \frac{2\pi^2}{3}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Compute RHS from Fourier coefficients</p>
+<p>Recall:</p>
+<ul>
+<li><span class="math inline">\(a_0 = \pi \Rightarrow \frac{a_0^2}{2} = \frac{\pi^2}{2}\)</span></li>
+<li>For odd <span class="math inline">\(n\)</span>, <span class="math inline">\(~a_n = -\frac{4}{\pi n^2}\)</span>, so <span class="math inline">\(~a_n^2 = \frac{16}{\pi^2 n^4}\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\sum_{n=1}^\infty a_n^2 = \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}\]</span></p>
+<p>Plug into Parseval’s identity:</p>
+<p><span class="math display">\[\frac{2\pi^2}{3} = \frac{\pi^2}{2} + \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}\]</span></p>
+<p>Subtract <span class="math inline">\(\frac{\pi^2}{2}\)</span> from both sides:</p>
+<p><span class="math display">\[\frac{2\pi^2}{3} - \frac{\pi^2}{2} = \frac{\pi^2}{6}
+= \frac{16}{\pi^2} \sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4}\]</span></p>
+<p>Solve for the sum:</p>
+<p><span class="math display">\[\sum_{n=1,3,5,\dots}^\infty \frac{1}{n^4} = \frac{\pi^4}{96}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>5.</strong> <span class="math inline">\(~\)</span> The <strong>root-mean-square value</strong> of a function <span class="math inline">\(f(x)\)</span> defined over an interval <span class="math inline">\((a, b)\)</span> is given by</p>
+<p><span class="math display">\[\text{RMS}(f) = \sqrt{\frac{\displaystyle\int_a^b \,f^2(x)\,dx}{b-a}}\]</span></p>
+<p>Show that the RMS value of <span class="math inline">\(f\)</span> over the interval <span class="math inline">\((-p, p)\)</span> is given by</p>
+<p><span class="math display">\[\text{RMS}(f) = \sqrt{\frac{1}{4} a_0^2 +\frac{1}{2} \sum_{n=1}^\infty \left(a_n^2 + b_n^2 \right)}\]</span></p>
+<p>where <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_n\)</span>, and <span class="math inline">\(b_n\)</span> are the Fourier coefficients, respectively</p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Fourier Series on <span class="math inline">\((-p, p)\)</span></p>
+<p>Assume <span class="math inline">\(f(x)\)</span> has a Fourier series expansion on <span class="math inline">\((-p, p)\)</span>, with period <span class="math inline">\(2p\)</span>:</p>
+<p><span class="math display">\[f(x) = \frac{a_0}{2} + \sum_{n=1}^\infty \left[ a_n \cos\left(\frac{n\pi x}{p}\right) + b_n \sin\left(\frac{n\pi x}{p}\right) \right]\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Parseval’s Theorem (general interval)</p>
+<p>Parseval’s identity for a function with period <span class="math inline">\(2p\)</span> is:</p>
+<p><span class="math display">\[\frac{1}{p} \int_{-p}^{p} f^2(x)\, dx = \frac{1}{2} a_0^2 + \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)\]</span></p>
+<p>Now multiply both sides by <span class="math inline">\(\frac{1}{2}\)</span> to match the RMS definition, which has <span class="math inline">\(\frac{1}{2p}\)</span>:</p>
+<p><span class="math display">\[\frac{1}{2p} \int_{-p}^{p} f^2(x)\, dx
+= \frac{1}{4} a_0^2 + \frac{1}{2} \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right)\]</span></p>
+<p>Take square root of both sides:</p>
+<p><span class="math display">\[\text{RMS}(f) = \sqrt{ \frac{1}{2p} \int_{-p}^p f^2(x)\,dx }
+= \sqrt{ \frac{1}{4} a_0^2 + \frac{1}{2} \sum_{n=1}^\infty \left( a_n^2 + b_n^2 \right) }\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>6.</strong> <span class="math inline">\(~\)</span> <span class="math inline">\((a)~\)</span> Find the eigenvalues and eigenfunctions of the boundary-value problem</p>
+<p><span class="math display">\[y''+y'+\lambda y=0, \;y(0)=0, \; y(2)=0\]</span></p>
+<p><span class="math inline">\((b)~\)</span> Put the differential equation in self-adjoint form</p>
+<p><span class="math inline">\((c)~\)</span> Give an orthogonality condition</p>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\((a)\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Solve the ODE</p>
+<p>Consider the characteristic equation:</p>
+<p><span class="math display">\[r^2 + r + \lambda = 0
+\Rightarrow r = \frac{-1 \pm \sqrt{1 - 4\lambda}}{2}\]</span></p>
+<p>We consider three cases depending on the discriminant <span class="math inline">\(D = 1 - 4\lambda\)</span>:</p>
+<p><strong>Case 1:</strong> <span class="math inline">\(~\lambda &lt; \frac{1}{4} \Rightarrow D &gt; 0\)</span></p>
+<p>Real and distinct roots:</p>
+<p><span class="math display">\[r_{1,2} = \frac{-1 \pm \sqrt{1 - 4\lambda}}{2}\]</span></p>
+<p>General solution:</p>
+<p><span class="math display">\[y(x) = c_1 e^{r_1 x} + c_2 e^{r_2 x}\]</span></p>
+<p>Apply boundary conditions:</p>
+<ul>
+<li><span class="math inline">\(y(0) = c_1 + c_2 = 0 \Rightarrow c_2 = -c_1\)</span></li>
+<li><span class="math inline">\(y(2) = c_1 (e^{r_1 \cdot 2} - e^{r_2 \cdot 2}) = 0\)</span></li>
+</ul>
+<p>This implies <span class="math inline">\(e^{2r_1} = e^{2r_2} \Rightarrow r_1 = r_2\)</span>, but they are distinct <span class="math inline">\(\Rightarrow\)</span> only trivial solution. So, no nontrivial solution for <span class="math inline">\(\lambda &lt; \frac{1}{4}\)</span></p>
+<p><strong>Case 2:</strong> <span class="math inline">\(~\lambda = \frac{1}{4} \Rightarrow D = 0\)</span></p>
+<p>Double root:</p>
+<p><span class="math display">\[r = -\frac{1}{2}
+\Rightarrow y(x) = (c_1 + c_2 x) e^{-x/2}\]</span></p>
+<p>Apply BCs:</p>
+<ul>
+<li><span class="math inline">\(y(0) = c_1 = 0\)</span></li>
+<li><span class="math inline">\(y(2) = c_2 \cdot 2 e^{-1} = 0 \Rightarrow c_2 = 0\)</span></li>
+</ul>
+<p>So again, only trivial solution <span class="math inline">\(\Rightarrow\)</span> no eigenvalue at <span class="math inline">\(\lambda = \frac{1}{4}\)</span></p>
+<p><strong>Case 3:</strong> <span class="math inline">\(~\lambda &gt; \frac{1}{4} \Rightarrow D &lt; 0\)</span></p>
+<p>Now roots are complex:</p>
+<p><span class="math display">\[r = -\frac{1}{2} \pm i \mu, \quad \text{where } \mu = \frac{\sqrt{4\lambda - 1}}{2}\]</span></p>
+<p>Then the general solution becomes:</p>
+<p><span class="math display">\[y(x) = e^{-x/2} \left( c_1 \cos(\mu x) + c_2 \sin(\mu x) \right)\]</span></p>
+<p>Apply BCs:</p>
+<ul>
+<li><span class="math inline">\(y(0) = e^0 (c_1) = 0 \Rightarrow c_1 = 0\)</span></li>
+<li><span class="math inline">\(y(2) = e^{-1} \cdot c_2 \sin(2\mu) = 0\)</span></li>
+</ul>
+<p>So <span class="math inline">\(\sin(2\mu) = 0 \Rightarrow 2\mu = n\pi \Rightarrow \mu = \frac{n\pi}{2}, \; n = 1,2,3,\dots\)</span></p>
+<p>Then:</p>
+<p><span class="math display">\[\mu = \frac{\sqrt{4\lambda - 1}}{2} = \frac{n\pi}{2}
+\Rightarrow \lambda_n = \frac{1 + n^2 \pi^2}{4}\]</span></p>
+<p><strong>Eigenvalues and Eigenfunctions:</strong></p>
+<ul>
+<li>Eigenvalues: <span class="math display">\[\boxed{\lambda_n = \frac{1 + n^2 \pi^2}{4}, \quad n = 1,2,3,\dots}\]</span></li>
+<li>Eigenfunctions: <span class="math display">\[\boxed{y_n(x) = e^{-x/2} \sin\left( \frac{n\pi x}{2} \right)}\]</span></li>
+</ul>
+<p><span class="math inline">\((b)~\)</span></p>
+<p>We want to rewrite the equation:</p>
+<p><span class="math display">\[y'' + y' + \lambda y = 0\]</span></p>
+<p>in the form:</p>
+<p><span class="math display">\[\frac{d}{dx} \left[ p(x) y’ \right] + q(x) y + \lambda w(x) y = 0\]</span></p>
+<p>We do this by finding an integrating factor <span class="math inline">\(\mu(x)\)</span> such that:</p>
+<p><span class="math display">\[\mu(x) y'' + \mu(x) y' = \frac{d}{dx} \left[ \mu(x) y’ \right]\]</span></p>
+<p>We want:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{d}{dx} [\mu(x) y'] &amp;= \mu(x) y'' + \mu'(x) y' = \mu(x) y'' + \mu(x) y'\\ &amp;\Rightarrow \mu'(x) = \mu(x) \Rightarrow \mu(x) = e^x
+\end{aligned}\]</span></p>
+<p>Multiply the original equation by <span class="math inline">\(e^x\)</span>:</p>
+<p><span class="math display">\[e^x y'' + e^x y' + \lambda e^x y = 0
+\Rightarrow \frac{d}{dx} \left( e^x y’ \right) + \lambda e^x y = 0\]</span></p>
+<p>So the self-adjoint form is:</p>
+<p><span class="math display">\[\boxed{
+\frac{d}{dx} \left( e^x y’ \right) + \lambda e^x y = 0
+}\]</span></p>
+<p><span class="math inline">\((c)~\)</span> Orthogonality Condition</p>
+<p>In a Sturm-Liouville problem, eigenfunctions corresponding to distinct eigenvalues are orthogonal with respect to the weight function <span class="math inline">\(w(x)\)</span></p>
+<p>From <span class="math inline">\((b)\)</span>, we see the weight function is:</p>
+<p><span class="math display">\[w(x) = e^x\]</span></p>
+<p>So, the orthogonality condition is:</p>
+<p><span class="math display">\[\boxed{
+\int_0^2 e^x y_m(x) y_n(x)\, dx = 0 \quad \text{if } m \ne n
+}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Find the eigenfuctions and the equation that defines the eigenvalues for the given boundary-value problem:</p>
+<p><span class="math display">\[ y''+\lambda y = 0, \;y(0) +y'(0) = 0, \; y(1)=0\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> General Solution of the ODE</p>
+<p>We consider <span class="math inline">\(\lambda &gt; 0\)</span>, since we typically expect nontrivial eigenfunctions. Let <span class="math inline">\(\lambda = \mu^2\)</span>, <span class="math inline">\(~\)</span> with <span class="math inline">\(\mu &gt; 0\)</span>. Then the general solution to the differential equation</p>
+<p><span class="math display">\[y'' + \mu^2 y = 0\]</span></p>
+<p>is:</p>
+<p><span class="math display">\[y(x) = A \cos(\mu x) + B \sin(\mu x)\]</span></p>
+<p>and</p>
+<p><span class="math display">\[y'(x) = -A \mu \sin(\mu x) + B \mu \cos(\mu x)\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Apply the Boundary Conditions</p>
+<ul>
+<li>Condition 1: <span class="math inline">\(~y(0) + y'(0) = 0\)</span></li>
+</ul>
+<p><span class="math display">\[A + B \mu = 0 \quad \Rightarrow \quad A = -B \mu\]</span></p>
+<ul>
+<li>Condition 2: <span class="math inline">\(~y(1) = 0\)</span></li>
+</ul>
+<p><span class="math display">\[y(1) = A \cos(\mu) + B \sin(\mu)
+= B\left( \sin(\mu) - \mu \cos(\mu) \right)\]</span></p>
+<p>We seek nontrivial solutions <span class="math inline">\(B \ne 0\)</span>, so we must have:</p>
+<p><span class="math display">\[\boxed{
+\sin(\mu) = \mu \cos(\mu)
+}\]</span></p>
+<p>This is the equation that defines the eigenvalues <span class="math inline">\(\lambda = \mu^2\)</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Eigenfunctions</p>
+<p>So the eigenfunctions are (up to constant multiples):</p>
+<p><span class="math display">\[\boxed{
+y_\mu(x) = \sin(\mu x) - \mu \cos(\mu x)
+}\]</span></p>
+<p>where <span class="math inline">\(\mu\)</span> satisfies <span class="math inline">\(\sin(\mu) = \mu \cos(\mu)\)</span>, and the eigenvalue is <span class="math inline">\(\lambda = \mu^2\)</span></p>
+<p><strong>Final Answer</strong></p>
+<ul>
+<li>Eigenvalue equation:</li>
+</ul>
+<p><span class="math display">\[\boxed{ \sin(\mu) = \mu \cos(\mu) \quad \text{with } \lambda = \mu^2 }\]</span></p>
+<ul>
+<li>Eigenfunctions:</li>
+</ul>
+<p><span class="math display">\[\boxed{ y(x) = \sin(\mu x) - \mu \cos(\mu x) }\]</span></p>
+<div id="8468b377" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> fsolve</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the function whose roots we want to find: </span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co"># f(mu) = sin(mu) - mu*cos(mu)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(mu):</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.sin(mu) <span class="op">-</span> mu <span class="op">*</span>np.cos(mu)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the first few roots numerically using initial guesses</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>initial_guesses <span class="op">=</span> [<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="fl">7.5</span>, <span class="dv">11</span>]</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>mu_roots <span class="op">=</span> [fsolve(f, guess)[<span class="dv">0</span>] <span class="cf">for</span> guess <span class="kw">in</span> initial_guesses]</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>lambda_roots <span class="op">=</span> [mu<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> mu <span class="kw">in</span> mu_roots]</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Define eigenfunction for given mu</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> eigenfunction(mu, x):</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.sin(mu <span class="op">*</span>x) <span class="op">-</span> mu <span class="op">*</span>np.cos(mu <span class="op">*</span>x)</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the first few eigenfunctions on [0, 1]</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>x_vals <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">500</span>)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, mu <span class="kw">in</span> <span class="bu">enumerate</span>(mu_roots):</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>    y_vals <span class="op">=</span> eigenfunction(mu, x_vals)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    plt.plot(x_vals, y_vals, label<span class="op">=</span><span class="vs">fr"$\mu_</span><span class="sc">{</span>i <span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="vs"> \approx </span><span class="sc">{</span>mu<span class="sc">:6.3f}</span><span class="vs">$"</span>)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"First Few Eigenfunctions"</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"y(x)"</span>)</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_12_Orthogonal_Functions_and_Fourier_Series_files/figure-html/cell-20-output-1.png" width="565" height="372" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>8.</strong> <span class="math inline">\(~\)</span> Expand <span class="math inline">\(f(x)=x^4\)</span>, <span class="math inline">\(-1&lt;x&lt;1\)</span> in a Fourier-Legendre series</p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Legendre Polynomials</p>
+<p>The first few Legendre polynomials are:</p>
+<p><span class="math display">\[\begin{aligned}
+P_0(x) &amp;= 1 \\
+P_1(x) &amp;= x \\
+P_2(x) &amp;= \frac{1}{2}(3x^2 - 1) \\
+P_3(x) &amp;= \frac{1}{2}(5x^3 - 3x) \\
+P_4(x) &amp;= \frac{1}{8}(35x^4 - 30x^2 + 3) \\
+\end{aligned}\]</span></p>
+<p>Since <span class="math inline">\(f(x) = x^4\)</span> is a polynomial of degree 4, the Legendre expansion will have at most 5 nonzero terms:</p>
+<p><span class="math display">\[f(x) = a_0 P_0(x) + a_1 P_1(x) + a_2 P_2(x) + a_3 P_3(x) + a_4 P_4(x)\]</span></p>
+<p>But since <span class="math inline">\(f(x) = x^4\)</span> is even, and odd Legendre polynomials are odd functions (so their integrals with even functions vanish), we expect:</p>
+<p><span class="math display">\[a_1 = a_3 = 0\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute coefficients</p>
+<p>We compute:</p>
+<p><span class="math display">\[a_n = \frac{2n+1}{2} \int_{-1}^1 x^4 P_n(x)\, dx\]</span></p>
+<ul>
+<li><span class="math inline">\(a_0\)</span></li>
+</ul>
+<p><span class="math display">\[a_0 = \frac{1}{2} \int_{-1}^{1} x^4 \cdot 1 \, dx = \frac{1}{2} \cdot \int_{-1}^1 x^4 dx = \frac{1}{2} \cdot \frac{2}{5} = \frac{1}{5}\]</span></p>
+<ul>
+<li><span class="math inline">\(a_2\)</span></li>
+</ul>
+<p><span class="math display">\[a_2 = \frac{5}{4} \cdot \int_{-1}^{1} (3x^6 - x^4) dx
+= \frac{4}{7} \]</span></p>
+<ul>
+<li><span class="math inline">\(a_4\)</span></li>
+</ul>
+<p><span class="math display">\[a_4 = \frac{9}{16} \cdot \int_{-1}^{1} (35x^8 - 30x^6 + 3x^4) dx
+= \frac{8}{35} \]</span></p>
+<p><strong>Final Answer:</strong> <span class="math inline">\(~\)</span> Fourier–Legendre Expansion of <span class="math inline">\(f(x) = x^4\)</span></p>
+<p><span class="math display">\[\boxed{
+x^4 = \frac{1}{5} P_0(x) + \frac{4}{7} P_2(x) + \frac{8}{35} P_4(x)
+}\]</span></p>
+<div id="ca4e9f00" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">400</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>P0 <span class="op">=</span> np.ones_like(x)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>P2 <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span>(<span class="dv">3</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>P4 <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">8</span>) <span class="op">*</span>(<span class="dv">35</span><span class="op">*</span>x<span class="op">**</span><span class="dv">4</span> <span class="op">-</span><span class="dv">30</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">3</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span><span class="dv">5</span>)<span class="op">*</span>P0 <span class="op">+</span>(<span class="dv">4</span><span class="op">/</span><span class="dv">7</span>)<span class="op">*</span>P2 <span class="op">+</span>(<span class="dv">8</span><span class="op">/</span><span class="dv">35</span>)<span class="op">*</span>P4</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>plt.plot(x, x<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>plt.plot(x, f, </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  label<span class="op">=</span><span class="vs">r'$ \frac</span><span class="sc">{1}{5}</span><span class="vs"> P_0(x) +\frac</span><span class="sc">{4}{7}</span><span class="vs"> P_2(x) +\frac</span><span class="sc">{8}{35}</span><span class="vs"> P_4(x)$'</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, lw<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>plt.axvline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'gray'</span>, lw<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Legendre Polynomial Combination"</span>)</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"f(x)"</span>)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_12_Orthogonal_Functions_and_Fourier_Series_files/figure-html/cell-21-output-1.png" width="515" height="376" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>9.</strong> <span class="math inline">\(~\)</span> Expand the given function in a Fourier-Bessel series using Bessel functions of the same order as in the indicated boundary condition:</p>
+<p><span class="math display">\[ f(x)=x^2, \;\;0&lt;x&lt;3, \;\;J_0'(3\alpha)=0\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Understand the eigenfunctions and the orthogonality</p>
+<p>This is a Fourier-Bessel series of order <span class="math inline">\(0\)</span> with a Neumann boundary condition <span class="math inline">\(J_0’(3\alpha_n) = 0\)</span>, so the eigenfunctions are:</p>
+<p><span class="math display">\[\phi_n(x) = J_0(\alpha_n x)\]</span></p>
+<p>where <span class="math inline">\(\alpha_n\)</span> are such that <span class="math inline">\(J_0’(3\alpha_n) = 0\)</span>, or equivalently <span class="math inline">\(\alpha_n = \frac{\beta_n}{3}\)</span>, with <span class="math inline">\(\beta_n\)</span> being the <span class="math inline">\(n\)</span>-th positive zero of <span class="math inline">\(J_0’(z)\)</span></p>
+<p>These <span class="math inline">\(\phi_n(x)\)</span> are orthogonal with respect to the weight <span class="math inline">\(x\)</span> on <span class="math inline">\((0, 3)\)</span>:</p>
+<p><span class="math display">\[\int_0^3 x J_0(\alpha_m x) J_0(\alpha_n x) dx = 0 \quad \text{for } m \ne n\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> General Fourier-Bessel expansion formula</p>
+<p>The coefficients <span class="math inline">\(a_n\)</span> are given by:</p>
+<p><span class="math display">\[a_n = \frac{\displaystyle\int_0^3 x f(x) J_0(\alpha_n x) dx}{\displaystyle\int_0^3 x J_0^2(\alpha_n x) dx}\]</span></p>
+<p>Here, <span class="math inline">\(f(x) = x^2\)</span>, so the numerator becomes:</p>
+<p><span class="math display">\[\int_0^3 x \cdot x^2 \cdot J_0(\alpha_n x) dx = \int_0^3 x^3 J_0(\alpha_n x) dx\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Define the coefficients</p>
+<p>Let’s write:</p>
+<ul>
+<li><span class="math inline">\(\alpha_n = \frac{\beta_n}{3}\)</span>, where <span class="math inline">\(\beta_n\)</span> is the <span class="math inline">\(n\)</span>-th zero of <span class="math inline">\(J_0’\)</span></li>
+<li>Then the expansion is:</li>
+</ul>
+<p><span class="math display">\[f(x) = x^2 = \sum_{n=1}^{\infty} a_n J_0\left( \frac{\beta_n}{3} x \right)\]</span></p>
+<p>with</p>
+<p><span class="math display">\[a_n = \frac{\displaystyle\int_0^3 x^3 J_0\left( \frac{\beta_n}{3} x \right) dx}{\displaystyle\int_0^3 x J_0^2\left( \frac{\beta_n}{3} x \right) dx}\]</span></p>
+<p>Now, do a substitution to simplify:</p>
+<p>Let <span class="math inline">\(u = \frac{\beta_n}{3} x \Rightarrow x = \frac{3}{\beta_n} u\)</span>, and when <span class="math inline">\(x = 0\)</span>, <span class="math inline">\(u = 0\)</span>; when <span class="math inline">\(x = 3\)</span>, <span class="math inline">\(u = \beta_n\)</span>. Then:</p>
+<ul>
+<li><span class="math inline">\(dx = \frac{3}{\beta_n} du\)</span></li>
+<li><span class="math inline">\(x^3 = \left(\frac{3}{\beta_n}\right)^3 u^3\)</span></li>
+</ul>
+<p>So numerator becomes:</p>
+<p><span class="math display">\[\int_0^3 x^3 J_0\left( \frac{\beta_n}{3} x \right) dx = \left( \frac{3}{\beta_n} \right)^4 \int_0^{\beta_n} u^3 J_0(u) du\]</span></p>
+<p>Similarly, denominator becomes:</p>
+<p><span class="math display">\[\int_0^3 x J_0^2\left( \frac{\beta_n}{3} x \right) dx = \left( \frac{3}{\beta_n} \right)^2 \int_0^{\beta_n} u J_0^2(u) du\]</span></p>
+<p>So the coefficient is:</p>
+<p><span class="math display">\[a_n = \frac{\displaystyle\left( \frac{3}{\beta_n} \right)^4 \int_0^{\beta_n} u^3 J_0(u) du}{\displaystyle\left( \frac{3}{\beta_n} \right)^2 \int_0^{\beta_n} u J_0^2(u) du} = \left( \frac{3}{\beta_n} \right)^2 \cdot \frac{\displaystyle \int_0^{\beta_n} u^3 J_0(u) du }{\displaystyle \int_0^{\beta_n} u J_0^2(u) du }\]</span></p>
 
 
 </section>

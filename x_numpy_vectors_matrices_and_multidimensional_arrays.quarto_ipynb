@@ -1,0 +1,3242 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "# Numpy: Vectors, Matrices, and Multidimensional Arrays {#sec-numpy}\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "[![](./figures/numpy_logo.png){width=\"30%\" fig-align=\"center\"}](https://numpy.org/doc/stable/)\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "## Importing numpy\n"
+      ],
+      "id": "200bcf87"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "\n",
+        "print(\"numpy: \", np.__version__)"
+      ],
+      "id": "90155838",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* [_show_array.py](_show_array.py)\n",
+        "  * `show_array()`\n",
+        "  * `show_array_aggregation()`\n"
+      ],
+      "id": "b9624761"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "#| echo: false\n",
+        "import numpy as np\n",
+        "\n",
+        "import matplotlib as mpl\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "def show_array(shape, sel, filename=None):\n",
+        "    \"\"\"\n",
+        "    Visualize indexing of arrays\n",
+        "    \"\"\"\n",
+        "    \n",
+        "    data = np.zeros(shape)\n",
+        "    exec(f'data[{sel}] = 1')\n",
+        "    \n",
+        "    fig, ax = plt.subplots(1, 1, figsize=shape)\n",
+        "    ax.set_frame_on(False)\n",
+        "\n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "    \n",
+        "    size = 0.96\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "        color = '#1199ff' if w > 0 else '#eeeeee'\n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2], \n",
+        "                             size, size, \n",
+        "                             facecolor=color,\n",
+        "                             edgecolor=color)\n",
+        "        ax.add_patch(rect)\n",
+        "        ax.text(n, m, f'({m}, {n})', ha='center',\n",
+        "                                     va='center',\n",
+        "                                     fontsize=12)\n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "    \n",
+        "    if sel ==':, :':\n",
+        "        ax.set_title('data\\n', fontsize=12)\n",
+        "    else:\n",
+        "        ax.set_title(f'data[{sel}]\\n', fontsize=12)\n",
+        "        \n",
+        "    if filename:\n",
+        "        fig.savefig(filename + \".png\", dpi=200)\n",
+        "        fig.savefig(filename + \".svg\")\n",
+        "        fig.savefig(filename + \".pdf\")\n",
+        "\n",
+        "\n",
+        "def show_array_broadcasting(a, b, filename=None):\n",
+        "    \"\"\"\n",
+        "    Visualize broadcasting of arrays\n",
+        "    \"\"\"\n",
+        " \n",
+        "    colors = ['#1199ff', '#eeeeee']\n",
+        "    \n",
+        "    fig, axes = plt.subplots(1, 3, figsize=(8, 2.7))\n",
+        "\n",
+        "    # -- a --\n",
+        "    data = a\n",
+        "    \n",
+        "    ax = axes[0]\n",
+        "    ax.set_frame_on(False)    \n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "\n",
+        "    size = 0.96\n",
+        "    color = colors[0]\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "\n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2],\n",
+        "                             size, size,\n",
+        "                             facecolor=color,\n",
+        "                             edgecolor=color)\n",
+        "        ax.add_patch(rect)\n",
+        "        ax.text(n, m, f'{data[m, n]}', ha='center', va='center', fontsize=14)        \n",
+        "\n",
+        "    ax.text(3, 1, \"+\", ha='center', va='center', fontsize=22)        \n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "\n",
+        "    # -- b --\n",
+        "    data = np.zeros_like(a) + b\n",
+        "\n",
+        "    ax = axes[1]\n",
+        "    ax.set_frame_on(False)     \n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "    \n",
+        "    size = 0.96\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "        \n",
+        "        if (np.argmax(b.T.shape) == 0 and m == 0) or (np.argmax(b.T.shape) == 1 and n == 0):\n",
+        "            color = colors[0]\n",
+        "        else:\n",
+        "            color = colors[1]\n",
+        "            \n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2],\n",
+        "                             size, size,\n",
+        "                             facecolor=color,\n",
+        "                             edgecolor=color)\n",
+        "        ax.add_patch(rect)\n",
+        "\n",
+        "        ax.text(m, n, f'{data[n, m]}', ha='center', va='center', fontsize=14)        \n",
+        "\n",
+        "    ax.text(3, 1, \"=\", ha='center', va='center', fontsize=22)        \n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "\n",
+        "    # -- c --\n",
+        "    data = a + b\n",
+        "    \n",
+        "    ax = axes[2]\n",
+        "    ax.set_frame_on(False) \n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "  \n",
+        "    size = 0.96\n",
+        "    color = colors[0]\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "\n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2],\n",
+        "                             size, size,\n",
+        "                             facecolor=color,\n",
+        "                             edgecolor=color)\n",
+        "        ax.add_patch(rect)\n",
+        "        \n",
+        "        ax.text(m, n, f'{data[n, m]}', ha='center', va='center', fontsize=14)        \n",
+        "\n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "    \n",
+        "    #fig.tight_layout()\n",
+        "        \n",
+        "    if filename:\n",
+        "        fig.savefig(filename + \".png\", dpi=200)\n",
+        "        fig.savefig(filename + \".svg\")\n",
+        "        fig.savefig(filename + \".pdf\")        \n",
+        "\n",
+        "\n",
+        "\n",
+        "def show_array_aggregation(data, axis, filename=None):\n",
+        "    \"\"\"\n",
+        "    Visualize aggregation of arrays\n",
+        "    \"\"\"\n",
+        "\n",
+        "    colors = ['#1199ff', '#ee3311', '#66ff22']\n",
+        "    \n",
+        "    fig, axes = plt.subplots(2, 1, figsize=(3, 6))\n",
+        "    \n",
+        "    # -- data --\n",
+        "    ax = axes[0]\n",
+        "    ax.set_frame_on(False)\n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "       \n",
+        "    size = 0.96\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "\n",
+        "        if axis is None:\n",
+        "            color = colors[0]\n",
+        "        elif axis == 1:\n",
+        "            color = colors[m]\n",
+        "        else:\n",
+        "            color = colors[n]\n",
+        "            \n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2],\n",
+        "                             size, size,\n",
+        "                             facecolor=color,\n",
+        "                             edgecolor=color)\n",
+        "        ax.add_patch(rect)\n",
+        "\n",
+        "        ax.text(n, m, f'{data[m, n]}', ha='center', va='center', fontsize=14)\n",
+        "        \n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "    ax.set_title(\"data\", fontsize=12)\n",
+        "\n",
+        "    # -- data aggregation -- \n",
+        "    \n",
+        "    if axis is None:\n",
+        "        adata = np.atleast_2d(data.sum())\n",
+        "    elif axis == 0:\n",
+        "        adata = data.sum(axis=axis)[:, np.newaxis]\n",
+        "    else:\n",
+        "        adata = data.sum(axis=axis)[:, np.newaxis]     \n",
+        "   \n",
+        "    ax = axes[1]\n",
+        "    ax.set_frame_on(False)\n",
+        "    ax.patch.set_facecolor('white')\n",
+        "    ax.xaxis.set_major_locator(plt.NullLocator())\n",
+        "    ax.yaxis.set_major_locator(plt.NullLocator())\n",
+        "    \n",
+        "    size = 1.0\n",
+        "    for (m, n), w in np.ndenumerate(data):\n",
+        "        color = 'white'\n",
+        "        rect = plt.Rectangle([n -size/2, m -size/2],\n",
+        "                         size, size,\n",
+        "                         facecolor=color,\n",
+        "                         edgecolor=color)\n",
+        "        ax.add_patch(rect)        \n",
+        "    \n",
+        "    size = 0.96\n",
+        "    for (m, n), w in np.ndenumerate(adata):\n",
+        "\n",
+        "        if axis is None:\n",
+        "            color = colors[0] \n",
+        "            rect = plt.Rectangle([1 +m -size/2, n -size/2],\n",
+        "                         size, size,\n",
+        "                         facecolor=color,\n",
+        "                         edgecolor=color)\n",
+        "            ax.add_patch(rect)\n",
+        "            \n",
+        "            ax.text(1 +m, n, f'{adata[m, n]}', ha='center', va='center', fontsize=14)\n",
+        "            \n",
+        "        if axis == 0:\n",
+        "            color = colors[m]\n",
+        "            rect = plt.Rectangle([m -size/2, n -size/2],\n",
+        "                                 size, size,\n",
+        "                                 facecolor=color,\n",
+        "                                 edgecolor=color)\n",
+        "            ax.add_patch(rect)\n",
+        "     \n",
+        "            ax.text(m, n, f'{adata[m, n]}', ha='center', va='center', fontsize=14)\n",
+        "        \n",
+        "        if axis == 1:\n",
+        "            color = colors[m]\n",
+        "            rect = plt.Rectangle([1 +n -size/2, m -size/2],\n",
+        "                                 size, size,\n",
+        "                                 facecolor=color,\n",
+        "                                 edgecolor=color)\n",
+        "            ax.add_patch(rect)\n",
+        "     \n",
+        "            ax.text(1 +n, m, f'{adata[m, n]}', ha='center', va='center', fontsize=14)        \n",
+        "\n",
+        "    ax.autoscale_view()\n",
+        "    ax.invert_yaxis()\n",
+        "    \n",
+        "    if axis is not None:\n",
+        "        ax.set_title(f'data.sum(axis={axis})', fontsize=12)\n",
+        "    else:\n",
+        "        ax.set_title('data.sum()', fontsize=12)\n",
+        "    \n",
+        "    #fig.tight_layout()\n",
+        "    \n",
+        "    if filename:\n",
+        "        fig.savefig(filename + \".png\", dpi=200)\n",
+        "        fig.savefig(filename + \".svg\")\n",
+        "        fig.savefig(filename + \".pdf\")"
+      ],
+      "id": "108c60a1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## The Numpy array object\n"
+      ],
+      "id": "03139300"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([[1, 2], [3, 4], [5, 6]])\n",
+        "data"
+      ],
+      "id": "f2e31d9a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "type(data)"
+      ],
+      "id": "6f6f111d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.ndim"
+      ],
+      "id": "b8febe01",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.shape"
+      ],
+      "id": "9da1bbb5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.size"
+      ],
+      "id": "0362197b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.dtype"
+      ],
+      "id": "ca6a54ae",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.nbytes"
+      ],
+      "id": "bffe7379",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Data types\n"
+      ],
+      "id": "40ff1221"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d0 = np.array([1, 2, 3], dtype=int)\n",
+        "d0"
+      ],
+      "id": "40d571ee",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d1 = np.array([1, 2, 3], dtype=float)\n",
+        "d1"
+      ],
+      "id": "245c0ed9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d2 = np.array([1, 2, 3], dtype=complex)\n",
+        "d2"
+      ],
+      "id": "7c56533b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Type casting\n"
+      ],
+      "id": "9a187361"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([1, 2, 3], dtype=float)\n",
+        "data"
+      ],
+      "id": "e34a20f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array(data, dtype=int)\n",
+        "data"
+      ],
+      "id": "8ce5b303",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([1.6, 2, 3], dtype=float)\n",
+        "data.astype(int)"
+      ],
+      "id": "01c6835b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Type promotion\n"
+      ],
+      "id": "0a9f14f2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d1 = np.array([1, 2, 3], dtype=float)\n",
+        "d2 = np.array([1, 2, 3], dtype=complex)"
+      ],
+      "id": "15af30af",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "d1 + d2"
+      ],
+      "id": "3d1e04a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "(d1 + d2).dtype"
+      ],
+      "id": "3fe37b37",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Type-depending operation\n"
+      ],
+      "id": "8fb3b1e1"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.sqrt(np.array([-1, 0, 1]))"
+      ],
+      "id": "629a5273",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.sqrt(np.array([-1, 0, 1], dtype=complex))"
+      ],
+      "id": "1dc16284",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Real and imaginary parts\n"
+      ],
+      "id": "ad6dec7e"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([1, 2, 3], dtype=complex)\n",
+        "data"
+      ],
+      "id": "bb0de697",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.real"
+      ],
+      "id": "d6a190bd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.imag"
+      ],
+      "id": "c69b034b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.real(data)"
+      ],
+      "id": "16e58157",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.imag(data)"
+      ],
+      "id": "f8e17ed3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Order of array data in memory\n",
+        "\n",
+        "* <font color=\"red\">Multidimensional arrays are stored as contiguous data in memory</font>. $~$Consider the case of a two-dimensional array, $~$containing rows and columns: $~$One possible way to store this array as a consecutive sequence of values is to store the rows after each other, and another equally valid approach is to store the columns one after another\n",
+        "\n",
+        "* The former is called <font color=\"green\">row-major format</font> and the latter is <font color=\"green\">column-major format</font>. Whether to use row-major or column-major is a matter of conventions, and the **row-major format** is used for example in the **C** programming language, and **Fortran** uses the **column-major format**\n",
+        "\n",
+        "* A `numpy` array can be specified to be stored in row-major format, using the keyword argument `order='C'`, and column-major format, using the keyword argument `order='F'`, when the array is created or reshaped. <font color=\"blue\">The default format is *row-major*</font> \n",
+        "\n",
+        "* In general, the `numpy` array attribute `ndarray.strides` defines exactly how this mapping is done. The `strides` attribute is a tuple of the same length as the number of axes (dimensions) of the array. Each value in `strides` is the factor by which the index for the corresponding axis is multiplied when calculating the *memory offset (in bytes)* for a given index expression\n"
+      ],
+      "id": "f648e814"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.int32)\n",
+        "data"
+      ],
+      "id": "2e237b2e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.strides"
+      ],
+      "id": "f7d750fb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.int32, order='F')\n",
+        "data"
+      ],
+      "id": "c2e424ed",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.strides"
+      ],
+      "id": "d125ddc2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Creating arrays\n",
+        "\n",
+        "### Arrays created from lists and other array-like objects\n"
+      ],
+      "id": "bf340ea4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([1, 2, 3, 4])\n",
+        "data.ndim, data.shape"
+      ],
+      "id": "d140588e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array(((1, 2), (3, 4)))\n",
+        "data.ndim, data.shape"
+      ],
+      "id": "2707aea8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Arrays filled with constant values\n"
+      ],
+      "id": "f0650a4b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.zeros((2, 3))"
+      ],
+      "id": "1319b526",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.ones(4)\n",
+        "data, data.dtype"
+      ],
+      "id": "ebbb58d1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "5.4 * np.ones(10)"
+      ],
+      "id": "0ee2170e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.full(10, 5.4) # slightly more efficient"
+      ],
+      "id": "07c962e5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x1 = np.empty(5)\n",
+        "x1.fill(3.0)\n",
+        "x1"
+      ],
+      "id": "2df62c81",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Arrays filled with incremental sequences\n"
+      ],
+      "id": "8c60a35f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.arange(0, 11, 1)"
+      ],
+      "id": "5595d77e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.linspace(0, 10, 11)  # generally recommended"
+      ],
+      "id": "132d38ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Arrays filled with logarithmic sequences\n"
+      ],
+      "id": "39c04576"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.logspace(0, 2, 10)  # 5 data points between 10**0=1 to 10**2=100"
+      ],
+      "id": "e29e0e9c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Mesh grid arrays\n"
+      ],
+      "id": "abad08a5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([-1, 0, 1])\n",
+        "y = np.array([-2, 0, 2])\n",
+        "\n",
+        "X, Y = np.meshgrid(x, y)"
+      ],
+      "id": "7ac1ee68",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "X"
+      ],
+      "id": "6d8546cb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Y"
+      ],
+      "id": "0b0cd562",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Z = (X + Y)**2\n",
+        "Z"
+      ],
+      "id": "b1cde8f7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Creating uninitialized arrays\n"
+      ],
+      "id": "d9b6f36d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.empty(3, dtype=float)"
+      ],
+      "id": "5c8fdac2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Creating arrays with properties of other arrays\n"
+      ],
+      "id": "f5ea6a43"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(x):    \n",
+        "    y = np.ones_like(x)    # compute with x and y    \n",
+        "    return y\n",
+        "\n",
+        "x = np.array([[1, 2, 3], [4, 5, 6]])\n",
+        "y = f(x)\n",
+        "y"
+      ],
+      "id": "981f4e59",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Creating matrix arrays\n"
+      ],
+      "id": "20c63203"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.identity(4)"
+      ],
+      "id": "be88a199",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.eye(4, k=1)"
+      ],
+      "id": "8b24b29e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.eye(4, k=-1)"
+      ],
+      "id": "5f957c9f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.diag(np.arange(0, 20, 5))"
+      ],
+      "id": "ac98f10b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Indexing and slicing\n",
+        "\n",
+        "### One-dimensional arrays\n"
+      ],
+      "id": "b1ec6665"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = np.arange(0, 11)\n",
+        "a"
+      ],
+      "id": "e2fc9328",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[0]"
+      ],
+      "id": "89a0f1a7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[-1]"
+      ],
+      "id": "2afb772b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[4]"
+      ],
+      "id": "b5524589",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "33686ac8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[1:-1]"
+      ],
+      "id": "11931870",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[1:-1:2]"
+      ],
+      "id": "36650e92",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "dadbf296"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[:5]"
+      ],
+      "id": "2e834ae8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[-5:]"
+      ],
+      "id": "2e05bb96",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a[::-2]"
+      ],
+      "id": "4cc3897e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Multidimensional arrays\n"
+      ],
+      "id": "a013d0cd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = lambda m, n: n + 10*m"
+      ],
+      "id": "1abb374d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# please search for numpy.fromfunction at google\n",
+        "A = np.fromfunction(f, (6, 6), dtype=int)\n",
+        "A  "
+      ],
+      "id": "dfefacef",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[:, 1]  # the second column"
+      ],
+      "id": "8002e58a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[1, :]  # the second row"
+      ],
+      "id": "baf32f16",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[:3, :3]"
+      ],
+      "id": "258676bc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[3:, :3]"
+      ],
+      "id": "23ccb015",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[::2, ::2]"
+      ],
+      "id": "13f55978",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[1::2, 1::3]"
+      ],
+      "id": "cf27277a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Views\n",
+        "\n",
+        "* Subarrays that are extracted from arrays using slice operations are **alternative views** of the same underlying array data. That is, $~$they are arrays that refer to the same data in memory as the original array, $~$but with a different `strides` configuration\n",
+        "\n",
+        "* When elements in a view are assigned new values, $~$the values of the original\n",
+        "array are therefore also updated. For example,\n"
+      ],
+      "id": "bb68cbbf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B = A[1:5, 1:5]\n",
+        "B"
+      ],
+      "id": "4cfc6c1f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B[:, :] = 0\n",
+        "A"
+      ],
+      "id": "4b1e695c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* When a copy rather than a view is needed, the view can be copied explicitly by using the `copy` method of the `ndarray` instance\n"
+      ],
+      "id": "f79ef751"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "C = B[1:3, 1:3].copy()\n",
+        "C"
+      ],
+      "id": "c26e4133",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "C[:, :] = 1\n",
+        "C"
+      ],
+      "id": "0e047f8d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B"
+      ],
+      "id": "a21e7d69",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Fancy indexing and boolean-valued indexing\n"
+      ],
+      "id": "60e7cdb4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.linspace(0, 1, 11)\n",
+        "A"
+      ],
+      "id": "859243a0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[np.array([0, 2, 4])]"
+      ],
+      "id": "db01ed23",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[[0, 2, 4]]"
+      ],
+      "id": "731687ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "9c8e4f42"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A > 0.5"
+      ],
+      "id": "fe600125",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[A > 0.5]"
+      ],
+      "id": "91d68363",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* Unlike arrays created by using slices, $~$**the arrays returned using fancy indexing and Boolean-valued\n",
+        "indexing are not views**, $~$but rather new independent arrays\n"
+      ],
+      "id": "95e3403f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.arange(10)\n",
+        "indices = [2, 4, 6]"
+      ],
+      "id": "629494d3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B = A[indices]"
+      ],
+      "id": "adef6fab",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B[0] = -1\n",
+        "A"
+      ],
+      "id": "f1513c64",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[indices] = -1\n",
+        "A"
+      ],
+      "id": "5e2dda25",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "609402aa"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.arange(10)"
+      ],
+      "id": "9522feed",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B = A[A > 5]"
+      ],
+      "id": "a712550b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B[0] = -1\n",
+        "A"
+      ],
+      "id": "e8961356",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A[A > 5] = -1\n",
+        "A"
+      ],
+      "id": "ad441222",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Summery\n"
+      ],
+      "id": "155790fd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), ':, :')"
+      ],
+      "id": "0a237857",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '0')"
+      ],
+      "id": "ab40617e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '1, :')"
+      ],
+      "id": "60dff532",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), ':, 2')"
+      ],
+      "id": "4da1ba73",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "aff9f5f4"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '0:2, 0:2')"
+      ],
+      "id": "780336b5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '0:2, 2:4')"
+      ],
+      "id": "0d7f587e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '::2, ::2')"
+      ],
+      "id": "6de16f36",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '1::2, 1::2')"
+      ],
+      "id": "6b6bb837",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), ':, [0, 3]')"
+      ],
+      "id": "6316ae59",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '[1, 3], [0, 3]')"
+      ],
+      "id": "db726c53",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), ':, [False, True, True, False]')"
+      ],
+      "id": "8bed3a0b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array((4, 4), '1:3, [False, True, True, False]')"
+      ],
+      "id": "67d756a7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Reshaping and resizing\n",
+        "\n",
+        "* Reshaping an array does not require modifying the underlying array data; it only changes in how the data is interpreted, by redefining the array’s strides attribute\n"
+      ],
+      "id": "f7092218"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([[1, 2], [3, 4]])\n",
+        "data1 = np.reshape(data, (1, 4))\n",
+        "data1"
+      ],
+      "id": "4a722d4b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data1[0, 1] = -1\n",
+        "data"
+      ],
+      "id": "c6a1cae9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data2 = data.reshape(4)\n",
+        "data2"
+      ],
+      "id": "f1103719",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data2[1] = -2\n",
+        "data"
+      ],
+      "id": "7d7088d0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "597eb7f7"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.array([[1, 2], [3, 4]])\n",
+        "data1 = np.ravel(data)\n",
+        "data1"
+      ],
+      "id": "09717543",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data1[0] = -1\n",
+        "data"
+      ],
+      "id": "fa6e18ef",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* The `ndarray` method `flatten` perform the same function, $~$but\n",
+        "returns a **copy** instead of a view\n"
+      ],
+      "id": "b75c2f6f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data2 = data.flatten()\n",
+        "data2"
+      ],
+      "id": "595f04f5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data2[0] = -2\n",
+        "data"
+      ],
+      "id": "4d1d496a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "c8ee7d97"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.arange(0, 5)\n",
+        "data.shape"
+      ],
+      "id": "33ce53f0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "column = data[:, np.newaxis]\n",
+        "column"
+      ],
+      "id": "589bdad7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "column.shape"
+      ],
+      "id": "460df441",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "row = data[np.newaxis, :]\n",
+        "row"
+      ],
+      "id": "62190612",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "row.shape"
+      ],
+      "id": "cfb357ca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "row[0, 0] = -1\n",
+        "data"
+      ],
+      "id": "e99be858",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "e15d1821"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.expand_dims(data, axis=1) "
+      ],
+      "id": "ebd6d6f1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "row = np.expand_dims(data, axis=0)\n",
+        "row"
+      ],
+      "id": "a2a36be9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "row[0, 0] = 0\n",
+        "data"
+      ],
+      "id": "ce4fc0e4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "d8b6ae82"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.arange(5)\n",
+        "data"
+      ],
+      "id": "83f70bdb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.vstack((data, data, data))"
+      ],
+      "id": "9dd52962",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.hstack((data, data, data))"
+      ],
+      "id": "e7a5360a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = data[:, np.newaxis]\n",
+        "data.shape"
+      ],
+      "id": "f2d2d8c1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.hstack((data, data, data))"
+      ],
+      "id": "d3589bb5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data1 = np.array([[1, 2], [3, 4]])\n",
+        "data2 = np.array([[5, 6]])"
+      ],
+      "id": "c88440af",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.concatenate((data1, data2), axis=0)"
+      ],
+      "id": "f11dfbff",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.concatenate((data1, data2.T), axis=1)"
+      ],
+      "id": "5e579a03",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Vectorized expressions\n",
+        "\n",
+        "### Arithmetic operations\n"
+      ],
+      "id": "7249d6fc"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([[1, 2], [3, 4]])\n",
+        "y = np.array([[5, 6], [7, 8]])"
+      ],
+      "id": "a722f6a7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x + y"
+      ],
+      "id": "7709a54a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y - x"
+      ],
+      "id": "710f035a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x * y"
+      ],
+      "id": "3533431d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y / x"
+      ],
+      "id": "3a562a51",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "8b5003c2"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x * 2"
+      ],
+      "id": "10138f64",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "2**x"
+      ],
+      "id": "6e815f1c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y / 2"
+      ],
+      "id": "86781772",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "(y / 2).dtype"
+      ],
+      "id": "ad32f632",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Broadcasting\n"
+      ],
+      "id": "c84e7d29"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = np.array([[11, 12, 13], [21, 22, 23], [31, 32, 33]])\n",
+        "b = np.array([[1, 2, 3]])"
+      ],
+      "id": "d4713ff8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a + b"
+      ],
+      "id": "d422efa2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array_broadcasting(a, b)"
+      ],
+      "id": "e3dc3bd5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a + b.T"
+      ],
+      "id": "cee36656",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array_broadcasting(a, b.T)"
+      ],
+      "id": "3c372f69",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "2f613edd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([1, 2, 3, 4]).reshape(2, 2)\n",
+        "x.shape"
+      ],
+      "id": "a26a2d3e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "z = np.array([[2, 4]])\n",
+        "z.shape"
+      ],
+      "id": "203389a1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x / z"
+      ],
+      "id": "e95bbb0b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "zz = np.vstack((z, z))\n",
+        "zz"
+      ],
+      "id": "363aed21",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x / zz"
+      ],
+      "id": "29c5355c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "ece40060"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "z = np.array([[2], [4]])\n",
+        "z.shape"
+      ],
+      "id": "bfc72f3d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x / z"
+      ],
+      "id": "80f9b57e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "zz = np.concatenate([z, z], axis=1)\n",
+        "zz"
+      ],
+      "id": "e33c173b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x / zz"
+      ],
+      "id": "e008eb8d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "b3e63e50"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = z = np.array([1, 2, 3, 4])\n",
+        "y = np.array([5, 6, 7, 8])\n",
+        "x = x + y  # x is reassigned to a new array"
+      ],
+      "id": "0d68a959",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, z"
+      ],
+      "id": "9803f7cb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = z = np.array([1, 2, 3, 4])\n",
+        "y = np.array([5, 6, 7, 8])\n",
+        "x += y  # the values of array x are updated in place"
+      ],
+      "id": "af5b7fe7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x, z"
+      ],
+      "id": "99508f8e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Elementwise functions\n"
+      ],
+      "id": "752feda8"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.linspace(-1, 1, 11)\n",
+        "x"
+      ],
+      "id": "a5bf14ca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y = np.sin(np.pi * x)"
+      ],
+      "id": "c5006030",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.round(y, decimals=4)"
+      ],
+      "id": "53ea051e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.add(np.sin(x)**2, np.cos(x)**2)"
+      ],
+      "id": "ad5077d2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.sin(x)**2 + np.cos(x)**2"
+      ],
+      "id": "1fc05452",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "068a5bbb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def heaviside(x):\n",
+        "    return 1 if x > 0 else 0"
+      ],
+      "id": "9b596161",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "heaviside(-1)"
+      ],
+      "id": "875d44dc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "heaviside(1.5)"
+      ],
+      "id": "62a7ca64",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "````\n",
+        "```{{python}}\n",
+        "x = np.linspace(-5, 5, 11)\n",
+        "heaviside(x)\n",
+        "```\n",
+        "\n",
+        "ValueError \n",
+        "      1 x = np.linspace(-5, 5, 11)\n",
+        "----> 2 heaviside(x)\n",
+        "\n",
+        "      1 def heaviside(x):\n",
+        "----> 2     return 1 if x > 0 else 0\n",
+        "\n",
+        "ValueError: The truth value of an array with more than \n",
+        "one element is ambiguous. Use a.any() or a.all()\n",
+        "\n",
+        "````\n"
+      ],
+      "id": "498ac054"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "heaviside = np.vectorize(heaviside)\n",
+        "heaviside(x)"
+      ],
+      "id": "4551282c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def heaviside(x):  # much better way\n",
+        "    return 1 * (x > 0)\n",
+        "\n",
+        "heaviside(x)"
+      ],
+      "id": "b8381b32",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Aggregation\n"
+      ],
+      "id": "2cc7202a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.random.normal(size=(15, 15)) "
+      ],
+      "id": "e6bb1332",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.mean(data)"
+      ],
+      "id": "93096d5d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.mean()"
+      ],
+      "id": "66f2d39c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "ea5947d5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.random.normal(size=(5, 10, 15))"
+      ],
+      "id": "3ad39b01",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum(axis=0).shape"
+      ],
+      "id": "0b1e93c6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum(axis=(0, 2)).shape"
+      ],
+      "id": "c752922d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum()"
+      ],
+      "id": "1f9de2b3",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "fee99f9c"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.arange(9).reshape(3, 3)\n",
+        "data"
+      ],
+      "id": "7e98b09d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum()"
+      ],
+      "id": "9901c189",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array_aggregation(data, None)"
+      ],
+      "id": "a707a142",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum(axis=0)"
+      ],
+      "id": "7c584b4c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array_aggregation(data, 0)"
+      ],
+      "id": "48d9bb9d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.sum(axis=1)"
+      ],
+      "id": "1bb0e30b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "show_array_aggregation(data, 1)"
+      ],
+      "id": "796c1f69",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Boolean arrays and conditional expressions\n"
+      ],
+      "id": "57612b98"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = np.array([1, 2, 3, 4])\n",
+        "b = np.array([4, 3, 2, 1])"
+      ],
+      "id": "a0d31ae9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a < b"
+      ],
+      "id": "51cd55f9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.all(a < b)"
+      ],
+      "id": "9f0d1ff1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.any(a < b)"
+      ],
+      "id": "4f71303d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "6fecfb3f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([-2, -1, 0, 1, 2])"
+      ],
+      "id": "07bc3a91",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x > 0"
+      ],
+      "id": "5b5a25de",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "1 * (x > 0)"
+      ],
+      "id": "ac6edb46",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x * (x > 0)"
+      ],
+      "id": "66bb150e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "e900617b"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def pulse(x, position, height, width):\n",
+        "    return height * (x >= position) * (x <= (position + width))  "
+      ],
+      "id": "9b76f504",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.linspace(-5, 5, 31)"
+      ],
+      "id": "97e005d8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pulse(x, position=-2, height=1, width=5)"
+      ],
+      "id": "900a753a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "pulse(x, position=1, height=2, width=2)"
+      ],
+      "id": "c3af47f5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "498441ab"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.linspace(-4, 4, 9)\n",
+        "x"
+      ],
+      "id": "d1c0923c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.where(x < 0, x**2, x**3)"
+      ],
+      "id": "4bdab6ca",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.select([x < -1, x < 2, x>= 2], [x**2, x**3, x**4])"
+      ],
+      "id": "0665d368",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.choose([0, 0, 0, 1, 1, 1, 2, 2, 2], [x**2, x**3, x**4])"
+      ],
+      "id": "8c32125b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x[np.abs(x) > 2]"
+      ],
+      "id": "010aed1a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Set operations\n"
+      ],
+      "id": "46053e75"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "a = np.unique([1, 2, 3, 3])\n",
+        "a"
+      ],
+      "id": "e6cb1518",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "b = np.unique([2, 3, 4, 4, 5, 6, 5])\n",
+        "b"
+      ],
+      "id": "a1675846",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.in1d(a, b)"
+      ],
+      "id": "d549ab0f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "1 in a, 1 in b"
+      ],
+      "id": "43cd653f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.all(np.in1d(a, b))  # to test if a is a subset of b"
+      ],
+      "id": "66ec7a89",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "82dca4ba"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.union1d(a, b)"
+      ],
+      "id": "4d04a2e1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.intersect1d(a, b)"
+      ],
+      "id": "dbca8ee1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.setdiff1d(a, b)"
+      ],
+      "id": "aba9ab24",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.setdiff1d(b, a)"
+      ],
+      "id": "1272ebe2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Operations on arrays\n"
+      ],
+      "id": "52cddf21"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.arange(9).reshape(3, 3)\n",
+        "data"
+      ],
+      "id": "1d88b7f1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.transpose(data)"
+      ],
+      "id": "fec08c49",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "1d936100"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data = np.random.randn(1, 2, 3, 4, 5)"
+      ],
+      "id": "1f4cb3be",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.shape"
+      ],
+      "id": "7b20147c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "data.T.shape"
+      ],
+      "id": "31677327",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Matrix and vector operations\n"
+      ],
+      "id": "a0e39681"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.arange(1, 7).reshape(2, 3)\n",
+        "A"
+      ],
+      "id": "ca09a57e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B = np.arange(1, 7).reshape(3, 2)\n",
+        "B"
+      ],
+      "id": "bfcbcc7e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.dot(A, B)"
+      ],
+      "id": "24770dc9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.dot(B, A)"
+      ],
+      "id": "f7ef1cad",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A @ B  # python 3.5 above"
+      ],
+      "id": "c0a722f8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B @ A"
+      ],
+      "id": "d05fbb77",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "1c18166d"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.arange(9).reshape(3, 3)\n",
+        "A"
+      ],
+      "id": "110832cd",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.arange(3)\n",
+        "x"
+      ],
+      "id": "689ed80e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.dot(A, x)"
+      ],
+      "id": "48045c08",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A.dot(x)"
+      ],
+      "id": "ae48aee0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A @ x"
+      ],
+      "id": "4472e579",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "763e1ee0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.random.rand(3, 3)\n",
+        "B = np.random.rand(3, 3)"
+      ],
+      "id": "68c0e38a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Ap = np.dot(B, np.dot(A, np.linalg.inv(B)))"
+      ],
+      "id": "848cb72b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Ap = B.dot(A.dot(np.linalg.inv(B)))"
+      ],
+      "id": "3f5388a9",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "B @ A @ np.linalg.inv(B)"
+      ],
+      "id": "39f4291d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "92d9c23a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.inner(x, x)"
+      ],
+      "id": "e43d0419",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.dot(x, x)"
+      ],
+      "id": "49f2c859",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "y = x[:, np.newaxis]\n",
+        "y"
+      ],
+      "id": "1e1c702f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.dot(y.T, y)"
+      ],
+      "id": "429f7568",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "* Given two vectors, $\\mathbf{a} = [a_0, a_1, ..., a_M]~$ and $~\\mathbf{b} = [b_0, b_1, ..., b_N]$, $~$the outer product is $\\mathbf{a}^T\\mathbf{b}$\n",
+        "\n",
+        "$$\\begin{pmatrix}\n",
+        " a_0 b_0 & a_0b_1 & \\cdots & a_0 b_N \\\\\n",
+        " a_1 b_0 & \\cdots & \\cdots & a_1 b_N \\\\\n",
+        " \\vdots  & \\ddots &        & \\vdots  \\\\\n",
+        " a_M b_0 &        & \\ddots & a_M b_N \\\\\n",
+        " \\end{pmatrix}\n",
+        "$$\n"
+      ],
+      "id": "a6be6eeb"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([1, 2, 3])"
+      ],
+      "id": "0e8ba42d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.outer(x, x)"
+      ],
+      "id": "c0033500",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.kron(x, x)"
+      ],
+      "id": "0ecf1ef7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.kron(x[:, np.newaxis], x[np.newaxis, :])"
+      ],
+      "id": "5332b8a2",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.kron(np.ones((2, 2)), np.identity(2))"
+      ],
+      "id": "92f72d30",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.kron(np.identity(2), np.ones((2, 2)))"
+      ],
+      "id": "758bb0a5",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n"
+      ],
+      "id": "9120fe92"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array([1, 2, 3, 4])\n",
+        "y = np.array([5, 6, 7, 8])"
+      ],
+      "id": "19b4a373",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.einsum(\"n,n\", x, y)"
+      ],
+      "id": "f18ba3ac",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.inner(x, y)"
+      ],
+      "id": "efcd1197",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "A = np.arange(9).reshape(3, 3)\n",
+        "B = A.T"
+      ],
+      "id": "602e0cd6",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.einsum(\"mk,kn\", A, B)"
+      ],
+      "id": "106ba728",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "np.alltrue(np.einsum(\"mk,kn\", A, B) == np.dot(A, B))"
+      ],
+      "id": "5212214e",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "fenicsx",
+      "language": "python",
+      "display_name": "fenicsx",
+      "path": "/Users/kyyoo/Library/Jupyter/kernels/fenicsx"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
