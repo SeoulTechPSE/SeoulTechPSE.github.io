@@ -2270,7 +2270,9 @@ $$u_t = \alpha u_{xx} - \nu u_x - \beta u$$
 
 Substituting everything:
 
-$$e^{r x - \lambda t} (-\lambda w + w_t) = \alpha e^{r x - \lambda t} (r^2 w + 2r w_x + w_{xx}) - \nu e^{r x - \lambda t} (r w + w_x) - \beta e^{r x - \lambda t} w$$
+$$\begin{aligned}
+e^{r x - \lambda t} (-\lambda w + w_t) &= \alpha e^{r x - \lambda t} (r^2 w + 2r w_x + w_{xx})\\ &- \nu e^{r x - \lambda t} (r w + w_x) - \beta e^{r x - \lambda t} w
+\end{aligned}$$
 
 Cancel the common exponential $e^{r x - \lambda t}$:
 
@@ -2291,8 +2293,8 @@ $$2\alpha r = \nu \; \Rightarrow \; r = \frac{\nu}{2\alpha}$$
 
 Plug $r = \frac{\nu}{2\alpha}$ into the second equation to find $\lambda$:
 
-$$\lambda = \alpha r^2 - \nu r + \beta = \alpha \left( \frac{\nu}{2\alpha} \right)^2 - \nu \cdot \frac{\nu}{2\alpha} + \beta \\
-= \frac{\nu^2}{4\alpha} - \frac{\nu^2}{2\alpha} + \beta = -\frac{\nu^2}{4\alpha} + \beta$$
+$$\lambda = \alpha r^2 - \nu r + \beta = \alpha \left( \frac{\nu}{2\alpha} \right)^2 - \nu \cdot \frac{\nu}{2\alpha} + \beta
+= -\frac{\nu^2}{4\alpha} + \beta$$
 
 **Step 2:** $~$ Resulting equation for $w$
 
@@ -2346,3 +2348,376 @@ u(x,t) = e^{\frac{\nu}{2\alpha}x + \frac{\nu^2}{4\alpha}t - \beta t} \sum_{\subs
 $$
 
 $~$
+
+**6.** $~$ Solve the problem
+
+$$
+\begin{aligned}
+ u_t &= u_{xx}, \;\;0<x<1, \;\; 0<t<\infty\\ 
+ &u(0,t)=0\\ 
+ &u(1,t)=\cos t \\ 
+ &u(x,0)=x 
+\end{aligned}
+$$
+
+by
+
+$(a)~$ transforming it to one with zero BCs
+
+$(b)~$ solving the resulting problem
+
+**Solution**
+
+$(a)$
+
+Let’s define:
+
+$$u(x,t) = v(x,t) + w(x,t)$$
+
+where $w(x,t)$ is chosen so that it satisfies the boundary conditions, and thus the new function $v(x,t)$ will satisfy homogeneous (zero) boundary conditions.
+
+We want:
+
+$$\begin{cases}
+w(0,t) = 0 \\
+w(1,t) = \cos t
+\end{cases}$$
+
+We can try a linear function in $x$:
+
+$$w(x,t) = x \cos t$$
+
+Then we compute the equation for $v$:
+
+* $u_t = v_t + \partial_t(x \cos t) = v_t - x \sin t$
+* $u_{xx} = v_{xx} + \partial_{xx}(x \cos t) = v_{xx} + 0$ (since $x \cos t$ is linear in $x$)
+
+So the equation becomes:
+
+$$v_t - x \sin t = v_{xx}
+\; \Rightarrow \;
+v_t = v_{xx} + x \sin t$$
+
+And the transformed problem is:
+
+$$
+\begin{aligned}
+v_t &= v_{xx} + x \sin t, &&0 < x < 1,\; t > 0 \\
+v(0,t) &= 0, \\
+v(1,t) &= 0, \\
+v(x,0) &= u(x,0) - x \cos(0) = x - x = 0
+\end{aligned}$$
+
+$(b)$
+
+**Step 1:** $~$ Apply the Fourier sine transform
+
+Let’s define the sine transform:
+
+$$\mathcal{F}[v(x,t)] = \hat{v}_n(t) = \int_0^1 v(x,t) \sin(n\pi x)\, dx$$
+
+Apply this transform to both sides of the PDE:
+
+Left-hand side (time derivative):
+
+$$\mathcal{F}[v_t(x,t)] = \frac{d}{dt} \hat{v}_n(t)$$
+
+Right-hand side:
+
+$$\mathcal{F}[v_{xx}(x,t)] = -n^2 \pi^2 \hat{v}_n(t)$$
+
+$$\mathcal{F}[x\sin t] = \sin t \cdot \int_0^1 x \sin(n\pi x)\, dx = \sin t \cdot \frac{(-1)^{n+1}}{n\pi}$$
+
+**Step 2:** $~$ Solve the ODE for $\hat{v}_n(t)$
+
+Let’s write the equation again:
+
+$$\hat{v}_n’(t) + n^2 \pi^2 \hat{v}_n(t) = \frac{(-1)^{n+1}}{n\pi} \sin t$$
+
+Use integrating factor:
+
+$$\mu(t) = e^{n^2 \pi^2 t}
+\Rightarrow \frac{d}{dt} \left[ e^{n^2 \pi^2 t} \hat{v}_n(t) \right] = \frac{(-1)^{n+1}}{n\pi} \sin t \cdot e^{n^2 \pi^2 t}$$
+
+Now integrate both sides from $0$ to $t$:
+
+$$e^{n^2 \pi^2 t} \hat{v}_n(t)
+= \frac{(-1)^{n+1}}{n\pi} \int_0^t \sin s \cdot e^{n^2 \pi^2 s} \, ds$$
+
+So the solution in the transform domain is:
+
+$$\hat{v}_n(t) = \frac{(-1)^{n+1}}{n\pi} \int_0^t \sin s \cdot e^{n^2 \pi^2 (s -t)} \, ds$$
+
+**Step 3:** $~$ Invert the Fourier sine transform
+
+Recall:
+
+$$v(x,t) = \sum_{n=1}^\infty \hat{v}_n(t) \sin(n\pi x)$$
+
+Substitute the expression for $\hat{v}_n(t)$:
+
+$$v(x,t) = \sum_{n=1}^\infty \left[
+\frac{(-1)^{n+1}}{n\pi} \int_0^t \sin s \cdot e^{n^2 \pi^2 (s -t)} \, ds
+\right] \sin(n\pi x)$$
+
+This gives us the complete solution for $v(x,t)$ using the Fourier sine transform method
+
+So the full solution is:
+
+$$u(x,t) =
+\sum_{n=1}^\infty \left[
+\frac{(-1)^{n+1}}{n\pi} \int_0^t \sin s \cdot e^{n^2 \pi^2 (s -t)} \, ds
+\right] \sin(n\pi x)
+	+x \cos t$$
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import quad
+
+# number of Fourier-terms
+N_terms = 20  
+
+# Define parameters
+L = 1
+x_vals = np.linspace(0, L, 200)
+
+# times at which to plot u(x, t)
+t_vals = [1e-2, 1.5, 3.0, 4.5, 6.0] 
+
+# Compute u(x, t)
+def compute_u(x, t, N=N_terms):
+    u = x *np.cos(t)  # add x cos t term
+    for n in range(1, N +1):
+        n_pi = n *np.pi
+        prefactor = (-1)**(n +1) /n_pi
+        
+        # Integrate I_n(t)
+        integrand = lambda s: np.sin(s) *np.exp(n_pi**2 *(s -t))
+        I_n, _ = quad(integrand, 0, t)
+        
+        A_n = prefactor *I_n
+        u += A_n *np.sin(n_pi *x)
+    return u
+
+# Plot
+plt.figure(figsize=(6, 4))
+for t in t_vals:
+    u_vals = [compute_u(x, t) for x in x_vals]
+    plt.plot(x_vals, u_vals, label=f"t = {t}")
+
+plt.title("u(x,t) to the heat equation with nonhomogeneous BC")
+plt.xlabel("x")
+plt.ylabel("u(x,t)")
+plt.legend()
+plt.grid(True)
+plt.show()
+```
+
+$~$
+
+**7.** $~$ Solve the problem
+
+$$
+\begin{aligned}
+ u_t &= u_{xx} -u + x, \;\;0<x<1, \;\; 0<t<\infty\\ 
+ &u(0,t)=0\\ 
+ &u(1,t)=1\\ 
+ &u(x,0)=0 
+\end{aligned}
+$$
+
+by
+
+$(a)~$ changing the nonhomogeneous BCs to homogeneous ones
+
+$(b)~$ transforming into a new equation without the term $-u$
+
+$(c)~$ solving the resulting problem
+
+**Solution**
+
+$(a)~$ Make the boundary conditions homogeneous
+
+Let’s define a new function:
+
+$$u(x,t) = v(x,t) + w(x)$$
+
+Choose $w(x)$ to satisfy the boundary conditions:
+
+$$\begin{cases}
+w(0) = 0 \\
+w(1) = 1
+\end{cases}$$
+
+Let’s take the linear function:
+
+$$w(x) = x$$
+
+Then:
+
+$$u(x,t) = v(x,t) + x \; \Rightarrow \; v(x,t) = u(x,t) - x$$
+
+Now we compute:
+* $u_t = v_t$
+* $u_{xx} = v_{xx} + w''(x) = v_{xx} + 0 = v_{xx}$ (since $x'' = 0$)
+* $u = v + x$
+
+Substitute into the original PDE:
+
+$$u_t = u_{xx} - u + x
+\Rightarrow v_t = v_{xx} - (v + x) + x = v_{xx} - v$$
+
+So the PDE for $v$ is:
+
+$$v_t = v_{xx} - v$$
+
+And the initial and boundary conditions become:
+
+* $v(0,t) = u(0,t) - 0 = 0$
+* $v(1,t) = u(1,t) - 1 = 0$
+* $v(x,0) = u(x,0) - x = -x$
+
+Transformed problem for $v(x,t)$:
+
+$$
+\begin{aligned}
+v_t &= v_{xx} - v, \quad 0 < x < 1,\; t > 0 \\
+v(0,t) &= v(1,t) = 0 \\
+v(x,0) &= -x
+\end{aligned}$$
+
+$(b)~$ Eliminate the reaction term $-v$ by a second transformation
+
+Let:
+
+$$v(x,t) = e^{-t} z(x,t)$$
+
+Then:
+
+* $v_t = -e^{-t} z + e^{-t} z_t = e^{-t}(z_t - z)$
+* $v_{xx} = e^{-t} z_{xx}$
+
+Substitute into $v_t = v_{xx} - v$:
+
+$$e^{-t}(z_t - z) = e^{-t} z_{xx} - e^{-t} z
+\Rightarrow z_t - z = z_{xx} - z
+\Rightarrow z_t = z_{xx}$$
+
+So now we have the heat equation!
+
+From $v = e^{-t} z\,$ at $t = 0$:
+
+$$z(x,0) = v(x,0) = -x$$
+
+And since $v(0,t) = v(1,t) = 0$, $\,$ we have:
+
+$$z(0,t) = z(1,t) = 0$$
+
+**Final simplified problem:**
+
+$$
+\begin{aligned}
+z_t &= z_{xx}, \quad 0 < x < 1,\; t > 0 \\
+z(0,t) &= z(1,t) = 0 \\
+z(x,0) &= -x
+\end{aligned}$$
+
+$(c)~$ Solve the simplified heat equation
+
+We solve this using separation of variables / Fourier series
+
+**Step 1:** $~$ Expand initial condition in sine series
+
+$$z(x,0) = -x = \sum_{n=1}^\infty A_n \sin(n\pi x)$$
+
+Compute coefficients:
+
+$$A_n = 2 \int_0^1 (-x) \sin(n\pi x) dx
+= -2 \int_0^1 x \sin(n\pi x) dx$$
+
+Use integration by parts:
+
+$$\int_0^1 x \sin(n\pi x) dx = \frac{(-1)^{n+1}}{n\pi}
+\Rightarrow A_n = \frac{2(-1)^{n}}{n\pi}$$
+
+**Step 2:** $~$ General solution for $z(x,t)$
+
+$$z(x,t) = \sum_{n=1}^\infty A_n e^{-n^2 \pi^2 t} \sin(n\pi x)
+= \sum_{n=1}^\infty \frac{2(-1)^n}{n\pi} e^{-n^2 \pi^2 t} \sin(n\pi x)$$
+
+**Step 3:** $~$ Back-substitute to get $u(x,t)$
+
+So finally:
+
+$$u(x,t) = x + e^{-t} \sum_{n=1}^\infty \frac{2(-1)^n}{n\pi} e^{-n^2 \pi^2 t} \sin(n\pi x)$$
+
+**Final Answer:**
+
+$$
+\boxed{
+u(x,t) = x + \sum_{n=1}^\infty \frac{2(-1)^n}{n\pi} e^{-(n^2 \pi^2 + 1)t} \sin(n\pi x)
+}$$
+
+```{python}
+# Re-import necessary libraries after kernel reset
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from IPython.display import HTML
+
+# Spatial domain
+x = np.linspace(0, 1, 200)
+
+# Number of Fourier terms
+N = 50
+
+# Time parameters
+t_vals = np.linspace(0, 1, 100)  # from t=0 to t=1.5
+
+# Precompute sin(nπx) terms
+sin_terms = np.array([np.sin(n *np.pi *x) for n in range(1, N +1)])
+
+# Compute the solution u(x, t) at each time t
+def compute_u_xt(t):
+    coeffs = np.array([
+        (2 *(-1)**n) /(n *np.pi) 
+          *np.exp(-(n**2 *np.pi**2 +1) *t)
+        for n in range(1, N +1)
+    ])
+    v_xt = np.dot(coeffs, sin_terms)
+    return x +v_xt  # u = x +e^{-t} *z(x,t)
+
+# Set up the plot
+fig, ax = plt.subplots(figsize=(6, 4))
+
+line, = ax.plot([], [], lw=2)
+ax.set_xlim(0, 1)
+ax.set_ylim(-0.1, 1.1)
+ax.set_xlabel('x')
+ax.set_ylabel('u(x,t)')
+title = ax.set_title("")
+
+# Initialization function
+def init():
+    line.set_data([], [])
+    title.set_text("")
+    return line, title
+
+# Animation update function
+def update(frame):
+    t = t_vals[frame]
+    u = compute_u_xt(t)
+    line.set_data(x, u)
+    title.set_text(f"u(x, t) at t = {t:.2f}")
+    return line, title
+
+# Create animation
+ani = animation.FuncAnimation(
+    fig, update, frames=len(t_vals),
+    init_func=init, blit=True, interval=80
+)
+
+plt.close()
+HTML('<center>' + ani.to_html5_video() + '</center>')
+```
