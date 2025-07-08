@@ -2614,12 +2614,20 @@ Y(0) &= Y(\pi) = 0 \Rightarrow Y_m(y) = \sin(my),\quad \lambda - \mu = m^2 \Righ
 \end{aligned}$$
 
 Then the time part:
-$$T'' + c^2(n^2 + m^2)T = 0 \Rightarrow
-T_{n,m}(t) = A_{n,m} \cos(c\sqrt{n^2 + m^2}t) + B_{n,m} \sin(c\sqrt{n^2 + m^2}t)$$
+$$\begin{aligned}
+ T'' &+ c^2(n^2 + m^2)T = 0\\ 
+ &\Rightarrow
+ T_{n,m}(t) = A_{n,m} \cos(c\sqrt{n^2 + m^2}t) + B_{n,m} \sin(c\sqrt{n^2 + m^2}t)
+ \end{aligned}$$
 
 **Step 2:** $~$ General Solution
 
-$$u(x, y, t) = \sum_{n=1}^{\infty} \sum_{m=1}^{\infty} \left[ A_{n,m} \cos(c\sqrt{n^2 + m^2} t) + B_{n,m} \sin(c\sqrt{n^2 + m^2} t) \right] \sin(nx) \sin(my)$$
+$$
+\begin{aligned}
+u(x, y, t) = \sum_{n=1}^{\infty} \sum_{m=1}^{\infty} &\left[ A_{n,m} \cos(c\sqrt{n^2 + m^2} t)\right. \\ 
+&\left.+ B_{n,m} \sin(c\sqrt{n^2 + m^2} t) \right] \sin(nx) \sin(my)
+\end{aligned}
+$$
 
 **Step 3:** $~$ Apply Initial Conditions
 
@@ -2685,7 +2693,11 @@ $$\begin{aligned}
 
 Assume a solution of the form:
 
-$$u(x,y,t) = \sum_{n=1}^\infty \sum_{m=1}^\infty \left[ A_{nm} \cos(c\sqrt{n^2 + m^2} \, t) + B_{nm} \sin(c\sqrt{n^2 + m^2} \, t) \right] \sin(nx) \sin(my)$$
+$$
+\begin{aligned}
+u(x,y,t) = \sum_{n=1}^\infty \sum_{m=1}^\infty &\left[ A_{nm} \cos(c\sqrt{n^2 + m^2} \, t)\right.\\ 
+&+\left. B_{nm} \sin(c\sqrt{n^2 + m^2} \, t) \right] \sin(nx) \sin(my)
+\end{aligned}$$
 
 From the initial displacement:
 $$u(x,y,0) = \sum_{n,m} A_{nm} \sin(nx)\sin(my) = \sin x \sin 4y + \sin 4x \sin y$$
@@ -2699,8 +2711,8 @@ $$u_t(x,y,0) = 0 \Rightarrow B_{nm} = 0$$
 **Step 2:** $~$ Final Solution
 
 $$\begin{aligned}
-u(x, y, t) &= A_{1,4} \cos(c \sqrt{1^2 + 4^2} \, t) \sin x \sin 4y
-	+	A_{4,1} \cos(c \sqrt{4^2 + 1^2} \, t) \sin 4x \sin y \\
+u(x, y, t) &= A_{1,4} \cos(c \sqrt{1^2 + 4^2} \, t) \sin x \sin 4y\\
+	&\quad+	A_{4,1} \cos(c \sqrt{4^2 + 1^2} \, t) \sin 4x \sin y \\
 &= \cos(c\sqrt{17} \, t) \sin x \sin 4y + \cos(c\sqrt{17} \, t) \sin 4x \sin y
 \end{aligned}$$
 
@@ -2879,3 +2891,184 @@ ani = animation.FuncAnimation(fig, animate, frames=len(t_vals_light),
 
 HTML('<center>' + ani.to_html5_video() + '</center>')
 ```
+
+$~$
+
+**6.** $~$ Find $u\left( \frac{3}{8}, 3 \right)$
+
+$$
+\begin{aligned}
+ u_{tt} &= u_{xx}, \;\;0<x<1, \; 0 < t < \infty\\ 
+ u_x(0, t) &= 0\\
+ u(1, t) &= 0\\
+ u(x, 0) &=(1-x)^3 \\
+ u_t(x, 0) &= (1-x)^2
+\end{aligned}
+$$
+
+**Solution**
+
+Method of Solution: D’Alembert’s Formula with Function Extension
+
+**Step 1:** $~$ D’Alembert Solution on the Infinite Domain
+
+The general D’Alembert solution for the wave equation on the entire real line is:
+
+$$u(x,t) = \frac{1}{2}\left[f(x + t) + f(x - t)\right] + \frac{1}{2} \int_{x - t}^{x + t} g(s)\, ds$$
+
+This solution assumes that u is defined on the entire real line with no boundary conditions. To use this method on the interval $0 < x < 1$, we extend $f(x)$ and $g(x)$ to the whole real line by reflecting them in such a way that the boundary conditions are satisfied
+
+**Step 2:** $~$ Extend $f(x)$ and $g(x)$ to the Real Line
+
+We extend $f(x)$ and $g(x)$ as follows:
+
+Boundary Conditions:
+
+* Neumann at $x = 0 \;\Rightarrow\;$ Extend as an even function about $x$ = 0
+* Dirichlet at $x = 1 \;\Rightarrow\;$ Extend as an odd function about $x = 1$
+
+This leads to a 2-periodic extension over $\mathbb{R}$. The steps:
+
+1.	Reflect $f(x)$, $g(x)$ evenly about $x = 0$
+2.	Reflect them oddly about $x = 1$
+3.	Periodically extend with period 4
+
+We denote the extended functions as $\tilde{f}(x)$, $\tilde{g}(x)$, defined for all $x \in \mathbb{R}$
+and this pattern repeats every 4 units:
+
+$$\tilde{f}(x + 4) = \tilde{f}(x)$$
+
+**Step 3:** $~$ Apply D’Alembert Formula
+
+Using the extended functions, the D’Alembert solution becomes:
+
+$$u(x,t) = \frac{1}{2} \left[\tilde{f}(x + t) + \tilde{f}(x - t)\right] + \frac{1}{2} \int_{x - t}^{x + t} \tilde{g}(s)\, ds$$
+
+Now substitute $x = \frac{3}{8}$, $t = 3$:
+
+$$u\left( \frac{3}{8}, 3 \right) = \frac{1}{2} \left[ \tilde{f}\left(\frac{3}{8} + 3\right) + \tilde{f}\left(\frac{3}{8} - 3\right) \right] + \frac{1}{2} \int_{\frac{3}{8} - 3}^{\frac{3}{8} + 3} \tilde{g}(s)\, ds$$
+
+* Construction of $\tilde{f}(x)$ on $[0, 4)$:
+
+| Interval | Definition of $\tilde{f}(x)$ | Reasoning     |
+|----------------|----------------------------------------|--------------------------------|
+| $0 \leq x < 1$   | $(1 - x)^3$   | Original definition          |
+| $1 \leq x < 2$   | $(1 - x)^3$  | Odd reflection about $x = 1$ |
+| $2 \leq x < 3$   | $(x - 3)^3$  | Even reflection about $x = 2$ of previous term |
+| $3 \leq x < 4$   | $(x - 3)^3$   | Odd reflection about $x = 3$ of previous term |
+
+* Construction of $\tilde{g}(x)$ on $[0, 4)$:
+
+| Interval | Definition of $\tilde{g}(x)$ | Reasoning     |
+|----------------|----------------------------------------|--------------------------------|
+| $0 \leq x < 1$   | $\phantom{-}(1 - x)^2$   | Original definition          |
+| $1 \leq x < 2$   | $-(1 - x)^2$  | Odd reflection about $x = 1$ |
+| $2 \leq x < 3$   | $-(x - 3)^2$  | Even reflection about $x = 2$ of previous term |
+| $3 \leq x < 4$   | $\phantom{-}(x - 3)^2$   | Odd reflection about $x = 3$ of previous term |
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+def tilde_fg(x):
+    x = np.array(x)
+    f = np.zeros_like(x)
+    g = np.zeros_like(x)    
+    
+    # (0, 1): original
+    mask1 = (0 <= x) & (x < 1)
+    f[mask1] = (1 -x[mask1])**3
+    g[mask1] = (1 -x[mask1])**2    
+
+    # (1, 2): odd reflection about x = 1
+    mask2 = (1 <= x) & (x < 2)
+    f[mask2] = (1 -x[mask2])**3
+    g[mask2] = -(1 -x[mask2])**2      
+
+    # (2, 3): even reflection about x = 2 
+    mask3 = (2 <= x) & (x < 3)
+    f[mask3] = (x[mask3] -3)**3  # no sign change
+    g[mask3] = -(x[mask3] -3)**2
+
+    # (3, 4): odd reflection about x = 3
+    mask4 = (3 <= x) & (x <= 4)
+    f[mask4] = (x[mask4] -3)**3
+    g[mask4] = (x[mask4] -3)**2
+
+    return f, g
+
+# Domain
+x_vals = np.linspace(0, 4, 1000)
+f_vals, g_vals = tilde_fg(x_vals)
+
+# Plot
+plt.figure(figsize=(6, 4))
+plt.plot(x_vals, f_vals, color='red', label=r'$\tilde{f}$')
+plt.plot(x_vals, g_vals, color='blue', label=r'$\tilde{g}$')
+
+plt.title(r'$\tilde{f}(x), \tilde{g}(x)$ on $[0, 4)$')
+plt.xlabel('x')
+plt.ylabel(r'$\tilde{f}(x), \tilde{g}(x)$')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+**Step 4:** $~$ Evaluate $\tilde{f}(x \pm t)$
+
+$$x = \frac{3}{8} = 0.375,\quad t = 3 \Rightarrow x + t = 3.375,\quad x - t = -2.625$$
+
+Using 4-periodicity:
+
+* $3.375 \mod 4 = 3.375$
+* $-2.625 \mod 4 = 1.375$
+
+Thus:
+
+* $\tilde{f}(3.375) = (3.375 - 3)^3 = (0.375)^3 = \frac{27}{512}$
+* $\tilde{f}(1.375) = (1 -1.375)^3 = - (0.375)^3 = -\frac{27}{512}$
+
+So the average is:
+
+$$\frac{1}{2} \left[ \tilde{f}(3.375) + \tilde{f}(-2.625) \right] = \frac{1}{2} \left( \frac{27}{512} - \frac{27}{512} \right) = 0$$
+
+**Step 5:** $~$ Evaluate the Integral Term
+
+We now compute:
+
+$$\int_{-2.625}^{3.375} \tilde{g}(s)\, ds =
+\underbrace{\int_{-2.625}^{-2} \tilde{g}(s)\, ds}_{A}
+	+\underbrace{\int_{-2}^{2} \tilde{g}(s)\, ds}_{0}
+	+\underbrace{\int_{2}^{3.375} \tilde{g}(s)\, ds}_{B}$$
+
+We computed the tails:
+
+*	$\displaystyle A = \int_{-2.625}^{-2} \tilde{g}(s)\, ds = -\int_{1.375}^{2} (s - 1)^2 ds = \boxed{-\frac{485}{1536}}$
+
+*	$\displaystyle B = \int_{2}^{3.375} \tilde{g}(s)\, ds$
+  
+  We split this into two parts, because the definition of $\tilde{g}(s)$ changes at $s = 3$:	
+  
+  *	On $[2, 3)$: $\tilde{g}(s) = (3 - s)^2$
+
+    $$\int_{2}^{3} (3 - s)^2 ds = \int_1^0 u^2 (-du) = \int_0^1 u^2 du = \left[\frac{u^3}{3}\right]_0^1 = \frac{1}{3}$$
+
+  *	On $[3, 3.375]$: $\tilde{g}(s) = -(s - 3)^2$
+
+  $$\int_{3}^{3.375} - (s - 3)^2 ds = - \int_0^{3/8} v^2 dv = - \left[\frac{v^3}{3}\right]_0^{3/8}
+= - \frac{(3/8)^3}{3} = - \frac{27}{1536}$$
+
+So:
+
+$$\int_{2}^{3.375} \tilde{g}(s)\, ds = \frac{1}{3} - \frac{27}{1536} = \frac{512 - 27}{1536} = \boxed{\frac{485}{1536}}$$
+
+**Final Answer:**
+
+Recall that from the previous step:
+
+$$\frac{1}{2} [\tilde{f}(x+t) + \tilde{f}(x - t)] = 0
+\quad\text{and}\quad \text{(integral term)} = 0$$
+
+$$\boxed{u\left( \frac{3}{8}, 3 \right) = 0}$$
+$~$
