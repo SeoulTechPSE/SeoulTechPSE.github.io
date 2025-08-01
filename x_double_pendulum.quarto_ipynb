@@ -22,9 +22,9 @@
         "    - m_2l_1 \\color{red}{\\left(\\dot{\\theta_1}\\right)^2 \\sin(\\theta_1-\\theta_2)} +m_2g\\color{red}{\\sin(\\theta_2)} = 0\n",
         "  \\end{aligned}$$\n",
         "\n",
-        "$~$\n"
+        "$~$"
       ],
-      "id": "ad58f98d"
+      "id": "dc591c32"
     },
     {
       "cell_type": "code",
@@ -41,7 +41,7 @@
         "from matplotlib.animation import FuncAnimation\n",
         "from IPython.display import HTML"
       ],
-      "id": "f7e418ed",
+      "id": "ae43c7e3",
       "execution_count": null,
       "outputs": []
     },
@@ -62,7 +62,7 @@
         "                m2 *l1 *th1(t).diff(t)**2 *sympy.sin(th1(t) -th2(t)) +\n",
         "                m2 *g *sympy.sin(th2(t)), 0)"
       ],
-      "id": "627cdb78",
+      "id": "137ed38b",
       "execution_count": null,
       "outputs": []
     },
@@ -84,9 +84,9 @@
         "\n",
         "  and rewrite the ODEs in terms of these functions\n",
         "\n",
-        "$~$\n"
+        "$~$"
       ],
-      "id": "081b8338"
+      "id": "1d30c780"
     },
     {
       "cell_type": "code",
@@ -104,7 +104,7 @@
         "ode3 = sympy.Eq(y1(t).diff(t) -y2(t), 0)\n",
         "ode4 = sympy.Eq(y3(t).diff(t) -y4(t), 0)"
       ],
-      "id": "db9ae1f4",
+      "id": "fcccce5e",
       "execution_count": null,
       "outputs": []
     },
@@ -116,9 +116,9 @@
         "\n",
         "* At this point, $\\,$we have <font color=\"blue\">four coupled 1^st^-order ODEs for the functions $\\,y_1\\,$ to $\\,y_4$</font>. $\\,$It only remains to solve for the derivatives of these functions to obtain the ODEs <font color=\"blue\">in standard form</font>\n",
         "\n",
-        "$~$\n"
+        "$~$"
       ],
-      "id": "3bb0b030"
+      "id": "8b263b7d"
     },
     {
       "cell_type": "code",
@@ -130,7 +130,7 @@
         "f = y.diff(t).subs(vcsol[0])\n",
         "f"
       ],
-      "id": "ff04a6ed",
+      "id": "2986f64f",
       "execution_count": null,
       "outputs": []
     },
@@ -142,7 +142,7 @@
         "\n",
         "jac[:, 0]"
       ],
-      "id": "21559413",
+      "id": "c7d96727",
       "execution_count": null,
       "outputs": []
     },
@@ -152,7 +152,7 @@
       "source": [
         "jac[:, 1]"
       ],
-      "id": "7d521a99",
+      "id": "86759284",
       "execution_count": null,
       "outputs": []
     },
@@ -162,7 +162,7 @@
       "source": [
         "jac[:, 2]"
       ],
-      "id": "bb17796f",
+      "id": "8802edf5",
       "execution_count": null,
       "outputs": []
     },
@@ -172,7 +172,7 @@
       "source": [
         "jac[:, 3]"
       ],
-      "id": "a7d6a65f",
+      "id": "d4ca5780",
       "execution_count": null,
       "outputs": []
     },
@@ -185,7 +185,7 @@
         "f_np = sympy.lambdify((t, y), f.subs(params), 'numpy')\n",
         "jac_np = sympy.lambdify((t, y), jac.subs(params), 'numpy')"
       ],
-      "id": "1365b898",
+      "id": "dd29ed36",
       "execution_count": null,
       "outputs": []
     },
@@ -198,7 +198,7 @@
         "t = np.linspace(0, 20, 1000)\n",
         "r = integrate.ode(f_np, jac_np).set_initial_value(y0, t[0])"
       ],
-      "id": "77ab45cd",
+      "id": "210bda8d",
       "execution_count": null,
       "outputs": []
     },
@@ -214,7 +214,7 @@
         "    r.integrate(r.t + dt)\n",
         "    idx += 1"
       ],
-      "id": "a5c73f5d",
+      "id": "efe8fade",
       "execution_count": null,
       "outputs": []
     },
@@ -226,9 +226,9 @@
         "\n",
         "* When visualizing this solution, $\\,$it is more intuitive <font color=\"blue\">to animate the positions of the pendulums in the $\\,x–y\\,$ plane</font> rather than their angular deflections\n",
         "\n",
-        "$~$\n"
+        "$~$"
       ],
-      "id": "786904bf"
+      "id": "68775f38"
     },
     {
       "cell_type": "code",
@@ -241,7 +241,7 @@
         "x2 = x1 +params[l2] *np.sin(th2_np)\n",
         "y2 = y1 -params[l2] *np.cos(th2_np)"
       ],
-      "id": "d7c41137",
+      "id": "7bd4c9aa",
       "execution_count": null,
       "outputs": []
     },
@@ -263,7 +263,7 @@
         "\n",
         "plt.close()"
       ],
-      "id": "0171c6d5",
+      "id": "3e298319",
       "execution_count": null,
       "outputs": []
     },
@@ -306,17 +306,17 @@
         "        interval=dt*1000, blit=True, init_func=init)\n",
         "HTML('<center>' + anim.to_html5_video() + '</center>')"
       ],
-      "id": "62ea7585",
+      "id": "1473e385",
       "execution_count": null,
       "outputs": []
     }
   ],
   "metadata": {
     "kernelspec": {
-      "name": "fenicsx",
+      "name": "python3",
       "language": "python",
-      "display_name": "fenicsx",
-      "path": "/Users/kyyoo/Library/Jupyter/kernels/fenicsx"
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/opt/miniconda3/share/jupyter/kernels/python3"
     }
   },
   "nbformat": 4,
