@@ -8,7 +8,7 @@
         "\n",
         "## Importing sympy"
       ],
-      "id": "a7d64191"
+      "id": "a5e2e06e"
     },
     {
       "cell_type": "code",
@@ -22,7 +22,7 @@
         "\n",
         "print(\"sympy: \", sympy.__version__)"
       ],
-      "id": "e5586e8f",
+      "id": "8e3c352b",
       "execution_count": null,
       "outputs": []
     },
@@ -36,7 +36,7 @@
         "\n",
         "  * `subs_()` is the modified function of `sub()` method\n"
       ],
-      "id": "4383ad17"
+      "id": "f62009c3"
     },
     {
       "cell_type": "code",
@@ -269,7 +269,7 @@
         "\n",
         "    return e"
       ],
-      "id": "9e63f5d7",
+      "id": "4a121521",
       "execution_count": null,
       "outputs": []
     },
@@ -279,7 +279,7 @@
       "source": [
         "## Symbols and Functions"
       ],
-      "id": "aab97f02"
+      "id": "fe4cbdb2"
     },
     {
       "cell_type": "code",
@@ -304,7 +304,7 @@
         "Lf = laplace_transform_(f(t), t, s)\n",
         "Lg = laplace_transform_(g(t), t, s)"
       ],
-      "id": "684d0ebc",
+      "id": "01c65afb",
       "execution_count": null,
       "outputs": []
     },
@@ -314,7 +314,7 @@
       "source": [
         "## Laplace transform"
       ],
-      "id": "408f06de"
+      "id": "d5b39f7e"
     },
     {
       "cell_type": "code",
@@ -324,7 +324,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "0615672c",
+      "id": "dfb6c91a",
       "execution_count": null,
       "outputs": []
     },
@@ -336,7 +336,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "fdc1d724",
+      "id": "f1d93875",
       "execution_count": null,
       "outputs": []
     },
@@ -348,7 +348,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "8f8b4b56",
+      "id": "0750a2d7",
       "execution_count": null,
       "outputs": []
     },
@@ -360,7 +360,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "6456a1fb",
+      "id": "d389c378",
       "execution_count": null,
       "outputs": []
     },
@@ -372,7 +372,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "09c84844",
+      "id": "41b0589f",
       "execution_count": null,
       "outputs": []
     },
@@ -382,7 +382,7 @@
       "source": [
         "## Inverse Laplace transform"
       ],
-      "id": "c8b4d5bf"
+      "id": "4cbb2e40"
     },
     {
       "cell_type": "code",
@@ -392,7 +392,7 @@
         "eq = inverse_laplace_transform(Leq, s, t)\n",
         "eq"
       ],
-      "id": "08373653",
+      "id": "fa1200a5",
       "execution_count": null,
       "outputs": []
     },
@@ -404,7 +404,7 @@
         "eq = inverse_laplace_transform(Leq, s, t)\n",
         "eq"
       ],
-      "id": "46a0e721",
+      "id": "01ced0c7",
       "execution_count": null,
       "outputs": []
     },
@@ -414,7 +414,7 @@
       "source": [
         "## Laplace transform of derivatives"
       ],
-      "id": "295b31c0"
+      "id": "1fc30cb0"
     },
     {
       "cell_type": "code",
@@ -423,7 +423,7 @@
         "eq = y(t).diff(t, 2) +2 *y(t).diff(t) +10 *y(t)\n",
         "eq"
       ],
-      "id": "f2b6ed0c",
+      "id": "17f95a59",
       "execution_count": null,
       "outputs": []
     },
@@ -434,7 +434,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Ly, Y(s))\n",
         "Leq"
       ],
-      "id": "07049cd0",
+      "id": "e1f28d61",
       "execution_count": null,
       "outputs": []
     },
@@ -447,7 +447,7 @@
         "Leq = Leq.subs(ics)\n",
         "Leq"
       ],
-      "id": "b4c64e6b",
+      "id": "e0182c15",
       "execution_count": null,
       "outputs": []
     },
@@ -458,7 +458,7 @@
         "sol = sympy.solve(Leq, Y(s))[0]\n",
         "sol"
       ],
-      "id": "1b775faa",
+      "id": "60059f2e",
       "execution_count": null,
       "outputs": []
     },
@@ -468,7 +468,7 @@
       "source": [
         "## Laplace transform of integrals"
       ],
-      "id": "c1f14acb"
+      "id": "57f68617"
     },
     {
       "cell_type": "code",
@@ -477,7 +477,7 @@
         "eq = sympy.integrate(g(tau1), (tau1, 0, t)) +sympy.integrate(sympy.integrate(f(tau2), (tau2, 0, tau1)), (tau1, 0, t))\n",
         "eq"
       ],
-      "id": "31da734c",
+      "id": "dba094b6",
       "execution_count": null,
       "outputs": []
     },
@@ -489,7 +489,7 @@
         "Leq = subs_(Leq, Lg, G(s))\n",
         "Leq"
       ],
-      "id": "02814169",
+      "id": "951a3369",
       "execution_count": null,
       "outputs": []
     },
@@ -499,7 +499,7 @@
       "source": [
         "## Convolution"
       ],
-      "id": "6b4b3249"
+      "id": "f4260697"
     },
     {
       "cell_type": "code",
@@ -508,7 +508,7 @@
         "eq = sympy.integrate(f(tau)*g(t -tau), (tau, 0, t)) +sympy.integrate(f(t -tau)*g(tau), (tau, 0, t))\n",
         "eq"
       ],
-      "id": "9ce5b1c7",
+      "id": "baffe051",
       "execution_count": null,
       "outputs": []
     },
@@ -520,7 +520,7 @@
         "Leq = subs_(Leq, Lg, G(s))\n",
         "Leq"
       ],
-      "id": "ee5b2c35",
+      "id": "1147d548",
       "execution_count": null,
       "outputs": []
     },
@@ -530,7 +530,7 @@
       "source": [
         "## First translation theorem"
       ],
-      "id": "b20fd1dc"
+      "id": "20168ae3"
     },
     {
       "cell_type": "code",
@@ -539,7 +539,7 @@
         "eq = y(t) *sympy.exp(-a *t)\n",
         "eq"
       ],
-      "id": "8b5420ef",
+      "id": "a859b4b6",
       "execution_count": null,
       "outputs": []
     },
@@ -550,7 +550,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Ly, Y(s))\n",
         "Leq"
       ],
-      "id": "fa7d8aa0",
+      "id": "fc624306",
       "execution_count": null,
       "outputs": []
     },
@@ -560,7 +560,7 @@
       "source": [
         "## Second translation theorem"
       ],
-      "id": "7ad42824"
+      "id": "d2b050e6"
     },
     {
       "cell_type": "code",
@@ -569,7 +569,7 @@
         "eq = f(t -a) *sympy.Heaviside(t -a)\n",
         "eq"
       ],
-      "id": "f98adaaa",
+      "id": "5b8cd51f",
       "execution_count": null,
       "outputs": []
     },
@@ -580,7 +580,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "53b29aec",
+      "id": "2cd166ce",
       "execution_count": null,
       "outputs": []
     },
@@ -591,7 +591,7 @@
         "eq = g(t) *sympy.Heaviside(t -a)\n",
         "eq"
       ],
-      "id": "4017d9aa",
+      "id": "a4de473b",
       "execution_count": null,
       "outputs": []
     },
@@ -602,7 +602,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "410708ca",
+      "id": "552c491b",
       "execution_count": null,
       "outputs": []
     },
@@ -613,7 +613,7 @@
         "eq = sympy.cos(t) *sympy.Heaviside(t -pi)\n",
         "eq"
       ],
-      "id": "c5cf2c2c",
+      "id": "71cc9043",
       "execution_count": null,
       "outputs": []
     },
@@ -624,7 +624,7 @@
         "Leq = laplace_transform_(eq, t, s)\n",
         "Leq"
       ],
-      "id": "c2ad2e87",
+      "id": "df166e34",
       "execution_count": null,
       "outputs": []
     },
@@ -634,7 +634,7 @@
       "source": [
         "## Derivatives of Transforms"
       ],
-      "id": "949d9a2e"
+      "id": "882e4358"
     },
     {
       "cell_type": "code",
@@ -643,7 +643,7 @@
         "eq = 3 *f(t) *t**m *t**n\n",
         "eq"
       ],
-      "id": "8e089cf4",
+      "id": "54b3432b",
       "execution_count": null,
       "outputs": []
     },
@@ -654,7 +654,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "407f99d3",
+      "id": "09f2d589",
       "execution_count": null,
       "outputs": []
     },
@@ -665,7 +665,7 @@
         "eq =  t**n *t**m *f(t)*sympy.exp(-2*t)\n",
         "eq"
       ],
-      "id": "fa2f9dd5",
+      "id": "a09a5e3f",
       "execution_count": null,
       "outputs": []
     },
@@ -676,7 +676,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "0c9eb7b9",
+      "id": "d1f027e9",
       "execution_count": null,
       "outputs": []
     },
@@ -686,7 +686,7 @@
       "source": [
         "---"
       ],
-      "id": "9167899e"
+      "id": "22fd3176"
     },
     {
       "cell_type": "code",
@@ -695,7 +695,7 @@
         "eq = t**n *sympy.diff(f(t), t, t)\n",
         "eq"
       ],
-      "id": "31dd56a3",
+      "id": "d4913f03",
       "execution_count": null,
       "outputs": []
     },
@@ -706,7 +706,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "b4eeba04",
+      "id": "38d95703",
       "execution_count": null,
       "outputs": []
     },
@@ -717,7 +717,7 @@
         "eq = t *sympy.integrate(f(tau), (tau, 0, t))\n",
         "eq"
       ],
-      "id": "de285bcb",
+      "id": "69480d32",
       "execution_count": null,
       "outputs": []
     },
@@ -728,7 +728,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq.doit()"
       ],
-      "id": "03ce89ea",
+      "id": "d1bbb27d",
       "execution_count": null,
       "outputs": []
     },
@@ -738,7 +738,7 @@
       "source": [
         "---"
       ],
-      "id": "f7b1b4b0"
+      "id": "3ebf4c80"
     },
     {
       "cell_type": "code",
@@ -747,7 +747,7 @@
         "eq = t *f(t) *sympy.exp(-t)\n",
         "eq"
       ],
-      "id": "514d5a42",
+      "id": "7cf36994",
       "execution_count": null,
       "outputs": []
     },
@@ -758,7 +758,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "df8a8ae1",
+      "id": "bec92dd5",
       "execution_count": null,
       "outputs": []
     },
@@ -768,7 +768,7 @@
       "source": [
         "---"
       ],
-      "id": "31fb0ff5"
+      "id": "7e5cba3c"
     },
     {
       "cell_type": "code",
@@ -777,7 +777,7 @@
         "eq = t *sympy.diff(f(t), t) *sympy.exp(-4*t)\n",
         "eq"
       ],
-      "id": "8e3e5742",
+      "id": "341bd839",
       "execution_count": null,
       "outputs": []
     },
@@ -788,7 +788,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "587a3614",
+      "id": "99faceec",
       "execution_count": null,
       "outputs": []
     },
@@ -798,7 +798,7 @@
       "source": [
         "## Various Transform Examples"
       ],
-      "id": "96f4d3c3"
+      "id": "3920fe89"
     },
     {
       "cell_type": "code",
@@ -807,7 +807,7 @@
         "eq = sympy.exp(-a*t) *sympy.diff(f(t), t, t)\n",
         "eq"
       ],
-      "id": "48cab61a",
+      "id": "bc85b453",
       "execution_count": null,
       "outputs": []
     },
@@ -818,7 +818,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "13073acc",
+      "id": "60dde3e6",
       "execution_count": null,
       "outputs": []
     },
@@ -828,7 +828,7 @@
       "source": [
         "---"
       ],
-      "id": "3422231f"
+      "id": "ff68e777"
     },
     {
       "cell_type": "code",
@@ -837,7 +837,7 @@
         "eq = sympy.exp(-4*t) *sympy.integrate(f(tau), (tau, 0, t))\n",
         "eq"
       ],
-      "id": "383e54dc",
+      "id": "e16a6d99",
       "execution_count": null,
       "outputs": []
     },
@@ -848,7 +848,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "109402f3",
+      "id": "cf801456",
       "execution_count": null,
       "outputs": []
     },
@@ -858,7 +858,7 @@
       "source": [
         "---"
       ],
-      "id": "33073d76"
+      "id": "77ea4349"
     },
     {
       "cell_type": "code",
@@ -867,7 +867,7 @@
         "eq = f(3*a*t)\n",
         "eq"
       ],
-      "id": "64c0f7a9",
+      "id": "62af9fdc",
       "execution_count": null,
       "outputs": []
     },
@@ -878,7 +878,7 @@
         "Leq = subs_(laplace_transform_(eq, t, s), Lf, F(s))\n",
         "Leq"
       ],
-      "id": "c838e9e2",
+      "id": "9d3619b1",
       "execution_count": null,
       "outputs": []
     },
@@ -896,7 +896,7 @@
         "\n",
         "$~$"
       ],
-      "id": "851fb3f1"
+      "id": "97590936"
     },
     {
       "cell_type": "code",
@@ -910,7 +910,7 @@
         "\n",
         "Ly = laplace_transform_(y(t), t, s) "
       ],
-      "id": "5077be27",
+      "id": "58603aca",
       "execution_count": null,
       "outputs": []
     },
@@ -921,7 +921,7 @@
         "ode = y(t).diff(t, 2) +2 *y(t).diff(t) +10 *y(t) -2 *sympy.sin(3*t)\n",
         "ode"
       ],
-      "id": "9b431ab0",
+      "id": "233a23dd",
       "execution_count": null,
       "outputs": []
     },
@@ -932,7 +932,7 @@
         "Lode = subs_(laplace_transform_(ode, t, s), Ly, Y(s))\n",
         "Lode"
       ],
-      "id": "5e75226f",
+      "id": "d890608a",
       "execution_count": null,
       "outputs": []
     },
@@ -943,7 +943,7 @@
         "* At this point, we need to specify the initial conditions for the ODE problem. Here we use \n",
         "$y(0)=1$ and $y'(0)=0$, and after creating dictionary that contains these initial conditions, we use it to substitute the values into the Laplace-transformed ODE equation:"
       ],
-      "id": "f229d447"
+      "id": "97a7f67b"
     },
     {
       "cell_type": "code",
@@ -953,7 +953,7 @@
         "Lode = Lode.subs(ics)\n",
         "Lode"
       ],
-      "id": "4a912634",
+      "id": "7a661bfb",
       "execution_count": null,
       "outputs": []
     },
@@ -963,7 +963,7 @@
       "source": [
         "* This is an algebraic equation that can be solved for $Y(s)$"
       ],
-      "id": "c8ba0527"
+      "id": "e3c6f83a"
     },
     {
       "cell_type": "code",
@@ -972,7 +972,7 @@
         "Ysol = sympy.solve(Lode, Y(s))\n",
         "Ysol[0]"
       ],
-      "id": "c79cfa10",
+      "id": "ceace3dc",
       "execution_count": null,
       "outputs": []
     },
@@ -982,7 +982,7 @@
       "source": [
         "* The result is a list of solutions, which in this case contains only one element. Performing the inverse Laplace transformation on this expression gives the solution to the original problem in the time domain:"
       ],
-      "id": "67a89ce4"
+      "id": "c831fc2c"
     },
     {
       "cell_type": "code",
@@ -991,7 +991,7 @@
         "Yp = sympy.apart(Ysol[0])\n",
         "Yp"
       ],
-      "id": "4ac7b0d9",
+      "id": "507c5cd1",
       "execution_count": null,
       "outputs": []
     },
@@ -1002,7 +1002,7 @@
         "ysol = sympy.inverse_laplace_transform(Yp.args[0], s, t) +sympy.inverse_laplace_transform(Yp.args[1], s, t)\n",
         "ysol"
       ],
-      "id": "41fa0236",
+      "id": "b73223aa",
       "execution_count": null,
       "outputs": []
     },
@@ -1018,7 +1018,7 @@
         "\n",
         "$~$"
       ],
-      "id": "22d82dbf"
+      "id": "ea298e37"
     },
     {
       "cell_type": "code",
@@ -1033,7 +1033,7 @@
         "ode = t *y(t).diff(t, 2) +y(t).diff(t) +t *y(t)\n",
         "ode"
       ],
-      "id": "c72c3330",
+      "id": "97351e1a",
       "execution_count": null,
       "outputs": []
     },
@@ -1045,7 +1045,7 @@
         "\n",
         "* Reduce the given differential equation to a linear first-order DE in the transformed function $Y(s)=\\mathcal{L}_t\\left[y(t)\\right]$"
       ],
-      "id": "ce04483f"
+      "id": "b6accf98"
     },
     {
       "cell_type": "code",
@@ -1056,7 +1056,7 @@
         "Lode = subs_(laplace_transform_(ode, t, s).subs(ics), Ly, Y(s))\n",
         "Lode.doit().collect(Y(s).diff(s))"
       ],
-      "id": "fe6d66ca",
+      "id": "d9d4725d",
       "execution_count": null,
       "outputs": []
     },
@@ -1066,7 +1066,7 @@
       "source": [
         "* Solve the first-order ODE for $Y(s)$ and then find $y(t)=\\mathcal{L}_t^{-1} \\left[Y(s) \\right]$"
       ],
-      "id": "afb34683"
+      "id": "e8c9b80d"
     },
     {
       "cell_type": "code",
@@ -1075,7 +1075,7 @@
         "sol = sympy.dsolve(Lode, Y(s), hint='separable')\n",
         "sol"
       ],
-      "id": "1eb90f6c",
+      "id": "4cec82f2",
       "execution_count": null,
       "outputs": []
     },
@@ -1086,7 +1086,7 @@
         "y = inverse_laplace_transform(sol.rhs, s, t)\n",
         "y"
       ],
-      "id": "25d05dd4",
+      "id": "dda627ad",
       "execution_count": null,
       "outputs": []
     },
@@ -1097,7 +1097,7 @@
         "c = sympy.Eq(y.subs(t, 0), 1)\n",
         "c"
       ],
-      "id": "acbadb21",
+      "id": "45167195",
       "execution_count": null,
       "outputs": []
     },
@@ -1108,7 +1108,7 @@
         "y = y.subs(c.lhs, c.rhs)\n",
         "y"
       ],
-      "id": "cc2b5372",
+      "id": "c6853228",
       "execution_count": null,
       "outputs": []
     }
