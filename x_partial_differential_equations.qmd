@@ -541,3 +541,81 @@ if not pyvista.OFF_SCREEN:
     plotter.show()
 ```
 
+**Plotting a function using pyvista**
+
+We want to plot the solution `uh`. Since the function space used to define `uh` is disconnected from the one used to define the mesh, we first create a mesh based on the DOF coordinates of the function space `V`. We then use `dolfinx.plot.vtk_mesh`, passing the function space as input, to generate a mesh whose geometry is based on these DOF coordinates
+
+```{python}
+u_topology, u_cell_types, u_geometry = plot.vtk_mesh(V)
+```
+
+Next, we create the `pyvista.UnstructuredGrid` and add the DOF-values to the mesh
+
+```{python}
+u_grid = pyvista.UnstructuredGrid(u_topology, u_cell_types, u_geometry)
+u_grid.point_data["u"] = uh.x.array.real
+u_grid.set_active_scalars("u")
+
+u_plotter = pyvista.Plotter()
+u_plotter.add_mesh(
+    u_grid, 
+    show_edges=True,
+    scalar_bar_args={
+        "title": "u",
+        "fmt": "%.1f",
+        "color": "black",
+        "label_font_size": 12,
+        "vertical": True,
+        "n_labels": 5,
+    },
+)
+u_plotter.view_xy()
+
+if not pyvista.OFF_SCREEN:
+    u_plotter.show()
+```
+
+We can also warp the mesh by scalar to make use of the 3D plotting
+
+```{python}
+warped = u_grid.warp_by_scalar()
+
+plotter2 = pyvista.Plotter()
+plotter2.add_mesh(
+    warped, 
+    show_edges=True, 
+    scalar_bar_args={
+        "title": "u",
+        "fmt": "%.1f",
+        "color": "black",
+        "label_font_size": 12,
+        "vertical": True,
+        "n_labels": 5,
+    },
+    show_scalar_bar=True)
+
+if not pyvista.OFF_SCREEN:
+    plotter2.show()
+```
+
+**External post-processing**
+
+For post-processing outside of Python, it is recommended to save the solution to a file using either `dolfinx.io.VTXWriter` or `dolfinx.io.XDMFFile`, and then visualize it in [ParaView](https://www.paraview.org/). This approach is particularly useful for 3D visualization
+
+
+```{python}
+from pathlib import Path
+from dolfinx import io
+
+results_folder = Path("fenicsx")
+results_folder.mkdir(exist_ok=True, parents=True)
+
+filename = results_folder / "poisson"
+
+with io.VTXWriter(domain.comm, filename.with_suffix(".bp"), [uh]) as vtx:
+    vtx.write(0.0)
+    
+with io.XDMFFile(domain.comm, filename.with_suffix(".xdmf"), "w") as xdmf:
+    xdmf.write_mesh(domain)
+    xdmf.write_function(uh)
+```
