@@ -513,11 +513,6 @@ You can check the current plotting backend with:
 
 ```{python}
 import pyvista
-
-pyvista.set_jupyter_backend("server") 
-```
-
-```{python}
 from dolfinx import plot
 
 domain.topology.create_connectivity(tdim, tdim)
@@ -533,12 +528,28 @@ We can now use the `pyvista.Plotter` to visualize the mesh. We will show it both
 In the jupyter notebook, we use the default setting `pyvista.OFF_SCREEN=False`, which will renders the plots directly within the notebook
 
 ```{python}
-plotter = pyvista.Plotter()
+from pathlib import Path
+
+results_folder = Path("fenicsx/fundamentals")
+results_folder.mkdir(exist_ok=True, parents=True)
+
+plotter = pyvista.Plotter(off_screen=True)
 plotter.add_mesh(grid, show_edges=True)
+plotter.add_axes()
 plotter.view_xy()
 
-if not pyvista.OFF_SCREEN:
-    plotter.show()
+# if not pyvista.OFF_SCREEN:
+#     plotter.show()
+
+# HTML 저장
+plotter.export_html("fenicsx/fundamentals/unit_square_mesh.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/unit_square_mesh.html"
+        width="100%" height="600px"
+        style="border:none;">
+</iframe>
 ```
 
 **Plotting a function using pyvista**
@@ -556,7 +567,7 @@ u_grid = pyvista.UnstructuredGrid(u_topology, u_cell_types, u_geometry)
 u_grid.point_data["u"] = uh.x.array.real
 u_grid.set_active_scalars("u")
 
-u_plotter = pyvista.Plotter()
+u_plotter = pyvista.Plotter(off_screen=True)
 u_plotter.add_mesh(
     u_grid, 
     show_edges=True,
@@ -569,10 +580,21 @@ u_plotter.add_mesh(
         "n_labels": 10,
     },
 )
+u_plotter.add_axes()
 u_plotter.view_xy()
 
-if not pyvista.OFF_SCREEN:
-    u_plotter.show()
+# if not pyvista.OFF_SCREEN:
+#     u_plotter.show()
+
+# HTML 저장
+u_plotter.export_html("fenicsx/fundamentals/poisson_solution_2D.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/poisson_solution_2D.html"
+        width="100%" height="600px"
+        style="border:none;">
+</iframe>
 ```
 
 We can also warp the mesh by scalar to make use of the 3D plotting
@@ -580,8 +602,8 @@ We can also warp the mesh by scalar to make use of the 3D plotting
 ```{python}
 warped = u_grid.warp_by_scalar()
 
-plotter2 = pyvista.Plotter()
-plotter2.add_mesh(
+u_plotter2 = pyvista.Plotter(off_screen=True)
+u_plotter2.add_mesh(
     warped, 
     show_edges=True, 
     scalar_bar_args={
@@ -593,9 +615,20 @@ plotter2.add_mesh(
         "n_labels": 10,
     },
     show_scalar_bar=True)
+u_plotter2.add_axes()    
 
-if not pyvista.OFF_SCREEN:
-    plotter2.show()
+#if not pyvista.OFF_SCREEN:
+#    u_plotter2.show()
+
+# HTML 저장
+u_plotter2.export_html("fenicsx/fundamentals/poisson_solution_3D.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/poisson_solution_3D.html"
+        width="100%" height="600px"
+        style="border:none;">
+</iframe>
 ```
 
 **External post-processing**
@@ -604,11 +637,7 @@ For post-processing outside of Python, it is recommended to save the solution to
 
 
 ```{python}
-from pathlib import Path
 from dolfinx import io
-
-results_folder = Path("fenicsx")
-results_folder.mkdir(exist_ok=True, parents=True)
 
 filename = results_folder / "poisson"
 
