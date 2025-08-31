@@ -383,6 +383,7 @@ window.Quarto = {
   <li><a href="#an-overview-of-the-fenics-project" id="toc-an-overview-of-the-fenics-project" class="nav-link" data-scroll-target="#an-overview-of-the-fenics-project"><span class="header-section-number">J.2.2</span> An Overview of the FEniCS Project</a></li>
   <li><a href="#what-you-will-learn" id="toc-what-you-will-learn" class="nav-link" data-scroll-target="#what-you-will-learn"><span class="header-section-number">J.2.3</span> What you will learn</a></li>
   <li><a href="#solving-the-poisson-equation" id="toc-solving-the-poisson-equation" class="nav-link" data-scroll-target="#solving-the-poisson-equation"><span class="header-section-number">J.2.4</span> Solving the Poisson equation</a></li>
+  <li><a href="#deflection-of-a-membrane" id="toc-deflection-of-a-membrane" class="nav-link" data-scroll-target="#deflection-of-a-membrane"><span class="header-section-number">J.2.5</span> Deflection of a membrane</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -439,7 +440,7 @@ window.Quarto = {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> conda install ipykernel</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> python <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> fenicsx <span class="at">--display-name</span> <span class="st">"FEniCSx"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><span class="math inline">\(~\)</span></p>
-<div id="84144b89" class="cell" data-execution_count="1">
+<div id="de35945d" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dolfinx</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'DOLFINx version: </span><span class="sc">{</span>dolfinx<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -609,7 +610,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <p><strong>Generating simple meshes</strong></p>
 <p>The next step is to define the discrete domain, called the mesh. We do this using one of <code>FEniCSx</code>’s built-in mesh generators</p>
 <p>Here, we create a unit square mesh spanning <span class="math inline">\([0,1]\times[0,1]\)</span>. The cells of the mesh can be either triangles or quadrilaterals:</p>
-<div id="d9d73764" class="cell" data-execution_count="2">
+<div id="f9c8bed5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
@@ -629,13 +630,13 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <p>Once the mesh is created, the next step is to define the finite element function space <span class="math inline">\(V\)</span>. <code>DOLFINx</code> supports a wide variety of finite element spaces of arbitrary order. For a full overview, see the list of <a href="https://defelement.org/lists/implementations/basix.ufl.html">Supported elements in DOLFINx</a></p>
 <p>When creating a function space, we need to specify: 1. The mesh on which the space is defined 2. The element family (e.g., Lagrange, Raviart–Thomas, etc.) 3. The polynomial degree of the element</p>
 <p>In <code>DOLFINx</code>, this can be done by passing a tuple of the form <code>("family", degree)</code>, as shown below:</p>
-<div id="3a5ad5bf" class="cell" data-execution_count="3">
+<div id="61aeaf8f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx.fem <span class="im">import</span> functionspace</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> functionspace(domain, (<span class="st">"Lagrange"</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The next step is to create a function that stores the Dirichlet boundary condition. We then use interpolation to fill this function with the prescribed values</p>
-<div id="25fbd3b3" class="cell" data-execution_count="4">
+<div id="56a5b8e9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> fem</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>uD <span class="op">=</span> fem.Function(V)</span>
@@ -644,7 +645,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <p>Now that we have defined the boundary data (which, in this case, is also the exact solution of our finite element problem), we need to enforce it on the boundary of the mesh.</p>
 <p>The first step is to identify which parts of the mesh correspond to the outer boundary. In <code>DOLFINx</code>, the boundary is represented by facets (that is, the line segments making up the outer edges in 2D or surfaces in 3D).</p>
 <p>We can extract the indices of all exterior facets using:</p>
-<div id="8c480aea" class="cell" data-execution_count="5">
+<div id="50b0e79e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tdim <span class="op">=</span> domain.topology.dim</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fdim <span class="op">=</span> tdim <span class="op">-</span><span class="dv">1</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -660,7 +661,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <li>the list of entities (in our case, the boundary facets)</li>
 </ol>
 <p>Once we have the boundary DoFs, we can create the Dirichlet boundary condition as follows:</p>
-<div id="be84d5f8" class="cell" data-execution_count="6">
+<div id="7e91f38a" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>boundary_dofs <span class="op">=</span> fem.locate_dofs_topological(V, fdim, boundary_facets)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> fem.dirichletbc(uD, boundary_dofs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -668,7 +669,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <p>In mathematics, we usually distinguish between the trial space <span class="math inline">\(V\)</span> and the test space <span class="math inline">\(\hat{V}\)</span>. For the present problem, the only difference between the two would be the treatment of boundary conditions</p>
 <p>In <code>FEniCSx</code>, however, boundary conditions are not built directly into the function space. This means we can simply use the same space for both the trial and test functions</p>
 <p>To express the variational formulation, we make use of the <a href="https://github.com/FEniCS/ufl/">Unified Form Language</a> (UFL)</p>
-<div id="93c67471" class="cell" data-execution_count="7">
+<div id="84d9540d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ufl</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> ufl.TrialFunction(V)</span>
@@ -676,7 +677,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 </div>
 <p><strong>Defining the source term</strong></p>
 <p>Since the source term is constant throughout the domain, we can represent it using <code>dolfinx.fem.Constant</code>:</p>
-<div id="caa02471" class="cell" data-execution_count="8">
+<div id="2cd0ead3" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> default_scalar_type</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> fem.Constant(domain, default_scalar_type(<span class="op">-</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -685,7 +686,7 @@ u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2\]</span></p>
 <p>Another advantage is performance: declaring <code>f</code> as a constant allows the compiler to optimize the variational formulation, leading to faster assembly of the resulting linear system</p>
 <p><strong>Defining the variational problem</strong></p>
 <p>Now that we have defined all the components of our variational problem, we can write down the weak formulation:</p>
-<div id="04da7314" class="cell" data-execution_count="9">
+<div id="488e9f5b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> ufl.dot(ufl.grad(u), ufl.grad(v)) <span class="op">*</span>ufl.dx</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> f <span class="op">*</span>v <span class="op">*</span>ufl.dx</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -707,7 +708,7 @@ L(v) = \int_{\Omega} f v \,\mathrm{d}x\]</span></p>
 </ul>
 <p>In this example, We will use <code>PETSc</code> as the linear algebra backend, together with a direct solver (LU factorization)</p>
 <p>For more details on Krylov solvers and preconditioners, see the <a href="https://petsc.org/main/docs/manual/ksp/?highlight=ksp#ksp-linear-system-solvers">PETSc-documentation</a>. Note that <code>PETSc</code> is not a required dependency of <code>DOLFINx</code>, so we explicitly import the <code>DOLFINx</code> wrapper to interface with <code>PETSc</code>. Finally, to ensure that the solver options passed to the <code>LinearProblem</code> apply only to this specific KSP solver, we assign a <strong>unique</strong> option prefix</p>
-<div id="19f5c851" class="cell" data-execution_count="10">
+<div id="8c1e9fae" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx.fem.petsc <span class="im">import</span> LinearProblem</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>problem <span class="op">=</span> LinearProblem(</span>
@@ -729,7 +730,7 @@ L(v) = \int_{\Omega} f v \,\mathrm{d}x\]</span></p>
 <p>Using <code>problem.solve()</code>, we solve the linear system of equations and return a <code>dolfinx.fem.Function</code> containing the solution</p>
 <p><strong>Computing the error</strong></p>
 <p>Finally, we want to compute the error to check the accuracy of the solution. We do this by comparing the finite element solution <code>uh</code> with the exact solution. We do this by interpolating the exact solution into the the <span class="math inline">\(P_2\)</span>-function space</p>
-<div id="2ffd83b8" class="cell" data-execution_count="11">
+<div id="b6cf35b9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>V2 <span class="op">=</span> fem.functionspace(domain, (<span class="st">"Lagrange"</span>, <span class="dv">2</span>))</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>uex <span class="op">=</span> fem.Function(V2)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>uex.interpolate(<span class="kw">lambda</span> x: <span class="dv">1</span> <span class="op">+</span>x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">2</span> <span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -737,7 +738,7 @@ L(v) = \int_{\Omega} f v \,\mathrm{d}x\]</span></p>
 <p>We compute the error in two different ways. First, we compute the <span class="math inline">\(L^2\)</span> norm of the error, defined by</p>
 <p><span class="math display">\[E=\sqrt{\int_\Omega (u_D-u_h)^2 \,\mathrm{d} x}\]</span></p>
 <p>We use <code>UFL</code> to express the <span class="math inline">\(L^2\)</span> error, and use <code>dolfinx.fem.assemble_scalar</code> to compute the scalar value. In <code>DOLFINx</code>, <code>assemble_scalar</code> only assembles over the cells on the local process. This means that if we use 2 processes to solve our problem, we need to gather the solution to one. We can do this with the <code>MPI.allreduce</code> function</p>
-<div id="34200650" class="cell" data-execution_count="12">
+<div id="edd430fc" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>L2_error <span class="op">=</span> fem.form(ufl.inner(uh <span class="op">-</span>uex, uh <span class="op">-</span>uex) <span class="op">*</span>ufl.dx)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>error_local <span class="op">=</span> fem.assemble_scalar(L2_error)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>error_L2 <span class="op">=</span> np.sqrt(domain.comm.allreduce(error_local, op<span class="op">=</span>MPI.SUM))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -746,7 +747,7 @@ L(v) = \int_{\Omega} f v \,\mathrm{d}x\]</span></p>
 <p><span class="math display">\[u = \sum_{j=1}^N U_j \phi_j\]</span></p>
 <p>When we call <code>problem.solve()</code>, we obtain all coefficients <span class="math inline">\(U_1\)</span>, <span class="math inline">\(\dots\)</span>, <span class="math inline">\(U_N\)</span>. These coefficients are the degrees of freedom (dofs). We can access the dofs by retrieving the underlying vector from <code>uh</code></p>
 <p>However, note that a second-order function space contains more dofs than a first-order space, so the corresponding arrays cannot be compared directly. Fortunately, since we have already interpolated the exact solution into the first-order space when defining the boundary condition, we can compare the maximum values at the dofs of the approximation space</p>
-<div id="70b7dae1" class="cell" data-execution_count="13">
+<div id="4698850a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>error_max <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(uD.x.array <span class="op">-</span>uh.x.array))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Only print the error on one process</span></span>
@@ -761,7 +762,7 @@ Error_max : 5.33e-15</code></pre>
 <p><strong>Plotting the mesh using pyvista</strong></p>
 <p>We will visualize the mesh using <a href="https://docs.pyvista.org/">pyvista</a>, a Python interface to the VTK toolkit. To begin, We convert the mesh into a format compatible with <code>pyvista</code> using the function <code>dolfinx.plot.vtk_mesh</code>. The first step is to create an unstructured grid that <code>pyvista</code> can work with</p>
 <p>You can check the current plotting backend with:</p>
-<div id="8fd1ae49" class="cell" data-execution_count="14">
+<div id="0d1e3f26" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyvista</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> plot</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -772,7 +773,7 @@ Error_max : 5.33e-15</code></pre>
 <p><code>PyVista</code> supports several backends, each with its own advantages and limitations. For more information and installation instructions, see the <a href="https://docs.pyvista.org/user-guide/jupyter/index.html#state-of-3d-interactive-jupyterlab-plotting">pyvista documentation</a></p>
 <p>We can now use the <code>pyvista.Plotter</code> to visualize the mesh. We will show it both as a 2D and as a 3D warped representation.</p>
 <p>In the jupyter notebook, we use the default setting <code>pyvista.OFF_SCREEN=False</code>, which will renders the plots directly within the notebook</p>
-<div id="e03e0050" class="cell" data-execution_count="15">
+<div id="cf7796a7" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>results_folder <span class="op">=</span> Path(<span class="st">"fenicsx/fundamentals"</span>)</span>
@@ -793,11 +794,11 @@ Error_max : 5.33e-15</code></pre>
 </iframe>
 <p><strong>Plotting a function using pyvista</strong></p>
 <p>We want to plot the solution <code>uh</code>. Since the function space used to define <code>uh</code> is disconnected from the one used to define the mesh, we first create a mesh based on the DOF coordinates of the function space <code>V</code>. We then use <code>dolfinx.plot.vtk_mesh</code>, passing the function space as input, to generate a mesh whose geometry is based on these DOF coordinates</p>
-<div id="4b1248dd" class="cell" data-execution_count="16">
+<div id="958a79d7" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>u_topology, u_cell_types, u_geometry <span class="op">=</span> plot.vtk_mesh(V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we create the <code>pyvista.UnstructuredGrid</code> and add the DOF-values to the mesh</p>
-<div id="097da706" class="cell" data-execution_count="17">
+<div id="4e1480b0" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>u_grid <span class="op">=</span> pyvista.UnstructuredGrid(u_topology, u_cell_types, u_geometry)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>u_grid.point_data[<span class="st">"u"</span>] <span class="op">=</span> uh.x.array.real</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>u_grid.set_active_scalars(<span class="st">"u"</span>)</span>
@@ -827,7 +828,7 @@ Error_max : 5.33e-15</code></pre>
 <iframe src="fenicsx/fundamentals/poisson_solution_2D.html" width="100%" height="600px" style="border:none;">
 </iframe>
 <p>We can also warp the mesh by scalar to make use of the 3D plotting</p>
-<div id="5242dc8d" class="cell" data-execution_count="18">
+<div id="f84f25c8" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>warped <span class="op">=</span> u_grid.warp_by_scalar()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>u_plotter2 <span class="op">=</span> pyvista.Plotter(off_screen<span class="op">=</span><span class="va">True</span>)</span>
@@ -855,7 +856,7 @@ Error_max : 5.33e-15</code></pre>
 </iframe>
 <p><strong>External post-processing</strong></p>
 <p>For post-processing outside of Python, it is recommended to save the solution to a file using either <code>dolfinx.io.VTXWriter</code> or <code>dolfinx.io.XDMFFile</code>, and then visualize it in <a href="https://www.paraview.org/">ParaView</a>. This approach is particularly useful for 3D visualization</p>
-<div id="5906cc60" class="cell" data-execution_count="19">
+<div id="cc009471" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> io</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> results_folder <span class="op">/</span> <span class="st">"poisson"</span></span>
@@ -866,6 +867,354 @@ Error_max : 5.33e-15</code></pre>
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> io.XDMFFile(domain.comm, filename.with_suffix(<span class="st">".xdmf"</span>), <span class="st">"w"</span>) <span class="im">as</span> xdmf:</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    xdmf.write_mesh(domain)</span>
 <span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    xdmf.write_function(uh)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="deflection-of-a-membrane" class="level3" data-number="J.2.5">
+<h3 data-number="J.2.5" class="anchored" data-anchor-id="deflection-of-a-membrane"><span class="header-section-number">J.2.5</span> Deflection of a membrane</h3>
+<p>Authors: Hans Petter Langtangen, Anders Logg, Jørgen S. Dokken</p>
+<p>In the first <code>FEniCSx</code> example, we solved a simple problem that allowed us to easily verify the implementation. In this section, we shift our focus to a more physically relevant problem, one that produces solutions with a more interesting structure</p>
+<p>Specifically, we aim to compute the deflection <span class="math inline">\(D(x,y)\)</span> of a two-dimensional circular membrane of radius <span class="math inline">\(R\)</span>, subjected to a load distribution <span class="math inline">\(p(x,y)\)</span>. The governing PDE model is</p>
+<p><span class="math display">\[
+\begin{aligned}
+     -T \nabla^2D&amp;=p \quad\text{in }\; \Omega=\{(x,y)\,\vert\, x^2+y^2\leq R^2 \}
+\end{aligned}
+\]</span></p>
+<p>Here, <span class="math inline">\(T\)</span> is the tension in the membrane (constant), and <span class="math inline">\(p\)</span> is the external pressure load. The boundary of the membrane has no deflection. This implies that <span class="math inline">\(D=0\)</span> is the boundary condition. We model a localized load as a Gaussian function:</p>
+<p><span class="math display">\[
+\begin{aligned}
+     p(x,y)&amp;=\frac{A}{2\pi\sigma}e^{-\frac{1}{2}\left[\left(\frac{x-x_0}{\sigma}\right)^2 +\left(\frac{y-y_0}{\sigma}\right)^2\right]}
+\end{aligned}
+\]</span></p>
+<p>The parameter <span class="math inline">\(A\)</span> is the amplitude of the pressure, <span class="math inline">\((x_0, y_0)\)</span> the location of the maximum point of the load, and <span class="math inline">\(\sigma\)</span> the “width” of <span class="math inline">\(p\)</span>. We will take the center <span class="math inline">\((x_0,y_0)\)</span> to be <span class="math inline">\((0,R_0)\)</span> for some <span class="math inline">\(0&lt;R_0&lt;R\)</span> Then we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+     p(x,y)&amp;=\frac{A}{2\pi\sigma}e^{-\frac{1}{2}\left[\left(\frac{x}{\sigma}\right)^2
+     +\left(\frac{y-R_0}{\sigma}\right)^2\right]}
+\end{aligned}
+\]</span></p>
+<section id="scaling-the-equation" class="level4" data-number="J.2.5.1">
+<h4 data-number="J.2.5.1" class="anchored" data-anchor-id="scaling-the-equation"><span class="header-section-number">J.2.5.1</span> Scaling the equation</h4>
+<p>There are many physical parameters in this problem, and we can benefit from grouping them by means of scaling. Let us introduce dimensionless coordinates <span class="math inline">\(\bar{x}=\frac{x}{R}\)</span>, <span class="math inline">\(\bar{y}=\frac{y}{R}\)</span>, and a dimensionless deflection <span class="math inline">\(w=\frac{D}{D_e}\)</span>, where <span class="math inline">\(D_e\)</span> is a characteristic size of the deflection. Introducing <span class="math inline">\(\bar{R}_0=\frac{R_0}{R}\)</span>, we obtain</p>
+<p><span class="math display">\[
+\begin{aligned}
+    -\frac{\partial^2 w}{\partial \bar{x}^2} -\frac{\partial^2 w}{\partial \bar{y}^2}
+    &amp;=\frac{R^2A}{2\pi\sigma TD_e}e^{-\frac{R^2}{2\sigma^2}\left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]}\\
+    &amp;=\alpha e^{-\beta^2 \left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]}
+\end{aligned}
+\]</span></p>
+<p>for <span class="math inline">\(\bar{x}^2+\bar{y}^2&lt;1\)</span>, where <span class="math inline">\(\alpha = \frac{R^2A}{2\pi\sigma TD_e}\)</span> and <span class="math inline">\(\beta=\frac{R}{\sqrt{2}\sigma}\)</span></p>
+<p>With an appropriate scaling, <span class="math inline">\(w\)</span> and its derivatives are of order unity. Thus, the left-hand side of the scaled PDE is also of order unity, while the right hand side is characterized by the parameter <span class="math inline">\(\alpha\)</span>. This suggests selecting <span class="math inline">\(\alpha\)</span> to be on the order of unity; in this particular case, we choose <span class="math inline">\(\alpha=4\)</span>. (It is also possible to derive the analytical solution in scaled coordinates and verify that the maximum deflection is <span class="math inline">\(D_e\)</span> when <span class="math inline">\(\alpha = 4\)</span>, thereby determining <span class="math inline">\(D_e\)</span>)</p>
+<p>With <span class="math inline">\(D_e=\frac{R^2A}{8\pi\sigma T}\)</span> and omitting the bars, the scaled problem becomes</p>
+<p><span class="math display">\[
+\begin{aligned}
+    -\nabla^2 w = 4e^{-\beta^2 \left[x^2+(y-R_0)^2\right]}
+\end{aligned}
+\]</span></p>
+<p>to be solved over the unit disc, with <span class="math inline">\(w=0\)</span> on the boundary</p>
+<p>In this formulation, only two parameters remain: the dimensionless width of the pressure distribution, <span class="math inline">\(\beta\)</span>, and the location of the pressure peak, <span class="math inline">\(R_0 \in [0,1]\)</span>. As <span class="math inline">\(\beta \to 0\)</span>, the solution approaches the special case <span class="math inline">\(w = 1 - x^2 - y^2\)</span></p>
+<p>Finally, given a computed scaled solution <span class="math inline">\(w\)</span>, the physical deflection is recovered as</p>
+<p><span class="math display">\[
+\begin{aligned}
+    D=\frac{AR^2}{8\pi\sigma T}w
+\end{aligned}
+\]</span></p>
+</section>
+<section id="implementation-1" class="level4" data-number="J.2.5.2">
+<h4 data-number="J.2.5.2" class="anchored" data-anchor-id="implementation-1"><span class="header-section-number">J.2.5.2</span> Implementation</h4>
+<p>Author: Jørgen S. Dokken</p>
+<p>In this section, we will solve the deflection of the membrane problem. After finishing this section, you should be able to:</p>
+<ul>
+<li>Create a simple mesh using the <code>GMSH</code> Python API and load it into <code>DOLFINx</code></li>
+<li>Create constant boundary conditions using a geometrical identifier</li>
+<li>Use <code>ufl.SpatialCoordinate</code> to create a spatially varying function</li>
+<li>Interpolate a <code>ufl.Expression</code> into an appropriate function space</li>
+<li>Evaluate a <code>dolfinx.Function</code> at any point</li>
+</ul>
+<p><strong>Creating the mesh</strong></p>
+<p>To create the computational geometry, we use the Python-API of <a href="https://gmsh.info/">GMSH</a>. We start by importing the gmsh-module and initializing it</p>
+<div id="0eafe681" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># $ conda install -c conda-forge python-gmsh</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gmsh</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> gmsh.isInitialized():</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    gmsh.initialize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The next step is to set up the membrane and start the computations using the Gmsh CAD kernel, which will generate the necessary data structures behind the scenes. When calling <code>addDisk</code>, the first three arguments give the <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span> coordinates of the circle’s center, while the last two specify the radii in the <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-directions</p>
+<div id="1e66255e" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>R <span class="op">=</span> <span class="fl">1.0</span>  <span class="co"># radius of the membrane</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>membrane <span class="op">=</span> gmsh.model.occ.addDisk(<span class="fl">0.0</span>, <span class="fl">0.0</span>, <span class="fl">0.0</span>, R, R)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Synchronize the CAD kernel with the model</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>gmsh.model.occ.synchronize()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we turn the membrane into a physical surface, so that <code>Gmsh</code> recognizes it when generating the mesh. Since a surface is a two-dimensional entity, we pass <code>2</code> as the first argument, the membrane’s entity tag as the second argument, and the physical tag as the last argument. In a later demo, we will explain exactly when and why this physical tag is important</p>
+<div id="8f0899d1" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>gdim <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>physical_tag <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove any existing physical groups with the same (dim, tag)</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> dim, tag <span class="kw">in</span> gmsh.model.getPhysicalGroups():</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> dim <span class="op">==</span> gdim <span class="kw">and</span> tag <span class="op">==</span> physical_tag:</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>        gmsh.model.removePhysicalGroups([(dim, tag)])</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Now safely add the new physical group</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>gmsh.model.addPhysicalGroup(gdim, [membrane], physical_tag)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="61">
+<pre><code>1</code></pre>
+</div>
+</div>
+<p>Finally, we generate the two-dimensional mesh. We set a uniform mesh size by modifying the <code>GMSH</code> options</p>
+<div id="d579d948" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>gmsh.option.setNumber(<span class="st">"Mesh.CharacteristicLengthMin"</span>, <span class="fl">0.05</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>gmsh.option.setNumber(<span class="st">"Mesh.CharacteristicLengthMax"</span>, <span class="fl">0.05</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>gmsh.model.mesh.generate(gdim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Info    : Meshing 1D...
+Info    : [  0%] Meshing curve 1 (Ellipse)
+Info    : [ 60%] Meshing curve 2 (Ellipse)
+Info    : Done meshing 1D (Wall 0.000644666s, CPU 0.001008s)
+Info    : Meshing 2D...
+Info    : [  0%] Meshing surface 1 (Plane, Frontal-Delaunay)
+Info    : [ 60%] Meshing surface 2 (Plane, Frontal-Delaunay)
+Info    : Done meshing 2D (Wall 0.101196s, CPU 0.166369s)
+Info    : 3099 nodes 6196 elements</code></pre>
+</div>
+</div>
+<p><strong>Interfacing with GMSH in DOLFINx</strong></p>
+<p>We will import the Gmsh-generated mesh directly into <code>DOLFINx</code> using the <code>dolfinx.io.gmshio</code> interface. In this example, we did not specify which process created the <code>gmsh</code> model, so a copy of the model has been created on each MPI process. However, we want to work with a single mesh distributed across all processes. To achieve this, we take the model generated on rank 0 of <code>MPI.COMM_WORLD</code>, and distribute it to all available ranks</p>
+<p>This import will also provide two mesh tags: one for cells marked by physical groups and one for facets marked by physical groups. Since we did not add any physical groups of dimension <code>gdim -1</code>, <code>facet_markers</code> object will contain no entities</p>
+<div id="ef014417" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mpi4py <span class="im">import</span> MPI</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx.io <span class="im">import</span> gmshio</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx.fem.petsc <span class="im">import</span> LinearProblem</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>gmsh_model_rank <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>mesh_comm <span class="op">=</span> MPI.COMM_WORLD</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>domain, cell_markers, facet_markers <span class="op">=</span> gmshio.model_to_mesh(</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  gmsh.model, </span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  mesh_comm, </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  gmsh_model_rank, </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  gdim<span class="op">=</span>gdim</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We define the function space as in the previous tutorial</p>
+<div id="dca3d7bb" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> fem</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>V <span class="op">=</span> fem.functionspace(domain, (<span class="st">"Lagrange"</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5e159bb1" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyvista</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx.plot <span class="im">import</span> vtk_mesh</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract topology from mesh and create pyvista mesh</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>topology, cell_types, x <span class="op">=</span> vtk_mesh(V)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> pyvista.UnstructuredGrid(topology, cell_types, x)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>plotter <span class="op">=</span> pyvista.Plotter(off_screen<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>plotter.add_mesh(grid, show_edges<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plotter.add_axes()</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>plotter.view_xy()</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="co"># if not pyvista.OFF_SCREEN:</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="co">#     plotter.show()</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML 저장</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>plotter.export_html(<span class="st">"fenicsx/fundamentals/membrane_mesh.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="fenicsx/fundamentals/membrane_mesh.html" width="100%" height="450px" style="border:none;">
+</iframe>
+<p><strong>Defining a spatially varying load</strong></p>
+<p>The right-hand side pressure function is defined using <code>ufl.SpatialCoordinate</code> together with two constants: one for <span class="math inline">\(\beta\)</span> and one for <span class="math inline">\(R_0\)</span></p>
+<div id="4158cab9" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> default_scalar_type</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ufl</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> ufl.SpatialCoordinate(domain)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> fem.Constant(domain, default_scalar_type(<span class="dv">12</span>))</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>R0 <span class="op">=</span> fem.Constant(domain, default_scalar_type(<span class="fl">0.3</span>))</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">4</span> <span class="op">*</span>ufl.exp(<span class="op">-</span>beta<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>(x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>(x[<span class="dv">1</span>] <span class="op">-</span>R0)<span class="op">**</span><span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Interpolation of a <code>ufl</code> expression</strong></p>
+<p>Since we defined the load <code>p</code> as a spatially varying function, we want to interpolate it into a suitable function space for visualization. For this, we use <code>dolfinx.Expression</code>, which can take any <code>ufl</code> expression along with a set of points on the reference element. In practice, we use the interpolation points of the target space. Because <code>p</code> varies rapidly in space, we choose a high-order function space to represent it</p>
+<div id="ca6d5fab" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Q <span class="op">=</span> fem.functionspace(domain, (<span class="st">"Lagrange"</span>, <span class="dv">5</span>))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>expr <span class="op">=</span> fem.Expression(p, Q.element.interpolation_points())</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>pressure <span class="op">=</span> fem.Function(Q)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>pressure.interpolate(expr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We next plot the load on the domain</p>
+<div id="d0bb5505" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p_grid <span class="op">=</span> pyvista.UnstructuredGrid(<span class="op">*</span>vtk_mesh(Q))</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>p_grid.point_data[<span class="st">"p"</span>] <span class="op">=</span> pressure.x.array.real</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>warped_p <span class="op">=</span> p_grid.warp_by_scalar(<span class="st">"p"</span>, factor<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>warped_p.set_active_scalars(<span class="st">"p"</span>)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>load_plotter <span class="op">=</span> pyvista.Plotter(off_screen<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>load_plotter.add_mesh(</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  warped_p,</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>  show_edges<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>  show_scalar_bar<span class="op">=</span><span class="va">True</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>load_plotter.add_axes() </span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>load_plotter.view_xy()</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="co"># if not pyvista.OFF_SCREEN:</span></span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="co">#     load_plotter.show()</span></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML 저장</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>load_plotter.export_html(<span class="st">"fenicsx/fundamentals/membrane_load.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="fenicsx/fundamentals/membrane_load.html" width="100%" height="450px" style="border:none;">
+</iframe>
+<p><strong>Create a Dirichlet boundary condition using geometrical conditions</strong></p>
+<p>The next step is to define the homogeneous boundary condition. Unlike in the first tutorial, here we use <code>dolfinx.fem.locate_dofs_geometrical</code> to identify the degrees of freedom on the boundary. Since our domain is the unit circle, these degrees of freedom lie at coordinates <span class="math inline">\((x, y)\)</span> satisfying <span class="math inline">\(\sqrt{x^2 + y^2} = 1\)</span></p>
+<div id="74abdb84" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> on_boundary(x):</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.isclose(np.sqrt(x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>), <span class="dv">1</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>boundary_dofs <span class="op">=</span> fem.locate_dofs_geometrical(V, on_boundary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since our Dirichlet condition is homogeneous (<code>u=0</code> on the entire boundary), we can create the boundary condition with <code>dolfinx.fem.dirichletbc</code> by specifying a constant value, the boundary degrees of freedom and the function space on which to apply it</p>
+<div id="89957a79" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>bc <span class="op">=</span> fem.dirichletbc(default_scalar_type(<span class="dv">0</span>), boundary_dofs, V)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Defining and solving the variational problem</strong></p>
+<p>The variational problem is the same as in our first Poisson problem, where <code>f</code> is replaced by <code>p</code></p>
+<div id="e5908035" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> ufl.TrialFunction(V)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> ufl.TestFunction(V)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> ufl.dot(ufl.grad(u), ufl.grad(v)) <span class="op">*</span>ufl.dx</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>L <span class="op">=</span> p <span class="op">*</span>v <span class="op">*</span>ufl.dx</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>problem <span class="op">=</span> LinearProblem(</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>  a, </span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>  L, </span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>  bcs<span class="op">=</span>[bc], </span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>  petsc_options<span class="op">=</span>{<span class="st">"ksp_type"</span>: <span class="st">"preonly"</span>, <span class="st">"pc_type"</span>: <span class="st">"lu"</span>}</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>uh <span class="op">=</span> problem.solve()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We plot the deflection <span class="math inline">\(u_h\)</span> over the domain <span class="math inline">\(\Omega\)</span></p>
+<div id="862db11a" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set deflection values and add it to plotter</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>grid.point_data[<span class="st">"u"</span>] <span class="op">=</span> uh.x.array</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>warped <span class="op">=</span> grid.warp_by_scalar(<span class="st">"u"</span>, factor<span class="op">=</span><span class="dv">25</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>u_plotter <span class="op">=</span> pyvista.Plotter(off_screen<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>u_plotter.add_mesh(</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  warped, </span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>  show_edges<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  show_scalar_bar<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>  scalars<span class="op">=</span><span class="st">"u"</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="co"># if not pyvista.OFF_SCREEN:</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co">#     u_plotter.show()</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="co"># HTML 저장</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>u_plotter.export_html(<span class="st">"fenicsx/fundamentals/membrane_u.html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<iframe src="fenicsx/fundamentals/membrane_u.html" width="100%" height="350px" style="border:none;">
+</iframe>
+<p><strong>Plotting along a line in the domain</strong></p>
+<p>Another useful way to compare the deflection and the load is by plotting them along the line <span class="math inline">\(x=0\)</span>. To do this, we simply define a set of points along the <span class="math inline">\(y\)</span>-axis and then evaluate the finite element functions <span class="math inline">\(u\)</span> and <span class="math inline">\(p\)</span> at those points</p>
+<div id="6237c34b" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>tol <span class="op">=</span> <span class="fl">0.001</span>  <span class="co"># Avoid hitting the outside of the domain</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span> <span class="op">+</span>tol, <span class="dv">1</span> <span class="op">-</span>tol, <span class="dv">101</span>)</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>points <span class="op">=</span> np.zeros((<span class="dv">3</span>, <span class="dv">101</span>))</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>points[<span class="dv">1</span>] <span class="op">=</span> y</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>u_values <span class="op">=</span> []</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>p_values <span class="op">=</span> []</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Since a finite element function is expressed as a linear combination of all its degrees of freedom,</p>
+<p><span class="math display">\[u_h(x) = \sum_{i=1}^N c_i \, \phi_i(x)\]</span></p>
+<p>where <span class="math inline">\(c_i\)</span> are the coefficients of <span class="math inline">\(u_h\)</span> and <span class="math inline">\(\phi_i\)</span> are the basis functions, we can, in principle, evaluate the solution at any point in <span class="math inline">\(\Omega\)</span></p>
+<p>However, because a mesh usually contains a large number of degrees of freedom (i.e.&nbsp;<span class="math inline">\(N\)</span> is large), it would be inefficient to evaluate every basis function at each point. Instead, we first determine which mesh cell the point <span class="math inline">\(x\)</span> belongs to. This can be done efficiently using a <em>bounding box tree</em>, which allows for a fast recursive search through the mesh cells</p>
+<div id="cd561db9" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dolfinx <span class="im">import</span> geometry</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>bb_tree <span class="op">=</span> geometry.bb_tree(domain, domain.topology.dim)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can now compute which cells each point collides with by using <code>dolfinx.geometry.compute_collisions_points</code>. This function returns, for every input point, a list of cells whose bounding boxes overlap with that point. Since different points may correspond to a different number of cells, the results are stored in a <code>dolfinx.cpp.graph.AdjacencyList_int32</code>. The cells associated with the i-th point can be accessed with <code>links(i)</code></p>
+<p>Because a cell’s bounding box covers more of <span class="math inline">\(\mathbb{R}^n\)</span> than the cell itself, we must check whether the point actually lies in the cell. This is done with <code>dolfinx.geometry.select_colliding_cells</code>, which measures the exact distance between the point and the cell (approximated as a convex hull for higher-order geometries). Like the previous function, this one also returns an adjacency list, since a point may lie on a facet, edge, or vertex shared by multiple cells</p>
+<p>Finally, we want the code below to run in parallel when the mesh is distributed across multiple processors. In this case, not every point in points is guaranteed to be present on each processor. To handle this, we create a subset <code>points_on_proc</code> that only contains the points found on the current processor</p>
+<div id="5a7aa6f2" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>cells <span class="op">=</span> []</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>points_on_proc <span class="op">=</span> []</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Find cells whose bounding-box collide with the the points</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>cell_candidates <span class="op">=</span> geometry.compute_collisions_points(bb_tree, points.T)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose one of the cells that contains the point</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>colliding_cells <span class="op">=</span> geometry.compute_colliding_cells(domain, cell_candidates, points.T)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, point <span class="kw">in</span> <span class="bu">enumerate</span>(points.T):</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">len</span>(colliding_cells.links(i)) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>        points_on_proc.append(point)</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>        cells.append(colliding_cells.links(i)[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We now have a list of points assigned to the processor, along with the cell each point belongs to. Using this information, we can call <code>uh.eval</code> and <code>pressure.eval</code> to obtain the values of these functions at all points</p>
+<div id="3e967301" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>points_on_proc <span class="op">=</span> np.array(points_on_proc, dtype<span class="op">=</span>np.float64)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>u_values <span class="op">=</span> uh.<span class="bu">eval</span>(points_on_proc, cells)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>p_values <span class="op">=</span> pressure.<span class="bu">eval</span>(points_on_proc, cells)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now that we have an array of coordinates together with two arrays of function values, we can use <code>matplotlib</code> to plot the results</p>
+<div id="2bf576ca" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>plt.plot(points_on_proc[:, <span class="dv">1</span>], <span class="dv">50</span> <span class="op">*</span>u_values, </span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"k"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Deflection ($</span><span class="ch">\\</span><span class="st">times 50$)"</span>)</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>plt.plot(points_on_proc[:, <span class="dv">1</span>], p_values, </span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"b--"</span>, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"Load"</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"y"</span>)</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>plt.legend()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_partial_differential_equations_files/figure-html/cell-39-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Saving functions to file</strong></p>
+<p>To visualize the solution in <code>ParaView</code>, we can save it to a file as follows:</p>
+<div id="55509ade" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dolfinx.io</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>results_folder <span class="op">=</span> Path(<span class="st">"fenicsx/fundamentals"</span>)</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>results_folder.mkdir(exist_ok<span class="op">=</span><span class="va">True</span>, parents<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>filename <span class="op">=</span> results_folder <span class="op">/</span> <span class="st">"membrane"</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>pressure.name <span class="op">=</span> <span class="st">"Load"</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>uh.name <span class="op">=</span> <span class="st">"Deflection"</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dolfinx.io.VTXWriter(</span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  MPI.COMM_WORLD, </span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  results_folder <span class="op">/</span> <span class="st">"membrane_pressure.bp"</span>, </span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  [pressure], </span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  engine<span class="op">=</span><span class="st">"BP4"</span>) <span class="im">as</span> vtx:</span>
+<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>    vtx.write(<span class="fl">0.0</span>)</span>
+<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> dolfinx.io.VTXWriter(</span>
+<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>  MPI.COMM_WORLD, </span>
+<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>  results_folder <span class="op">/</span> <span class="st">"membrane_deflection.bp"</span>, </span>
+<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>  [uh], </span>
+<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>  engine<span class="op">=</span><span class="st">"BP4"</span>) <span class="im">as</span> vtx:</span>
+<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    vtx.write(<span class="fl">0.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

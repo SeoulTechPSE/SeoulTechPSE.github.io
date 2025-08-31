@@ -648,3 +648,420 @@ with io.XDMFFile(domain.comm, filename.with_suffix(".xdmf"), "w") as xdmf:
     xdmf.write_mesh(domain)
     xdmf.write_function(uh)
 ```
+
+### Deflection of a membrane
+
+Authors: Hans Petter Langtangen, Anders Logg, Jørgen S. Dokken
+
+In the first `FEniCSx` example, we solved a simple problem that allowed us to easily verify the implementation.
+In this section, we shift our focus to a more physically relevant problem, one that produces solutions with a more interesting structure
+
+Specifically, we aim to compute the deflection $D(x,y)$ of a two-dimensional circular membrane of radius $R$, subjected to a load distribution $p(x,y)$. The governing PDE model is
+
+$$
+\begin{aligned}
+     -T \nabla^2D&=p \quad\text{in }\; \Omega=\{(x,y)\,\vert\, x^2+y^2\leq R^2 \}
+\end{aligned}
+$$
+
+Here, $T$ is the tension in the membrane (constant), and  $p$ is the external pressure load. The boundary of the membrane has no deflection. This implies that $D=0$ is the boundary condition. We model a localized load as a Gaussian function:
+
+$$
+\begin{aligned}
+     p(x,y)&=\frac{A}{2\pi\sigma}e^{-\frac{1}{2}\left[\left(\frac{x-x_0}{\sigma}\right)^2 +\left(\frac{y-y_0}{\sigma}\right)^2\right]}
+\end{aligned}
+$$
+
+The parameter $A$ is the amplitude of the pressure, $(x_0, y_0)$ the location of the maximum point of the load, and $\sigma$ the "width" of $p$. We will take the center $(x_0,y_0)$ to be $(0,R_0)$ for some $0<R_0<R$
+Then we have
+
+$$
+\begin{aligned}
+     p(x,y)&=\frac{A}{2\pi\sigma}e^{-\frac{1}{2}\left[\left(\frac{x}{\sigma}\right)^2
+     +\left(\frac{y-R_0}{\sigma}\right)^2\right]}
+\end{aligned}
+$$
+
+#### Scaling the equation
+
+There are many physical parameters in this problem, and we can benefit from grouping them by means of scaling. Let us introduce dimensionless coordinates 
+$\bar{x}=\frac{x}{R}$, $\bar{y}=\frac{y}{R}$, and a dimensionless deflection $w=\frac{D}{D_e}$, where $D_e$ is a characteristic size of the deflection. Introducing $\bar{R}_0=\frac{R_0}{R}$, we obtain
+
+$$
+\begin{aligned}
+    -\frac{\partial^2 w}{\partial \bar{x}^2} -\frac{\partial^2 w}{\partial \bar{y}^2}
+    &=\frac{R^2A}{2\pi\sigma TD_e}e^{-\frac{R^2}{2\sigma^2}\left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]}\\
+    &=\alpha e^{-\beta^2 \left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]}
+\end{aligned}
+$$
+
+for $\bar{x}^2+\bar{y}^2<1$, where $\alpha = \frac{R^2A}{2\pi\sigma TD_e}$ and $\beta=\frac{R}{\sqrt{2}\sigma}$
+
+With an appropriate scaling, $w$ and its derivatives are of order unity. Thus, the left-hand side of the scaled PDE is also of order unity, while the right hand side is characterized by the parameter $\alpha$. This suggests selecting $\alpha$ to be on the order of unity; in this particular case, we choose $\alpha=4$. (It is also possible to derive the analytical solution in scaled coordinates and verify that the maximum deflection is $D_e$ when $\alpha = 4$, thereby determining $D_e$)
+
+With $D_e=\frac{R^2A}{8\pi\sigma T}$ and omitting the bars, the scaled problem becomes
+
+$$
+\begin{aligned}
+    -\nabla^2 w = 4e^{-\beta^2 \left[x^2+(y-R_0)^2\right]}
+\end{aligned}
+$$
+
+to be solved over the unit disc, with $w=0$ on the boundary
+
+In this formulation, only two parameters remain: the dimensionless width of the pressure distribution, $\beta$, and the location of the pressure peak, $R_0 \in [0,1]$. As $\beta \to 0$, the solution approaches the special case $w = 1 - x^2 - y^2$
+
+Finally, given a computed scaled solution $w$, the physical deflection is recovered as
+
+$$
+\begin{aligned}
+    D=\frac{AR^2}{8\pi\sigma T}w
+\end{aligned}
+$$
+
+#### Implementation
+
+Author: Jørgen S. Dokken
+
+In this section, we will solve the deflection of the membrane problem. After finishing this section, you should be able to:
+
+* Create a simple mesh using the `GMSH` Python API and load it into `DOLFINx`
+* Create constant boundary conditions using a geometrical identifier
+* Use `ufl.SpatialCoordinate` to create a spatially varying function
+* Interpolate a `ufl.Expression` into an appropriate function space
+* Evaluate a `dolfinx.Function` at any point 
+
+**Creating the mesh**
+
+To create the computational geometry, we use the Python-API of [GMSH](https://gmsh.info/). We start by importing the gmsh-module and initializing it
+
+```{python}
+# $ conda install -c conda-forge python-gmsh
+import gmsh
+
+if not gmsh.isInitialized():
+    gmsh.initialize()
+```
+
+The next step is to set up the membrane and start the computations using the Gmsh CAD kernel, which will generate the necessary data structures behind the scenes. When calling `addDisk`, the first three arguments give the $x$, $y$, and $z$ coordinates of the circle’s center, while the last two specify the radii in the $x$- and $y$-directions
+
+```{python}
+R = 1.0  # radius of the membrane
+membrane = gmsh.model.occ.addDisk(0.0, 0.0, 0.0, R, R)
+
+# Synchronize the CAD kernel with the model
+gmsh.model.occ.synchronize()
+```
+
+Next, we turn the membrane into a physical surface, so that `Gmsh` recognizes it when generating the mesh.
+Since a surface is a two-dimensional entity, we pass `2` as the first argument, the membrane’s entity tag as the second argument, and the physical tag as the last argument.
+In a later demo, we will explain exactly when and why this physical tag is important
+
+```{python}
+gdim = 2
+physical_tag = 1
+
+# Remove any existing physical groups with the same (dim, tag)
+for dim, tag in gmsh.model.getPhysicalGroups():
+    if dim == gdim and tag == physical_tag:
+        gmsh.model.removePhysicalGroups([(dim, tag)])
+
+# Now safely add the new physical group
+gmsh.model.addPhysicalGroup(gdim, [membrane], physical_tag)
+```
+
+Finally, we generate the two-dimensional mesh. We set a uniform mesh size by modifying the `GMSH` options
+
+```{python}
+gmsh.option.setNumber("Mesh.CharacteristicLengthMin", 0.05)
+gmsh.option.setNumber("Mesh.CharacteristicLengthMax", 0.05)
+gmsh.model.mesh.generate(gdim)
+```
+
+**Interfacing with GMSH in DOLFINx**
+
+We will import the Gmsh-generated mesh directly into `DOLFINx` using the `dolfinx.io.gmshio` interface.
+In this example, we did not specify which process created the `gmsh` model, so a copy of the model has been created on each MPI process. However, we want to work with a single mesh distributed across all processes. To achieve this, we take the model generated on rank 0 of `MPI.COMM_WORLD`, and distribute it to all available ranks
+
+This import will also provide two mesh tags: one for cells marked by physical groups and one for facets marked by physical groups. Since we did not add any physical groups of dimension `gdim -1`, `facet_markers` object will contain no entities
+
+```{python}
+from mpi4py import MPI
+from dolfinx.io import gmshio
+from dolfinx.fem.petsc import LinearProblem
+
+gmsh_model_rank = 0
+mesh_comm = MPI.COMM_WORLD
+domain, cell_markers, facet_markers = gmshio.model_to_mesh(
+  gmsh.model, 
+  mesh_comm, 
+  gmsh_model_rank, 
+  gdim=gdim
+)
+```
+We define the function space as in the previous tutorial
+
+```{python}
+from dolfinx import fem
+
+V = fem.functionspace(domain, ("Lagrange", 1))
+```
+
+```{python}
+import pyvista
+from dolfinx.plot import vtk_mesh
+
+# Extract topology from mesh and create pyvista mesh
+topology, cell_types, x = vtk_mesh(V)
+grid = pyvista.UnstructuredGrid(topology, cell_types, x)
+
+plotter = pyvista.Plotter(off_screen=True)
+plotter.add_mesh(grid, show_edges=True)
+plotter.add_axes()
+plotter.view_xy()
+
+# if not pyvista.OFF_SCREEN:
+#     plotter.show()
+
+# HTML 저장
+plotter.export_html("fenicsx/fundamentals/membrane_mesh.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/membrane_mesh.html"
+        width="100%" height="450px"
+        style="border:none;">
+</iframe>
+```
+
+**Defining a spatially varying load**
+
+The right-hand side pressure function is defined using `ufl.SpatialCoordinate` together with two constants: one for $\beta$ and one for $R_0$
+
+```{python}
+from dolfinx import default_scalar_type
+import ufl
+
+x = ufl.SpatialCoordinate(domain)
+
+beta = fem.Constant(domain, default_scalar_type(12))
+R0 = fem.Constant(domain, default_scalar_type(0.3))
+
+p = 4 *ufl.exp(-beta**2 *(x[0]**2 +(x[1] -R0)**2))
+```
+
+**Interpolation of a `ufl` expression**
+
+Since we defined the load `p` as a spatially varying function, we want to interpolate it into a suitable function space for visualization. For this, we use `dolfinx.Expression`, which can take any `ufl` expression along with a set of points on the reference element. In practice, we use the interpolation points of the target space. Because `p` varies rapidly in space, we choose a high-order function space to represent it
+
+```{python}
+Q = fem.functionspace(domain, ("Lagrange", 5))
+expr = fem.Expression(p, Q.element.interpolation_points())
+pressure = fem.Function(Q)
+pressure.interpolate(expr)
+```
+
+We next plot the load on the domain
+
+```{python}
+p_grid = pyvista.UnstructuredGrid(*vtk_mesh(Q))
+p_grid.point_data["p"] = pressure.x.array.real
+
+warped_p = p_grid.warp_by_scalar("p", factor=0.5)
+warped_p.set_active_scalars("p")
+
+load_plotter = pyvista.Plotter(off_screen=True)
+load_plotter.add_mesh(
+  warped_p,
+  show_edges=True, 
+  show_scalar_bar=True
+)
+load_plotter.add_axes() 
+load_plotter.view_xy()
+
+# if not pyvista.OFF_SCREEN:
+#     load_plotter.show()
+
+# HTML 저장
+load_plotter.export_html("fenicsx/fundamentals/membrane_load.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/membrane_load.html"
+        width="100%" height="450px"
+        style="border:none;">
+</iframe>
+```
+
+**Create a Dirichlet boundary condition using geometrical conditions**
+
+The next step is to define the homogeneous boundary condition. Unlike in the first tutorial, here we use `dolfinx.fem.locate_dofs_geometrical` to identify the degrees of freedom on the boundary. Since our domain is the unit circle, these degrees of freedom lie at coordinates $(x, y)$ satisfying $\sqrt{x^2 + y^2} = 1$
+
+```{python}
+import numpy as np
+
+def on_boundary(x):
+    return np.isclose(np.sqrt(x[0]**2 +x[1]**2), 1)
+
+boundary_dofs = fem.locate_dofs_geometrical(V, on_boundary)
+```
+
+Since our Dirichlet condition is homogeneous (`u=0` on the entire boundary), we can create the boundary condition with `dolfinx.fem.dirichletbc` by specifying a constant value, the boundary degrees of freedom and the function space on which to apply it
+
+```{python}
+bc = fem.dirichletbc(default_scalar_type(0), boundary_dofs, V)
+```
+
+**Defining and solving the variational problem**
+
+The variational problem is the same as in our first Poisson problem, where `f` is replaced by `p`
+
+```{python}
+u = ufl.TrialFunction(V)
+v = ufl.TestFunction(V)
+
+a = ufl.dot(ufl.grad(u), ufl.grad(v)) *ufl.dx
+L = p *v *ufl.dx
+
+problem = LinearProblem(
+  a, 
+  L, 
+  bcs=[bc], 
+  petsc_options={"ksp_type": "preonly", "pc_type": "lu"}
+)
+uh = problem.solve()
+```
+
+We plot the deflection $u_h$ over the domain $\Omega$
+
+```{python}
+# Set deflection values and add it to plotter
+grid.point_data["u"] = uh.x.array
+warped = grid.warp_by_scalar("u", factor=25)
+
+u_plotter = pyvista.Plotter(off_screen=True)
+u_plotter.add_mesh(
+  warped, 
+  show_edges=True, 
+  show_scalar_bar=True, 
+  scalars="u")
+
+# if not pyvista.OFF_SCREEN:
+#     u_plotter.show()
+
+# HTML 저장
+u_plotter.export_html("fenicsx/fundamentals/membrane_u.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/membrane_u.html"
+        width="100%" height="350px"
+        style="border:none;">
+</iframe>
+```
+
+**Plotting along a line in the domain**
+
+Another useful way to compare the deflection and the load is by plotting them along the line $x=0$.
+To do this, we simply define a set of points along the $y$-axis and then evaluate the finite element functions $u$ and $p$ at those points
+
+```{python}
+tol = 0.001  # Avoid hitting the outside of the domain
+y = np.linspace(-1 +tol, 1 -tol, 101)
+
+points = np.zeros((3, 101))
+points[1] = y
+u_values = []
+p_values = []
+```
+
+Since a finite element function is expressed as a linear combination of all its degrees of freedom,
+
+$$u_h(x) = \sum_{i=1}^N c_i \, \phi_i(x)$$
+
+where $c_i$ are the coefficients of $u_h$ and $\phi_i$ are the basis functions, we can, in principle, evaluate the solution at any point in $\Omega$
+
+However, because a mesh usually contains a large number of degrees of freedom (i.e. $N$ is large), it would be inefficient to evaluate every basis function at each point.
+Instead, we first determine which mesh cell the point $x$ belongs to. This can be done efficiently using a *bounding box tree*, which allows for a fast recursive search through the mesh cells
+
+```{python}
+from dolfinx import geometry
+
+bb_tree = geometry.bb_tree(domain, domain.topology.dim)
+```
+
+We can now compute which cells each point collides with by using `dolfinx.geometry.compute_collisions_points`. This function returns, for every input point, a list of cells whose bounding boxes overlap with that point. Since different points may correspond to a different number of cells, the results are stored in a `dolfinx.cpp.graph.AdjacencyList_int32`. The cells associated with the i-th point can be accessed with `links(i)`
+
+Because a cell’s bounding box covers more of $\mathbb{R}^n$ than the cell itself, we must check whether the point actually lies in the cell. This is done with `dolfinx.geometry.select_colliding_cells`, which measures the exact distance between the point and the cell (approximated as a convex hull for higher-order geometries). Like the previous function, this one also returns an adjacency list, since a point may lie on a facet, edge, or vertex shared by multiple cells
+
+Finally, we want the code below to run in parallel when the mesh is distributed across multiple processors. In this case, not every point in points is guaranteed to be present on each processor. To handle this, we create a subset `points_on_proc` that only contains the points found on the current processor
+
+```{python}
+cells = []
+points_on_proc = []
+
+# Find cells whose bounding-box collide with the the points
+cell_candidates = geometry.compute_collisions_points(bb_tree, points.T)
+
+# Choose one of the cells that contains the point
+colliding_cells = geometry.compute_colliding_cells(domain, cell_candidates, points.T)
+for i, point in enumerate(points.T):
+    if len(colliding_cells.links(i)) > 0:
+        points_on_proc.append(point)
+        cells.append(colliding_cells.links(i)[0])
+```
+
+We now have a list of points assigned to the processor, along with the cell each point belongs to. Using this information, we can call `uh.eval` and `pressure.eval` to obtain the values of these functions at all points
+
+```{python}
+points_on_proc = np.array(points_on_proc, dtype=np.float64)
+
+u_values = uh.eval(points_on_proc, cells)
+p_values = pressure.eval(points_on_proc, cells)
+```
+Now that we have an array of coordinates together with two arrays of function values, we can use `matplotlib` to plot the results
+
+```{python}
+import matplotlib.pyplot as plt
+
+fig = plt.figure()
+
+plt.plot(points_on_proc[:, 1], 50 *u_values, 
+  "k", linewidth=2, label="Deflection ($\\times 50$)")
+plt.plot(points_on_proc[:, 1], p_values, 
+  "b--", linewidth=2, label="Load")
+plt.grid(True)
+plt.xlabel("y")
+plt.legend()
+```
+
+**Saving functions to file**
+
+To visualize the solution in `ParaView`, we can save it to a file as follows:
+
+```{python}
+from pathlib import Path
+import dolfinx.io
+
+results_folder = Path("fenicsx/fundamentals")
+results_folder.mkdir(exist_ok=True, parents=True)
+
+filename = results_folder / "membrane"
+
+pressure.name = "Load"
+uh.name = "Deflection"
+
+with dolfinx.io.VTXWriter(
+  MPI.COMM_WORLD, 
+  results_folder / "membrane_pressure.bp", 
+  [pressure], 
+  engine="BP4") as vtx:
+    vtx.write(0.0)
+
+with dolfinx.io.VTXWriter(
+  MPI.COMM_WORLD, 
+  results_folder / "membrane_deflection.bp", 
+  [uh], 
+  engine="BP4") as vtx:
+    vtx.write(0.0)
+```
