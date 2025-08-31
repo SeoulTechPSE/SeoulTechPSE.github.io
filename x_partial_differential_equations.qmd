@@ -11,8 +11,533 @@ It's open-source, written in Python, and MPI-parallelized
 
 $~$
 
-## The FEniCS computing platform
+## The FEniCS computing platform {#sec-fenicsx}
 
   **FEniCS** is a popular open-source computing platform for solving partial differential equations (PDEs) with the finite element method (FEM). FEniCS enables users to quickly translate scientific models into efficient finite element code. With the high-level Python and C++ interfaces to FEniCS, it is easy to get started, but FEniCS offers also powerful capabilities for more experienced programmers. FEniCS runs on a multitude of platforms ranging from laptops to high-performance computers
 
 [![](https://fenicsproject.org/assets/logo/fenics_logo.png){width="25%" fig-align="center"}](https://fenicsproject.org)
+
+### Getting started {#sec-fenicsx-getting-started}
+
+The latest stable release of FEniCSx is version 0.9, which was released in October 2024. The easiest way to start using `FEniCSx` on MacOS and other systems is to install it using `conda`:
+
+``` bash
+$ conda create -n fenicsx
+$ conda activate fenicsx
+
+$ conda install -c conda-forge fenics-dolfinx mpich pyvista petsc petsc4py
+
+$ conda install ipykernel
+$ python -m ipykernel install --user --name fenicsx --display-name "FEniCSx"
+```
+$~$
+```{python}
+import dolfinx
+
+print(f'DOLFINx version: {dolfinx.__version__}')
+```
+$~$
+
+### An Overview of the FEniCS Project
+
+
+* The `FEniCS` Project is a research and software initiative focused on developing mathematical methods and software for solving partial differential equations (PDEs). Its goal is to provide intuitive, efficient, and flexible tools for scientific computing. Launched in 2003, the project is the result of collaboration among researchers from universities and research institutes worldwide. For the latest updates and more information, visit the [FEniCS Project](https://fenicsproject.org/)
+
+* The latest version of the `FEniCS` project, `FEniCSx`, consists of several building blocks, namely `DOLFINx`, `UFL`, `FFCx`, and `Basix`. We will now go through the main objectives of each of these building blocks
+
+  * `DOLFINx` is the high performance C++ backend of `FEniCSx`, where structures such as meshes, function spaces and functions are implemented. Additionally, `DOLFINx` also contains compute intensive functions such as finite element assembly and mesh refinement algorithms. It also provides an interface to linear algebra solvers and data-structures, such as `PETSc`
+  * `UFL` is a high-level form language for describing variational formulations with a high-level mathematical syntax
+  * `FFCx` is the form compiler of `FEniCSx`; given variational formulations written with `UFL`, it generates efficient C code
+  * `Basix` is the finite element backend of `FEniCSx`, responsible for generating finite element basis functions
+
+### What you will learn
+
+The goal of this tutorial is to demonstrate how to apply the finite element to solve PDEs using `FEniCS`. Through a series of examples, we will demonstrate how to:
+
+* Solve linear PDEs (such as the Poisson equation)
+
+* Solve time-dependent PDEs (such as the heat equation)
+
+* Solve non-linear PDEs
+
+* Solve systems of time-dependent non-linear PDEs
+
+Important topics include: how to set boundary conditions of various types (Dirichlet, Neumann, Robin), how to create meshes, how to define variable coefficients, how to interact with linear and non-linear solvers, and how to post-process and visualize solutions
+
+### Solving the Poisson equation
+
+Authors: Hans Petter Langtangen, Anders Logg, Jørgen S. Dokken
+
+The goal of this section is to solve one of the most basic PDEs, the Poisson equation, with a few lines of code in `FEniCSx`. We start by introducing some fundamental `FEniCSx` objects, such as `Function`, `functionspace`, `TrialFunction` and `TestFunction`, and learn how to write a basic PDE solver. This will include:
+
+* How to formulate a mathematical variational problem
+
+* How to apply boundary conditions
+
+* How to solve the discrete linear system
+
+* How to visualize the solution
+
+The Poisson equation is the following boundary-value problem
+
+\begin{aligned}
+-\nabla^2 u(\mathbf{x}) &= f(\mathbf{x})&&\mathbf{x} \in \Omega\\
+u(\mathbf{x}) &= u_D(\mathbf{x})&& \mathbf{x} \in \partial\Omega
+\end{aligned}
+ 
+Here, $u=u(\mathbf{x})$
+ is the unknown function, $f=f(\mathbf{x})$
+ a prescribed function, 
+ the Laplace operator (often written as $\Delta$), $\Omega$
+ the spatial domain, and $\partial\Omega$
+ the boundary of $\Omega$. The Poisson problem, including both the PDE, $-\nabla^2 u = f$, and the boundary condition, $u=u_D$ on $\partial\Omega$, is an example of a boundary-value problem, which must be precisely stated before we can start solving it numerically with `FEniCSx`
+
+ * In the two-dimensional space with coordinates $x$ and $y$, we can expand the Poisson equation as
+
+  $$-\frac{\partial^2 u}{\partial x^2} - \frac{\partial^2 u}{\partial y^2} = f(x,y)$$
+
+  The unknown $u$ is now a function of two variables, $u=u(x,y)$, defined over the two-dimensional domain $\Omega$
+
+  * The Poisson equation arises in numerous physical contexts, including heat conduction, electrostatics, diffusion of substances, twisting of elastic rods, inviscid fluid flow, and water waves. Moreover, the equation appears in numerical splitting strategies for more complicated systems of PDEs, in particular the Navier–Stokes equations
+
+Solving a boundary value problem in `FEniCSx` consists of the following steps:
+
+1. Identify the computational domain $\Omega$, the PDE, and its corresponding boundary conditions and source terms $f$
+2. Reformulate the PDE as a finite element variational problem
+3. Write a Python program defining the computational domain, the boundary conditions, the variational problem, and the source terms, using `FEniCSx`
+4. Run the Python program to solve the boundary-value problem. Optionally, you can extend the program to derive quantities such as fluxes and averages,
+   and visualize the results
+
+As we have already covered step 1, we shall now cover steps 2-4
+
+#### Finite element variational formulation
+
+`FEniCSx` is based on the finite element method, which is a general and
+efficient mathematical technique for the numerical solution of
+PDEs. The starting point for finite element methods is a PDE
+expressed in _variational form_
+
+The basic recipe for turning a PDE into a variational problem is:
+
+- Multiply the PDE by a function $v$
+- Integrate the resulting equation over the domain $\Omega$
+- Perform integration by parts of those terms with second order derivatives
+
+The function $v$ which multiplies the PDE is called a _test function_. The unknown function $u$ that is to be approximated is referred to as a _trial function_.
+The terms trial and test functions are used in `FEniCSx` too. The test and trial functions belong to certain _function spaces_ that specify the properties of the functions
+
+* In the present case, we multiply the Poisson equation by a test function $v$ and integrate over $\Omega$:
+
+  $$\int_\Omega (-\nabla^2 u) v~\mathrm{d} x = \int_\Omega f v~\mathrm{d} x$$
+
+  Here $\mathrm{d} x$ denotes the differential element for integration over the domain $\Omega$. We will later let $\mathrm{d} s$ denote the differential element for integration over $\partial\Omega$, the boundary of $\Omega$
+
+* A rule of thumb when deriving variational formulations is that one tries to keep the order of derivatives of $u$ and $v$ as small as possible.
+Here, we have a second-order differential of $u$, which can be transformed to a first derivative by employing the technique of
+[integration by parts](https://en.wikipedia.org/wiki/Integration_by_parts).
+The formula reads
+
+  $$-\int_\Omega (\nabla^2 u)v~\mathrm{d}x
+  = \int_\Omega\nabla u\cdot\nabla v~\mathrm{d}x- 
+  \int_{\partial\Omega}\frac{\partial u}{\partial n}v~\mathrm{d}s$$
+
+  where $\frac{\partial u}{\partial n}=\nabla u \cdot \vec{n}$ is the derivative of $u$ in the outward normal direction $\vec{n}$ on the boundary
+
+* Another feature of variational formulations is that the test function $v$ is required to vanish on the parts of the boundary where the solution $u$ is known
+
+* In the present problem, this means that $v$ is $0$ on the whole boundary $\partial\Omega$. Thus, the second term in the integration by parts formula vanishes, and we have that
+
+  $$\int_\Omega \nabla u \cdot \nabla v~\mathrm{d} x = \int_\Omega f v~\mathrm{d} x$$
+  
+  $~$
+
+* If we require that this equation holds for all test functions $v$ in some suitable space $\hat{V}$, the so-called _test space_, we obtain a well-defined mathematical problem that uniquely determines the solution $u$ which lies in some function space $V$. Note that $V$ does not have to be the same space as
+$\hat{V}$. We call the space $V$ the _trial space_. We refer to the equation above as the _weak form_/_variational form_ of the original boundary-value problem. We now properly state our variational problem:
+Find $u\in V$ such that
+
+  $$\int_\Omega \nabla u \cdot \nabla v~\mathrm{d} x = \int_\Omega f v~\mathrm{d} x\qquad \forall v \in \hat{V}$$
+
+* For the present problem, the trial and test spaces $V$ and $\hat{V}$ are defined as
+
+  \begin{aligned}
+     V&=\{v\in H^1(\Omega) \,\vert\, v=u_D&\text{on } \partial \Omega \}\\
+     \hat{V}&=\{v\in H^1(\Omega) \,\vert\, v=0 &\text{on } \partial \Omega \}
+  \end{aligned}
+
+  In short, $H^1(\Omega)$ is the Sobolev space containing functions $v$ such that $v^2$ and $\vert \nabla v \vert ^2$ have finite integrals over $\Omega$. The solution of the underlying
+PDE must lie in a function space where the derivatives are
+also continuous, but the Sobolev space $H^1(\Omega)$ allows functions with discontinuous derivatives.
+This weaker continuity requirement in our weak formulation (caused by the integration by parts) is of great importance when it comes to constructing the finite element function space. In particular, it allows the use of piecewise polynomial function spaces. This means that the function spaces are constructed
+by stitching together polynomial functions on simple domains
+such as intervals, triangles, quadrilaterals, tetrahedra and
+hexahedra
+
+* The variational problem is a _continuous problem_: it defines the solution $u$ in the infinite-dimensional function space $V$.
+The finite element method for the Poisson equation finds an approximate solution of the variational problem by replacing the infinite-dimensional function spaces $V$ and $\hat{V}$ by _discrete_ (finite dimensional) trial and test spaces $V_h\subset V$ and $\hat{V}_h \subset \hat{V}$. The discrete
+variational problem reads: Find $u_h\in V_h$ such that
+
+  $$
+  \begin{aligned}
+     \int_\Omega \nabla u_h \cdot \nabla v~\mathrm{d} x &= \int_\Omega fv~\mathrm{d} x && \forall v \in \hat{V}_h.
+  \end{aligned}
+  $$
+
+* This variational problem, together with suitable definitions of $V_h$ and $\hat{V}_h$, uniquely define our approximate numerical solution of the Poisson equation.
+Note that the boundary condition is encoded as part of the test and trial spaces. This might seem complicated at first glance,
+but means that the finite element variational problem and the continuous variational problem look the same
+
+#### Abstract finite element variational formulation
+
+We will introduce the following notation for variational problems:
+Find $u\in V$ such that
+
+$$\begin{aligned}
+a(u,v)&=L(v)&& \forall v \in \hat{V}
+\end{aligned}$$
+
+For the Poisson equation, we have:
+
+$$\begin{aligned}
+a(u,v) &= \int_{\Omega} \nabla u \cdot \nabla v~\mathrm{d} x,\\
+L(v) &= \int_{\Omega} fv~\mathrm{d} x
+\end{aligned}$$
+
+In the literature $a(u,v)$ is known as the _bilinear form_ and $L(v)$ as a _linear form_.
+For every linear problem, we will identify all terms with the unknown $u$ and collect them in $a(u,v)$, and collect all terms with only known functions in $L(v)$.
+
+To solve a linear PDE in `FEniCSx`, such as the Poisson equation, a user thus needs to perform two steps:
+
+1. Choose the finite element spaces $V$ and $\hat{V}$ by specifying the domain (the mesh) and the type of function space (polynomial degree and type).
+2. Express the PDE as a (discrete) variational problem: Find $u\in V$ such that $a(u,v)=L(v)$ for all $v \in \hat{V}$
+
+#### Implementation
+
+In this section, you will learn:
+
+- How to use the built-in meshes in `DOLFINx`
+- How to create a spatially varying Dirichlet boundary conditions on the whole domain boundary
+- How to define a weak formulation of your PDE
+- How to solve the resulting system of linear equations
+- How to visualize the solution using a variety of tools
+- How to compute the $L^2(\Omega)$ error and the error at mesh vertices
+
+Up to this point, we’ve looked at the Poisson problem in very general terms: the domain $\Omega$, the boundary condition $u_D$, and the right-hand side $f$ were all left unspecified. To actually solve something, we now need to pick concrete choices for $\Omega$, $u_D$, and $f$
+
+A good strategy is to set up the problem in a way that we already know the exact solution. That way, we can easily check whether our numerical solution is correct. Polynomials of low degree are usually the best choice here, because continuous Galerkin finite element spaces of degree $r$ can reproduce any polynomial of degree $r$ exactly
+
+* To test our solver, we’ll construct a problem where we already know the exact solution. This approach is known as the method of manufactured solutions. The idea is simple:
+
+	1.	Start by picking a function $u_e(x,y)$ that looks nice and simple
+	2.	Plug $u_e$ into the PDE to figure out what the right-hand side $f(x,y)$ should be
+	3.	Use $u_e$ as the boundary condition $u_D$
+	4.	Finally, solve the problem numerically and compare the computed solution with $u_e$
+
+**Step 1:** Choosing the exact solution
+
+Let’s take a quadratic function in 2D:
+
+$$ u_e(x,y) = 1 + x^2 + 2y^2 $$
+
+**Step 2:** Computing the source term
+
+If we insert $u_e$ into the Poisson equation, we obtain
+
+$$f(x,y) = -6,
+\;\;
+u_D(x,y) = u_e(x,y) = 1 + x^2 + 2y^2$$
+
+Notice that this holds regardless of the domain shape, as long as we prescribe $u_e$ on the boundary
+
+**Step 3:** Choosing the domain
+
+For simplicity, let’s use the unit square:
+
+$$\Omega = [0,1] \times [0,1]$$
+
+**Step 4:** Summary
+
+This small example illustrates a very powerful strategy:
+
+* Pick an exact solution
+* Plug it into the PDE to generate the corresponding source term
+* Solve the PDE with these inputs
+* Verify that the numerical solution reproduces the exact solution
+
+This workflow is at the heart of *the method of manufactured solutions*, and it provides a simple but rigorous way to validate our solver
+
+**Generating simple meshes**
+
+The next step is to define the discrete domain, called the mesh.
+We do this using one of `FEniCSx`’s built-in mesh generators
+
+Here, we create a unit square mesh spanning $[0,1]\times[0,1]$.
+The cells of the mesh can be either triangles or quadrilaterals:
+
+```{python}
+import numpy as np
+
+from mpi4py import MPI
+from dolfinx import mesh
+
+domain = mesh.create_unit_square(MPI.COMM_WORLD, 8, 8, mesh.CellType.quadrilateral)
+```
+
+Notice that we need to provide an MPI communicator.
+This determines how the program behaves in parallel:
+
+* If we pass `MPI.COMM_WORLD`, a single mesh is created and distributed across the number of processors we specify.
+For example, to run the program on two processors, we can use:
+
+``` bash
+$ mpirun -n 2 python tutorial_01.py
+```
+
+* If instead we use `MPI.COMM_SELF`, each processor will create its own independent copy of the mesh.
+This can be useful when running many small problems in parallel, for example when sweeping over different parameters
+
+**Defining the finite element function space**
+
+Once the mesh is created, the next step is to define the finite element function space $V$.
+`DOLFINx` supports a wide variety of finite element spaces of arbitrary order.
+For a full overview, see the list of
+[Supported elements in DOLFINx](https://defelement.org/lists/implementations/basix.ufl.html)
+
+When creating a function space, we need to specify:
+1.	The mesh on which the space is defined
+2.	The element family (e.g., Lagrange, Raviart–Thomas, etc.)
+3.	The polynomial degree of the element
+
+In `DOLFINx`, this can be done by passing a tuple of the form `("family", degree)`, as shown below:
+
+```{python}
+from dolfinx.fem import functionspace
+
+V = functionspace(domain, ("Lagrange", 1))
+```
+
+The next step is to create a function that stores the Dirichlet boundary condition.
+We then use interpolation to fill this function with the prescribed values
+
+```{python}
+from dolfinx import fem
+
+uD = fem.Function(V)
+uD.interpolate(lambda x: 1 +x[0]**2 +2 *x[1]**2)
+```
+
+Now that we have defined the boundary data (which, in this case, is also the exact solution of our finite element problem), we need to enforce it on the boundary of the mesh.
+
+The first step is to identify which parts of the mesh correspond to the outer boundary. In `DOLFINx`, the boundary is represented by facets (that is, the line segments making up the outer edges in 2D or surfaces in 3D).
+
+We can extract the indices of all exterior facets using:
+
+```{python}
+tdim = domain.topology.dim
+fdim = tdim -1
+
+domain.topology.create_connectivity(fdim, tdim)
+boundary_facets = mesh.exterior_facet_indices(domain.topology)
+```
+
+This gives us the set of facets lying on the boundary of our discrete domain.
+Once we know where the boundary is, we can proceed to apply the Dirichlet boundary conditions to all degrees of freedom (DoFs) located on these facets
+
+For our current problem, we are using the "Lagrange" degree-1 function space.
+In this case, the degrees of freedom (DoFs) are located at the vertices of each cell, so every boundary facet contains exactly two DoFs
+
+To identify the local indices of these boundary DoFs, we use `dolfinx.fem.locate_dofs_topological`.
+This function takes three arguments:
+
+1.	the function space
+2.	the dimension of the mesh entities we want to target, and
+3.	the list of entities (in our case, the boundary facets)
+
+Once we have the boundary DoFs, we can create the Dirichlet boundary condition as follows:
+
+```{python}
+boundary_dofs = fem.locate_dofs_topological(V, fdim, boundary_facets)
+bc = fem.dirichletbc(uD, boundary_dofs)
+```
+
+**Defining the trial and test function**
+
+In mathematics, we usually distinguish between the trial space $V$ and the test space $\hat{V}$.
+For the present problem, the only difference between the two would be the treatment of boundary conditions
+
+In `FEniCSx`, however, boundary conditions are not built directly into the function space.
+This means we can simply use the same space for both the trial and test functions
+
+To express the variational formulation, we make use of the [Unified Form Language](https://github.com/FEniCS/ufl/) (UFL)
+
+```{python}
+import ufl
+
+u = ufl.TrialFunction(V)
+v = ufl.TestFunction(V)
+```
+
+**Defining the source term**
+
+Since the source term is constant throughout the domain, we can represent it using `dolfinx.fem.Constant`:
+
+```{python}
+from dolfinx import default_scalar_type
+
+f = fem.Constant(domain, default_scalar_type(-6))
+```
+
+While we could simply define the source term as `f = -6`, this has a limitation: if we later want to change its value, we would need to redefine the entire variational problem.
+By using `dolfinx.fem.Constant`, we can easily update the value during the simulation, for example with `f.value = 5`
+
+Another advantage is performance: declaring `f` as a constant allows the compiler to optimize the variational formulation, leading to faster assembly of the resulting linear system
+
+**Defining the variational problem**
+
+Now that we have defined all the components of our variational problem, we can write down the weak formulation:
+
+```{python}
+a = ufl.dot(ufl.grad(u), ufl.grad(v)) *ufl.dx
+L = f *v *ufl.dx
+```
+
+Notice how closely the Python syntax mirrors the mathematical expressions:
+
+$$a(u,v) = \int_{\Omega} \nabla u \cdot \nabla v \,\mathrm{d}x,
+\;\;
+L(v) = \int_{\Omega} f v \,\mathrm{d}x$$
+
+Here, `ufl.dx` represents integration over the domain $\Omega$, i.e. over all cells of the mesh.
+This illustrates one of the major strengths of `FEniCSx`: variational formulations can be written in Python in a way that almost directly matches their mathematical form, making it both natural and convenient to specify and solve complex PDE problems
+
+**Expressing inner products**
+
+The inner product
+
+$$\int_\Omega \nabla u \cdot \nabla v \,\mathrm{d}x$$
+
+can be expressed in different ways in `UFL`.
+In our example, we wrote it as: `ufl.dot(ufl.grad(u), ufl.grad(v)) *ufl.dx`. In UFL, the dot operator performs a contraction: it sums over the last index of the first argument and the first index of the second argument.
+Since both $\nabla u$ and $\nabla v$ are rank-1 tensors (vectors), this reduces to a simple dot product.
+
+For higher-rank tensors, such as matrices (rank-2 tensors), the appropriate operator is ufl.inner, which computes the full Frobenius inner product.
+For vectors, however, `ufl.dot` and `ufl.inner` are equivalent
+
+**Forming and solving the linear system**
+
+Having defined the finite element variational problem and boundary conditions, we can now create a `dolfinx.fem.petsc.LinearProblem`. This class provides a convenient interface for solving
+
+* the variational problem: 
+
+  Find $u_h\in V$ such that $a(u_h, v)=L(v), \;\; \forall v \in \hat{V}$
+  
+In this example, We will use `PETSc` as the linear algebra backend, together with a direct solver (LU factorization)
+
+For more details on Krylov solvers and preconditioners, see the [PETSc-documentation](https://petsc.org/main/docs/manual/ksp/?highlight=ksp#ksp-linear-system-solvers). Note that
+`PETSc` is not a required dependency of `DOLFINx`, so we explicitly import the `DOLFINx` wrapper to interface with `PETSc`.
+Finally, to ensure that the solver options passed to the `LinearProblem` apply only to this specific KSP solver, we assign a **unique** option prefix
+
+```{python}
+from dolfinx.fem.petsc import LinearProblem
+
+problem = LinearProblem(
+    a, L, bcs=[bc],
+    petsc_options={
+        # Direct solver using LU factorization
+        "ksp_type": "preonly",
+        "pc_type": "lu"
+    }
+)
+
+# Solve the system
+uh = problem.solve()
+
+# Optionally, view solver information
+#ksp = problem.solver
+#ksp.view()
+```
+
+Using `problem.solve()`,
+we solve the linear system of equations and return a `dolfinx.fem.Function` containing the solution
+
+**Computing the error**
+
+Finally, we want to compute the error to check the accuracy of the solution. We do this by comparing the finite element solution `uh` with the exact solution.
+We do this by interpolating the exact solution into the the $P_2$-function space
+
+```{python}
+V2 = fem.functionspace(domain, ("Lagrange", 2))
+uex = fem.Function(V2)
+uex.interpolate(lambda x: 1 +x[0]**2 +2 *x[1]**2)
+```
+
+We compute the error in two different ways. First, we compute the $L^2$ norm of the error, defined by 
+
+$$E=\sqrt{\int_\Omega (u_D-u_h)^2 \,\mathrm{d} x}$$
+
+We use `UFL` to express the $L^2$ error, and use `dolfinx.fem.assemble_scalar` to compute the scalar value.
+In `DOLFINx`, `assemble_scalar` only assembles over the cells on the local process. This means that if we use 2 processes to solve our problem, we need to gather the solution to one.
+We can do this with the `MPI.allreduce` function
+
+```{python}
+L2_error = fem.form(ufl.inner(uh -uex, uh -uex) *ufl.dx)
+error_local = fem.assemble_scalar(L2_error)
+error_L2 = np.sqrt(domain.comm.allreduce(error_local, op=MPI.SUM))
+```
+
+Secondly, we compute the maximum error at any degree of freedom (dof).
+The finite element solution `uh` can be expressed as a linear combination of the basis functions $\phi_j$ spanning the space $V$:
+
+$$u = \sum_{j=1}^N U_j \phi_j$$
+
+When we call `problem.solve()`, we obtain all coefficients $U_1$, $\dots$, $U_N$. These coefficients are the degrees of freedom (dofs).
+We can access the dofs by retrieving the underlying vector from `uh`
+
+However, note that a second-order function space contains more dofs than a first-order space, so the corresponding arrays cannot be compared directly.
+Fortunately, since we have already interpolated the exact solution into the first-order space when defining the boundary condition, we can compare the maximum values at the dofs of the approximation space
+
+```{python}
+error_max = np.max(np.abs(uD.x.array -uh.x.array))
+
+# Only print the error on one process
+if domain.comm.rank == 0:
+    print(f"Error_L2 : {error_L2:.2e}")
+    print(f"Error_max : {error_max:.2e}")
+```
+
+**Plotting the mesh using pyvista**
+
+We will visualize the mesh using [pyvista](https://docs.pyvista.org/), a Python interface to the VTK toolkit.
+To begin, We convert the mesh into a format compatible with `pyvista` using the function `dolfinx.plot.vtk_mesh`. The first step is to create an unstructured grid that `pyvista` can work with
+
+You can check the current plotting backend with:
+
+```{python}
+import pyvista
+
+pyvista.set_jupyter_backend("client") 
+```
+
+```{python}
+from dolfinx import plot
+
+domain.topology.create_connectivity(tdim, tdim)
+topology, cell_types, geometry = plot.vtk_mesh(domain, tdim)
+grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+```
+
+`PyVista` supports several backends, each with its own advantages and limitations.
+For more information and installation instructions, see the [pyvista documentation](https://docs.pyvista.org/user-guide/jupyter/index.html#state-of-3d-interactive-jupyterlab-plotting)
+
+We can now use the `pyvista.Plotter` to visualize the mesh. We will show it both as a 2D and as a 3D warped representation.
+
+In the jupyter notebook, we use the default setting `pyvista.OFF_SCREEN=False`, which will renders the plots directly within the notebook
+
+```{python}
+plotter = pyvista.Plotter()
+plotter.add_mesh(grid, show_edges=True)
+plotter.view_xy()
+
+if not pyvista.OFF_SCREEN:
+    plotter.show()
+```
+
