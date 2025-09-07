@@ -1,0 +1,104 @@
+```{python}
+from mpi4py import MPI
+
+import gmsh
+from dolfinx.io import gmshio
+
+import dolfinx.plot
+import pyvista as pv
+
+# -----------------------------
+# 1️⃣ Initialize Gmsh and create a model
+# -----------------------------
+if not gmsh.isInitialized():
+    gmsh.initialize()
+gmsh.model.add("disk_with_hole_occ")  
+
+# Create a disk
+# gmsh.model.occ.addDisk(xc, yc, zc, rx, ry)
+#   xc, yc, zc : center coordinates
+#   rx, ry     : radii in x- and y-directions
+disk = gmsh.model.occ.addDisk(0.0, 0.0, 0.0, 1.0, 1.0)
+
+hole1 = gmsh.model.occ.addDisk(0.5, 0.0, 0.0, 0.2, 0.2)
+hole2 = gmsh.model.occ.addRectangle(0.0, 0.0, 0.0, 0.6, 0.4)
+
+rect = gmsh.model.occ.addRectangle(-1.5, -0.5, 0.0, 1, 0.5)
+
+# Cut the cylinder (hole) from the disk
+# gmsh.model.occ.cut(objectDimTags, toolDimTags)
+#   objectDimTags : list of (dimension, tag) for objects to cut
+#   toolDimTags   : list of (dimension, tag) for cutting tools
+cut_result, _ = gmsh.model.occ.cut([(2, disk)], [(2, hole1), (2, hole2)])
+gmsh.model.occ.fuse(cut_result, [(2, rect)])
+
+# Synchronize the CAD kernel (OCC) with the gmsh model
+# → Required after boolean operations (cut, fuse, etc.)
+gmsh.model.occ.synchronize()
+
+# add physical groups (helpful)
+for (d, tag) in gmsh.model.getEntities(2):
+    gmsh.model.addPhysicalGroup(d, [tag], tag)
+
+# Generate 2D mesh
+# gmsh.model.mesh.generate(dim)
+#   dim : dimension of mesh (2 = surface mesh, 3 = volume mesh)
+gmsh.option.setNumber("Mesh.CharacteristicLengthMin", 0.05)
+gmsh.option.setNumber("Mesh.CharacteristicLengthMax", 0.05)
+
+gmsh.model.mesh.generate(2)
+
+# -----------------------------
+# 2️⃣ Import mesh into FEniCSx using gmshio
+# -----------------------------
+
+# gmshio.model_to_mesh(model, comm, rank)
+#   model : gmsh.model object
+#   comm  : MPI communicator
+#   rank  : which rank builds the mesh (usually 0)
+domain, cell_markers, facet_markers = gmshio.model_to_mesh(
+    gmsh.model, 
+    MPI.COMM_WORLD, 
+    0,
+    gdim=2
+)
+
+gmsh.finalize()
+
+# -----------------------------
+# 3️⃣ Visualize FEniCSx mesh with PyVista
+# -----------------------------
+# vtk_mesh extracts data arrays for visualization
+# dolfinx.plot.vtk_mesh(mesh, tdim)
+#   mesh : dolfinx mesh
+#   tdim : topological dimension (2 for surface, 3 for volume)
+topology, cell_types, geometry = dolfinx.plot.vtk_mesh(
+    domain, 
+    domain.topology.dim
+)
+
+# pv.UnstructuredGrid(cells, celltypes, points)
+#   cells     : connectivity array
+#   celltypes : VTK cell type array
+#   points    : vertex coordinates
+grid = pv.UnstructuredGrid(topology, cell_types, geometry)
+
+plotter = pv.Plotter(off_screen=True)
+plotter.add_mesh(grid, show_edges=True, color="lightblue")
+plotter.add_text("FEniCSx Mesh from Gmsh (OCC)", font_size=12)
+plotter.add_axes()
+plotter.view_xy()
+
+# if not pyvista.OFF_SCREEN:
+#     plotter.show()
+
+# HTML 저장
+plotter.export_html("fenicsx/fundamentals/gmsh_disk_with_hole.html")
+```
+
+```{=html}
+<iframe src="fenicsx/fundamentals/gmsh_disk_with_hole.html"
+        width="100%" height="500px"
+        style="border:none;">
+</iframe>
+```
