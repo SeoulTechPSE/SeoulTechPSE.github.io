@@ -2247,3 +2247,834 @@ where the symmetric gradient of $v$ is defined as
 $$\epsilon(v) = \tfrac{1}{2}\big(\nabla v + (\nabla v)^T\big)$$
 
 This formulation naturally arises from the minimization of elastic potential energy and is more commonly used than the earlier form based on $\sigma : \nabla v$
+
+**Scaling**
+
+It is often advantageous to scale a problem, as this reduces the need to specify physical parameters and produces dimensionless numbers that capture the relative influence of different parameters and physical effects. We first develop the code for the original dimensional model and then run the scaled problem by appropriately adjusting the parameters. For the present application, scaling reduces the number of active parameters from six to two
+
+In Navier’s equation for $u$, obtained by substituting $\sigma(u)$ into elasticity PDE, we have:
+
+$$ -(\lambda + \mu)\nabla (\nabla \cdot u) - \mu \nabla^2 u = f $$
+
+We introduce dimensionless coordinates by scaling with $L$, and define $\bar{u} = \frac{u}{U}$. This leads to the dimensionless governing equations:
+
+$$-\beta\,\bar{\nabla}(\bar{\nabla}\cdot \bar{u}) -\bar{\nabla}^2 \bar{u} = \bar{f}, \quad \bar{f} = (0,0,\gamma)$$
+
+where $\beta = 1 +\frac{\lambda}{\mu}$ is a dimensionless elasticity parameter and
+
+$$ \gamma = \frac{\rho g L^2}{\mu U} $$
+
+is a dimensionless number representing the ratio of the applied load $\rho g$ to the shear stress term $\mu \nabla^2 u \sim \mu \frac{U}{L^2}$ in the PDE
+
+One option for scaling is to choose $U$ such that $\gamma$ is of order one, i.e., $U = \frac{\rho g L^2}{\mu}$. However, in elasticity, this choice leads to displacements comparable to the size of the geometry. A more practical approach is to set $U$ equal to the maximum deflection of a clamped beam, for which a formula exists:
+
+$$U = \frac{3}{2} \, \rho g L^2 \frac{\delta^2}{E}$$
+
+where $\delta = \frac{L}{W}$ reflects the beam’s slenderness, and $E$ is the modulus of elasticity. The dimensionless parameter $\delta$ is therefore very important in this problem (as expected, $\delta \gg 1$ is what justifies beam theory). Taking $E$ to be of the same order as $\mu$, which is typical for many materials, we find that $\gamma \sim \delta^{-2}$ is an appropriate choice. By experimenting with the code to obtain displacements that “look right” in plots of the deformed geometry, we select $\gamma = 0.4 \, \delta^{-2}$ as our final value
+
+The simulation code handles the dimensional problem with parameters $\lambda,$ $\mu,$ $\rho,$ $g,$ $L,$ $W$. For the scaled problem, we simply set $\mu = \rho = L = 1,$ $W = \delta^{-1},$ $g = \gamma,$ and $\lambda = \beta$
+
+#### Implementation
+
+Author: Jørgen S. Dokken
+
+In this section, you will learn how to:
+
+- Work with vector function spaces
+- Define constant boundary conditions on vector spaces
+- Visualize cell wise constant functions
+- Compute Von Mises stresses
+
+**Test problem**
+
+As a test case, we consider a clamped beam in 3D that deforms under its own weight.
+This is modeled by prescribing the body force per unit volume as
+$f = (0, 0, -\rho g)$,
+where $\rho$ is the density of the beam and $g$ is the gravitational acceleration
+
+The beam has a box shape with length $L$ and a square cross-section of width $W$.
+At the clamped end ($x = 0$), we impose the displacement condition $u = u_D = (0,0,0)$.
+The remaining boundaries are traction-free, i.e., we set $T = 0$
+
+We begin by defining the physical variables that will be used in the program
+
+```{python}
+import numpy as np
+from mpi4py import MPI
+import pyvista
+
+from dolfinx import mesh, fem, plot, io, default_scalar_type
+from dolfinx.fem.petsc import LinearProblem
+
+import ufl
+
+# Scaled variable
+L = 1
+W = 0.2
+
+rho = 1
+
+delta = W /L
+gamma = 0.4 *delta**2
+g = gamma
+
+mu = 1
+
+beta = 1.25
+lambda_ = beta
+```
+
+We next create the mesh, which will be composed of hexahedral elements, together with the assoicated function space.
+Since we require a vector element with three components, we add `(3, )` or (or more generally `(domain.geometry.dim, )`) to the element tuple to obtain a triplet
+
+```{python}
+domain = mesh.create_box(
+  MPI.COMM_WORLD, 
+  [np.array([0, 0, 0]), np.array([L, W, W])],
+  [20, 6, 6], 
+  cell_type=mesh.CellType.hexahedron
+)
+V = fem.functionspace(domain, ("Lagrange", 1, (domain.geometry.dim, )))
+```
+
+Alternatively, we can take advantage of `basix.ufl` to construct the vector element directly:
+
+```{python}
+#| eval: false
+import basix
+
+element = basix.ufl.element(
+  "Lagrange", 
+  domain.topology.cell_name(), 
+  1,
+  shape=(domain.geometry.dim,)
+)
+V = fem.functionspace(domain, element)
+```
+
+**Boundary conditions**
+
+Since we want to clamp the boundary at $x = 0$, we achieve this by using a marker function, which identifies the facets where $x$ is (within machine precision) close to zero
+
+```{python}
+def clamped_boundary(x):
+  return np.isclose(x[0], 0)
+
+fdim = domain.topology.dim -1
+boundary_facets = mesh.locate_entities_boundary(
+  domain, 
+  fdim, 
+  clamped_boundary
+)
+
+u_D = np.array([0, 0, 0], dtype=default_scalar_type)
+bc = fem.dirichletbc(
+  u_D, 
+  fem.locate_dofs_topological(V, fdim, boundary_facets), 
+  V
+)
+```
+
+Since the traction $T$ should vanish on the remaining boundary, we introduce a `dolfinx.Constant`
+
+```{python}
+T = fem.Constant(domain, default_scalar_type((0, 0, 0)))
+```
+
+We specify the integration measure $\mathrm{d}s$, corresponding to integration over the domain boundary, using `ufl`’s built-in measures
+
+```{python}
+ds = ufl.Measure("ds", domain=domain)
+```
+
+**Variational formulation**
+
+We are now ready to formulate the variational problem in a syntax that closely resembles the mathematical notation, as in the previous examples
+
+```{python}
+def epsilon(u):
+  # Equivalent to 0.5 *(ufl.nabla_grad(u) +ufl.nabla_grad(u).T)  
+  return ufl.sym(ufl.grad(u))  
+
+def sigma(u):
+  return (lambda_ *ufl.nabla_div(u) *ufl.Identity(len(u)) 
+    +2 *mu *epsilon(u))
+
+u = ufl.TrialFunction(V)
+v = ufl.TestFunction(V)
+
+f = fem.Constant(domain, default_scalar_type((0, 0, -rho * g)))
+a = ufl.inner(sigma(u), epsilon(v)) *ufl.dx
+L = ufl.dot(f, v) *ufl.dx +ufl.dot(T, v) *ds
+```
+
+::: callout-note
+In DOLFINx, `grad(u)` uses the $\partial u_i / \partial x_j$ convention, but since continuum mechanics often prefers the opposite, `ufl` offers `nabla_grad` to support that usage
+:::
+
+**Solve the linear variational problem**
+
+As in the previous examples, we assemble the system matrix and right-hand side vector, and solve the variational problem using `PETSc`
+
+```{python}
+problem = LinearProblem(
+  a, 
+  L, 
+  bcs=[bc], 
+  petsc_options={"ksp_type": "preonly", "pc_type": "lu"}
+)
+uh = problem.solve()
+```
+
+**Visualization**
+
+As in earlier demos, visualization can be done with `PyVista` or `ParaView`. We first use `PyVista`, adding vectors to the grid rather than scalars
+
+```{python}
+results_folder = Path("fenicsx/linear_elasticity")
+results_folder.mkdir(exist_ok=True, parents=True)
+
+# Create plotter and pyvista grid
+p = pyvista.Plotter(off_screen=True)
+topology, cell_types, geometry = plot.vtk_mesh(V)
+grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+
+# Attach vector values to grid and warp grid by vector
+grid["u"] = uh.x.array.reshape((geometry.shape[0], 3))
+actor_0 = p.add_mesh(grid, style="wireframe", color="k")
+
+warped = grid.warp_by_vector("u", factor=1.5)
+actor_1 = p.add_mesh(warped, show_edges=True)
+
+p.show_axes()
+
+# if not pyvista.OFF_SCREEN:
+#   p.show()
+# else:
+#   p.screenshot(results_folder/"deflection.png")
+
+# HTML 저장
+p.export_html(results_folder/"deflection.html")
+```
+
+```{=html}
+<iframe src="fenicsx/linear_elasticity/deflection.html"
+        width="100%" height="400px"
+        style="border:none;">
+</iframe>
+```
+
+We can also use `ParaView` for visualization.
+As explained in previous sections, the solution is saved using `XDMFFile`
+
+```{python}
+with io.XDMFFile(
+  domain.comm, 
+  results_folder/"deformation.xdmf", 
+  "w"
+) as xdmf:
+  xdmf.write_mesh(domain)
+  uh.name = "Deformation"
+  xdmf.write_function(uh)
+```
+
+**Stress computation**
+
+Once the displacement has been computed, we can evaluate various stress measures. In particular, we compute the von Mises stress, defined as
+
+$$\sigma_m = \sqrt{\tfrac{3}{2}\, s : s}$$
+
+where $s$ is the deviatoric stress tensor, given by
+
+$$s(u) = \sigma(u) - \tfrac{1}{3}\,\mathrm{tr}(\sigma(u))\, I$$
+
+```{python}
+s = sigma(uh) -1. /3 *ufl.tr(sigma(uh)) *ufl.Identity(len(uh))
+von_Mises = ufl.sqrt(3. /2 *ufl.inner(s, s))
+```
+
+`von_Mises` is an expression that needs to be projected onto a suitable function space for visualization. Because `uh` consists of first-order piecewise continuous functions, the resulting von Mises stress is cell-wise constant
+
+```{python}
+# This is suitable for representing 
+#  cell-wise constant quantities like the von Mises stress
+# DG = Discontinuous Galerkin, 0 = cell-wise constant
+V_von_mises = fem.functionspace(domain, ("DG", 0))
+stress_expr = fem.Expression(
+  von_Mises, 
+  V_von_mises.element.interpolation_points()
+)
+
+stresses = fem.Function(V_von_mises)
+stresses.interpolate(stress_expr)
+```
+
+Previously, we visualized only first-order Lagrange functions. Since the von Mises stress is piecewise constant per cell, we slightly adjust the plotting routine, setting values for each cell, which corresponds directly to the degrees of freedom in the function space
+
+```{python}
+warped.cell_data["VonMises"] = stresses.x.petsc_vec.array
+warped.set_active_scalars("VonMises")
+
+p = pyvista.Plotter(off_screen=True)
+p.add_mesh(warped)
+p.show_axes()
+
+# if not pyvista.OFF_SCREEN:
+#   p.show()
+# else:
+#   p.screenshot(results_folder/"stresses.png")
+
+# HTML 저장
+p.export_html(results_folder/"stresses.html")
+```
+
+```{=html}
+<iframe src="fenicsx/linear_elasticity/stresses.html"
+        width="100%" height="400px"
+        style="border:none;">
+</iframe>
+```
+
+### The Navier-Stokes equations
+
+In this section, we address the incompressible Navier–Stokes equations, which combine time dependence, nonlinearity, and vector-valued variables—challenges seen in earlier problems
+
+**The PDE problem**
+
+The incompressible Navier–Stokes equations form a system of equations governing the velocity $u$ and pressure $p$ of an incompressible fluid:
+
+$$\begin{aligned}
+\rho \left( \frac{\partial u }{\partial t} + u \cdot \nabla u \right) &= \nabla \cdot \sigma (u, p) + f\\
+\nabla \cdot u &= 0
+\end{aligned}\tag{NS}\label{eq:NS}$$ 
+
+The right-hand side $f$ represents a given force per unit volume. As in the equations of linear elasticity, $\sigma(u,p)$ denotes the stress tensor, which for a Newtonian fluid is given by:
+
+$$\sigma(u, p) = 2 \mu \epsilon(u) - p I$$
+
+where $\epsilon(u)$ is the strain-rate tensor:
+
+$$\epsilon(u) = \frac{1}{2}\left(\nabla u + (\nabla u)^T\right)$$
+
+The parameter $\mu$ is the dynamic viscosity. Note that the momentum equation  is very similar to the elasticity equation . The difference lies in the two additional terms, $\rho\left(\frac{\partial u}{\partial t} + u \cdot \nabla u\right)$, and in the different form of the stress tensor. These extra terms represent the acceleration of the fluid, balanced by the force $F = \nabla \cdot \sigma + f$ per unit volume according to Newton’s second law of motion
+
+**Variational formulation**
+
+The Navier–Stokes equations are more challenging than the time-dependent heat equation because they form a system of equations, rather than a single equation, and the system has a special structure
+
+If we use the same approach as for the heat equation—replacing the time derivative with a simple difference quotient—we end up with a nonlinear system. Nonlinearity itself is not a problem, as we have already seen in the nonlinear Poisson equation
+
+The main difficulty comes from the saddle point structure of the system. Intuitively, a saddle point system has competing constraints: in this case, the velocity and pressure fields are linked through the incompressibility condition $\nabla \cdot u = 0$. This coupling makes standard solvers inefficient or unstable. To handle this efficiently, we need specialized iterative methods and preconditioners that respect the saddle point structure
+
+Instead, we will apply a simpler and often highly efficient approach known as a *splitting method*. The idea is to treat the two equations in \eqref{eq:NS} separately. There are many splitting strategies for the incompressible Navier-Stokes equations. One of the earliest is Chorin’s method. Here, we will use a modified version of Chorin’s method, the so-called incremental pressure correction scheme (IPCS), which provides improved accuracy compared to the original scheme at little additional cost
+
+The IPCS scheme involves three steps. First, we compute a tentative velocity $u^*$ by advancing the momentum equation using a midpoint finite difference scheme in time, but with the pressure $p^n$ from the previous time step. The nonlinear convective term is linearized by using the known velocity $u^n$ from the previous step: $u^n \cdot \nabla u^n$. Note that several alternative methods exist to linearize this term, such as the Adams-Bashforth method. The variational problem for the first step reads: for the $(n+1)$-th step, find $u^*$ such that
+
+$$\begin{aligned}
+\left\langle \rho \frac{u^*-u^n}{\Delta t}, v\right\rangle
+    &+ \left\langle \rho u^n\cdot \nabla u^n, v \right\rangle
+    +\left\langle \sigma(u^{n+\frac{1}{2}}, p^n), \epsilon(v)\right\rangle\\
+    &+ \left\langle p^n n, v \right\rangle_{\partial\Omega}
+    -\left\langle \mu \nabla u^{n+\frac{1}{2}}\cdot n, v \right \rangle_{\partial\Omega}=
+    \left\langle f^{n+1}, v \right\rangle
+\end{aligned}\tag{V1}\label{eq:NS-v1}$$ 
+
+This notation, which is particularly useful for problems involving many terms in the variational formulation, requires some explanation. First, we introduce the shorthand notation
+
+$$\begin{aligned}
+\langle v, w \rangle = \int_{\Omega} v w \, \mathrm{d}x, \quad
+\langle v, w \rangle_{\partial\Omega} = \int_{\partial\Omega} v w \, \mathrm{d}s
+\end{aligned}$$
+
+This allows us to express the variational problem in a more compact form. Second, we introduce the notation $u^{n+\frac{1}{2}}$, which refers to the value of $u$ at the midpoint of the time interval. This is usually approximated by the arithmetic mean:
+
+$$u^{n+\frac{1}{2}} \approx \frac{u^{n} + u^{n+1}}{2}$$
+
+Third, we note that the variational problem \eqref{eq:NS-v1} arises from the integration by parts of the term
+$\langle -\nabla \cdot \sigma, v\rangle$. As in the linear elasticity problem, this yields
+
+$$\langle -\nabla \cdot \sigma, v\rangle =
+    \langle \sigma, \epsilon(v) \rangle 
+    - \langle T, v\rangle_{\partial \Omega}$$
+
+where $T = \sigma \cdot n$ denotes the boundary traction. If we solve a problem with a free boundary, we may set $T=0$ on the boundary. However, in the case of flow through a channel or pipe, where we wish to model the continuation of the flow into an “imaginary channel” at the outflow, this term requires more careful treatment.
+In such situations, a common assumption is that the derivative of the velocity in the streamwise direction vanishes at the outflow. This corresponds to the flow being fully developed, meaning it does not change significantly downstream. Under this assumption, the remaining boundary term at the outflow becomes
+
+$$pn - \mu \nabla u \cdot n$$
+
+which is precisely the term appearing in the variational problem \eqref{eq:NS-v1} 
+
+It is important to note that both this argument and its implementation depend on the exact definition of $\nabla u$: whether it is taken as the matrix with components $\frac{\partial u_i}{\partial x_j}$ or with components $\frac{\partial u_j}{\partial x_i}$. In this work, we adopt the latter convention, $\frac{\partial u_j}{\partial x_i}$, which corresponds to using the `UFL` operator `nabla_grad`. If, instead, we use the operator `grad` (with the definition $\frac{\partial u_i}{\partial x_j}$), then the boundary term must be written as
+
+$$pn - \mu (\nabla u)^T \cdot n$$
+
+::: callout-note
+As noted in Linear elasticity implementation, the use of `nabla_grad` and `grad` must be interpreted with care. For the Navier–Stokes equations, it is particularly important to consider the convective term $u \cdot \nabla u$, which should be understood as the vector $w$ with components
+
+$$w_i = \sum_{j} \left(u_j \frac{\partial}{\partial x_j}\right) u_i = \sum_j u_j \frac{\partial u_i}{\partial x_j}$$
+
+In `FEniCSx`, this term can be implemented either as
+`grad(u) *u`, which corresponds to $\sum_j \frac{\partial u_i}{\partial x_j} u_j$,
+or as `dot(u, nabla_grad(u))`, which corresponds to $\sum_i u_i \frac{\partial u_j}{\partial x_i}$
+
+In what follows, we adopt the notation `dot(u, nabla_grad(u))`, since it most closely matches the standard mathematical form $u \cdot \nabla u$
+:::
+
+We now proceed to the second step of our splitting scheme for the incompressible Navier–Stokes equations. In the first step, we computed the tentative velocity $u^*$ using the pressure from the previous time step. We now use this tentative velocity to compute the updated pressure $p^{n+1}$:
+
+$$\langle \nabla p^{n+1}, \nabla q \rangle
+    = \langle \nabla p^n, \nabla q \rangle
+    - \frac{\rho}{\Delta t} \langle \nabla \cdot u^*, q \rangle
+    \tag{V2}\label{eq:NS-v2}$$
+
+Here, $q$ denotes a scalar-valued test function from the pressure space, whereas the test function $v$ in \eqref{eq:NS-v1} is vector-valued and belongs to the velocity space
+
+One way to interpret this step is as follows: subtract the Navier–Stokes momentum equation \eqref{eq:NS} expressed in terms of the tentative velocity $u^*$ and the pressure $p^n$ from the same equation expressed in terms of the updated velocity $u^{n+1}$ and pressure $p^{n+1}$. This yields
+
+$$\frac{\rho (u^{n+1}-u^*)}{\Delta t} + \nabla p^{n+1} - \nabla p^n = 0$$
+
+Taking the divergence and imposing the incompressibility condition $\nabla \cdot u^{n+1} = 0$ from the Navier–Stokes continuity equation, we obtain
+
+$$
+ - \frac{\rho \nabla \cdot u^*}{\Delta t} + \nabla^2 p^{n+1} - \nabla^2 p^n = 0
+ \tag{VT}\label{eq:NS-vT}$$
+
+which is a Poisson problem for the pressure $p^{n+1}$ and leads directly to the variational formulation \eqref{eq:NS-v2}
+
+Finally, the corrected velocity $u^{n+1}$ is computed from \eqref{eq:NS-vT}. Multiplying this equation by a test function $v$, we obtain
+
+$$\rho \langle (u^{n+1} - u^*), v \rangle
+    = - \Delta t \langle \nabla(p^{n+1} - p^n), v \rangle
+     \tag{V3}\label{eq:NS-v3}$$
+
+In summary, the incompressible Navier–Stokes equations can be solved efficiently by computing, at each time step, a sequence of three linear variational problems
+
+#### Channel flow (Poiseuille flow)
+
+In this section, you will learn how to:
+
+* Solve the Navier–Stokes problem using a splitting scheme
+* Visualize functions from higher-order Lagrangian spaces
+
+We will consider the flow between two infinite parallel plates, known as channel flow or Poiseuille flow. As we shall see, this problem admits an analytical solution. Let $H$ denote the distance between the plates and $L$ the length of the channel. We assume that no body forces are present
+
+We first scale the problem to eliminate seemingly independent physical parameters. Since the physics of this flow is governed solely by viscous effects in the direction perpendicular to the flow, the natural time scale is based on diffusion across the channel: $t_v = H^2 / \nu$. We choose $U$ (a characteristic inflow velocity) as the velocity scale and $H$ as the spatial scale. For the pressure scale, we take the characteristic shear stress, $\mu U / H$, since this problem is a canonical example of shear-driven flow
+
+Introducing the nondimensional variables
+
+$$\begin{aligned}
+  \bar{t} &= \frac{t}{t_v} = \frac{\nu t}{H^2} \\
+  \bar{x} &= \frac{x}{H}, \;
+  \bar{y} = \frac{y}{H}, \;
+  \bar{z} = \frac{z}{H} \\
+  \bar{u} &= \frac{u}{U}, \;
+  \bar{p} = \frac{H p}{\mu U}
+\end{aligned}$$
+
+and substituting into the governing equations, we obtain the nondimensional Navier–Stokes equations (where we drop the bars for simplicity):
+
+$$\begin{aligned}
+\frac{\partial u}{\partial t} + \mathrm{Re}\, u \cdot \nabla u
+&= -\nabla p + \nabla^2 u\\
+\nabla \cdot u &= 0
+\end{aligned}$$
+
+Here, $\mathrm{Re} = \rho U H / \mu$ is the Reynolds number. Because the time and pressure scales differ from those in convection-dominated flows, the Reynolds number appears in association with the convective term rather than the viscous term
+
+The exact solution can be derived by assuming $u = (u_x(x,y,z), 0, 0)$, with the $x$-axis aligned with the channel. Since $\nabla \cdot u = 0$, the velocity cannot depend on $x$ ($u=(u_x(y, z), 0, 0)$)
+
+The physics of channel flow is two-dimensional, so we may omit the $z$-coordinate (more precisely, we set $\partial/\partial z = 0$). Substituting $u = (u_x, 0, 0)$ into the scaled governing equations gives
+
+$$\frac{\partial^2 u_x}{\partial y^2 } = \frac{\partial p}{\partial x}$$
+
+Differentiating this equation with respect to $x$ yields
+
+$$\frac{\partial^2 p}{\partial x^2} = 0$$
+
+so $\partial p / \partial x$ is constant. We denote this constant by $-\beta$, which represents the driving force of the flow and can be specified as a parameter in the problem
+
+Integrating $\partial^2 u_x(y) / \partial y^2 = -\beta$ across the channel width $[0,1]$ and imposing the no-slip condition $u = (0,0,0)$ at the channel walls gives
+
+$$u_x(y) = \tfrac{1}{2} \beta y(1-y)$$
+
+The characteristic velocity $U$ can be defined as the maximum inflow at $y = 0.5$, which implies $\beta = 8$. The channel length, $L/H$ in the scaled model, does not affect the solution, so for simplicity we restrict the computation to the unit square
+
+From a mathematical perspective, the pressure must be prescribed at a point for uniqueness. However, since $p$ is independent of $y$, we can set it to a known value (e.g., zero) along the outlet boundary $x = 1$. The resulting solution is
+
+$$p(x) = 8(1-x), \quad u_x(y) = 4y(1-y)$$
+
+The boundary conditions can be prescribed as $p = 8$ at $x = 0$, $p = 0$ at $x = 1$, and $u = (0,0,0)$ on the walls $y = 0,1$. This setup defines the pressure drop and yields a unit maximum velocity at both the inlet and outlet, along with a parabolic velocity profile, without requiring any further specifications
+
+It is worth noting that the Navier–Stokes equations are only meaningful to solve in two- or three-dimensional geometries, even though in this case the underlying mathematical problem reduces to two one-dimensional problems: one for $u_x(y)$ and one for $p(x)$
+
+The scaled model is not straightforward to simulate using a standard dimensional Navier–Stokes solver. However, since the convection term vanishes, the Reynolds number coefficient in front of this term in the scaled PDEs is irrelevant and can be set to unity. In that case, setting $\rho=\mu=1$ in the original Navier–Stokes equations reproduces the scaled model
+
+For a specific engineering problem, one typically wants to simulate a particular fluid with its corresponding physical parameters. A general-purpose solver is therefore most naturally implemented in dimensional form, using the original physical parameters. However, nondimensionalization can greatly simplify numerical simulations. First, it reveals that all fluids behave in the same way: it does not matter whether oil, gas, or water flows between two plates, nor does the absolute flow speed matter—at least up to a critical Reynolds number beyond which the flow becomes unstable and transitions to turbulence of an entirely different nature. This means that a single simulation can effectively represent all types of channel flow. In other applications, nondimensionalization shows that it may be sufficient to prescribe only certain parameter ratios (dimensionless numbers) rather than the parameters themselves. This approach simplifies exploration of the input parameter space, which is often the main purpose of simulation. In practice, the nondimensional problem is frequently solved by fixing some dimensional input parameters to convenient values (often unity)
+
+**Implementation**
+
+As in the previous example, we load the `DOLFINx` module together with the `mpi4py` module, create the unit square mesh, and specify the simulation time and temporal discretization
+
+```{python}
+import numpy as np
+import pyvista
+
+from mpi4py import MPI
+from petsc4py import PETSc
+
+from dolfinx.fem import (Constant, Function, functionspace,
+  assemble_scalar, dirichletbc, form, locate_dofs_geometrical)
+from dolfinx.fem.petsc import (assemble_matrix, assemble_vector, 
+  apply_lifting, create_vector, set_bc)
+from dolfinx.io import VTXWriter
+from dolfinx.mesh import create_unit_square
+from dolfinx.plot import vtk_mesh
+from basix.ufl import element
+from ufl import (FacetNormal, Identity, TestFunction, TrialFunction,
+  div, dot, ds, dx, inner, lhs, nabla_grad, rhs, sym)
+
+mesh = create_unit_square(MPI.COMM_WORLD, 10, 10)
+
+t = 0
+T = 10
+num_steps = 500
+dt = T /num_steps
+```
+
+Unlike in the previous demos, we will define our two function spaces using `ufl` element definitions as input
+
+```{python}
+v_cg2 = element(
+  "Lagrange", 
+  mesh.topology.cell_name(), 
+  2, 
+  shape=(mesh.geometry.dim, )
+)
+s_cg1 = element(
+  "Lagrange", 
+  mesh.topology.cell_name(), 
+  1
+)
+
+V = functionspace(mesh, v_cg2)
+Q = functionspace(mesh, s_cg1)
+```
+
+The first space, `V`, is a vector-valued function space for the velocity, while `Q` is a scalar-valued function space for the pressure. We use piecewise quadratic elements for the velocity and piecewise linear elements for the pressure. When creating the vector finite element, the dimension of the vector is set to the geometric dimension of the mesh
+
+::: callout-note
+It is well known that certain finite element spaces are unstable for the Navier–Stokes equations, and even for the simpler Stokes equation. A prime example of an unstable pair is the use of continuous piecewise linear polynomials (first-order) for both velocity and pressure. Such an unstable choice typically produces solutions with spurious, non-physical oscillations in the pressure field. A simple remedy is to use continuous piecewise quadratic elements for the velocity and continuous piecewise linear elements for the pressure. This combination is known as the Taylor–Hood element. Note that spurious oscillations may also arise when using splitting methods with an unstable element pair
+:::
+
+Since we are working with two different function spaces, we need to define two corresponding sets of trial and test functions:
+
+```{python}
+u = TrialFunction(V)
+v = TestFunction(V)
+p = TrialFunction(Q)
+q = TestFunction(Q)
+```
+
+As we saw in the Linear Elasticity Problem, we can use Python functions to define the different Dirichlet boundary conditions. For this problem, we impose three Dirichlet conditions. First, we set $u=0$ at the channel walls, i.e., at $y=0$ and $y=1$. In this case, we use `dolfinx.fem.locate_dofs_geometrical`
+
+```{python}
+def walls(x):
+  return np.logical_or(
+    np.isclose(x[1], 0), 
+    np.isclose(x[1], 1)
+  )
+```
+
+```{python}
+wall_dofs = locate_dofs_geometrical(V, walls)
+u_noslip = np.array((0,) *mesh.geometry.dim, dtype=PETSc.ScalarType)
+bc_noslip = dirichletbc(u_noslip, wall_dofs, V)
+```
+
+Second, we will impose $p=8$ at the inflow boundary ($x=0$)
+
+```{python}
+def inflow(x):
+  return np.isclose(x[0], 0)
+```
+
+```{python}
+inflow_dofs = locate_dofs_geometrical(Q, inflow)
+bc_inflow = dirichletbc(PETSc.ScalarType(8), inflow_dofs, Q)
+```
+
+Finally, we set $p=0$ at the outflow ($x=1$). This creates a pressure gradient that accelerates the flow from the initial state of zero velocity. We then collect the velocity and pressure boundary conditions in Python lists, so they can be easily accessed in the subsequent computations
+
+```{python}
+def outflow(x):
+  return np.isclose(x[0], 1)
+```
+
+```{python}
+outflow_dofs = locate_dofs_geometrical(Q, outflow)
+bc_outflow = dirichletbc(PETSc.ScalarType(0), outflow_dofs, Q)
+bcu = [bc_noslip]
+bcp = [bc_inflow, bc_outflow]
+```
+
+We now turn to the definition of the three variational forms, one for each step in the IPCS scheme. Let us first consider the formulation of the initial variational problem and the associated parameters
+
+```{python}
+u_n = Function(V)
+u_n.name = "u_n"
+U = 0.5 *(u_n +u)
+
+k = Constant(mesh, PETSc.ScalarType(dt))
+
+rho = Constant(mesh, PETSc.ScalarType(1))
+mu = Constant(mesh, PETSc.ScalarType(1))
+
+n = FacetNormal(mesh)
+f = Constant(mesh, PETSc.ScalarType((0, 0)))
+```
+
+::: callout-note
+Note that we have wrapped several parameters as constants. This reduces the compilation time of the variational formulations. By wrapping them as constants, we can later modify their values without requiring recompilation
+:::
+
+The next step is to set up the variational form for the first stage.
+Since the variational problem contains a mix of known and unknown quantities, we adopt the following naming convention:
+
+* `u` (mathematically $u^{n+1}$) denotes the trial function in the variational form
+* `u_` represents the most recently computed approximation ($u^{n+1}$ available as a Function object)
+* `u_n` corresponds to $u^n$
+* The same convention applies to `p`, `p_` ($p^{n+1}$), and `p_n` ($p^n$)
+
+```{python}
+# Define strain-rate tensor
+def epsilon(u):
+  return sym(nabla_grad(u))
+
+# Define stress tensor
+def sigma(u, p):
+  return 2 *mu *epsilon(u) -p *Identity(len(u))
+
+# Define the variational problem for the first step
+p_n = Function(Q)
+p_n.name = "p_n"
+
+F1 = rho *dot((u -u_n) /k, v) *dx
+F1 += rho *dot(dot(u_n, nabla_grad(u_n)), v) *dx
+F1 += inner(sigma(U, p_n), epsilon(v)) *dx
+F1 += dot(p_n *n, v) *ds -dot(mu *nabla_grad(U) *n, v) *ds
+F1 -= dot(f, v) *dx
+
+a1 = form(lhs(F1))
+L1 = form(rhs(F1))
+```
+
+Note that we have used the `ufl` functions `lhs` and `rhs` to extract the bilinear form $a(u,v)$ and the linear form $L(v)$. This is particularly convenient for longer and more complex variational formulations. With our chosen discretization, $a(u,v)$ (`a1`) is not time-dependent and therefore needs to be assembled only once, whereas the right-hand side depends on the solution from the previous time step (`u_n`). Consequently, as in the heat equation example, we create the matrix outside the time loop
+
+```{python}
+A1 = assemble_matrix(a1, bcs=bcu)
+A1.assemble()
+b1 = create_vector(L1)
+```
+
+Next, we set up the variational formulations and data structures for the second and third steps of the IPCS scheme, following the same approach as in the first step
+
+```{python}
+# Define variational problem for step 2
+u_ = Function(V)
+a2 = form(dot(nabla_grad(p), nabla_grad(q)) *dx)
+L2 = form(dot(nabla_grad(p_n), nabla_grad(q)) *dx -(rho /k) *div(u_) *q *dx)
+
+A2 = assemble_matrix(a2, bcs=bcp)
+A2.assemble()
+b2 = create_vector(L2)
+
+# Define variational problem for step 3
+p_ = Function(Q)
+a3 = form(rho *dot(u, v) *dx)
+L3 = form(rho *dot(u_, v) *dx -k *dot(nabla_grad(p_ -p_n), v) *dx)
+
+A3 = assemble_matrix(a3)
+A3.assemble()
+b3 = create_vector(L3)
+```
+
+Now that the linear systems are ready, we can attach solvers to them using `PETSc`. Each step can have its own solution strategy. For the tentative velocity and pressure correction steps, we’ll go with the `BiCGStab` method and algebraic multigrid as a preconditioner. For the velocity update step, we’ll switch to the `CG `method with `SOR` (Gauss–Seidel) preconditioning
+
+```{python}
+# Solver for step 1
+solver1 = PETSc.KSP().create(mesh.comm)
+solver1.setOperators(A1)
+solver1.setType(PETSc.KSP.Type.BCGS)
+pc1 = solver1.getPC()
+pc1.setType(PETSc.PC.Type.HYPRE)
+pc1.setHYPREType("boomeramg")
+
+# Solver for step 2
+solver2 = PETSc.KSP().create(mesh.comm)
+solver2.setOperators(A2)
+solver2.setType(PETSc.KSP.Type.BCGS)
+pc2 = solver2.getPC()
+pc2.setType(PETSc.PC.Type.HYPRE)
+pc2.setHYPREType("boomeramg")
+
+# Solver for step 3
+solver3 = PETSc.KSP().create(mesh.comm)
+solver3.setOperators(A3)
+solver3.setType(PETSc.KSP.Type.CG)
+pc3 = solver3.getPC()
+pc3.setType(PETSc.PC.Type.SOR)
+```
+
+We prepare output files for the velocity and pressure and write the mesh along with the initial conditions to file
+
+```{python}
+from pathlib import Path
+
+folder = Path("fenicsx/ns")
+folder.mkdir(exist_ok=True, parents=True)
+
+vtx_u = VTXWriter(mesh.comm, folder/"poiseuille_u.bp", u_n, engine="BP4")
+vtx_p = VTXWriter(mesh.comm, folder/"poiseuille_p.bp", p_n, engine="BP4")
+vtx_u.write(t)
+vtx_p.write(t)
+```
+
+We also interpolate the analytical solution into our function space and set up a variational formulation to compute the $L^2$ error
+
+```{python}
+def u_exact(x):
+  values = np.zeros((2, x.shape[1]), dtype=PETSc.ScalarType)
+  values[0] = 4 *x[1] *(1.0 -x[1])
+  return values
+
+u_ex = Function(V)
+u_ex.interpolate(u_exact)
+
+L2_error = form(dot(u_ -u_ex, u_ -u_ex) *dx)
+```
+
+The next step is to set up the time-stepping loop. For all three steps, we only need to assemble the right-hand side and apply the boundary conditions using lifting, so that the solvers can use them at each time step
+
+```{python}
+for i in range(num_steps):
+  # Update current time step
+  t += dt
+
+  # Step 1: Tentative veolcity step
+  with b1.localForm() as loc_1:
+    loc_1.set(0)
+  assemble_vector(b1, L1)
+  apply_lifting(b1, [a1], [bcu])
+  b1.ghostUpdate(
+    addv=PETSc.InsertMode.ADD_VALUES, 
+    mode=PETSc.ScatterMode.REVERSE
+  )
+  set_bc(b1, bcu)
+    
+  solver1.solve(b1, u_.x.petsc_vec)
+  u_.x.scatter_forward()
+
+  # Step 2: Pressure corrrection step
+  with b2.localForm() as loc_2:
+    loc_2.set(0)
+  assemble_vector(b2, L2)
+  apply_lifting(b2, [a2], [bcp])
+  b2.ghostUpdate(
+    addv=PETSc.InsertMode.ADD_VALUES, 
+    mode=PETSc.ScatterMode.REVERSE
+  )
+  set_bc(b2, bcp)
+
+  solver2.solve(b2, p_.x.petsc_vec)
+  p_.x.scatter_forward()
+
+  # Step 3: Velocity correction step
+  with b3.localForm() as loc_3:
+    loc_3.set(0)
+  assemble_vector(b3, L3)
+  b3.ghostUpdate(
+    addv=PETSc.InsertMode.ADD_VALUES, 
+    mode=PETSc.ScatterMode.REVERSE
+  )
+
+  solver3.solve(b3, u_.x.petsc_vec)
+  u_.x.scatter_forward()
+    
+  # Update variable with solution form this time step
+  u_n.x.array[:] = u_.x.array[:]
+  p_n.x.array[:] = p_.x.array[:]
+
+  # Write solutions to file
+  vtx_u.write(t)
+  vtx_p.write(t)
+
+  # Compute error at current time-step
+  error_L2 = np.sqrt(
+    mesh.comm.allreduce(assemble_scalar(L2_error), 
+    op=MPI.SUM)
+  )
+  error_max = mesh.comm.allreduce(
+    np.max(u_.x.petsc_vec.array -u_ex.x.petsc_vec.array), 
+    op=MPI.MAX
+  )
+  
+  # Print error only every 20th step and at the last step
+  if (i % 20 == 0) or (i == num_steps -1):
+    print(f"Time {t:.2f}, L2-error {error_L2:.2e}, Max error {error_max:.2e}")
+
+# Close xmdf file
+vtx_u.close()
+vtx_p.close()
+
+b1.destroy()
+b2.destroy()
+b3.destroy()
+
+solver1.destroy()
+solver2.destroy()
+solver3.destroy()
+```
+
+**Verification**
+
+As in the previous problems, we compute the error at each degree of freedom as well as the $L^2(\Omega)$ error. We start from the initial condition $u=(0,0)$. Although we have not explicitly specified the initial condition, `FEniCSx` initializes all Functions—including `u_n` and `u_`—to zero. Since the exact solution is quadratic, we expect the error to reach machine precision in a finite time. In our implementation, we observe that the error quickly approaches zero and is around $10^{-6}$ at $T=10$, which means the solution is basically exact by this time
+
+**Visualization of vectors**
+
+We have already seen how to plot higher-order functions and vector functions. In this section, we’ll focus on visualizing vector functions using glyphs, rather than by warping the mesh
+
+```{python}
+topology, cell_types, geometry = vtk_mesh(V)
+values = np.zeros((geometry.shape[0], 3), dtype=np.float64)
+values[:, :len(u_n)] = u_n.x.array.real.reshape((geometry.shape[0], len(u_n)))
+
+# Create a point cloud of glyphs
+function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+function_grid["u"] = values
+glyphs = function_grid.glyph(orient="u", factor=0.2)
+
+# Create a pyvista-grid for the mesh
+mesh.topology.create_connectivity(mesh.topology.dim, mesh.topology.dim)
+grid = pyvista.UnstructuredGrid(*vtk_mesh(mesh, mesh.topology.dim))
+
+# Create plotter
+plotter = pyvista.Plotter(off_screen=True)
+plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(glyphs, scalar_bar_args={"title": "u_x"})
+plotter.view_xy()
+
+# if not pyvista.OFF_SCREEN:
+#   plotter.show()
+# else:
+#   plotter.screenshot(folder/"glyphs.png")
+
+# HTML 저장
+plotter.export_html(folder/"glyphs.html")
+```
+
+```{=html}
+<iframe src="fenicsx/ns/glyphs.html"
+        width="100%" height="400px"
+        style="border:none;">
+</iframe>
+```
