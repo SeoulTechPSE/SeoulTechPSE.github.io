@@ -1,0 +1,2588 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>10&nbsp; Vector Calculus – Engineering Mathematics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./ch_12_Orthogonal_Functions_and_Fourier_Series.html" rel="next">
+<link href="./ch_07_Vectors.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch_07_Vectors.html"><strong>Second Semester</strong></a></li><li class="breadcrumb-item"><a href="./ch_09_Vector_Calculus.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Vector Calculus</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Engineering Mathematics</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>First Semester</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_01_Introduction_to_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction to Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_02_First-Order_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">First-Order Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_03_Higher-Order_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Higher-Order Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_04_The_Laplace_Transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">The Laplace Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_05_Series_Solutions_of_Linear_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Series Solutions of Linear Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_08_Matrices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Matrices</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_10_Systems_of_Linear_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Systems of Linear Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_11_Systems_of_Nonlinear_Differential_Equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Systems of Nonlinear Differential Equations</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text"><strong>Second Semester</strong></span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_07_Vectors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectors</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_09_Vector_Calculus.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Vector Calculus</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_12_Orthogonal_Functions_and_Fourier_Series.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Orthogonal Functions and Fourier Series</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_x1_Parabolic_PDEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Parabolic Partial Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_x2_Hyperbolic_PDEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperbolic Partial Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./ch_x3_Elliptic_PDEs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Elliptic Partial Differential Equations</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Numpy: Vectors, Matrices, and Multidimensional Arrays</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_sympy_symbolic_computing.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Sympy: Symbolic Computing</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_sympy_Laplace_transform.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Sympy: Laplace Transform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_equation_solving.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Equation Solving</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_optimization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Optimization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_interpolation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Interpolation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_integration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Integration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_ordinary_differential_equations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">H</span>&nbsp; <span class="chapter-title">Ordinary Differential Equations</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_double_pendulum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">I</span>&nbsp; <span class="chapter-title">Double Pendulum</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_PDE_dedalus.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">DEDALUS</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">The FEniCS computing platform</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_matplotlib.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_Mandelbrot_set.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#sec-9" id="toc-sec-9" class="nav-link active" data-scroll-target="#sec-9"><span class="header-section-number">11</span> Vector Calculus</a>
+  <ul class="collapse">
+  <li><a href="#sec-9-1" id="toc-sec-9-1" class="nav-link" data-scroll-target="#sec-9-1"><span class="header-section-number">11.1</span> Vector Functions</a></li>
+  <li><a href="#sec-9-2" id="toc-sec-9-2" class="nav-link" data-scroll-target="#sec-9-2"><span class="header-section-number">11.2</span> Motion on a Curve</a></li>
+  <li><a href="#sec-9-3" id="toc-sec-9-3" class="nav-link" data-scroll-target="#sec-9-3"><span class="header-section-number">11.3</span> Curvature and Components of Acceleration</a></li>
+  <li><a href="#sec-9-4" id="toc-sec-9-4" class="nav-link" data-scroll-target="#sec-9-4"><span class="header-section-number">11.4</span> Partial Derivatives</a></li>
+  <li><a href="#sec-9-5" id="toc-sec-9-5" class="nav-link" data-scroll-target="#sec-9-5"><span class="header-section-number">11.5</span> Directional Derivatives</a></li>
+  <li><a href="#sec-9-6" id="toc-sec-9-6" class="nav-link" data-scroll-target="#sec-9-6"><span class="header-section-number">11.6</span> Tangent Planes and Normal Lines</a></li>
+  <li><a href="#sec-9-7" id="toc-sec-9-7" class="nav-link" data-scroll-target="#sec-9-7"><span class="header-section-number">11.7</span> Gradient, Curl and Divergence</a></li>
+  <li><a href="#sec-9-8" id="toc-sec-9-8" class="nav-link" data-scroll-target="#sec-9-8"><span class="header-section-number">11.8</span> Line Integrals</a></li>
+  <li><a href="#sec-9-9" id="toc-sec-9-9" class="nav-link" data-scroll-target="#sec-9-9"><span class="header-section-number">11.9</span> Independence of the Path</a></li>
+  <li><a href="#sec-9-10" id="toc-sec-9-10" class="nav-link" data-scroll-target="#sec-9-10"><span class="header-section-number">11.10</span> Double Integrals</a></li>
+  <li><a href="#sec-9-11" id="toc-sec-9-11" class="nav-link" data-scroll-target="#sec-9-11"><span class="header-section-number">11.11</span> Double Integrals in Polar Coordinates</a></li>
+  <li><a href="#sec-9-12" id="toc-sec-9-12" class="nav-link" data-scroll-target="#sec-9-12"><span class="header-section-number">11.12</span> Green’s Theorem</a></li>
+  <li><a href="#sec-9-13" id="toc-sec-9-13" class="nav-link" data-scroll-target="#sec-9-13"><span class="header-section-number">11.13</span> Surface Integrals</a></li>
+  <li><a href="#sec-9-14" id="toc-sec-9-14" class="nav-link" data-scroll-target="#sec-9-14"><span class="header-section-number">11.14</span> Stokes’ Theorem</a></li>
+  <li><a href="#sec-9-15" id="toc-sec-9-15" class="nav-link" data-scroll-target="#sec-9-15"><span class="header-section-number">11.15</span> Triple Integrals</a></li>
+  <li><a href="#sec-9-16" id="toc-sec-9-16" class="nav-link" data-scroll-target="#sec-9-16"><span class="header-section-number">11.16</span> Divergence Theorem</a></li>
+  <li><a href="#sec-9-17" id="toc-sec-9-17" class="nav-link" data-scroll-target="#sec-9-17"><span class="header-section-number">11.17</span> Change of Variables in Multiple Integrals</a></li>
+  <li><a href="#worked-exercises" id="toc-worked-exercises" class="nav-link" data-scroll-target="#worked-exercises">Worked Exercises</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch_07_Vectors.html"><strong>Second Semester</strong></a></li><li class="breadcrumb-item"><a href="./ch_09_Vector_Calculus.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Vector Calculus</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Vector Calculus</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="sec-9" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Vector Calculus</h1>
+<section id="sec-9-1" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="sec-9-1"><span class="header-section-number">11.1</span> Vector Functions</h2>
+<ul>
+<li><p>A parametric curve in space is a set of ordered triples <span class="math inline">\((x,y,z),\)</span> <span class="math inline">\(~\)</span>where</p>
+<p><span class="math display">\[x=f(t), \;y=g(t), \;z=h(t)\]</span></p>
+<p>are continuous on an interval: <span class="math inline">\(~a \leq t \leq b\)</span></p></li>
+<li><p>The following</p>
+<p><span class="math display">\[\mathbf{r}(t) =\left\langle f(t), \,g(t), \,h(t) \right\rangle = f(t)\,\mathbf{i} +g(t)\,\mathbf{j} +h(t)\,\mathbf{k}\]</span></p>
+<p>are <strong>vector-valued functions</strong></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure01.png" title="Vector Functions" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>Limits</strong></p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle\lim_{t \to a} \mathbf{r}(t)=\left\langle \lim_{t \to a} f(t), \;\lim_{t \to a} g(t), \;\lim_{t \to a} h(t) \right\rangle\)</span></p></li>
+<li><p>If <span class="math inline">\(~\)</span><span class="math inline">\(\displaystyle\lim_{t\to a} \mathbf{r}_1(t)=\mathbf{L}_1\)</span> and <span class="math inline">\(~\)</span><span class="math inline">\(\displaystyle\lim_{t\to a} \mathbf{r}_2(t)=\mathbf{L}_2\)</span>, <span class="math inline">\(~\)</span>then</p>
+<p><span class="math inline">\(\displaystyle\lim_{t\to a} c\mathbf{r}_1(t)=c\mathbf{L}_1\)</span></p>
+<p><span class="math inline">\(\displaystyle\lim_{t\to a} \left[\mathbf{r}_1(t) +\mathbf{r}_2(t) \right] =\mathbf{L}_1 +\mathbf{L}_2\)</span></p>
+<p><span class="math inline">\(\displaystyle\lim_{t\to a} \left[\mathbf{r}_1(t) \cdot \mathbf{r}_2(t) \right] =\mathbf{L}_1 \cdot \mathbf{L}_2\)</span></p></li>
+</ul></li>
+<li><p><strong>Continuity</strong></p>
+<ul>
+<li><p>A vector function <span class="math inline">\(\mathbf{r}\)</span> is said to be <strong>continuous</strong> at <span class="math inline">\(t=a\)</span> <span class="math inline">\(\,\)</span>if</p>
+<p><span class="math inline">\(\displaystyle\,\mathbf{r}(a) \;\text{ is defined, }\phantom{\frac{1}{1}}\)</span></p>
+<p><span class="math inline">\(\displaystyle\lim_{t\to a} \mathbf{r}(t)\)</span> exists, and</p>
+<p><span class="math inline">\(\displaystyle\lim_{t\to a} \mathbf{r}(t) = \mathbf{r}(a)\)</span></p></li>
+</ul></li>
+<li><p><strong>Derivatives</strong></p>
+<ul>
+<li><p>The <strong>derivative</strong> of a vector function <span class="math inline">\(\mathbf{r}\)</span> is</p>
+<p><span class="math inline">\(\displaystyle\phantom{xx}\mathbf{r}'(t) = \lim_{\Delta t\to 0} \frac{1}{\Delta t} \left[ \mathbf{r}(t +\Delta t) -\mathbf{r}(t) \right]\)</span></p>
+<p>for all <span class="math inline">\(\,t\,\)</span> for which the limit exists</p></li>
+<li><p>If <span class="math inline">\(~\mathbf{r}(t) = \langle f(t), g(t), h(t) \rangle,\)</span> <span class="math inline">\(\,\)</span>where <span class="math inline">\(~f\)</span>, <span class="math inline">\(g\)</span>, and <span class="math inline">\(h\,\)</span> are differentiable, then</p>
+<p><span class="math inline">\(\phantom{xx}\mathbf{r}'(t) = \left\langle f'(t), g'(t), h'(t) \right\rangle\)</span></p></li>
+<li><p>When <span class="math inline">\(\mathbf{r}\)</span> have continuous first derivative and <span class="math inline">\(\mathbf{r}'(t)\neq\mathbf{0}~\)</span> for all <span class="math inline">\(~t~\)</span> in the open interval <span class="math inline">\((a,b),\)</span> <span class="math inline">\(\,\)</span>then <span class="math inline">\(\mathbf{r}\)</span> is said to be a <strong>smooth function</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure02.png" title="Derivative" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div></li>
+<li><p>In the case of the <strong>second derivative</strong>, <span class="math inline">\(\,\)</span>we have</p>
+<p><span class="math inline">\(\phantom{xx}
+\mathbf{r}''(t) = \left\langle f''(t), g''(t), h''(t) \right\rangle
+= f''(t)\mathbf{i} +g''(t)\mathbf{j} +h''(t)\mathbf{k}\)</span></p></li>
+<li><p>Chain rule</p>
+<p>If <span class="math inline">\(\mathbf{r}\)</span> is a differentiable vector function and <span class="math inline">\(s=u(t)\)</span> is a differentiable scalar function, then the derivative of <span class="math inline">\(\mathbf{r}(s)\)</span> with respect to <span class="math inline">\(t\)</span> is</p>
+<p><span class="math inline">\(\displaystyle\phantom{xx}\frac{d\mathbf{r}}{dt} =\frac{d\mathbf{r}}{ds} \frac{ds}{dt} =\mathbf{r}'(s) u'(t)\)</span></p></li>
+<li><p>Rules of Differentiation</p>
+<p>Let <span class="math inline">\(\mathbf{r}_1(t)\)</span> and <span class="math inline">\(\mathbf{r}_2(t)\)</span> be differentiable vector functions and <span class="math inline">\(u(t)\)</span> a differentiable scalar function</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle \frac{d}{dt} \left[ \mathbf{r}_1(t) +\mathbf{r}_2(t) \right] = \mathbf{r}_1'(t) +\mathbf{r}_2'(t)\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{d}{dt} \left[ u(t)\mathbf{r}_1(t) \right] = u(t)\mathbf{r}_1'(t) +u'(t)\mathbf{r}_1(t)\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{d}{dt} \left[ \mathbf{r}_1(t) \cdot \mathbf{r}_2(t) \right] = \mathbf{r}_1(t)\cdot\mathbf{r}_2'(t) +\mathbf{r}_1'(t)\cdot\mathbf{r}_2(t)\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle \frac{d}{dt} \left[ \mathbf{r}_1(t) \times \mathbf{r}_2(t) \right] = \mathbf{r}_1(t)\times\mathbf{r}_2'(t) +\mathbf{r}_1'(t)\times\mathbf{r}_2(t)\)</span></p></li>
+</ul></li>
+</ul></li>
+<li><p>Integrals</p>
+<p><span class="math inline">\(\phantom{xx}\displaystyle\int \mathbf{r}(t) \,dt = \left[ \int f(t) \,dt \right]\mathbf{i} +\left[ \int g(t) \,dt \right]\mathbf{j} +\left[ \int h(t) \,dt \right]\mathbf{k}\)</span></p></li>
+<li><p>Length of a Space Curve</p>
+<p>If <span class="math inline">\(~\mathbf{r}(t) = f(t)\mathbf{i} +g(t)\mathbf{j} +h(t)\mathbf{k}\,\)</span> is a smooth function, <span class="math inline">\(\,\)</span>then it can be shown that the <strong>length</strong> of the smooth curve traced by <span class="math inline">\(\,\mathbf{r}\,\)</span> is given by</p>
+<p><span class="math inline">\(\phantom{xx}\displaystyle s = \int_a^b \sqrt{\left[ f'(t) \right]^2 +\left[ g'(t) \right]^2 +\left[ h'(t) \right]^2}\,dt =\int_a^b \left\| \mathbf{r}'(t) \right\|\,dt\)</span></p></li>
+</ul>
+</section>
+<section id="sec-9-2" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="sec-9-2"><span class="header-section-number">11.2</span> Motion on a Curve</h2>
+<ul>
+<li><p>Position</p>
+<p>Suppose a body moves along a curve <span class="math inline">\(C\)</span> so that its position at time <span class="math inline">\(t\)</span> is given by the vector function</p>
+<p><span class="math inline">\(\phantom{xx}\mathbf{r}(t) = f(t)\mathbf{i} +g(t)\mathbf{j} +h(t)\mathbf{k}\)</span></p></li>
+<li><p>Velocity and Acceleration</p>
+<p>If <span class="math inline">\(\,f\)</span>, <span class="math inline">\(g\)</span>, and <span class="math inline">\(h\)</span> have second derivatives, <span class="math inline">\(\,\)</span> then the vectors</p>
+<p><span class="math inline">\(\phantom{xx}\begin{aligned}
+  \mathbf{v}(t) &amp;= \mathbf{r}'(t) = f'(t)\mathbf{i} +g'(t)\mathbf{j} +h'(t)\mathbf{k} \\
+  \mathbf{a}(t) &amp;= \mathbf{r}''(t) = f''(t)\mathbf{i} +g''(t)\mathbf{j} +h''(t)\mathbf{k}
+\end{aligned}\)</span></p>
+<p>are called the <strong>velocity</strong> and <strong>acceleration</strong> of the particle, respectively</p>
+<ul>
+<li><p>The scalar function <span class="math inline">\(\left\| \mathbf{v}(t)\right\|\)</span> is the <strong>speed</strong> of the particle</p></li>
+<li><p>The speed is related to arc length <span class="math inline">\(s\)</span> by <span class="math inline">\(s'(t) = \left\| \mathbf{v}(t) \right\|\)</span></p></li>
+<li><p>If a particle moves with <font color="red">a constant speed <span class="math inline">\(c\)</span></font>, <span class="math inline">\(\,\)</span> then its acceleration vector is perpendicular to the velocity vector <span class="math inline">\(\mathbf{v}\)</span></p></li>
+<li><p>To see this, note that <span class="math inline">\(\mathbf{v}\cdot\mathbf{v}=c^2\)</span>. <span class="math inline">\(~\)</span> We differentiate both sides with respect to <span class="math inline">\(t\)</span> and obtain</p>
+<p><span class="math display">\[{\frac{d}{dt}(\mathbf{v} \cdot \mathbf{v}) = \mathbf{v}\cdot\frac{d\mathbf{v}}{dt} +\frac{d\mathbf{v}}{dt} \cdot \mathbf{v}
+=2\mathbf{v}\cdot\frac{d\mathbf{v}}{dt}=0}\]</span></p>
+<p>Thus, <span class="math inline">\(\displaystyle\,\frac{d\mathbf{v}}{dt} \cdot \mathbf{v}=0\)</span> <span class="math inline">\(\text{ }\)</span>or<span class="math inline">\(\text{ }\)</span> <span class="math inline">\(\mathbf{a}(t) \cdot \mathbf{v}(t)=0~\,\)</span> for all <span class="math inline">\(\,t\)</span></p></li>
+</ul></li>
+<li><p>Centripetal Acceleration</p>
+<p>For circular motion in the plane, described by <span class="math inline">\(\mathbf{r}(t) = r_0 \cos\omega t \,\mathbf{i} +r_0\sin\omega t \,\mathbf{j},\)</span> <span class="math inline">\(\,\)</span>it is evident that</p>
+<p><span class="math display">\[\mathbf{r}''=-\omega^2\mathbf{r}\]</span></p>
+<ul>
+<li>This means that the acceleration vector <span class="math inline">\(\mathbf{a}(t)=\mathbf{r}''(t)\)</span> points in the direction opposite to that of the position vector <span class="math inline">\(\mathbf{r}(t)\)</span>. <span class="math inline">\(\,\)</span> We then say <span class="math inline">\(~\mathbf{a}(t)\)</span> is <strong>centripetal acceleration</strong></li>
+</ul></li>
+</ul>
+</section>
+<section id="sec-9-3" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="sec-9-3"><span class="header-section-number">11.3</span> Curvature and Components of Acceleration</h2>
+<ul>
+<li><p>We know that <span class="math inline">\(\mathbf{r}'(t)\)</span> is a tangent vector to the curve <span class="math inline">\(C\)</span>, and consequently</p>
+<p><span class="math display">\[\mathbf{T}(t) = \frac{\mathbf{r}'(t)}{\left\| \mathbf{r}'(t) \right\|}\]</span></p>
+<p>is a <strong>unit tangent</strong></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure03.png" title="Unit Tangents" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:20.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{d\mathbf{r}}{dt} &amp;=\frac{d\mathbf{r}}{ds}
+    \frac{ds}{dt}\;\text{ and so }\\[5pt]
+  \frac{d\mathbf{r}}{ds} =
+   \frac{\displaystyle\frac{d\mathbf{r}}{dt}} {\displaystyle\frac{ds}{dt}}
+   &amp;=\frac{\mathbf{r}'(t)}{\left\| \mathbf{r}'(t) \right\|}
+   = \mathbf{T}(t)
+\end{aligned}\]</span></p>
+<ul>
+<li><p>Let <span class="math inline">\(\,\mathbf{r}(t)\,\)</span> be a vector function defining a smooth curve <span class="math inline">\(C\)</span>. <span class="math inline">\(\,\)</span>If <span class="math inline">\(s\)</span> is the arc length parameter and <span class="math inline">\(\mathbf{T}\)</span> is the unit tangent vector, <span class="math inline">\(\,\)</span>then the <strong>curvature</strong> of <span class="math inline">\(C\)</span> at a point is</p>
+<p><span class="math display">\[\kappa=\left\|\frac{d\mathbf{T}}{ds}\right\|\]</span></p></li>
+<li><p>Using the chain rule, <span class="math inline">\(\,\)</span>we can write</p>
+<p><span class="math display">\[\frac{d\mathbf{T}}{dt}=\frac{d\mathbf{T}}{ds}\frac{ds}{dt} \;\;\Rightarrow\;\; \frac{d\mathbf{T}}{ds}=\frac{\displaystyle\frac{d\mathbf{T}}{\displaystyle dt}}{\frac{\displaystyle ds}{\displaystyle dt}}\]</span></p>
+<p>In other words, <span class="math inline">\(\,\)</span>curvature is given by <span class="math inline">\(\,\kappa(t)=\frac{\displaystyle\left\|\mathbf{T}'(t)\right\|}{\displaystyle\left\|\mathbf{r}'(t)\right\|}\)</span></p></li>
+<li><p>Tangential and Normal Components of Acceleration</p>
+<ul>
+<li><p>The velocity of the particle on <span class="math inline">\(C\)</span> is <span class="math inline">\(~\mathbf{v}(t)=\mathbf{r}'(t)\)</span>, <span class="math inline">\(\,\)</span>whereas its speed is <span class="math inline">\(\displaystyle\frac{ds}{dt}=v=\| \mathbf{v}(t) \|\)</span>. <span class="math inline">\(\,\)</span> Thus, <span class="math display">\[\mathbf{v}(t)=v\mathbf{T}\]</span></p></li>
+<li><p>Differentiating this last expression with respect to <span class="math inline">\(t\)</span> gives acceleration</p>
+<p><span class="math display">\[\mathbf{a}(t)=v\frac{d\mathbf{T}}{dt}+\frac{dv}{dt}\mathbf{T}\]</span></p></li>
+<li><p>It follows from the differentiation of <span class="math inline">\(\mathbf{T}\cdot\mathbf{T}=1\,\)</span> that <span class="math inline">\(\displaystyle\,\mathbf{T}\cdot \frac{d\mathbf{T}}{dt}=0\)</span>. <span class="math inline">\(\,\)</span>If <span class="math inline">\(\displaystyle\,\left\|\frac{d\mathbf{T}}{dt}\right\| \neq 0\)</span>, <span class="math inline">\(\,\)</span>the vector</p>
+<p><span class="math display">\[\mathbf{N}(t) = \frac{\frac{\displaystyle d\mathbf{T}}{\displaystyle dt}}{\left\| \frac{\displaystyle d\mathbf{T}}{\displaystyle dt}\right\|}\]</span></p>
+<p>is a <strong>unit normal</strong> to the curve <span class="math inline">\(C\)</span>. <span class="math inline">\(\,\)</span>The vector <span class="math inline">\(\mathbf{N}\)</span> is also called the <strong>principal normal</strong></p></li>
+<li><p>Since curvature is <span class="math inline">\(\displaystyle\,\kappa = \frac{\left\|\frac{d\mathbf{T}}{dt} \right\|}{v}\)</span>, <span class="math inline">\(\,\)</span> it follows that <span class="math inline">\(\displaystyle\frac{d\mathbf{T}}{dt}=\kappa v \mathbf{N}\)</span>. <span class="math inline">\(\,\)</span>Thus</p>
+<p><span class="math display">\[\mathbf{a}(t)=\kappa v^2 \mathbf{N} +\frac{dv}{dt}\mathbf{T} =a_N \mathbf{N} +a_T\mathbf{T}\]</span></p></li>
+</ul></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure04.png" title="Acceleration" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Binormal: <span class="math inline">\(\,\mathbf{B}(t)=\mathbf{T}(t) \times \mathbf{N}(t)\)</span></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure05.png" title="Osculating plane" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Formulas for <span class="math inline">\(a_T\)</span>, <span class="math inline">\(a_N\)</span>, and Curvature</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{v}\cdot\mathbf{a}
+    &amp;= a_N(v\mathbf{T}\cdot\mathbf{N})
+     +a_T(v\mathbf{T}\cdot\mathbf{T})=a_T v\\[5pt]
+    &amp;\Rightarrow \; a_T =\frac{dv}{dt}
+     =\frac{\mathbf{v}\cdot\mathbf{a}}{\| \mathbf{v} \|}
+     =\frac{\mathbf{r}'(t) \cdot \mathbf{r}''(t)}{\| \mathbf{r}'(t) \|} \\ \\
+   \mathbf{v}\times\mathbf{a}
+    &amp;= a_N(v\mathbf{T}\times\mathbf{N})
+     +a_T(v\mathbf{T}\times\mathbf{T})
+      =a_N v\mathbf{B}\\[5pt]
+   &amp;\Rightarrow \; a_N =\kappa v^2
+      =\frac{\|\mathbf{v}\times\mathbf{a}\|}{\| \mathbf{v} \|}
+      =\frac{\| \mathbf{r}'(t) \times \mathbf{r}''(t) \|}{\| \mathbf{r}'(t) \|} \\ \\
+\kappa(t)&amp;=\frac{\|
+   \mathbf{r}'(t)\times\mathbf{r}''(t) \|}{\|
+     \mathbf{r}'(t) \|^3}
+\end{aligned}\]</span></p></li>
+<li><p>Radius of Curvature</p>
+<p><span class="math display">\[\rho=\frac{1}{\kappa}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure06.png" title="Radius curvature" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-4" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="sec-9-4"><span class="header-section-number">11.4</span> Partial Derivatives</h2>
+<ul>
+<li>Functions of Two Variables</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure07.png" title="Functions of Two Variables" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Level Curves</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure08.png" title="Level Surfaces" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Functions of Three Variables, Level Surfaces</p>
+<p><span class="math display">\[w=F(x,y,z) \;\Rightarrow \; c=F(x,y,z)\]</span></p>
+<p>ex) <span class="math inline">\(~\displaystyle w=\frac{x^2+y^2}{z}\)</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure09.png" title="Level Curves" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Partial Derivatives</p>
+<p><span class="math inline">\(\phantom{xx}
+\begin{aligned}
+  \frac{\partial z}{\partial x}
+    &amp;=\lim_{\Delta x \to 0} \frac{f(x+\Delta x, y) -f(x,y)}{\Delta x} = f_x \\
+  \frac{\partial z}{\partial y}
+    &amp;=\lim_{\Delta y \to 0} \frac{f(x, y+\Delta y) -f(x,y)}{\Delta y} = f_y \\
+  \frac{\partial^2 z}{\partial x^2}
+    &amp;=\frac{\partial}{\partial x}\left( \frac{\partial z}{\partial x} \right) = f_{xx} \\
+  \frac{\partial^2 z}{\partial x \partial y}
+    &amp;=\frac{\partial}{\partial x} \left( \frac{\partial z}{\partial y} \right) = f_{xy}
+\end{aligned}\)</span></p></li>
+<li><p>Chain Rule</p>
+<p>If <span class="math inline">\(z=f(u,v)\)</span> is differentiable and <span class="math inline">\(u=g(x,y)\)</span> and <span class="math inline">\(v=h(x,y)\)</span> have continuous first partial derivatives, <span class="math inline">\(\,\)</span>then</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \frac{\partial z}{\partial x}&amp;= \frac{\partial z}{\partial u}\frac{\partial u}{\partial x}
++\frac{\partial z}{\partial v}\frac{\partial v}{\partial x}\\
+  \frac{\partial z}{\partial y}&amp;= \frac{\partial z}{\partial u}\frac{\partial u}{\partial y}
++\frac{\partial z}{\partial v}\frac{\partial v}{\partial y}
+\end{aligned}\]</span></p>
+<p>If <span class="math inline">\(z=f(u,v)\)</span> is differentiable and <span class="math inline">\(u=g(t)\,\)</span> and <span class="math inline">\(v=h(t)\)</span> are differentiable functions of a single variable <span class="math inline">\(t\)</span>, <span class="math inline">\(\,\)</span>the ordinary derivative <span class="math inline">\(\displaystyle\frac{dz}{dt}\)</span> is</p>
+<p><span class="math display">\[\frac{dz}{dt}=\frac{\partial z}{\partial u}\frac{du}{dt}+\frac{\partial z}{\partial v}\frac{dv}{dt}\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-5" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="sec-9-5"><span class="header-section-number">11.5</span> Directional Derivatives</h2>
+<ul>
+<li><p><strong>Vector Differential Operator</strong></p>
+<p><span class="math inline">\(\phantom{xx}
+\begin{aligned}
+   \nabla
+   &amp;= \mathbf{i} \frac{\partial }{\partial x} +\mathbf{j}\frac{\partial }{\partial y} \\
+   \nabla
+   &amp;= \mathbf{i}\frac{\partial }{\partial x} +\mathbf{j}\frac{\partial }{\partial y} +\mathbf{k}\frac{\partial }{\partial z}
+\end{aligned}\)</span></p></li>
+<li><p><strong>Gradient of a Function</strong></p>
+<p><span class="math inline">\(\phantom{xx}
+\begin{aligned}
+  \nabla f
+  &amp;= \mathbf{i} \frac{\partial f}{\partial x} +\mathbf{j}\frac{\partial f}{\partial y} \\
+  \nabla F
+  &amp;= \mathbf{i}\frac{\partial F}{\partial x} +\mathbf{j}\frac{\partial F}{\partial y} +\mathbf{k}\frac{\partial F}{\partial z}
+\end{aligned}\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure10.png" title="Arbitrary Direction" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Generalization of Partial Differentiation</p>
+<p>The <strong>directional derivative</strong> of <span class="math inline">\(z=f(x,y)\,\)</span> in the direction of a unit vector <span class="math inline">\(\mathbf{u}\)</span> <span class="math inline">\(\,\)</span>is</p>
+<p><span class="math display">\[
+\begin{aligned}
+D_\mathbf{u} f(x,y) \;
+   &amp;= { \scriptsize \lim_{h\to 0}
+    \frac{f(x+\Delta x, \,y+\Delta y) -f(x,y)}{h} }\\
+   &amp;= { \scriptsize \lim_{h\to 0}
+    \frac{f(x+h\cos\theta, \,y+h\sin\theta) -f(x,y)}{h} }
+     = \nabla f(x,y)\cdot \mathbf{u}
+  \end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure11.png" title="Directional Derivative" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>Partial Proof</strong> <span class="math inline">\(\,\)</span> Let <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(\theta\)</span> <span class="math inline">\(\,\)</span>be fixed so that</p>
+<p><span class="math display">\[g(t)=f(x+t\cos\theta,\,y+t\sin\theta)\]</span></p>
+<p>is a function of one variable. <span class="math inline">\(\,\)</span>We wish to compare the value of <span class="math inline">\(g'(0)\)</span>, <span class="math inline">\(\,\)</span>which is found by two different methods</p>
+<ul>
+<li>First, <span class="math inline">\(\,\)</span>by the definition of a derivative,</li>
+</ul>
+<p><span class="math display">\[{ g'(0)= {\scriptsize \lim_{h\to 0} \frac{g(0+h)-g(0)}{h}}
+= {\scriptsize \lim_{h\to 0}\frac{f(x+h\cos\theta, \,y+h\sin\theta)-f(x,y)}{h} } }\]</span></p>
+<ul>
+<li><p>Second, <span class="math inline">\(\,\)</span>by the chain rule,</p>
+<p><span class="math display">\[
+\begin{aligned}
+  g'(t) &amp;= {\scriptsize f_1(x+t\cos\theta,\,y+t\sin\theta)\frac{d}{dt}(x+t\cos\theta) } \\
+      &amp;\qquad
+      {\scriptsize +f_2(x+t\cos\theta,\,y+t\sin\theta)\frac{d}{dt}(x+t\sin\theta) } \\
+      &amp;= {\scriptsize f_1(x+t\cos\theta,\,y+t\sin\theta)\cos\theta
+        +f_2(x+t\cos\theta,\,y+t\sin\theta)\sin\theta } \\  
+      &amp;\big\Downarrow\;\; t\to 0 \\         
+g'(0) &amp;= {\scriptsize f_x(x,y)\cos\theta+f_y(x,y)\sin\theta } \\
+&amp;={\scriptsize \left[\,f_x(x,y)\,\mathbf{i}+f_y(x,y)\,\mathbf{j} \,\right]\cdot \left(\cos\theta\,\mathbf{i}+\sin\theta\,\mathbf{j}\right) } \\[3pt]
+  &amp;=\nabla f(x,y)\cdot \mathbf{u}
+\end{aligned}\]</span></p></li>
+</ul></li>
+<li><p>For a function <span class="math inline">\(w=F(x,y,z)\)</span>, <span class="math inline">\(~\)</span>the directional derivative is defined by</p>
+<p><span class="math display">\[\begin{aligned}
+D_\mathbf{u} F(x,y,z) &amp;= {\scriptsize \lim_{h\to 0} \frac{F(x+h\cos\alpha, \,y+h\cos\beta, \,z +h\cos\gamma) -F(x,y,z)}{h} } \\
+&amp;=\nabla F(x,y,z)\cdot \mathbf{u}
+\end{aligned}\]</span></p></li>
+<li><p>Maximum Value of the Directional Derivative</p>
+<p><span class="math display">\[
+\begin{aligned}
+  D_\mathbf{u}\,f
+    &amp;= \| \nabla f\| \| \mathbf{u} \| \cos\phi =\| \nabla f\| \cos\phi \\[5pt]
+    &amp;\,\Rightarrow\, \color{red}{-\| \nabla f\| \leq D_\mathbf{u} \,f \leq \| \nabla f \|}
+\end{aligned}\]</span></p></li>
+<li><p>The gradient vector <span class="math inline">\(\nabla f\)</span> points in the direction in which <span class="math inline">\(f\)</span> increases most rapidly, <span class="math inline">\(\,\)</span>whereas <span class="math inline">\(-\nabla f\)</span> points in the direction of the most decrease of <span class="math inline">\(\,f\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-6" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="sec-9-6"><span class="header-section-number">11.6</span> Tangent Planes and Normal Lines</h2>
+<ul>
+<li><font color="blue"><span class="math inline">\(\nabla f\)</span> is orthogonal to the level curve at <span class="math inline">\(P\)</span></font></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure12.png" title="gradient tangent" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>The derivative of <span class="math inline">\(\,f\left(x(t), \,y(t)\right)=c\,\)</span> with respect to <span class="math inline">\(\,t\,\)</span> is</p>
+<p><span class="math display">\[{\frac{\partial f}{\partial x}\frac{dx}{dt}
+      +\frac{\partial f}{\partial y}\frac{dy}{dt}=0
+    ={\scriptsize \left( \frac{\partial f}{\partial x}\mathbf{i}
+      +\frac{\partial f}{\partial y} \mathbf{j} \right)
+      \cdot \left( \frac{dx}{dt}\mathbf{i} +\frac{dy}{dt} \mathbf{j} \right) }
+      =\nabla f \cdot \mathbf{r}'}\]</span></p></li>
+<li><p>The derivative of <span class="math inline">\(\,F\left(x(t),y(t),z(t)\right)=c\,\)</span> implies that</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial F}{\partial x}&amp;\frac{dx}{dt}
+   +\frac{\partial F}{\partial y}\frac{dy}{dt}
+   +\frac{\partial F}{\partial z}\frac{dz}{dt}=0 \\
+  &amp;={\scriptsize \left( \frac{\partial F}{\partial x}\mathbf{i}
+   +\frac{\partial F}{\partial y} \mathbf{j}
+   +\frac{\partial F}{\partial z} \mathbf{k} \right)
+   \cdot
+  \left( \frac{dx}{dt}\mathbf{i}
+         +\frac{dy}{dt} \mathbf{j}
+          +\frac{dz}{dt} \mathbf{k} \right) }
+  =\nabla F \cdot \mathbf{r}'
+\end{aligned}\]</span></p></li>
+<li><p><font color="blue"><span class="math inline">\(\nabla F\)</span> is normal to the level surface at <span class="math inline">\(P\)</span></font></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure13.png" title="normal" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Let <span class="math inline">\(\,P(x_0,y_0,z_0)\)</span> be a point on the graph of <span class="math inline">\(F(x,y,z)=c\)</span>. <span class="math inline">\(\,\)</span>The <strong>tangent plane</strong> at <span class="math inline">\(P\)</span> is</p>
+<p><span class="math display">\[\begin{aligned}
+  F_x&amp;(x_0,y_0,z_0)(x-x_0) \\
+  &amp; +F_y(x_0,y_0,z_0)(y-y_0) \\
+  &amp;\qquad +F_z(x_0,y_0,z_0)(z-z_0)=0
+  \end{aligned}\]</span></p>
+<p>The line containing <span class="math inline">\(P(x_0,y_0,z_0)\)</span> <span class="math inline">\(\,\)</span>that is parallel to <span class="math inline">\(\nabla F(x_0,y_0,z_0)\)</span> <span class="math inline">\(\,\)</span>is called the <strong>normal line</strong> to the surface at <span class="math inline">\(P\)</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-7" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="sec-9-7"><span class="header-section-number">11.7</span> Gradient, Curl and Divergence</h2>
+<ul>
+<li><p>Vector Fields - Vector functions of two or three variables</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{f}(x,y)
+   &amp;= P(x,y) \mathbf{i} +Q(x,y)\mathbf{j}\\
+\mathbf{f}(x,y,z)
+   &amp;= P(x,y,z) \mathbf{i}
+    +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k}
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure14.png" title="vector field" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:85.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>The del operator combined with a scalar function <span class="math inline">\(\,\phi(x,y,z)\)</span> <span class="math inline">\(\,\)</span>produces a vector field</p>
+<p><span class="math display">\[\mathbf{f}(x,y,z)=\nabla \phi
+= \mathrm{grad}\, f   
+=\frac{\partial \phi}{\partial x}\mathbf{i}
++\frac{\partial \phi}{\partial y}\mathbf{j}
+  +\frac{\partial \phi}{\partial z}\mathbf{k}
+  \;\Rightarrow\; \delta_{ij} \mathbf{e}_i \frac{\partial \phi}{\partial x_j}\]</span></p>
+<p>called the <font color="red"><strong>gradient of <span class="math inline">\(\phi\)</span></strong></font>, <span class="math inline">\(\,\)</span>where <span class="math inline">\(\,\delta_{ij}\)</span> <span class="math inline">\(\,\)</span>is <em>Kronecker Delta</em></p></li>
+<li><p>The <font color="red"><strong>curl</strong> of a vector field <span class="math inline">\(~\mathbf{f}=P\,\mathbf{i} +Q\,\mathbf{j} +R\,\mathbf{k}\,\)</span></font> is the vector field</p>
+<p><span class="math display">\[\nabla \times \mathbf{f}=
+\mathrm{curl}\, \mathbf{f}=
+  \begin{vmatrix}
+     \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k}\\
+     \frac{\partial }{\partial x} &amp; \frac{\partial }{\partial y} &amp; \frac{\partial }{\partial z} \\
+     P &amp; Q &amp; R
+   \end{vmatrix}
+\; \Rightarrow \; \varepsilon_{ijk} \mathbf{e}_i \frac{\partial}{\partial x_j} f_k\]</span></p>
+<p>where <span class="math inline">\(\,\varepsilon_{ijk}\)</span> is <em>Levi-Civita Symbol</em></p></li>
+<li><p>The <font color="red"><strong>divergence</strong> of a vector field <span class="math inline">\(~\mathbf{f}=P\,\mathbf{i} +Q\,\mathbf{j} + R\,\mathbf{k}~\)</span></font> is the scalar function</p>
+<p><span class="math display">\[\nabla \cdot \mathbf{f}=
+\mathrm{div} \,\mathbf{f}=
+\frac{\partial P}{\partial x}
++\frac{\partial Q}{\partial y}
++\frac{\partial R}{\partial z}
+\;\Rightarrow\;\delta_{ij}
+\frac{\partial}{\partial x_i} f_j\]</span></p></li>
+<li><p>Two important properties and plus alpha</p>
+<p><font color="blue"> <span class="math inline">\(\phantom{xx}
+\begin{aligned}
+  \nabla\times\nabla f
+   &amp;= \mathrm{curl}(\mathrm{grad}\, f) = \mathbf{0}\\
+   &amp;\Rightarrow \; \varepsilon_{ijk} \mathbf{e}_i
+    \frac{\partial}{\partial x_j}
+    \frac{\partial f}{\partial x_k} = 0
+     \,\mathbf{e}_i=\mathbf{0}
+\end{aligned}\)</span> </font></p>
+<p><font color="blue"> <span class="math inline">\(\phantom{xx}
+\begin{aligned}
+\nabla \cdot(\nabla\times\mathbf{f})
+  &amp;= \mathrm{div}(\mathrm{curl} \,\mathbf{f}) =0 \\
+   &amp;\Rightarrow \; \delta_{ij}
+   \frac{\partial}{\partial x_i} \varepsilon_{jlm}
+   \frac{\partial}{\partial x_l} f_m =
+   \varepsilon_{ilm}
+   \frac{\partial^2}{\partial x_i \partial x_l} f_m=0
+\end{aligned}\)</span> </font></p>
+<p><font color="red"> <span class="math inline">\(\displaystyle \phantom{xx}
+\nabla \cdot \nabla f
+  =\nabla^2 f \;
+  \Rightarrow \; \delta_{ij}
+  \frac{\partial}{\partial x_i}
+  \frac{\partial f}{\partial x_j}
+  =\frac{\partial^2 f}{\partial x_i^2}\)</span> </font></p>
+<p><font color="green"> <span class="math inline">\(\displaystyle \phantom{xx}
+\nabla \cdot \nabla \mathbf{f}
+=\nabla^2 \mathbf{f} \;
+\Rightarrow \; \delta_{ij}
+  \frac{\partial}{\partial x_i}
+   \mathbf{e}_m \frac{\partial f_m}{\partial x_j}
+=\mathbf{e}_m
+   \frac{\partial^2 f_m}{\partial x_i^2}\)</span> </font></p>
+<p><font color="green"> <span class="math inline">\(\displaystyle \phantom{xx}
+\begin{aligned}
+\nabla \times (\nabla \times \mathbf{f})
+&amp;= \nabla (\nabla \cdot \mathbf{f}) -\nabla^2 \mathbf{f} \\
+&amp;\Rightarrow \;
+\varepsilon_{ijk} \mathbf{e}_i
+  \frac{\partial}{\partial x_j}
+   \varepsilon_{klm}
+   \frac{\partial}{\partial x_l}f_m \\
+&amp;\qquad
+=(\delta_{il}\delta_{jm}-\delta_{im}\delta_{jl})
+\mathbf{e}_i \frac{\partial}{\partial x_j}
+  \frac{\partial}{\partial x_l}f_m \\
+&amp;\qquad
+=\mathbf{e}_i \frac{\partial}{\partial x_i}
+\frac{\partial f_j}{\partial x_j}
+-\mathbf{e}_i \frac{\partial^2 f_i}{\partial x_j^2}
+\end{aligned}\)</span> </font></p></li>
+<li><p>Product Rules with <span class="math inline">\(\nabla\)</span></p>
+<p><span class="math inline">\(\phantom{xx}
+\begin{aligned}
+\nabla (fg) &amp;= f \nabla g + g \nabla f \\
+\nabla (\mathbf{u} \cdot \mathbf{v})
+   &amp;= \mathbf{u} \times (\nabla \times \mathbf{v})
+     +\mathbf{v} \times (\nabla \times \mathbf{u}) \\
+     &amp;+(\mathbf{u} \cdot \nabla) \mathbf{v}
+     +(\mathbf{v} \cdot \nabla) \mathbf{u}
+   = \mathbf{v} \cdot \nabla \mathbf{u}
+     +\mathbf{u} \cdot \nabla \mathbf{v} \\
+\nabla \cdot (f \mathbf{u})
+   &amp;= f (\nabla \cdot \mathbf{u})
+     +\mathbf{u} \cdot \nabla f \\
+\nabla \cdot (\mathbf{u} \times \mathbf{v})
+    &amp;= \mathbf{v} \cdot (\nabla \times \mathbf{u})
+     -\mathbf{u} \cdot (\nabla \times \mathbf{v}) \\
+  \nabla \times (f \mathbf{u})
+    &amp;= \nabla f \times \mathbf{u}
+     +f (\nabla \times \mathbf{u}) \\
+  \nabla \times (\mathbf{u} \times \mathbf{v})
+    &amp;= \mathbf{u} (\nabla \cdot \mathbf{v})
+     -\mathbf{v} (\nabla \cdot \mathbf{u})
+     +(\mathbf{v} \cdot \nabla) \mathbf{u}
+     -(\mathbf{u} \cdot \nabla) \mathbf{v}
+\end{aligned}\)</span></p></li>
+<li><p>Generalized Curvlinear Coorindates: <span class="math inline">\(\,\)</span> <span class="math inline">\(\mathbf{q}_i\)</span>, <span class="math inline">\(\,q_i\)</span>, <span class="math inline">\(\,h_i\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\nabla f \;
+&amp;= {\scriptsize \mathbf{q}_1 \frac{1}{h_1}
+    \frac{\partial f}{\partial q_1}
+  + \mathbf{q}_2 \frac{1}{h_2}
+    \frac{\partial f}{\partial q_2}
+  + \mathbf{q}_3 \frac{1}{h_3}
+    \frac{\partial f}{\partial q_3} } \\ \\
+\nabla \cdot \mathbf{u} \;
+&amp;= {\scriptsize \frac{1}{h_1 h_2 h_3}
+    \left[ \frac{\partial }{\partial q_1}
+      \left( u_1h_2h_3 \right)
+  + \frac{\partial }{\partial q_2}
+      \left( u_2h_1h_3 \right)  
+  + \frac{\partial }{\partial q_3}
+      \left( u_3h_1h_2 \right)\right] } \\ \\
+\nabla^2 f\;
+&amp; = {\scriptsize \frac{1}{h_1 h_2 h_3}
+  \left[ \frac{\partial }{\partial q_1}
+    \left( \frac{h_2 h_3}{h_1}
+      \frac{\partial f}{\partial q_1} \right)
+    + \frac{\partial }{\partial q_2}
+    \left( \frac{h_1 h_3}{h_2}
+      \frac{\partial f}{\partial q_2}  \right)  
+    + \frac{\partial }{\partial q_3}
+      \left( \frac{h_1 h_2}{h_3}
+      \frac{\partial f}{\partial q_3} \right)\right] }\\ \\
+\nabla \times \mathbf{u} \;
+  &amp;={\scriptsize \frac{1}{h_1 h_2 h_3}
+  \begin{vmatrix}
+   h_1 \mathbf{q}_1 &amp; h_2 \mathbf{q}_2 &amp; h_3 \mathbf{q}_3\\
+   \displaystyle\frac{\partial }{\partial q_1} &amp; \displaystyle\frac{\partial }{\partial q_2} &amp; \displaystyle\frac{\partial }{\partial q_3}  \\
+   h_1 u_1 &amp; h_2 u_2 &amp; h_3 u_3
+\end{vmatrix}}
+\end{aligned}\]</span></p>
+<ul>
+<li><p>Cylindrical Coordinates</p>
+<p><span class="math inline">\(\phantom{xx} q_1=r, \;q_2=\theta, \; q_3=z\)</span></p>
+<p><span class="math inline">\(\phantom{xx} h_1=h_r=1, \;\;h_2=h_\theta=r, \;\;h_3=h_z=1\)</span></p></li>
+<li><p>Spherical Coordinates</p>
+<p><span class="math inline">\(\phantom{xx} q_1=\rho, \;q_2=\phi, \; q_3=\theta\)</span></p>
+<p><span class="math inline">\(\phantom{xx} h_1=h_\rho=1, \;\;h_2=h_\phi=\rho, \;\;h_3=h_\phi=\rho \sin\phi\)</span></p></li>
+</ul></li>
+<li><p>Physical Interpretations</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure15.png" title="irrotational-rotational" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure16.png" title="source-sink" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:26.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-8" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="sec-9-8"><span class="header-section-number">11.8</span> Line Integrals</h2>
+<ul>
+<li>Integration of a function defined along a curve</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure17.png" title="various curve" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Definite Integral</p>
+<p><span class="math display">\[\lim_{\|P\|\to 0} \sum_{k=1}^n f(x_k^*)\Delta x_k = \int_a^b f(x)\,dx\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure18.png" title="sample point in k" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Line Integrals in the Plane</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure19.png" title="sample point in k subarc" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+    \lim_{\| P \|\to 0} \sum_{k=1}^n G(x_k^*, y_k^*)\,\Delta x_k &amp;= \int_C G(x,y)\,dx\\
+    \lim_{\| P \|\to 0} \sum_{k=1}^n G(x_k^*, y_k^*)\,\Delta y_k &amp;=\int_C G(x,y)\,dy\\
+    \lim_{\| P \|\to 0} \sum_{k=1}^n G(x_k^*, y_k^*)\,\Delta s_k &amp;= \int_C G(x,y)\,ds
+\end{aligned}\]</span></p>
+<ul>
+<li><p>Method of Evaluation</p>
+<ul>
+<li><p>Curve Defined Parametrically, <span class="math inline">\(\;x=f(t)\)</span>, <span class="math inline">\(\;y=g(t)\)</span>, <span class="math inline">\(\;a\leq t \leq b\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \int_C G(x,y)\,dx
+   &amp;=\int_a^b G(\,f(t), g(t)) \,f'(t)\,dt \\
+  \int_C G(x,y)\,dy
+   &amp;=\int_a^b G(\,f(t), g(t)) \,g'(t)\,dt \\
+  \int_C G(x,y)\,ds
+   &amp;=\int_a^b G(\,f(t), g(t)) \,\sqrt{[f'(t)]^2
+   +[g'(t)]^2}\,dt
+\end{aligned}\]</span></p></li>
+<li><p>Curve Defined by an Explicit Function, <span class="math inline">\(\;y=f(x)\)</span>, <span class="math inline">\(\;a\leq x \leq b\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \int_C G(x,y)\,dx
+   &amp;=\int_a^b G(x, f(x)) \,dx \\
+  \int_C G(x,y)\,dy
+   &amp;=\int_a^b G(x, f(x)) \,f'(x)\,dx \\
+  \int_C G(x,y)\,ds
+   &amp;=\int_a^b G(x, f(x)) \,\sqrt{1
+    +[f'(x)]^2}\,dx
+\end{aligned}\]</span></p></li>
+</ul></li>
+<li><p>Notation</p>
+<p><span class="math display">\[{\displaystyle\int_C P\,dx +\int_C Q\,dy \,\Rightarrow \, \int_C P\,dx +Q \,dy}\]</span></p>
+<p><span class="math display">\[{\displaystyle\int_{-C} P\,dx +Q\,dy = -\int_C P\,dx +Q\,dy}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure20.png" title="opposite_orientation" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>A line integral along a closed curve <span class="math inline">\(C\)</span></p>
+<p><span class="math display">\[\oint_C P \,dx +Q \,dy\]</span></p></li>
+<li><p>Line Integrals in Space</p>
+<p><span class="math display">\[
+\begin{aligned}
+\int_C &amp;G(x,y,z)\,ds = \\ &amp;\int_a^b G(\,f(t), g(t),h(t)) \,\sqrt{[f'(t)]^2 +[g'(t)]^2 +[h'(t)]^2}\,dt
+\end{aligned}\]</span></p></li>
+<li><p>Suppose the vector-valued function</p>
+<p><span class="math display">\[\mathbf{f}(x,y,z)=P(x,y,z)\mathbf{i} +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k}\]</span></p>
+<p>is defined along a curve <span class="math inline">\(C\)</span> and</p>
+<p><span class="math display">\[d\mathbf{r}=dx\mathbf{i} +dy\mathbf{j} +dz\mathbf{k}\,\]</span></p>
+<p>is the displacement vector of points on <span class="math inline">\(C\)</span>, <span class="math inline">\(\,\)</span>then</p>
+<p><span class="math display">\[\int_C \mathbf{f}\cdot \,d\mathbf{r} =\int_C P(x,y,z) \, dx +Q(x,y,z) \, dy +R(x,y,z) \, dz\]</span></p></li>
+<li><p>Work and Circulation <span class="math display">\[W =\int_C \mathbf{f} \cdot d\mathbf{r} = \int_C \mathbf{f}\cdot \mathbf{T} \,ds \]</span> <span class="math display">\[\mathrm{Circulation}= \oint_C \mathbf{f} \cdot d\mathbf{r} = \oint_C \mathbf{f}\cdot \mathbf{T} \,ds \]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure21.png" title="circulation" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-9" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="sec-9-9"><span class="header-section-number">11.9</span> Independence of the Path</h2>
+<ul>
+<li><p>The value of a line integral</p>
+<p><span class="math display">\[\int_C \mathbf{F}\cdot \,d\mathbf{r}\]</span></p>
+<p>depends on the path of integration</p></li>
+<li><p>Stated another way, <span class="math inline">\(\,\)</span>if <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> are two different paths between the same points <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, <span class="math inline">\(\,\)</span>then we expect that <span class="math display">\[\int_{C_1} \mathbf{F}\cdot \,d\mathbf{r} \neq \int_{C_2} \mathbf{F}\cdot \,d\mathbf{r}\]</span></p></li>
+<li><p><strong>Path Independence</strong></p>
+<p>A line integral <span class="math inline">\(\displaystyle\int_C \mathbf{f}\cdot d\mathbf{r}~\)</span> is <font color="red">independence</font> of the path if</p>
+<p><span class="math display">\[\int_{C_1} \mathbf{f}\cdot d\mathbf{r}=\int_{C_2}\mathbf{f}\cdot d\mathbf{r}\]</span></p>
+<p>for any two paths <span class="math inline">\(C_1\)</span> and <span class="math inline">\(C_2\)</span> between <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></p></li>
+<li><p>A vector function <span class="math inline">\(\mathbf{f}\)</span> in 2- or 3-space is said to be <font color="red"><strong>conservative</strong></font> if <span class="math inline">\(\,\mathbf{f}\)</span> can be written as the gradient of a scalar function <span class="math inline">\(\phi\)</span>. <span class="math inline">\(\,\)</span>The function <span class="math inline">\(\phi\)</span> is called a <font color="red"><strong>potential function</strong></font> for <span class="math inline">\(\,\mathbf{f}\)</span></p></li>
+<li><p>In other words, <span class="math inline">\(\,\mathbf{f}\)</span> is conservative if there exists a function <span class="math inline">\(\phi\)</span> such that <font color="red"><span class="math inline">\(\,\mathbf{f}=\nabla \phi\)</span></font>. <span class="math inline">\(\,\)</span>A conservative vector field is also called a <strong>gradient vector field</strong></p></li>
+<li><p><strong>Fundamental Theorem</strong></p>
+<p>If <span class="math inline">\(~\mathbf{f}(x,y,z)~\)</span> is a conservative vector field in <span class="math inline">\(R\)</span> and <span class="math inline">\(\phi\)</span> is a potential function for <span class="math inline">\(\,\mathbf{f}\)</span>, <span class="math inline">\(\,\)</span>then</p>
+<p><span class="math display">\[\int_C \mathbf{f}\cdot d\mathbf{r}=\int_C \nabla\phi \cdot d\mathbf{r}=\phi(B) -\phi(A)\]</span></p>
+<p>where <span class="math inline">\(A=(x(a), y(a), z(a))~\)</span> and <span class="math inline">\(\,B=(x(b), y(b), z(b))\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure22.png" title="regions" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div></li>
+<li><p><strong>Equivalent Concepts:</strong> <span class="math inline">\(\,\)</span>In an open connected region <span class="math inline">\(R\)</span>, <span class="math inline">\(\displaystyle\int_C \mathbf{f}\cdot d\mathbf{r}\)</span> is independent of the path <span class="math inline">\(C\)</span></p>
+<ul>
+<li><p>if and only if the vector field <span class="math inline">\(\mathbf{f}\)</span> is conservative in <span class="math inline">\(R\)</span></p></li>
+<li><p>if and only if <span class="math inline">\(\displaystyle\oint_{C'} \mathbf{f}\cdot d\mathbf{r}=0\,\)</span> for every closed path <span class="math inline">\(\,C'\)</span> in <span class="math inline">\(R\)</span></p></li>
+</ul></li>
+<li><p><strong>Test for a Conservative Field:</strong></p>
+<ul>
+<li><p>Suppose</p>
+<p><span class="math display">\[\mathbf{f}(x,y,z)=P(x,y,z)\mathbf{i} +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k}\]</span></p>
+<p>is a conservative vector field in an open region of 3-space, and that <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>, and <span class="math inline">\(R\)</span> are continuous and have continuous first partial derivatives in that region</p></li>
+<li><p>Then <span class="math inline">\(\,\mathbf{f}=\nabla \phi\,\)</span> and <span class="math inline">\(\,\nabla\times\mathbf{f}=\nabla\times\nabla\phi=\mathbf{0}\)</span>, <span class="math inline">\(\,\)</span>that is</p>
+<p><span class="math display">\[{\scriptsize \nabla\times\mathbf{f}=\left( \frac{\partial R}{\partial y} -\frac{\partial Q}{\partial z}\right)\mathbf{i}
++\left( \frac{\partial P}{\partial z} -\frac{\partial R}{\partial x}\right)\mathbf{j}
++\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y}\right)\mathbf{k}=\mathbf{0}}\;\;\]</span></p>
+<p><span class="math display">\[~\;\Downarrow\]</span></p>
+<p><span class="math display">\[\;\;{\frac{\partial P}{\partial y} =\frac{\partial Q}{\partial x}, \;\frac{\partial P}{\partial z} =\frac{\partial R}{\partial x},\;
+\frac{\partial Q}{\partial z} =\frac{\partial R}{\partial y}}\]</span></p>
+<p>for all <span class="math inline">\(\,(x,y,z)\)</span> in that region</p></li>
+</ul></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-10" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="sec-9-10"><span class="header-section-number">11.10</span> Double Integrals</h2>
+<ul>
+<li><p>The Double Integral</p>
+<p>Let <span class="math inline">\(\,f\)</span> be a function of two variables defined on a closed region <span class="math inline">\(R\)</span>. Then the <strong>double integral of <span class="math inline">\(\,f\)</span> over <span class="math inline">\(R\)</span></strong> <span class="math inline">\(\,\)</span>is given by</p>
+<p><span class="math display">\[\lim_{\|P\|\to 0} \sum_{k=1}^n f\left(x_k^*, y_k^*\right) \Delta A_k = \iint_R f(x,y)\,dA\]</span></p></li>
+<li><p>Area and Volume</p>
+<p><span class="math display">\[ A=\iint_R dA \]</span></p>
+<p><span class="math display">\[ V=\iint_R f(x,y) \,dA \]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure23.png" title="volume" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Properties of Double Integrals</p>
+<p><span class="math display">\[ \iint_R kf(x,y) \,dA = k \iint_R f(x,y) \,dA \]</span></p>
+<p><span class="math display">\[ \iint_R f(x,y) \pm g(x,y)  \,dA = \iint_R f(x,y) \,dA \pm \iint_R g(x,y) \,dA \]</span></p>
+<p><span class="math display">\[ \iint_R f(x,y) \,dA = \iint_{R_1} f(x,y) \,dA + \iint_{R_2} f(x,y) \,dA \]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure24.png" title="union region" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div></li>
+<li><p><strong>Evaluation of Double Integrals</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure25.png" title="region type" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>If <span class="math inline">\(R\)</span> is of Type I, <span class="math inline">\(\,\)</span>then</p>
+<p><span class="math display">\[{\iint_R f(x,y) \,dA =\int_a^b\int_{g_1(x)}^{g_2(x)} f(x,y) \,dydx}\]</span></p></li>
+<li><p>If <span class="math inline">\(R\)</span> is of Type II, <span class="math inline">\(\,\)</span>then</p>
+<p><span class="math display">\[{\iint_R f(x,y) \,dA =\int_c^d\int_{h_1(y)}^{h_2(y)} f(x,y) \,dxdy}\]</span></p></li>
+</ul></li>
+<li><p>Center of Mass and Moments of Inertia</p>
+<p><span class="math display">\[ \bar{x} = \frac{\displaystyle\iint_R x\rho(x,y)\,dA}{M} \, \;\textrm{ and } \; \bar{y}=\frac{\displaystyle\iint_R y\rho(x,y) \,dA}{M}\]</span></p>
+<p><span class="math display">\[ I_y=\iint_R x^2\rho(x,y) \, dA\;\textrm{ and } \; I_x=\iint_R y^2\rho(x,y) \,dA \]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-11" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="sec-9-11"><span class="header-section-number">11.11</span> Double Integrals in Polar Coordinates</h2>
+<ul>
+<li><p>Polar Rectangles</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \Delta A_k &amp;=\frac{1}{2}(r_{k+1}^2 -r_k^2)\Delta \theta_k \\
+  &amp;=\frac{1}{2}(r_{k+1} +r_k)(r_{k+1} -r_k) \Delta\theta_k \\[5pt]
+  &amp;=r_k^*\Delta r_k \Delta\theta_k
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure26.png" title="polar rectangle" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Double Integrals in Polar Coordinates</p>
+<p><span class="math display">\[
+\begin{aligned}
+\lim_{\| P \|\to 0} \sum_{k=1}^n &amp; f\left( r_k^*, \theta_k^* \right) r_k^* \Delta r_k \Delta\theta_k \\
+  &amp; = \iint_R f(r,\theta) \,dA\\
+  &amp; = \int_\alpha^\beta
+    \int_{g_1(\theta)}^{g_2(\theta)} f(r,\theta)\,r \,dr \,d\theta \\
+  &amp; =\int_a^b \int_{h_1(r)}^{h_2(r)} f(r,\theta)\,r \,d\theta \,dr
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure27_28.png" title="polar R1 &amp; R2" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-12" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="sec-9-12"><span class="header-section-number">11.12</span> Green’s Theorem</h2>
+<ul>
+<li><p>Suppose that <span class="math inline">\(C\)</span> is a piecewise-smooth simple closed curve bounding a simply connected region <span class="math inline">\(R\)</span></p></li>
+<li><p>If <span class="math inline">\(\,P\)</span>, <span class="math inline">\(Q\)</span>, <span class="math inline">\(\displaystyle\frac{\partial P}{\partial y}\)</span>, and <span class="math inline">\(\displaystyle\frac{\partial Q}{\partial x}\)</span> are continuous on <span class="math inline">\(R\)</span>, <span class="math inline">\(\,\)</span>then</p>
+<p><font color="red"><span class="math display">\[{\oint_C P \,dx +Q \,dy = \iint_R \left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right)\, dA}\]</span></font></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure29.png" title="direction C" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p><strong>Partial Proof</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+   -\iint_R \frac{\partial P}{\partial y}\, dA &amp;= -\int_a^b \int_{g_1(x)}^{g_2(x)} \frac{\partial P}{\partial y} \,dy dx \\
+   &amp;=-\int_a^b [P(x,g_2(x)) -P(x,g_1(x))] \,dx\\
+   &amp;=\int_a^b P(x,g_1(x))\,dx +\int_b^a P(x,g_2(x)) \,dx \\
+   &amp;= \oint_C P(x,y) \,dx
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure30.png" title="Green's Proof" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div></li>
+<li><p><strong>Region with Holes</strong></p>
+<p><span class="math display">\[
+\begin{aligned}
+  \iint_R &amp;\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right)\, dA \\
+  &amp;=\iint_{R_1} \left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right)\, dA
+   +\iint_{R_2} \left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right)\, dA\\
+  &amp;=\oint_{C_1} P \,dx +Q \,dy +\oint_{C_2} P \,dx +Q \,dy =\oint_C P \,dx +Q \,dy
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure31.png" title="region with hole" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(\displaystyle\oint_{C} \frac{-y}{x^2 +y^2}\, dx + \frac{x}{x^2 + y^2}\,dy\)</span>, <span class="math inline">\(\,\)</span> where <span class="math inline">\(C=C_1 \cup C_2\)</span> is the boundary of the shaded region <span class="math inline">\(R\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure32.png" title="Ex region" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Evaluate <span class="math inline">\(\displaystyle\oint_{C_1} \frac{-y}{x^2 +y^2}\, dx + \frac{x}{x^2 + y^2}\,dy\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-13" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="sec-9-13"><span class="header-section-number">11.13</span> Surface Integrals</h2>
+<ul>
+<li><p>Surface Area</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure33.png" title="surface above R" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:65.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[
+\begin{aligned}
+  \mathbf{u} &amp;= \Delta x_k \mathbf{i} +f_x(x_k,y_k)\Delta x_k \mathbf{k}\\
+  \mathbf{v} &amp;= \Delta y_k \mathbf{j} +f_y(x_k,y_k)\Delta y_k \mathbf{k}\\
+  &amp; \Downarrow \\
+  \mathbf{u} \times \mathbf{v} &amp;={\scriptsize\left[-f_x(x_k,y_k)\mathbf{i} -f_y(x_k,y_k)\mathbf{j}+\mathbf{k}\right] \Delta x_k \Delta y_k}\\
+  &amp; \Downarrow \\
+  \Delta S_k &amp;= {\sqrt{1 +\left[\,f_x(x_k,y_k)\right]^2 +\left[\,f_y(x_k,y_k)\right]^2}\Delta A_k }
+\end{aligned}\]</span> Then the area of the surface over <span class="math inline">\(R\)</span> is given by <span class="math display">\[ { S=\iint_R \sqrt{1+\left[\,f_x(x,y)\right]^2 +\left[\,f_y(x,y)\right]^2}\,dA} \]</span></p></li>
+<li><p>Surface Integral</p>
+<p>Let <span class="math inline">\(\,G\,\)</span> be a function of three variables defined over a region of space containing the surface <span class="math inline">\(S\)</span>. <span class="math inline">\(\,\)</span>Then the surface integral of <span class="math inline">\(G\)</span> over <span class="math inline">\(S\)</span> is given by</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \lim_{\|P\|\to 0}&amp;\sum_{k=1}^n G(x_k^*,y_k^*,z_k^*)\,\Delta S_k = \iint_S G(x,y,z)\,dS\\
+   &amp;= \iint_R G(x,y,f(x,y)) \,\sqrt{1+\left[\,f_x(x,y)\right]^2 +\left[\,f_y(x,y)\right]^2}\,dA
+\end{aligned}\]</span></p></li>
+<li><p>If a smooth surface <span class="math inline">\(S\)</span> <span class="math inline">\(\,\)</span>is <span class="math inline">\(g(x,y,z)=0,\)</span> <span class="math inline">\(\,\)</span>a unit normal is</p>
+<p><span class="math display">\[\mathbf{n}=\frac{\nabla g}{\|\nabla g\|}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure35.png" title="unit normal" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div></li>
+<li><p>Integrals of Vector Fields</p>
+<p>The total volume of a fluid passing through <span class="math inline">\(\,S\)</span> <span class="math inline">\(\,\)</span>is called the <strong>flux of <span class="math inline">\(\mathbf{v}\)</span> through <span class="math inline">\(S\)</span></strong> and is given by</p></li>
+</ul>
+<p><span class="math display">\[ \mathrm{flux} =\iint_S (\mathbf{v}\cdot\mathbf{n})\,dS \]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure36.png" title="flux" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-14" class="level2" data-number="11.14">
+<h2 data-number="11.14" class="anchored" data-anchor-id="sec-9-14"><span class="header-section-number">11.14</span> Stokes’ Theorem</h2>
+<ul>
+<li><p>Vector Form of Green’s Theorem</p>
+<p>If <span class="math inline">\(\,\mathbf{f}(x,y)=P(x,y)\mathbf{i} +Q(x,y)\mathbf{j} \,\)</span> is a two-dimensional vector field, <span class="math inline">\(\text{ }\)</span>then</p>
+<p><span class="math display">\[\mathrm{curl}\, \mathbf{f} =\nabla \times \mathbf{f}
+=\left|\begin{matrix} \mathbf{i} &amp; \mathbf{j} &amp; \mathbf{k}\\
+    \displaystyle\frac{\partial}{\partial x}
+    &amp; \displaystyle\frac{\partial}{\partial y}
+    &amp; \displaystyle\frac{\partial}{\partial z}\\ P &amp; Q &amp; 0 \end{matrix}\right|
+=\left( \frac{\partial Q}{\partial x} -\frac{\partial P}{\partial y} \right )\mathbf{k}\]</span></p>
+<p>Green’s theorem can be written in vector notation as</p>
+<p><span class="math display">\[\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds
+=\iint_R (\nabla \times \mathbf{f}) \cdot \mathbf{k}\,dA\]</span></p></li>
+<li><p><strong>Stokes’ Theorem - Green’s Theorem in 3-Space</strong></p>
+<ul>
+<li><p>Let <span class="math inline">\(S\)</span> be a piecewise-smooth orientable surface bounded by a piecewise-smooth simple closed curve <span class="math inline">\(C\)</span></p></li>
+<li><p>Let <span class="math inline">\(~\mathbf{f}(x,y,z)=P(x,y,z)\mathbf{i} +Q(x,y,z)\mathbf{j} +R(x,y,z)\mathbf{k} \,\)</span> be a vector field for which <span class="math inline">\(P\)</span>, <span class="math inline">\(Q\)</span>, and <span class="math inline">\(R\)</span> are continuous and have continuous first partial derivatives in a region of 3-space containing <span class="math inline">\(S\)</span>. <span class="math inline">\(~\)</span>If <span class="math inline">\(C\)</span> is traversed in the positive direction, then</p></li>
+</ul>
+<p><font color="red"><span class="math display">\[\oint_C \mathbf{f}\cdot \,d\mathbf{r} =\oint_C \mathbf{f}\cdot\mathbf{T}\,ds = \iint_R (\nabla \times\mathbf{f}) \cdot \mathbf{n}\,dS\]</span></font></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure37.png" title="Stokes" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Physical Interpretation of Curl</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \oint_{C_r} \mathbf{f} \cdot d\mathbf{r}
+   = \iint_{S_r} \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0) &amp;\, dS\\
+   = \left[\nabla\times\mathbf{f}(P_0)\right]\, \cdot \mathbf{n}(P_0)\,\iint_{S_r}\,dS &amp;
+    =\left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)\,S_r\\
+  \qquad\qquad\qquad\qquad &amp;\Downarrow\\
+  \left[\nabla\times\mathbf{f}(P_0)\right] \cdot \mathbf{n}(P_0)
+  = \lim_{r\to 0} \frac{1}{S_r} &amp;\oint_{C_r} \mathbf{f} \cdot
+  d\mathbf{r} \approx \frac{1}{S_r}\oint_{C_r} \mathbf{f} \cdot
+  d\mathbf{r}
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure38.png" title="physical meaning Curl" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-15" class="level2" data-number="11.15">
+<h2 data-number="11.15" class="anchored" data-anchor-id="sec-9-15"><span class="header-section-number">11.15</span> Triple Integrals</h2>
+<ul>
+<li><p>Let <span class="math inline">\(F\)</span> be a function of three variables defined over a closed region <span class="math inline">\(D\)</span> of space. Then the triple integral of <span class="math inline">\(F\)</span> over <span class="math inline">\(D\)</span> is given by</p>
+<p><span class="math display">\[{\lim_{\| P\|\to 0} \sum_{k=1}^n F(x_k^*,y_k^*,z_k^*)\,\Delta V_k = \iiint_D F(x,y,z)\,dV}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure39.png" title="sub region" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+<ul>
+<li><p>Evaluation by Iterated Integrals</p>
+<p><span class="math display">\[
+\begin{aligned}
+    \iiint_D F(x,y,z)\,dV &amp;= \iint_R \left[ \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz \right]\,dA\\
+   &amp;= \int_a^b \int_{g_1(x)}^{g_2(x)} \int_{f_1(x,y)}^{f_2(x,y)} F(x,y,z)\,dz\,dy\,dx
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure40.png" title="triple integral" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
+</figure>
+</div></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Example</strong> <span class="math inline">\(\,\)</span> Find the volume of the solid in the first octant bounded by the graphs of <span class="math inline">\(z=1-y^2\)</span>, <span class="math inline">\(y=2x\)</span>, and <span class="math inline">\(x=3\)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure41.png" title="triple integral example" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:70.0%"></p>
+</figure>
+</div>
+<p><span class="math inline">\(~\)</span></p>
+<ul>
+<li><p>Cylindrical Coordinates</p>
+<p><span class="math display">\[\begin{aligned}
+  x=r\cos\theta, \;\;&amp;y=r\sin\theta, \;\;z=z \\
+  &amp;\Downarrow \\
+  r^2 = x^2 +y^2, \;\; &amp;\tan\theta=\frac{y}{x},\;\; z=z
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure42.png" title="cylindrical coordinate" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div></li>
+<li><p>Triple Integrals in Cylindrical Coordinates</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \iiint_D F(r,\theta,z)\,dV &amp;= \iint_R \left[ \int_{f_1(r,\theta)}^{f_2(r,\theta)}
+      F(r,\theta,z)\,dz \right]\,dA \\
+   &amp;= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)}
+     \int_{f_1(r,\theta)}^{f_2(r,\theta)} F(r,\theta,z)\,r\,dz\,dr\,d\theta
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure43.png" title="cylindrical wedge" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+</figure>
+</div></li>
+<li><p>Spherical Coordinates</p>
+<p><span class="math display">\[
+\begin{aligned}
+x = \rho\sin\phi\cos\theta, \;\;
+&amp;y=\rho\sin\phi\sin\theta, \;\;
+z=\rho\cos\phi \\
+   &amp;\Downarrow \\
+\rho^2 =x^2 +y^2 +z^2, \;\; &amp;\tan\theta=\frac{y}{x},
+\;\;\cos\phi=\frac{z}{\sqrt{x^2 +y^2 +z^2}}
+\end{aligned}\]</span></p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure44.png" title="spherical coordinate" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+<ul>
+<li>Triple Integrals in Spherical Coordinates</li>
+</ul>
+<p><span class="math display">\[
+  \begin{aligned}
+      \iiint_D &amp;F(\rho,\theta,\phi)\,dV  \\
+      &amp;= \int_\alpha^\beta \int_{g_1(\theta)}^{g_2(\theta)}
+      \int_{f_1(\phi,\theta)}^{f_2(\phi,\theta)} F(\rho,\theta,\phi)\,
+      \rho^2 \sin\phi\, d\rho\,d\phi\,d\theta
+  \end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure45.png" title="spherical wedge" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></p>
+</figure>
+</div>
+</section>
+<section id="sec-9-16" class="level2" data-number="11.16">
+<h2 data-number="11.16" class="anchored" data-anchor-id="sec-9-16"><span class="header-section-number">11.16</span> Divergence Theorem</h2>
+<ul>
+<li><p>Another Vector Form of Green’s Theorem</p>
+<p><span class="math display">\[
+\begin{aligned}
+\oint_C (\mathbf{f}\cdot\mathbf{n})&amp;\,ds
+   = \oint_C -Qdx +Pdy \\
+   &amp;= \iint_R \left[ \frac{\partial P}{\partial x}
+     -\left( -\frac{\partial Q}{\partial y} \right) \right]\,dA
+   = \iint_R \left[ \frac{\partial P}{\partial x}
+     +\frac{\partial Q}{\partial y} \right]\,dA \\
+   &amp;= \iint_R \nabla\cdot\mathbf{f}\,dA
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(\displaystyle\,\mathbf{n}=\frac{dy}{ds}\mathbf{i} -\frac{dx}{ds}\mathbf{j}\)</span></p></li>
+<li><p><strong>Divergence Theorem</strong></p>
+<ul>
+<li><p>Let <span class="math inline">\(D\,\)</span> be a closed and bounded region in 3-space with a piecewise-smooth boundary <span class="math inline">\(S\)</span> that is oriented outward</p></li>
+<li><p>Let <span class="math inline">\(\;\mathbf{f}(x,y,z)=P(x,y,z)\,\mathbf{i}+Q(x,y,z)\,\mathbf{j} +R(x,y,z)\,\mathbf{k}~\)</span> be a vector field for which <span class="math inline">\(P\)</span>, <span class="math inline">\(Q,\)</span> and <span class="math inline">\(R\)</span> are continuous first partial derivatives in a region of 3-space containing <span class="math inline">\(D\)</span>. <span class="math inline">\(\,\)</span> Then</p></li>
+</ul>
+<p><font color="red"> <span class="math display">\[\iint_S (\mathbf{f}\cdot \mathbf{n})\,dS =\iiint_D \nabla\cdot\mathbf{f}\,dV\]</span> </font></p></li>
+<li><p><strong>Partial Proof</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure46.png" title="region D" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%"></p>
+</figure>
+</div>
+<p><span class="math display">\[{\scriptsize \displaystyle\iiint_D \frac{\partial R}{\partial z}\,dV
+=\iint_{R'} \left[ \int_{f_1(x,y)}^{f_2(x,y)} \frac{\partial R}{\partial z}\,dz \right]\,dA
+=\iint_{R'} \left[ R(x,y,f_2(x,y)) -R(x,y,f_1(x,y)) \right] \,dA }\]</span></p>
+<p><span class="math display">\[{\scriptsize \displaystyle\iint_S R(\mathbf{k}\cdot\mathbf{n}) \,dS=\iint_{S_1} R(\mathbf{k}\cdot\mathbf{n})\,dS
++\iint_{S_2} R(\mathbf{k}\cdot\mathbf{n})\,dS +\iint_{S_3} R(\mathbf{k}\cdot\mathbf{n}) \,dS }\]</span></p>
+<ul>
+<li><p>On <span class="math inline">\(S_1\)</span>: <span class="math inline">\(\,\)</span> Since the outward normal points downward, <span class="math inline">\(g(x,y,z)=f_1(x,y)-z=0\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+  {\scriptsize \mathbf{n}}
+  &amp;{\scriptsize \;= \frac{ \frac{\partial f_1}{\partial x} \mathbf{i}
+  +\frac{\partial f_1}{\partial y} \mathbf{j} -\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
+  +\left(\frac{\partial f_1}{\partial y}\right)^2}} \;\;
+\Rightarrow \;\;
+\mathbf{k}\cdot\mathbf{n}
+=\frac{-1}{\sqrt{1+\left(\frac{\partial f_1}{\partial x}\right)^2
++\left(\frac{\partial f_1}{\partial y}\right)^2}} } \\
+&amp;\Downarrow \\
+\iint_{S_1} &amp;R(\mathbf{k}\cdot\mathbf{n})\,dS = -\iint_{R'} R(x,y,f_1(x,y))\,dA
+\end{aligned}\]</span></p></li>
+<li><p>On <span class="math inline">\(S_2\)</span>: <span class="math inline">\(\,\)</span> Since the outward normal points upward, <span class="math inline">\(g(x,y,z)=z -f_2(x,y)=0\)</span>. Thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+{\scriptsize \mathbf{n} }&amp; {\scriptsize \;= \frac{ -\frac{\partial f_2}{\partial x} \mathbf{i}
+-\frac{\partial f_2}{\partial y} \mathbf{j} +\mathbf{k} }{ \sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
++\left(\frac{\partial f_2}{\partial y}\right)^2}} \;\;
+\Rightarrow \;\;
+\mathbf{k}\cdot\mathbf{n}
+=\frac{1}{\sqrt{1+\left(\frac{\partial f_2}{\partial x}\right)^2
++\left(\frac{\partial f_2}{\partial y}\right)^2}} }\\
+&amp;\Downarrow \\
+\iint_{S_2} &amp;R(\mathbf{k}\cdot\mathbf{n})\,dS = \iint_{R'} R(x,y,f_2(x,y))\,dA
+\end{aligned}\]</span></p></li>
+<li><p>On <span class="math inline">\(S_3\)</span>: <span class="math inline">\(\,\)</span> <span class="math inline">\(\mathbf{k}\cdot\mathbf{n}=0\)</span></p></li>
+</ul>
+<p><span class="math display">\[\quad \iint_{S_3} R(\mathbf{k}\cdot\mathbf{n})\,dS = 0\]</span></p></li>
+<li><p>Physical Interpretation of Divergence</p>
+<p><span class="math display">\[
+\begin{aligned}
+  \iint_{S_r} (\mathbf{f} \cdot \mathbf{n})\,dS
+    &amp;= \iiint_{D_r} \nabla\cdot\mathbf{f}\,dV \\
+    \approx
+  \iiint_{D_r} &amp;\nabla\cdot\mathbf{f}(P_0)\,dV
+  = \nabla\cdot\mathbf{f}(P_0) \iiint_{D_r}\,dV
+  = \nabla\cdot\mathbf{f}(P_0) D_r\\
+   &amp;\Downarrow\\
+  \nabla\cdot\mathbf{f}(P_0) &amp;= \lim_{r\to 0} \frac{1}{D_r}\iint_{S_r}
+   (\mathbf{f} \cdot \mathbf{n})\,dS
+\end{aligned}\]</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_figure47.png" title="divergence physical interpretation" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:25.0%"></p>
+</figure>
+</div></li>
+<li><p>Continuity Equation</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{dm}{dt}
+  &amp;= \frac{d}{dt}\iiint_D \rho(x,y,z,t)\,dV
+   = \iiint_D \frac{\partial \rho}{\partial t}\,dV \\
+  &amp;= -\iint_S (\rho\mathbf{v}\cdot\mathbf{n})\,dS
+   =-\iiint_D \nabla\cdot(\rho\mathbf{v})\,dV\\
+  &amp;\Downarrow \\
+   \iiint_D \left[ \frac{\partial \rho}{\partial t} \right.
+  &amp;+\left. \phantom{\frac{}{}}\nabla\cdot(\rho\mathbf{v}) \right]\,dV=0 \\
+  &amp;\Downarrow \\
+  \frac{\partial \rho}{\partial t} &amp;
+   +\nabla\cdot(\rho\mathbf{v})=0
+\end{aligned}\]</span></p></li>
+<li><p>Euler’s Equation of Motion</p>
+<p>Allowing for the presence of a gravitational body force per unit mass <span class="math inline">\(\mathbf{g}\)</span>, <span class="math inline">\(\,\)</span>the basic equations of an ideal fluid are</p>
+<p><span class="math display">\[\frac{D \mathbf{v}}{D t} = -\frac{1}{\rho} \nabla p + \mathbf{g}\]</span></p>
+<p><span class="math display">\[\nabla \cdot \mathbf{v} = 0\]</span></p></li>
+<li><p>Furthermore, it can be helpful to use <span class="math inline">\(\mathbf{g}=-\nabla \chi\)</span> <span class="math inline">\(\,\)</span>and the identity</p>
+<p><span class="math display">\[ \left( \mathbf{v} \cdot \nabla \right) \mathbf{v}
+  = \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} + \nabla \left( \frac{1}{2} \mathbf{v}^2 \right)\]</span></p>
+<p>to cast the momentum equation into the form</p>
+<p><span class="math display">\[ \frac{\partial \mathbf{v}}{\partial t} + \left( \nabla \times \mathbf{v} \right) \times \mathbf{v} = -\nabla \left( \frac{p}{\rho} +\frac{1}{2} \mathbf{v}^2 + \chi \right) =- \nabla H\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="sec-9-17" class="level2" data-number="11.17">
+<h2 data-number="11.17" class="anchored" data-anchor-id="sec-9-17"><span class="header-section-number">11.17</span> Change of Variables in Multiple Integrals</h2>
+<ul>
+<li><p>To change the Variable in a Definite Integral</p>
+<p><span class="math display">\[\int_a^b f(x)\,dx =\int_c^d f(g(u))\, g'(u)\,du\]</span></p></li>
+<li><p>Double Integrals</p>
+<p><span class="math display">\[\begin{aligned}
+\iint_R &amp; F(x,y)\,dA \\
+&amp;= \iint_R F(f(u,v), g(u,v))\, \left| \frac{\partial(x,y)}{\partial(u,v)} \right|\,dA'
+\end{aligned}\]</span></p>
+<p><span class="math display">\[\left| \frac{\partial(x,y)}{\partial(u,v)} \right| =
+  \left|\begin{matrix}
+  \frac{\partial x}{\partial u} &amp; \frac{\partial x}{\partial v}\\
+  \frac{\partial y}{\partial u} &amp; \frac{\partial y}{\partial v}
+  \end{matrix}\right| = h_1 h_2 dq_1 dq_2\]</span></p></li>
+<li><p>Triple Integrals</p>
+<p><span class="math display">\[\begin{aligned}
+  \iiint_D &amp; F(x,y,z)\,dV \\
+  &amp;= \iiint_D F\left(f(u,v,w), g(u,v,w), h(u,v,w)\right)\, \left| \frac{\partial(x,y,z)}{\partial(u,v,w)} \right|\,dV'
+  \end{aligned}\]</span></p>
+<p><span class="math display">\[\left| \frac{\partial (x,y,z)}{\partial (u,v,w)} \right| =
+  \left|\begin{matrix}
+  \frac{\partial x}{\partial u} &amp; \frac{\partial x}{\partial v} &amp; \frac{\partial x}{\partial w}\\
+  \frac{\partial y}{\partial u} &amp; \frac{\partial y}{\partial v} &amp; \frac{\partial y}{\partial w}\\
+  \frac{\partial z}{\partial u} &amp; \frac{\partial z}{\partial v} &amp; \frac{\partial z}{\partial w}
+\end{matrix}\right| = h_1 h_2 h_3 dq_1 dq_2 dq_3\]</span></p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+</section>
+<section id="worked-exercises" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
+<p><strong>1.</strong> <span class="math inline">\(~\)</span> Find an equation of the plane containing the lines <span class="math inline">\(x=t\)</span>, <span class="math inline">\(~y=4t\)</span>, <span class="math inline">\(~z=-2t\)</span>, and <span class="math inline">\(~x=1+t\)</span>, <span class="math inline">\(~y=1+4t\)</span>, <span class="math inline">\(~z=3-2t\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Write the parametric forms of both lines</p>
+<p>First line:</p>
+<p><span class="math display">\[
+L_1: \begin{cases}
+x = t \\
+y = 4t \\
+z = -2t
+\end{cases}\\
+\;\Rightarrow\;
+\begin{aligned}
+&amp;\text{Point: } P_1 = (0, 0, 0)\\ &amp;\text{Direction vector: } \mathbf{d}_1 = \langle 1, 4, -2 \rangle
+\end{aligned}\]</span></p>
+<p>Second line:</p>
+<p><span class="math display">\[
+L_2: \begin{cases}
+x = 1 + t \\
+y = 1 + 4t \\
+z = 3 - 2t
+\end{cases}
+\;\Rightarrow\;
+\begin{aligned}
+&amp;\text{Point: } P_2 = (1, 1, 3)\\
+&amp;\text{Direction vector: } \mathbf{d}_2 = \langle 1, 4, -2 \rangle
+\end{aligned}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Observe relationship between the lines</p>
+<ul>
+<li>Both lines share the same direction vector: <span class="math inline">\(\mathbf{d}_1 = \mathbf{d}_2 = \langle 1, 4, -2 \rangle\)</span></li>
+<li>But they pass through different points</li>
+</ul>
+<p>So the lines are parallel and distinct, and therefore they lie in a common plane</p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find two vectors in the plane</p>
+<p>The plane is determined by:</p>
+<ol type="1">
+<li><p>Direction vector of the lines: <span class="math display">\[\mathbf{v}_1 = \langle 1, 4, -2 \rangle\]</span></p></li>
+<li><p>Vector connecting a point on one line to a point on the other line:</p></li>
+</ol>
+<p><span class="math display">\[\mathbf{v}_2 = P_2 - P_1 = \langle 1, 1, 3\rangle - \langle0, 0, 0\rangle = \langle 1, 1, 3 \rangle\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Find a normal vector to the plane</p>
+<p>Take the cross product:</p>
+<p><span class="math display">\[\mathbf{n} = \mathbf{v}_1 \times \mathbf{v}_2 =
+\begin{vmatrix}
+\mathbf{i} &amp; \mathbf{j} &amp; \phantom{-}\mathbf{k} \\
+1 &amp; 4 &amp; -2 \\
+1 &amp; 1 &amp; \phantom{-}3
+\end{vmatrix}\]</span></p>
+<p>Compute:</p>
+<p><span class="math display">\[\mathbf{n} = {\scriptsize\mathbf{i}(4 \cdot 3 - (-2)\cdot 1) - \mathbf{j}(1 \cdot 3 - (-2)\cdot 1) + \mathbf{k}(1 \cdot 1 - 4 \cdot 1)}
+\;\Rightarrow\;
+\mathbf{n} = \langle 14, -5, -3 \rangle\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Use the point-normal form of a plane</p>
+<p>With point <span class="math inline">\(P_1 = (0,0,0)\)</span> and normal vector <span class="math inline">\(\langle 14, -5, -3 \rangle\)</span>, the equation is:</p>
+<p><span class="math display">\[14(x - 0) - 5(y - 0) - 3(z - 0) = 0
+\Rightarrow 14x - 5y - 3z = 0\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>2.</strong> <span class="math inline">\(~\)</span> Find an equation of the plane containing <span class="math inline">\((1, 7, -1)\)</span> that is perpendicular to the line of intersection of <span class="math inline">\(-x +y -8z=4~\)</span> and <span class="math inline">\(~3x -y +2z=0\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Find direction vector of the line of intersection</p>
+<p>The line of intersection of two planes lies in both planes, and its direction vector is perpendicular to both normals of the planes</p>
+<p>So, compute the cross product of the normal vectors of the two planes</p>
+<ul>
+<li>Normal to <span class="math inline">\(\pi_1\)</span>: <span class="math inline">\(~\mathbf{n}_1 = \langle -1, 1, -8 \rangle\)</span></li>
+<li>Normal to <span class="math inline">\(\pi_2\)</span>: <span class="math inline">\(~\mathbf{n}_2 = \langle 3, -1, 2 \rangle\)</span></li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[
+\mathbf{d} = \mathbf{n}_1 \times \mathbf{n}_2 =
+\begin{vmatrix}
+\phantom{-}\mathbf{i} &amp; \phantom{-}\mathbf{j} &amp; \phantom{-}\mathbf{k} \\
+-1 &amp; \phantom{-}1 &amp; -8 \\
+\phantom{-}3 &amp; -1 &amp; \phantom{-}2
+\end{vmatrix}\]</span></p>
+<p>Compute the determinant:</p>
+<p><span class="math display">\[\begin{aligned}
+\mathbf{d} &amp;= {\scriptsize\mathbf{i}(1\cdot2 - (-8)\cdot(-1)) - \mathbf{j}((-1)\cdot2 - (-8)\cdot3) + \mathbf{k}((-1)\cdot(-1) - 1\cdot3)} \\
+&amp;= \langle -6, -22, -2 \rangle
+\end{aligned}\]</span></p>
+<p>This is the direction vector of the line of intersection.</p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Use the fact that the desired plane is perpendicular to this line</p>
+<p>So the direction vector <span class="math inline">\(~\mathbf{d} = \langle -6, -22, -2 \rangle\)</span> is the normal vector of the desired plane</p>
+<p>We now have:</p>
+<ul>
+<li>Point on the plane: <span class="math inline">\((1, 7, -1)\)</span></li>
+<li>Normal vector: <span class="math inline">\(~\mathbf{n} = \langle -6, -22, -2 \rangle\)</span></li>
+</ul>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Use point-normal form of a plane</p>
+<p><span class="math display">\[-6(x - 1) -22(y - 7) -2(z + 1) = 0\]</span></p>
+<p>Expand:</p>
+<p><span class="math display">\[-6x + 6 -22y + 154 -2z -2 = 0
+\Rightarrow -6x - 22y - 2z + 158 = 0\]</span></p>
+<p>Multiply both sides by -1 to make the leading coefficient positive:</p>
+<p><span class="math display">\[6x + 22y + 2z = 158\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>3.</strong> <span class="math inline">\(~\)</span> Use Green’s theorem to evaluate the given double integral by a line integral</p>
+<p><span class="math display">\[\iint_R x^2 \,dA\]</span></p>
+<p>where <span class="math inline">\(R~\)</span> is the region bounded by the ellipse <span class="math inline">\(\displaystyle\frac{x^2}{9} +\frac{y^2}{4}=1\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Green’s Theorem</p>
+<p>Green’s Theorem relates a line integral over a positively oriented, simple closed curve <span class="math inline">\(C\)</span> to a double integral over the region <span class="math inline">\(R\)</span> it encloses:</p>
+<p><span class="math display">\[\iint_R \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA = \oint_C P\,dx + Q\,dy\]</span></p>
+<p>We need to rewrite <span class="math inline">\(\displaystyle \iint_R x^2 \, dA\)</span> as the right-hand side of Green’s Theorem.</p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Choose <span class="math inline">\(P(x, y)\)</span> and <span class="math inline">\(Q(x, y)\)</span></p>
+<p>We want:</p>
+<p><span class="math display">\[\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2\]</span></p>
+<p>Let’s choose:</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle P = 0 \Rightarrow \frac{\partial P}{\partial y} = 0\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle Q = \frac{1}{3} x^3 \Rightarrow \frac{\partial Q}{\partial x} = x^2\)</span></p></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = x^2\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Set up the line integral</p>
+<p>Then by Green’s Theorem:</p>
+<p><span class="math display">\[\iint_R x^2 \, dA = \oint_C P\,dx + Q\,dy = \oint_C \frac{1}{3} x^3 \, dy\]</span></p>
+<p>where <span class="math inline">\(C\)</span> is the positively oriented boundary of the ellipse.</p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Parametrize the ellipse</p>
+<p>Given:</p>
+<p><span class="math display">\[\frac{x^2}{9} + \frac{y^2}{4} = 1\]</span></p>
+<p>Use the parametric equations:</p>
+<p><span class="math display">\[x = 3\cos\theta, \quad y = 2\sin\theta, \quad 0 \leq \theta \leq 2\pi\]</span></p>
+<p>Compute:</p>
+<ul>
+<li><p><span class="math inline">\(x^3 = (3\cos\theta)^3 = 27\cos^3\theta\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle dy = \frac{dy}{d\theta} \, d\theta = 2\cos\theta \, d\theta\)</span></p></li>
+</ul>
+<p>Now plug into the line integral:</p>
+<p><span class="math display">\[\oint_C \frac{1}{3} x^3 \, dy
+= \int_0^{2\pi} \frac{1}{3} \cdot 27 \cos^3\theta \cdot 2\cos\theta \, d\theta
+= \int_0^{2\pi} 18\cos^4\theta \, d\theta\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p>Use the identity:</p>
+<p><span class="math display">\[\cos^4\theta = \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta)\]</span></p>
+<p>So:</p>
+<p><span class="math display">\[\int_0^{2\pi} 18 \cos^4\theta \, d\theta
+= 18 \int_0^{2\pi} \left( \frac{3}{8} + \frac{1}{2} \cos(2\theta) + \frac{1}{8} \cos(4\theta) \right) d\theta\]</span></p>
+<p>Now integrate:</p>
+<ul>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \frac{3}{8} \, d\theta = \frac{3}{8} \cdot 2\pi = \frac{3\pi}{4}\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \cos(2\theta) \, d\theta = 0\)</span></p></li>
+<li><p><span class="math inline">\(\displaystyle\int_0^{2\pi} \cos(4\theta) \, d\theta = 0\)</span></p></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\iint_R x^2\,dA = 18 \cdot \frac{3\pi}{4} = \frac{27\pi}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>4.</strong> <span class="math inline">\(~\)</span> Find the work done by the given force <span class="math inline">\(~\mathbf{f}=(x-y)\mathbf{i} +(x+y)\mathbf{j}~\)</span> around the closed curve in the following</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/ch09_worked01.jpg" title="worked01" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:55.0%"></p>
+</figure>
+</div>
+<p><strong>Solution</strong></p>
+<p>The image shows a region bounded between two quarter circles:</p>
+<ul>
+<li>Outer curve: <span class="math inline">\(x^2 + y^2 = 4\)</span> (radius 2)</li>
+<li>Inner curve: <span class="math inline">\(x^2 + y^2 = 1\)</span> (radius 1)</li>
+</ul>
+<p>The region is the quarter annulus in the first quadrant, swept from the positive <span class="math inline">\(x\)</span>-axis to the positive <span class="math inline">\(y\)</span>-axis, and the curve is oriented counterclockwise, forming a positively oriented closed curve <span class="math inline">\(C\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use Green’s Theorem</p>
+<p>We are to compute:</p>
+<p><span class="math display">\[\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R \left( \frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} \right)\,dA\]</span></p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(M = x - y \Rightarrow \frac{\partial M}{\partial y} = -1\)</span></li>
+<li><span class="math inline">\(N = x + y \Rightarrow \frac{\partial N}{\partial x} = 1\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\frac{\partial N}{\partial x} - \frac{\partial M}{\partial y} = 1 - (-1) = 2\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Area of the Region <span class="math inline">\(R\)</span></p>
+<p>The region <span class="math inline">\(R\)</span> is a quarter annulus between radius 1 and 2, in the first quadrant.</p>
+<p>Area of an annulus between <span class="math inline">\(r = 1\)</span> and <span class="math inline">\(r = 2\)</span> is:</p>
+<p><span class="math display">\[\text{Full area} = \pi(2^2) - \pi(1^2) = 4\pi - \pi = 3\pi \]</span></p>
+<p>But we only have <span class="math inline">\(1/4\)</span> of it:</p>
+<p><span class="math display">\[\text{Area}(R) = \frac{1}{4} \cdot 3\pi = \frac{3\pi}{4}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Apply Green’s Theorem</p>
+<p><span class="math display">\[\oint_C \mathbf{f} \cdot d\mathbf{r} = \iint_R 2\, dA = 2 \cdot \frac{3\pi}{4} = \frac{3\pi}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>5.</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p><span class="math display">\[\iint_R \frac{1}{\sqrt{(x-y)^2 +2(x+y) +1}} \,dA\]</span></p>
+<p>where <span class="math inline">\(R\)</span> is the region bounded by the graphs of <span class="math inline">\(y=x\)</span>, <span class="math inline">\(x=2\)</span>, and <span class="math inline">\(y=0\)</span> by means of the change of variables <span class="math inline">\(x=u +uv\)</span>, <span class="math inline">\(y=v +uv\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Understand the transformation</p>
+<p>We compute:</p>
+<ul>
+<li><span class="math inline">\(x - y = (u + uv) - (v + uv) = u - v\)</span></li>
+<li><span class="math inline">\(x + y = (u + uv) + (v + uv) = u + v + 2uv\)</span></li>
+</ul>
+<p>Then,</p>
+<p><span class="math display">\[(x - y)^2 + 2(x + y) + 1 = (u - v)^2 + 2(u + v + 2uv) + 1 = (u +v +1)^2\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Jacobian of the transformation</p>
+<p>We need the Jacobian determinant <span class="math inline">\(J = \left| \frac{\partial(x,y)}{\partial(u,v)} \right|\)</span>. Compute partial derivatives:</p>
+<p><span class="math display">\[x = u + uv \Rightarrow
+\begin{cases}
+\frac{\partial x}{\partial u} = 1 + v, \\
+\frac{\partial x}{\partial v} = u,
+\end{cases}
+\quad
+y = v + uv \Rightarrow
+\begin{cases}
+\frac{\partial y}{\partial u} = v, \\
+\frac{\partial y}{\partial v} = 1 + u.
+\end{cases}\]</span></p>
+<p>So the Jacobian matrix is:</p>
+<p><span class="math display">\[J = \begin{vmatrix}
+1 + v &amp; u \\
+v &amp; 1 + u
+\end{vmatrix} = (1 + v)(1 + u) - uv = 1 + u + v\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find the region <span class="math inline">\(S\)</span> in the <span class="math inline">\(uv\)</span>-plane</p>
+<p>We translate the region <span class="math inline">\(R\)</span> into the <span class="math inline">\(uv\)</span>-coordinates</p>
+<p>From the substitution:</p>
+<p><span class="math display">\[x = u + uv = u(1 + v), \quad y = v + uv = v(1 + u)\]</span></p>
+<p>We now rewrite the boundaries:</p>
+<ul>
+<li><span class="math inline">\(y = 0 \Rightarrow v(1 + u) = 0 \Rightarrow v = 0\)</span> (since <span class="math inline">\(1 + u \ne 0\)</span>)</li>
+<li><span class="math inline">\(y = x \Rightarrow v(1 + u) = u(1 + v) \Rightarrow v = u\)</span></li>
+<li><span class="math inline">\(x = 2 \Rightarrow u(1 + v) = 2 ⇒ u = \frac{2}{1 + v}\)</span></li>
+</ul>
+<p>So the region in the <span class="math inline">\(uv\)</span>-plane is:</p>
+<ul>
+<li>lower bound: <span class="math inline">\(v = 0\)</span></li>
+<li>upper bound: <span class="math inline">\(v = u\)</span></li>
+<li>and <span class="math inline">\(u \le \frac{2}{1 + v}\)</span></li>
+</ul>
+<p>Let’s fix bounds:</p>
+<p>Since <span class="math inline">\(u = \frac{2}{1 + v}\)</span>, and also <span class="math inline">\(v = u\)</span>, we substitute:</p>
+<p><span class="math display">\[v = \frac{2}{1 + v} \Rightarrow v(1 + v) = 2 \Rightarrow (v - 1)(v + 2) = 0\]</span></p>
+<p>So <span class="math inline">\(v = 1\)</span> is the upper limit (since <span class="math inline">\(v &gt; 0\)</span>), and the region <span class="math inline">\(S\)</span> is bounded by:</p>
+<ul>
+<li><span class="math inline">\(0 \le v \le 1\)</span></li>
+<li><span class="math inline">\(v \le u \le \frac{2}{1 + v}\)</span></li>
+</ul>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Change of variables in the integral</p>
+<p>We rewrite the integral in terms of <span class="math inline">\(u\)</span>, <span class="math inline">\(v\)</span>:</p>
+<p><span class="math display">\[\iint_S \frac{1}{\sqrt{(u + v +1)^2}} \cdot |J| \, du\, dv\]</span></p>
+<p>So the integrand becomes simply 1. Then the integral becomes the area of the region <span class="math inline">\(S\)</span>:</p>
+<p><span class="math display">\[\iint_S 1 \, du\, dv = \int_{v=0}^{1} \int_{u=v}^{\frac{2}{1 + v}} 1 \, du\, dv = \int_0^1 \left( \frac{2}{1 + v} - v \right) dv =2 \ln 2 - \frac{1}{2}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>6.</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p><span class="math display">\[ \iint_R (x^2 +y^2) \sqrt[3]{x^2 -y^2} \,dA \]</span></p>
+<p>where <span class="math inline">\(R\)</span> is the region bounded by the graphs of <span class="math inline">\(x=0\)</span>, <span class="math inline">\(x=1\)</span>, <span class="math inline">\(y=0\)</span>, and <span class="math inline">\(y=1\)</span> by means of the change of variables <span class="math inline">\(u=2xy\)</span>, <span class="math inline">\(v=x^2 -y^2\)</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute the Jacobian</p>
+<p>We need the Jacobian determinant <span class="math inline">\(J = \left| \frac{\partial(x, y)}{\partial(u, v)} \right|\)</span>, but we are given <span class="math inline">\(u = 2xy\)</span>, <span class="math inline">\(v = x^2 - y^2\)</span>, so we compute <span class="math inline">\(\frac{\partial(u, v)}{\partial(x, y)}\)</span> and then take the reciprocal for the change of variables</p>
+<p>Compute partial derivatives:</p>
+<ul>
+<li><span class="math inline">\(\displaystyle u = 2xy \;\Rightarrow \frac{\partial u}{\partial x} = 2y, \; \frac{\partial u}{\partial y} = 2x\)</span></li>
+<li><span class="math inline">\(\displaystyle v = x^2 - y^2 \;\Rightarrow \frac{\partial v}{\partial x} = 2x, \; \frac{\partial v}{\partial y} = -2y\)</span></li>
+</ul>
+<p>So the Jacobian matrix is:</p>
+<p><span class="math display">\[\frac{\partial(u,v)}{\partial(x,y)} =
+\begin{pmatrix}
+2y &amp; \phantom{-}2x \\
+2x &amp; -2y
+\end{pmatrix}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[\left| \frac{\partial(x,y)}{\partial(u,v)} \right| = \frac{1}{|J|} = \frac{1}{| -4(x^2 + y^2) |} = \frac{1}{4(x^2 + y^2)}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Substituting the integrand and Jacobian</p>
+<p>The integrand is <span class="math inline">\((x^2 + y^2)\sqrt[3]{x^2 - y^2}\)</span>, <span class="math inline">\(~\)</span> and from the transformation:</p>
+<ul>
+<li><span class="math inline">\(v = x^2 - y^2 \Rightarrow \sqrt[3]{x^2 - y^2} = \sqrt[3]{v}\)</span></li>
+<li><span class="math inline">\(x^2 + y^2\)</span> appears in both the integrand and the Jacobian, so:</li>
+</ul>
+<p><span class="math display">\[(x^2 + y^2) \cdot \sqrt[3]{x^2 - y^2} \cdot \left| \frac{\partial(x,y)}{\partial(u,v)} \right| = (x^2 + y^2) \cdot \sqrt[3]{v} \cdot \frac{1}{4(x^2 + y^2)} = \frac{1}{4} \sqrt[3]{v}\]</span></p>
+<p>So the transformed integral becomes:</p>
+<p><span class="math display">\[\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Find the region <span class="math inline">\(S\)</span> in <span class="math inline">\(uv\)</span>-coordinates</p>
+<p>We are given the transformation:</p>
+<p><span class="math display">\[u = 2xy, \quad v = x^2 - y^2\]</span></p>
+<p>and the original region <span class="math inline">\(R\)</span> is the unit square:</p>
+<p><span class="math display">\[0 \le x \le 1,\quad 0 \le y \le 1\]</span></p>
+<p>We compute the image of the four corners of the square under the transformation:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 21%">
+<col style="width: 26%">
+<col style="width: 28%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><span class="math inline">\((x, y)\)</span></th>
+<th><span class="math inline">\(u = 2xy\)</span></th>
+<th><span class="math inline">\(v = x^2 - y^2\)</span></th>
+<th><span class="math inline">\((u, v)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\((0, 0)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(\phantom{-}0\)</span></td>
+<td><span class="math inline">\((0, \phantom{-}0)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\((1, 0)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(\phantom{-}1\)</span></td>
+<td><span class="math inline">\((0, \phantom{-}1)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\((0, 1)\)</span></td>
+<td><span class="math inline">\(0\)</span></td>
+<td><span class="math inline">\(-1\)</span></td>
+<td><span class="math inline">\((0, -1)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\((1, 1)\)</span></td>
+<td><span class="math inline">\(2\)</span></td>
+<td><span class="math inline">\(\phantom{-}0\)</span></td>
+<td><span class="math inline">\((2, \phantom{-}0)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We examine how each edge of the square transforms under the change of variables:</p>
+<ul>
+<li>Edge <span class="math inline">\(x = 0\)</span>: <span class="math inline">\(~u = 0, v = -y^2 \in [-1, 0] \Rightarrow\; {\scriptsize\text{Vertical segment on the } u = 0}\)</span></li>
+<li>Edge <span class="math inline">\(y = 0\)</span>: <span class="math inline">\(~u = 0, v = x^2 \in [0, 1] \Rightarrow\; {\scriptsize\text{Another vertical segment on the } u = 0}\)</span></li>
+<li>Edge <span class="math inline">\(x = 1\)</span>: <span class="math inline">\(~u = 2y \in [0, 2], v = 1 - y^2 = 1 - \frac{u^2}{4} \Rightarrow\; {\scriptsize\text{Upper parabola}}\)</span></li>
+<li>Edge <span class="math inline">\(y = 1\)</span>: <span class="math inline">\(~u = 2x \in [0, 2], v = x^2 - 1 = \frac{u^2}{4} - 1 \Rightarrow\; {\scriptsize\text{Lower parabola}}\)</span></li>
+</ul>
+<p>So, the transformed region is:</p>
+<p><span class="math display">\[S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}\]</span></p>
+<div id="713ab9f2" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create u values</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">400</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the upper and lower boundaries of v</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>v_upper <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span>(u<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">4</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>v_lower <span class="op">=</span> (u<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">4</span> <span class="op">-</span><span class="dv">1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the region S</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>plt.plot((<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>), (<span class="dv">0</span>, <span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>), <span class="st">'ko'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>plt.plot(u, v_upper, <span class="st">'r'</span>, label<span class="op">=</span><span class="vs">r'</span><span class="dv">$</span><span class="vs">v = 1 -</span><span class="ch">\f</span><span class="vs">rac{u</span><span class="dv">^</span><span class="vs">2}</span><span class="op">{4}</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>plt.plot((<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">0</span>, <span class="dv">1</span>), <span class="st">'r'</span>, lw<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.plot(u, v_lower, <span class="st">'b'</span>, label<span class="op">=</span><span class="vs">r'</span><span class="dv">$</span><span class="vs">v = </span><span class="ch">\f</span><span class="vs">rac{u</span><span class="dv">^</span><span class="vs">2}</span><span class="op">{4}</span><span class="vs"> -1</span><span class="dv">$</span><span class="vs">'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>plt.plot((<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">0</span>, <span class="op">-</span><span class="dv">1</span>), <span class="st">'b'</span>, lw<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.fill_between(u, v_lower, v_upper, color<span class="op">=</span><span class="st">'lightgray'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Formatting</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Region S in the uv-plane"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"u"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"v"</span>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.gca().set_aspect(<span class="st">'equal'</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Evaluate the integral</p>
+<p>Since the integrand <span class="math inline">\(v^{1/3}\)</span> is an odd function, and the bounds of <span class="math inline">\(u\)</span> are symmetric in <span class="math inline">\(v\)</span>, the integral is:</p>
+<p><span class="math display">\[\iint_S \frac{1}{4} \sqrt[3]{v} \, du\, dv = 0\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>7.</strong> <span class="math inline">\(~\)</span> Find the tangential and normal components of acceleration for the path:</p>
+<p><span class="math display">\[ \mathbf{x}(t) = \left(2t, e^{2t} \right)\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute the velocity vector</p>
+<p><span class="math display">\[\mathbf{v}(t) = \frac{d\mathbf{x}}{dt} = \left(2, 2e^{2t} \right)\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute the acceleration vector</p>
+<p><span class="math display">\[\mathbf{a}(t) = \frac{d\mathbf{v}}{dt} = \left(0, 4e^{2t} \right)\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Compute the speed</p>
+<p><span class="math display">\[|\mathbf{v}(t)| = \sqrt{2^2 + (2e^{2t})^2} = \sqrt{4 + 4e^{4t}} = 2\sqrt{1 + e^{4t}}\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Tangential component of acceleration</p>
+<p>The tangential component of acceleration is given by the derivative of speed:</p>
+<p><span class="math display">\[a_T = \frac{d}{dt}|\mathbf{v}(t)| = \frac{d}{dt} \left(2\sqrt{1 + e^{4t}} \right)
+= \frac{2 \cdot \frac{1}{2} \cdot 4e^{4t}}{\sqrt{1 + e^{4t}}}
+= \frac{4e^{4t}}{\sqrt{1 + e^{4t}}}\]</span></p>
+<p><strong>Step 5:</strong> <span class="math inline">\(~\)</span> Normal component of acceleration</p>
+<p>The normal component of acceleration is given by:</p>
+<p><span class="math display">\[a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}\]</span></p>
+<p>We compute:</p>
+<ul>
+<li><span class="math inline">\(|\mathbf{a}(t)| = \sqrt{0^2 + (4e^{2t})^2} = 4e^{2t}\)</span></li>
+<li>So <span class="math inline">\(|\mathbf{a}(t)|^2 = 16e^{4t}\)</span></li>
+<li>And <span class="math inline">\(a_T^2 = \left(\frac{4e^{4t}}{\sqrt{1 + e^{4t}}}\right)^2 = \frac{16e^{8t}}{1 + e^{4t}}\)</span></li>
+</ul>
+<p>Now plug into the normal acceleration formula:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_N &amp;= \sqrt{16e^{4t} - \frac{16e^{8t}}{1 + e^{4t}}} \\
+&amp;= \sqrt{ \frac{16e^{4t}(1 + e^{4t}) - 16e^{8t}}{1 + e^{4t}} } \\
+&amp;= \sqrt{ \frac{16e^{4t}}{1 + e^{4t}} } \\
+&amp;= \frac{4e^{2t}}{\sqrt{1 + e^{4t}}}
+\end{aligned}
+\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>8.</strong> <span class="math inline">\(~\)</span> Find the tangential and normal components of acceleration for the path:</p>
+<p><span class="math display">\[ \mathbf{x}(t) = \left(t, t, t^2 \right) \]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Compute velocity and acceleration</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbf{v}(t) &amp;= \frac{d\mathbf{x}}{dt} = (1, 1, 2t)\\
+\mathbf{a}(t) &amp;= \frac{d\mathbf{v}}{dt} = (0, 0, 2)
+\end{aligned}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute speed</p>
+<p><span class="math display">\[|\mathbf{v}(t)| = \sqrt{1^2 + 1^2 + (2t)^2} = \sqrt{2 + 4t^2}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Tangential component of acceleration</p>
+<p>The tangential component is:</p>
+<p><span class="math display">\[a_T = \frac{d}{dt} |\mathbf{v}(t)| = \frac{d}{dt} \sqrt{2 + 4t^2}
+= \frac{1}{2\sqrt{2 + 4t^2}} \cdot 8t = \frac{4t}{\sqrt{2 + 4t^2}}\]</span></p>
+<p><strong>Step 4:</strong> <span class="math inline">\(~\)</span> Normal component of acceleration</p>
+<p>The normal component is given by:</p>
+<p><span class="math display">\[a_N = \sqrt{|\mathbf{a}(t)|^2 - a_T^2}\]</span></p>
+<p>We have:</p>
+<ul>
+<li><span class="math inline">\(|\mathbf{a}(t)| = \sqrt{0^2 + 0^2 + 2^2} = 2\)</span></li>
+<li><span class="math inline">\(|\mathbf{a}(t)|^2 = 4\)</span></li>
+<li><span class="math inline">\(a_T^2 = \left( \frac{4t}{\sqrt{2 + 4t^2}} \right)^2 = \frac{16t^2}{2 + 4t^2}\)</span></li>
+</ul>
+<p>Now compute:</p>
+<p><span class="math display">\[
+\begin{aligned}
+a_N &amp;= \sqrt{4 - \frac{16t^2}{2 + 4t^2}} = \sqrt{ \frac{4(2 + 4t^2) - 16t^2}{2 + 4t^2} } \\
+&amp;= \sqrt{ \frac{8 + 16t^2 - 16t^2}{2 + 4t^2} } = \sqrt{ \frac{8}{2 + 4t^2} }\\
+&amp;= \frac{2\sqrt{2}}{\sqrt{2 + 4t^2}}
+\end{aligned}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>9.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}\)</span> and <span class="math inline">\(r\)</span> denote <span class="math inline">\(\| \mathbf{r} \|\)</span>. Evaluate the following:</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r})\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use product rule for divergence</p>
+<p>Let’s use the identity:</p>
+<p><span class="math display">\[\nabla \cdot (f \mathbf{v}) = (\nabla f) \cdot \mathbf{v} + f (\nabla \cdot \mathbf{v})\]</span></p>
+<p>Set:</p>
+<ul>
+<li><span class="math inline">\(f = r^n\)</span></li>
+<li><span class="math inline">\(\mathbf{v} = \mathbf{r}\)</span></li>
+</ul>
+<p>Then:</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r}) = (\nabla r^n) \cdot \mathbf{r} + r^n (\nabla \cdot \mathbf{r})\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute the terms</p>
+<ol type="1">
+<li>Gradient of <span class="math inline">\(r^n\)</span>:</li>
+</ol>
+<p>We use the chain rule:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \nabla r\]</span></p>
+<p>and since <span class="math inline">\(r = \sqrt{x^2 + y^2 + z^2}\)</span>, <span class="math inline">\(\,\)</span> we know:</p>
+<p><span class="math display">\[\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}\]</span></p>
+<p>So:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[(\nabla r^n) \cdot \mathbf{r} = n r^{n-2} \mathbf{r} \cdot \mathbf{r} = n r^{n-2} r^2 = n r^n\]</span></p>
+<ol start="2" type="1">
+<li>Divergence of <span class="math inline">\(\mathbf{r}\)</span>:</li>
+</ol>
+<p><span class="math display">\[\nabla \cdot \mathbf{r} = \frac{\partial x}{\partial x} + \frac{\partial y}{\partial y} + \frac{\partial z}{\partial z} = 1 + 1 + 1 = 3\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Combine everything</p>
+<p><span class="math display">\[\nabla \cdot (r^n \mathbf{r}) = n r^n + 3 r^n = (n + 3) r^n\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>10.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{r} = x \mathbf{i} + y \mathbf{j} + z \mathbf{k}\)</span> and <span class="math inline">\(r\)</span> denote <span class="math inline">\(\| \mathbf{r} \|\)</span>. Evaluate the following:</p>
+<p><span class="math display">\[\nabla \times (r^n \mathbf{r})\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Use Vector Identity</p>
+<p>We apply the identity:</p>
+<p><span class="math display">\[\nabla \times (f \mathbf{v}) = (\nabla f) \times \mathbf{v} + f (\nabla \times \mathbf{v})\]</span></p>
+<p>Let:</p>
+<ul>
+<li><span class="math inline">\(f = r^n\)</span></li>
+<li><span class="math inline">\(\mathbf{v} = \mathbf{r}\)</span></li>
+</ul>
+<p>So:</p>
+<p><span class="math display">\[\nabla \times (r^n \mathbf{r}) = (\nabla r^n) \times \mathbf{r} + r^n (\nabla \times \mathbf{r})\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Compute Each Term</p>
+<ol type="1">
+<li><span class="math inline">\(\nabla \times \mathbf{r}\)</span></li>
+</ol>
+<p><span class="math display">\[\nabla \times \mathbf{r} = \nabla \times (x\mathbf{i} + y\mathbf{j} + z\mathbf{k}) = \mathbf{0}\]</span></p>
+<ol start="2" type="1">
+<li><span class="math inline">\(\nabla r^n\)</span></li>
+</ol>
+<p>We compute:</p>
+<p><span class="math display">\[\nabla r^n = n r^{n-1} \nabla r\]</span></p>
+<p>and since:</p>
+<p><span class="math display">\[\nabla r = \left( \frac{x}{r}, \frac{y}{r}, \frac{z}{r} \right) = \frac{\mathbf{r}}{r}
+\Rightarrow \nabla r^n = n r^{n-1} \cdot \frac{\mathbf{r}}{r} = n r^{n-2} \mathbf{r}\]</span></p>
+<ol start="3" type="1">
+<li>Compute the cross product</li>
+</ol>
+<p><span class="math display">\[(\nabla r^n) \times \mathbf{r} = (n r^{n-2} \mathbf{r}) \times \mathbf{r} = n r^{n-2} (\mathbf{r} \times \mathbf{r}) = n r^{n-2} \cdot \mathbf{0} = \mathbf{0}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>11.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{v} = u(x,y) \mathbf{i} - v(x,y) \mathbf{j}\)</span> be an <strong>incompressible</strong>, <strong>irrotational</strong> velocity field</p>
+<p><span class="math inline">\((a)\)</span> Show that the functions <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> (which determine the component functions of <span class="math inline">\(\mathbf{v}\)</span>) satisfy the <strong>Cauchy-Riemann equations</strong></p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\, \;\text{and}\; \,
+  \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}\]</span></p>
+<p><span class="math inline">\((b)\)</span> Show that <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are <strong>harmonic</strong>, that is, that</p>
+<pre><code>$$\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}=0\, \;\text{and}\; \,
+\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0$$</code></pre>
+<p><strong>Solution</strong></p>
+<p>We are given a 2D velocity field and told that this flow is:</p>
+<ul>
+<li>Incompressible (i.e., <span class="math inline">\(\nabla \cdot \mathbf{v} = 0\)</span>)</li>
+<li>Irrotational (i.e., <span class="math inline">\(\nabla \times \mathbf{v} = 0\)</span>)</li>
+</ul>
+<p><span class="math inline">\((a)\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Incompressibility condition</p>
+<p>The divergence of a 2D vector field <span class="math inline">\(\mathbf{v} = (u, -v)\)</span> is:</p>
+<p><span class="math display">\[\nabla \cdot \mathbf{v} = \frac{\partial u}{\partial x} + \frac{\partial (-v)}{\partial y}
+= \frac{\partial u}{\partial x} - \frac{\partial v}{\partial y}\]</span></p>
+<p>Incompressibility implies:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} - \frac{\partial v}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Irrotationality condition</p>
+<p>In 2D, the scalar curl of a vector field <span class="math inline">\(\mathbf{v} = (u, -v)\)</span> is:</p>
+<p><span class="math display">\[\nabla \times \mathbf{v} = \frac{\partial (-v)}{\partial x} - \frac{\partial u}{\partial y}
+= -\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y}\]</span></p>
+<p>Irrotationality implies:</p>
+<p><span class="math display">\[-\frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} = 0
+\quad \Rightarrow \quad
+\boxed{\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}} \]</span></p>
+<p><span class="math inline">\((b)\)</span></p>
+<p><strong>Step 1:</strong> <span class="math inline">\(~\)</span> Differentiate the Cauchy-Riemann equations</p>
+<p>Start with the first:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\]</span></p>
+<p>Differentiate both sides with respect to <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial x^2} = \frac{\partial^2 v}{\partial x \partial y}
+\quad\text{(1)}\]</span></p>
+<p>Now differentiate the second Cauchy-Riemann equation:</p>
+<p><span class="math display">\[\frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}\]</span></p>
+<p>Differentiate both sides with respect to <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial y^2} = -\frac{\partial^2 v}{\partial y \partial x}
+\quad\text{(2)}\]</span></p>
+<p><strong>Step 2:</strong> <span class="math inline">\(~\)</span> Add the second derivatives of <span class="math inline">\(u\)</span></p>
+<p>From equations (1) and (2):</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}
+= \frac{\partial^2 v}{\partial x \partial y} - \frac{\partial^2 v}{\partial y \partial x} = 0\]</span></p>
+<p>(because mixed partial derivatives are equal under continuity)</p>
+<p>So,</p>
+<p><span class="math display">\[\boxed{\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2} = 0}\]</span></p>
+<p><strong>Step 3:</strong> <span class="math inline">\(~\)</span> Do the same for <span class="math inline">\(v\)</span></p>
+<p>Start again from:</p>
+<p><span class="math display">\[\frac{\partial v}{\partial y} = \frac{\partial u}{\partial x}
+\Rightarrow \frac{\partial^2 v}{\partial y^2} = \frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(3)}\]</span></p>
+<p><span class="math display">\[\frac{\partial v}{\partial x} = -\frac{\partial u}{\partial y}
+\Rightarrow \frac{\partial^2 v}{\partial x^2} = -\frac{\partial^2 u}{\partial x \partial y}
+\quad\text{(4)}\]</span></p>
+<p>Now add:</p>
+<p><span class="math display">\[\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2}
+= -\frac{\partial^2 u}{\partial x \partial y} + \frac{\partial^2 u}{\partial x \partial y} = 0\]</span></p>
+<p>Thus:</p>
+<p><span class="math display">\[\boxed{\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>12.</strong> <span class="math inline">\(~\)</span> Let a particle of mass <span class="math inline">\(m\)</span> travel along a differentiable path <span class="math inline">\(\mathbf{x}\)</span> in a Newtonian vector field <span class="math inline">\(\mathbf{F}\)</span> (i.e., one that satisfies Newton’s second law <span class="math inline">\(\mathbf{F} = m\mathbf{a}\)</span>, where <span class="math inline">\(\mathbf{a}\)</span> is the acceleration of <span class="math inline">\(\mathbf{x}\)</span>). We define the <strong>angular momentum</strong> <span class="math inline">\(\mathbf{l}(t)\)</span> of the particle to be the cross product of the position vector and the linear momentum <span class="math inline">\(m\mathbf{v}\)</span>, i.e.,</p>
+<p><span class="math display">\[\mathbf{l}(t) = \mathbf{x}(t) \times m \mathbf{v}(t)\]</span></p>
+<p>(Here <span class="math inline">\(\mathbf{v}\)</span> denotes the velocity of <span class="math inline">\(\mathbf{x}\)</span>.) The <strong>torque</strong> about the origin of the coordinate system due to the force <span class="math inline">\(\mathbf{F}\)</span> is the cross product of position and force:</p>
+<p><span class="math display">\[\mathbf{M}(t) = \mathbf{x}(t) \times \mathbf{F}(t)\]</span></p>
+<p><span class="math inline">\((a)\)</span> Show that</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{M}\]</span></p>
+<p>Thus, we see that the rate of change of angular momentum is equal to the torque imparted to the particle by the vector field <span class="math inline">\(\mathbf{F}\)</span></p>
+<p><span class="math inline">\((b)\)</span> Suppose that <span class="math inline">\(\mathbf{F}\)</span> is a central force (i.e., a force that always points directly towards or away from the origin). Show that in this case the angular momentum is <strong>conserved</strong>, that is, that it must remain constant</p>
+<p><strong>Solution</strong></p>
+<p><span class="math inline">\((a)\)</span></p>
+<p>Start from the definition of angular momentum:</p>
+<p><span class="math display">\[\mathbf{l}(t) = \mathbf{x}(t) \times m\mathbf{v}(t)\]</span></p>
+<p>Differentiate using the product rule for cross products:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \frac{d}{dt} \left[ \mathbf{x}(t) \times m\mathbf{v}(t) \right]
+= \dot{\mathbf{x}}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\dot{\mathbf{v}}(t)\]</span></p>
+<p>Since <span class="math inline">\(\dot{\mathbf{x}}(t) = \mathbf{v}(t)\)</span>, and <span class="math inline">\(\dot{\mathbf{v}}(t) = \mathbf{a}(t),\)</span> this becomes:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{v}(t) \times m\mathbf{v}(t) + \mathbf{x}(t) \times m\mathbf{a}(t)\]</span></p>
+<p>Now note:</p>
+<ul>
+<li><span class="math inline">\(\mathbf{v}(t) \times \mathbf{v}(t) = \mathbf{0}\)</span> (any vector crossed with itself is zero)</li>
+<li>So the first term vanishes</li>
+</ul>
+<p>Thus:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times m\mathbf{a}(t)
+= \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)\]</span></p>
+<p><span class="math inline">\((b)\)</span></p>
+<p>What is a central force?</p>
+<p>A central force is a vector field where the force always points directly toward or away from the origin. That is:</p>
+<p><span class="math display">\[\mathbf{F}(t) = f(r)\, \hat{\mathbf{r}} = f(r) \frac{\mathbf{x}(t)}{r}
+\quad \text{where} \quad r = \|\mathbf{x}(t)\|\]</span></p>
+<p>In other words, <span class="math inline">\(\mathbf{F}(t)\)</span> is parallel to <span class="math inline">\(\mathbf{x}(t)\)</span>, so:</p>
+<p><span class="math display">\[\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0}\]</span></p>
+<p>Recall from part (a):</p>
+<p>We showed that:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{M}(t)\]</span></p>
+<p>Now if <span class="math inline">\(\mathbf{F}\)</span> is a central force, then <span class="math inline">\(\mathbf{x}(t) \times \mathbf{F}(t) = \mathbf{0},\)</span> so:</p>
+<p><span class="math display">\[\frac{d\mathbf{l}}{dt} = \mathbf{0}\]</span></p>
+<p>This implies that:</p>
+<p><span class="math display">\[\boxed{\mathbf{l}(t) = \text{constant vector}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./ch_07_Vectors.html" class="pagination-link" aria-label="Vectors">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vectors</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./ch_12_Orthogonal_Functions_and_Fourier_Series.html" class="pagination-link" aria-label="Orthogonal Functions and Fourier Series">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Orthogonal Functions and Fourier Series</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

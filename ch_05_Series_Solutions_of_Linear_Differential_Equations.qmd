@@ -1,0 +1,1548 @@
+---
+title: "Series Solutions of Linear Differential Equations"
+jupyter: python3
+---
+
+# Series Solutions of Linear Differential Equations {#sec-5}
+
+## Solutions about Ordinary Points {#sec-5-1}
+
+* A power series in $x -a$ is an infinite series of the form
+  
+  $$\sum_{n=0}^\infty c_n(x -a)^n = c_0 +c_1(x -a) +c_2(x -a)^2 +\cdots$$
+  
+   Such a series is also said to be a **power series centered at $a$**
+
+* A power series is **convergent** if its sequence of partial sums converges
+  
+  * Convergence of power series can often
+    be determined by the ratio test. Suppose that $c_n \neq 0$ for all $n$, and that
+  
+     $$\lim_{n \to \infty} \left| \frac{c_{n+1} (x -a)^{n +1}}{c_n (x -a)^n} \right|
+       =|x -a| \lim_{n \to \infty} \left| \frac{c_{n +1}}{c_n} \right| =L$$
+     
+      If $L<1$, the series converges absolutely, if $L>1$, the series diverges, and if $L=1$, the test is inconclusive
+
+  * Every power series has a **radius of convergence**, $R$. If $R>0$, a power series $\sum_{n=0}^\infty c_n (x -a)^n$ converges for $|x -a| < R$
+  
+  * A function $\,f$ ia **analytic** at point $a$ if it can be represented by a power series in $x -a$ with a positive radius of convergence 
+  
+  * Power series can be combined through the operations of addition, multiplication, and division
+
+* Consider the linear second-order DE
+
+  $$a_2(x) y'' +a_1(x) y' +a_0(x)y = 0,\;\;a_2(x)\neq0$$
+  
+  * Divide by $a_2(x)$ to put into standard form
+  
+      $$y'' +P(x)y' +Q(x)y = 0$$
+    
+  * Point $x_0$ is an **ordinary point** of the DE if both $P(x)$ and $Q(x)$ are analytic at $x_0$.
+      $~$A point that is not an ordinary point is a **singular point** of the equation
+
+  * If $x=x_0$ is an ordinary point of the DE, $~$we can always find **two linearly independent solutions** in the form of a power series centered at $x_0$
+  
+  * A series solution converges at least on some interval defined by $|x -x_0|<R$, $~$where <font color="blue">$R$ is the distance from $x_0$ to the closest singular point</font>
+
+$~$
+
+**Example:** $\,$ Solve $y'' +xy =0$
+
+* Since there are no finite singular points, $~$two power series solutions are guaranteed, centered at $0$, convergent for $|x|>\infty$
+ 
+* Substituting $~y=\sum_{n=0}^\infty c_n x^n$ and the second derivative $y''=\sum_{n=2}^\infty c_n n(n -1) x^{n -2}$ into the DE gives
+
+   $$
+   \begin{aligned}
+     y'' +xy &= \sum_{n=2}^\infty c_n n(n-1) x^{n -2} +\sum_{n=0}^\infty c_n x^{n +1}\\
+     &= 2c_2 +\sum_{k=1}^{\infty} \left[(k +1)(k +2) c_{k +2} +c_{k -1} \right] x^k =0
+   \end{aligned}$$
+
+* The coefficient of each power of $x$ be set equal to zero:
+  
+  $$c_2 =0 \;\;\text{and}\;\; \displaystyle c_{k +2} =-\frac{c_{k -1}}{(k+1)(k+2)}, \;k=1,2,3,\cdots$$
+
+  $$\scriptsize
+  \begin{aligned}
+   c_3 &= -\frac{c_0}{2\cdot3} \\ 
+   c_4 &= -\frac{c_1}{3\cdot4} \\ 
+   c_5 &= -\frac{c_2}{4\cdot5} = 0 \\ 
+   c_6 &= -\frac{c_3}{5\cdot6} = \frac{c_0}{2\cdot3\cdot5\cdot6} \\ 
+   c_7 &= -\frac{c_4}{6\cdot7} = \frac{c_1}{3\cdot4\cdot6\cdot7}\\ 
+   c_8 &= -\frac{c_5}{7\cdot8} = 0 \\ 
+       &\;\;\vdots
+  \end{aligned}$$
+
+* After grouping the terms containing $c_0$ and the terms containing $c_1$, $~$we obtain $y = c_0 y_1(x) +c_1 y_2(x)$
+
+  $$  
+  \begin{aligned}
+    y_1(x) &= 1 +\sum_{n=1}^\infty \frac{(-1)^n}{2\cdot3 \cdots (3n -1)(3n)}x^{3n}\\ 
+    y_2(x) &= x +\sum_{n=1}^\infty \frac{(-1)^n}{3\cdot4 \cdots (3n)(3n +1)}x^{3n +1}
+  \end{aligned}$$
+
+$~$
+
+## Solutions about Singular Points {#sec-5-2}
+
+* Consider the linear second-order DE
+
+   $$(x -x_0)^2 y'' +(x -x_0) p(x) y' +q(x) y = 0$$
+  
+  * Point $x_0$ is a **regular singular point** of the DE if both $p(x)$ and $q(x)$ are analytic at $x_0$
+  
+  * A singular point that is not regular is an **irregular singular point** of the equation
+
+* To solve a DE about a regular singular point, $~$we employ **Frobenius' Theorem**
+
+  * If $x_0$ is a regular singular point of the standard DE, $~$there exists **at least one nonzero solution** of the form
+ 
+    $$y=(x -x_0)^r \sum_{n=0}^\infty c_n (x -x_0)^n = \sum_{n=0}^\infty c_n (x -x_0)^{n+r}$$
+   
+    where $r$ is a constant, and the series converges at least on some interval, $~0 < x -x_0 < R$
+
+  * After substituting $y =\sum_{n=0}^\infty c_n (x -x_0)^{n+r}$ into a DE and simplifying, the **indicial equation** is obtained, $~$<font color="blue">a quadratic equation in $r$ that results from equating the total coefficient of the lowest power of $x$ to zero</font>
+   
+  * The **indicial roots** are the solutions to the quadratic equation and are then substituted into a recurrence relation
+
+**Suppose that $x=x_0$ ia a regular singular point of a DE and the indicial roots are $r_1$ and $r_2$**: $\;r_1 \geq r_2$ 
+    
+* **Case I** 
+     
+  $r_1$ and $r_2$ are distinct <font color="red"> and do not differ by an integer</font>, 
+ 
+  $$
+  \begin{aligned}
+     y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}} \\ 
+     y_2(x) &= \sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_2}}}
+   \end{aligned}$$
+
+* **Case II**
+   
+  $r_1 -r_2 = N$, $~$<font color="red">where $N$ is a positive integer</font>,
+
+  $$   
+   \begin{aligned}
+      y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}}, \; c_0 \neq 0\\ 
+      y_2(x) &= {\color{red}{C}}y_1(x)\ln (x -x_0) +\sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_2}}}, \; b_0 \neq 0
+   \end{aligned}$$
+
+* **Case III**
+   
+  $r_1=r_2$, 
+ 
+  $$
+   \begin{aligned}
+     y_1(x) &= \sum_{n=0}^\infty {\color{red}{c_n}} (x -x_0)^{n +{\color{red}{r_1}}}, \; c_0 \neq 0\\ 
+      y_2(x) &= y_1(x)\ln (x -x_0) +\sum_{n=0}^\infty {\color{red}{b_n}} (x -x_0)^{n +{\color{red}{r_1}}}
+   \end{aligned}$$
+
+$~$
+
+**Example:** $\,$ Solve $\,2xy'' +(1 +x)y' +y = 0$
+ 
+* Substituting $y = \sum_{n=0}^\infty c_n x^{n +r}$ gives
+
+  $$\scriptsize  
+   \begin{aligned} 
+    2xy'' & +(1 +x)y' +y \\ 
+    & = 2\sum_{n=0}^\infty (n +r)(n +r -1)c_n x^{n +r -1}
+     +\sum_{n=0}^\infty (n +r) c_n x^{n +r -1}
+     +\sum_{n=0}^\infty (n +r) c_n x^{n +r}
+     +\sum_{n=0}^\infty c_n x^{n +r}\\ 
+     & = x^r\left[r(2r -1) c_0 x^{-1} +\sum_{k=0}^\infty [(k + r +1)(2k +2r +1) c_{k +1} +(k +r +1) c_k] x^k \right] = 0
+   \end{aligned}$$
+ 
+   which implies
+ 
+   $$
+   \begin{aligned}
+     &r(2r -1) = 0\\ 
+     (k + r +1)(2k +2r +1) &c_{k +1} +(k +r +1) c_k =0, \;\;k=0,1,\cdots 
+   \end{aligned}$$
+
+* We see that the indicial roots are $r_1=\frac{1}{2}$ and $r_2=0$
+ 
+  $$
+   \begin{aligned}
+    r_1 = \frac{1}{2}, &\;\;c_{k+1} =-\frac{c_k}{2(k +1)}, \;k=0,1,2, \cdots\, \\ 
+    r_2 = 0,\; &\;\;c_{k+1} =-\frac{c_k}{2k +1}, \;k=0,1,2, \cdots \,\\
+  \end{aligned}$$
+
+::: columns
+
+::: {.column width=50%}
+* For $r_1=\frac{1}{2}$,
+
+  $$ \small
+   \begin{aligned}
+    c_1 &= -\frac{c_0}{2\cdot1}\\ 
+    c_2 &= -\frac{c_1}{2\cdot2}=\frac{c_0}{2^2\cdot2!}\\ 
+    c_3 &= -\frac{c_2}{2\cdot3}=\frac{-c_0}{2^3\cdot3!}\\ 
+    c_4 &= -\frac{c_3}{2\cdot4}=\frac{c_0}{2^4\cdot4!}\\ 
+     &\;\vdots \\ 
+    c_n &= \frac{(-1)^n c_0}{2^n n!}
+   \end{aligned}$$
+:::
+
+::: {.column width=50%}
+ * For $r_2=0$,
+
+   $$ \small
+   \begin{aligned}
+      c_1 &= -\frac{c_0}{1}\\ 
+      c_2 &= -\frac{c_1}{3}=\frac{c_0}{1\cdot3}\\ 
+      c_3 &= -\frac{c_2}{5}=\frac{-c_0}{1\cdot3\cdot5}\\ 
+      c_4 &= -\frac{c_3}{7}=\frac{c_0}{1\cdot3\cdot5\cdot7}\\ &\;\vdots \\
+      c_n &= \frac{(-1)^n c_0}{1\cdot3\cdot5\cdot7\cdots (2n -1)}
+   \end{aligned}$$
+:::
+
+:::
+
+* The series solutions are
+
+  $$
+   \begin{aligned}
+      y_1(x) &= x^{1/2} \left[ 1 +\sum_{n=1}^\infty \frac{(-1)^n}{2^n n!} x^n \right ]\\ 
+      y_2(x) &= 1 +\sum_{n=1}^\infty \frac{(-1)^n}{1\cdot3\cdot5\cdot7\cdots(2n -1)} x^n
+   \end{aligned}$$
+
+$~$
+
+## Special Functions {#sec-5-3}
+
+The following DEs occur frequently in advanced studies in applied mathematics, physics, and engineering
+
+* <font color="red">**Bessel's equation of order $\nu$**, $~$solutions are **Bessel functions**</font>
+
+  $$x^2 y'' +xy' +(x^2 -\nu^2) y =0$$
+  
+* <font color="red">**Legendre's equation of order $n$**, $~$solutions are **Legendre polynomials**</font>
+
+  $$(1 -x^2)y'' -2xy' +n(n +1)y =0$$
+
+### Bessel Functions {#sec-5-3-1}
+
+$~$
+
+* Because $x=0~$ is a regular singular point of Bessel's equation, there exists at least one solution of the form $y=\sum_{n=0}^\infty c_n x^{n +r}$
+
+  $$
+  \begin{aligned}
+    x^2 &y'' +xy' +(x^2 -\nu^2)y \\
+    &= \sum_{n=0}^\infty c_n (n +r)(n +r -1) x^{n +r}  
+     +\sum_{n=0}^\infty c_n (n +r) x^{n +r} \\
+    &\qquad+\sum_{n=0}^\infty c_n x^{n +r +2} 
+     -\nu^2 \sum_{n=0}^\infty c_n x^{n +r}\\ 
+    &= {\color{red}{c_0 (r^2 -\nu^2) x^r}} +x^r 
+    \sum_{n=1}^\infty c_n [(n +r)^2 -\nu^2] x^n +x^r 
+    \sum_{n=0}^\infty c_n x^{n +2} = 0
+  \end{aligned}$$
+
+* The indicial equation is <font color="red">$~r^2 -\nu^2=0$</font> $~$so that the indicial roots are <font color="red">$r_1=\nu$ and $r_2=-\nu$</font>. <font color="blue">When $\,r_1=\nu \geq 0$</font>,
+
+  $$\scriptsize 
+  \begin{aligned}
+     x^\nu \sum_{n=1}^\infty & c_n n(n +2\nu) x^n +x^\nu \sum_{n=0}^\infty c_n x^{n +2} \\
+     &  = x^\nu \left[ (1 +2\nu) c_1 x +\sum_{k=0}^\infty \left[(k +2)(k +2 +2\nu) c_{k+2} 
+     +c_k\right]x^{k +2} \right] = 0 \\
+     &\Downarrow \\
+     c_1 & = 0,\;\; c_{k+2} = \frac{-c_k}{(k +2)(k +2 +2\nu)}, \;\;k=0,1,2,\cdots \\
+     &\Downarrow\\
+       c_3 &  =c_5=c_7=\cdots=0, \\
+       c_{2n} & =-\frac{c_{2n -2}}{2^2 n(n +\nu)}  
+         \;\;\leftarrow\;\;k+2=2n 
+  \end{aligned}$$
+
+* Thus
+
+  $$\scriptsize
+  \begin{aligned}
+   c_2 & = -\frac{c_0}{2^2\cdot1\cdot(1 +\nu)}\\ 
+   c_4 & = -\frac{c_2}{2^2\cdot2\cdot(2 +\nu)} \\
+       & = \frac{c_0}{2^4 \cdot 1 \cdot 2(1 +\nu)(2 +\nu)}\\ 
+   c_6 & = -\frac{c_4}{2^2\cdot3\cdot(3 +\nu)} \\
+       & =-\frac{c_0}{2^6 \cdot 1 \cdot 2 \cdot 3 (1 +\nu)(2 +\nu)(3 +\nu)}\\ 
+       &\;\vdots \\ 
+   c_{2n} & = \frac{(-1)^n c_0}{2^{2n} n! (1 +\nu)(2 +\nu)\cdots(n +\nu)}\\    
+  \end{aligned}$$
+
+* It is standard practice to choose
+
+  $$
+  \begin{aligned}
+    c_0 & =\frac{1}{2^\nu \Gamma(1 +\nu)} \\ 
+    & \text{thus, } \\
+    c_{2n} & = \frac{(-1)^n}{2^{2n +\nu} n!\, \Gamma(1 +\nu +n)}
+  \end{aligned}$$
+
+**Note** $\,$ $\displaystyle\Gamma(\nu)=\;\int_0^\infty x^{\nu -1} e^{-x} \,dx$, $\;\Gamma(\nu +1)=\nu\Gamma(\nu)$
+
+```{python}
+# | label: fig-ch03-Gamma-Function 
+# | fig-cap: Gamma Function
+
+import numpy as np
+from scipy.special import gamma, factorial
+
+import matplotlib.pyplot as plt
+
+x = np.linspace(-3.5, 5.5, 2251)
+y = gamma(x)
+
+def gamma_plot():
+    fig = plt.figure(figsize=(6, 4))
+
+    plt.plot(x, y, 'b', alpha=0.6, label=r'$\Gamma(x)$')    
+    k = np.arange(1, 7)
+    plt.plot(k, factorial(k -1), 'ko', alpha=0.6,
+         label=r'$(x-1)!,\; x = 1, 2, 3\cdots$')
+    plt.xlim(-3.5, 5.5)
+    plt.ylim(-10, 25)
+    plt.grid('true')
+    plt.xlabel('x')
+    plt.ylabel(r'$\Gamma(x)$')
+    plt.legend(loc='lower right')
+
+    plt.show()
+
+gamma_plot()    
+```
+
+* **Bessel Functions of the First Kind**
+
+  The series solution $y_1=\sum_{n=0}^\infty c_{2n} x^{2n +\nu}$ is usually denoted by $J_\nu(x)$
+  
+  <font color="red">$$J_\nu(x)=\sum_{n=0}^\infty \frac{(-1)^n}{n!\, \Gamma(1 +\nu +n)} \left( \frac{x}{2} \right)^{2n +\nu}$$</font>
+  
+  Also, for the second exponent $r_2=-\nu$
+  
+  $$J_{-\nu}(x)=\sum_{n=0}^\infty \frac{(-1)^n}{n!\, \Gamma(1 -\nu +n)} \left( \frac{x}{2} \right)^{2n -\nu}$$
+
+  * When $~\nu=0$, $~J_0(x)$
+    
+  * When $r_1 -r_2 = 2\nu~$ is not positive integer, $~J_\nu(x)$ and $J_{-\nu}(x)$ are linearly independent 
+    
+  * When $r_1 -r_2 = 2\nu~$ is positive integer, $~$there are two possibilities
+    
+    * When $\nu = m =$ positive integer, $~J_{-m}(x)$ is a constant multiple of $J_m(x)$ : $~J_m(x)=(-1)^m J_{-m}(x)$
+      
+     * When $\nu$ is half an odd positive integer, $~J_\nu(x)$ and $J_{-\nu}(x)$ are linearly independent
+
+$~$
+
+**Example** $\,$ Solve $~x^2y'' +xy' +(x^2 -\frac{1}{4})y=0$
+
+$~$
+
+* **Bessel Functions of the Second Kind**
+
+  If $\nu \neq$ integer
+  
+  $$Y_\nu(x)=\frac{\cos \nu \pi J_\nu(x) -J_{-\nu}(x)}{\sin \nu \pi}$$
+  
+  $J_\nu(x)$ and $Y_\nu(x)$ are linearly independent solutions of 
+   
+  $$x^2 y'' +xy' +(x^2 -\nu^2) y =0$$
+
+  As $\nu \rightarrow m\,(\text{an integer})$,
+  
+  $$Y_m(x)=\lim_{\nu \to m} Y_\nu(x)$$
+  
+  $J_m(x)$ and $Y_m(x)$ are linearly independent solutions of 
+   
+  $$x^2 y'' +xy' +(x^2 -m^2) y =0$$
+
+* Hence for *any* value of $\nu$, $~$the general solution of Bessel equation can be written as
+  
+  $$y=c_1 J_\nu(x) +c_2 Y_\nu(x)$$
+  
+  $Y_\nu(x)$ is called the **Bessel function of the second kind** of order $\nu$ 
+
+$~$
+
+**Example** $\,$ Solve $~x^2y'' +xy' +(x^2 -9)y=0$
+
+$~$
+
+#### **Properties of Bessel Functions** 
+
+$~$
+
+* When $m$ is integer
+
+  * $\displaystyle \color{blue}{J_m(x) = \sum_{n=0}^\infty \frac{(-1)^n}{n!(n + m)!} \left( \frac{x}{2} \right)^{2n + m}}$ 
+
+  * $J_{-m}(x)=(-1)^m J_m(x)$
+
+  * $J_{m}(-x)=(-1)^m J_m(x)$
+
+  * $J_m(0)=\left\{\begin{matrix} 0, & m > 0\\ 1, & m = 0 \end{matrix}\right.$
+             
+  * $\displaystyle\lim_{x \to 0^+} Y_m(x)=-\infty$
+
+```{python}
+# | label: fig-ch05-Bessel-Function
+# | fig-cap: Bessel functions
+from scipy.special import jv, yv
+
+plt.style.use('ggplot')
+
+fig = plt.figure(figsize=(6, 8))
+
+ax1 = fig.add_subplot(211)
+
+x = np.linspace(0, 20, 200)
+for m in range(5):
+    y = jv(m, x)
+    ax1.plot(x, y, label=f'$J_{m}(x)$')
+
+ax1.axis((0, 20, -0.6, 1))
+
+ax1.set_ylabel('$J_m(x)$')
+ax1.legend()
+
+ax2 = fig.add_subplot(212)
+
+for m in range(5):
+    y = yv(m, x)
+    ax2.plot(x, y, label=f'$Y_{m}(x)$')
+
+ax2.axis((0, 20, -3, 1))
+
+ax2.set_xlabel('x')
+ax2.set_ylabel('$Y_m(x)$')
+ax2.legend()
+
+plt.show()
+```
+
+* **Differential Recurrence Relation**
+
+  $$
+   \begin{aligned}
+     x&J_\nu'(x)= {\scriptsize \sum_{n=0}^\infty \frac{(-1)^n(2n +\nu)}{n! \, \Gamma(1 +\nu +n)} 
+     \left( \frac{x}{2}\right )^{2n +\nu}}\\ 
+     &= {\scriptsize\nu \sum_{n=0}^\infty \frac{(-1)^n}{n! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu}
+     +x\sum_{n=1}^\infty \frac{(-1)^n}{(n -1)! \, \Gamma(1 +\nu +n)} \left( \frac{x}{2}\right )^{2n +\nu -1} }\\ 
+     &= {\scriptsize \nu J_\nu(x) -x\sum_{k=0}^\infty \frac{(-1)^k}{k! \, \Gamma(2 +\nu +k)} 
+     \left( \frac{x}{2}\right )^{2k +\nu +1} }\\ 
+     &= {\scriptsize \nu J_\nu(x) -x J_{\nu+1}(x) }\\ 
+     &\;\big\Downarrow\;{\scriptsize\times\, x^{-\nu -1}} \\
+     \color{blue}{\frac{d}{dx}} & \color{blue}{[x^{-\nu}J_\nu(x)]} \color{blue}{=-x^{-\nu} J_{\nu+1}(x)}
+   \end{aligned}$$
+
+  and
+
+  $$  
+  \begin{aligned}
+     xJ_\nu'(x)&= -\nu J_\nu(x) +x J_{\nu -1}(x)\\ 
+     & \;\big\Downarrow\;{\scriptsize\times\, x^{\nu -1}} \\
+     \color{blue}{\frac{d}{dx} [x^{\nu}J_\nu(x)]} 
+     & \color{blue}{=x^{\nu} J_{\nu -1}(x)}
+  \end{aligned}$$  
+ 
+$~$
+
+**Example** $\,$ $J_0'(x)=-J_1(x)$
+
+$~$
+
+#### **DEs Solvable in Terms of Bessel Functions**
+
+* Parametric Bessel equation of order $\nu$
+  
+  $$
+  \begin{aligned}
+     x^2 y'' +x y' &+({\color{red}{\alpha^2}} x^2 -\nu^2) y = 0 \\ 
+     &\;\Big\Downarrow \;t=\alpha x, \;\alpha>0 \\
+     t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &+(t^2 -\nu^2)y = 0 \\
+     &\Downarrow \\
+     y = c_1 J_\nu({\color{red}{\alpha}} x) &+c_2 Y_\nu({\color{red}{\alpha}} x)
+   \end{aligned}$$
+
+* Modified Bessel equation of order $\nu$
+
+  $$ 
+   \begin{aligned}
+      x^2 y'' +x y' &{\color{red}{-}}(x^2 +\nu^2) y = 0 \\ 
+      &\;\Big\Downarrow \;t=ix \\
+      t^2\frac{d^2y}{dt^2} +t\frac{dy}{dt} &+(t^2 -\nu^2)y = 0 \\
+      &\;\Bigg\Downarrow \;{\scriptsize I_\nu(x)=i^{-\nu} J_\nu(ix), 
+      \;K_\nu(x)=\frac{\pi}{2}\frac{I_{-\nu}(x) -I_{\nu}(x)}{\sin\nu\pi}, \;K_m(x)=\lim_{\nu\to m} K_\nu(x) } \\
+      y = c_1 {\color{red}{I_\nu(x)}} 
+        &+c_2 {\color{red}{K_\nu(x)}}
+   \end{aligned}$$
+
+* Yet another equation
+
+  $$ 
+   \begin{aligned}
+       { y'' +\frac{1 -2a}{x} y' }&{ +\left( b^2 c^2 x^{2c -2} +\frac{a^2 -p^2 c^2}{x^2}\right)y=0, \;p \geq 0 } \\ 
+       &\Bigg\Downarrow \;{\scriptsize z=bx^c, \;y(x)=\left( \frac{z}{b} \right )^{a/c} w(z) }\\ 
+       y=x^a &\left[c_1 J_p(bx^c) +c_2 Y_p(bx^c)\right] 
+   \end{aligned}$$   
+
+* The aging spring
+  
+  $$
+   \begin{aligned}
+       m\ddot{x} &+ke^{-\alpha t}x = 0, \;\alpha > 0 \\ 
+       &\,\Bigg\Downarrow \;{\scriptsize s = \frac{2}{\alpha} \sqrt{\frac{k}{m}} e^{-\alpha t/2} }\\ 
+       s^2 \frac{d^2 x}{ds^2} &+s\frac{dx}{ds} +s^2 x = 0 
+   \end{aligned}$$
+
+* **Spherical Bessel Functions:** 
+
+  When solving the Helmholtz equation in spherical coordinates by separation of variables, $~$the radial equation has the form
+  
+  $$x^2 y'' +2xy' +\left(x^2 -n(n+1)\right)y=0$$
+
+  The two linearly independent solutions to this equation are called the spherical Bessel functions $j_n$ and $y_n$
+   
+  $${\scriptsize j_n(x)=\color{blue}{\sqrt{\frac{\pi}{2x}}} J_{n +\frac{1}{2}}(x) }$$
+  
+   $${\scriptsize y_n(x)=\color{blue}{\sqrt{\frac{\pi}{2x}}} Y_{n +\frac{1}{2}}(x)=(-1)^{n +1}\sqrt{\frac{\pi}{2x}} J_{-n -\frac{1}{2}}(x) }$$ 
+
+  when $\nu=n +\frac{1}{2}$ is half an odd integer, that is, $~\pm\frac{1}{2}$, $\pm\frac{3}{2}$, $\pm\frac{5}{2}$, $\cdots$
+
+  Let's consider the case when $~\nu=\frac{1}{2}$,
+
+  $$\scriptsize J_{1/2}(x)=\sum_{n=0}^\infty \frac{(-1)^n}{n!\, \Gamma(1 +\frac{1}{2} +n)} \left( \frac{x}{2} \right)^{2n +1/2}$$
+
+  where
+
+  $$\tiny
+  \begin{aligned}
+    \Gamma\left(\frac{1}{2} \right ) & = \sqrt{\pi}\\
+    \Gamma\left(\frac{3}{2} \right ) & = \Gamma\left(1 +\frac{1}{2} \right ) 
+      = \frac{1}{2}\Gamma\left(\frac{1}{2} \right )=\frac{1}{2} \sqrt{\pi}\\ 
+    \Gamma\left(\frac{5}{2} \right ) & = \Gamma\left(1 +\frac{3}{2} \right ) 
+      = \frac{3}{2}\Gamma\left(\frac{3}{2} \right )=\frac{3}{2^2} \sqrt{\pi} 
+      = \frac{3\cdot2}{2^3} \sqrt{\pi} = \frac{3!}{2^3} \sqrt{\pi}\\
+    \Gamma\left(\frac{7}{2} \right ) & = \Gamma\left(1 +\frac{5}{2} \right ) 
+      = \frac{5}{2}\Gamma\left(\frac{5}{2} \right ) = \frac{5\cdot3}{2^3} \sqrt{\pi}
+      = \frac{5\cdot4\cdot3\cdot2}{2^3\cdot4\cdot2} \sqrt{\pi} = \frac{5!}{2^5 2!} \sqrt{\pi}\\ 
+    &\; \vdots \\ 
+    \Gamma\left(1 +\frac{1}{2} +n \right ) &= \frac{(2n +1)!}{2^{2n +1} n!} \sqrt{\pi}
+  \end{aligned}$$
+
+  Hence
+
+  $$J_{1/2}(x)={\tiny \sum_{n=0}^\infty \frac{(-1)^n}{n!\, \frac{(2n +1)!}{2^{2n +1} n!} \sqrt{\pi}} \left( \frac{x}{2} \right)^{2n +1/2} = \sqrt{\frac{2}{\pi x}}\sum_{n=0}^\infty \frac{(-1)^n}{(2n +1)!} x^{2n +1} } =\sqrt{\frac{2}{\pi x}}\sin x$$
+
+$~$
+
+**Example** $\,$ Show that
+$\displaystyle \, J_{-1/2}(x)=\sqrt{\frac{2}{\pi x}}\cos x$
+
+```{python}
+# | label: fig-ch05-Spherical-Bessel_Function
+# | fig-cap: Spherical Bessel Function
+from scipy.special import spherical_jn
+
+plt.style.use('ggplot')
+
+fig, ax = plt.subplots(figsize=(6, 4))
+
+x = np.linspace(np.finfo(np.float32).eps, 10, 200)
+for n in range(5):
+    y = spherical_jn(n, x)
+    ax.plot(np.append(0, x), np.append(0, y),
+        label=f'$j_{n}(x)$')
+
+ax.axis((0, 10, -0.4, 1.0))
+
+ax.set_xlabel('$x$')
+ax.set_ylabel('$j_n(x)$')
+ax.legend()
+
+plt.show()
+```
+$~$
+
+**Example** $\,$ Find the general solution of the given differential equation on $(0,\infty)$
+
+* $x^2y''+xy'+(x^2-\frac{1}{9})y=0$
+   
+* $xy''+y'+xy=0$
+  
+* $x^2y'' +xy'+(9x^2-4)y=0$
+  
+* $x^2y''+xy'-(16x^2+\frac{4}{9})y=0$
+
+$~$
+
+**Example** $\,$ Find the general solution of the given differential equation on $(0,\infty)$
+
+  * $x^2y''+2xy'+\alpha^2x^2y=0; \;y=x^{-1/2}u(x)$
+
+  * $xy''+2y'+4y=0$
+
+$~$
+
+**Example** $\,$ Verify that $I_\nu(x)=i^{-\nu}J_\nu(ix)~$ is a real function
+
+$~$
+
+**Example** $\,$ Express the general solution of the given differential equation in terms of the modified Bessel functions
+
+  $$xy''+y'-7x^3y=0$$
+
+$~$
+
+**Example** $\,$ First express the general solution of the given differential equation in terms of Bessel functions and then express the general solution in terms of elementary functions
+
+  $$x^2y''+4xy'+(x^2+2)y=0$$
+
+$~$
+
+**Example** $\,$ Derive the following result
+
+  $$\int_0^x rJ_0(r)\,dr=xJ_1(x)$$
+  
+  $$J_0'(x)=J_{-1}(x)=-J_1(x)$$
+
+$~$
+
+**Example** $\,$ Use the solution of the aging spring equation $mx''+ke^{-at}x=0$ to discuss the behavior of $x(t)$ as $t \to\infty$ in the three cases
+
+  * $c_1\neq 0, \;c_2=0$
+  
+  * $c_1=0, \;c_2\neq 0$
+  
+  * $c_1\neq 0, \;c_2 \neq 0$
+
+$~$
+
+### Legendre Polynomials {#sec-5-3-2}
+
+$~$
+
+* Since $x=0$ is an ordinary point of Legendre's equation, $~$we substitute the series $y=\sum_{j=0}^\infty c_j x^j~$ to get
+
+  $$\scriptsize
+  \begin{aligned}
+  {\normalsize (1 -x^2)} & {\normalsize y'' -2xy' +n(n +1)y = }\\[8pt]
+  [n(n+1)c_0 +2c_2] &+[(n -1)(n +2)c_1 +6c_3]x \\
+      +\sum_{j=2}^\infty & [(j +2)(j +1) c_{j +2} +(n -j)(n +j +1)c_j] x^j = 0\\[3pt] 
+  &\Downarrow \\
+  c_2 \, & { = -\frac{n(n+1)}{2} c_0 }\\ 
+  c_3 \, & { = -\frac{(n -1)(n +2)}{6} c_1 }\\
+  &\vdots \\
+  c_{j +2} \, & { =-\frac{(n -j)(n +j +1)}{(j +2)(j +1)} c_j, \;\; j=2,3,4,\cdots }
+  \end{aligned}$$
+
+* The recurrence relation yields
+
+  $$ \scriptsize
+  \begin{aligned}
+  c_2 & = -\frac{n(n+1)}{2!} c_0\\ 
+  c_4 & = -\frac{(n -2)(n +3)}{4\cdot3}c_2=\frac{(n -2)n(n+1)(n +3)}{4!} c_0\\ 
+  c_6 & = -\frac{(n -4)(n +5)}{6\cdot5}c_4=-\frac{(n -4)(n -2)n(n+1)(n +3)(n +5)}{6!} c_0\\ 
+  & \,\vdots \\
+  c_3 & = -\frac{(n -1)(n+2)}{3!} c_1\\ 
+  c_5 & = -\frac{(n -3)(n +4)}{5\cdot4}c_3=\frac{(n -3)(n -1)(n+2)(n +4)}{5!} c_1\\ 
+  c_7 & = -\frac{(n -5)(n +6)}{7\cdot6}c_5=-\frac{(n -5)(n -3)(n -1)(n+2)(n +4)(n +6)}{7!} c_1\\ 
+  & \,\vdots
+  \end{aligned}$$
+
+* Thus for at least $|x|<1$, $\,$we obtain two linearly independent power series solutions:
+
+  $$\tiny
+  \begin{aligned}
+   y_1(x) &= c_0 \left[1 -\frac{n(n+1)}{2!} x^2 
+     +\frac{(n -2)n(n+1)(n +3)}{4!} x^4 
+        -\frac{(n -4)(n -2)n(n+1)(n +3)(n +5)}{6!} x^6 \cdots \right] \\
+   y_2(x) &= c_1 \left[x - \frac{(n -1)(n+2)}{3!} x^3 +\right. \left. \frac{(n -3)(n -1)(n+2)(n +4)}{5!} x^5 \right. \left. -\frac{(n -5)(n -3)(n -1)(n+2)(n +4)(n +6)}{7!} x^7 \cdots \right]
+  \end{aligned}$$
+
+  * <font color="red">If $n$ is an even integer</font>, $~$<font color="blue">the series $y_1(x)$ reduces to a polynomial of degree $n$ with only even powers of $x$</font> <font color="green">and the series $y_2(x)$ diverges</font>
+
+  * <font color="red">If $n$ is an odd integer</font>, $~$<font color="blue">the series $y_2(x)$ reduces to a polynomial of degree $n$ with only odd powers of $x$</font> <font color="green">and the series $y_1(x)$ diverges</font>
+
+* The general solution for an integer $n$ is then given by the **polynomials**
+
+  For example, if $n=4$, then
+
+  $$\scriptsize
+   y_1(x) = c_0 \left[1 -\frac{4\cdot5}{2!} x^2 +\frac{2\cdot4\cdot5\cdot7}{4!} x^4 \right]
+   = c_0 \left[1 -10x^2 +\frac{35}{3} x^4 \right]$$
+
+* It is traditional to choose
+specific values for $c_0$ or $c_1$, depending on whether $n$ is an even or odd positive integer, respectively
+
+  * For $n=0$, $~c_0=1$, and for $n=2,4,6,\cdots$, 
+
+    $\displaystyle\scriptsize c_0=(-1)^{n/2} \frac{1\cdot 3\cdots (n -1)}{2 \cdot 4 \cdots n}$
+  
+  * For $n=1$, $~c_1=1$, and for $n=3,5,7,\cdots$, 
+  
+    $\displaystyle\scriptsize c_1=(-1)^{(n -1)/2} \frac{1\cdot 3\cdots n}{2 \cdot 4 \cdots (n -1)}$ 
+
+* For example, $\,$ when $n=4$, $~$we have
+
+  $$\scriptsize y_1(x) = (-1)^{4/2} \frac{1\cdot3}{2\cdot4} \left[1 -10x^2 +\frac{35}{3} x^4 \right]
+  =\frac{1}{8} (35x^4 -30x^2 +3)$$
+  
+* **Legendre Polynomials**
+
+  There specific $n$-th degree polynomials are called **Legendre polynomials** and denoted by $P_n(x)$
+
+  $$\scriptsize
+  \begin{aligned}
+     P_0(x) & = 1\\ 
+     P_1(x) & = x\\ 
+     P_2(x) & = \frac{1}{2}(3x^2 -1)\\ 
+     P_3(x) & = \frac{1}{2}(5x^3-3x)\\ 
+     P_4(x) & = \frac{1}{8}(35x^4 -30x^2 +3)\\
+     P_5(x) & = \frac{1}{8}(63x^5 -70x^3 +15x)
+  \end{aligned}$$
+
+```{python}
+# | label: fig-ch05-Legendre-Polynomials
+# | fig-cap: Legendre polynomials
+
+from scipy.special import eval_legendre
+
+fig, ax = plt.subplots(figsize=(5, 5))
+
+x = np.linspace(-1, 1, 100)
+for n in range(6):
+    y = eval_legendre(n, x)
+    ax.plot(x, y, label=f'$P_{n}(x)$')
+
+ax.axis((-1.1, 1.1, -1.1, 1.1))
+ax.set_xlabel('x')
+ax.set_ylabel('$P_n(x)$')
+ax.legend(loc='lower left', bbox_to_anchor=(1, 0))
+
+plt.show()
+```
+
+* **Properties of Legendre Polynomials**
+
+  * $P_n(-x)=(-1)^n P_n(x)$
+  * $P_n(1)=1$
+  * $P_n(-1)=(-1)^n$
+  * $P_n(0)=0$, $~n$ odd
+  * $P_n'(0)=0$, $~n$ even
+
+* **Rodrigues' Formula**
+
+  The Legendre polynomials can also be represented using **Rodrigues’ Formula**,
+
+  $$P_n(x)=\frac{1}{2^n n!} \frac{d^n}{dx^n} \left(x^2 -1\right)^n \tag{RF}\label{eq:RF}$$
+
+  This can be demonstrated through the following observations
+
+  * The right hand side of \eqref{eq:RF} is an $n$-th order polynomial
+
+  * Treating $\left(x^2 -1\right)^n = (x -1)^n (x + 1)^n$ as a product and using Leibnitz’ rule to differentiate $n$ times, $~$we have
+    
+    $$\frac{d^n}{dx^n} (x -1)^n (x +1)^n = n!(x+1)^n + {\scriptsize\text{terms with } (x -1) \text{ as a factor}}$$
+   
+    so that $\displaystyle ~P_n(1) = \frac{n! 2^n}{2^n n!} =1$
+
+  * If $~h(x) = \left(1 -x^2\right)^n$, $~$then $h'(x) = -2nx(1 -x^2)^{n-1}$, $~$so that
+
+    $$\left(1 -x^2\right)h' + 2nx\,h = 0$$
+    
+    Now differentiate $n +1$ times, using Leibnitz, to get
+    
+    $$\scriptsize
+    \begin{aligned}
+       \left(1 -x^2\right)h^{n +2} 
+        & -2(n +1)x h^{n +1} -2\frac{(n + 1)n}{2} h^n + 2nxh^{n +1} + 2n(n + 1)h^n = 0 \\
+        &\Downarrow\\
+       \left(1 -x^2\right)h^{n +2} 
+        & -2x h^{n +1} +n(n +1) h^n = 0
+    \end{aligned}$$
+
+  * As the equation is linear and $P_n(x) \propto h^n(x)$, $~P_n(x)$ satisfies the Legendre equation of order $n$
+    
+    $$\left(1 -x^2\right) P_n''(x) -2x P_n'(x) +n(n +1) P_n(x) = 0$$
+
+* **Integral Relations**
+
+  $$\int_{-1}^1 P_k(x) P_l(x) \,dx = \delta_{k,l} \frac{2}{2l +1},\;\;k \leq l$$
+   
+  $$\int_{-1}^1 x P_s(x) P_r(x) \,dx = \delta_{s +1,r} \frac{2r}{(2r -1)(2r +1)}, \; s \leq r $$
+
+* **Recurrence Relation**
+
+  The Legendre polynomials satisfy the following recurrence relation
+
+  $$(n + 1) P_{n +1}(x) = (2n + 1) x P_n(x) -n P_{n -1}(x)$$
+  
+  Consider the polynomial $x P_n(x)$. It has degree $n +1$ and is thus in the linear span
+  of $P_0, \cdots, P_{n +1}$. We can hence write $x P_n(x)$ as a linear combination of the first $~n +2$
+  Legendre polynomials:
+  
+  $$
+   xP_n(x) = c_0 P_0(x) +c_1 P_1(x) +\cdots +c_{n +1}P_{n +1}(x)
+  $$
+
+  * Thus
+  
+   $$\scriptsize
+   \begin{aligned}
+      \int_{-1}^1 x P_n(x) P_k(x)\,dx & = c_k \int_{-1}^1 P_k^2(x)\, dx \\ 
+      \rightarrow  c_k 
+      & =\frac{2k +1}{2} \int_{-1}^1 x P_n(x) P_k(x)\,dx
+   \end{aligned}$$
+
+  
+   These integrals vanish unless $k = n \pm 1$ and for this case, we can use
+   
+   $$ \scriptsize
+     c_{n -1}=\frac{2n -1}{2} \int_{-1}^1 x P_n(x) P_{n -1}(x)\,dx=\frac{n}{2n +1}
+   $$
+   
+   $$ \scriptsize
+     c_{n +1}=\frac{2n +3}{2} \int_{-1}^1 x P_n(x) P_{n +1}(x)\,dx=\frac{n +1}{2n +1}
+   $$
+
+  * Hence
+   
+    $$
+      \begin{aligned}
+        xP_n(x) &= c_{n -1} P_{n -1}(x) +c_{n +1}P_{n +1}(x)\\ 
+        &= \frac{n}{2n +1}P_{n -1}(x)+\frac{n +1}{2n +1}P_{n +1}(x)
+     \end{aligned}$$
+  
+     This is what we wanted to prove
+
+$~$
+
+**Example** $\,$ Use the recurrence relation and $P_0(x)=1$, $P_1(x)=x$, to generate the next six Legendre polynomials
+
+$~$
+
+**Example** $\,$ Show that the differential equation
+
+  $$\sin\theta \frac{d^2y}{d\theta^2}+\cos\theta \frac{dy}{d\theta}+n(n+1)\,\sin\theta\,y=0$$
+  
+  can be transformed into Legendre's equation by means of the substitution $x=\cos\theta$
+
+$~$
+
+**Example** $\,$ Find the first three positive values of $~\lambda~$ for which the problem
+
+  $$(1-x^2)y''-2xy'+\lambda y=0$$
+  
+  $$y(0)=0, \;y(x),\;y'(x)\;\text{ bounded on } [-1, 1]$$
+  
+  has nontrivial solutions
+
+$~$
+
+* The differential equation
+
+  $$(1-x^2)y''-2xy'+\left[ n(n+1) -\frac{m^2}{1-x^2} \right]y=0$$
+  
+  is known as the **associated Legendre equation**. When $~m=0$, this equation reduces to Legendre's equation. $~$A solution of the associated equation is
+  
+  $$P_n^m(x)=(1-x^2)^{m/2} \frac{d^m}{dx^m} P_n(x)$$
+  
+  where $P_n(x), \;n=0, 1,2, \cdots$ are the Legendre polynomials. The solutions $P_n^m(x)$ for $m=0,1,2,\cdots,$ are called **associated Legendre functions**
+
+$~$
+
+**Example** $\,$ Answer the following questions
+
+* Find the associated Legendre functions $P_0^0(x)$, $P_1^0(x)$, $P_1^1(x)$, $P_2^1(x)$, $P_2^2(x)$, $P_3^1(x)$, $P_3^2(x)$, and $P_3^3(x)$
+
+* $\,$ What can you say about $P_n^m(x)$ when $m$ is an even non-negative integer?
+
+* $\,$ What can you say about $P_n^m(x)$ when $m$ is a non-negative integer and $m>n$?
+
+* $\,$ Verify that $y=P_1^1(x)$ satisfies the associated Legendre equation when $n=1$ and $m=1$
+
+## Worked Exercises {.unnumbered}
+
+**1.** $\phantom{1}$ The differential equation 
+
+$$ xy'' +(1-x) y' +\alpha y=0$$
+
+$~$ is known as Laguerre's equation
+
+  (a)$~$ Find two linearly independent solutions for $0 \le x <\infty$
+  
+  (b)$~$ Show that there is a polynomial solution of degree $n$, in case $\alpha=n$ is a non-negative integer
+  
+  (c)$~$ These solutions are naturally called Laguerre polynomials and are denoted by $L_n(x)$. Rodrigues' formula for the Laguerre polynomials is
+
+$$ L_n(x) = \frac{e^x}{n!} \frac{d^n}{dx^n} x^n e^{-x}$$
+
+  Use this formula to find the Laguerre polynomials corresponding to $n=0,1,2,3,4$
+
+$~$
+
+  **Solution (a)**
+
+Let’s apply the Frobenius method to solve the differential equation near the regular singular point at $x = 0$
+
+**Step 1: Frobenius Series Assumption**
+
+Assume a solution of the form:
+
+$$ \color{blue}{y(x) = x^r \sum_{k=0}^{\infty} a_k x^k = \sum_{k=0}^{\infty} a_k x^{k + r}, \quad a_0 \ne 0}$$
+
+Then,
+
+$$ y'(x) = \sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}$$
+
+$$
+y''(x) = \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 2}$$
+
+**Step 2: Substitute into the Equation**
+
+Substitute into the original equation:
+
+$$\scriptsize\begin{aligned}
+& x y'' + (1 - x) y' + n y \\
+&= \sum_{k=0}^{\infty} a_k (k + r)(k + r - 1) x^{k + r - 1}
++\sum_{k=0}^{\infty} a_k (k + r) x^{k + r - 1}
+-\sum_{k=0}^{\infty} a_k (k + r) x^{k + r}
++\sum_{k=0}^{\infty} \alpha a_k x^{k + r} = 0
+\end{aligned}$$
+
+Group and simplify:
+
+$$
+\sum_{k=0}^{\infty} a_k (k + r)^2 x^{k + r - 1}
++\sum_{k=0}^{\infty} a_k (\alpha - k - r) x^{k + r} = 0
+$$
+
+**Step 3: Indicial Equation**
+
+The lowest power of $x$ is $x^{r - 1}$. Its coefficient is:
+
+$$
+a_0 r^2$$
+
+Set this to zero:
+
+$$
+\color{blue}{r^2 = 0 \quad \Rightarrow \quad r = 0}$$
+
+**Step 4: Recurrence Relation**
+
+Now use $r = 0$, so:
+
+$$ \sum_{k=0}^{\infty} \left[ a_{k+1} (k + 1)^2 + a_k (\alpha - k) \right] x^k = 0$$
+
+So the recurrence relation is:
+
+$$ \color{blue}{a_{k+1} = - \frac{(\alpha - k)}{(k + 1)^2} a_k}$$
+
+Choose $a_0 = 1$ (arbitrary constant), this gives a general form:
+
+$$\color{blue}{a_k = \frac{(-1)^k \alpha(\alpha - 1) \cdots (\alpha - k + 1)}{(k!)^2}}
+$$
+
+Thus the first solution is
+
+$$ \color{blue}{y_1(x) = \sum_{k=0}^{\infty} a_k x^k}$$
+
+When the indicial equation has a repeated root $r=0$, the second solution has the form:
+
+$$ \color{blue}{y_2(x) = y_1(x) \ln x + \sum_{k=0}^{\infty} b_k x^k}$$
+
+We plug this into the original equation. This leads to 
+
+$$ 2y_1' -y_1 +\sum_{k=0}^\infty \left[ (k+1)^2 b_{k+1} +(\alpha -k) b_k \right] x^k = 0$$
+
+**Solution (b)**
+
+When $\alpha = n$, 
+
+$$
+a_k = \frac{(-1)^k n!}{(n - k)! (k!)^2}
+\quad \text{for } k \le n$$
+
+For $k > n$, we get $a_k = 0$, so the series terminates. The series becomes a polynomial of degree $n$:
+
+$$\color{blue}{y_1(x) = \sum_{k=0}^{n} \frac{(-1)^k n!}{(n - k)! (k!)^2} x^k = L_n(x)}$$
+
+The second linearly independent solution is of the form:
+
+$$ y_2(x) = L_n(x) \ln x + \sum_{k=0}^{\infty} d_k x^k$$
+
+**Solution (c)**
+
+To find the Laguerre polynomials $L_n(x)$ for $n = 0, 1, 2, 3, 4$, we will use Rodrigues’ formula.
+
+$$\color{blue}{L_0(x) = \frac{e^x}{0!} \frac{d^0}{dx^0} \left( x^0 e^{-x} \right) = e^x \cdot e^{-x} = 1}$$
+
+$$ \color{blue}{L_1(x) = \frac{e^x}{1!} \frac{d}{dx} \left( x e^{-x} \right) = e^x \cdot (1 - x) e^{-x} = 1 - x}$$
+
+$$ \color{blue}{L_2(x) = \frac{e^x}{2!} \frac{d^2}{dx^2} \left( x^2 e^{-x} \right) = 1 - 2x + \frac{1}{2}x^2}$$
+
+$$\color{blue}{L_3(x) = 1 - 3x + \frac{3}{2}x^2 - \frac{1}{6}x^3}$$
+
+$$ \color{blue}{ L_4(x) = 1 - 4x + 3x^2 - \frac{2}{3}x^3 + \frac{1}{24}x^4}$$
+
+$~$
+
+**2.** $\phantom{1}$ The differential equation 
+
+$$ (1 -x^2) y'' -xy' +\alpha^2 y=0$$
+
+$~$ where $\alpha$ is a parameter, is known as Chebyshev's equation
+
+  (a)$~$ Find two power series solutions centered at the ordinary point $0$
+  
+  (b)$~$ When $\alpha=n$ is a nonnegative integer, show that Chebyshev's differential equation always possesses a polynomial solution of degree $n$
+  
+  (c)$~$ These solutions are naturally called Chebyshev polynomials and are denoted by $T_n(x)$. Rodrigues' formula for the Chebyshev polynomials is
+
+$$T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1-x^2}\frac{d^n}{dx^n} (1-x^2)^{n-1/2}$$
+
+  Use this formula to find the Chebyshev polynomials corresponding to $n=0,1,2,3$
+
+  $~$
+
+**Solution (a)**
+
+We are to find two linearly independent power series solutions centered at $x = 0$, which is an ordinary point (i.e., the coefficients of $y''$ and $y'$ are analytic at $x = 0$)
+
+**Step 1: Assume a Power Series Solution**
+
+Let’s assume a solution of the form:
+
+$$\color{blue}{y(x) = \sum_{k=0}^{\infty} a_k x^k}$$
+
+Then compute the derivatives:
+
+$$y'(x) = \sum_{k=1}^{\infty} k a_k x^{k-1}, \quad
+y''(x) = \sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}$$
+
+Now substitute $y, y', y''$ into the differential equation:
+
+$$\scriptsize\sum_{k=2}^{\infty} k(k-1) a_k x^{k-2}
+	-\sum_{k=2}^{\infty} k(k-1) a_k x^k
+	-\sum_{k=1}^{\infty} k a_k x^k
+	+\sum_{k=0}^{\infty} \alpha^2 a_k x^k = 0$$
+
+Shift the first term to match powers of $x^k$ and  combine all terms and simplify the coefficients:
+
+$$\color{blue}{\sum_{k=0}^{\infty} \left[
+(k+2)(k+1) a_{k+2}
+	+(\alpha^2 - k^2) a_k
+\right] x^k = 0}$$
+
+Set each coefficient of $x^k$ to $0$, we get the recurrence relation:
+
+$$
+\color{blue}{a_{k+2} = -\frac{\alpha^2 - k^2}{(k+2)(k+1)} a_k}$$
+
+
+**Step 2: Build Two Linearly Independent Solutions**
+
+We choose $a_0$ and $a_1$ arbitrarily to construct two independent solutions
+
+* First solution: even powers only (let $a_0 = 1$, $a_1 = 0$)
+
+    Then the series becomes:
+    
+    $$y_1(x) = a_0 + a_2 x^2 + a_4 x^4 + \cdots$$
+    
+    Use recurrence:
+  
+    $$a_2 = -\frac{\alpha^2 - 0^2}{2 \cdot 1} a_0 = -\frac{\alpha^2}{2}$$
+  
+    $$a_4 = -\frac{\alpha^2 - 2^2}{4 \cdot 3} a_2 = -\frac{\alpha^2 - 4}{12} a_2 = \frac{(\alpha^2 - 4)(\alpha^2)}{24}$$
+        
+    And so on
+
+* Second solution: odd powers only (let $a_0 = 0$, $a_1 = 1$)
+
+    Then the series becomes:
+    
+    $$y_2(x) = a_1 x + a_3 x^3 + a_5 x^5 + \cdots$$
+    
+    Use recurrence:
+    
+    $$a_3 = -\frac{\alpha^2 - 1^2}{3 \cdot 2} a_1 = -\frac{\alpha^2 - 1}{6}$$
+    
+    $$a_5 = -\frac{\alpha^2 - 3^2}{5 \cdot 4} a_3 = \frac{(\alpha^2 - 9)(\alpha^2 - 1)}{120}$$
+        
+    And so on
+
+Two linearly independent power series solutions centered at $x = 0$ are:
+
+$$
+\color{blue}{y_1(x) = a_0 \left[ 1 - \frac{\alpha^2}{2} x^2 + \frac{(\alpha^2 - 4)\alpha^2}{24} x^4 - \cdots \right]}
+$$
+
+$$
+\color{blue}{y_2(x) = a_1 \left[ x - \frac{\alpha^2 - 1}{6} x^3 + \frac{(\alpha^2 - 1)(\alpha^2 - 9)}{120} x^5 - \cdots \right]}
+$$
+
+In general,
+
+$$ \begin{aligned}
+ a_{2k} &= (-1)^k \frac{\left(\alpha^2 - (2k-2)^2\right) \left(\alpha^2 - (2k-4)^2\right) \cdots \left(\alpha^2 - 2^2\right) \alpha^2}{(2k)!} a_0 = \hat{a}_{2k} a_0 \\
+ a_{2k+1} &= (-1)^k \frac{\left(\alpha^2 - (2k-1)^2\right) \left(\alpha^2 - (2k-3)^2\right) \cdots \left(\alpha^2 - 1\right)}{(2k+1)!} a_1 =\hat{a}_{2k+1} a_1 \\
+ &\Downarrow \\
+ y &= a_0 \sum_{k=1}^\infty \hat{a}_{2k} x^{2k} +a_1 \sum_{k=1}^\infty \hat{a}_{2k+1} x^{2k+1} = a_0 y_0(x) + a_1 y_1(x)
+\end{aligned}$$  
+
+**Solution (b)**
+
+Let $\alpha = n$, a nonnegative integer. Then the recurrence becomes:
+
+$$ a_{k+2} = -\frac{n^2 - k^2}{(k+2)(k+1)} a_k$$
+
+Observe that when $\color{blue}{k = n}$, we get:
+
+$$ \color{blue}{a_{n+2} = -\frac{n^2 - n^2}{(n+2)(n+1)} a_n = 0}$$
+
+If we start with $a_0 \ne 0$, and define the even-power solution:
+
+$$\color{red}{y(x) = a_0 + a_2 x^2 + a_4 x^4 + \cdots}$$
+
+then for even $n$, the recurrence will produce:
+	
+$$\color{red}{a_{n+2} = 0 \Rightarrow \text{ the series terminates at } x^n}$$
+
+So, the solution is a polynomial of degree $n$
+
+Similarly, if $a_1 \ne 0$, the odd-power series will terminate at $x^n$ when $n$ is odd.
+Thus, we get a polynomial solution of degree exactly $n$
+
+These solutions are known as the Chebyshev polynomials of the first kind, usually denoted $T_n(x).$
+However the recurrence continues — unless we start with initial coefficients $a_0$, $a_1$ that make the series terminate
+
+**Solution (c)**
+
+Let’s define:
+
+$$ f_n(x) = (1 - x^2)^{n - \frac{1}{2}}, \quad \text{then} \quad T_n(x) = (-1)^n \frac{2^n n!}{(2n)!} \sqrt{1 - x^2} \cdot \frac{d^n}{dx^n} f_n(x)$$
+
+* $n = 0$
+
+    We have:
+    $\displaystyle f_0(x) = (1 - x^2)^{-1/2}, \quad \text{but} \quad \frac{d^0}{dx^0} f_0 = f_0$
+    
+    $\color{red}{T_0(x) = \frac{1}{1} \cdot \sqrt{1 - x^2} \cdot (1 - x^2)^{-1/2} = 1}$
+
+* $n = 1$
+
+    $f_1(x) = (1 - x^2)^{1 - \frac{1}{2}} = (1 - x^2)^{1/2}$
+    
+    Differentiate:
+    
+    $\displaystyle \frac{d}{dx} (1 - x^2)^{1/2} = \frac{1}{2}(1 - x^2)^{-1/2} \cdot (-2x) = -\frac{x}{\sqrt{1 - x^2}}$
+    
+    Now plug into the formula:
+    
+    $\displaystyle \color{red}{T_1(x)} = (-1)^1 \cdot \frac{2^1 \cdot 1!}{2!} \cdot \sqrt{1 - x^2} \cdot \left( -\frac{x}{\sqrt{1 - x^2}} \right) = x$
+
+
+* $n = 2$
+
+    $f_2(x) = (1 - x^2)^{3/2}$
+    
+    Differentiate twice:
+    
+    First derivative:
+    
+    $f_2'(x) = \frac{3}{2}(1 - x^2)^{1/2} \cdot (-2x) = -3x (1 - x^2)^{1/2}$
+    
+    Second derivative:
+    
+    $f_2''(x) = \frac{d}{dx} [-3x (1 - x^2)^{1/2}]
+    = -3(1 - x^2)^{1/2} + 3x^2 (1 - x^2)^{-1/2}$
+    
+    Now plug into Rodrigues' formula:
+    
+    $\color{red}{
+      \begin{aligned}
+      T_2(x) &= \frac{2^2 \cdot 2!}{(4)!} \cdot \sqrt{1 - x^2} \cdot f_2''(x) \\
+     &= {\scriptsize\frac{4 \cdot 2}{24} \cdot \sqrt{1 - x^2} \cdot \left[ -3(1 - x^2)^{1/2} + 3x^2(1 - x^2)^{-1/2} \right]} \\
+     &= 2x^2 - 1
+     \end{aligned}}$
+
+* $n = 3$
+
+    $f_3(x) = (1 - x^2)^{5/2}$
+    
+    We’ll compute the 3rd derivative and plug it into the formula:
+    
+    $\color{red}{
+    \begin{aligned}
+      T_3(x) &= (-1)^3 \cdot \frac{2^3 \cdot 3!}{(6)!} \cdot \sqrt{1 - x^2} \cdot f_3’’’(x)\\
+      &= {\scriptsize-\frac{8 \cdot 6}{720} \cdot \sqrt{1 - x^2} \cdot \left[ 45x(1 - x^2)^{1/2} - 15x^3 (1 - x^2)^{-1/2} \right]}\\
+      &= 4x^3 - 3x
+    \end{aligned}}$
+
+    $~$
+
+**3.** $~$  If $n$ is an integer, you can use the substitution $R(x)=(\alpha x)^{-1/2} \, Z(x)$ to solve that the differential equation
+
+$$ x^2 \frac{d^2R}{dx^2} +2x \frac{dR}{dx} +\left[ \alpha^2 x^2 - n(n+1) \right] R = 0 $$
+
+Find the general solution of the differential equation on the interval $(0, \infty)$
+
+**Solution**
+
+**Step 1:** $~$ Apply the substitution
+
+Let:
+
+$$R(x) = (\alpha x)^{-1/2} Z(x) = \frac{1}{\sqrt{\alpha x}} Z(x)$$
+
+We compute derivatives of $R(x)$:
+
+* First derivative:
+
+  Using the product rule:
+
+  $$\frac{dR}{dx} = \frac{d}{dx} \left( \frac{1}{\sqrt{\alpha x}} Z(x) \right)
+= \frac{d}{dx} \left( \alpha^{-1/2} x^{-1/2} Z(x) \right)$$
+
+  Now differentiate:
+
+  $$\frac{dR}{dx} = \alpha^{-1/2} \left( -\frac{1}{2} x^{-3/2} Z(x) + x^{-1/2} Z’(x) \right)$$
+
+* Second derivative:
+
+  Differentiate again:
+
+  $$\frac{d^2R}{dx^2} = \alpha^{-1/2} 
+  \left[ \frac{3}{4} x^{-5/2} Z(x) - x^{-3/2} Z’(x) + x^{-1/2} Z’’(x) \right]$$
+
+**Step 2:** $~$ Plug into the original equation
+
+Now substitute $R$, $R'$, $R''$ into the equation:
+
+$$x^2 R'' + 2x R' + \left( \alpha^2 x^2 - n(n+1) \right) R = 0$$
+
+Thus the equation becomes:
+
+$$\alpha^{-1/2} \left[ x^{3/2} Z'' + x^{1/2} Z' + \left( \alpha^2 x^{3/2} - \left(n(n+1) + \frac{1}{4} \right) x^{-1/2} \right) Z \right] = 0$$
+
+Factor out $x^{1/2}$:
+
+$$\alpha^{-1/2} x^{1/2} \left[
+x Z'' + Z' + \left( \alpha^2 x - \frac{n(n+1) + \tfrac{1}{4}}{x} \right) Z
+\right] = 0$$
+
+So the reduced equation is:
+
+$$x Z'' + Z' + \left( \alpha^2 x - \frac{n(n+1) + \tfrac{1}{4}}{x} \right) Z = 0$$
+
+**Step 3:** $~$ Change variable to standard form
+
+Let’s define:
+
+$$u = \alpha x
+\;\Rightarrow\;
+\frac{dZ}{dx} = \alpha \frac{dZ}{du}, \quad \frac{d^2Z}{dx^2} = \alpha^2 \frac{d^2Z}{du^2}$$
+
+Plug into the reduced equation and simplify:
+
+$$u Z'' + Z' + \left( u - \frac{n(n+1) + \frac{1}{4}}{u} \right) Z = 0$$
+
+Now multiply through by $u$:
+
+$$u^2 Z'' + u Z' + \left( u^2 - \left(n(n+1) + \tfrac{1}{4} \right) \right) Z = 0$$
+
+**Step 4:** $~$ Identify the equation
+
+This is Bessel’s equation of order $\nu$, where:
+
+$$\nu^2 = n(n+1) + \tfrac{1}{4}
+\;\Rightarrow\;
+\nu = \sqrt{n(n+1) + \tfrac{1}{4}} = n + \tfrac{1}{2}$$
+
+(because $n$ is an integer, and this square root simplifies nicely)
+
+So we now recognize:
+
+$$u^2 Z'' + u Z' + (u^2 - (n + \tfrac{1}{2})^2) Z = 0$$
+
+**Final Answer**
+
+The general solution is:
+
+$$R(x) = \frac{1}{\sqrt{\alpha x}} \left[ A J_{n + 1/2} (\alpha x) + B Y_{n + 1/2} (\alpha x) \right]$$
+
+$~$
+
+**4.** $~$ Use the indicated change of variable to find the general solution of the given differential equation on the interval $(0, \infty)$
+
+$$ x^2 y'' +\left( \alpha^2 x^2 - \nu^2 +\frac{1}{4} \right)y = 0, \;\;y= \sqrt{x} \,u(x)$$
+
+**Solution**
+
+**Step 1:** $~$ Compute derivatives of $y = \sqrt{x} u(x)$
+
+* First derivative:
+
+$$y' = \frac{1}{2} x^{-1/2} u(x) + x^{1/2} u'(x)$$
+
+* Second derivative:
+
+$$y'' = -\frac{1}{4} x^{-3/2} u(x) + x^{-1/2} u'(x) + x^{1/2} u''(x)$$
+
+**Step 2:** $~$ Plug into the original equation
+
+Now the full equation becomes:
+
+$$\left( -\frac{1}{4} x^{1/2} u + x^{3/2} u' + x^{5/2} u'' \right)
+	+	\left( \alpha^2 x^2 - \nu^2 + \frac{1}{4} \right) x^{1/2} u = 0$$
+
+Group like terms and factor out $x^{1/2}$:
+
+$$x^{1/2} \left( x^2 u'' + x u' + (\alpha^2 x^2 - \nu^2) u \right) = 0$$
+
+Since $x^{1/2} > 0$ on $(0, \infty)$, we divide both sides:
+
+$$x^2 u'' + x u' + (\alpha^2 x^2 - \nu^2) u = 0$$
+
+This is a parameterized Bessel differential equation
+
+**Final Answer**
+
+The general solution is:
+
+$$y(x) = \sqrt{x} \left[ A J_\nu(\alpha x) + B Y_\nu(\alpha x) \right]$$
+
+$~$
+
+**5.** $~$ When $n=0$, Legendre's differential equation has the polynomial solution $y=P_0(x)=1$. Use reduction of order to find a second Legendre function satisfying the DE on the interval $(-1,1)$
+
+**Solution**
+
+**Step 1:** $~$Use reduction of order
+
+Let:
+
+$$y_2(x) = v(x) y_1(x) = v(x) \cdot 1 = v(x)$$
+
+So we’re seeking a second solution $y_2(x) = v(x)$, where $y_1(x) = 1$ is a known solution
+
+**Step 2:** $~$ Plug into the equation
+
+Start from the reduced equation:
+
+$$(1 - x^2) y'' - 2x y' = 0$$
+
+Since $y = v(x)$, we compute:
+
+$$y' = v', \quad y'' = v''$$
+
+So the equation becomes:
+
+$$(1 - x^2) v'' - 2x v' = 0$$
+
+This is a first-order ODE in $v'$ if we let $w = v'$. Then:
+
+$$(1 - x^2) w' - 2x w = 0
+\quad \text{(a linear first-order equation in \( w \))}$$
+
+**Step 3:** $~$ Solve for $w$
+
+We rewrite the equation as:
+
+$$w' - \frac{2x}{1 - x^2} w = 0$$
+
+This is a linear first-order ODE. Use integrating factor:
+
+$$\mu(x) = \exp\left( -\int \frac{2x}{1 - x^2} dx \right)$$
+
+Let $u = 1 - x^2 \Rightarrow du = -2x dx$
+
+Then:
+
+$$\int \frac{2x}{1 - x^2} dx = -\int \frac{1}{u} du = -\ln|1 - x^2|$$
+
+So:
+
+$$\mu(x) = e^{\ln|1 - x^2|} = |1 - x^2|$$
+
+but on $(-1, 1)$, $1 - x^2 > 0$ so:, 
+
+$$\mu(x) = 1 - x^2$$$$
+
+Now solve:
+
+$$\frac{d}{dx}(w \cdot \mu(x)) = 0 
+\Rightarrow w(1 - x^2) = C
+\Rightarrow w = \frac{C}{1 - x^2}$$
+
+Recall $w = v'$, so:
+
+$$v’ = \frac{C}{1 - x^2}
+\Rightarrow v(x) = C \int \frac{1}{1 - x^2} dx$$
+
+So:
+
+$$v(x) = \frac{C}{2} \ln\left| \frac{1 + x}{1 - x} \right| + D$$
+
+**Step 4:** $~$ General solution
+
+We already had $y_1(x) = 1$, and now we have:
+
+$$y_2(x) = v(x) = \frac{1}{2} \ln\left( \frac{1 + x}{1 - x} \right)
+\quad \text{(valid on } (-1,1) \text{ where the log is real)}$$
+
+$~$
+
+**6.** $~$ When $n=1$, Legendre's differential equation has the polynomial solution $y=P_1(x)=x$. Use reduction of order to find a second Legendre function satisfying the DE on the interval $(-1,1)$
+
+**Solution**
+
+**Step 1:** $~$ Use reduction of order
+
+Let:
+
+$$y_2(x) = v(x) \cdot y_1(x) = v(x) \cdot x$$
+
+Plug into the differential equation:
+
+$$(1 - x^2)(v''x + 2v') - 2x(v'x + v) + 2(vx) = 0$$
+
+Expand and simplify:
+
+$$x(1 - x^2)v'' + (2 - 4x^2)v' = 0$$
+
+**Step 2:** $~$ Let $w = v'$, then solve
+
+Let $w = v'$, so $w' = v''$. Then:
+
+$$x(1 - x^2) w' + (2 - 4x^2) w = 0$$
+
+We rewrite as:
+
+$$w' + \frac{2 - 4x^2}{x(1 - x^2)} w = 0$$
+
+**Step 3:** $~$ Solve a first-order linear ODE
+
+Integrating factor:
+
+$$\scriptsize\mu(x) = \exp\left( \int \frac{2 - 4x^2}{x(1 - x^2)} dx \right) = \exp \left( \int \left( \frac{2}{x} - \frac{1}{1 - x} + \frac{1}{1 + x} \right) dx \right)
+= x^2 \cdot \frac{1}{1 - x} \cdot (1 + x)
+$$
+
+Now solve the equation:
+
+$$\frac{d}{dx} \left( w \cdot \mu(x) \right) = 0 \Rightarrow w \cdot \mu(x) = C \Rightarrow w = \frac{C}{\mu(x)} = C \cdot \frac{1 - x}{x^2(1 + x)}$$
+
+Now integrate to find $v$:
+
+$$\begin{aligned}
+v &= \int w \, dx = C \int \frac{1 - x}{x^2(1 + x)} dx\\
+  &= C \int \left( \frac{1}{x^2} - \frac{2}{x} + \frac{2}{1 + x} \right) dx \\
+  &= C \left( -\frac{1}{x} - 2\ln|x| + 2\ln|1 + x| \right) + D
+\end{aligned}$$
+
+**Final Answer:**
+
+The second linearly independent solution for $n = 1$ on $(-1, 1)$ is:
+
+$$
+y_2(x) = -1 - 2x \ln|x| + 2x \ln|1 + x|
+\quad \text{(up to constant multiples)}$$
+
+$~$
+
+**7.** $~$ Find the general solution of the differential equation on the interval $(0, \infty)$
+
+$$ x y'' +y=0 $$ 
+
+Hint) $~$Use the substitution $\displaystyle y(x)=\sqrt{x}u(x)$, $~2\sqrt{x}=z$
+
+**Solution**
+
+By using  $\displaystyle y(x)=\sqrt{x}u(x)~$ and $~2\sqrt{x}=z$, the differential equation becomes
+
+$$\begin{aligned}
+ y' &=\frac{1}{2\sqrt{x}}u +\sqrt{x}u'\\
+ y''&=-\frac{1}{4x\sqrt{x}} u +\frac{1}{\sqrt{x}} u' +\sqrt{x}u''\\
+ &\Downarrow \\
+ x\sqrt{x} u'' &+\sqrt{x} u' +\left( \sqrt{x} - \frac{1}{4\sqrt{x}} \right )u = 0 \\ 
+ u' &=\frac{du}{dz}\frac{dz}{dx}=\frac{1}{\sqrt{x}} \frac{du}{dz} \\
+ u'' &=\frac{d}{dz}\left( \frac{du}{dx}\right) \frac{dz}{dx} =\frac{1}{x}\frac{d^2u}{dz^2}-\frac{1}{2x\sqrt{x}}\frac{du}{dz}\\ 
+ &\Downarrow \\
+ z^2 \frac{d^2u}{dz^2} + z \frac{du}{dz}&+ ( z^2-1)u = 0 
+\end{aligned}$$
+
+The general solution of the above differential equation on the interval $(0, \infty)$ is
+
+$$ u(z)=c_1 J_1(z) + c_2 Y_1 (z) $$
+
+Thus the general solution on the interval $(0, \infty)$ is
+
+$$ y(x)=c_1 \sqrt{x} J_1 (2\sqrt{x}) + c_2 \sqrt{x} Y_1(2\sqrt{x}) $$
+
+$~$
+
+**8.** $~$ The equation
+
+$$ y'' -2xy' +2\alpha y=0 $$
+
+   where $\alpha$ is a constant, is called the *Hermite* equation.
+  
+  $(a)~$ Find two linearly independent solutions for $-\infty < x <\infty$
+  
+  $(b)~$ Show that there is a polynomial solution of degree $n$, in case $\alpha=n$ is a non-negative integer
+
+  **Solution**
+
+$(a)$
+
+$$\begin{aligned}
+y'' &-2xy' +2\alpha y=0 \\
+ &\Downarrow \;\;y=\sum_{k=0}^\infty c_nk x^k, \;\;x=0 \text{ is an ordinary point}\\ 
+ \sum_{k=2}^\infty &c_k k(k-1)x^{k-2} -2\sum_{k=1}^\infty c_k k x^{k} +2\alpha\sum_{k=0}^\infty c_k x^k =0 \\ 
+ 2c_2 &+ 2\alpha c_0 +\sum_{k=1}^\infty
+ \left[(k+2)(k+1) c_{k+2} -2(k -\alpha)c_k \right] x^k = 0\\ 
+ &\Downarrow \\ 
+ c_2&=-\alpha c_0, \;\; c_{k+2} =-\frac{2(\alpha -k)}{(k+2)(k+1)} c_k \\
+ &\Downarrow \\
+ c_{2k} &= (-2)^k \frac{\left(\alpha - (2k-2)\right) \left(\alpha - (2k-4)\right) \cdots \left(\alpha - 2\right) \alpha}{(2k)!} c_0 = \hat{c}_{2k} c_0 \\
+ c_{2k+1} &= (-2)^k \frac{\left(\alpha - (2k-1)\right) \left(\alpha - (2k-3)\right) \cdots \left(\alpha - 1\right)}{(2k+1)!} c_1 =\hat{c}_{2k+1} c_1 \\
+ &\Downarrow \\
+ y &= c_0 \sum_{k=1}^\infty \hat{c}_{2k} x^{2k} +c_1 \sum_{k=1}^\infty \hat{c}_{2k+1} x^{2k+1} = c_0 y_0(x) + c_1 y_1(x)
+\end{aligned}$$
+
+$(b)$ $~$If $n$ is an even integer, the first series terminates, whereas $y_1(x)$ is an infinite series. For example, if $n=4$, then
+
+$$ y_0(x) = c_0 \left[ 1 - 2\frac{4}{2!}x^2 +2^2 \frac{(4 - 2) 4}{4!} x^4 \right] =c_0 \left[1 -4x^2 +\frac{4}{3}x^4 \right] $$
+
+  Similarly, when $n$ is an odd integer, the series for $y_1(x)$ terminates with $x^n$. For exampe, if $n=5$, then
+  
+$$ y_1(x) = c_1 \left[ x - 2\frac{(5 -1)}{3!}x^3 +4 \frac{(5 - 3)(5-1)}{5!} x^5 \right] =c_1 \left[x -\frac{4}{3}x^3 +\frac{4}{15}x^5 \right] $$
+  
+  That is, when $n$ is a nonnegative integer, we obtain an $n$-th degree polynomial solution of *Hermite* equation
+  
+  $~$
+
+  **9.** $~$ Find the general solution of the differential equation on the interval $(0, \infty)$
+
+$$ x^2 y'' +2x y'+\left(\alpha^2x^2 -n(n+1)\right)y=0, \;\; n \text{ is an integer}$$ 
+
+Hint) $~$ Use the substitution $\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)$
+
+**Solution**
+
+By using $\displaystyle y(x)=\frac{1}{\sqrt{x}}z(x)$, the differential equation becomes
+
+$$ x^2 z'' +x z' +\left[\alpha^2x^2 -\left( n + \frac{1}{2} \right)^2 \right]z=0$$
+
+The general solution of the above differential equation on the interval $(0, \infty)$ is
+
+$$ z(x)=c_1 J_{n+\frac{1}{2}}(\alpha x) + c_2 Y_{n+\frac{1}{2}}(\alpha x) $$
+
+Thus the general solution on the interval $(0, \infty)$ is
+
+$$ y(x)=c_1 \frac{1}{\sqrt{x}}J_{n+\frac{1}{2}}(\alpha x) + c_2 \frac{1}{\sqrt{x}}Y_{n+\frac{1}{2}}(\alpha x) $$
+
+$~$
+

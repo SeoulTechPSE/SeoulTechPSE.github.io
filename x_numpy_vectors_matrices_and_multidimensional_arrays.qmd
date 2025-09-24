@@ -1,0 +1,1223 @@
+---
+title: "Matplotlib: Plotting and Visualization"
+jupyter: python3
+---
+
+# Numpy: Vectors, Matrices, and Multidimensional Arrays {#sec-numpy}
+
+$~$
+
+[![](./figures/numpy_logo.png){width="30%" fig-align="center"}](https://numpy.org/doc/stable/)
+
+$~$
+
+## Importing numpy
+
+```{python}
+import numpy as np
+
+print("numpy: ", np.__version__)
+```
+
+* [_show_array.py](_show_array.py)
+* `show_array()`
+* `show_array_aggregation()`
+
+```{python}
+#| echo: false
+{{< include _show_array.py >}}
+```
+
+## The Numpy array object
+
+```{python}
+data = np.array([[1, 2], [3, 4], [5, 6]])
+data
+```
+
+```{python}
+type(data)
+```
+
+```{python}
+data.ndim
+```
+
+```{python}
+data.shape
+```
+
+```{python}
+data.size
+```
+
+```{python}
+data.dtype
+```
+
+```{python}
+data.nbytes
+```
+
+## Data types
+
+```{python}
+d0 = np.array([1, 2, 3], dtype=int)
+d0
+```
+
+```{python}
+d1 = np.array([1, 2, 3], dtype=float)
+d1
+```
+
+```{python}
+d2 = np.array([1, 2, 3], dtype=complex)
+d2
+```
+
+### Type casting
+
+```{python}
+data = np.array([1, 2, 3], dtype=float)
+data
+```
+
+```{python}
+data = np.array(data, dtype=int)
+data
+```
+
+```{python}
+data = np.array([1.6, 2, 3], dtype=float)
+data.astype(int)
+```
+
+### Type promotion
+
+```{python}
+d1 = np.array([1, 2, 3], dtype=float)
+d2 = np.array([1, 2, 3], dtype=complex)
+```
+
+```{python}
+d1 + d2
+```
+
+```{python}
+(d1 + d2).dtype
+```
+
+### Type-depending operation
+
+```{python}
+np.sqrt(np.array([-1, 0, 1]))
+```
+
+```{python}
+np.sqrt(np.array([-1, 0, 1], dtype=complex))
+```
+
+### Real and imaginary parts
+
+```{python}
+data = np.array([1, 2, 3], dtype=complex)
+data
+```
+
+```{python}
+data.real
+```
+
+```{python}
+data.imag
+```
+
+```{python}
+np.real(data)
+```
+
+```{python}
+np.imag(data)
+```
+
+### Order of array data in memory
+
+* <font color="red">Multidimensional arrays are stored as contiguous data in memory</font>. $~$Consider the case of a two-dimensional array, $~$containing rows and columns: $~$One possible way to store this array as a consecutive sequence of values is to store the rows after each other, and another equally valid approach is to store the columns one after another
+
+* The former is called <font color="green">row-major format</font> and the latter is <font color="green">column-major format</font>. Whether to use row-major or column-major is a matter of conventions, and the **row-major format** is used for example in the **C** programming language, and **Fortran** uses the **column-major format**
+
+* A `numpy` array can be specified to be stored in row-major format, using the keyword argument `order='C'`, and column-major format, using the keyword argument `order='F'`, when the array is created or reshaped. <font color="blue">The default format is *row-major*</font> 
+
+* In general, the `numpy` array attribute `ndarray.strides` defines exactly how this mapping is done. The `strides` attribute is a tuple of the same length as the number of axes (dimensions) of the array. Each value in `strides` is the factor by which the index for the corresponding axis is multiplied when calculating the *memory offset (in bytes)* for a given index expression
+
+
+```{python}
+data = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.int32)
+data
+```
+
+```{python}
+data.strides
+```
+
+```{python}
+data = np.array([[1, 2, 3], [4, 5, 6]], dtype=np.int32, order='F')
+data
+```
+
+```{python}
+data.strides
+```
+
+## Creating arrays
+
+### Arrays created from lists and other array-like objects
+
+```{python}
+data = np.array([1, 2, 3, 4])
+data.ndim, data.shape
+```
+
+```{python}
+data = np.array(((1, 2), (3, 4)))
+data.ndim, data.shape
+```
+
+### Arrays filled with constant values
+
+```{python}
+np.zeros((2, 3))
+```
+
+```{python}
+data = np.ones(4)
+data, data.dtype
+```
+
+```{python}
+5.4 * np.ones(10)
+```
+
+```{python}
+np.full(10, 5.4) # slightly more efficient
+```
+
+```{python}
+x1 = np.empty(5)
+x1.fill(3.0)
+x1
+```
+
+### Arrays filled with incremental sequences
+
+```{python}
+np.arange(0, 11, 1)
+```
+
+```{python}
+np.linspace(0, 10, 11)  # generally recommended
+```
+
+### Arrays filled with logarithmic sequences
+
+```{python}
+np.logspace(0, 2, 10)  # 5 data points between 10**0=1 to 10**2=100
+```
+
+### Mesh grid arrays
+
+```{python}
+x = np.array([-1, 0, 1])
+y = np.array([-2, 0, 2])
+
+X, Y = np.meshgrid(x, y)
+```
+
+```{python}
+X
+```
+
+```{python}
+Y
+```
+
+```{python}
+Z = (X + Y)**2
+Z
+```
+
+### Creating uninitialized arrays
+
+```{python}
+np.empty(3, dtype=float)
+```
+
+### Creating arrays with properties of other arrays
+
+```{python}
+def f(x):    
+    y = np.ones_like(x)    # compute with x and y    
+    return y
+
+x = np.array([[1, 2, 3], [4, 5, 6]])
+y = f(x)
+y
+```
+
+### Creating matrix arrays
+
+```{python}
+np.identity(4)
+```
+
+```{python}
+np.eye(4, k=1)
+```
+
+```{python}
+np.eye(4, k=-1)
+```
+
+```{python}
+np.diag(np.arange(0, 20, 5))
+```
+
+## Indexing and slicing
+
+### One-dimensional arrays
+
+```{python}
+a = np.arange(0, 11)
+a
+```
+
+```{python}
+a[0]
+```
+
+```{python}
+a[-1]
+```
+
+```{python}
+a[4]
+```
+
+---
+
+```{python}
+a[1:-1]
+```
+
+```{python}
+a[1:-1:2]
+```
+
+---
+
+```{python}
+a[:5]
+```
+
+```{python}
+a[-5:]
+```
+
+```{python}
+a[::-2]
+```
+
+### Multidimensional arrays
+
+```{python}
+f = lambda m, n: n + 10*m
+```
+
+```{python}
+# please search for numpy.fromfunction at google
+A = np.fromfunction(f, (6, 6), dtype=int)
+A  
+```
+
+```{python}
+A[:, 1]  # the second column
+```
+
+```{python}
+A[1, :]  # the second row
+```
+
+```{python}
+A[:3, :3]
+```
+
+```{python}
+A[3:, :3]
+```
+
+```{python}
+A[::2, ::2]
+```
+
+```{python}
+
+```
+
+```{python}
+A[1::2, 1::3]
+```
+
+### Views
+
+* Subarrays that are extracted from arrays using slice operations are **alternative views** of the same underlying array data. That is, $~$they are arrays that refer to the same data in memory as the original array, $~$but with a different `strides` configuration
+
+* When elements in a view are assigned new values, $~$the values of the original
+array are therefore also updated. For example,
+
+```{python}
+B = A[1:5, 1:5]
+B
+```
+
+```{python}
+B[:, :] = 0
+A
+```
+
+* When a copy rather than a view is needed, the view can be copied explicitly by using the `copy` method of the `ndarray` instance
+
+```{python}
+C = B[1:3, 1:3].copy()
+C
+```
+
+```{python}
+C[:, :] = 1
+C
+```
+
+```{python}
+B
+```
+
+### Fancy indexing and boolean-valued indexing
+
+```{python}
+A = np.linspace(0, 1, 11)
+A
+```
+
+```{python}
+A[np.array([0, 2, 4])]
+```
+
+```{python}
+A[[0, 2, 4]]
+```
+
+---
+
+```{python}
+A > 0.5
+```
+
+```{python}
+A[A > 0.5]
+```
+
+* Unlike arrays created by using slices, $~$**the arrays returned using fancy indexing and Boolean-valued
+indexing are not views**, $~$but rather new independent arrays
+
+```{python}
+A = np.arange(10)
+indices = [2, 4, 6]
+```
+
+```{python}
+B = A[indices]
+```
+
+```{python}
+B[0] = -1
+A
+```
+
+```{python}
+A[indices] = -1
+A
+```
+
+---
+
+```{python}
+A = np.arange(10)
+```
+
+```{python}
+B = A[A > 5]
+```
+
+```{python}
+B[0] = -1
+A
+```
+
+```{python}
+A[A > 5] = -1
+A
+```
+
+### Summery
+
+```{python}
+show_array((4, 4), ':, :')
+```
+
+```{python}
+show_array((4, 4), '0')
+```
+
+```{python}
+show_array((4, 4), '1, :')
+```
+
+```{python}
+show_array((4, 4), ':, 2')
+```
+
+---
+
+```{python}
+show_array((4, 4), '0:2, 0:2')
+```
+
+```{python}
+show_array((4, 4), '0:2, 2:4')
+```
+
+```{python}
+show_array((4, 4), '::2, ::2')
+```
+
+```{python}
+show_array((4, 4), '1::2, 1::2')
+```
+
+```{python}
+show_array((4, 4), ':, [0, 3]')
+```
+
+```{python}
+show_array((4, 4), '[1, 3], [0, 3]')
+```
+
+```{python}
+show_array((4, 4), ':, [False, True, True, False]')
+```
+
+```{python}
+show_array((4, 4), '1:3, [False, True, True, False]')
+```
+
+
+## Reshaping and resizing
+
+* Reshaping an array does not require modifying the underlying array data; it only changes in how the data is interpreted, by redefining the array’s strides attribute
+
+```{python}
+data = np.array([[1, 2], [3, 4]])
+data1 = np.reshape(data, (1, 4))
+data1
+```
+
+```{python}
+data1[0, 1] = -1
+data
+```
+
+```{python}
+data2 = data.reshape(4)
+data2
+```
+
+```{python}
+data2[1] = -2
+data
+```
+
+---
+
+```{python}
+data = np.array([[1, 2], [3, 4]])
+data1 = np.ravel(data)
+data1
+```
+
+```{python}
+data1[0] = -1
+data
+```
+
+* The `ndarray` method `flatten` perform the same function, $~$but
+returns a **copy** instead of a view
+
+```{python}
+data2 = data.flatten()
+data2
+```
+
+```{python}
+data2[0] = -2
+data
+```
+
+---
+
+```{python}
+data = np.arange(0, 5)
+data.shape
+```
+
+```{python}
+column = data[:, np.newaxis]
+column
+```
+
+```{python}
+column.shape
+```
+
+```{python}
+row = data[np.newaxis, :]
+row
+```
+
+```{python}
+row.shape
+```
+
+```{python}
+row[0, 0] = -1
+data
+```
+
+---
+
+```{python}
+np.expand_dims(data, axis=1) 
+```
+
+```{python}
+row = np.expand_dims(data, axis=0)
+row
+```
+
+```{python}
+row[0, 0] = 0
+data
+```
+
+---
+
+```{python}
+data = np.arange(5)
+data
+```
+
+```{python}
+np.vstack((data, data, data))
+```
+
+```{python}
+np.hstack((data, data, data))
+```
+
+```{python}
+data = data[:, np.newaxis]
+data.shape
+```
+
+```{python}
+np.hstack((data, data, data))
+```
+
+```{python}
+data1 = np.array([[1, 2], [3, 4]])
+data2 = np.array([[5, 6]])
+```
+
+```{python}
+np.concatenate((data1, data2), axis=0)
+```
+
+```{python}
+np.concatenate((data1, data2.T), axis=1)
+```
+
+## Vectorized expressions
+
+### Arithmetic operations
+
+```{python}
+x = np.array([[1, 2], [3, 4]])
+y = np.array([[5, 6], [7, 8]])
+```
+
+```{python}
+x + y
+```
+
+```{python}
+y - x
+```
+
+```{python}
+x * y
+```
+
+```{python}
+y / x
+```
+
+---
+
+```{python}
+x * 2
+```
+
+```{python}
+2**x
+```
+
+```{python}
+y / 2
+```
+
+```{python}
+(y / 2).dtype
+```
+
+### Broadcasting
+
+```{python}
+a = np.array([[11, 12, 13], [21, 22, 23], [31, 32, 33]])
+b = np.array([[1, 2, 3]])
+```
+
+```{python}
+a + b
+```
+
+```{python}
+show_array_broadcasting(a, b)
+```
+
+```{python}
+a + b.T
+```
+
+```{python}
+show_array_broadcasting(a, b.T)
+```
+
+---
+
+```{python}
+x = np.array([1, 2, 3, 4]).reshape(2, 2)
+x.shape
+```
+
+```{python}
+z = np.array([[2, 4]])
+z.shape
+```
+
+```{python}
+x / z
+```
+
+```{python}
+zz = np.vstack((z, z))
+zz
+```
+
+```{python}
+x / zz
+```
+
+---
+
+```{python}
+z = np.array([[2], [4]])
+z.shape
+```
+
+```{python}
+x / z
+```
+
+```{python}
+zz = np.concatenate([z, z], axis=1)
+zz
+```
+
+```{python}
+x / zz
+```
+
+---
+
+```{python}
+x = z = np.array([1, 2, 3, 4])
+y = np.array([5, 6, 7, 8])
+x = x + y  # x is reassigned to a new array
+```
+
+```{python}
+x, z
+```
+
+```{python}
+x = z = np.array([1, 2, 3, 4])
+y = np.array([5, 6, 7, 8])
+x += y  # the values of array x are updated in place
+```
+
+```{python}
+x, z
+```
+
+### Elementwise functions
+
+```{python}
+x = np.linspace(-1, 1, 11)
+x
+```
+
+```{python}
+y = np.sin(np.pi * x)
+```
+
+```{python}
+np.round(y, decimals=4)
+```
+
+```{python}
+np.add(np.sin(x)**2, np.cos(x)**2)
+```
+
+```{python}
+np.sin(x)**2 + np.cos(x)**2
+```
+
+---
+
+```{python}
+def heaviside(x):
+    return 1 if x > 0 else 0
+```
+
+```{python}
+heaviside(-1)
+```
+
+```{python}
+heaviside(1.5)
+```
+
+````
+```{{python}}
+x = np.linspace(-5, 5, 11)
+heaviside(x)
+```
+
+ValueError 
+      1 x = np.linspace(-5, 5, 11)
+----> 2 heaviside(x)
+
+      1 def heaviside(x):
+----> 2     return 1 if x > 0 else 0
+
+ValueError: The truth value of an array with more than 
+one element is ambiguous. Use a.any() or a.all()
+
+````
+
+```{python}
+heaviside = np.vectorize(heaviside)
+heaviside(x)
+```
+
+```{python}
+def heaviside(x):  # much better way
+    return 1 * (x > 0)
+
+heaviside(x)
+```
+
+### Aggregation
+
+```{python}
+data = np.random.normal(size=(15, 15)) 
+```
+
+```{python}
+np.mean(data)
+```
+
+```{python}
+data.mean()
+```
+
+---
+
+```{python}
+data = np.random.normal(size=(5, 10, 15))
+```
+
+```{python}
+data.sum(axis=0).shape
+```
+
+```{python}
+data.sum(axis=(0, 2)).shape
+```
+
+```{python}
+data.sum()
+```
+
+---
+
+
+```{python}
+data = np.arange(9).reshape(3, 3)
+data
+```
+
+```{python}
+data.sum()
+```
+
+```{python}
+show_array_aggregation(data, None)
+```
+
+```{python}
+data.sum(axis=0)
+```
+
+```{python}
+show_array_aggregation(data, 0)
+```
+
+
+```{python}
+data.sum(axis=1)
+```
+
+```{python}
+show_array_aggregation(data, 1)
+```
+
+### Boolean arrays and conditional expressions
+
+```{python}
+a = np.array([1, 2, 3, 4])
+b = np.array([4, 3, 2, 1])
+```
+
+```{python}
+a < b
+```
+
+```{python}
+np.all(a < b)
+```
+
+```{python}
+np.any(a < b)
+```
+
+---
+
+```{python}
+x = np.array([-2, -1, 0, 1, 2])
+```
+
+```{python}
+x > 0
+```
+
+```{python}
+1 * (x > 0)
+```
+
+```{python}
+x * (x > 0)
+```
+
+---
+
+```{python}
+def pulse(x, position, height, width):
+    return height * (x >= position) * (x <= (position + width))  
+```
+
+```{python}
+x = np.linspace(-5, 5, 31)
+```
+
+```{python}
+pulse(x, position=-2, height=1, width=5)
+```
+
+```{python}
+pulse(x, position=1, height=2, width=2)
+```
+
+---
+
+```{python}
+x = np.linspace(-4, 4, 9)
+x
+```
+
+```{python}
+np.where(x < 0, x**2, x**3)
+```
+
+```{python}
+np.select([x < -1, x < 2, x>= 2], [x**2, x**3, x**4])
+```
+
+```{python}
+np.choose([0, 0, 0, 1, 1, 1, 2, 2, 2], [x**2, x**3, x**4])
+```
+
+```{python}
+x[np.abs(x) > 2]
+```
+
+### Set operations
+
+```{python}
+a = np.unique([1, 2, 3, 3])
+a
+```
+
+```{python}
+b = np.unique([2, 3, 4, 4, 5, 6, 5])
+b
+```
+
+```{python}
+np.in1d(a, b)
+```
+
+```{python}
+1 in a, 1 in b
+```
+
+```{python}
+np.all(np.in1d(a, b))  # to test if a is a subset of b
+```
+
+---
+
+```{python}
+np.union1d(a, b)
+```
+
+```{python}
+np.intersect1d(a, b)
+```
+
+```{python}
+np.setdiff1d(a, b)
+```
+
+```{python}
+np.setdiff1d(b, a)
+```
+
+### Operations on arrays
+
+```{python}
+data = np.arange(9).reshape(3, 3)
+data
+```
+
+```{python}
+np.transpose(data)
+```
+
+---
+
+```{python}
+data = np.random.randn(1, 2, 3, 4, 5)
+```
+
+```{python}
+data.shape
+```
+
+```{python}
+data.T.shape
+```
+
+## Matrix and vector operations
+
+```{python}
+A = np.arange(1, 7).reshape(2, 3)
+A
+```
+
+```{python}
+B = np.arange(1, 7).reshape(3, 2)
+B
+```
+
+```{python}
+np.dot(A, B)
+```
+
+```{python}
+np.dot(B, A)
+```
+
+```{python}
+A @ B  # python 3.5 above
+```
+
+```{python}
+B @ A
+```
+
+---
+
+```{python}
+A = np.arange(9).reshape(3, 3)
+A
+```
+
+```{python}
+x = np.arange(3)
+x
+```
+
+```{python}
+np.dot(A, x)
+```
+
+```{python}
+A.dot(x)
+```
+
+```{python}
+A @ x
+```
+
+---
+
+```{python}
+A = np.random.rand(3, 3)
+B = np.random.rand(3, 3)
+```
+
+```{python}
+Ap = np.dot(B, np.dot(A, np.linalg.inv(B)))
+```
+
+```{python}
+Ap = B.dot(A.dot(np.linalg.inv(B)))
+```
+
+```{python}
+B @ A @ np.linalg.inv(B)
+```
+
+---
+
+```{python}
+np.inner(x, x)
+```
+
+```{python}
+np.dot(x, x)
+```
+
+```{python}
+y = x[:, np.newaxis]
+y
+```
+
+```{python}
+np.dot(y.T, y)
+```
+
+---
+
+* Given two vectors, $\mathbf{a} = [a_0, a_1, ..., a_M]~$ and $~\mathbf{b} = [b_0, b_1, ..., b_N]$, $~$the outer product is $\mathbf{a}^T\mathbf{b}$
+
+$$\begin{pmatrix}
+ a_0 b_0 & a_0b_1 & \cdots & a_0 b_N \\
+ a_1 b_0 & \cdots & \cdots & a_1 b_N \\
+ \vdots  & \ddots &        & \vdots  \\
+ a_M b_0 &        & \ddots & a_M b_N \\
+ \end{pmatrix}
+$$
+
+
+```{python}
+x = np.array([1, 2, 3])
+```
+
+```{python}
+np.outer(x, x)
+```
+
+```{python}
+np.kron(x, x)
+```
+
+```{python}
+np.kron(x[:, np.newaxis], x[np.newaxis, :])
+```
+
+```{python}
+np.kron(np.ones((2, 2)), np.identity(2))
+```
+
+```{python}
+np.kron(np.identity(2), np.ones((2, 2)))
+```
+
+---
+
+```{python}
+x = np.array([1, 2, 3, 4])
+y = np.array([5, 6, 7, 8])
+```
+
+```{python}
+np.einsum("n,n", x, y)
+```
+
+```{python}
+np.inner(x, y)
+```
+
+```{python}
+A = np.arange(9).reshape(3, 3)
+B = A.T
+```
+
+```{python}
+np.einsum("mk,kn", A, B)
+```
+
+```{python}
+np.all(np.einsum("mk,kn", A, B) == np.dot(A, B))
+```

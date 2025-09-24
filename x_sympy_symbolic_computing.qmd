@@ -1,0 +1,1037 @@
+---
+title: "Sympy: Symbolic Computing"
+jupyter: python3
+---
+
+# Sympy: Symbolic Computing {#sec-sympy}
+
+$~$
+
+[![](https://www.sympy.org/static/images/logo.png)](https://docs.sympy.org/latest/index.html)
+
+$~$
+
+## Importing sympy
+
+```{python}
+import sympy
+from sympy import I, pi, oo
+sympy.init_printing()
+
+from IPython.display import display
+
+print("sympy: ", sympy.__version__)
+```
+
+## Symbols
+
+```{python}
+x = sympy.Symbol('x')
+print(x.is_real)
+```
+
+```{python}
+y = sympy.Symbol('y', real=True)
+y.is_real
+```
+
+```{python}
+z = sympy.Symbol('z', complex=True)
+z.is_complex
+```
+
+```{python}
+print(z.is_real)
+```
+
+---
+
+```{python}
+x = sympy.Symbol('x')
+y = sympy.Symbol('y', positive=True)
+z = sympy.Symbol('z', negative=True)
+```
+
+```{python}
+sympy.sqrt(x**2)
+```
+
+```{python}
+sympy.sqrt(y**2)
+```
+
+```{python}
+sympy.sqrt(z**2)
+```
+
+---
+
+```{python}
+n1 = sympy.Symbol('n')
+n2 = sympy.Symbol('n', integer=True)
+n3 = sympy.Symbol('n', odd=True)
+n4 = sympy.Symbol('n', even=True)
+```
+
+```{python}
+sympy.cos(n1*pi)
+```
+
+```{python}
+sympy.cos(n2*pi)
+```
+
+```{python}
+sympy.cos(n3*pi)
+```
+
+```{python}
+sympy.cos(n4*pi)
+```
+
+---
+
+```{python}
+a, b, c = sympy.symbols('a, b, c', negative=True)
+```
+
+```{python}
+d, e, f = sympy.symbols('d, e, f', positive=True)
+```
+
+## Numbers
+
+* We cannot directly use the built-in Python objects for integers, `int`, and floating-point numbers, `float`, and so on. Instead, `sympy` provides the classes `sympy.Integer` and `sympy.Float` for representing integers and floating-point numbers within the `sympy` framework
+
+* This distinction is important to be aware of when working with `sympy`, but fortunately we rarely
+need to concern ourselves with creating objects of type `sympy.Integer` and `sympy.Float` to representing
+specific numbers, $~$since `sympy` automatically promotes Python numbers to instances of these classes when they occur in `sympy` expressions
+
+```{python}
+i = sympy.Integer(18)
+type(i)
+```
+
+```{python}
+i.is_Integer, i.is_real, i.is_odd, i.is_even
+```
+
+```{python}
+f = sympy.Float(2.3)
+type(f)
+```
+
+```{python}
+f.is_Float, f.is_real, f.is_complex
+```
+
+---
+
+```{python}
+i, f = sympy.sympify(19), sympy.sympify(2.3)
+type(i), type(f)
+```
+
+### Integer 
+
+* While the `Symbol` with `integer=True` represents some integer, $\,$the `Integer` instance represents a
+specific integer
+
+* For both cases, $\,$the `is_integer` attribute is `True`, $\,$but there is also an attribute `is_Integer`
+(note the capital `I`), $\,$which is only `True` for `Integer` instances
+
+```{python}
+n = sympy.Symbol('n', integer=True)
+n.is_integer, n.is_Integer, n.is_positive, n.is_Symbol
+```
+
+```{python}
+i = sympy.Integer(19)
+i.is_integer, i.is_Integer, i.is_positive, i.is_Symbol
+```
+
+```{python}
+sympy.Integer('19' *20)
+```
+
+```{python}
+sympy.Integer('12_345_678'), sympy.Integer(12_345_678)
+```
+
+```{python}
+# great common division, leat common multiple
+sympy.igcd(36, 15), sympy.ilcm(7, 34)
+```
+
+* Integers in `sympy` are <font color='red'>**arbitrary precision**</font>, $\,$meaning that they have <font color='blue'>no fixed lower and upper bounds</font>,
+$\,$which is the case when representing integers with a specific bit-size, as, for example, in `numpy`
+
+```{python}
+i = sympy.Integer(19)
+i**100
+```
+
+```{python}
+sympy.factorial(100)
+```
+
+### Float
+
+* Like `Integer`, $\,$`Float` is <font color='red'>**arbitrary precision**</font>, $\,$in contrast to Python’s built-in `float` type and the `float` types in `numpy`. $\,$This means that any `Float` can represent a `float` with arbitrary number of decimals
+
+* When a `Float` instance is created using its constructor, $\,$there are two arguments: the first argument is **a Python `float` or a string representing a floating-point number**, and the second (optional) argument is the **precision** (number of significant decimal digits) of the `Float` object
+
+```{python}
+# create a string representation with 25 decimals
+f'{0.3:.25f}'  
+```
+
+```{python}
+sympy.Float(0.3, 25) 
+```
+
+```{python}
+sympy.Float('0.3', 25)
+```
+
+```{python}
+sympy.Float('123 456 789.123_456', '')
+```
+
+### Rational
+
+```{python}
+r0 = sympy.Rational(11, 13)
+r0
+```
+
+```{python}
+r0.p, r0.q
+```
+
+```{python}
+r1 = sympy.Rational(2, 3)
+r2 = sympy.Rational(4, 5)
+```
+
+```{python}
+r1 * r2
+```
+
+```{python}
+r1 / r2
+```
+
+```{python}
+sympy.Rational(0.2), sympy.Rational('0.2')
+```
+
+### Constants and special symbols
+
+$\displaystyle \gamma = \lim_{n \to \infty} \left( \sum_{k=1}^n \frac{1}{k} -\ln n\right)$
+
+```{python}
+sympy.pi, sympy.E, sympy.EulerGamma, sympy.I, sympy.oo
+```
+
+### Functions
+
+```{python}
+x, y, z = sympy.symbols('x, y, z')
+```
+
+```{python}
+f = sympy.Function('f')
+type(f)
+```
+
+```{python}
+f(x)
+```
+
+```{python}
+g = sympy.Function('g')(x, y, z)
+g
+```
+
+```{python}
+g.free_symbols
+```
+
+---
+
+```{python}
+sympy.sin
+```
+
+```{python}
+sympy.sin(x)
+```
+
+```{python}
+sympy.sin(pi *1.5)
+```
+
+```{python}
+n = sympy.Symbol('n', integer=True)
+sympy.sin(pi * n)
+```
+
+```{python}
+h = sympy.Lambda(x, x**2)
+h
+```
+
+```{python}
+h(5)
+```
+
+```{python}
+h(1 + x)
+```
+
+## Expressions
+
+```{python}
+x = sympy.Symbol('x')
+
+expr = 1 +2*x**2 +3*x**3
+expr
+```
+
+```{python}
+expr.args
+```
+
+```{python}
+expr.args[2]
+```
+
+```{python}
+expr.args[2].args
+```
+
+```{python}
+expr.args[2].args[1]
+```
+
+```{python}
+expr.args[2].args[1].args
+```
+
+```{python}
+expr.args[2].args[1].args[1]
+```
+
+```{python}
+expr.args[2].args[1].args[1].args
+```
+
+## Manipulating expressions
+
+### Simplication
+
+```{python}
+expr = 2 * (x**2 - x) - x * (x + 1)
+expr
+```
+
+```{python}
+sympy.simplify(expr)
+```
+
+```{python}
+expr.simplify()
+```
+
+```{python}
+expr
+```
+
+---
+
+```{python}
+expr = 2 * sympy.cos(x) * sympy.sin(x)
+expr
+```
+
+```{python}
+sympy.simplify(expr)
+```
+
+```{python}
+expr = sympy.exp(x) * sympy.exp(y)
+expr
+```
+
+```{python}
+sympy.simplify(expr)
+```
+
+### Expand
+
+```{python}
+expr = (x + 1) * (x + 2)
+expr
+```
+
+```{python}
+expr.expand()
+```
+
+---
+
+```{python}
+sympy.sin(x + y).expand(trig=True)
+```
+
+```{python}
+a, b = sympy.symbols('a, b', positive=True)
+sympy.log(a * b).expand(log=True)
+```
+
+```{python}
+sympy.exp(I*a + b).expand(complex=True)
+```
+
+```{python}
+sympy.expand((a * b)**x, power_base=True)
+```
+
+```{python}
+sympy.exp(I*(a -b)*x).expand(power_exp=True)
+```
+
+### Factor, collect and combine
+
+```{python}
+sympy.factor(x**2 - 1)
+```
+
+```{python}
+sympy.factor(x *sympy.cos(y) + x *sympy.sin(z))
+```
+
+---
+
+```{python}
+expr = x + y + x * y * z
+expr
+```
+
+```{python}
+expr.collect(x)
+```
+
+```{python}
+expr.collect(y)
+```
+
+---
+
+```{python}
+expr = sympy.cos(x + y) + sympy.sin(x - y)
+```
+
+```{python}
+expr1 = expr.expand(trig=True)
+expr1
+```
+
+```{python}
+expr2 = expr1.collect([sympy.cos(x), sympy.sin(x)])
+expr2
+```
+
+```{python}
+expr3 = expr2.collect(sympy.cos(y) - sympy.sin(y))
+expr3
+```
+
+---
+
+```{python}
+sympy.logcombine(sympy.log(a) - sympy.log(b))
+```
+
+### Apart, together and cancel
+
+```{python}
+expr1 = 1/(x**2 + 3*x + 2)
+expr1
+```
+
+```{python}
+sympy.apart(expr1, x)
+```
+
+```{python}
+expr2 = 1 / (y * x + y) + 1 / (1+x)
+expr2
+```
+
+```{python}
+sympy.together(expr2)
+```
+
+```{python}
+expr3 = y / (y * x + y)
+expr3
+```
+
+```{python}
+sympy.cancel(expr3)
+```
+
+### Substitutions
+
+```{python}
+(x + y).subs(x, y)
+```
+
+```{python}
+sympy.sin(x * sympy.exp(x)).subs(x, y)
+```
+
+```{python}
+sympy.sin(x * z).subs({z: sympy.exp(y), x: y, sympy.sin: sympy.cos})
+```
+
+```{python}
+expr = x * y + z**2 *x
+expr
+```
+
+```{python}
+values = {x: 1.25, y: 0.4, z: 3.2}
+expr.subs(values)
+```
+
+### Numerical evaluation
+
+```{python}
+sympy.N(1 + pi)
+```
+
+```{python}
+sympy.N(1 + pi, 50)
+```
+
+---
+
+```{python}
+(x + 1/pi).evalf(10)
+```
+
+---
+
+```{python}
+expr = sympy.sin(pi * x * sympy.exp(x))
+expr
+```
+
+```{python}
+[expr.subs(x, i).evalf(3) for i in range(0, 10)]  # rather slow
+```
+
+---
+
+```{python}
+expr_func = sympy.lambdify(x, expr)
+expr_func(1.0)
+```
+
+---
+
+```{python}
+import numpy as np
+
+xvalues = np.arange(0, 10)
+
+expr_func = sympy.lambdify(x, expr, 'numpy')
+expr_func(xvalues)  # efficient method
+```
+
+## Calculus
+
+### Derivatives
+
+```{python}
+f = sympy.Function('f')(x)
+sympy.diff(f, x)  # equivalent to f.diff(x)
+```
+
+```{python}
+sympy.diff(f, x, x)
+```
+
+```{python}
+sympy.diff(f, x, 3)  # equivalent to sympy.diff(f, x, x, x)
+```
+
+---
+
+```{python}
+g = sympy.Function('g')(x, y)
+g.diff(x, y) # equivalent to sympy.diff(g, x, y)
+```
+
+```{python}
+g.diff(x, 3, y, 2) # equivalent to sympy.diff(g, x, x, x, y, y)
+```
+
+---
+
+```{python}
+expr = x**4 + x**3 + x**2 + x + 1
+expr
+```
+
+```{python}
+expr.diff(x)
+```
+
+```{python}
+expr.diff(x, x)
+```
+
+---
+
+```{python}
+expr = (x + 1)**3 * y ** 2 * (z - 1)
+expr
+```
+
+```{python}
+expr.diff(x, y, z)
+```
+
+---
+
+```{python}
+expr = sympy.sin(x * y) * sympy.cos(x / 2)
+expr
+```
+
+```{python}
+expr.diff(x)
+```
+
+---
+
+```{python}
+expr = sympy.functions.special.polynomials.hermite(x, 0)
+expr
+```
+
+```{python}
+expr.diff(x)
+```
+
+---
+
+```{python}
+d = sympy.Derivative(sympy.exp(sympy.cos(x)), x)
+d
+```
+
+```{python}
+d.doit()
+```
+
+### Integrals
+
+```{python}
+a, b, x, y = sympy.symbols('a, b, x, y')
+f = sympy.Function('f')(x)
+sympy.integrate(f)
+```
+
+```{python}
+sympy.integrate(f, (x, a, b))
+```
+
+---
+
+```{python}
+sympy.integrate(sympy.sin(x))
+```
+
+```{python}
+sympy.integrate(sympy.sin(x), (x, a, b))
+```
+
+```{python}
+sympy.integrate(sympy.exp(-x**2), (x, 0, oo))
+```
+
+```{python}
+a, b, c = sympy.symbols('a, b, c', positive=True)
+sympy.integrate(a * sympy.exp(-((x -b)/c)**2), (x, -oo, oo))
+```
+
+```{python}
+sympy.integrate(sympy.sin(x * sympy.cos(x))) # No analytic integration
+```
+
+---
+
+```{python}
+expr = sympy.sin(x*sympy.exp(y))
+expr
+```
+
+```{python}
+sympy.integrate(expr, x)
+```
+
+---
+
+```{python}
+expr = (x + y)**2
+expr
+```
+
+```{python}
+sympy.integrate(expr, x)
+```
+
+```{python}
+sympy.integrate(expr, x, y)
+```
+
+```{python}
+sympy.integrate(expr, (x, 0, 1), (y, 0, 1))
+```
+
+### Series
+
+```{python}
+sympy.limit(sympy.sin(x) / x, x, 0)
+```
+
+---
+
+```{python}
+x, h = sympy.symbols('x, h')
+f = sympy.Function('f')
+diff_limit = (f(x + h) - f(x)) / h
+```
+
+```{python}
+sympy.limit(diff_limit.subs(f, sympy.cos), h, 0)
+```
+
+```{python}
+sympy.limit(diff_limit.subs(f, sympy.sin), h, 0)
+```
+
+```{python}
+expr = (x**2 - 3*x) / (2*x - 2)
+expr
+```
+
+```{python}
+p = sympy.limit(expr/x, x, sympy.oo)
+```
+
+```{python}
+q = sympy.limit(expr - p*x, x, sympy.oo)
+```
+
+```{python}
+p, q
+```
+
+### Sums and products
+
+```{python}
+n = sympy.symbols('n', integer=True)
+x = sympy.Sum(1/(n**2), (n, 1, oo))
+x
+```
+
+```{python}
+x.doit()
+```
+
+```{python}
+x = sympy.Product(n, (n, 1, 7))
+x
+```
+
+```{python}
+x.doit()
+```
+
+---
+
+```{python}
+x = sympy.Symbol('x')
+sympy.Sum((x)**n/(sympy.factorial(n)), (n, 1, oo)).doit().simplify()
+```
+
+## Equations
+
+```{python}
+x = sympy.Symbol('x')
+sympy.solve(x**2 +2*x -3)
+```
+
+```{python}
+a, b, c = sympy.symbols('a, b, c')
+sympy.solve(a *x**2 +b *x +c, x)
+```
+
+```{python}
+sympy.solve(sympy.sin(x) - sympy.cos(x), x)
+```
+
+---
+
+```{python}
+sympy.solve(sympy.exp(x) + 2 *x, x)
+```
+
+The value of `LambertW` function $W(z)$ is such that $z = W(z)\exp(W(z))$ for any complex number $z$
+
+```{python}
+-sympy.LambertW(1/2)
+```
+
+---
+
+```{python}
+sols = sympy.solve(x**5 - x**2 + 1, x)
+for i in range(5):
+    display(sols[i])
+```
+
+```{python}
+#sympy.solve(sympy.tan(x) + x, x)
+```
+
+`NotImplementedError: multiple generators [x, tan(x)]`
+`No algorithms are implemented to solve equation x + tan(x)`
+
+---
+
+```{python}
+eq1 = x +2 *y -1 
+eq2 = x -y +1
+```
+
+```{python}
+sympy.solve([eq1, eq2], [x, y], dict=True)
+```
+
+```{python}
+eq1 = x**2 -y
+eq2 = y**2 -x
+```
+
+```{python}
+sols = sympy.solve([eq1, eq2], [x, y], dict=True)
+for i in range(4):
+    display(sols[i])
+```
+
+```{python}
+[eq1.subs(sol).simplify() == 0 and 
+ eq2.subs(sol).simplify() == 0 for sol in sols]
+```
+
+## Linear algebra
+
+```{python}
+sympy.Matrix([1, 2])
+```
+
+```{python}
+sympy.Matrix([[1, 2]])
+```
+
+```{python}
+sympy.Matrix([[1, 2], [3, 4]])
+```
+
+```{python}
+sympy.Matrix(3, 4, lambda m, n: 10 * m + n)
+```
+
+---
+
+```{python}
+a, b, c, d = sympy.symbols('a, b, c, d')
+
+M = sympy.Matrix([[a, b], [c, d]])
+M
+```
+
+```{python}
+M * M  # Matrix multiplication
+```
+
+```{python}
+x = sympy.Matrix(sympy.symbols('x_1, x_2'))
+x
+```
+
+```{python}
+M * x
+```
+
+---
+
+```{python}
+p, q = sympy.symbols('p, q')
+M = sympy.Matrix([[1, p], [q, 1]])
+M
+```
+
+```{python}
+b = sympy.Matrix(sympy.symbols('b_1, b_2'))
+b
+```
+
+```{python}
+x = M.LUsolve(b)
+x
+```
+
+```{python}
+x = M.inv() *b
+x
+```
+
+## ODE
+
+```{python}
+x = sympy.Symbol('x')
+f = sympy.Function('f')
+```
+
+```{python}
+sympy.dsolve(sympy.Derivative(f(x), x, x) +9 *f(x), f(x))
+```
+
+```{python}
+eq = (sympy.sin(x) *sympy.cos(f(x)) 
+    + sympy.cos(x) *sympy.sin(f(x)) *f(x).diff(x))
+eq
+```
+
+```{python}
+sympy.dsolve(eq, hint='1st_exact')
+```
+
+---
+
+```{python}
+t = sympy.Symbol('t')
+x, y = sympy.Function('x'), sympy.Function('y')
+
+eq = (sympy.Eq(sympy.Derivative(x(t),t), 12 *t *x(t) + 8 *y(t)),
+      sympy.Eq(sympy.Derivative(y(t),t), 21 *x(t) + 7 *t *y(t)))
+eq
+```
+
+```{python}
+sols = sympy.dsolve(eq)
+for i in [0, 1]:
+    display(sols[i])
+```
+
+---
+
+```{python}
+eq = (sympy.Eq(sympy.Derivative(x(t),t), x(t) *y(t) *sympy.sin(t)), 
+      sympy.Eq(sympy.Derivative(y(t),t), y(t)**2 *sympy.sin(t)))
+eq
+```
+
+```{python}
+sympy.dsolve(eq)
+```
+
+## Plot
+
+```{python}
+# | fig-align: center
+from sympy.plotting import plot
+
+x = sympy.symbols('x')
+p1 = plot(x**2, (x - 1) * x * (x + 1), (x, -1.2, 1.2))
+```
+
+```{python}
+# | fig-align: center
+from sympy.plotting import plot_parametric
+
+u = sympy.symbols('u')
+p2 = plot_parametric((sympy.cos(u), sympy.sin(u)), 
+                     (u, sympy.cos(u)), (u, -3, 3))
+```
+
+```{python}
+# | fig-align: center
+expr1 = (u, sympy.cos(2 *pi *u)/2 + 1/2)
+expr2 = (u, sympy.sin(2 *pi *u)/2 + 1/2)
+
+p3 = plot_parametric(expr1, expr2, (u, 0, 1), line_color='blue')
+```
+
+```{python}
+# | fig-align: center
+p3[0].line_color = 'red'
+p3.show()
+```
+
+```{python}
+# | fig-align: center
+from sympy.plotting import plot3d
+
+x, y = sympy.symbols('x y')
+p4 = plot3d((x**2 + y**2, (x, -5, 5), (y, -5, 5)),
+    (x*y, (x, -3, 3), (y, -3, 3)))
+```
+
+```{python}
+# | fig-align: center
+from sympy.plotting import plot3d_parametric_line
+
+u = sympy.symbols('u')
+p5 = plot3d_parametric_line(sympy.cos(u), sympy.sin(u), u, (u, -5, 5))
+```
+
+```{python}
+# | fig-align: center
+from sympy.plotting import plot3d_parametric_surface
+
+u, v = sympy.symbols('u v')
+p6 = plot3d_parametric_surface(sympy.cos(u + v), 
+    sympy.sin(u - v), u - v, (u, -5, 5), (v, -5, 5))
+```
+
+```{python}
+# | fig-align: center
+from sympy import plot_implicit, Eq, And
+
+p7 = plot_implicit(
+    Eq(x**2 + y**2, 3), (x, -3, 3), (y, -3, 3))
+```
+
+```{python}
+# | fig-align: center
+p8 = plot_implicit(And(y > x, y > -x))
+```
+
+```{python}
+# | fig-align: center
+from sympy.plotting import PlotGrid
+
+p9 = PlotGrid(2, 1, p1, p2)
+```
+
+
+
