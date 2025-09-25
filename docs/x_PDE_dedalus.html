@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -231,7 +295,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Numpy: Vectors, Matrices, and Multidimensional Arrays</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -291,7 +355,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Adaptive mesh refinement with GMSH/FEniCSx</span></span></a>
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">The FEniCS computing platform</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -318,7 +382,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-dedalus" id="toc-sec-dedalus" class="nav-link active" data-scroll-target="#sec-dedalus"><span class="header-section-number">K</span> DEDALUS</a></li>
+  <li><a href="#coordinates-distributors-and-bases" id="toc-coordinates-distributors-and-bases" class="nav-link active" data-scroll-target="#coordinates-distributors-and-bases"><span class="header-section-number">J.1</span> Coordinates, Distributors, and Bases</a>
+  <ul class="collapse">
+  <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">J.1.1</span> Coordinates</a></li>
+  <li><a href="#distributors" id="toc-distributors" class="nav-link" data-scroll-target="#distributors"><span class="header-section-number">J.1.2</span> Distributors</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -327,7 +395,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html">Appendices</a></li><li class="breadcrumb-item"><a href="./x_PDE_dedalus.html"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">DEDALUS</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Appendix J — DEDALUS</h1>
+<h1 class="title"><span id="sec-dedalus" class="quarto-section-identifier">Appendix J — DEDALUS</span></h1>
 </div>
 
 
@@ -344,16 +412,95 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="sec-dedalus" class="level1" data-number="K">
-<h1 data-number="K"><span class="header-section-number">K</span> DEDALUS</h1>
 <p><strong>Dedalus</strong> solves differential equations using spectral methods. It’s open-source, written in Python, and MPI-parallelized</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://dedalus-project.org/index.html"><img src="https://dedalus-project.readthedocs.io/en/latest/_static/epic12_4_exp_2_1.25.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:40.0%"></a></p>
 </figure>
 </div>
+<section id="coordinates-distributors-and-bases" class="level2" data-number="J.1">
+<h2 data-number="J.1" class="anchored" data-anchor-id="coordinates-distributors-and-bases"><span class="header-section-number">J.1</span> Coordinates, Distributors, and Bases</h2>
+<p>This tutorial walks through the basics of setting up and using coordinate, distributor, and basis objects in <code>Dedalus</code>. In <code>Dedalus</code>, we represent fields and solve PDEs using spectral discretizations. To set these up, we choose spectral bases for the spatial coordinates in the problem. Once the coordinates are defined, they are collected into a distributor object, which takes care of how fields and problems are split up and distributed in parallel</p>
+<div id="920e2542" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dedalus.public <span class="im">as</span> d3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2025-09-25 21:01:49,098 dedalus 0/1 WARNING :: Threading has not been disabled. This may massively degrade Dedalus performance.
+2025-09-25 21:01:49,098 dedalus 0/1 WARNING :: We strongly suggest setting the "OMP_NUM_THREADS" environment variable to "1".</code></pre>
+</div>
+</div>
+<section id="coordinates" class="level3" data-number="J.1.1">
+<h3 data-number="J.1.1" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">J.1.1</span> Coordinates</h3>
+<p>In <code>Dedalus</code>, the spatial coordinates of a PDE are represented by coordinate objects. For simple 1D problems, you can define a coordinate directly using the <code>Coordinate</code> class. For higher-dimensional problems, you’ll usually combine multiple coordinates into a <code>CoordinateSystem</code>.</p>
+<p>Dedalus currently includes several built-in coordinate systems:</p>
+<ul>
+<li><code>CartesianCoordinates</code>: works in any number of dimensions</li>
+<li><code>PolarCoordinates</code>: with azimuth and radius</li>
+<li><code>S2Coordinates</code>: with azimuth and colatitude</li>
+<li><code>SphericalCoordinates</code>: with azimuth, colatitude, and radius</li>
+</ul>
+<p>When you create a <code>CoordinateSystem</code>, you just provide the names you’d like to use for each coordinate, in the order shown above. For example, let’s walk through how to set up a problem in 3D Cartesian coordinates</p>
+<div id="9f075c89" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> d3.CartesianCoordinates(<span class="st">'x'</span>, <span class="st">'y'</span>, <span class="st">'z'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="distributors" class="level3" data-number="J.1.2">
+<h3 data-number="J.1.2" class="anchored" data-anchor-id="distributors"><span class="header-section-number">J.1.2</span> Distributors</h3>
+<p>A distributor object handles the parallel decomposition of fields and problems. Every problem in Dedalus needs a distributor, even if you’re just running in serial.</p>
+<p>To create a distributor, you provide the coordinate system for your PDE, specify the datatype of the fields you’ll be working with, and, if needed, supply a process mesh to control parallelization</p>
+<div id="ea75678a" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No mesh for serial / automatic parallelization</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> d3.Distributor(coords, dtype<span class="op">=</span>np.float64) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Parallelization &amp; process meshes</strong></p>
+<p>When you run <code>Dedalus</code> under <code>MPI</code>, it parallelizes computations using block-distributed domain decompositions. By default, <code>Dedalus</code> spreads the work across a 1-dimensional mesh of all available <code>MPI</code> processes—this is called a “slab” decomposition. If you want more flexibility, you can specify a custom process mesh with the <code>mesh</code> keyword when creating a domain. This allows “pencil” decompositions, where the domain is split along more than one direction. Just keep in mind that the total number of <code>MPI</code> processes must match the product of the mesh shape you provide</p>
+<p>There’s also an important restriction: the mesh dimension can’t be larger than the number of separable coordinates in the linear part of your PDE. In practice, this usually means you can parallelize over periodic or angular coordinates. For fully separable problems—like a fully periodic box or a simulation on the sphere—the mesh dimension must be strictly less than the total dimension</p>
+<p><strong>Layouts</strong></p>
+<p>The distributor object sets up the machinery needed to allocate and transform fields in parallel. A key part of this is an ordered set of <code>Layout</code> objects, which describe how the data should be represented and distributed as it moves between coefficient space and grid space. Moving from one layout to another involves two types of operations: spectral transforms (done locally) and global transposes (which shuffle data across the process mesh to put it in the right place)</p>
+<p>The basic algorithm works like this:</p>
+<ul>
+<li>We start in coefficient space (layout 0), where the last axis is local (not distributed)</li>
+<li>Then we transform that last axis into grid space (layout 1)</li>
+<li>If needed, we perform a global transpose so that the next axis becomes local, and transform that axis into grid space</li>
+<li>This process repeats until all axes have been transformed into grid space (the final layout)</li>
+</ul>
+<p>Let’s take a look at the layouts for the domain we just built. Since this is a serial computation, no global transposes are required—all axes are already local. So the layout transitions are just coefficient-to-grid transforms, working backwards from the last axis</p>
+<div id="12f851db" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layout <span class="kw">in</span> dist.layouts:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'Layout </span><span class="sc">{</span>layout<span class="sc">.</span>index<span class="sc">}</span><span class="ss">:  Grid space: </span><span class="sc">{</span>layout<span class="sc">.</span>grid_space<span class="sc">}</span><span class="ss">  Local: </span><span class="sc">{</span>layout<span class="sc">.</span>local<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Layout 0:  Grid space: [False False False]  Local: [ True  True  True]
+Layout 1:  Grid space: [False False  True]  Local: [ True  True  True]
+Layout 2:  Grid space: [False  True  True]  Local: [ True  True  True]
+Layout 3:  Grid space: [ True  True  True]  Local: [ True  True  True]</code></pre>
+</div>
+</div>
+<p>To get a sense of how things work in a distributed simulation, we’ll change the process mesh shape and rebuild the layout objects. For this example, we’ll bypass the usual internal checks on the number of available processes and related settings, just so we can see how the layouts are constructed in a parallel setup</p>
+<div id="3a6b8f83" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't do this. For illustration only</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dist.mesh <span class="op">=</span> np.array([<span class="dv">4</span>, <span class="dv">2</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dist.comm_coords <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dist._build_layouts(dry_run<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4d914cdb" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layout <span class="kw">in</span> dist.layouts:</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'Layout </span><span class="sc">{</span>layout<span class="sc">.</span>index<span class="sc">}</span><span class="ss">:  Grid space: </span><span class="sc">{</span>layout<span class="sc">.</span>grid_space<span class="sc">}</span><span class="ss">  Local: </span><span class="sc">{</span>layout<span class="sc">.</span>local<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Layout 0:  Grid space: [False False False]  Local: [False False  True]
+Layout 1:  Grid space: [False False  True]  Local: [False False  True]
+Layout 2:  Grid space: [False False  True]  Local: [False  True False]
+Layout 3:  Grid space: [False  True  True]  Local: [False  True False]
+Layout 4:  Grid space: [False  True  True]  Local: [ True False False]
+Layout 5:  Grid space: [ True  True  True]  Local: [ True False False]</code></pre>
+</div>
+</div>
+<p>We can see that there are now two additional layouts, corresponding to the transposed states of the mixed-transform layouts. Two global transposes are necessary here in order for the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes to be stored locally, which is required to perform the respective spectral transforms. Here’s a sketch of the data distribution in the different layouts:</p>
+<p><img src="figures/dedalus_fig_layouts_fold.png" class="img-fluid"></p>
+<p>In most cases, you won’t need to interact with layout objects directly. However, it’s useful to understand this system, since it controls how data is distributed and transformed. Being aware of it will help when working with field objects, as we’ll see in later sections</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -763,8 +910,8 @@ ul.task-list li input[type="checkbox"] {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./x_PDE_FEniCS.html" class="pagination-link" aria-label="Adaptive mesh refinement with GMSH/FEniCSx">
-        <span class="nav-page-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Adaptive mesh refinement with GMSH/FEniCSx</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./x_PDE_FEniCS.html" class="pagination-link" aria-label="The FEniCS computing platform">
+        <span class="nav-page-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">The FEniCS computing platform</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

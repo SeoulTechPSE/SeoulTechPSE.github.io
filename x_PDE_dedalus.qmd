@@ -1,5 +1,4 @@
 ---
-title: "DEDALUS"
 jupyter: dedalus3
 ---
 
@@ -9,3 +8,85 @@ jupyter: dedalus3
 It's open-source, written in Python, and MPI-parallelized
 
 [![](https://dedalus-project.readthedocs.io/en/latest/_static/epic12_4_exp_2_1.25.png){width="40%" fig-align="center"}](https://dedalus-project.org/index.html)
+
+## Coordinates, Distributors, and Bases
+
+This tutorial walks through the basics of setting up and using coordinate, distributor, and basis objects in `Dedalus`. In `Dedalus`, we represent fields and solve PDEs using spectral discretizations. To set these up, we choose spectral bases for the spatial coordinates in the problem. Once the coordinates are defined, they are collected into a distributor object, which takes care of how fields and problems are split up and distributed in parallel
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import dedalus.public as d3
+```
+
+### Coordinates
+
+In `Dedalus`, the spatial coordinates of a PDE are represented by coordinate objects. For simple 1D problems, you can define a coordinate directly using the `Coordinate` class. For higher-dimensional problems, you’ll usually combine multiple coordinates into a `CoordinateSystem`.
+
+Dedalus currently includes several built-in coordinate systems:
+
+* `CartesianCoordinates`: works in any number of dimensions
+* `PolarCoordinates`: with azimuth and radius
+* `S2Coordinates`: with azimuth and colatitude
+* `SphericalCoordinates`: with azimuth, colatitude, and radius
+
+When you create a `CoordinateSystem`, you just provide the names you’d like to use for each coordinate, in the order shown above. For example, let’s walk through how to set up a problem in 3D Cartesian coordinates
+
+```{python}
+coords = d3.CartesianCoordinates('x', 'y', 'z')
+```
+
+### Distributors
+
+A distributor object handles the parallel decomposition of fields and problems. Every problem in Dedalus needs a distributor, even if you’re just running in serial.
+
+To create a distributor, you provide the coordinate system for your PDE, specify the datatype of the fields you’ll be working with, and, if needed, supply a process mesh to control parallelization
+
+```{python}
+# No mesh for serial / automatic parallelization
+dist = d3.Distributor(coords, dtype=np.float64) 
+```
+
+**Parallelization & process meshes**
+
+When you run `Dedalus` under `MPI`, it parallelizes computations using block-distributed domain decompositions. By default, `Dedalus` spreads the work across a 1-dimensional mesh of all available `MPI` processes—this is called a “slab” decomposition. If you want more flexibility, you can specify a custom process mesh with the `mesh` keyword when creating a domain. This allows “pencil” decompositions, where the domain is split along more than one direction. Just keep in mind that the total number of `MPI` processes must match the product of the mesh shape you provide
+
+There’s also an important restriction: the mesh dimension can’t be larger than the number of separable coordinates in the linear part of your PDE. In practice, this usually means you can parallelize over periodic or angular coordinates. For fully separable problems—like a fully periodic box or a simulation on the sphere—the mesh dimension must be strictly less than the total dimension
+
+**Layouts**
+
+The distributor object sets up the machinery needed to allocate and transform fields in parallel. A key part of this is an ordered set of `Layout` objects, which describe how the data should be represented and distributed as it moves between coefficient space and grid space. Moving from one layout to another involves two types of operations: spectral transforms (done locally) and global transposes (which shuffle data across the process mesh to put it in the right place)
+
+The basic algorithm works like this:
+
+* We start in coefficient space (layout 0), where the last axis is local (not distributed)
+* Then we transform that last axis into grid space (layout 1)
+* If needed, we perform a global transpose so that the next axis becomes local, and transform that axis into grid space
+* This process repeats until all axes have been transformed into grid space (the final layout)
+
+Let’s take a look at the layouts for the domain we just built. Since this is a serial computation, no global transposes are required—all axes are already local. So the layout transitions are just coefficient-to-grid transforms, working backwards from the last axis
+
+```{python}
+for layout in dist.layouts:
+  print(f'Layout {layout.index}:  Grid space: {layout.grid_space}  Local: {layout.local}')
+```
+
+To get a sense of how things work in a distributed simulation, we’ll change the process mesh shape and rebuild the layout objects. For this example, we’ll bypass the usual internal checks on the number of available processes and related settings, just so we can see how the layouts are constructed in a parallel setup
+
+```{python}
+# Don't do this. For illustration only
+dist.mesh = np.array([4, 2])
+dist.comm_coords = np.array([0, 0])
+dist._build_layouts(dry_run=True)
+```
+
+```{python}
+for layout in dist.layouts:
+  print(f'Layout {layout.index}:  Grid space: {layout.grid_space}  Local: {layout.local}')
+```
+
+We can see that there are now two additional layouts, corresponding to the transposed states of the mixed-transform layouts. Two global transposes are necessary here in order for the $x$ and $y$ axes to be stored locally, which is required to perform the respective spectral transforms. Here’s a sketch of the data distribution in the different layouts:
+
+![](figures/dedalus_fig_layouts_fold.png)
+
+In most cases, you won’t need to interact with layout objects directly. However, it’s useful to understand this system, since it controls how data is distributed and transformed. Being aware of it will help when working with field objects, as we’ll see in later sections
