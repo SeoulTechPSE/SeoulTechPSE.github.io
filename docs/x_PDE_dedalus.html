@@ -386,6 +386,17 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#coordinates" id="toc-coordinates" class="nav-link" data-scroll-target="#coordinates"><span class="header-section-number">J.1.1</span> Coordinates</a></li>
   <li><a href="#distributors" id="toc-distributors" class="nav-link" data-scroll-target="#distributors"><span class="header-section-number">J.1.2</span> Distributors</a></li>
+  <li><a href="#bases" id="toc-bases" class="nav-link" data-scroll-target="#bases"><span class="header-section-number">J.1.3</span> Bases</a></li>
+  </ul></li>
+  <li><a href="#fields-and-operators" id="toc-fields-and-operators" class="nav-link" data-scroll-target="#fields-and-operators"><span class="header-section-number">J.2</span> Fields and Operators</a>
+  <ul class="collapse">
+  <li><a href="#fields" id="toc-fields" class="nav-link" data-scroll-target="#fields"><span class="header-section-number">J.2.1</span> Fields</a></li>
+  <li><a href="#operators" id="toc-operators" class="nav-link" data-scroll-target="#operators"><span class="header-section-number">J.2.2</span> Operators</a></li>
+  </ul></li>
+  <li><a href="#problems-and-solvers" id="toc-problems-and-solvers" class="nav-link" data-scroll-target="#problems-and-solvers"><span class="header-section-number">J.3</span> Problems and Solvers</a>
+  <ul class="collapse">
+  <li><a href="#solvers" id="toc-solvers" class="nav-link" data-scroll-target="#solvers"><span class="header-section-number">J.3.1</span> Solvers</a></li>
+  <li><a href="#analysis-and-post-processing" id="toc-analysis-and-post-processing" class="nav-link" data-scroll-target="#analysis-and-post-processing"><span class="header-section-number">J.3.2</span> Analysis and Post-processing</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -421,19 +432,19 @@ window.Quarto = {
 <section id="coordinates-distributors-and-bases" class="level2" data-number="J.1">
 <h2 data-number="J.1" class="anchored" data-anchor-id="coordinates-distributors-and-bases"><span class="header-section-number">J.1</span> Coordinates, Distributors, and Bases</h2>
 <p>This tutorial walks through the basics of setting up and using coordinate, distributor, and basis objects in <code>Dedalus</code>. In <code>Dedalus</code>, we represent fields and solve PDEs using spectral discretizations. To set these up, we choose spectral bases for the spatial coordinates in the problem. Once the coordinates are defined, they are collected into a distributor object, which takes care of how fields and problems are split up and distributed in parallel</p>
-<div id="920e2542" class="cell" data-execution_count="1">
+<div id="4a342a50" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dedalus.public <span class="im">as</span> d3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2025-09-25 21:01:49,098 dedalus 0/1 WARNING :: Threading has not been disabled. This may massively degrade Dedalus performance.
-2025-09-25 21:01:49,098 dedalus 0/1 WARNING :: We strongly suggest setting the "OMP_NUM_THREADS" environment variable to "1".</code></pre>
+<pre><code>2025-09-27 09:46:09,952 dedalus 0/1 WARNING :: Threading has not been disabled. This may massively degrade Dedalus performance.
+2025-09-27 09:46:09,953 dedalus 0/1 WARNING :: We strongly suggest setting the "OMP_NUM_THREADS" environment variable to "1".</code></pre>
 </div>
 </div>
 <section id="coordinates" class="level3" data-number="J.1.1">
 <h3 data-number="J.1.1" class="anchored" data-anchor-id="coordinates"><span class="header-section-number">J.1.1</span> Coordinates</h3>
 <p>In <code>Dedalus</code>, the spatial coordinates of a PDE are represented by coordinate objects. For simple 1D problems, you can define a coordinate directly using the <code>Coordinate</code> class. For higher-dimensional problems, you’ll usually combine multiple coordinates into a <code>CoordinateSystem</code>.</p>
-<p>Dedalus currently includes several built-in coordinate systems:</p>
+<p><code>Dedalus</code> currently includes several built-in coordinate systems:</p>
 <ul>
 <li><code>CartesianCoordinates</code>: works in any number of dimensions</li>
 <li><code>PolarCoordinates</code>: with azimuth and radius</li>
@@ -441,20 +452,20 @@ window.Quarto = {
 <li><code>SphericalCoordinates</code>: with azimuth, colatitude, and radius</li>
 </ul>
 <p>When you create a <code>CoordinateSystem</code>, you just provide the names you’d like to use for each coordinate, in the order shown above. For example, let’s walk through how to set up a problem in 3D Cartesian coordinates</p>
-<div id="9f075c89" class="cell" data-execution_count="2">
+<div id="397a9ab5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> d3.CartesianCoordinates(<span class="st">'x'</span>, <span class="st">'y'</span>, <span class="st">'z'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="distributors" class="level3" data-number="J.1.2">
 <h3 data-number="J.1.2" class="anchored" data-anchor-id="distributors"><span class="header-section-number">J.1.2</span> Distributors</h3>
-<p>A distributor object handles the parallel decomposition of fields and problems. Every problem in Dedalus needs a distributor, even if you’re just running in serial.</p>
+<p>A distributor object handles the parallel decomposition of fields and problems. Every problem in <code>Dedalus</code> needs a distributor, even if you’re just running in serial</p>
 <p>To create a distributor, you provide the coordinate system for your PDE, specify the datatype of the fields you’ll be working with, and, if needed, supply a process mesh to control parallelization</p>
-<div id="ea75678a" class="cell" data-execution_count="3">
+<div id="d3dec43f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No mesh for serial / automatic parallelization</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> d3.Distributor(coords, dtype<span class="op">=</span>np.float64) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Parallelization &amp; process meshes</strong></p>
-<p>When you run <code>Dedalus</code> under <code>MPI</code>, it parallelizes computations using block-distributed domain decompositions. By default, <code>Dedalus</code> spreads the work across a 1-dimensional mesh of all available <code>MPI</code> processes—this is called a “slab” decomposition. If you want more flexibility, you can specify a custom process mesh with the <code>mesh</code> keyword when creating a domain. This allows “pencil” decompositions, where the domain is split along more than one direction. Just keep in mind that the total number of <code>MPI</code> processes must match the product of the mesh shape you provide</p>
+<p>When you run <code>Dedalus</code> under <code>MPI</code>, it parallelizes computations using block-distributed domain decompositions. By default, <code>Dedalus</code> spreads the work across a 1-dimensional mesh of all available <code>MPI</code> processes—this is called a <em>slab decomposition</em>. If you want more flexibility, you can specify a custom process mesh with the <code>mesh</code> keyword when creating a domain. This allows <em>pencil decompositions</em>, where the domain is split along more than one direction. Just keep in mind that the total number of <code>MPI</code> processes must match the product of the process mesh shape you provide</p>
 <p>There’s also an important restriction: the mesh dimension can’t be larger than the number of separable coordinates in the linear part of your PDE. In practice, this usually means you can parallelize over periodic or angular coordinates. For fully separable problems—like a fully periodic box or a simulation on the sphere—the mesh dimension must be strictly less than the total dimension</p>
 <p><strong>Layouts</strong></p>
 <p>The distributor object sets up the machinery needed to allocate and transform fields in parallel. A key part of this is an ordered set of <code>Layout</code> objects, which describe how the data should be represented and distributed as it moves between coefficient space and grid space. Moving from one layout to another involves two types of operations: spectral transforms (done locally) and global transposes (which shuffle data across the process mesh to put it in the right place)</p>
@@ -466,7 +477,7 @@ window.Quarto = {
 <li>This process repeats until all axes have been transformed into grid space (the final layout)</li>
 </ul>
 <p>Let’s take a look at the layouts for the domain we just built. Since this is a serial computation, no global transposes are required—all axes are already local. So the layout transitions are just coefficient-to-grid transforms, working backwards from the last axis</p>
-<div id="12f851db" class="cell" data-execution_count="4">
+<div id="7cf0288e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layout <span class="kw">in</span> dist.layouts:</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'Layout </span><span class="sc">{</span>layout<span class="sc">.</span>index<span class="sc">}</span><span class="ss">:  Grid space: </span><span class="sc">{</span>layout<span class="sc">.</span>grid_space<span class="sc">}</span><span class="ss">  Local: </span><span class="sc">{</span>layout<span class="sc">.</span>local<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -477,13 +488,13 @@ Layout 3:  Grid space: [ True  True  True]  Local: [ True  True  True]</code></p
 </div>
 </div>
 <p>To get a sense of how things work in a distributed simulation, we’ll change the process mesh shape and rebuild the layout objects. For this example, we’ll bypass the usual internal checks on the number of available processes and related settings, just so we can see how the layouts are constructed in a parallel setup</p>
-<div id="3a6b8f83" class="cell" data-execution_count="5">
+<div id="28259cfc" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Don't do this. For illustration only</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>dist.mesh <span class="op">=</span> np.array([<span class="dv">4</span>, <span class="dv">2</span>])</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dist.comm_coords <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">0</span>])</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dist._build_layouts(dry_run<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4d914cdb" class="cell" data-execution_count="6">
+<div id="f900ff2b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layout <span class="kw">in</span> dist.layouts:</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="ss">f'Layout </span><span class="sc">{</span>layout<span class="sc">.</span>index<span class="sc">}</span><span class="ss">:  Grid space: </span><span class="sc">{</span>layout<span class="sc">.</span>grid_space<span class="sc">}</span><span class="ss">  Local: </span><span class="sc">{</span>layout<span class="sc">.</span>local<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -498,8 +509,1166 @@ Layout 5:  Grid space: [ True  True  True]  Local: [ True False False]</code></p
 <p>We can see that there are now two additional layouts, corresponding to the transposed states of the mixed-transform layouts. Two global transposes are necessary here in order for the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes to be stored locally, which is required to perform the respective spectral transforms. Here’s a sketch of the data distribution in the different layouts:</p>
 <p><img src="figures/dedalus_fig_layouts_fold.png" class="img-fluid"></p>
 <p>In most cases, you won’t need to interact with layout objects directly. However, it’s useful to understand this system, since it controls how data is distributed and transformed. Being aware of it will help when working with field objects, as we’ll see in later sections</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Coefficient Space">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Coefficient Space
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>This is the representation of a function in terms of its spectral coefficients</li>
+<li>Functions are expressed as linear combinations of basis functions (Fourier, Chebyshev, Legendre, etc.)</li>
+</ul>
+<p><strong>Examples:</strong> <span class="math display">\[ f(x) \approx \sum_{k=-N/2}^{N/2} \hat{f}k e^{ikx} \quad (\text{Fourier})\]</span> <span class="math display">\[f(x) \approx \sum_{n=0}^{N} \hat{f}_n T_n(x) \quad (\text{Chebyshev})\]</span></p>
+<ul>
+<li>Here, <span class="math inline">\(\hat{f}_k\)</span>, <span class="math inline">\(\hat{f}_n\)</span> are the data in coefficient space</li>
+<li>Differentiation and integration are simple in this representation:
+<ul>
+<li>Fourier: differentiation <span class="math inline">\(\rightarrow\)</span> multiply coefficients by <span class="math inline">\(ik\)</span></li>
+<li>Chebyshev: differentiation <span class="math inline">\(\rightarrow\)</span> apply a simple linear recurrence</li>
+</ul></li>
+<li>Analytical operations are most efficient in coefficient space</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Grid Space">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Grid Space
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>This is the representation of a function by its values on discrete grid points</li>
+<li>It’s what you use when you want to “see the shape” of a function or set initial conditions</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>Fourier basis <span class="math inline">\(\rightarrow\)</span> values on uniformly spaced grid points</li>
+<li>Chebyshev basis <span class="math inline">\(\rightarrow\)</span> values on non-uniform grid points (clustered near the boundaries)</li>
+<li>Nonlinear operations (products, <span class="math inline">\(f(u)\)</span>) are natural and efficient in grid space</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="bases" class="level3" data-number="J.1.3">
+<h3 data-number="J.1.3" class="anchored" data-anchor-id="bases"><span class="header-section-number">J.1.3</span> Bases</h3>
+<p><strong>Creating a basis</strong></p>
+<p>Each type of basis in <code>Dedalus</code> is represented by a separate class. These classes define the corresponding spectral operators as well as transforms between the <em>grid space</em> and <em>coefficient space</em> representations of functions in that basis. The most commonly used bases are:</p>
+<ul>
+<li><p><code>RealFourier</code> for real periodic functions on an interval using cosine &amp; sine modes</p></li>
+<li><p><code>ComplexFourier</code> for complex periodic functions on an interval using complex exponentials</p></li>
+<li><p><code>Chebyshev</code> for functions on an interval</p></li>
+<li><p><code>Jacobi</code> for functions on an interval under a more general inner product (usually <code>Chebyshev</code> is best for performance)</p></li>
+<li><p><code>DiskBasis</code> for functions on a full disk in polar coordinates</p></li>
+<li><p><code>AnnulusBasis</code> for functions on an annulus in polar coordinates</p></li>
+<li><p><code>SphereBasis</code> for functions on the 2-sphere in S2 or spherical coordinates</p></li>
+<li><p><code>BallBasis</code> for functions on a full ball in spherical coordinates</p></li>
+<li><p><code>ShellBasis</code> for functions on a spherical shell in spherical coordinates</p></li>
+</ul>
+<p>For one-dimensional or Cartesian bases, you create a basis by specifying:</p>
+<ul>
+<li>the corresponding coordinate object</li>
+<li>the number of modes for the basis</li>
+<li>the coordinate bounds of the basis interval</li>
+</ul>
+<p>For multidimensional or curvilinear bases, you provide:</p>
+<ul>
+<li>the corresponding coordinate system</li>
+<li>the multidimensional mode shape for the basis</li>
+<li>the radial extent of the basis</li>
+<li>the data type (dtype) for the problem</li>
+</ul>
+<p>Optionally, for any basis, you can also specify dealiasing scale factors for each axis. These factors control how much to pad the modes when transforming to grid space. For example, to properly dealias quadratic nonlinearities, you would typically use a scaling factor of 3/2</p>
+<div id="925e987a" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>xbasis <span class="op">=</span> d3.RealFourier(coords[<span class="st">'x'</span>], size<span class="op">=</span><span class="dv">32</span>, bounds<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), dealias<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ybasis <span class="op">=</span> d3.RealFourier(coords[<span class="st">'y'</span>], size<span class="op">=</span><span class="dv">32</span>, bounds<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), dealias<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>zbasis <span class="op">=</span> d3.Chebyshev(coords[<span class="st">'z'</span>], size<span class="op">=</span><span class="dv">32</span>, bounds<span class="op">=</span>(<span class="dv">0</span>,<span class="dv">1</span>), dealias<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Some bases also accept additional arguments that let you tweak their internal behavior. For more details, check <a href="https://dedalus-project.readthedocs.io/en/latest/autoapi/dedalus/core/basis/index.html">the <code>basis.py</code> API documentation</a></p>
+<p><strong>Basis grids and scale factors</strong></p>
+<p>Each basis comes with a corresponding coordinate or collocation grid—or multiple grids for multidimensional bases. These grids are useful for tasks like initializing and plotting fields</p>
+<p>You can access the global (non-distributed) grids using the basis object’s <code>global_grid</code> method (or <code>global_grids</code> for multidimensional bases). These methods also allow you to provide scale factors, which control how many points are included in the grid relative to the number of basis modes</p>
+<p>For example, let’s take a look at Chebyshev grids with scaling factors of 1 and 3/2</p>
+<div id="41acfb63" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>grid_normal <span class="op">=</span> zbasis.global_grid(dist, scale<span class="op">=</span><span class="dv">1</span>).ravel()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>grid_dealias <span class="op">=</span> zbasis.global_grid(dist, scale<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>).ravel()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="fl">1.5</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.plot(grid_normal, <span class="dv">0</span><span class="op">*</span>grid_normal <span class="op">+</span><span class="dv">1</span>, <span class="st">'o'</span>, markersize<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.plot(grid_dealias, <span class="dv">0</span><span class="op">*</span>grid_dealias <span class="op">-</span><span class="dv">1</span>, <span class="st">'o'</span>, markersize<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'z'</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Chebyshev grid with scales 1 and 3/2'</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>])</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.gca().yaxis.set_ticks([])</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that Chebyshev grids are non-equispaced: the points cluster quadratically near the ends of the interval. This behavior is especially useful for resolving sharp features, such as boundary layers</p>
+<p><strong>Distributed grid and element arrays</strong></p>
+<p>To make it easier to create field data, the distributor provides the local portions of the coordinate grids and mode numbers (wavenumbers or polynomial degrees). You can access the local grids—which are distributed according to the last layout or the full <em>grid space</em>—using the <code>dist.local_grid</code> method (or <code>dist.local_grids</code> for multidimensional bases)</p>
+<p>When calling these methods, you need to specify the basis and optionally a scale factor (which defaults to 1)</p>
+<div id="4f3fa736" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>local_x <span class="op">=</span> dist.local_grid(xbasis)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>local_y <span class="op">=</span> dist.local_grid(ybasis)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>local_z <span class="op">=</span> dist.local_grid(zbasis)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local x shape:'</span>, local_x.shape)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local y shape:'</span>, local_y.shape)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local z shape:'</span>, local_z.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Local x shape: (32, 1, 1)
+Local y shape: (1, 8, 1)
+Local z shape: (1, 1, 16)</code></pre>
+</div>
+</div>
+<p>The local <span class="math inline">\(x\)</span> grid corresponds to the full Fourier grid for the <span class="math inline">\(x\)</span>-basis and is the same on all processes, because the first axis is local in grid space</p>
+<p>The local <span class="math inline">\(y\)</span> and local <span class="math inline">\(z\)</span> grids, on the other hand, usually differ across processes. These grids contain only the local portions of the <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> basis grids, distributed according to the process mesh—for example, 4 blocks in <span class="math inline">\(y\)</span> and 2 blocks in <span class="math inline">\(z\)</span></p>
+<p>You can access the local modes—which are distributed according to layout 0 (the full <em>coefficient space</em>)—using the <code>dist.local_modes</code> method. When calling this method, you just need to specify the basis</p>
+<div id="4d037311" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>local_kx <span class="op">=</span> dist.local_modes(xbasis)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>local_ky <span class="op">=</span> dist.local_modes(ybasis)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>local_nz <span class="op">=</span> dist.local_modes(zbasis)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local kx shape:'</span>, local_kx.shape)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local ky shape:'</span>, local_ky.shape)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Local nz shape:'</span>, local_nz.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Local kx shape: (8, 1, 1)
+Local ky shape: (1, 16, 1)
+Local nz shape: (1, 1, 32)</code></pre>
+</div>
+</div>
+<p>The local <span class="math inline">\(k_x\)</span> and local <span class="math inline">\(k_y\)</span> arrays now differ across processes, because they contain only the local portions of the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> wavenumbers, which are distributed in coefficient space</p>
+<p>The local <span class="math inline">\(n_z\)</span> array, on the other hand, includes the full set of Chebyshev modes, which are always local in coefficient space</p>
+<p>These local arrays can be used to create parallel-safe initial conditions for fields, either in grid space or coefficient space, as we’ll explore in the next section</p>
+</section>
+</section>
+<section id="fields-and-operators" class="level2" data-number="J.2">
+<h2 data-number="J.2" class="anchored" data-anchor-id="fields-and-operators"><span class="header-section-number">J.2</span> Fields and Operators</h2>
+<p>This tutorial covers the basics of setting up and working with field and operator objects in <code>Dedalus</code>. <code>Dedalus</code> uses these abstractions to implement a symbolic algebra system, which allows us to represent mathematical expressions and PDEs in a convenient and flexible way</p>
+<div id="915704b5" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dedalus.public <span class="im">as</span> d3</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dedalus.extras.plot_tools <span class="im">import</span> plot_bot_2d</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>figkw <span class="op">=</span> {<span class="st">'figsize'</span>: (<span class="dv">6</span>, <span class="dv">4</span>), <span class="st">'dpi'</span>: <span class="dv">100</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="fields" class="level3" data-number="J.2.1">
+<h3 data-number="J.2.1" class="anchored" data-anchor-id="fields"><span class="header-section-number">J.2.1</span> Fields</h3>
+<p><strong>Creating a field</strong></p>
+<p>In <code>Dedalus</code>, field objects represent scalar-valued fields defined over a set of bases (or a <em>domain</em>). You can create a field directly from the <code>Field</code> class by providing a distributor, a list of bases, and, optionally, a name. Alternatively, you can create a field using the <code>dist.Field</code> method</p>
+<p>Let’s try setting up a 2D domain and building a field</p>
+<div id="904cb09e" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>coords <span class="op">=</span> d3.CartesianCoordinates(<span class="st">'x'</span>, <span class="st">'y'</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> d3.Distributor(coords, dtype<span class="op">=</span>np.float64)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>xbasis <span class="op">=</span> d3.RealFourier(coords[<span class="st">'x'</span>], <span class="dv">64</span>, bounds<span class="op">=</span>(<span class="op">-</span>np.pi, np.pi), dealias<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>ybasis <span class="op">=</span> d3.Chebyshev(coords[<span class="st">'y'</span>], <span class="dv">64</span>, bounds<span class="op">=</span>(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>), dealias<span class="op">=</span><span class="dv">3</span><span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'f'</span>, bases<span class="op">=</span>(xbasis, ybasis))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This field <span class="math inline">\(f\)</span> depends on both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, since it is defined using both <code>xbasis</code> and <code>ybasis</code>. If you want to create a field that depends on only <span class="math inline">\(x\)</span> or only <span class="math inline">\(y\)</span>, you can pass <code>bases=xbasis</code> or <code>bases=ybasis</code>, respectively. To create a spatially constant field—one that does not vary with <span class="math inline">\(x\)</span> or <span class="math inline">\(y\)</span>—simply do not provide any bases</p>
+<p><strong>Vector and tensor fields</strong></p>
+<p>By default, the <code>Field</code> class creates a scalar-valued field, which can also be instantiated using the <code>ScalarField</code> constructor</p>
+<p>If you want a vector-valued field, use the <code>VectorField</code> constructor and provide the coordinate system corresponding to the components of the vector. Technically, this is specifying the vector bundle of the field to be the tangent bundle on the chosen coordinate system</p>
+<p>Similarly, you can create arbitrary-order tensor fields using the <code>TensorField</code> constructor by passing a tuple of coordinate systems. This defines the tensor bundle of the field</p>
+<p>The bases of a field describe its spatial variation, while the vector/tensor bundle describes the components of the field. For example, you could have a 2D vector with <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> components that varies only along the <span class="math inline">\(x\)</span> direction—so it would only need an <span class="math inline">\(x\)</span> basis</p>
+<p>Let’s go ahead and build such a vector field on our domain</p>
+<div id="54c86adb" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> dist.VectorField(coords, name<span class="op">=</span><span class="st">'u'</span>, bases<span class="op">=</span>xbasis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Manipulating field data</strong></p>
+<p><code>Field</code> objects provide several methods for transforming their data between different layouts—this includes grid space, coefficient space, and all intermediate layouts</p>
+<p>Each field has a layout attribute, which points to the layout object describing its current transform and distribution state</p>
+<p>By default, fields are instantiated in coefficient space</p>
+<div id="e9e9c633" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>f.layout.grid_space</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>array([False, False])</code></pre>
+</div>
+</div>
+<p>You can assign and retrieve field data in any layout by indexing a field with that layout object. In most cases, you won’t need the mixed layouts—the full grid and full coefficient layouts are usually enough. You can also use the shortcuts <code>'g'</code> and <code>'c'</code> to access these layouts easily</p>
+<p>When working in parallel, each process only manipulates its local portion of the globally distributed data. This means that you can safely set a field’s grid data in a parallel-safe way using the local grids provided by the domain</p>
+<div id="583d5a6a" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> dist.local_grid(xbasis)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> dist.local_grid(ybasis)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>f[<span class="st">'g'</span>] <span class="op">=</span> np.exp((<span class="dv">1</span> <span class="op">-</span>y<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span>np.cos(x <span class="op">+</span>np.cos(x) <span class="op">*</span>y<span class="op">**</span><span class="dv">2</span>)) <span class="op">*</span>(<span class="dv">1</span> <span class="op">+</span><span class="fl">0.05</span> <span class="op">*</span>np.cos(<span class="dv">10</span> <span class="op">*</span>(x <span class="op">+</span><span class="dv">2</span> <span class="op">*</span>y)))  </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(f, figkw<span class="op">=</span>figkw, title<span class="op">=</span><span class="st">"f['g']"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can convert a field to spectral coefficients by accessing its data in coefficient space. Internally, this triggers an in-place multidimensional spectral transform on the field’s data</p>
+<div id="08dc1d59" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>f[<span class="st">'c'</span>]</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot log magnitude of spectral coefficients</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>log_mag <span class="op">=</span> <span class="kw">lambda</span> xmesh, ymesh, data: (xmesh, ymesh, np.log10(np.<span class="bu">abs</span>(data) <span class="op">+</span><span class="fl">1.e-20</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  f, </span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  func<span class="op">=</span>log_mag, </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  clim<span class="op">=</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">0</span>), </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  cmap<span class="op">=</span><span class="st">'viridis'</span>, </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  title<span class="op">=</span><span class="st">"log10(abs(f['c'])"</span>, </span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  figkw<span class="op">=</span>{<span class="st">'figsize'</span>: (<span class="dv">5</span>, <span class="dv">5</span>), <span class="st">'dpi'</span>: <span class="dv">100</span>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Examining the spectral coefficients of a field is very useful, because the amplitude of the highest modes indicates the truncation errors in the spectral discretization</p>
+<p>If the amplitudes of these modes are small, as in this example, we can conclude that the field is well-resolved</p>
+<p><strong>Vector and tensor components</strong></p>
+<div id="312b6f88" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>u[<span class="st">'g'</span>].shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>(2, 64, 1)</code></pre>
+</div>
+</div>
+<p><em>Vector and Tensor Field Data Shapes</em></p>
+<ul>
+<li>The first axis of the data array corresponds to the field’s components</li>
+<li>For example, in a 2D Cartesian vector field, this axis has size 2, representing the <span class="math inline">\(x\)</span>- and <span class="math inline">\(y\)</span>-components</li>
+<li>The remaining axes correspond to the physical shape of the domain</li>
+<li>In our example, the field is constant along the <span class="math inline">\(y\)</span>-direction, since it was only defined with an <span class="math inline">\(x\)</span>-basis</li>
+</ul>
+<p><em>Grid Space vs.&nbsp;Coefficient Space</em></p>
+<ul>
+<li>In grid space, vector and tensor components align with the unit vectors of the tangent space (e.g., <span class="math inline">\(\hat{x}\)</span>, <span class="math inline">\(\hat{y}\)</span> in Cartesian coordinates)</li>
+<li>In coefficient space, the same is true for Cartesian domains</li>
+<li>However, in curvilinear domains (polar, spherical, etc.), the components may be recombined during spectral transforms, making the coefficient-space data harder to interpret component-wise</li>
+</ul>
+<p><em>Practical Tip</em></p>
+<p>Because of this, it’s generally recommended to initialize vector and tensor fields in grid space, where the components correspond directly to the familiar unit vectors</p>
+<p><strong>Field scale factors</strong></p>
+<p><em>Changing Field Resolution with <code>change_scales</code></em></p>
+<ul>
+<li>The <code>change_scales</code> method on a field lets you modify the scaling factors used when transforming the field’s data into grid space</li>
+<li>If you set field data using grid arrays, make sure that the field and grid use the same scale factors, otherwise you’ll get shape errors</li>
+</ul>
+<p><em>Practical Uses</em></p>
+<ul>
+<li>Large scale factors <span class="math inline">\(( &gt; 1)\)</span>: Interpolate the field data onto a higher-resolution grid</li>
+<li>Small scale factors <span class="math inline">\(( &lt; 1)\)</span>: View the field on a lower-resolution grid</li>
+<li>But beware: if the scale factor is less than <span class="math inline">\(1\)</span>, you’ll actually lose data during the transform to grid space</li>
+</ul>
+<p><em>High-Resolution Sampling with <code>change_scales</code></em></p>
+<p>We can sample a field on a higher-resolution grid by increasing its scale factors using the <code>change_scales</code> method. This effectively interpolates the field data, giving us a finer view of its structure in grid space</p>
+<div id="ba6343d2" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>f.change_scales(<span class="dv">4</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>f[<span class="st">'g'</span>]</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(f, title<span class="op">=</span><span class="st">"f['g']"</span>, figkw<span class="op">=</span>figkw)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Scale Factors in Data Access</em></p>
+<p>Scale factors can also be passed as a second argument when setting or retrieving field data through the <code>__getitem__ / __setitem__</code> interface:</p>
+<ul>
+<li><code>field['g', 2]</code> <span class="math inline">\(\;\rightarrow\;\)</span> get the grid-space data at 2× resolution</li>
+<li><code>field['g', 0.5]</code> <span class="math inline">\(\;\rightarrow\;\)</span> get the grid-space data at half resolution</li>
+<li><code>field['g', 2] = ...</code> <span class="math inline">\(\;\rightarrow\;\)</span> set the grid-space data at 2× resolution</li>
+</ul>
+<p>This provides a convenient way to work with data at different resolutions without calling <code>change_scales</code> explicitly</p>
+<div id="b63a10de" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f[<span class="st">'g'</span>, <span class="dv">1</span>].shape)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(f[<span class="st">'g'</span>, <span class="dv">2</span>].shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(64, 64)
+(128, 128)</code></pre>
+</div>
+</div>
+</section>
+<section id="operators" class="level3" data-number="J.2.2">
+<h3 data-number="J.2.2" class="anchored" data-anchor-id="operators"><span class="header-section-number">J.2.2</span> Operators</h3>
+<p><strong>Arithmetic with fields</strong></p>
+<p><em><code>Operator</code> Classes</em></p>
+<ul>
+<li>In <code>Dedalus</code>, mathematical operations on fields—such as arithmetic, differentiation, integration, and interpolation—are represented by <code>Operator</code> classes</li>
+<li>An operator instance corresponds to a specific mathematical expression</li>
+<li><code>Operator</code>s provide an interface for deferred evaluation, meaning the expression is stored symbolically and can be evaluated later, even if its arguments evolve over time</li>
+</ul>
+<p><em>Arithmetic <code>Operator</code>s</em></p>
+<ul>
+<li><code>Dedalus</code> lets you write arithmetic operations between fields (or between fields and scalars) using Python’s infix operators (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>**</code>)</li>
+<li>This makes expressions look natural, just like standard math notation</li>
+</ul>
+<div id="7bc1247a" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>g_op <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span><span class="dv">2</span> <span class="op">*</span>f</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(g_op)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>C(C(1)) + -1*2*f</code></pre>
+</div>
+</div>
+<p><em><code>Operator</code> Objects and Evaluation</em></p>
+<ul>
+<li>When we perform arithmetic with fields, the result is not a field, but an operator object</li>
+<li>For example, the expression might symbolically represent “add 1 to the product of -1, 2, and our field”</li>
+<li>To actually compute the operation, we call the operator’s <code>.evaluate()</code> method</li>
+<li>This returns a new field containing the numerical result</li>
+<li>💡Important: the dealiasing scale factors set when the basis was instantiated are always applied during operator evaluation</li>
+</ul>
+<div id="6d875f37" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> g_op.evaluate()</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>g[<span class="st">'g'</span>]</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(g, title<span class="op">=</span><span class="st">"g['g']"</span>, figkw<span class="op">=</span>figkw)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Building expressions</strong></p>
+<p><em>Building Expression Trees</em></p>
+<ul>
+<li><code>Operator</code> instances can themselves be passed as arguments to other operators</li>
+<li>This allows us to build expression trees that represent more complicated mathematical formulas in a natural, symbolic way</li>
+</ul>
+<div id="8580afa2" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>h_op <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span>np.cosh(g_op <span class="op">+</span><span class="fl">2.5</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(h_op)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pow(cosh(C(C(1)) + -1*2*f + C(C(2.5))), -1)</code></pre>
+</div>
+</div>
+<p><em>Visualizing <code>Operator</code> Structures</em></p>
+<ul>
+<li><code>Operator</code> signatures can become hard to read when expressions get complicated</li>
+<li>To make this easier, <code>Dedalus</code> provides a helper in <code>dedalus.tools</code> that lets us plot the operator’s structure</li>
+<li>This visualization shows the tree of operations (e.g.&nbsp;additions, multiplications, derivatives), making it clear how the overall expression is built</li>
+</ul>
+<div id="8561c344" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dedalus.tools.plot_op <span class="im">import</span> plot_operator</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plot_operator(h_op, figsize<span class="op">=</span><span class="dv">6</span>, fontsize<span class="op">=</span><span class="dv">14</span>, opsize<span class="op">=</span><span class="fl">0.4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><em>Evaluating <code>Operator</code>s</em></p>
+<ul>
+<li>Once an operator is constructed (even a complex expression tree), you can evaluate it to get a field containing the result</li>
+<li>This is done using the <code>.evaluate()</code> method of the operator</li>
+</ul>
+<div id="2ca5acfd" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> h_op.evaluate()</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>h[<span class="st">'g'</span>]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(h, title<span class="op">=</span><span class="st">"h['g']"</span>, figkw<span class="op">=</span>figkw)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Deferred evaluation</strong></p>
+<p><em>Deferred Evaluation with <code>Operator</code>s</em></p>
+<ul>
+<li><p><code>Operator</code> objects in <code>Dedalus</code> symbolically represent an operation on their field arguments</p></li>
+<li><p>They use deferred evaluation, meaning that the operation is not computed immediately</p></li>
+<li><p>If the data of the field arguments changes, re-evaluating the operator with <code>.evaluate()</code> produces a new result that reflects the updated field data</p></li>
+<li><p>💡Key insight: This allows you to reuse the same operator object on different field states, which is especially useful in time-dependent simulations where fields evolve over time</p></li>
+</ul>
+<div id="0e5853a3" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Change scales back to 1 to build new grid data</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>f.change_scales(<span class="dv">1</span>)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>f[<span class="st">'g'</span>] <span class="op">=</span> <span class="dv">3</span> <span class="op">*</span>np.cos(<span class="fl">1.5</span> <span class="op">*</span>np.pi <span class="op">*</span>y)<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>np.cos(x <span class="op">/</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">4</span> <span class="op">+</span><span class="dv">3</span> <span class="op">*</span>np.exp(<span class="op">-</span>((<span class="dv">2</span> <span class="op">*</span>x <span class="op">+</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>(<span class="dv">4</span> <span class="op">*</span>y <span class="op">+</span><span class="dv">4</span> <span class="op">/</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)) <span class="op">+</span><span class="dv">3</span> <span class="op">*</span>np.exp(<span class="op">-</span>((<span class="dv">2</span> <span class="op">*</span>x <span class="op">+</span><span class="dv">2</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> (<span class="dv">4</span> <span class="op">*</span>y <span class="op">-</span><span class="dv">4</span> <span class="op">/</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>))</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>f[<span class="st">'g'</span>]</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(f, title<span class="op">=</span><span class="st">"f['g']"</span>, figkw<span class="op">=</span>figkw)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="db1cd1a4" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>h <span class="op">=</span> h_op.evaluate()</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot grid values</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>h[<span class="st">'g'</span>]</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>plot_bot_2d(h, title<span class="op">=</span><span class="st">"h['g']"</span>, figkw<span class="op">=</span>figkw)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Differential operators</strong></p>
+<ul>
+<li>In <code>Dedalus</code>, operators are also used to compute derivatives of fields</li>
+<li>For one-dimensional bases, partial derivatives are implemented using the <code>Differentiate</code> operator</li>
+<li>To compute a derivative, you specify the coordinate with respect to which you want to differentiate</li>
+</ul>
+<div id="d345b7a1" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>fx <span class="op">=</span> d3.Differentiate(f, coords[<span class="st">'x'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Vector Calculus <code>Operator</code>s in Dedalus</strong></p>
+<p>For multidimensional problems, <code>Dedalus</code> provides built-in vector calculus operators:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 25%">
+<col style="width: 60%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Applicable Fields</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Gradient</code></td>
+<td>Arbitrary fields</td>
+<td>Computes the gradient of a scalar or vector field</td>
+</tr>
+<tr class="even">
+<td><code>Divergence</code></td>
+<td>Vector or tensor fields</td>
+<td>Computes the divergence</td>
+</tr>
+<tr class="odd">
+<td><code>Curl</code></td>
+<td>Vector fields</td>
+<td>Computes the curl</td>
+</tr>
+<tr class="even">
+<td><code>Laplacian</code></td>
+<td>Arbitrary fields</td>
+<td>Computes the Laplacian, defined as the divergence of the gradient</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>These operators return <strong>operator objects</strong> that can be <strong>evaluated</strong> to produce fields with the computed results<br>
+</li>
+<li>They provide a <strong>high-level, symbolic interface</strong> for common PDE operations, simplifying multidimensional derivations</li>
+</ul>
+<p><em>Optional Arguments for Vector Calculus <code>Operator</code>s</em></p>
+<ul>
+<li>A <strong>coordinate system</strong> can optionally be specified as the <strong>tangent bundle</strong> for the <code>Gradient</code> and <code>Laplacian</code> operators.
+<ul>
+<li>If not provided, they <strong>default to the distributor’s coordinate system</strong></li>
+</ul></li>
+<li>A <strong>tensor index</strong> can optionally be specified for the <code>Divergence</code> operator
+<ul>
+<li>Defaults to <code>0</code> if not provided.</li>
+</ul></li>
+<li>Tensor ranks propagate naturally:
+<ul>
+<li>The gradient of a <strong>rank-0 (scalar) field</strong> is <strong>rank-1 (vector)</strong></li>
+<li>The gradient of a <strong>rank-1 (vector) field</strong> is <strong>rank-2 (tensor)</strong>, and so on</li>
+</ul></li>
+</ul>
+<div id="77a4ad6d" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>lap_f <span class="op">=</span> d3.Laplacian(f).evaluate()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>grad_f <span class="op">=</span> d3.Gradient(f).evaluate()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'f shape:'</span>, f[<span class="st">'g'</span>].shape)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Grad(f) shape:'</span>, grad_f[<span class="st">'g'</span>].shape)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Lap(f) shape:'</span>, lap_f[<span class="st">'g'</span>].shape)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>div_grad_f <span class="op">=</span> d3.Divergence(d3.Gradient(f)).evaluate()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Lap(f) is Div(Grad(f)):'</span>, np.allclose(lap_f[<span class="st">'g'</span>], div_grad_f[<span class="st">'g'</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>f shape: (96, 96)
+Grad(f) shape: (2, 96, 96)
+Lap(f) shape: (96, 96)
+Lap(f) is Div(Grad(f)): True</code></pre>
+</div>
+</div>
+<p><strong><code>Operator</code>s for Tensor Field Components</strong></p>
+<p><code>Dedalus</code> provides several operators specifically for manipulating <strong>components of tensor fields</strong>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 67%">
+<col style="width: 32%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Trace</code></td>
+<td>Contracts two specified indices of a tensor (defaults to indices 0 and 1)</td>
+</tr>
+<tr class="even">
+<td><code>TransposeComponents</code></td>
+<td>Swaps two specified indices of a tensor (defaults to indices 0 and 1)</td>
+</tr>
+<tr class="odd">
+<td><code>Skew</code></td>
+<td>Applies a 90-degree positive rotation to 2D vector fields</td>
+</tr>
+</tbody>
+</table>
+<div id="036cea11" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>grad_u <span class="op">=</span> d3.Gradient(u)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>transpose_grad_u <span class="op">=</span> d3.TransposeComponents(grad_u)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Integrals and Averages</strong></p>
+<ul>
+<li><code>Dedalus</code> provides operators for computing <strong>integrals</strong> and <strong>averages</strong> of scalar fields:</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Integrate</code></td>
+<td>Computes the integral of a scalar field over specified coordinates or a coordinate system</td>
+</tr>
+<tr class="even">
+<td><code>Average</code></td>
+<td>Computes the average of a scalar field over specified coordinates or a coordinate system</td>
+</tr>
+</tbody>
+</table>
+<div id="f3df8f0c" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Total integral of the field</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>f_int <span class="op">=</span> d3.Integrate(f, (<span class="st">'x'</span>, <span class="st">'y'</span>))</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'f integral:'</span>, f_int.evaluate()[<span class="st">'g'</span>])</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Average of the field</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>f_ave <span class="op">=</span> d3.Average(f, (<span class="st">'x'</span>, <span class="st">'y'</span>))</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'f average:'</span>, f_ave.evaluate()[<span class="st">'g'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>f integral: [[9.42458659]]
+f average: [[0.74998477]]</code></pre>
+</div>
+</div>
+<p><strong>Interpolation</strong></p>
+<ul>
+<li><p><code>Dedalus</code> provides the <strong><code>Interpolate</code> operator</strong> for interpolating field data along a coordinate</p></li>
+<li><p>Interpolation can also be done using the <strong><code>__call__</code> method</strong> on fields or operators, with keywords specifying the <strong>coordinate</strong> and <strong>position</strong></p></li>
+<li><p>For convenience, the strings <code>'left'</code>, <code>'right'</code>, and <code>'center'</code> can be used to refer to the <strong>endpoints</strong> and <strong>middle</strong> of 1D intervals</p></li>
+</ul>
+<div id="3b325e27" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>f00 <span class="op">=</span> f(x<span class="op">=</span><span class="dv">0</span>, y<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'f(0,0):'</span>, f00.evaluate()[<span class="st">'g'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>f(0,0): [[3.01857352]]</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="problems-and-solvers" class="level2" data-number="J.3">
+<h2 data-number="J.3" class="anchored" data-anchor-id="problems-and-solvers"><span class="header-section-number">J.3</span> Problems and Solvers</h2>
+<p>This tutorial covers the basics of setting up and solving problems in <code>Dedalus</code>. <code>Dedalus</code> can symbolically formulate and solve a wide range of problems, including:</p>
+<ul>
+<li>Initial value problems (IVPs)</li>
+<li>Boundary value problems (BVPs)</li>
+<li>Eigenvalue problems (EVPs)</li>
+</ul>
+<div id="c7d327ba" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dedalus.public <span class="im">as</span> d3</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dedalus.extras.plot_tools <span class="im">import</span> plot_bot_2d</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>figkw <span class="op">=</span> {<span class="st">'figsize'</span>:(<span class="dv">6</span>, <span class="dv">4</span>), <span class="st">'dpi'</span>:<span class="dv">150</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="standard-formulation-of-problems-in-dedalus" class="level4" data-number="J.3.0.1">
+<h4 data-number="J.3.0.1" class="anchored" data-anchor-id="standard-formulation-of-problems-in-dedalus"><span class="header-section-number">J.3.0.1</span> Standard Formulation of Problems in <code>Dedalus</code></h4>
+<p><code>Dedalus</code> standardizes the formulation of all initial value problems (IVPs) by taking systems of:</p>
+<ul>
+<li>Symbolically specified equations</li>
+<li>Boundary conditions</li>
+</ul>
+<p>and rewriting them into the following generic form:</p>
+<p><span class="math display">\[\mathcal{M} \cdot \partial_t \mathcal{X} + \mathcal{L} \cdot \mathcal{X} = \mathcal{F}(\mathcal{X}, t)\]</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\mathcal{M}\)</span>, <span class="math inline">\(\mathcal{L}\)</span>: matrices of linear differential operators</li>
+<li><span class="math inline">\(\mathcal{X}\)</span>: state vector of the unknown fields</li>
+<li><span class="math inline">\(\mathcal{F}(\mathcal{X}, t)\)</span>: vector of general nonlinear expressions</li>
+</ul>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>This form encapsulates both:
+<ul>
+<li>Prognostic/evolution equations (contain time derivatives)</li>
+<li>Diagnostic/algebraic constraints (no time derivatives)</li>
+</ul></li>
+<li>These apply in both the interior of the domain and on the boundaries</li>
+</ul>
+<p><strong>Restrictions</strong></p>
+<ul>
+<li>Left-hand side (LHS):
+<ul>
+<li>Must be first-order in temporal derivatives</li>
+<li>Must be linear in the problem variables</li>
+</ul></li>
+<li>Right-hand side (RHS):
+<ul>
+<li>May contain nonlinear and time-dependent terms</li>
+<li>Must not contain temporal derivatives</li>
+</ul></li>
+</ul>
+<p><strong>Other Standard Problem Types</strong></p>
+<p>In addition to IVPs, <code>Dedalus</code> defines similar standard forms for:</p>
+<ul>
+<li>Generalized eigenvalue problems (EVPs): <span class="math inline">\(\sigma \mathcal{M} \cdot \mathcal{X} + \mathcal{L} \cdot \mathcal{X} = 0\)</span></li>
+<li>Linear boundary value problems (LBVPs): <span class="math inline">\(\mathcal{L} \cdot \mathcal{X} = \mathcal{G}\)</span></li>
+<li>Nonlinear boundary value problems (NLBVPs): <span class="math inline">\(\mathcal{L} \cdot \mathcal{X} = \mathcal{F}(\mathcal{X})\)</span></li>
+</ul>
+<p>These correspond to the <code>Dedalus</code> classes:</p>
+<ul>
+<li><code>IVP</code></li>
+<li><code>EVP</code></li>
+<li><code>LBVP</code></li>
+<li><code>NLBVP</code></li>
+</ul>
+</section>
+<section id="creating-a-problem-object" class="level4" data-number="J.3.0.2">
+<h4 data-number="J.3.0.2" class="anchored" data-anchor-id="creating-a-problem-object"><span class="header-section-number">J.3.0.2</span> Creating a Problem Object</h4>
+<p>When creating a problem object, you must provide a list of the field variables to be solved. You can also pass a dictionary via the <code>namespace</code> argument to make substitutions (operators or functions) available when parsing the equations</p>
+<p>👉 Typically, we suggest passing <code>locals()</code>, so that all script-level definitions are accessible inside the problem</p>
+<p><strong>The Complex Ginzburg–Landau Equation</strong></p>
+<p>We will solve the complex Ginzburg–Landau equation (CGLE) for a variable <span class="math inline">\(u(x,t)\)</span> on a finite interval <span class="math inline">\(x \in [0, 300]\)</span>, subject to homogeneous Dirichlet boundary conditions:</p>
+<p><span class="math display">\[\partial_t u = u + (1 + i b) \, \partial_{xx} u - (1 + i c) |u|^2 u\]</span></p>
+<p>with boundary conditions:</p>
+<p><span class="math display">\[u(x=0) = u(x=300) = 0\]</span></p>
+<p><strong>Discretization</strong></p>
+<ul>
+<li>Basis: We discretize <span class="math inline">\(x\)</span> using a Chebyshev basis</li>
+<li>Dealiasing: We use a dealiasing factor of <span class="math inline">\(2\)</span> to correctly resolve the cubic nonlinearity</li>
+</ul>
+<p><strong>Boundary Conditions and Tau Terms</strong></p>
+<p>The current version of <code>Dedalus</code> requires explicitly adding tau terms as unknowns to enforce boundary conditions</p>
+<ul>
+<li>Each Dirichlet boundary condition requires one tau term</li>
+<li>Since this problem has two endpoint conditions, we must include two constant tau terms</li>
+</ul>
+<div id="9e596a69" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bases</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>xcoord <span class="op">=</span> d3.Coordinate(<span class="st">'x'</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> d3.Distributor(xcoord, dtype<span class="op">=</span>np.complex128)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>xbasis <span class="op">=</span> d3.Chebyshev(xcoord, <span class="dv">1024</span>, bounds<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">300</span>), dealias<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fields</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'u'</span>, bases<span class="op">=</span>xbasis)</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>tau1 <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'tau1'</span>)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>tau2 <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'tau2'</span>)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Problem</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>problem <span class="op">=</span> d3.IVP([u, tau1, tau2], namespace<span class="op">=</span><span class="bu">locals</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="substitutions-in-dedalus" class="level4" data-number="J.3.0.3">
+<h4 data-number="J.3.0.3" class="anchored" data-anchor-id="substitutions-in-dedalus"><span class="header-section-number">J.3.0.3</span> Substitutions in Dedalus</h4>
+<p>Substitutions allow you to use non-variable objects inside a problem. These can include:</p>
+<ul>
+<li>Other fields (e.g.&nbsp;forcing terms or non-constant coefficients (NCCs))</li>
+<li>Operator aliases (e.g.&nbsp;differentiation, magnitudes, helper functions)</li>
+<li>Parameters or constants used in the PDE</li>
+</ul>
+<p><strong>Non-Constant Coefficients (NCCs)</strong></p>
+<ul>
+<li>If an NCC appears on the LHS of an equation, it will couple the dimensions associated with its bases</li>
+<li>Therefore, you should only use bases corresponding to the non-constant dimensions</li>
+</ul>
+<p>For example, consider a 3D domain with:</p>
+<ul>
+<li>Fourier basis in <span class="math inline">\(x\)</span></li>
+<li>Fourier basis in <span class="math inline">\(y\)</span></li>
+<li>Chebyshev basis in <span class="math inline">\(z\)</span></li>
+</ul>
+<p>We can add a simple non-constant coefficient in <span class="math inline">\(z\)</span> as:</p>
+<div id="2915ce49" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ncc = dist.Field(bases=zbasis)</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co">#ncc['g'] = z**2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Operator Aliases and Helper Substitutions</strong></p>
+<p>Substitutions can also define aliases for operators or helper functions to make equation entry cleaner. For example:</p>
+<div id="a54b5802" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Substitutions</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="kw">lambda</span> A: d3.Differentiate(A, xcoord)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>magsq_u <span class="op">=</span> u <span class="op">*</span>np.conj(u)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="op">-</span><span class="fl">1.76</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Tau Polynomials</strong></p>
+<p>Tau polynomials (see the <a href="https://dedalus-project.readthedocs.io/en/latest/pages/tau_method.html">Tau Method documentation</a>) can also be defined as substitutions</p>
+<div id="5395e0fe" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Tau polynomials</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>tau_basis <span class="op">=</span> xbasis.derivative_basis(<span class="dv">2</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> dist.Field(bases<span class="op">=</span>tau_basis)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> dist.Field(bases<span class="op">=</span>tau_basis)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define tau modes</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>p1[<span class="st">'c'</span>][<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>p2[<span class="st">'c'</span>][<span class="op">-</span><span class="dv">2</span>] <span class="op">=</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here:</p>
+<ul>
+<li><code>tau_basis</code> is a derivative basis used to enforce boundary conditions</li>
+<li><code>p1</code> and <code>p2</code> are tau polynomial fields with coefficients set explicitly</li>
+</ul>
+</section>
+<section id="entering-equations-in-dedalus" class="level4" data-number="J.3.0.4">
+<h4 data-number="J.3.0.4" class="anchored" data-anchor-id="entering-equations-in-dedalus"><span class="header-section-number">J.3.0.4</span> Entering Equations in <code>Dedalus</code></h4>
+<p><code>Dedalus</code> allows equations to be entered in two equivalent ways:</p>
+<p><strong>As operator pairs:</strong></p>
+<div id="ba71a4a3" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>problem.add_equation((LHS, RHS))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where both <code>LHS</code> and <code>RHS</code> are symbolic operator expressions</p>
+<p><strong>As strings:</strong></p>
+<div id="bba78741" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>problem.add_equation(<span class="st">"LHS = RHS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where string parsing recognizes:</p>
+<ul>
+<li>Substitutions (from the <code>namespace</code> argument)</li>
+<li>All built-in operators</li>
+<li>Some operator abbreviations (e.g.&nbsp;<code>dt</code> for time derivative)</li>
+</ul>
+<p>We add the main PDE and enforce homogeneous Dirichlet boundary conditions:</p>
+<div id="b1088126" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Main PDE:</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   ∂_t u = u + (1 + i b) ∂_xx u - (1 + i c)|u|²u</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># `dt(u)`: time derivative of $u$</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="co"># `dx(dx(u))`: second derivative in $x$</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="co"># `tau1 *p1 +tau2 *p2`: tau terms used to enforce boundary conditions</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co">#   `magsq_u`: substitution for $|u|^2$</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>problem.add_equation(</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dt(u) -u -(1 +1j*b) *dx(dx(u)) +tau1 *p1 +tau2 *p2 = - (1 +1j*c) *magsq_u *u"</span></span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Boundary conditions:</span></span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>problem.add_equation(<span class="st">"u(x='left') = 0"</span>)</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>problem.add_equation(<span class="st">"u(x='right') = 0"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>{'eqn': interp(&lt;Field 6276527424&gt;, x=right),
+ 'LHS': interp(&lt;Field 6276527424&gt;, x=right),
+ 'RHS': 0,
+ 'condition': 'True',
+ 'tensorsig': (),
+ 'dtype': numpy.complex128,
+ 'valid_modes': array([ True]),
+ 'M': 0,
+ 'L': interp(&lt;Field 6276527424&gt;, x=right),
+ 'F': &lt;Field 6276528128&gt;,
+ 'domain': &lt;dedalus.core.domain.Domain at 0x1761cfb60&gt;,
+ 'matrix_dependence': array([ True]),
+ 'matrix_coupling': array([ True])}</code></pre>
+</div>
+</div>
+<p>This means <code>Dedalus</code>:</p>
+<ul>
+<li>Converts the equation into symbolic operators</li>
+<li>Tracks how it couples to the problem variables</li>
+<li>Stores metadata for matrix assembly and solver setup</li>
+</ul>
+</section>
+<section id="solvers" class="level3" data-number="J.3.1">
+<h3 data-number="J.3.1" class="anchored" data-anchor-id="solvers"><span class="header-section-number">J.3.1</span> Solvers</h3>
+<p><strong>Building a solver</strong></p>
+<p>Each problem type (<code>IVP</code>, <code>EVP</code>, <code>LBVP</code>, and <code>NLBVP</code>) has a corresponding solver class that carries out the solution steps for that problem. Solvers are created using the <code>problem.build_solver</code> method</p>
+<p>For <code>IVP</code>s, a time-stepping method must be chosen when building the solver. Several multistep and Runge–Kutta IMEX schemes are available (see the list in the <a href="https://dedalus-project.readthedocs.io/en/latest/autoapi/dedalus/core/timesteppers/index.html">timesteppers module</a>), and they can be selected by name</p>
+<div id="2325abd4" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build solver</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>solver <span class="op">=</span> problem.build_solver(d3.RK222)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2025-09-27 09:46:13,870 subsystems 0/1 INFO :: Building subproblem matrices 1/1 (~100%) Elapsed: 0s, Remaining: 0s, Rate: 7.0e+00/s</code></pre>
+</div>
+</div>
+<p>For <code>IVP</code>s, the stopping criteria that halt time evolution are specified by setting the attributes <code>solver.stop_iteration</code>, <code>solver.stop_wall_time</code> (seconds since solver instantiation), and/or <code>solver.stop_sim_time</code></p>
+<p>For example, to stop at 500 in simulation units:</p>
+<div id="82767197" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stopping criteria</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>solver.stop_sim_time <span class="op">=</span> <span class="dv">500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For <code>IVP</code>s and nonlinear <code>BVP</code>s, the initial conditions are specified by directly modifying the state variable data before starting the simulation</p>
+<div id="b7fa9b1f" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup a sine wave</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> dist.local_grid(xbasis)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>u[<span class="st">'g'</span>] <span class="op">=</span> <span class="fl">1e-3</span> <span class="op">*</span>np.sin(<span class="dv">5</span> <span class="op">*</span>np.pi <span class="op">*</span>x <span class="op">/</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Solving/iterating a problem</strong></p>
+<p><code>IVP</code>s are advanced in time using the <code>solver.step</code> method with a specified timestep. <code>EVP</code>s are solved using the <code>solver.solve_dense</code> or <code>solver.solve_sparse</code> methods. <code>LBVP</code>s are solved using the <code>solver.solve</code> method. <code>NLBVP</code>s are iterated using the <code>solver.newton_iteration</code> method</p>
+<p>The control logic for the main loop of a <code>Dedalus</code> <code>IVP</code> simulation is implemented explicitly in the simulation script. The <code>solver.proceed</code> property will automatically switch from <code>True</code> to <code>False</code> once any of the defined stopping criteria have been satisfied</p>
+<p>In the following example, we advance our problem until the halting condition is reached, saving the grid values of <code>u</code> every few iterations. We explicitly retrieve the grid values of <code>u</code> with a scale factor of <code>1</code>, since field data is internally converted to the dealiasing scales when the <code>RHS</code> operators are evaluated at each step. We also copy the grid values explicitly, because the integrator updates the field’s data in place. This run should take only a few seconds to complete</p>
+<div id="7f608829" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup storage</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>u_list <span class="op">=</span> [u[<span class="st">'g'</span>, <span class="dv">1</span>].copy()]</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>t_list <span class="op">=</span> [solver.sim_time]</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Main loop</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>timestep <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> solver.proceed:</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>    solver.step(timestep)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> solver.iteration <span class="op">%</span> <span class="dv">10</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>        u_list.append(u[<span class="st">'g'</span>, <span class="dv">1</span>].copy())</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>        t_list.append(solver.sim_time)</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> solver.iteration <span class="op">%</span> <span class="dv">1000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'Completed iteration </span><span class="sc">{</span>solver<span class="sc">.</span>iteration<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert storage lists to arrays</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>u_array <span class="op">=</span> np.array(u_list)</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>t_array <span class="op">=</span> np.array(t_list)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Completed iteration 1000
+Completed iteration 2000
+Completed iteration 3000
+Completed iteration 4000
+Completed iteration 5000
+Completed iteration 6000
+Completed iteration 7000
+Completed iteration 8000
+Completed iteration 9000
+Completed iteration 10000
+2025-09-27 09:46:25,342 solvers 0/1 INFO :: Simulation stop time reached.</code></pre>
+</div>
+</div>
+<p>Next, we generate a space–time plot of the solution magnitude:</p>
+<div id="395f992c" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot solution</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">7</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>plt.pcolormesh(x, t_array, np.<span class="bu">abs</span>(u_array), shading<span class="op">=</span><span class="st">'nearest'</span>)</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'t'</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hole-defect chaos in the CGLE: |u|'</span>)</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-45-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="analysis-and-post-processing" class="level3" data-number="J.3.2">
+<h3 data-number="J.3.2" class="anchored" data-anchor-id="analysis-and-post-processing"><span class="header-section-number">J.3.2</span> Analysis and Post-processing</h3>
+<p>This tutorial introduces the basics of data analysis and post-processing in <code>Dedalus</code>. Analysis tasks can be defined symbolically and are automatically saved to distributed <code>HDF5</code> files</p>
+<div id="0f4307ab" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> h5py</span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dedalus.public <span class="im">as</span> d3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a2cdc79e" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shutil</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the path for the analysis output folder</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>analysis_dir <span class="op">=</span> Path(<span class="st">'dedalus/analysis'</span>)</span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Safely remove the existing folder if it exists</span></span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> analysis_dir.exists() <span class="kw">and</span> analysis_dir.is_dir():</span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>    shutil.rmtree(analysis_dir)</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Deleted existing folder: </span><span class="sc">{</span>analysis_dir<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create a new folder</span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>analysis_dir.mkdir(parents<span class="op">=</span><span class="va">True</span>, exist_ok<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Created new folder: </span><span class="sc">{</span>analysis_dir<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Deleted existing folder: dedalus/analysis
+Created new folder: dedalus/analysis</code></pre>
+</div>
+</div>
+<section id="analysis" class="level4" data-number="J.3.2.1">
+<h4 data-number="J.3.2.1" class="anchored" data-anchor-id="analysis"><span class="header-section-number">J.3.2.1</span> Analysis</h4>
+<p>Dedalus provides a framework for defining, evaluating, and saving arbitrary analysis tasks while an initial value problem is running. To get started, let’s set up the complex Ginzburg–Landau problem from the previous tutorial</p>
+<div id="103a6c96" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basis</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>xcoord <span class="op">=</span> d3.Coordinate(<span class="st">'x'</span>)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> d3.Distributor(xcoord, dtype<span class="op">=</span>np.complex128)</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>xbasis <span class="op">=</span> d3.Chebyshev(xcoord, <span class="dv">1024</span>, bounds<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">300</span>), dealias<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fields</span></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'u'</span>, bases<span class="op">=</span>xbasis)</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>tau1 <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'tau1'</span>)</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>tau2 <span class="op">=</span> dist.Field(name<span class="op">=</span><span class="st">'tau2'</span>)</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Substitutions</span></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>dx <span class="op">=</span> <span class="kw">lambda</span> A: d3.Differentiate(A, xcoord)</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>magsq_u <span class="op">=</span> u <span class="op">*</span>np.conj(u)</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="op">-</span><span class="fl">1.76</span></span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Tau polynomials</span></span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>tau_basis <span class="op">=</span> xbasis.derivative_basis(<span class="dv">2</span>)</span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> dist.Field(bases<span class="op">=</span>tau_basis)</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> dist.Field(bases<span class="op">=</span>tau_basis)</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a>p1[<span class="st">'c'</span>][<span class="op">-</span><span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>p2[<span class="st">'c'</span>][<span class="op">-</span><span class="dv">2</span>] <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Problem</span></span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>problem <span class="op">=</span> d3.IVP([u, tau1, tau2], namespace<span class="op">=</span><span class="bu">locals</span>())</span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>problem.add_equation(</span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dt(u) -u -(1 +1j*b) *dx(dx(u)) +tau1 *p1 +tau2 *p2 = -(1 +1j *c) *magsq_u *u"</span></span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>problem.add_equation(<span class="st">"u(x='left') = 0"</span>)</span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a>problem.add_equation(<span class="st">"u(x='right') = 0"</span>)</span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-32"><a href="#cb64-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Solver</span></span>
+<span id="cb64-33"><a href="#cb64-33" aria-hidden="true" tabindex="-1"></a>solver <span class="op">=</span> problem.build_solver(d3.RK222)</span>
+<span id="cb64-34"><a href="#cb64-34" aria-hidden="true" tabindex="-1"></a>solver.stop_sim_time <span class="op">=</span> <span class="dv">500</span></span>
+<span id="cb64-35"><a href="#cb64-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-36"><a href="#cb64-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial conditions</span></span>
+<span id="cb64-37"><a href="#cb64-37" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> dist.local_grid(xbasis)</span>
+<span id="cb64-38"><a href="#cb64-38" aria-hidden="true" tabindex="-1"></a>u[<span class="st">'g'</span>] <span class="op">=</span> <span class="fl">1e-3</span> <span class="op">*</span>np.sin(<span class="dv">5</span> <span class="op">*</span>np.pi <span class="op">*</span>x <span class="op">/</span><span class="dv">300</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2025-09-27 09:46:26,956 subsystems 0/1 INFO :: Building subproblem matrices 1/1 (~100%) Elapsed: 0s, Remaining: 0s, Rate: 7.2e+00/s</code></pre>
+</div>
+</div>
+<p><strong>Analysis handlers</strong></p>
+<p>The explicit evaluation of analysis tasks during timestepping is managed by the <code>solver.evaluator</code> object. Various handler objects can be attached to the evaluator to control when the evaluator computes their tasks and what happens to the resulting data</p>
+<p>For example, an internal <code>SystemHandler</code> directs the evaluator to compute the <code>RHS</code> expressions at every iteration and uses the resulting data for the explicit part of the timestepping algorithm</p>
+<p>For simulation analysis, the most commonly used handler is the <code>FileHandler</code>, which periodically computes tasks and writes the results to <code>HDF5</code> files. When setting up a file handler, you specify the output directory or file path, as well as the cadence at which the handler’s tasks should be evaluated. This cadence can be specified in terms of any combination of:</p>
+<ul>
+<li>Simulation time, with <code>sim_dt</code></li>
+<li>Wall time, with <code>wall_dt</code></li>
+<li>Iteration number, with <code>iter</code></li>
+</ul>
+<p>To limit file sizes, the output from a file handler is divided into different sets over time, each containing a limited number of writes, which can be controlled using the <code>max_writes</code> keyword when constructing the file handler</p>
+<p>For example, to evaluate a file handler every 10 iterations:</p>
+<div id="ba334261" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>analysis <span class="op">=</span> solver.evaluator.add_file_handler(analysis_dir, <span class="bu">iter</span><span class="op">=</span><span class="dv">10</span>, max_writes<span class="op">=</span><span class="dv">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You can attach multiple file handlers to save different sets of tasks at different cadences and to different files</p>
+<p><strong>Adding analysis tasks</strong></p>
+<p>Analysis tasks are attached to a given handler using the <code>add_task</code> method. Tasks can be specified as operator expressions or as plain text, and are parsed using the same <code>namespace</code> as for equation entry. For each task, you can optionally set the output layout, scaling factors, and a reference name</p>
+<p>For example, to track the average magnitude of the solution:</p>
+<div id="f3efb846" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>analysis.add_task(d3.Integrate(np.sqrt(magsq_u), <span class="st">'x'</span>) <span class="op">/</span><span class="dv">300</span>, layout<span class="op">=</span><span class="st">'g'</span>, name<span class="op">=</span><span class="st">'&lt;|u|&gt;'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For checkpointing, you can also save all state variables at once using <code>add_tasks</code>:</p>
+<div id="9782bec0" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>analysis.add_tasks(solver.state, layout<span class="op">=</span><span class="st">'g'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once the tasks are added, you can run the simulation just as in the previous tutorial. You no longer need to manually save any data inside the main loop. The evaluator will automatically compute and save the specified analysis tasks at the defined cadence</p>
+<div id="caafde4b" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Main simulation loop</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>timestep <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> solver.proceed:</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  solver.step(timestep)</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> solver.iteration <span class="op">%</span> <span class="dv">1000</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Completed iteration </span><span class="sc">{</span>solver<span class="sc">.</span>iteration<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Completed iteration 1000
+Completed iteration 2000
+Completed iteration 3000
+Completed iteration 4000
+Completed iteration 5000
+Completed iteration 6000
+Completed iteration 7000
+Completed iteration 8000
+Completed iteration 9000
+Completed iteration 10000
+2025-09-27 09:46:51,194 solvers 0/1 INFO :: Simulation stop time reached.</code></pre>
+</div>
+</div>
+</section>
+<section id="post-processing" class="level4" data-number="J.3.2.2">
+<h4 data-number="J.3.2.2" class="anchored" data-anchor-id="post-processing"><span class="header-section-number">J.3.2.2</span> Post-processing</h4>
+<p><strong>File Arrangement</strong></p>
+<p>By default, the output files for each <code>FileHandler</code> are organized as follows:</p>
+<ol type="1">
+<li>Base folder</li>
+</ol>
+<ul>
+<li>Named according to the first argument provided when constructing the file handler, e.g., <code>dedalus/analysis/</code></li>
+</ul>
+<ol start="2" type="1">
+<li>Set files</li>
+</ol>
+<ul>
+<li>Within the base folder, <code>HDF5</code> files are created for each output set</li>
+<li>Each file has the same base name with a set number appended, e.g., <code>analysis_s1.h5</code></li>
+</ul>
+<ol start="3" type="1">
+<li>Parallel execution</li>
+</ol>
+<ul>
+<li>When running in parallel, each set may contain subfolders with individual <code>HDF5</code> files for each process, e.g., <code>dedalus/analysis_s1/analysis_s1_p0.h5</code></li>
+<li>These process files are virtually merged into the corresponding set files and generally do not need to be accessed directly</li>
+<li>If relocating the data, the set folders and process files should be moved or copied along with the set files</li>
+</ul>
+<p>Let’s examine the output files from our example problem. Since we have a total of <code>1000</code> outputs and <code>max_writes=400</code> per file, we should see three output sets</p>
+<div id="14c8a1f9" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(subprocess.check_output(<span class="st">"find dedalus/analysis | sort"</span>, shell<span class="op">=</span><span class="va">True</span>).decode())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>dedalus/analysis
+dedalus/analysis/analysis_s1.h5
+dedalus/analysis/analysis_s2.h5
+dedalus/analysis/analysis_s3.h5
+</code></pre>
+</div>
+</div>
+<p><strong>Handling data</strong></p>
+<p><code>Dedalus</code> produces <code>HDF5</code> files that can be accessed directly using <code>h5py</code> or loaded into <code>xarray</code>. Here, we first focus on directly interacting with the <code>HDF5</code> files via <code>h5py</code></p>
+<p>Each <code>HDF5</code> file contains a <code>tasks</code> group, which includes a dataset for each task assigned to the file handler</p>
+<ul>
+<li>The first dimension of each dataset corresponds to time</li>
+<li>Subsequent dimensions correspond to vector/tensor components of the task (if applicable)</li>
+<li>The remaining dimensions correspond to the spatial axes of the task</li>
+</ul>
+<p>The <code>HDF5</code> datasets are self-describing, with dimensional scales attached to each axis:</p>
+<ul>
+<li>Time axis: simulation time, wall time, iteration number, and write number</li>
+<li>Spatial axes: grid points or modes, depending on the task layout</li>
+</ul>
+<p>For more details, see the <a href="https://docs.h5py.org/en/latest/"><code>h5py</code> documentation</a></p>
+<p>Now, let’s open the first analysis set file and plot a time series of the average magnitude of the solution</p>
+<div id="efcc2ae4" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> h5py.File(analysis_dir<span class="op">/</span><span class="st">"analysis_s1.h5"</span>, mode<span class="op">=</span><span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load datasets</span></span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>  mag_u <span class="op">=</span> <span class="bu">file</span>[<span class="st">'tasks'</span>][<span class="st">'&lt;|u|&gt;'</span>]</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> mag_u.dims[<span class="dv">0</span>][<span class="st">'sim_time'</span>]</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot data</span></span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>  fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>  plt.plot(t[:], mag_u[:].real)</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">'t'</span>)</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">'&lt;|u|&gt;'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-54-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>It is also possible to load analysis tasks directly into an <code>xarray.DataArray</code>, and then utilize <code>xarray</code>’s plotting utilities for visualization</p>
+<div id="9dafada6" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>tasks <span class="op">=</span> d3.load_tasks_to_xarray(analysis_dir<span class="op">/</span><span class="st">"analysis_s1.h5"</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>tasks[<span class="st">'&lt;|u|&gt;'</span>].real.plot()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-55-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Now let’s examine the saved solution over space and time. This time, instead of plotting the amplitude, we will plot the phase of the solution</p>
+<div id="fd7bdbf8" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> h5py.File(analysis_dir<span class="op">/</span><span class="st">"analysis_s1.h5"</span>, mode<span class="op">=</span><span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Load datasets</span></span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>  u <span class="op">=</span> <span class="bu">file</span>[<span class="st">'tasks'</span>][<span class="st">'u'</span>]</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  t <span class="op">=</span> u.dims[<span class="dv">0</span>][<span class="st">'sim_time'</span>]</span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> u.dims[<span class="dv">1</span>][<span class="dv">0</span>]</span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plot data</span></span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>  u_phase <span class="op">=</span> np.arctan2(u[:].imag, u[:].real)</span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">7</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  plt.pcolormesh(x[:], t[:], u_phase, shading<span class="op">=</span><span class="st">'nearest'</span>, cmap<span class="op">=</span><span class="st">'twilight_shifted'</span>)</span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>  plt.colorbar(label<span class="op">=</span><span class="st">'phase(u)'</span>)</span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">'x'</span>)</span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">'t'</span>)</span>
+<span id="cb75-17"><a href="#cb75-17" aria-hidden="true" tabindex="-1"></a>  plt.title(<span class="st">'Hole-defect chaos in the CGLE'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-56-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, this process can be simplified by loading the data into <code>xarray</code> and using its plotting utilities</p>
+<div id="57fc3fd6" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>tasks <span class="op">=</span> d3.load_tasks_to_xarray(analysis_dir<span class="op">/</span><span class="st">"analysis_s1.h5"</span>)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>u_phase <span class="op">=</span> np.arctan2(tasks[<span class="st">'u'</span>].imag, tasks[<span class="st">'u'</span>].real)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>u_phase.name <span class="op">=</span> <span class="st">"phase(u)"</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">7</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>u_phase.plot(x<span class="op">=</span><span class="st">'x'</span>, y<span class="op">=</span><span class="st">'t'</span>, cmap<span class="op">=</span><span class="st">'twilight_shifted'</span>)</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Hole-defect chaos in the CGLE'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="x_PDE_dedalus_files/figure-html/cell-57-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
 </section>
 </section>
 
