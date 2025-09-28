@@ -1,0 +1,1120 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "jupyter: python3\n",
+        "---\n",
+        "\n",
+        "# Optimization {#sec-optimization}\n",
+        "\n",
+        "$~$\n",
+        "\n",
+        "In this appendix,\n",
+        "\n",
+        "* We discuss using `scipy`'s optimization module `optimize` for nonlinear optimization problems,\n",
+        "\n",
+        "* and we will briefly explore using the convex optimization library `cvxopt` for linear optimization problems with linear constraints. This library also has powerful solvers for quadratic programming problems. For more information, see the project’s web site [http://cvxopt.org](http://cvxopt.org)\n",
+        "\n",
+        "## Importing modules"
+      ],
+      "id": "d27e5988"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "import numpy as np\n",
+        "import sympy\n",
+        "sympy.init_printing()\n",
+        "\n",
+        "from scipy import optimize\n",
+        "import cvxopt\n",
+        "\n",
+        "import matplotlib as mpl\n",
+        "import matplotlib.pyplot as plt\n",
+        "\n",
+        "from IPython.display import display\n",
+        "\n",
+        "print(\"cvxopt: \", cvxopt.__version__)"
+      ],
+      "id": "112ee704",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Classification of optimization problems\n",
+        "\n",
+        "\n",
+        "A general optimization problem considered here can be formulated as a minimization problem, \n",
+        "$\\min_x f(x)$, subject to sets of $m$ equality constraints $g(x)=0$ and $p$ inequality constraints $h(x) \\leq 0$\n",
+        "\n",
+        "Depending on the properties of the objective function $f(x)$ and the equality and inequality constraints $g(x)$ and $h(x)$, this formulation includes a rich variety of problems\n",
+        "\n",
+        "* univariate(one dimensional) or multivariate(multidimensional)\n",
+        "* linear programming problem or nonlinear programming problem\n",
+        "* unconstrained, or constrained(equality and inequality constraints require different approaches)\n",
+        "* convex or non-convex\n",
+        "* continuous(smooth) or discontinuous\n",
+        "\n",
+        "## Univariate optimization\n",
+        "\n",
+        "Minimize the area of a cylinder with unit volume. Here, suitable variables are the radius  and height  of the cylinder, and the objective function is\n",
+        "\n",
+        "$$ f(r,h) = 2\\pi r^2 + 2\\pi rh$$\n",
+        "\n",
+        "subject to the equality constraint\n",
+        "\n",
+        "$$ g(r,h) = \\pi r^2h -1 = 0 $$"
+      ],
+      "id": "a63d7c86"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r, h = sympy.symbols(\"r, h\")\n",
+        "Area = 2 *sympy.pi *r**2 + 2 *sympy.pi *r *h \n",
+        "Volume = sympy.pi *r**2 *h"
+      ],
+      "id": "b2f08827",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "h_r = sympy.solve(Volume -1)[0]\n",
+        "h_r"
+      ],
+      "id": "cda776f8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Area_r = Area.subs(h_r)\n",
+        "Area_r"
+      ],
+      "id": "57789952",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# f'(r_sol) = 0\n",
+        "rsol = sympy.solve(Area_r.diff(r))[0]\n",
+        "rsol"
+      ],
+      "id": "35949985",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "_.evalf()"
+      ],
+      "id": "5fee3906",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# f''(r_sol) > 0\n",
+        "Area_r.diff(r, 2).subs(r, rsol)"
+      ],
+      "id": "e7836f28",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Area_r.subs(r, rsol)"
+      ],
+      "id": "c1c7db1d",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "# Minimum Area\n",
+        "_.evalf()"
+      ],
+      "id": "fc234ccf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "fe0c750a"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(r):\n",
+        "  return 2 *np.pi *r**2 + 2 /r"
+      ],
+      "id": "9b5fc5ec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r_min = optimize.brent(f, brack=(0.1, 4))\n",
+        "r_min"
+      ],
+      "id": "d1c12fec",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f(r_min)"
+      ],
+      "id": "15317f56",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "71334616"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "optimize.minimize_scalar(f, bracket=(0.1, 4))"
+      ],
+      "id": "05d67a07",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "354e2486"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "r = np.linspace(1.e-2, 2, 100)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(6, 4))\n",
+        "\n",
+        "ax.plot(r, f(r), lw=2, color='b')\n",
+        "ax.plot(r_min, f(r_min), 'ro', markersize=12)\n",
+        "ax.set_title(r\"$f(r) = 2\\pi r^2 +2/r$\", fontsize=12)\n",
+        "\n",
+        "ax.tick_params(axis='x', pad=7)\n",
+        "ax.set_xlabel(r\"$r$\", fontsize=14)\n",
+        "ax.set_ylabel(r\"$A$\", fontsize=14)\n",
+        "ax.set_xticks([0, 0.5, 1, 1.5, 2])\n",
+        "ax.set_xlim(0, 2)\n",
+        "ax.set_ylim(0, 30)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "b2e014bb",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Unconstrained multivariate optimization\n",
+        "\n",
+        "We consider the following problem:\n",
+        "\n",
+        "$$\\min_x f(x)$$\n",
+        "\n",
+        "where the objective function is\n",
+        "\n",
+        "$$ f(x) = (x_1 -1)^4 +5(x_2-1)^2 -2x_1 x_2 $$"
+      ],
+      "id": "3b0a17bd"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x1, x2 = sympy.symbols(\"x_1, x_2\")\n",
+        "\n",
+        "f_sym = (x1 -1)**4 +5 *(x2 -1)**2 -2 *x1 *x2\n",
+        "fprime_sym = [f_sym.diff(x_) for x_ in (x1, x2)]\n",
+        "fhess_sym = [[f_sym.diff(x1_, x2_) \n",
+        "              for x1_ in (x1, x2)] \n",
+        "              for x2_ in (x1, x2)]"
+      ],
+      "id": "37e868aa",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix(fprime_sym)"
+      ],
+      "id": "b643a199",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sympy.Matrix(fhess_sym)"
+      ],
+      "id": "fd76e4fc",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f_lmbda = sympy.lambdify((x1, x2), f_sym, 'numpy')\n",
+        "fprime_lmbda = sympy.lambdify((x1, x2), fprime_sym, 'numpy')\n",
+        "fhess_lmbda = sympy.lambdify((x1, x2), fhess_sym, 'numpy')"
+      ],
+      "id": "1403a50b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def func_XY_X_Y(f):\n",
+        "    \"\"\"\n",
+        "    Wrapper for f(X) -> f(X[0], X[1])\n",
+        "    \"\"\"\n",
+        "    return lambda X: np.array(f(X[0], X[1]))"
+      ],
+      "id": "c813aedf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f = func_XY_X_Y(f_lmbda)\n",
+        "fprime = func_XY_X_Y(fprime_lmbda)\n",
+        "fhess = func_XY_X_Y(fhess_lmbda)"
+      ],
+      "id": "2200f162",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* In `scipy`, Newton conjugate gradient method is implemented in the function `optimize.fmin_ncg`. This function takes the following arguments: a python function for the objective function, a starting point, a python function for evaluating the gradient, and (optionally) a python function for evaluating the Hessian"
+      ],
+      "id": "a6d15d40"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_ncg(f, (0.0, 0.0), fprime=fprime, fhess=fhess)"
+      ],
+      "id": "735fcf77",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt"
+      ],
+      "id": "675ada57",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_ = y_ = np.linspace(-1, 4, 100)\n",
+        "X, Y = np.meshgrid(x_, y_)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(7, 4))\n",
+        "\n",
+        "c = ax.contour(X, Y, f_lmbda(X, Y), 50)\n",
+        "ax.plot(x_opt[0], x_opt[1], 'ro', markersize=10)\n",
+        "ax.set_xlabel(r\"$x_1$\", fontsize=12)\n",
+        "ax.set_ylabel(r\"$x_2$\", fontsize=12)\n",
+        "ax.tick_params(which='both', direction='in')\n",
+        "plt.colorbar(c, ax=ax, ticks=[0, 25, 50, 75, 100])"
+      ],
+      "id": "3a0848db",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* Methods that approximate the Hessian are known as *quasi-Newton methods*, and there are also alternative iterative methods that completely avoid using the Hessian\n",
+        "\n",
+        "* Two popular methods are the BFGS and the conjugate-gradient methods, which are implemented in `scipy` as the functions `optimize.fmin_bfgs` (the quasi-Newton method of Broyden, Fletcher, Goldfarb, and Shanno) and `optimize.fmin_cg` (the conjugate-gradient method of Polak and Ribiere)"
+      ],
+      "id": "1d51f369"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_bfgs(f, (0, 0), fprime=fprime)\n",
+        "x_opt"
+      ],
+      "id": "0e6da2ea",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_cg(f, (0, 0), fprime=fprime)\n",
+        "x_opt"
+      ],
+      "id": "bddc710f",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "a98eb900"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_bfgs(f, (0, 0))\n",
+        "x_opt"
+      ],
+      "id": "0fe0a865",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_cg(f, (0, 0))\n",
+        "x_opt"
+      ],
+      "id": "6612a516",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "### Brute force search for a global minimum\n",
+        "\n",
+        "* The methods for multivariate optimization that we have discussed so far all converge to a local minimum in general. For problems with many local minima, this can easily lead to a situation when the solver easily gets stuck in a local minimum, even if a global minimum exists\n",
+        "\n",
+        "* Although there is no complete and general solution to this problem, a practical approach that can partially alleviate this problem is to use a brute force search over a coordinate grid to find a suitable starting point for an iterative solver. At least this gives a systematic approach to find a global minimum within given coordinate ranges\n",
+        "\n",
+        "* In `scipy`, the function `optimize.brute` can carry out such a systematic search\n",
+        "\n",
+        "To illustrate this method, consider the problem of minimizing the function\n",
+        "\n",
+        "$$4 \\sin\\pi x + 6\\sin \\pi y +(x -1)^2 +(y -1)^2$$\n",
+        "\n",
+        "which has a large number of local minima"
+      ],
+      "id": "7fc876c3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(X):\n",
+        "  x, y = X\n",
+        "  return 4*np.sin(np.pi *x) +6*np.sin(np.pi *y) +(x -1)**2 +(y -1)**2"
+      ],
+      "id": "72e2f974",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_start = optimize.brute(f, (slice(-3, 5, 0.5), slice(-3, 5, 0.5)), finish=None); \n",
+        "print(f'{x_start = },', f'{f(x_start) = }')"
+      ],
+      "id": "1d9c9599",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.fmin_bfgs(f, x_start)\n",
+        "print(f'{x_opt = },', f'{f(x_opt) = }')"
+      ],
+      "id": "28848e65",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "465a2c6f"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "result = optimize.minimize(f, x_start, method='BFGS')\n",
+        "result"
+      ],
+      "id": "d1f8190c",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "result.x"
+      ],
+      "id": "07e6714e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "result.fun"
+      ],
+      "id": "7053b1cf",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def func_X_Y_to_XY(f, X, Y):\n",
+        "  s = np.shape(X)\n",
+        "  return f(np.vstack([X.ravel(), Y.ravel()])).reshape(*s)\n",
+        "\n",
+        "x_ = y_ = np.linspace(-3, 5, 100)\n",
+        "X, Y = np.meshgrid(x_, y_)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(6, 4))\n",
+        "\n",
+        "c = ax.contour(X, Y, func_X_Y_to_XY(f, X, Y), 25)\n",
+        "ax.plot(x_opt[0], x_opt[1], 'ro', markersize=8)\n",
+        "ax.set_xlabel(r\"$x$\", fontsize=12)\n",
+        "ax.set_ylabel(r\"$y$\", fontsize=12)\n",
+        "plt.colorbar(c, ax=ax)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "1f02a220",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Noninear least square problems\n",
+        "\n",
+        "* In general, a least square problem can be viewed as an optimization problem with the objective function \n",
+        "$g(\\boldsymbol{\\beta}) = \\sum_{i=0}^m r_i^2(\\boldsymbol{\\beta})$, with the residuals $r_i(\\boldsymbol{\\beta}) = y_i -f(x_i, \\boldsymbol{\\beta})$ for a set of $m$ obervations $(x_i, y_i)$. Here $\\boldsymbol{\\beta}$ is a vector with unknown parameters that specifies the function $f(x, \\boldsymbol{\\beta})$. If this problem is nonlinear in the parameters $\\boldsymbol{\\beta}$, it is known as a nonlinear least square problem\n",
+        "\n",
+        "* In `scipy`, the function `optimize.leastsq` provides a nonlinear least square solver that uses the Levenberg-Marquardt method. To illustrate how this function can be used, consider a nonlinear model on the form $f(x,\\boldsymbol{\\beta})=\\beta_1 +\\beta_2 \\exp \\left( -\\beta_3 x^2 \\right)$ and a set of observations $(x_i, y_i)$\n",
+        "\n",
+        "* Simulate the observations:"
+      ],
+      "id": "ec1ec405"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "beta = (0.25, 0.75, 0.5)\n",
+        "def f(x, b0, b1, b2):\n",
+        "  return b0 +b1 *np.exp(-b2 *x**2)"
+      ],
+      "id": "1ddb3486",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "xdata = np.linspace(0, 5, 50)\n",
+        "y = f(xdata, *beta)\n",
+        "ydata = y +0.05 *np.random.randn(len(xdata))"
+      ],
+      "id": "71a0c339",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* The first step is to define a function for the residuals given the data and the model function, which is specified in terms of the yet-to-be determined model parameters "
+      ],
+      "id": "1df112f3"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def g(beta):\n",
+        "  return ydata -f(xdata, *beta)"
+      ],
+      "id": "4f179994",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* Next we define an initial guess for the parameter vector and let the `optimize.leastsq` function solve for the best least square fit for the parameter vector:"
+      ],
+      "id": "2d450cea"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "beta_start = (1, 1, 1)\n",
+        "beta_opt, beta_cov = optimize.leastsq(g, beta_start)"
+      ],
+      "id": "cbf51df7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "beta_opt"
+      ],
+      "id": "774e6258",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---"
+      ],
+      "id": "c9dc40bf"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "fig, ax = plt.subplots(figsize=(7, 4))\n",
+        "\n",
+        "ax.scatter(xdata, ydata)\n",
+        "ax.plot(xdata, y, 'r', lw=2)\n",
+        "ax.plot(xdata, f(xdata, *beta_opt), 'b', lw=2)\n",
+        "ax.set_xlim(0, 5)\n",
+        "ax.set_xlabel(r\"$x$\", fontsize=14)\n",
+        "ax.set_ylabel(r\"$f(x, \\boldsymbol{\\beta})$\", fontsize=14)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "53f1db68",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "beta_opt, beta_cov = optimize.curve_fit(f, xdata, ydata)\n",
+        "beta_opt  # a convenience wrapper around optimize.leastsq"
+      ],
+      "id": "ae4dd90a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Constrained optimization\n",
+        "\n",
+        "* A simple form of constrained optimization is the optimization where the coordinate variables are subject to some bounds. These constraints are simple because they only restrict the range of the coordinate without dependencies on the other variables\n",
+        "\n",
+        "* This type of problem can be solved using the L-BFGS-B method in `scipy`, which is a variant of the BFGS method. This solver is available through the function `optimize.fmin_l_bgfs_b` or via `optimize.minimize` with the method argument set to 'L-BFGS-B'. To define the coordinate boundaries, the `bounds` keyword argument must be used, and its value should be a list of tuples that contain the minimum and maximum value of each constrained variable\n",
+        "\n",
+        "* Consider minimizing the objective function\n",
+        "\n",
+        "  $$ f(x) = (x_1 -1)^2 +(x_2 -1)^2 $$\n",
+        "\n",
+        "  subject to the constraints\n",
+        "\n",
+        "  $$ 2 \\leq x_1 \\leq 3 \\;\\text{ and } \\; 0 \\leq x_2 \\leq 2 $$"
+      ],
+      "id": "41a22453"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(X):\n",
+        "  x_1, x_2 = X\n",
+        "  return (x_1 -1)**2 +(x_2 -1)**2"
+      ],
+      "id": "2baec20a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.minimize(f, (1, 1), method='BFGS').x\n",
+        "x_opt"
+      ],
+      "id": "27d43fb4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "bnd_x1, bnd_x2 = (2, 3), (0, 2)\n",
+        "x_cons_opt = optimize.minimize(f, (1, 1), \n",
+        "                      method='L-BFGS-B', bounds=[bnd_x1, bnd_x2]).x\n",
+        "x_cons_opt"
+      ],
+      "id": "84c95270",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_ = y_ = np.linspace(-1, 3, 100)\n",
+        "X, Y = np.meshgrid(x_, y_)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(7, 4))\n",
+        "\n",
+        "c = ax.contour(X, Y, func_X_Y_to_XY(f, X, Y), 50)\n",
+        "ax.plot(x_opt[0], x_opt[1], 'b*', markersize=10)\n",
+        "ax.plot(x_cons_opt[0], x_cons_opt[1], 'ro', markersize=10)\n",
+        "bound_rect = plt.Rectangle((bnd_x1[0], bnd_x2[0]), \n",
+        "                           bnd_x1[1] - bnd_x1[0], bnd_x2[1] - bnd_x2[0],\n",
+        "                           facecolor=\"grey\")\n",
+        "ax.add_patch(bound_rect)\n",
+        "ax.tick_params(axis='x', pad=7)\n",
+        "ax.set_xlabel(r\"$x_1$\", fontsize=12)\n",
+        "ax.set_ylabel(r\"$x_2$\", fontsize=12)\n",
+        "plt.colorbar(c, ax=ax)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "9ddf366b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "* Constraints that are defined by equalities or inequalities that include more than one variable are more complicated to deal with. However, using the Lagrange multipliers, it is possible to convert a constrained optimization problem to an unconstrained problem by introducing additional variables\n",
+        "\n",
+        "* For example, consider the optimization problem $\\min_x f(x)$ subject to the equality constraint $g(x)=0$. In an unconstrained optimization problem the gradient of $f(x)$ vanish at the optimal points, $\\nabla f(x)=0$. It can be shown that the corresponding condition for constrained problems is that the negative gradient lies in the space supported by the constraint normal, $-\\nabla f(x) = \\lambda J_g^T(x)$. Here $J_g(x)$ is the Jacobian matrix of the constraint function $g(x)$ and $\\lambda$ is the vector of Lagrange multipliers (new variables). This condition is the gradient of the function $L(x,\\lambda) = f(x) +\\lambda^T g(x)$, which is known as the Lagrangian function. Therefore, if both $f(x)$ and $g(x)$ have continuous and smooth, a stationary point $(x_0, \\lambda)$ of the $L(x,\\lambda)$ corresponds to an optimum of the original constrained optimization problem, $x_0$\n",
+        "\n",
+        "* Consider the problem of maximizing the volume of a rectangle with sides of length $x_0$, $x_1$ and $x_2$, subject to the constraint that the total surface area should be unity:\n",
+        "\n",
+        "  $$ g(x) = 2x_1 x_2 +2 x_0x_2 +2 x_1 x_0 -1 = 0 $$ \n",
+        "\n",
+        "* To solve this optimization problem using Lagrange multipliers, we form the Lagrangian $L(x) = f(x) +\\lambda g(x)$, and seek the stationary points for $L(x) = 0$"
+      ],
+      "id": "a091b9e0"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = x0, x1, x2, l = sympy.symbols(\"x_0, x_1, x_2, lambda\")\n",
+        "f = x0 *x1 *x2\n",
+        "g = 2 *(x0 *x1 +x1 *x2 +x2 *x0) -1\n",
+        "L = f +l *g"
+      ],
+      "id": "314eafd0",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "grad_L = [sympy.diff(L, x_) for x_ in x]\n",
+        "sols = sympy.solve(grad_L)\n",
+        "display(sols[0])\n",
+        "display(sols[1])"
+      ],
+      "id": "b483c0d1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "g.subs(sols[0])"
+      ],
+      "id": "26044e0a",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "f.subs(sols[0])"
+      ],
+      "id": "9ca08df7",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "* There exists various numerical methods of applying this approach. One example is the method known as sequential least squares programming, abbreviated as SLSQP, which is available in the `scipy` as the `optimize.fmin_slsqp` function and via `optimize.minimize` with `method='SLSQP'`\n",
+        "\n",
+        "* The `optimize.minimize` function takes the keyword argument `constraints`, which should be a list of dictionaries that each specifies a constraint. The allowed keys (values) in this dictionary are type (`'eq'` or `'ineq'`), `fun` (constraint function), `jac` (Jacobian of the constraint function)"
+      ],
+      "id": "0384d044"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(X):\n",
+        "  return -X[0] *X[1] *X[2]\n",
+        "\n",
+        "def g(X):\n",
+        "  return 2 *(X[0] *X[1] +X[1] *X[2] +X[2] *X[0]) -1"
+      ],
+      "id": "a93b6ed4",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "constraints = [dict(type='eq', fun=g)]\n",
+        "x_cons_opt = optimize.minimize(f, [0.5, 1, 1.5], \n",
+        "                      method='SLSQP', constraints=constraints)\n",
+        "x_cons_opt"
+      ],
+      "id": "fb67fe7b",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "---\n",
+        "\n",
+        "* To solve problems with inequality constraints, all we need to do is to set `type='ineq'` in the constraint dictionary and provide the corresponding inequality function. To demonstrate minimization of a nonlinear objective function with a nonlinear inequality constraint, we return to the quadratic problem considered previously, but in this case with inequality constraint\n",
+        "\n",
+        "  $$ g(x) = x_1 -1.75 -(x_0 -0.75)^4 \\geq 0 $$"
+      ],
+      "id": "facdbb24"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "def f(X):\n",
+        "  return (X[0] -1)**2 + (X[1] -1)**2\n",
+        "\n",
+        "def g(X):\n",
+        "  return X[1] -1.75 -(X[0] -0.75)**4"
+      ],
+      "id": "3269ce06",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_opt = optimize.minimize(f, (0, 0), method='BFGS').x\n",
+        "\n",
+        "constraints = [dict(type='ineq', fun=g)]\n",
+        "x_cons_opt = optimize.minimize(f, (0, 0), \n",
+        "                      method='SLSQP', constraints=constraints).x\n",
+        "x_cons_opt"
+      ],
+      "id": "3eafa947",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x_ = y_ = np.linspace(-1, 3, 100)\n",
+        "X, Y = np.meshgrid(x_, y_)\n",
+        "\n",
+        "fig, ax = plt.subplots(figsize=(7, 4))\n",
+        "\n",
+        "c = ax.contour(X, Y, func_X_Y_to_XY(f, X, Y), 50)\n",
+        "ax.plot(x_opt[0], x_opt[1], 'bo', markersize=10)\n",
+        "\n",
+        "ax.plot(x_, 1.75 +(x_ -0.75)**4, 'k-', lw=2)\n",
+        "ax.fill_between(x_, 1.75 +(x_ -0.75)**4, 3, color=\"grey\")\n",
+        "ax.plot(x_cons_opt[0], x_cons_opt[1], 'ro', markersize=10)\n",
+        "\n",
+        "ax.set_ylim(-1, 3)\n",
+        "ax.set_xlabel(r\"$x_0$\", fontsize=12)\n",
+        "ax.set_ylabel(r\"$x_1$\", fontsize=12)\n",
+        "plt.colorbar(c, ax=ax)\n",
+        "ax.tick_params(which='both', direction='in')"
+      ],
+      "id": "b2692411",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "* For optimization problems with only inequality constraints, `scipy` provides an alternative solver using the constrained optimization by linear approximation (COBYLA) method. This solver is accessible either through `optimize.fmin_cobyla` or `optimize.minimize` with `method='COBYLA'`. The previous example could just as well have been solved with this solver, by replacing `method='SLSQP`' with `method='COBYLA'`\n",
+        "\n",
+        "## Linear programming\n",
+        "\n",
+        "* The solution to linear optimization problem must necessarily lie on a constraint boundary, so it is sufficient to search the vertices of the intersections of the linear constraints functions. This can be done efficiently in practice. A popular algorithm for this type of problems is known as simplex, which systematically moves from one vertix to another until the optimal vertix has been reached\n",
+        "\n",
+        "* There are also more recent interior point methods that efficiently solve linear programming problems. With these methods, linear programming problems with thousands of variables and constraints are readily solvable\n",
+        "\n",
+        "* Linear programming problems are typically written in the so-called standard form:\n",
+        "\n",
+        "  $$ \\min_x \\mathbf{c}^T \\mathbf{x} $$\n",
+        "\n",
+        "  where\n",
+        "\n",
+        "  $$ \\mathbf{Ax} \\leq \\mathbf{b} \\; \\text{ and } \\; \\mathbf{x} \\geq \\mathbf{0}$$\n",
+        "\n",
+        "  Here $\\mathbf{c}$ and $\\mathbf{x}$ are vectors of length $n$, and $\\mathbf{A}$ is a $m \\times n$ matrix and $\\mathbf{b}$ a $m$-vector\n",
+        "\n",
+        "* Consider the problem of minimizing the function\n",
+        "\n",
+        "  $$ f(\\mathbf{x}) = -x_0 +2x_1 -3x_2 $$\n",
+        "\n",
+        "  subject to the three inequality constraints\n",
+        "\n",
+        "  $$ x_0 +x_1 \\leq 1, -x_0 +3x_1 \\leq 2, \\; \\text{ and } \\; -x_1 +x_2 \\leq 3$$\n",
+        "\n",
+        "  On the standard form\n",
+        "\n",
+        "  $$\n",
+        "    \\mathbf{c} = \n",
+        "    \\begin{pmatrix}\n",
+        "    -1 \\\\ \\phantom{-}2 \\\\ -3\n",
+        "    \\end{pmatrix}, \\;\\;\n",
+        "    \\mathbf{A} =\n",
+        "    \\begin{pmatrix}\n",
+        "    \\phantom{-}1 & \\phantom{-}1 & \\phantom{-}0 \\;\\\\ \n",
+        "    -1 & \\phantom{-}3 & \\phantom{-}0 \\;\\\\ \n",
+        "    \\phantom{-}0 & -1 & \\phantom{-}1 \\;\n",
+        "    \\end{pmatrix}, \\;\\;\n",
+        "    \\mathbf{b} =\n",
+        "    \\begin{pmatrix}\n",
+        "    1 \\\\ 2 \\\\ 3 \n",
+        "    \\end{pmatrix}\n",
+        "  $$\n",
+        "\n",
+        "  To solve this problem, here we use the `cvxopt` library, which provides the linear programming solver with the `cvxopt.solvers.lp` function"
+      ],
+      "id": "6cb8cdd5"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "c = cvxopt.matrix([-1.0, 2.0, -3.0])\n",
+        "A = cvxopt.matrix([[ 1.0, 1.0, 0.0],\n",
+        "                   [-1.0, 3.0, 0.0],\n",
+        "                   [ 0.0, -1.0, 1.0]])\n",
+        "b = cvxopt.matrix([1.0, 2.0, 3.0])"
+      ],
+      "id": "af1de25e",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sol = cvxopt.solvers.lp(c, A, b)"
+      ],
+      "id": "09909830",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array(sol['x'])\n",
+        "x"
+      ],
+      "id": "7ad687f8",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sol['primal objective']"
+      ],
+      "id": "0c3ca839",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {},
+      "source": [
+        "## Quadratic programming\n",
+        "\n",
+        "* Quadratic programming problems are typically written in the so-called standard form:\n",
+        "\n",
+        "  $$ \\min_\\mathbf{x} \\frac{1}{2} \\mathbf{x}^T \\mathbf{Q} \\mathbf{x} +\\mathbf{p}^T \\mathbf{x} $$\n",
+        "\n",
+        "  subject to\n",
+        "\n",
+        "  $$ \\mathbf{Gx} \\leq \\mathbf{h} \\; \\text{ and } \\; \\mathbf{Ax} = \\mathbf{b} $$\n",
+        "\n",
+        "  Quadratic programs can be solved via the `cvxopt.solvers.qp()` function\n",
+        "\n",
+        "* As an example, consider the following QP:\n",
+        "\n",
+        "  $$ \\min_{x_1, x_2} 2x_1^2 +x_2^2 + x_1 x_2 +x_1 +x_2$$\n",
+        "\n",
+        "  subject to\n",
+        "\n",
+        "  $$ x_1 \\geq 0,\\, x_2 \\geq 0 \\; \\text{ and } \\; x_1 + x_2 =1$$"
+      ],
+      "id": "685e22ba"
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "Q = 2*cvxopt.matrix([[2, 0.5], [0.5, 1]])\n",
+        "p = cvxopt.matrix([1.0, 1.0])\n",
+        "G = cvxopt.matrix([[-1.0, 0.0], [0.0,-1.0]])\n",
+        "h = cvxopt.matrix([0.0, 0.0])\n",
+        "A = cvxopt.matrix([1.0, 1.0], (1, 2))\n",
+        "b = cvxopt.matrix(1.0)\n",
+        "sol = cvxopt.solvers.qp(Q, p, G, h, A, b)"
+      ],
+      "id": "a6a3cbf1",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "x = np.array(sol['x'])\n",
+        "x"
+      ],
+      "id": "1c762f01",
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {},
+      "source": [
+        "sol['primal objective']"
+      ],
+      "id": "78cad27e",
+      "execution_count": null,
+      "outputs": []
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "name": "python3",
+      "language": "python",
+      "display_name": "Python 3 (ipykernel)",
+      "path": "/opt/miniconda3/share/jupyter/kernels/python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 5
+}
