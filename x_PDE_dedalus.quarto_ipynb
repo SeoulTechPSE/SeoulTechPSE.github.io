@@ -19,7 +19,7 @@
         "\n",
         "This tutorial walks through the basics of setting up and using coordinate, distributor, and basis objects in `Dedalus`. In `Dedalus`, we represent fields and solve PDEs using spectral discretizations. To set these up, we choose spectral bases for the spatial coordinates in the problem. Once the coordinates are defined, they are collected into a distributor object, which takes care of how fields and problems are split up and distributed in parallel"
       ],
-      "id": "76b3ce08"
+      "id": "3176b683"
     },
     {
       "cell_type": "code",
@@ -29,7 +29,7 @@
         "import matplotlib.pyplot as plt\n",
         "import dedalus.public as d3"
       ],
-      "id": "7d4a711d",
+      "id": "5c367733",
       "execution_count": null,
       "outputs": []
     },
@@ -50,7 +50,7 @@
         "\n",
         "When you create a `CoordinateSystem`, you just provide the names you’d like to use for each coordinate, in the order shown above. For example, let’s walk through how to set up a problem in 3D Cartesian coordinates"
       ],
-      "id": "5934a2f1"
+      "id": "f7ce8c20"
     },
     {
       "cell_type": "code",
@@ -58,7 +58,7 @@
       "source": [
         "coords = d3.CartesianCoordinates('x', 'y', 'z')"
       ],
-      "id": "5db9ea97",
+      "id": "49cda8ac",
       "execution_count": null,
       "outputs": []
     },
@@ -72,7 +72,7 @@
         "\n",
         "To create a distributor, you provide the coordinate system for your PDE, specify the datatype of the fields you’ll be working with, and, if needed, supply a process mesh to control parallelization"
       ],
-      "id": "442b5bf4"
+      "id": "c80f7563"
     },
     {
       "cell_type": "code",
@@ -81,7 +81,7 @@
         "# No mesh for serial / automatic parallelization\n",
         "dist = d3.Distributor(coords, dtype=np.float64) "
       ],
-      "id": "17c070f3",
+      "id": "8a0feda7",
       "execution_count": null,
       "outputs": []
     },
@@ -108,7 +108,7 @@
         "\n",
         "Let’s take a look at the layouts for the domain we just built. Since this is a serial computation, no global transposes are required—all axes are already local. So the layout transitions are just coefficient-to-grid transforms, working backwards from the last axis"
       ],
-      "id": "63f2cff0"
+      "id": "c0f6f9ba"
     },
     {
       "cell_type": "code",
@@ -117,7 +117,7 @@
         "for layout in dist.layouts:\n",
         "  print(f'Layout {layout.index}:  Grid space: {layout.grid_space}  Local: {layout.local}')"
       ],
-      "id": "9b355603",
+      "id": "a2cd3bad",
       "execution_count": null,
       "outputs": []
     },
@@ -127,7 +127,7 @@
       "source": [
         "To get a sense of how things work in a distributed simulation, we’ll change the process mesh shape and rebuild the layout objects. For this example, we’ll bypass the usual internal checks on the number of available processes and related settings, just so we can see how the layouts are constructed in a parallel setup"
       ],
-      "id": "5c265796"
+      "id": "cd04933d"
     },
     {
       "cell_type": "code",
@@ -138,7 +138,7 @@
         "dist.comm_coords = np.array([0, 0])\n",
         "dist._build_layouts(dry_run=True)"
       ],
-      "id": "56cba361",
+      "id": "d0cee2b8",
       "execution_count": null,
       "outputs": []
     },
@@ -149,7 +149,7 @@
         "for layout in dist.layouts:\n",
         "  print(f'Layout {layout.index}:  Grid space: {layout.grid_space}  Local: {layout.local}')"
       ],
-      "id": "b36b60f4",
+      "id": "e897805f",
       "execution_count": null,
       "outputs": []
     },
@@ -224,7 +224,7 @@
         "\n",
         "Optionally, for any basis, you can also specify dealiasing scale factors for each axis. These factors control how much to pad the modes when transforming to grid space. For example, to properly dealias quadratic nonlinearities, you would typically use a scaling factor of 3/2"
       ],
-      "id": "3d463190"
+      "id": "875f4f57"
     },
     {
       "cell_type": "code",
@@ -234,7 +234,7 @@
         "ybasis = d3.RealFourier(coords['y'], size=32, bounds=(0,1), dealias=3/2)\n",
         "zbasis = d3.Chebyshev(coords['z'], size=32, bounds=(0,1), dealias=3/2)"
       ],
-      "id": "3efb7c7b",
+      "id": "8490a4db",
       "execution_count": null,
       "outputs": []
     },
@@ -252,7 +252,7 @@
         "\n",
         "For example, let’s take a look at Chebyshev grids with scaling factors of 1 and 3/2"
       ],
-      "id": "e98b7028"
+      "id": "79f5de58"
     },
     {
       "cell_type": "code",
@@ -272,7 +272,7 @@
         "plt.gca().yaxis.set_ticks([])\n",
         "plt.tight_layout()"
       ],
-      "id": "b2d299c8",
+      "id": "aa2938e8",
       "execution_count": null,
       "outputs": []
     },
@@ -288,7 +288,7 @@
         "\n",
         "When calling these methods, you need to specify the basis and optionally a scale factor (which defaults to 1)"
       ],
-      "id": "cce49985"
+      "id": "516fdd46"
     },
     {
       "cell_type": "code",
@@ -302,7 +302,7 @@
         "print('Local y shape:', local_y.shape)\n",
         "print('Local z shape:', local_z.shape)"
       ],
-      "id": "dc9d0122",
+      "id": "55f6cecd",
       "execution_count": null,
       "outputs": []
     },
@@ -316,7 +316,7 @@
         "\n",
         "You can access the local modes—which are distributed according to layout 0 (the full *coefficient space*)—using the `dist.local_modes` method. When calling this method, you just need to specify the basis"
       ],
-      "id": "9ad19b5b"
+      "id": "e9d6a4e3"
     },
     {
       "cell_type": "code",
@@ -330,7 +330,7 @@
         "print('Local ky shape:', local_ky.shape)\n",
         "print('Local nz shape:', local_nz.shape)"
       ],
-      "id": "9d33277b",
+      "id": "86ce0d65",
       "execution_count": null,
       "outputs": []
     },
@@ -348,7 +348,7 @@
         "\n",
         "This tutorial covers the basics of setting up and working with field and operator objects in `Dedalus`. `Dedalus` uses these abstractions to implement a symbolic algebra system, which allows us to represent mathematical expressions and PDEs in a convenient and flexible way"
       ],
-      "id": "7a22f172"
+      "id": "2edb2bda"
     },
     {
       "cell_type": "code",
@@ -362,7 +362,7 @@
         "\n",
         "figkw = {'figsize': (6, 4), 'dpi': 100}"
       ],
-      "id": "eba65b25",
+      "id": "827c36de",
       "execution_count": null,
       "outputs": []
     },
@@ -379,7 +379,7 @@
         "\n",
         "Let’s try setting up a 2D domain and building a field"
       ],
-      "id": "626b29ab"
+      "id": "17e635dc"
     },
     {
       "cell_type": "code",
@@ -393,7 +393,7 @@
         "\n",
         "f = dist.Field(name='f', bases=(xbasis, ybasis))"
       ],
-      "id": "1ce28628",
+      "id": "502ab424",
       "execution_count": null,
       "outputs": []
     },
@@ -416,7 +416,7 @@
         "\n",
         "Let’s go ahead and build such a vector field on our domain"
       ],
-      "id": "d48bb043"
+      "id": "67ab63ea"
     },
     {
       "cell_type": "code",
@@ -424,7 +424,7 @@
       "source": [
         "u = dist.VectorField(coords, name='u', bases=xbasis)"
       ],
-      "id": "3e9788ce",
+      "id": "afeff592",
       "execution_count": null,
       "outputs": []
     },
@@ -440,7 +440,7 @@
         "\n",
         "By default, fields are instantiated in coefficient space"
       ],
-      "id": "5970d71e"
+      "id": "1d9eff48"
     },
     {
       "cell_type": "code",
@@ -448,7 +448,7 @@
       "source": [
         "f.layout.grid_space"
       ],
-      "id": "a22ab8fa",
+      "id": "2f39519c",
       "execution_count": null,
       "outputs": []
     },
@@ -460,7 +460,7 @@
         "\n",
         "When working in parallel, each process only manipulates its local portion of the globally distributed data. This means that you can safely set a field’s grid data in a parallel-safe way using the local grids provided by the domain"
       ],
-      "id": "0d308bb2"
+      "id": "6939ddc5"
     },
     {
       "cell_type": "code",
@@ -474,7 +474,7 @@
         "# Plot grid values\n",
         "plot_bot_2d(f, figkw=figkw, title=\"f['g']\");"
       ],
-      "id": "e7675daa",
+      "id": "696b4092",
       "execution_count": null,
       "outputs": []
     },
@@ -484,7 +484,7 @@
       "source": [
         "You can convert a field to spectral coefficients by accessing its data in coefficient space. Internally, this triggers an in-place multidimensional spectral transform on the field’s data"
       ],
-      "id": "455d8ba7"
+      "id": "e5eded4b"
     },
     {
       "cell_type": "code",
@@ -502,7 +502,7 @@
         "  title=\"log10(abs(f['c'])\", \n",
         "  figkw={'figsize': (5, 5), 'dpi': 100});"
       ],
-      "id": "c4c710a9",
+      "id": "bb94addc",
       "execution_count": null,
       "outputs": []
     },
@@ -516,7 +516,7 @@
         "\n",
         "**Vector and tensor components**"
       ],
-      "id": "1acac269"
+      "id": "0165d470"
     },
     {
       "cell_type": "code",
@@ -524,7 +524,7 @@
       "source": [
         "u['g'].shape"
       ],
-      "id": "7823c836",
+      "id": "d52020c4",
       "execution_count": null,
       "outputs": []
     },
@@ -569,7 +569,7 @@
         "We can sample a field on a higher-resolution grid by increasing its scale factors using the `change_scales` method.\n",
         "This effectively interpolates the field data, giving us a finer view of its structure in grid space"
       ],
-      "id": "d1a714ea"
+      "id": "5f8bc824"
     },
     {
       "cell_type": "code",
@@ -581,7 +581,7 @@
         "f['g']\n",
         "plot_bot_2d(f, title=\"f['g']\", figkw=figkw);"
       ],
-      "id": "9d2362b0",
+      "id": "a9330681",
       "execution_count": null,
       "outputs": []
     },
@@ -599,7 +599,7 @@
         "\n",
         "This provides a convenient way to work with data at different resolutions without calling `change_scales` explicitly"
       ],
-      "id": "a86ab731"
+      "id": "8b09a935"
     },
     {
       "cell_type": "code",
@@ -608,7 +608,7 @@
         "print(f['g', 1].shape)\n",
         "print(f['g', 2].shape)"
       ],
-      "id": "5d3c283d",
+      "id": "5c1d7599",
       "execution_count": null,
       "outputs": []
     },
@@ -631,7 +631,7 @@
         "* `Dedalus` lets you write arithmetic operations between fields (or between fields and scalars) using Python’s infix operators (`+`, `-`, `*`, `/`, `**`)\n",
         "* This makes expressions look natural, just like standard math notation"
       ],
-      "id": "065f2d02"
+      "id": "8aa50f61"
     },
     {
       "cell_type": "code",
@@ -640,7 +640,7 @@
         "g_op = 1 -2 *f\n",
         "print(g_op)"
       ],
-      "id": "3cf790ef",
+      "id": "d9a28a22",
       "execution_count": null,
       "outputs": []
     },
@@ -656,7 +656,7 @@
         "* This returns a new field containing the numerical result\n",
         "* 💡Important: the dealiasing scale factors set when the basis was instantiated are always applied during operator evaluation"
       ],
-      "id": "43950777"
+      "id": "4645cd0f"
     },
     {
       "cell_type": "code",
@@ -668,7 +668,7 @@
         "g['g']\n",
         "plot_bot_2d(g, title=\"g['g']\", figkw=figkw);"
       ],
-      "id": "741444f7",
+      "id": "55a5ad1a",
       "execution_count": null,
       "outputs": []
     },
@@ -683,7 +683,7 @@
         "* `Operator` instances can themselves be passed as arguments to other operators\n",
         "* This allows us to build expression trees that represent more complicated mathematical formulas in a natural, symbolic way"
       ],
-      "id": "524dfc0d"
+      "id": "209c7296"
     },
     {
       "cell_type": "code",
@@ -692,7 +692,7 @@
         "h_op = 1 /np.cosh(g_op +2.5)\n",
         "print(h_op)"
       ],
-      "id": "fab57de6",
+      "id": "f66313c3",
       "execution_count": null,
       "outputs": []
     },
@@ -706,7 +706,7 @@
         "* To make this easier, `Dedalus` provides a helper in `dedalus.tools` that lets us plot the operator’s structure\n",
         "* This visualization shows the tree of operations (e.g. additions, multiplications, derivatives), making it clear how the overall expression is built"
       ],
-      "id": "ebd8e660"
+      "id": "d8f25ec4"
     },
     {
       "cell_type": "code",
@@ -716,7 +716,7 @@
         "\n",
         "plot_operator(h_op, figsize=6, fontsize=14, opsize=0.4)"
       ],
-      "id": "7e3aaf04",
+      "id": "c739623f",
       "execution_count": null,
       "outputs": []
     },
@@ -729,7 +729,7 @@
         "* Once an operator is constructed (even a complex expression tree), you can evaluate it to get a field containing the result\n",
         "* This is done using the `.evaluate()` method of the operator"
       ],
-      "id": "c5b5215a"
+      "id": "1b853154"
     },
     {
       "cell_type": "code",
@@ -741,7 +741,7 @@
         "h['g']\n",
         "plot_bot_2d(h, title=\"h['g']\", figkw=figkw);"
       ],
-      "id": "4f157790",
+      "id": "0b1b8b11",
       "execution_count": null,
       "outputs": []
     },
@@ -760,7 +760,7 @@
         " * 💡Key insight:\n",
         "This allows you to reuse the same operator object on different field states, which is especially useful in time-dependent simulations where fields evolve over time"
       ],
-      "id": "5a8ce55b"
+      "id": "b45eafda"
     },
     {
       "cell_type": "code",
@@ -774,7 +774,7 @@
         "f['g']\n",
         "plot_bot_2d(f, title=\"f['g']\", figkw=figkw);"
       ],
-      "id": "455056a3",
+      "id": "065dd468",
       "execution_count": null,
       "outputs": []
     },
@@ -788,7 +788,7 @@
         "h['g']\n",
         "plot_bot_2d(h, title=\"h['g']\", figkw=figkw);"
       ],
-      "id": "e6319d22",
+      "id": "e07e04d2",
       "execution_count": null,
       "outputs": []
     },
@@ -802,7 +802,7 @@
         "* For one-dimensional bases, partial derivatives are implemented using the `Differentiate` operator\n",
         "* To compute a derivative, you specify the coordinate with respect to which you want to differentiate"
       ],
-      "id": "63075c5c"
+      "id": "6932dc4d"
     },
     {
       "cell_type": "code",
@@ -810,7 +810,7 @@
       "source": [
         "fx = d3.Differentiate(f, coords['x'])"
       ],
-      "id": "db65f19f",
+      "id": "60f1274a",
       "execution_count": null,
       "outputs": []
     },
@@ -844,7 +844,7 @@
         "  - The gradient of a **rank-0 (scalar) field** is **rank-1 (vector)**\n",
         "  - The gradient of a **rank-1 (vector) field** is **rank-2 (tensor)**, and so on"
       ],
-      "id": "ff44c261"
+      "id": "43516c8e"
     },
     {
       "cell_type": "code",
@@ -861,7 +861,7 @@
         "\n",
         "print('Lap(f) is Div(Grad(f)):', np.allclose(lap_f['g'], div_grad_f['g']))"
       ],
-      "id": "36125739",
+      "id": "b402c16b",
       "execution_count": null,
       "outputs": []
     },
@@ -879,7 +879,7 @@
         "| `TransposeComponents`    | Swaps two specified indices of a tensor (defaults to indices 0 and 1) |\n",
         "| `Skew`                  | Applies a 90-degree positive rotation to 2D vector fields |"
       ],
-      "id": "12d78309"
+      "id": "01596b89"
     },
     {
       "cell_type": "code",
@@ -888,7 +888,7 @@
         "grad_u = d3.Gradient(u)\n",
         "transpose_grad_u = d3.TransposeComponents(grad_u)"
       ],
-      "id": "c030d2e6",
+      "id": "2d069c66",
       "execution_count": null,
       "outputs": []
     },
@@ -905,7 +905,7 @@
         "| `Integrate` | Computes the integral of a scalar field over specified coordinates or a coordinate system |\n",
         "| `Average`   | Computes the average of a scalar field over specified coordinates or a coordinate system |"
       ],
-      "id": "04c8ecb8"
+      "id": "3c4461a5"
     },
     {
       "cell_type": "code",
@@ -919,7 +919,7 @@
         "f_ave = d3.Average(f, ('x', 'y'))\n",
         "print('f average:', f_ave.evaluate()['g'])"
       ],
-      "id": "65f53eff",
+      "id": "c14799ee",
       "execution_count": null,
       "outputs": []
     },
@@ -934,7 +934,7 @@
         "\n",
         "- For convenience, the strings `'left'`, `'right'`, and `'center'` can be used to refer to the **endpoints** and **middle** of 1D intervals"
       ],
-      "id": "2bc17995"
+      "id": "bf94afdb"
     },
     {
       "cell_type": "code",
@@ -943,7 +943,7 @@
         "f00 = f(x=0, y=0)\n",
         "print('f(0,0):', f00.evaluate()['g'])"
       ],
-      "id": "cb2cb7ff",
+      "id": "7b81a777",
       "execution_count": null,
       "outputs": []
     },
@@ -960,7 +960,7 @@
         "* Boundary value problems (BVPs)\n",
         "* Eigenvalue problems (EVPs)"
       ],
-      "id": "e2291de5"
+      "id": "40420acb"
     },
     {
       "cell_type": "code",
@@ -974,7 +974,7 @@
         "\n",
         "figkw = {'figsize':(6, 4), 'dpi':150}"
       ],
-      "id": "83f4e6bc",
+      "id": "f1f17e68",
       "execution_count": null,
       "outputs": []
     },
@@ -1060,7 +1060,7 @@
         "* Each Dirichlet boundary condition requires one tau term\n",
         "* Since this problem has two endpoint conditions, we must include two constant tau terms"
       ],
-      "id": "f505fa12"
+      "id": "379366a6"
     },
     {
       "cell_type": "code",
@@ -1079,7 +1079,7 @@
         "# Problem\n",
         "problem = d3.IVP([u, tau1, tau2], namespace=locals())"
       ],
-      "id": "095300a3",
+      "id": "c856b386",
       "execution_count": null,
       "outputs": []
     },
@@ -1108,7 +1108,7 @@
         "\n",
         "We can add a simple non-constant coefficient in $z$ as:"
       ],
-      "id": "e7f3f67f"
+      "id": "cbfa7602"
     },
     {
       "cell_type": "code",
@@ -1117,7 +1117,7 @@
         "#ncc = dist.Field(bases=zbasis)\n",
         "#ncc['g'] = z**2"
       ],
-      "id": "0b4c9d2d",
+      "id": "e18e8721",
       "execution_count": null,
       "outputs": []
     },
@@ -1129,7 +1129,7 @@
         "\n",
         "Substitutions can also define aliases for operators or helper functions to make equation entry cleaner. For example:"
       ],
-      "id": "83f28362"
+      "id": "c0616bcc"
     },
     {
       "cell_type": "code",
@@ -1141,7 +1141,7 @@
         "b = 0.5\n",
         "c = -1.76"
       ],
-      "id": "c70129e0",
+      "id": "084a650b",
       "execution_count": null,
       "outputs": []
     },
@@ -1153,7 +1153,7 @@
         "\n",
         "Tau polynomials (see the [Tau Method documentation](https://dedalus-project.readthedocs.io/en/latest/pages/tau_method.html)) can also be defined as substitutions"
       ],
-      "id": "a706f2a4"
+      "id": "6dd80499"
     },
     {
       "cell_type": "code",
@@ -1168,7 +1168,7 @@
         "p1['c'][-1] = 1\n",
         "p2['c'][-2] = 2"
       ],
-      "id": "01eb90c5",
+      "id": "dae56bee",
       "execution_count": null,
       "outputs": []
     },
@@ -1187,7 +1187,7 @@
         "\n",
         "**As operator pairs:**"
       ],
-      "id": "22648ed3"
+      "id": "2d5f8acc"
     },
     {
       "cell_type": "code",
@@ -1196,7 +1196,7 @@
         "#| eval: false\n",
         "problem.add_equation((LHS, RHS))"
       ],
-      "id": "a7faa9f6",
+      "id": "41bbd813",
       "execution_count": null,
       "outputs": []
     },
@@ -1208,7 +1208,7 @@
         "\n",
         "**As strings:**"
       ],
-      "id": "bb47388a"
+      "id": "352454d8"
     },
     {
       "cell_type": "code",
@@ -1217,7 +1217,7 @@
         "#| eval: false\n",
         "problem.add_equation(\"LHS = RHS\")"
       ],
-      "id": "4ded5d8f",
+      "id": "61fb10b7",
       "execution_count": null,
       "outputs": []
     },
@@ -1233,7 +1233,7 @@
         "\n",
         "We add the main PDE and enforce homogeneous Dirichlet boundary conditions:"
       ],
-      "id": "b7a7ef9e"
+      "id": "6ad9dfb1"
     },
     {
       "cell_type": "code",
@@ -1255,7 +1255,7 @@
         "problem.add_equation(\"u(x='left') = 0\")\n",
         "problem.add_equation(\"u(x='right') = 0\")"
       ],
-      "id": "5ba631d4",
+      "id": "07efb521",
       "execution_count": null,
       "outputs": []
     },
@@ -1277,7 +1277,7 @@
         "\n",
         "For `IVP`s, a time-stepping method must be chosen when building the solver. Several multistep and Runge–Kutta IMEX schemes are available (see the list in the [timesteppers module](https://dedalus-project.readthedocs.io/en/latest/autoapi/dedalus/core/timesteppers/index.html)), and they can be selected by name"
       ],
-      "id": "27441c2a"
+      "id": "cbc14a6d"
     },
     {
       "cell_type": "code",
@@ -1286,7 +1286,7 @@
         "# Build solver\n",
         "solver = problem.build_solver(d3.RK222)"
       ],
-      "id": "21b866d1",
+      "id": "03526fb0",
       "execution_count": null,
       "outputs": []
     },
@@ -1298,7 +1298,7 @@
         "\n",
         "For example, to stop at 500 in simulation units:"
       ],
-      "id": "e510a2c2"
+      "id": "9f7c77da"
     },
     {
       "cell_type": "code",
@@ -1307,7 +1307,7 @@
         "# Stopping criteria\n",
         "solver.stop_sim_time = 500"
       ],
-      "id": "6bc0cf71",
+      "id": "5e23cab9",
       "execution_count": null,
       "outputs": []
     },
@@ -1317,7 +1317,7 @@
       "source": [
         "For `IVP`s and nonlinear `BVP`s, the initial conditions are specified by directly modifying the state variable data before starting the simulation"
       ],
-      "id": "9a9947ed"
+      "id": "0f0440a0"
     },
     {
       "cell_type": "code",
@@ -1327,7 +1327,7 @@
         "x = dist.local_grid(xbasis)\n",
         "u['g'] = 1e-3 *np.sin(5 *np.pi *x /300)"
       ],
-      "id": "a6497ee5",
+      "id": "99452d20",
       "execution_count": null,
       "outputs": []
     },
@@ -1343,7 +1343,7 @@
         "\n",
         "In the following example, we advance our problem until the halting condition is reached, saving the grid values of `u` every few iterations. We explicitly retrieve the grid values of `u` with a scale factor of `1`, since field data is internally converted to the dealiasing scales when the `RHS` operators are evaluated at each step. We also copy the grid values explicitly, because the integrator updates the field’s data in place. This run should take only a few seconds to complete"
       ],
-      "id": "fde1b328"
+      "id": "c9589835"
     },
     {
       "cell_type": "code",
@@ -1367,7 +1367,7 @@
         "u_array = np.array(u_list)\n",
         "t_array = np.array(t_list)"
       ],
-      "id": "fa690c43",
+      "id": "322256ba",
       "execution_count": null,
       "outputs": []
     },
@@ -1377,7 +1377,7 @@
       "source": [
         "Next, we generate a space–time plot of the solution magnitude:"
       ],
-      "id": "fa50735f"
+      "id": "e065c6ce"
     },
     {
       "cell_type": "code",
@@ -1394,7 +1394,7 @@
         "plt.title('Hole-defect chaos in the CGLE: |u|')\n",
         "plt.tight_layout()"
       ],
-      "id": "0325799a",
+      "id": "81ff81a1",
       "execution_count": null,
       "outputs": []
     },
@@ -1406,7 +1406,7 @@
         "\n",
         "This tutorial introduces the basics of data analysis and post-processing in `Dedalus`. Analysis tasks can be defined symbolically and are automatically saved to distributed `HDF5` files"
       ],
-      "id": "52225ab3"
+      "id": "8c62ed7e"
     },
     {
       "cell_type": "code",
@@ -1420,7 +1420,7 @@
         "\n",
         "import dedalus.public as d3"
       ],
-      "id": "bce0cf44",
+      "id": "a9702429",
       "execution_count": null,
       "outputs": []
     },
@@ -1443,7 +1443,7 @@
         "analysis_dir.mkdir(parents=True, exist_ok=True)\n",
         "print(f\"Created new folder: {analysis_dir}\")"
       ],
-      "id": "18659f53",
+      "id": "70b1e5dd",
       "execution_count": null,
       "outputs": []
     },
@@ -1455,7 +1455,7 @@
         "\n",
         "Dedalus provides a framework for defining, evaluating, and saving arbitrary analysis tasks while an initial value problem is running. To get started, let’s set up the complex Ginzburg–Landau problem from the previous tutorial"
       ],
-      "id": "29035f71"
+      "id": "39af449c"
     },
     {
       "cell_type": "code",
@@ -1500,7 +1500,7 @@
         "x = dist.local_grid(xbasis)\n",
         "u['g'] = 1e-3 *np.sin(5 *np.pi *x /300)"
       ],
-      "id": "67bd895c",
+      "id": "7f834a5c",
       "execution_count": null,
       "outputs": []
     },
@@ -1524,7 +1524,7 @@
         "\n",
         "For example, to evaluate a file handler every 10 iterations:"
       ],
-      "id": "3c2b4048"
+      "id": "42fec9e4"
     },
     {
       "cell_type": "code",
@@ -1532,7 +1532,7 @@
       "source": [
         "analysis = solver.evaluator.add_file_handler(analysis_dir, iter=10, max_writes=400)"
       ],
-      "id": "8eb5a555",
+      "id": "ef62b9c7",
       "execution_count": null,
       "outputs": []
     },
@@ -1548,7 +1548,7 @@
         "\n",
         "For example, to track the average magnitude of the solution:"
       ],
-      "id": "efd797bd"
+      "id": "56dc5bdb"
     },
     {
       "cell_type": "code",
@@ -1556,7 +1556,7 @@
       "source": [
         "analysis.add_task(d3.Integrate(np.sqrt(magsq_u), 'x') /300, layout='g', name='<|u|>')"
       ],
-      "id": "c146547c",
+      "id": "36657240",
       "execution_count": null,
       "outputs": []
     },
@@ -1566,7 +1566,7 @@
       "source": [
         "For checkpointing, you can also save all state variables at once using `add_tasks`:"
       ],
-      "id": "10114ecd"
+      "id": "9155b240"
     },
     {
       "cell_type": "code",
@@ -1574,7 +1574,7 @@
       "source": [
         "analysis.add_tasks(solver.state, layout='g')"
       ],
-      "id": "7ea176c7",
+      "id": "ce0491da",
       "execution_count": null,
       "outputs": []
     },
@@ -1584,7 +1584,7 @@
       "source": [
         "Once the tasks are added, you can run the simulation just as in the previous tutorial. You no longer need to manually save any data inside the main loop. The evaluator will automatically compute and save the specified analysis tasks at the defined cadence"
       ],
-      "id": "2fafa491"
+      "id": "8b0a9b62"
     },
     {
       "cell_type": "code",
@@ -1597,7 +1597,7 @@
         "  if solver.iteration % 1000 == 0:\n",
         "    print(f'Completed iteration {solver.iteration}')"
       ],
-      "id": "cc372dcb",
+      "id": "e6d41cce",
       "execution_count": null,
       "outputs": []
     },
@@ -1626,7 +1626,7 @@
         "Let’s examine the output files from our example problem. Since we have a total of `1000` outputs and `max_writes=400` per file, we should see three output \n",
         "sets"
       ],
-      "id": "2e9b2551"
+      "id": "16240030"
     },
     {
       "cell_type": "code",
@@ -1634,7 +1634,7 @@
       "source": [
         "print(subprocess.check_output(\"find dedalus/analysis | sort\", shell=True).decode())"
       ],
-      "id": "be0ad82a",
+      "id": "044e026a",
       "execution_count": null,
       "outputs": []
     },
@@ -1661,7 +1661,7 @@
         "\n",
         "Now, let’s open the first analysis set file and plot a time series of the average magnitude of the solution"
       ],
-      "id": "e740d35d"
+      "id": "5c7e0650"
     },
     {
       "cell_type": "code",
@@ -1679,7 +1679,7 @@
         "  plt.xlabel('t')\n",
         "  plt.ylabel('<|u|>')"
       ],
-      "id": "635fbcc5",
+      "id": "8dd7c0f9",
       "execution_count": null,
       "outputs": []
     },
@@ -1689,7 +1689,7 @@
       "source": [
         "It is also possible to load analysis tasks directly into an `xarray.DataArray`, and then utilize `xarray`’s plotting utilities for visualization"
       ],
-      "id": "8fd55412"
+      "id": "6153f859"
     },
     {
       "cell_type": "code",
@@ -1700,7 +1700,7 @@
         "fig = plt.figure(figsize=(6, 4), dpi=100)\n",
         "tasks['<|u|>'].real.plot();"
       ],
-      "id": "56fcf4e7",
+      "id": "a423b0d0",
       "execution_count": null,
       "outputs": []
     },
@@ -1711,7 +1711,7 @@
         "Now let’s examine the saved solution over space and time.\n",
         "This time, instead of plotting the amplitude, we will plot the phase of the solution"
       ],
-      "id": "cb2e2b52"
+      "id": "3d9a1bd0"
     },
     {
       "cell_type": "code",
@@ -1735,7 +1735,7 @@
         "  plt.ylabel('t')\n",
         "  plt.title('Hole-defect chaos in the CGLE')"
       ],
-      "id": "25344f83",
+      "id": "442fd75b",
       "execution_count": null,
       "outputs": []
     },
@@ -1745,7 +1745,7 @@
       "source": [
         "Again, this process can be simplified by loading the data into `xarray` and using its plotting utilities"
       ],
-      "id": "7f66263f"
+      "id": "fed54561"
     },
     {
       "cell_type": "code",
@@ -1760,7 +1760,7 @@
         "u_phase.plot(x='x', y='t', cmap='twilight_shifted')\n",
         "plt.title('Hole-defect chaos in the CGLE');"
       ],
-      "id": "d0945c84",
+      "id": "0e67886d",
       "execution_count": null,
       "outputs": []
     }

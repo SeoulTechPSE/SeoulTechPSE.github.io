@@ -28,7 +28,7 @@
         ">       --user --name fenicsx --display-name \"FEniCSx\"\n",
         "```"
       ],
-      "id": "d070e491"
+      "id": "c3c3f2d0"
     },
     {
       "cell_type": "code",
@@ -37,7 +37,7 @@
         "import dolfinx\n",
         "print(f'DOLFINx version: {dolfinx.__version__}')"
       ],
-      "id": "3f9c3e8a",
+      "id": "26c2533c",
       "execution_count": null,
       "outputs": []
     },
@@ -264,7 +264,7 @@
         "Here, we create a unit square mesh spanning $[0,1]\\times[0,1]$.\n",
         "The cells of the mesh can be either triangles or quadrilaterals:"
       ],
-      "id": "1f867211"
+      "id": "52fd9882"
     },
     {
       "cell_type": "code",
@@ -283,7 +283,7 @@
         "  cell_type=mesh.CellType.quadrilateral\n",
         ")"
       ],
-      "id": "b0261fc7",
+      "id": "b0ae5823",
       "execution_count": null,
       "outputs": []
     },
@@ -319,7 +319,7 @@
         "\n",
         "In `DOLFINx`, this can be done by passing a tuple of the form `(\"family\", degree)`, as shown below:"
       ],
-      "id": "2e66a43f"
+      "id": "ec50f9e8"
     },
     {
       "cell_type": "code",
@@ -329,7 +329,7 @@
         "\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1))"
       ],
-      "id": "f88dfcb4",
+      "id": "75312afd",
       "execution_count": null,
       "outputs": []
     },
@@ -342,7 +342,7 @@
         "The next step is to create a function that stores the Dirichlet boundary condition.\n",
         "We then use interpolation to fill this function with the prescribed values"
       ],
-      "id": "e45bc107"
+      "id": "b731d302"
     },
     {
       "cell_type": "code",
@@ -351,7 +351,7 @@
         "uD = fem.Function(V)\n",
         "uD.interpolate(lambda x: 1 +x[0]**2 +2 *x[1]**2)"
       ],
-      "id": "969a75c5",
+      "id": "12df3e70",
       "execution_count": null,
       "outputs": []
     },
@@ -365,7 +365,7 @@
         "\n",
         "We can extract the indices of all exterior facets using:"
       ],
-      "id": "aef0fbbb"
+      "id": "5c4f9b2e"
     },
     {
       "cell_type": "code",
@@ -377,7 +377,7 @@
         "domain.topology.create_connectivity(fdim, tdim)\n",
         "boundary_facets = mesh.exterior_facet_indices(domain.topology)"
       ],
-      "id": "83601808",
+      "id": "b4b65dc1",
       "execution_count": null,
       "outputs": []
     },
@@ -400,7 +400,7 @@
         "\n",
         "Once we have the boundary DoFs, we can create the Dirichlet boundary condition as follows:"
       ],
-      "id": "0da495ab"
+      "id": "3c54e534"
     },
     {
       "cell_type": "code",
@@ -409,7 +409,7 @@
         "boundary_dofs = fem.locate_dofs_topological(V, fdim, boundary_facets)\n",
         "bc = fem.dirichletbc(uD, boundary_dofs)"
       ],
-      "id": "d3fc1fca",
+      "id": "88fda23f",
       "execution_count": null,
       "outputs": []
     },
@@ -427,7 +427,7 @@
         "\n",
         "To express the variational formulation, we make use of the [Unified Form Language](https://github.com/FEniCS/ufl/) (UFL)"
       ],
-      "id": "73719422"
+      "id": "2354b8d0"
     },
     {
       "cell_type": "code",
@@ -438,7 +438,7 @@
         "u = ufl.TrialFunction(V)\n",
         "v = ufl.TestFunction(V)"
       ],
-      "id": "f2f615c2",
+      "id": "da9ecb2c",
       "execution_count": null,
       "outputs": []
     },
@@ -450,7 +450,7 @@
         "\n",
         "Since the source term is constant throughout the domain, we can represent it using `dolfinx.fem.Constant`:"
       ],
-      "id": "327d5ad5"
+      "id": "2a10244d"
     },
     {
       "cell_type": "code",
@@ -460,7 +460,7 @@
         "\n",
         "f = fem.Constant(domain, default_scalar_type(-6))"
       ],
-      "id": "f6dfc6ad",
+      "id": "abbc265d",
       "execution_count": null,
       "outputs": []
     },
@@ -477,7 +477,7 @@
         "\n",
         "Now that we have defined all the components of our variational problem, we can write down the weak formulation:"
       ],
-      "id": "5a6cfe3d"
+      "id": "a82d6559"
     },
     {
       "cell_type": "code",
@@ -486,7 +486,7 @@
         "a = ufl.dot(ufl.grad(u), ufl.grad(v)) *ufl.dx\n",
         "L = f *v *ufl.dx"
       ],
-      "id": "e30cae08",
+      "id": "0873d3f7",
       "execution_count": null,
       "outputs": []
     },
@@ -528,7 +528,7 @@
         "`PETSc` is not a required dependency of `DOLFINx`, so we explicitly import the `DOLFINx` wrapper to interface with `PETSc`.\n",
         "Finally, to ensure that the solver options passed to the `LinearProblem` apply only to this specific KSP solver, we assign a **unique** option prefix"
       ],
-      "id": "9c94fe19"
+      "id": "c186b8e6"
     },
     {
       "cell_type": "code",
@@ -552,7 +552,7 @@
         "#ksp = problem.solver\n",
         "#ksp.view()"
       ],
-      "id": "08cdaea7",
+      "id": "c1d186d2",
       "execution_count": null,
       "outputs": []
     },
@@ -570,7 +570,7 @@
         "Finally, we want to compute the error to check the accuracy of the solution. We do this by comparing the finite element solution `uh` with the exact solution.\n",
         "We do this by interpolating the exact solution into the the $P_2$-function space"
       ],
-      "id": "e91d3cb1"
+      "id": "126db7df"
     },
     {
       "cell_type": "code",
@@ -580,7 +580,7 @@
         "uex = fem.Function(V2)\n",
         "uex.interpolate(lambda x: 1 +x[0]**2 +2 *x[1]**2)"
       ],
-      "id": "24baf4f0",
+      "id": "0df32a45",
       "execution_count": null,
       "outputs": []
     },
@@ -596,7 +596,7 @@
         "In `DOLFINx`, `assemble_scalar` only assembles over the cells on the local process. This means that if we use 2 processes to solve our problem, we need to gather the solution to one.\n",
         "We can do this with the `MPI.allreduce` function"
       ],
-      "id": "bace7319"
+      "id": "4278ae06"
     },
     {
       "cell_type": "code",
@@ -606,7 +606,7 @@
         "error_local = fem.assemble_scalar(L2_error)\n",
         "error_L2 = np.sqrt(domain.comm.allreduce(error_local, op=MPI.SUM))"
       ],
-      "id": "6974dd36",
+      "id": "c4a6f0d7",
       "execution_count": null,
       "outputs": []
     },
@@ -625,7 +625,7 @@
         "However, note that a second-order function space contains more dofs than a first-order space, so the corresponding arrays cannot be compared directly.\n",
         "Fortunately, since we have already interpolated the exact solution into the first-order space when defining the boundary condition, we can compare the maximum values at the dofs of the approximation space"
       ],
-      "id": "f744e965"
+      "id": "32a10c3d"
     },
     {
       "cell_type": "code",
@@ -638,7 +638,7 @@
         "    print(f\"Error_L2 : {error_L2:.2e}\")\n",
         "    print(f\"Error_max : {error_max:.2e}\")"
       ],
-      "id": "a8bfcfcc",
+      "id": "b005c3ec",
       "execution_count": null,
       "outputs": []
     },
@@ -653,7 +653,7 @@
         "\n",
         "You can check the current plotting backend with:"
       ],
-      "id": "1b53d1ec"
+      "id": "2041a8be"
     },
     {
       "cell_type": "code",
@@ -665,7 +665,7 @@
         "topology, cell_types, geometry = plot.vtk_mesh(domain, tdim)\n",
         "grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)"
       ],
-      "id": "0c2dabbf",
+      "id": "f20cc638",
       "execution_count": null,
       "outputs": []
     },
@@ -680,7 +680,7 @@
         "\n",
         "In the jupyter notebook, we use the default setting `pyvista.OFF_SCREEN=False`, which will renders the plots directly within the notebook"
       ],
-      "id": "ef9464d6"
+      "id": "432e557b"
     },
     {
       "cell_type": "code",
@@ -702,7 +702,7 @@
         "# HTML 저장\n",
         "plotter.export_html(\"fenicsx/fundamentals/unit_square_mesh.html\")"
       ],
-      "id": "8bce2924",
+      "id": "5ca4ac9b",
       "execution_count": null,
       "outputs": []
     },
@@ -723,7 +723,7 @@
         "\n",
         "We want to plot the solution `uh`. Since the function space used to define `uh` is disconnected from the one used to define the mesh, we first create a mesh based on the DOF coordinates of the function space `V`. We then use `dolfinx.plot.vtk_mesh`, passing the function space as input, to generate a mesh whose geometry is based on these DOF coordinates"
       ],
-      "id": "baa99f42"
+      "id": "db91e67e"
     },
     {
       "cell_type": "code",
@@ -731,7 +731,7 @@
       "source": [
         "u_topology, u_cell_types, u_geometry = plot.vtk_mesh(V)"
       ],
-      "id": "4beb4913",
+      "id": "21c4cd36",
       "execution_count": null,
       "outputs": []
     },
@@ -741,7 +741,7 @@
       "source": [
         "Next, we create the `pyvista.UnstructuredGrid` and add the DOF-values to the mesh"
       ],
-      "id": "e04b8067"
+      "id": "286d56a5"
     },
     {
       "cell_type": "code",
@@ -773,7 +773,7 @@
         "# HTML 저장\n",
         "u_plotter.export_html(\"fenicsx/fundamentals/poisson_solution_2D.html\")"
       ],
-      "id": "e81df1bd",
+      "id": "7d3c4a83",
       "execution_count": null,
       "outputs": []
     },
@@ -794,7 +794,7 @@
         "\n",
         "For post-processing outside Python, it is recommended to save the solution to a file using either `dolfinx.io.VTXWriter` or `dolfinx.io.XDMFFile`, and then visualize it in [ParaView](https://www.paraview.org/). This approach is especially useful for 3D visualization"
       ],
-      "id": "20f2e2be"
+      "id": "989c55dc"
     },
     {
       "cell_type": "code",
@@ -811,7 +811,7 @@
         "    xdmf.write_mesh(domain)\n",
         "    xdmf.write_function(uh)"
       ],
-      "id": "8b900932",
+      "id": "765a9df3",
       "execution_count": null,
       "outputs": []
     },
@@ -828,7 +828,7 @@
         "\n",
         "First, we import the necessary modules and set up the mesh and function space for the solution"
       ],
-      "id": "b36c98f5"
+      "id": "f5efb740"
     },
     {
       "cell_type": "code",
@@ -849,7 +849,7 @@
         "domain = mesh.create_unit_square(MPI.COMM_WORLD, N, N)\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1))"
       ],
-      "id": "b070cf44",
+      "id": "8edff998",
       "execution_count": null,
       "outputs": []
     },
@@ -860,7 +860,7 @@
         "Next, we create a function for the exact solution (also used in the Dirichlet boundary condition) and the corresponding source function for the right-hand side.\n",
         "The exact solution is defined using `ufl.SpatialCoordinate`, then interpolated into `uD` and used to generate the source function `f`"
       ],
-      "id": "62520806"
+      "id": "288751a1"
     },
     {
       "cell_type": "code",
@@ -873,7 +873,7 @@
         "uD.interpolate(fem.Expression(u_ex, V.element.interpolation_points()))\n",
         "f = -div(grad(u_ex))"
       ],
-      "id": "9ee2e215",
+      "id": "70a0d70d",
       "execution_count": null,
       "outputs": []
     },
@@ -904,7 +904,7 @@
         "    L(v) &= \\int_{\\Omega} fv ~\\mathrm{d}x + \\int_{\\partial\\Omega} -(n \\cdot \\nabla v) u_D + \\frac{\\alpha}{h} u_D v ~\\mathrm{d}s\n",
         "\\end{aligned}$$"
       ],
-      "id": "9265ff04"
+      "id": "675ae5dd"
     },
     {
       "cell_type": "code",
@@ -922,7 +922,7 @@
         "L = inner(f, v) *dx \n",
         "L += -inner(n, grad(v)) *uD *ds +alpha /h *inner(uD, v) *ds"
       ],
-      "id": "762a8c81",
+      "id": "e947948a",
       "execution_count": null,
       "outputs": []
     },
@@ -932,7 +932,7 @@
       "source": [
         "With the variational form in place, we can solve the linear problem"
       ],
-      "id": "bcde0b81"
+      "id": "2057ae2d"
     },
     {
       "cell_type": "code",
@@ -941,7 +941,7 @@
         "problem = LinearProblem(a, L)\n",
         "uh = problem.solve()"
       ],
-      "id": "90450e1d",
+      "id": "2d836c47",
       "execution_count": null,
       "outputs": []
     },
@@ -951,7 +951,7 @@
       "source": [
         "We compute the error by comparing the numerical solution with the analytical solution"
       ],
-      "id": "6774980b"
+      "id": "2559b39d"
     },
     {
       "cell_type": "code",
@@ -963,7 +963,7 @@
         "if domain.comm.rank == 0:\n",
         "    print(f\"Error_L2: {error_L2:.2e}\")"
       ],
-      "id": "beb082d4",
+      "id": "11f06161",
       "execution_count": null,
       "outputs": []
     },
@@ -973,7 +973,7 @@
       "source": [
         "The $L^2$-error has the same order of magnitude as in the first tutorial, and we also compute the maximum error over all degrees of freedom"
       ],
-      "id": "271f8bf2"
+      "id": "02b4b888"
     },
     {
       "cell_type": "code",
@@ -985,7 +985,7 @@
         "if domain.comm.rank == 0:\n",
         "    print(f\"Error_max : {error_max:.2e}\")"
       ],
-      "id": "1031217e",
+      "id": "3b93a8f0",
       "execution_count": null,
       "outputs": []
     },
@@ -995,7 +995,7 @@
       "source": [
         "We observe that, due to the weak imposition of the boundary condition, the equation is not satisfied to machine precision at the mesh vertices. The solution is subsequently visualized using `pyvista`"
       ],
-      "id": "e42c02d3"
+      "id": "d3a1b772"
     },
     {
       "cell_type": "code",
@@ -1033,7 +1033,7 @@
         "  \"fenicsx/fundamentals/poisson_nitsche_solution_2D.html\"\n",
         ")"
       ],
-      "id": "898f46d0",
+      "id": "c8ddd1d0",
       "execution_count": null,
       "outputs": []
     },
@@ -1139,7 +1139,7 @@
         "To construct the computational geometry, we use the Python API of [GMSH](https://gmsh.info/).\n",
         "We begin by importing the gmsh module and initializing it"
       ],
-      "id": "85d84148"
+      "id": "d17f04f1"
     },
     {
       "cell_type": "code",
@@ -1151,7 +1151,7 @@
         "if not gmsh.isInitialized():\n",
         "    gmsh.initialize()"
       ],
-      "id": "dd225826",
+      "id": "64a58057",
       "execution_count": null,
       "outputs": []
     },
@@ -1162,7 +1162,7 @@
         "Next, we define the membrane geometry and begin the setup using the `GMSH` CAD kernel, which automatically generates the required data structures in the background.\n",
         "When calling `addDisk`, the first three arguments specify the $x,$ $y,$ and $z$ coordinates of the circle’s center, while the final two define the radii in the $x$- and $y$-directions"
       ],
-      "id": "16c39087"
+      "id": "02f2a313"
     },
     {
       "cell_type": "code",
@@ -1176,7 +1176,7 @@
         "# Synchronize the CAD kernel with the gmsh model\n",
         "gmsh.model.occ.synchronize()"
       ],
-      "id": "8837cb64",
+      "id": "52617476",
       "execution_count": null,
       "outputs": []
     },
@@ -1188,7 +1188,7 @@
         "Because a surface is a two-dimensional entity, we pass `2` as the first argument, the membrane’s entity tag as the second, and the physical tag as the last.\n",
         "In a later example, we will explain in more detail when and why this physical tag becomes important"
       ],
-      "id": "24f2d448"
+      "id": "1477027d"
     },
     {
       "cell_type": "code",
@@ -1206,7 +1206,7 @@
         "pg = gmsh.model.addPhysicalGroup(gdim, [membrane], physical_tag)\n",
         "gmsh.model.setPhysicalName(gdim, pg, \"Circular Membrane\")"
       ],
-      "id": "12a0e457",
+      "id": "ae314f33",
       "execution_count": null,
       "outputs": []
     },
@@ -1216,7 +1216,7 @@
       "source": [
         "Finally, we generate the two-dimensional mesh, setting a uniform element size by adjusting the `GMSH` options"
       ],
-      "id": "d84960a1"
+      "id": "5fb287a6"
     },
     {
       "cell_type": "code",
@@ -1226,7 +1226,7 @@
         "gmsh.option.setNumber(\"Mesh.CharacteristicLengthMax\", 0.05)\n",
         "gmsh.model.mesh.generate(gdim)"
       ],
-      "id": "c9fa3f76",
+      "id": "5cb33d89",
       "execution_count": null,
       "outputs": []
     },
@@ -1241,7 +1241,7 @@
         "\n",
         "The import also provides two sets of mesh tags: one for cells defined by physical groups and one for facets defined by physical groups. Since we did not add any physical groups of dimension `gdim -1`, the `facet_tags` object will be empty"
       ],
-      "id": "3c6292ef"
+      "id": "04851c3d"
     },
     {
       "cell_type": "code",
@@ -1260,7 +1260,7 @@
         "\n",
         "gmsh.finalize()"
       ],
-      "id": "abc19482",
+      "id": "8c47de4c",
       "execution_count": null,
       "outputs": []
     },
@@ -1270,7 +1270,7 @@
       "source": [
         "We define the function space as in the previous tutorial"
       ],
-      "id": "a872aa3d"
+      "id": "1ab521da"
     },
     {
       "cell_type": "code",
@@ -1280,7 +1280,7 @@
         "\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1))"
       ],
-      "id": "4d629fb2",
+      "id": "45d0da6f",
       "execution_count": null,
       "outputs": []
     },
@@ -1305,7 +1305,7 @@
         "# HTML 저장\n",
         "plotter.export_html(\"fenicsx/fundamentals/membrane_mesh.html\")"
       ],
-      "id": "bba27174",
+      "id": "2a7b541d",
       "execution_count": null,
       "outputs": []
     },
@@ -1326,7 +1326,7 @@
         "\n",
         "The pressure function on the right-hand side is defined with `ufl.SpatialCoordinate` and two constants, $\\beta$ and $R_0$"
       ],
-      "id": "3d9cd9e8"
+      "id": "32c63e48"
     },
     {
       "cell_type": "code",
@@ -1342,7 +1342,7 @@
         "\n",
         "p = 4 *ufl.exp(-beta**2 *(x[0]**2 +(x[1] -R0)**2))"
       ],
-      "id": "efe08bc8",
+      "id": "5f1d675c",
       "execution_count": null,
       "outputs": []
     },
@@ -1354,7 +1354,7 @@
         "\n",
         "Since the load `p` is defined as a spatially varying function, we interpolate it into an appropriate function space for visualization. To do this, we use `dolfinx.Expression`, which accepts any `ufl` expression together with a set of points on the reference element. In practice, we provide the interpolation points of the target space. Because `p` exhibits rapid spatial variation, we select a high-order function space to represent it"
       ],
-      "id": "a7d7835c"
+      "id": "d90dac07"
     },
     {
       "cell_type": "code",
@@ -1366,7 +1366,7 @@
         "pressure = fem.Function(Q)\n",
         "pressure.interpolate(expr)"
       ],
-      "id": "e239d067",
+      "id": "c81d60c4",
       "execution_count": null,
       "outputs": []
     },
@@ -1376,7 +1376,7 @@
       "source": [
         "We next plot the load on the domain"
       ],
-      "id": "f60ed59d"
+      "id": "a7ee90dd"
     },
     {
       "cell_type": "code",
@@ -1403,7 +1403,7 @@
         "# HTML 저장\n",
         "load_plotter.export_html(\"fenicsx/fundamentals/membrane_load.html\")"
       ],
-      "id": "946b8943",
+      "id": "dd13988d",
       "execution_count": null,
       "outputs": []
     },
@@ -1424,7 +1424,7 @@
         "\n",
         "The next step is to define the homogeneous boundary condition. Unlike in the first tutorial,  we use `dolfinx.fem.locate_dofs_geometrical` to identify the degrees of freedom on the boundary. Since our domain is the unit circle, these degrees of freedom correspond to coordinates $(x, y)$ such that $\\sqrt{x^2 + y^2} = 1$"
       ],
-      "id": "ffe2901c"
+      "id": "85f9ca88"
     },
     {
       "cell_type": "code",
@@ -1437,7 +1437,7 @@
         "\n",
         "boundary_dofs = fem.locate_dofs_geometrical(V, on_boundary)"
       ],
-      "id": "066d0ac8",
+      "id": "037502e4",
       "execution_count": null,
       "outputs": []
     },
@@ -1447,7 +1447,7 @@
       "source": [
         "Since our Dirichlet condition is homogeneous (`u=0` on the entire boundary), we can define it using `dolfinx.fem.dirichletbc` by specifying a constant value, the boundary degrees of freedom and the function space on which it should be applied"
       ],
-      "id": "963092df"
+      "id": "d98dcdee"
     },
     {
       "cell_type": "code",
@@ -1455,7 +1455,7 @@
       "source": [
         "bc = fem.dirichletbc(default_scalar_type(0), boundary_dofs, V)"
       ],
-      "id": "c21ce34d",
+      "id": "40f85ed3",
       "execution_count": null,
       "outputs": []
     },
@@ -1467,7 +1467,7 @@
         "\n",
         "The variational problem is identical to our first Poisson problem, with `p` replacing `f`"
       ],
-      "id": "0dd83e05"
+      "id": "cd26d28c"
     },
     {
       "cell_type": "code",
@@ -1487,7 +1487,7 @@
         ")\n",
         "uh = problem.solve()"
       ],
-      "id": "19a970ed",
+      "id": "bb5c4e0c",
       "execution_count": null,
       "outputs": []
     },
@@ -1497,7 +1497,7 @@
       "source": [
         "We plot the deflection `uh` over the domain $\\Omega$"
       ],
-      "id": "4c67c8be"
+      "id": "04c8c673"
     },
     {
       "cell_type": "code",
@@ -1523,7 +1523,7 @@
         "# HTML 저장\n",
         "u_plotter.export_html(\"fenicsx/fundamentals/membrane_u.html\")"
       ],
-      "id": "c547490f",
+      "id": "4b7073f6",
       "execution_count": null,
       "outputs": []
     },
@@ -1544,7 +1544,7 @@
         "\n",
         "A convenient way to compare the deflection and load is by plotting them along $x=0$, using a set of points along the $y$-axis to evaluate the finite element functions $u$ and $p$"
       ],
-      "id": "3e005c5b"
+      "id": "310e51c3"
     },
     {
       "cell_type": "code",
@@ -1558,7 +1558,7 @@
         "u_values = []\n",
         "p_values = []"
       ],
-      "id": "6f0b55d0",
+      "id": "0d6879c4",
       "execution_count": null,
       "outputs": []
     },
@@ -1575,7 +1575,7 @@
         "However, since a mesh typically contains a large number of degrees of freedom (i.e., $N$ is large), evaluating every basis function at each point would be inefficient.\n",
         "Instead, we first identify which mesh cell contains the point $x$. This can be done efficiently using a *bounding box tree*, which enables a fast recursive search through the mesh cells"
       ],
-      "id": "4da75627"
+      "id": "4032a546"
     },
     {
       "cell_type": "code",
@@ -1585,7 +1585,7 @@
         "\n",
         "bb_tree = geometry.bb_tree(domain, domain.topology.dim)"
       ],
-      "id": "f25789d0",
+      "id": "e87f5d7f",
       "execution_count": null,
       "outputs": []
     },
@@ -1599,7 +1599,7 @@
         "\n",
         "Finally, to ensure that the code runs correctly in parallel when the mesh is distributed across multiple processors, we create a subset, `points_on_proc`, that includes only the points located on the current processor"
       ],
-      "id": "5ed8a100"
+      "id": "eb1ed690"
     },
     {
       "cell_type": "code",
@@ -1626,7 +1626,7 @@
         "        points_on_proc.append(point)\n",
         "        cells.append(colliding_cells.links(i)[0])"
       ],
-      "id": "364c4970",
+      "id": "25b2c6d9",
       "execution_count": null,
       "outputs": []
     },
@@ -1636,7 +1636,7 @@
       "source": [
         "We now have a list of points associated with the processor and the cell each point belongs to. This allows us to use `uh.eval` and `pressure.eval` to compute the function values at these points"
       ],
-      "id": "706fbc2a"
+      "id": "5a3884c9"
     },
     {
       "cell_type": "code",
@@ -1647,7 +1647,7 @@
         "u_values = uh.eval(points_on_proc, cells)\n",
         "p_values = pressure.eval(points_on_proc, cells)"
       ],
-      "id": "5d72ae85",
+      "id": "4634b5df",
       "execution_count": null,
       "outputs": []
     },
@@ -1657,7 +1657,7 @@
       "source": [
         "With the coordinates and the corresponding function values, we can now plot the results using `matplotlib`"
       ],
-      "id": "c200e015"
+      "id": "55bbaf25"
     },
     {
       "cell_type": "code",
@@ -1677,7 +1677,7 @@
         "plt.xlabel(\"y\")\n",
         "plt.show()"
       ],
-      "id": "9966ee55",
+      "id": "d9a88562",
       "execution_count": null,
       "outputs": []
     },
@@ -1689,7 +1689,7 @@
         "\n",
         "To visualize the solution in [`ParaView`](https://www.paraview.org/), we can save it to a file as follows:"
       ],
-      "id": "ad5c6f80"
+      "id": "06886d5c"
     },
     {
       "cell_type": "code",
@@ -1716,7 +1716,7 @@
         "  [uh], engine=\"BP4\") as vtx:\n",
         "    vtx.write(0.0)"
       ],
-      "id": "24bfe084",
+      "id": "b7cf2e5a",
       "execution_count": null,
       "outputs": []
     },
@@ -1827,7 +1827,7 @@
         "\n",
         "The first difference from the previous problem is that the domain is no longer the unit square. We create the rectangular domain using `dolfinx.mesh.create_rectangle`"
       ],
-      "id": "d0d1c2ff"
+      "id": "0bfb4a59"
     },
     {
       "cell_type": "code",
@@ -1864,7 +1864,7 @@
         "\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1))"
       ],
-      "id": "0c04d66c",
+      "id": "8cdfbbfb",
       "execution_count": null,
       "outputs": []
     },
@@ -1889,7 +1889,7 @@
         "# HTML 저장\n",
         "plotter.export_html(results_folder/\"heat_mesh.html\")"
       ],
-      "id": "91cb4163",
+      "id": "2425cb4a",
       "execution_count": null,
       "outputs": []
     },
@@ -1909,7 +1909,7 @@
         "Note that we have used a much higher resolution than before to better capture the features of the solution.\n",
         "We can also easily update the initial and boundary conditions. Instead of defining the initial condition using a class, we simply use a function"
       ],
-      "id": "82b1d362"
+      "id": "8651af05"
     },
     {
       "cell_type": "code",
@@ -1949,7 +1949,7 @@
         "  V\n",
         ")"
       ],
-      "id": "bd608d9d",
+      "id": "86046323",
       "execution_count": null,
       "outputs": []
     },
@@ -1961,7 +1961,7 @@
         "\n",
         "As in the previous example, we set up the necessary objects for the time-dependent problem so that we do not need to recreate the data structures"
       ],
-      "id": "e718c66a"
+      "id": "21aa05ec"
     },
     {
       "cell_type": "code",
@@ -1975,7 +1975,7 @@
         "a = (u *v +dt *ufl.dot(ufl.grad(u), ufl.grad(v))) *ufl.dx\n",
         "L = (u_n +dt *f) *v *ufl.dx"
       ],
-      "id": "bbce321c",
+      "id": "ef4386da",
       "execution_count": null,
       "outputs": []
     },
@@ -1987,7 +1987,7 @@
         "\n",
         "Even though `u_n` depends on time, we use the same function for both `f` and `u_n` at each time step. We then call `dolfinx.fem.form` to create the assembly kernels for the matrix and vector"
       ],
-      "id": "6ee36ffc"
+      "id": "46174ce2"
     },
     {
       "cell_type": "code",
@@ -1996,7 +1996,7 @@
         "bilinear_form = fem.form(a)\n",
         "linear_form = fem.form(L)"
       ],
-      "id": "b1628dad",
+      "id": "eb19da79",
       "execution_count": null,
       "outputs": []
     },
@@ -2006,7 +2006,7 @@
       "source": [
         "The left-hand side of the system, the matrix `A`, does not change between time steps, so it only needs to be assembled once. The right-hand side, however, depends on the previous solution `u_n` and must be assembled at every time step. For this reason, we create the vector `b` from `L` and reuse it at each step"
       ],
-      "id": "5b90b331"
+      "id": "fcb5a8b5"
     },
     {
       "cell_type": "code",
@@ -2016,7 +2016,7 @@
         "A.assemble()\n",
         "b = create_vector(linear_form)"
       ],
-      "id": "7d4cd054",
+      "id": "932c36b6",
       "execution_count": null,
       "outputs": []
     },
@@ -2028,7 +2028,7 @@
         "\n",
         "Since we have already assembled `a` into the matrix `A`, we cannot use the `dolfinx.fem.petsc.LinearProblem` class. Instead, we create a  `PETSc` linear solver, assign the matrix `A` to it, and select a solution strategy"
       ],
-      "id": "2d6e9c50"
+      "id": "597e431b"
     },
     {
       "cell_type": "code",
@@ -2039,7 +2039,7 @@
         "solver.setType(PETSc.KSP.Type.PREONLY)\n",
         "solver.getPC().setType(PETSc.PC.Type.LU)"
       ],
-      "id": "2e698782",
+      "id": "dd1afb17",
       "execution_count": null,
       "outputs": []
     },
@@ -2053,7 +2053,7 @@
         "\n",
         "The first argument to `XDMFFile` specifies the communicator used to store the data. Since we want a single output file regardless of the number of processors, we use the `COMM_WORLD`. The second argument is the name of the output file, and the third argument specifies the file mode, which can be read (`\"r\"`), write (`\"w\"`) or append (`\"a\"`)"
       ],
-      "id": "aecc2513"
+      "id": "f048617a"
     },
     {
       "cell_type": "code",
@@ -2074,7 +2074,7 @@
         "\n",
         "xdmf.write_function(uh, t)"
       ],
-      "id": "424a7f36",
+      "id": "72bf3cae",
       "execution_count": null,
       "outputs": []
     },
@@ -2086,7 +2086,7 @@
         "\n",
         "We use the `DOLFINx` plotting tools, based on `PyVista`, to plot the solution at every time step. We also display a colorbar showing the initial maximum values of `u`. For this, we use the convenience function `renderer`:"
       ],
-      "id": "44042c8b"
+      "id": "87c06bd1"
     },
     {
       "cell_type": "code",
@@ -2119,7 +2119,7 @@
         "  clim=[0, max(uh.x.array)]\n",
         ")"
       ],
-      "id": "25254ae4",
+      "id": "c863471f",
       "execution_count": null,
       "outputs": []
     },
@@ -2132,7 +2132,7 @@
         "\n",
         "renderer(warped);"
       ],
-      "id": "c5ea9dc9",
+      "id": "2014fe68",
       "execution_count": null,
       "outputs": []
     },
@@ -2146,7 +2146,7 @@
         "\n",
         "Note that boundary conditions are not supplied during this assembly, unlike for the left-hand side. Instead, we apply them later using lifting, which preserves the symmetry of the matrix in the bilinear form without Dirichlet conditions. After applying the boundary conditions, we solve the linear system and update any values that may be shared across processors. Finally, before advancing to the next step, we update the previous solution with the current one"
       ],
-      "id": "a4266a34"
+      "id": "ca22cb6f"
     },
     {
       "cell_type": "code",
@@ -2189,7 +2189,7 @@
         "plotter.close()\n",
         "xdmf.close()"
       ],
-      "id": "a42aebb2",
+      "id": "792abce3",
       "execution_count": null,
       "outputs": []
     },
@@ -2217,7 +2217,7 @@
         "\n",
         "We start by defining the temporal discretization parameters, along with the parameters for $\\alpha$ and $\\beta$"
       ],
-      "id": "700d7d60"
+      "id": "9e4413a5"
     },
     {
       "cell_type": "code",
@@ -2244,7 +2244,7 @@
         "alpha = 3\n",
         "beta = 1.2"
       ],
-      "id": "feee9ef7",
+      "id": "20d38f04",
       "execution_count": null,
       "outputs": []
     },
@@ -2254,7 +2254,7 @@
       "source": [
         "As in the previous problem, we define the mesh and the appropriate function spaces"
       ],
-      "id": "5f4badda"
+      "id": "a91d2dcc"
     },
     {
       "cell_type": "code",
@@ -2269,7 +2269,7 @@
         "\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1))"
       ],
-      "id": "29a9eb6e",
+      "id": "4f92201d",
       "execution_count": null,
       "outputs": []
     },
@@ -2281,7 +2281,7 @@
         "\n",
         "We implement a Python class to represent the exact solution"
       ],
-      "id": "975fb82f"
+      "id": "25fb4814"
     },
     {
       "cell_type": "code",
@@ -2298,7 +2298,7 @@
         "\n",
         "u_exact = exact_solution(alpha, beta, t)"
       ],
-      "id": "03fa9e80",
+      "id": "d23a76ed",
       "execution_count": null,
       "outputs": []
     },
@@ -2310,7 +2310,7 @@
         "\n",
         "As in the previous sections, we define a Dirichlet boundary condition over the whole boundary"
       ],
-      "id": "1e9cd34b"
+      "id": "8a46b068"
     },
     {
       "cell_type": "code",
@@ -2330,7 +2330,7 @@
         "  fem.locate_dofs_topological(V, fdim, boundary_facets)\n",
         ")"
       ],
-      "id": "4989aaf3",
+      "id": "f411fc4a",
       "execution_count": null,
       "outputs": []
     },
@@ -2344,7 +2344,7 @@
         "\n",
         "Since we set $t=0$ in `u_exact`, we can reuse this variable to obtain $u_n$ for the first time step"
       ],
-      "id": "5c03509c"
+      "id": "dc2321e0"
     },
     {
       "cell_type": "code",
@@ -2353,7 +2353,7 @@
         "u_n = fem.Function(V)\n",
         "u_n.interpolate(u_exact)"
       ],
-      "id": "083e7881",
+      "id": "cdf8809c",
       "execution_count": null,
       "outputs": []
     },
@@ -2363,7 +2363,7 @@
       "source": [
         "Because $f$ is time-independent, we can treat it as a constant"
       ],
-      "id": "1f6f9154"
+      "id": "9ebf82ea"
     },
     {
       "cell_type": "code",
@@ -2371,7 +2371,7 @@
       "source": [
         "f = fem.Constant(domain, beta -2 -2 *alpha)"
       ],
-      "id": "db107b04",
+      "id": "e5567616",
       "execution_count": null,
       "outputs": []
     },
@@ -2381,7 +2381,7 @@
       "source": [
         "We can now create our variational formulation, with the bilinear form `a` and  linear form `L`"
       ],
-      "id": "625a3cec"
+      "id": "5a0308b9"
     },
     {
       "cell_type": "code",
@@ -2395,7 +2395,7 @@
         "a = fem.form(ufl.lhs(F))\n",
         "L = fem.form(ufl.rhs(F))"
       ],
-      "id": "37b5fb73",
+      "id": "4d2dbe90",
       "execution_count": null,
       "outputs": []
     },
@@ -2407,7 +2407,7 @@
         "\n",
         "To ensure that the variational problem is solved efficiently, we construct  several structures that allow data reuse, such as matrix sparisty patterns. In particular, since the bilinear form `a` is independent of time, the matrix only needs to be assembled once"
       ],
-      "id": "ab365617"
+      "id": "4b5c6541"
     },
     {
       "cell_type": "code",
@@ -2419,7 +2419,7 @@
         "\n",
         "uh = fem.Function(V)"
       ],
-      "id": "f0276efc",
+      "id": "8c8462af",
       "execution_count": null,
       "outputs": []
     },
@@ -2431,7 +2431,7 @@
         "\n",
         "The resulting linear algebra problem is solved with [PETSc](https://www.mcs.anl.gov/petsc/), using the Python API `petsc4py` to define a linear solver"
       ],
-      "id": "d0db38c8"
+      "id": "bea1f2e9"
     },
     {
       "cell_type": "code",
@@ -2442,7 +2442,7 @@
         "solver.setType(PETSc.KSP.Type.PREONLY)\n",
         "solver.getPC().setType(PETSc.PC.Type.LU)"
       ],
-      "id": "47be0277",
+      "id": "aaf11e58",
       "execution_count": null,
       "outputs": []
     },
@@ -2458,7 +2458,7 @@
         "The boundary condition is then applied to this vector via a lifting operation, which preserves the symmetry of the matrix.\n",
         "Finally, we solve the problem using `PETSc` and update `u_n` with the values from `uh`"
       ],
-      "id": "4d9cf7b8"
+      "id": "85fbb2ff"
     },
     {
       "cell_type": "code",
@@ -2490,7 +2490,7 @@
         "    # Update solution at previous time step (u_n)\n",
         "    u_n.x.array[:] = uh.x.array"
       ],
-      "id": "02ade27e",
+      "id": "ed1c511c",
       "execution_count": null,
       "outputs": []
     },
@@ -2502,7 +2502,7 @@
         "\n",
         "we compute the $L^2$-error and the maximum error at the mesh vertices for the final time step. This allows us to verify the correctness of our implementation"
       ],
-      "id": "cb66c51b"
+      "id": "3e903136"
     },
     {
       "cell_type": "code",
@@ -2528,7 +2528,7 @@
         "if domain.comm.rank == 0:\n",
         "    print(f\"Error_max: {error_max:.2e}\")"
       ],
-      "id": "f8f088ce",
+      "id": "84dc2930",
       "execution_count": null,
       "outputs": []
     },
@@ -2566,7 +2566,7 @@
         "\n",
         "Here we define a simple wrapper function to set up the variational problem for a given manufactured solution"
       ],
-      "id": "e7afc805"
+      "id": "0a7ab600"
     },
     {
       "cell_type": "code",
@@ -2620,7 +2620,7 @@
         "\n",
         "  return V, *fem.form(ufl.system(F))"
       ],
-      "id": "15354b47",
+      "id": "2aa302ba",
       "execution_count": null,
       "outputs": []
     },
@@ -2630,7 +2630,7 @@
       "source": [
         "Using the convenience function defined above, we can now handle the nullspace. To do this, we employ `PETSc`, attaching additional information to the assembled matrices. Here, we make use of `PETSc`’s built-in function for creating constant nullspaces"
       ],
-      "id": "a62e7cfc"
+      "id": "f2907b44"
     },
     {
       "cell_type": "code",
@@ -2643,7 +2643,7 @@
         "  comm=MPI.COMM_WORLD\n",
         ")"
       ],
-      "id": "8ba5c06c",
+      "id": "5a222b9c",
       "execution_count": null,
       "outputs": []
     },
@@ -2655,7 +2655,7 @@
         "\n",
         "We begin by solving the singular problem using a direct solver (`MUMPS`). `MUMPS` provides additional options to handle singular matrices, which we utilize here"
       ],
-      "id": "1ae5935e"
+      "id": "4b5bb9dc"
     },
     {
       "cell_type": "code",
@@ -2669,7 +2669,7 @@
         "  \"ksp_monitor\": None,\n",
         "}"
       ],
-      "id": "47db10ea",
+      "id": "7d2588f3",
       "execution_count": null,
       "outputs": []
     },
@@ -2679,7 +2679,7 @@
       "source": [
         "Next, we configure the KSP solver"
       ],
-      "id": "31374b44"
+      "id": "ff85641a"
     },
     {
       "cell_type": "code",
@@ -2698,7 +2698,7 @@
         "  del opts[key]\n",
         "opts.prefixPop()"
       ],
-      "id": "98918182",
+      "id": "5b85eb05",
       "execution_count": null,
       "outputs": []
     },
@@ -2708,7 +2708,7 @@
       "source": [
         "We then assemble the bilinear and linear forms and construct the matrix `A` and the right-hand side vector `b`"
       ],
-      "id": "fb5626a5"
+      "id": "8fd8815f"
     },
     {
       "cell_type": "code",
@@ -2725,7 +2725,7 @@
         ")\n",
         "ksp.setOperators(A)"
       ],
-      "id": "27105160",
+      "id": "0ed4cbc3",
       "execution_count": null,
       "outputs": []
     },
@@ -2735,7 +2735,7 @@
       "source": [
         "We begin by verifying that this is indeed the nullspace of `A`, after which we attach it to the matrix"
       ],
-      "id": "8c593298"
+      "id": "8dc3b004"
     },
     {
       "cell_type": "code",
@@ -2744,7 +2744,7 @@
         "assert nullspace.test(A)\n",
         "A.setNullSpace(nullspace)"
       ],
-      "id": "3f95ce54",
+      "id": "fc75aedb",
       "execution_count": null,
       "outputs": []
     },
@@ -2754,7 +2754,7 @@
       "source": [
         "We can then solve the linear system of equations"
       ],
-      "id": "b7b35ad8"
+      "id": "97808b28"
     },
     {
       "cell_type": "code",
@@ -2766,7 +2766,7 @@
         "\n",
         "ksp.destroy()"
       ],
-      "id": "5d72bc36",
+      "id": "18ee60b0",
       "execution_count": null,
       "outputs": []
     },
@@ -2776,7 +2776,7 @@
       "source": [
         "The $L^2$-error can now be evaluated against the analytical solution"
       ],
-      "id": "54bd91d3"
+      "id": "f1ed4a63"
     },
     {
       "cell_type": "code",
@@ -2797,7 +2797,7 @@
         "print(\"Direct solver L2 error: \"\n",
         "     f\"{compute_L2_error(uh):.5e}\")    "
       ],
-      "id": "94f656d2",
+      "id": "26eb644c",
       "execution_count": null,
       "outputs": []
     },
@@ -2807,7 +2807,7 @@
       "source": [
         "We additionally confirm that the solution’s mean value coincides with that of the manufactured solution"
       ],
-      "id": "067b38f5"
+      "id": "187fe0ff"
     },
     {
       "cell_type": "code",
@@ -2830,7 +2830,7 @@
         "\n",
         "assert np.isclose(ex_mean, approx_mean), \"Mean values do not match!\""
       ],
-      "id": "4d59f2b8",
+      "id": "27369665",
       "execution_count": null,
       "outputs": []
     },
@@ -2842,7 +2842,7 @@
         "\n",
         "We can also solve the problem using an iterative solver, such as `GMRES` with `AMG` preconditioning. To do this, we select a new set of `PETSc` options and create a new `KSP` solver"
       ],
-      "id": "bb47a861"
+      "id": "2c336b91"
     },
     {
       "cell_type": "code",
@@ -2871,7 +2871,7 @@
         "  del opts[key]\n",
         "opts.prefixPop()"
       ],
-      "id": "1bcb2668",
+      "id": "2b02a035",
       "execution_count": null,
       "outputs": []
     },
@@ -2881,7 +2881,7 @@
       "source": [
         "Rather than defining the nullspace explicitly, we provide it as a near-nullspace to the multigrid preconditioner"
       ],
-      "id": "48f07bf4"
+      "id": "2363b938"
     },
     {
       "cell_type": "code",
@@ -2893,7 +2893,7 @@
         "\n",
         "ksp_iterative.setOperators(A_iterative)"
       ],
-      "id": "3d85c2e9",
+      "id": "b51ccd2f",
       "execution_count": null,
       "outputs": []
     },
@@ -2903,7 +2903,7 @@
       "source": [
         "uh_iterative = fem.Function(V)"
       ],
-      "id": "dce14ce5",
+      "id": "bf671bbe",
       "execution_count": null,
       "outputs": []
     },
@@ -2914,7 +2914,7 @@
         "ksp_iterative.solve(b, uh_iterative.x.petsc_vec)\n",
         "uh_iterative.x.scatter_forward()"
       ],
-      "id": "57f4feb3",
+      "id": "a302a141",
       "execution_count": null,
       "outputs": []
     },
@@ -2924,7 +2924,7 @@
       "source": [
         " When using the iterative solver, we correct the solution by subtracting its mean value and adding the mean value of the manufactured solution before evaluating the error"
       ],
-      "id": "4fabebb4"
+      "id": "935f8289"
     },
     {
       "cell_type": "code",
@@ -2958,7 +2958,7 @@
         "  rtol=1e-10, atol=1e-12\n",
         ")"
       ],
-      "id": "d998a99a",
+      "id": "66204454",
       "execution_count": null,
       "outputs": []
     },
@@ -3018,7 +3018,7 @@
         "\n",
         "Specifically, we select $q(u) = 1 + u^2$ and define a two-dimensional manufactured solution that is linear in both $x$ and $y$"
       ],
-      "id": "62baf838"
+      "id": "170f964b"
     },
     {
       "cell_type": "code",
@@ -3047,7 +3047,7 @@
         "u_ufl = 1 +x[0] +2 *x[1]\n",
         "f = - ufl.div(q(u_ufl) *ufl.grad(u_ufl))"
       ],
-      "id": "c5b06f01",
+      "id": "b3a34e3e",
       "execution_count": null,
       "outputs": []
     },
@@ -3059,7 +3059,7 @@
         "\n",
         "Having defined both the source term and an exact solution, we can now construct the corresponding function space and boundary conditions. Since the exact solution is already specified, we only need to convert it into a Python function that can be evaluated for interpolation. This is accomplished using Python’s `eval` function"
       ],
-      "id": "c2df20d3"
+      "id": "4587fcb7"
     },
     {
       "cell_type": "code",
@@ -3068,7 +3068,7 @@
         "V = fem.functionspace(domain, (\"Lagrange\", 1))\n",
         "def u_exact(x): return eval(str(u_ufl))"
       ],
-      "id": "f6844753",
+      "id": "62b91f63",
       "execution_count": null,
       "outputs": []
     },
@@ -3090,7 +3090,7 @@
         "  fem.locate_dofs_topological(V, fdim, boundary_facets)\n",
         ")"
       ],
-      "id": "2fb473fb",
+      "id": "0d34ae6f",
       "execution_count": null,
       "outputs": []
     },
@@ -3100,7 +3100,7 @@
       "source": [
         "We are now ready to define the variational formulation. Since the problem is nonlinear, we replace the `TrialFunction` with a `Function`, which acts as the unknown of the problem"
       ],
-      "id": "0547acb7"
+      "id": "8fc4ea03"
     },
     {
       "cell_type": "code",
@@ -3110,7 +3110,7 @@
         "v = ufl.TestFunction(V)\n",
         "F = q(uh) *ufl.dot(ufl.grad(uh), ufl.grad(v)) *ufl.dx -f *v *ufl.dx"
       ],
-      "id": "93ea9171",
+      "id": "53e2ca15",
       "execution_count": null,
       "outputs": []
     },
@@ -3122,7 +3122,7 @@
         "\n",
         "The next step is to define the nonlinear problem. Since the problem is nonlinear, we will use Newton’s method. Newton’s method requires routines for evaluating the residual `F` (including the enforcement of boundary conditions), as well as for computing the Jacobian matrix. `DOLFINx` provides the `NonlinearProblem` class, which implements these routines. In addition to the boundary conditions, you can specify the variational form of the Jacobian (automatically computed if not provided), along with form and JIT parameters"
       ],
-      "id": "16831830"
+      "id": "9b640742"
     },
     {
       "cell_type": "code",
@@ -3130,7 +3130,7 @@
       "source": [
         "problem = NonlinearProblem(F, uh, bcs=[bc])"
       ],
-      "id": "0a36bba2",
+      "id": "f7cc49e0",
       "execution_count": null,
       "outputs": []
     },
@@ -3140,7 +3140,7 @@
       "source": [
         "Next, we use the `DOLFINx` Newton solver. The convergence criteria can be adjusted by setting the absolute tolerance (`atol`), the relative tolerance (`rtol`), or the convergence criterion type (`residual` or `incremental`)"
       ],
-      "id": "513e5ab7"
+      "id": "8366f04d"
     },
     {
       "cell_type": "code",
@@ -3151,7 +3151,7 @@
         "solver.rtol = 1e-6\n",
         "solver.report = True"
       ],
-      "id": "cba03b77",
+      "id": "1e1d8236",
       "execution_count": null,
       "outputs": []
     },
@@ -3161,7 +3161,7 @@
       "source": [
         "We can adjust the linear solver used in each Newton iteration by accessing the underlying `PETSc` object"
       ],
-      "id": "07bcf8bf"
+      "id": "44aa4f34"
     },
     {
       "cell_type": "code",
@@ -3181,7 +3181,7 @@
         "\n",
         "ksp.setFromOptions()"
       ],
-      "id": "6d779e33",
+      "id": "4fa5feed",
       "execution_count": null,
       "outputs": []
     },
@@ -3191,7 +3191,7 @@
       "source": [
         "We are now ready to solve the nonlinear problem. After solving, we verify that the solver has converged and print the number of iterations"
       ],
-      "id": "b9e3b39a"
+      "id": "b2dfaa60"
     },
     {
       "cell_type": "code",
@@ -3203,7 +3203,7 @@
         "assert (converged)\n",
         "print(f\"Number of interations: {n:d}\")"
       ],
-      "id": "d3f68950",
+      "id": "89f7fd57",
       "execution_count": null,
       "outputs": []
     },
@@ -3214,7 +3214,7 @@
         "We observe that the solver converges after $8$ iterations.\n",
         "If we view the problem in terms of finite differences on a uniform mesh, $\\mathcal{P}_1$ elements mimic standard second-order finite differences, which compute derivatives of linear or quadratic functions exactly. In this case, $\\nabla u$ is a constant vector, multiplied by $1+u^2$, resulting in a second-order polynomial in $x$ and $y$. Such terms would also be computed exactly by the finite difference operator. Therefore, even with $\\mathcal{P}_1$ elements, we can expect the manufactured solution to be reproduced by the numerical method. However, if we had chosen a different nonlinearity, such as $1+u^4$, this would no longer hold, and we would need to verify convergence rates"
       ],
-      "id": "3f398ccb"
+      "id": "a57777e4"
     },
     {
       "cell_type": "code",
@@ -3244,7 +3244,7 @@
         "if domain.comm.rank == 0:\n",
         "    print(f\"Error_max: {error_max:.2e}\")"
       ],
-      "id": "36f13422",
+      "id": "bbfceccb",
       "execution_count": null,
       "outputs": []
     },
@@ -3371,7 +3371,7 @@
         "\n",
         "We begin by defining the physical variables that will be used in the program"
       ],
-      "id": "458dba94"
+      "id": "ddf7dab5"
     },
     {
       "cell_type": "code",
@@ -3401,7 +3401,7 @@
         "beta = 1.25\n",
         "lambda_ = beta"
       ],
-      "id": "d6793ce4",
+      "id": "1062fa55",
       "execution_count": null,
       "outputs": []
     },
@@ -3412,7 +3412,7 @@
         "We next create the mesh, which will be composed of hexahedral elements, together with the assoicated function space.\n",
         "Since we require a vector element with three components, we add `(3, )` or (or more generally `(domain.geometry.dim, )`) to the element tuple to obtain a triplet"
       ],
-      "id": "9c78f02e"
+      "id": "63272364"
     },
     {
       "cell_type": "code",
@@ -3426,7 +3426,7 @@
         ")\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 1, (domain.geometry.dim, )))"
       ],
-      "id": "b5fe5606",
+      "id": "3b91e282",
       "execution_count": null,
       "outputs": []
     },
@@ -3436,7 +3436,7 @@
       "source": [
         "Alternatively, we can take advantage of `basix.ufl` to construct the vector element directly:"
       ],
-      "id": "deff8768"
+      "id": "18369031"
     },
     {
       "cell_type": "code",
@@ -3453,7 +3453,7 @@
         ")\n",
         "V = fem.functionspace(domain, element)"
       ],
-      "id": "238b3ab5",
+      "id": "f9b6c619",
       "execution_count": null,
       "outputs": []
     },
@@ -3465,7 +3465,7 @@
         "\n",
         "Since we want to clamp the boundary at $x = 0$, we achieve this by using a marker function, which identifies the facets where $x$ is (within machine precision) close to zero"
       ],
-      "id": "8a5f37bd"
+      "id": "9ff578a3"
     },
     {
       "cell_type": "code",
@@ -3488,7 +3488,7 @@
         "  V\n",
         ")"
       ],
-      "id": "b397048b",
+      "id": "4974183e",
       "execution_count": null,
       "outputs": []
     },
@@ -3498,7 +3498,7 @@
       "source": [
         "Since the traction $T$ should vanish on the remaining boundary, we introduce a `dolfinx.Constant`"
       ],
-      "id": "b1ffcb9d"
+      "id": "a9f3b3b8"
     },
     {
       "cell_type": "code",
@@ -3506,7 +3506,7 @@
       "source": [
         "T = fem.Constant(domain, default_scalar_type((0, 0, 0)))"
       ],
-      "id": "29edc204",
+      "id": "390ddca3",
       "execution_count": null,
       "outputs": []
     },
@@ -3516,7 +3516,7 @@
       "source": [
         "We specify the integration measure $\\mathrm{d}s$, corresponding to integration over the domain boundary, using `ufl`’s built-in measures"
       ],
-      "id": "27412535"
+      "id": "c717f7b1"
     },
     {
       "cell_type": "code",
@@ -3524,7 +3524,7 @@
       "source": [
         "ds = ufl.Measure(\"ds\", domain=domain)"
       ],
-      "id": "9f8672c0",
+      "id": "5f812bd0",
       "execution_count": null,
       "outputs": []
     },
@@ -3536,7 +3536,7 @@
         "\n",
         "We are now ready to formulate the variational problem in a syntax that closely resembles the mathematical notation, as in the previous examples"
       ],
-      "id": "29bb49f6"
+      "id": "75f65500"
     },
     {
       "cell_type": "code",
@@ -3557,7 +3557,7 @@
         "a = ufl.inner(sigma(u), epsilon(v)) *ufl.dx\n",
         "L = ufl.dot(f, v) *ufl.dx +ufl.dot(T, v) *ds"
       ],
-      "id": "b7bd0ca1",
+      "id": "dc9d56e5",
       "execution_count": null,
       "outputs": []
     },
@@ -3573,7 +3573,7 @@
         "\n",
         "As in the previous examples, we assemble the system matrix and right-hand side vector, and solve the variational problem using `PETSc`"
       ],
-      "id": "43ef42b3"
+      "id": "3c0d06ba"
     },
     {
       "cell_type": "code",
@@ -3587,7 +3587,7 @@
         ")\n",
         "uh = problem.solve()"
       ],
-      "id": "20997282",
+      "id": "56810197",
       "execution_count": null,
       "outputs": []
     },
@@ -3599,7 +3599,7 @@
         "\n",
         "As in earlier demos, visualization can be done with `PyVista` or `ParaView`. We first use `PyVista`, adding vectors to the grid rather than scalars"
       ],
-      "id": "86041959"
+      "id": "66af7c13"
     },
     {
       "cell_type": "code",
@@ -3630,7 +3630,7 @@
         "# HTML 저장\n",
         "p.export_html(results_folder/\"deflection.html\")"
       ],
-      "id": "26620f41",
+      "id": "57a376f1",
       "execution_count": null,
       "outputs": []
     },
@@ -3650,7 +3650,7 @@
         "We can also use `ParaView` for visualization.\n",
         "As explained in previous sections, the solution is saved using `XDMFFile`"
       ],
-      "id": "add9fbfe"
+      "id": "9be73253"
     },
     {
       "cell_type": "code",
@@ -3665,7 +3665,7 @@
         "  uh.name = \"Deformation\"\n",
         "  xdmf.write_function(uh)"
       ],
-      "id": "f90b3f8f",
+      "id": "e68dfed8",
       "execution_count": null,
       "outputs": []
     },
@@ -3683,7 +3683,7 @@
         "\n",
         "$$s(u) = \\sigma(u) - \\tfrac{1}{3}\\,\\mathrm{tr}(\\sigma(u))\\, I$$"
       ],
-      "id": "64ab702e"
+      "id": "85cc4224"
     },
     {
       "cell_type": "code",
@@ -3692,7 +3692,7 @@
         "s = sigma(uh) -1. /3 *ufl.tr(sigma(uh)) *ufl.Identity(len(uh))\n",
         "von_Mises = ufl.sqrt(3. /2 *ufl.inner(s, s))"
       ],
-      "id": "d8074492",
+      "id": "19ee474d",
       "execution_count": null,
       "outputs": []
     },
@@ -3702,7 +3702,7 @@
       "source": [
         "`von_Mises` is an expression that needs to be projected onto a suitable function space for visualization. Because `uh` consists of first-order piecewise continuous functions, the resulting von Mises stress is cell-wise constant"
       ],
-      "id": "9aee774c"
+      "id": "38b64e43"
     },
     {
       "cell_type": "code",
@@ -3720,7 +3720,7 @@
         "stresses = fem.Function(V_von_mises)\n",
         "stresses.interpolate(stress_expr)"
       ],
-      "id": "c0963793",
+      "id": "6a21b535",
       "execution_count": null,
       "outputs": []
     },
@@ -3730,7 +3730,7 @@
       "source": [
         "Previously, we visualized only first-order Lagrange functions. Since the von Mises stress is piecewise constant per cell, we slightly adjust the plotting routine, setting values for each cell, which corresponds directly to the degrees of freedom in the function space"
       ],
-      "id": "ea1e1789"
+      "id": "5c10b218"
     },
     {
       "cell_type": "code",
@@ -3751,7 +3751,7 @@
         "# HTML 저장\n",
         "p.export_html(results_folder/\"stresses.html\")"
       ],
-      "id": "092b0569",
+      "id": "31bf1fdb",
       "execution_count": null,
       "outputs": []
     },
@@ -3948,7 +3948,7 @@
         "\n",
         "As in the previous example, we load the `DOLFINx` module together with the `mpi4py` module, create the unit square mesh, and specify the simulation time and temporal discretization"
       ],
-      "id": "53061cee"
+      "id": "004323b7"
     },
     {
       "cell_type": "code",
@@ -3978,7 +3978,7 @@
         "num_steps = 500\n",
         "dt = T /num_steps"
       ],
-      "id": "8ac095e2",
+      "id": "1299a322",
       "execution_count": null,
       "outputs": []
     },
@@ -3988,7 +3988,7 @@
       "source": [
         "Unlike in the previous demos, we will define our two function spaces using `ufl` element definitions as input"
       ],
-      "id": "f7a8e463"
+      "id": "33e7498f"
     },
     {
       "cell_type": "code",
@@ -4009,7 +4009,7 @@
         "V = functionspace(mesh, v_cg2)\n",
         "Q = functionspace(mesh, s_cg1)"
       ],
-      "id": "1fa7d3f9",
+      "id": "4d25d0c5",
       "execution_count": null,
       "outputs": []
     },
@@ -4025,7 +4025,7 @@
         "\n",
         "Since we are working with two different function spaces, we need to define two corresponding sets of trial and test functions:"
       ],
-      "id": "58112435"
+      "id": "b46ed6f0"
     },
     {
       "cell_type": "code",
@@ -4036,7 +4036,7 @@
         "p = TrialFunction(Q)\n",
         "q = TestFunction(Q)"
       ],
-      "id": "f2770364",
+      "id": "5e2dfc19",
       "execution_count": null,
       "outputs": []
     },
@@ -4046,7 +4046,7 @@
       "source": [
         "As we saw in the Linear Elasticity Problem, we can use Python functions to define the different Dirichlet boundary conditions. For this problem, we impose three Dirichlet conditions. First, we set $u=0$ at the channel walls, i.e., at $y=0$ and $y=1$. In this case, we use `dolfinx.fem.locate_dofs_geometrical`"
       ],
-      "id": "be3de8c6"
+      "id": "acaaff41"
     },
     {
       "cell_type": "code",
@@ -4058,7 +4058,7 @@
         "    np.isclose(x[1], 1)\n",
         "  )"
       ],
-      "id": "4c467c5a",
+      "id": "be0706d6",
       "execution_count": null,
       "outputs": []
     },
@@ -4070,7 +4070,7 @@
         "u_noslip = np.array((0,) *mesh.geometry.dim, dtype=PETSc.ScalarType)\n",
         "bc_noslip = dirichletbc(u_noslip, wall_dofs, V)"
       ],
-      "id": "7f5c257f",
+      "id": "36c85f2b",
       "execution_count": null,
       "outputs": []
     },
@@ -4080,7 +4080,7 @@
       "source": [
         "Second, we will impose $p=8$ at the inflow boundary ($x=0$)"
       ],
-      "id": "d58c28b6"
+      "id": "98b8583d"
     },
     {
       "cell_type": "code",
@@ -4089,7 +4089,7 @@
         "def inflow(x):\n",
         "  return np.isclose(x[0], 0)"
       ],
-      "id": "537fb6c2",
+      "id": "74934d03",
       "execution_count": null,
       "outputs": []
     },
@@ -4100,7 +4100,7 @@
         "inflow_dofs = locate_dofs_geometrical(Q, inflow)\n",
         "bc_inflow = dirichletbc(PETSc.ScalarType(8), inflow_dofs, Q)"
       ],
-      "id": "0c3cb80a",
+      "id": "560b8278",
       "execution_count": null,
       "outputs": []
     },
@@ -4110,7 +4110,7 @@
       "source": [
         "Finally, we set $p=0$ at the outflow ($x=1$). This creates a pressure gradient that accelerates the flow from the initial state of zero velocity. We then collect the velocity and pressure boundary conditions in Python lists, so they can be easily accessed in the subsequent computations"
       ],
-      "id": "7511830e"
+      "id": "54362a81"
     },
     {
       "cell_type": "code",
@@ -4119,7 +4119,7 @@
         "def outflow(x):\n",
         "  return np.isclose(x[0], 1)"
       ],
-      "id": "9b869706",
+      "id": "8ed85339",
       "execution_count": null,
       "outputs": []
     },
@@ -4132,7 +4132,7 @@
         "bcu = [bc_noslip]\n",
         "bcp = [bc_inflow, bc_outflow]"
       ],
-      "id": "19c16d8d",
+      "id": "2403bf5a",
       "execution_count": null,
       "outputs": []
     },
@@ -4142,7 +4142,7 @@
       "source": [
         "We now turn to the definition of the three variational forms, one for each step in the IPCS scheme. Let us first consider the formulation of the initial variational problem and the associated parameters"
       ],
-      "id": "714bcc31"
+      "id": "62904d37"
     },
     {
       "cell_type": "code",
@@ -4160,7 +4160,7 @@
         "n = FacetNormal(mesh)\n",
         "f = Constant(mesh, PETSc.ScalarType((0, 0)))"
       ],
-      "id": "c9ad0fc6",
+      "id": "1fce4e65",
       "execution_count": null,
       "outputs": []
     },
@@ -4180,7 +4180,7 @@
         "* `u_n` corresponds to $u^n$\n",
         "* The same convention applies to `p`, `p_` ($p^{n+1}$), and `p_n` ($p^n$)"
       ],
-      "id": "e66453a7"
+      "id": "6e539134"
     },
     {
       "cell_type": "code",
@@ -4207,7 +4207,7 @@
         "a1 = form(lhs(F1))\n",
         "L1 = form(rhs(F1))"
       ],
-      "id": "0436e285",
+      "id": "d24ce8fe",
       "execution_count": null,
       "outputs": []
     },
@@ -4217,7 +4217,7 @@
       "source": [
         "Note that we have used the `ufl` functions `lhs` and `rhs` to extract the bilinear form $a(u,v)$ and the linear form $L(v)$. This is particularly convenient for longer and more complex variational formulations. With our chosen discretization, $a(u,v)$ (`a1`) is not time-dependent and therefore needs to be assembled only once, whereas the right-hand side depends on the solution from the previous time step (`u_n`). Consequently, as in the heat equation example, we create the matrix outside the time loop"
       ],
-      "id": "8f301ddd"
+      "id": "85bad52f"
     },
     {
       "cell_type": "code",
@@ -4227,7 +4227,7 @@
         "A1.assemble()\n",
         "b1 = create_vector(L1)"
       ],
-      "id": "892d3922",
+      "id": "32a075e4",
       "execution_count": null,
       "outputs": []
     },
@@ -4237,7 +4237,7 @@
       "source": [
         "Next, we set up the variational formulations and data structures for the second and third steps of the IPCS scheme, following the same approach as in the first step"
       ],
-      "id": "e9bdb4bc"
+      "id": "8428fb92"
     },
     {
       "cell_type": "code",
@@ -4261,7 +4261,7 @@
         "A3.assemble()\n",
         "b3 = create_vector(L3)"
       ],
-      "id": "e205811e",
+      "id": "8eb267f0",
       "execution_count": null,
       "outputs": []
     },
@@ -4271,7 +4271,7 @@
       "source": [
         "Now that the linear systems are ready, we can attach solvers to them using `PETSc`. Each step can have its own solution strategy. For the tentative velocity and pressure correction steps, we’ll go with the `BiCGStab` method and algebraic multigrid as a preconditioner. For the velocity update step, we’ll switch to the `CG `method with `SOR` (Gauss–Seidel) preconditioning"
       ],
-      "id": "e311c99b"
+      "id": "1084f605"
     },
     {
       "cell_type": "code",
@@ -4300,7 +4300,7 @@
         "pc3 = solver3.getPC()\n",
         "pc3.setType(PETSc.PC.Type.SOR)"
       ],
-      "id": "726be41c",
+      "id": "1ad9c27c",
       "execution_count": null,
       "outputs": []
     },
@@ -4310,7 +4310,7 @@
       "source": [
         "We prepare output files for the velocity and pressure and write the mesh along with the initial conditions to file"
       ],
-      "id": "c56cf082"
+      "id": "727b1841"
     },
     {
       "cell_type": "code",
@@ -4326,7 +4326,7 @@
         "vtx_u.write(t)\n",
         "vtx_p.write(t)"
       ],
-      "id": "f1423714",
+      "id": "27f486b2",
       "execution_count": null,
       "outputs": []
     },
@@ -4336,7 +4336,7 @@
       "source": [
         "We also interpolate the analytical solution into our function space and set up a variational formulation to compute the $L^2$ error"
       ],
-      "id": "3f1bf897"
+      "id": "943e63b2"
     },
     {
       "cell_type": "code",
@@ -4352,7 +4352,7 @@
         "\n",
         "L2_error = form(dot(u_ -u_ex, u_ -u_ex) *dx)"
       ],
-      "id": "c3f5dab3",
+      "id": "0db0bd3a",
       "execution_count": null,
       "outputs": []
     },
@@ -4362,7 +4362,7 @@
       "source": [
         "The next step is to set up the time-stepping loop. For all three steps, we only need to assemble the right-hand side and apply the boundary conditions using lifting, so that the solvers can use them at each time step"
       ],
-      "id": "03e6b33c"
+      "id": "dd3ee582"
     },
     {
       "cell_type": "code",
@@ -4446,7 +4446,7 @@
         "solver2.destroy()\n",
         "solver3.destroy()"
       ],
-      "id": "d0db6c67",
+      "id": "74b094b4",
       "execution_count": null,
       "outputs": []
     },
@@ -4462,7 +4462,7 @@
         "\n",
         "We have already seen how to plot higher-order functions and vector functions. In this section, we’ll focus on visualizing vector functions using glyphs, rather than by warping the mesh"
       ],
-      "id": "5ee0dabe"
+      "id": "0e9b070c"
     },
     {
       "cell_type": "code",
@@ -4495,7 +4495,7 @@
         "# HTML 저장\n",
         "plotter.export_html(folder/\"glyphs.html\")"
       ],
-      "id": "e5946250",
+      "id": "ef2b373b",
       "execution_count": null,
       "outputs": []
     },
@@ -4552,7 +4552,7 @@
         "\n",
         "As in the Deflection of a Membrane example, we use `GMSH` to generate the mesh. We first create the rectangle and the obstacle"
       ],
-      "id": "af32ad62"
+      "id": "4d11a987"
     },
     {
       "cell_type": "code",
@@ -4607,7 +4607,7 @@
         "  rectangle = gmsh.model.occ.addRectangle(0, 0, 0, L, H, tag=1)\n",
         "  obstacle = gmsh.model.occ.addDisk(c_x, c_y, 0, r, r)"
       ],
-      "id": "389a06d4",
+      "id": "2ba82846",
       "execution_count": null,
       "outputs": []
     },
@@ -4617,7 +4617,7 @@
       "source": [
         "The next step is to subtract the obstacle from the channel, so that the interior of the circle is not meshed"
       ],
-      "id": "432c76f3"
+      "id": "d1489129"
     },
     {
       "cell_type": "code",
@@ -4627,7 +4627,7 @@
         "  fluid = gmsh.model.occ.cut([(gdim, rectangle)], [(gdim, obstacle)])\n",
         "  gmsh.model.occ.synchronize()"
       ],
-      "id": "6794d8ab",
+      "id": "37785201",
       "execution_count": null,
       "outputs": []
     },
@@ -4637,7 +4637,7 @@
       "source": [
         "To make GMSH mesh the fluid domain, we add a physical volume marker"
       ],
-      "id": "828f554d"
+      "id": "a94fca95"
     },
     {
       "cell_type": "code",
@@ -4672,7 +4672,7 @@
         "    \"Fluid\"\n",
         "  )"
       ],
-      "id": "89ad1cdc",
+      "id": "216a368c",
       "execution_count": null,
       "outputs": []
     },
@@ -4689,7 +4689,7 @@
         "\n",
         "We determine the correct marker for each surface by computing the center of mass of each geometric entity. This way, we can automatically identify and label each boundary in the mesh"
       ],
-      "id": "d77313c1"
+      "id": "5740d5f8"
     },
     {
       "cell_type": "code",
@@ -4737,7 +4737,7 @@
         "  gmsh.model.addPhysicalGroup(1, obstacle, obstacle_marker)\n",
         "  gmsh.model.setPhysicalName(1, obstacle_marker, \"Obstacle\")"
       ],
-      "id": "d373c25b",
+      "id": "ad7b7093",
       "execution_count": null,
       "outputs": []
     },
@@ -4747,7 +4747,7 @@
       "source": [
         "In previous meshes, uniform element sizes were employed. In this example, variable mesh sizes are used to better capture the flow in the region of interest, particularly around the circular obstacle. This is accomplished using `GMSH` fields"
       ],
-      "id": "4890b1a4"
+      "id": "725055b6"
     },
     {
       "cell_type": "code",
@@ -4780,7 +4780,7 @@
         "  # Set background mesh: controls final mesh refinement\n",
         "  gmsh.model.mesh.field.setAsBackgroundMesh(min_field)"
       ],
-      "id": "5f05e8f3",
+      "id": "16f67903",
       "execution_count": null,
       "outputs": []
     },
@@ -4792,7 +4792,7 @@
         "\n",
         "We are now ready to generate the mesh. At this stage, we need to decide whether the mesh should consist of triangles or quadrilaterals. In this demo, to match the DFG 2D-3 benchmark, we use second-order quadrilateral elements"
       ],
-      "id": "7e59ecf6"
+      "id": "d686a797"
     },
     {
       "cell_type": "code",
@@ -4820,7 +4820,7 @@
         "  # Optimize mesh quality using Netgen optimizer\n",
         "  gmsh.model.mesh.optimize(\"Netgen\")"
       ],
-      "id": "6a9f77e3",
+      "id": "ce7b1831",
       "execution_count": null,
       "outputs": []
     },
@@ -4834,7 +4834,7 @@
         "We follow the same structure as in Deflection of a membrane, with the difference that facet markers are also loaded.\n",
         "For more details about the function used below, see [A GMSH tutorial for DOLFINx](https://jsdokken.com/src/tutorial_gmsh.html)"
       ],
-      "id": "84a0d835"
+      "id": "aab318a7"
     },
     {
       "cell_type": "code",
@@ -4853,7 +4853,7 @@
         "\n",
         "gmsh.finalize()"
       ],
-      "id": "d04bdde0",
+      "id": "9c956119",
       "execution_count": null,
       "outputs": []
     },
@@ -4884,7 +4884,7 @@
         "  # HTML 저장\n",
         "  plotter.export_html(\"fenicsx/ns/flow_past_a_cylinder_mesh.html\")"
       ],
-      "id": "5ae6e0f5",
+      "id": "e42534a4",
       "execution_count": null,
       "outputs": []
     },
@@ -4903,7 +4903,7 @@
         "\n",
         "In accordance with the DGF-2 benchmark, the problem-specific parameters are defined"
       ],
-      "id": "97dd4928"
+      "id": "2305dae1"
     },
     {
       "cell_type": "code",
@@ -4918,7 +4918,7 @@
         "mu = Constant(mesh, PETSc.ScalarType(0.001))  # Dynamic viscosity\n",
         "rho = Constant(mesh, PETSc.ScalarType(1))     # Density"
       ],
-      "id": "a3b00265",
+      "id": "2fc504eb",
       "execution_count": null,
       "outputs": []
     },
@@ -4934,7 +4934,7 @@
         "\n",
         "After creating the mesh and the corresponding mesh tags, we can define the function spaces V and Q together with the boundary conditions. Since ft contains the facet markers, we use it to identify the facets corresponding to the inlet and the walls"
       ],
-      "id": "00be4c41"
+      "id": "b369da9a"
     },
     {
       "cell_type": "code",
@@ -5000,7 +5000,7 @@
         ")\n",
         "bcp = [bcp_outlet]"
       ],
-      "id": "d1a4aa7a",
+      "id": "00fd66e3",
       "execution_count": null,
       "outputs": []
     },
@@ -5052,7 +5052,7 @@
         "\n",
         "We begin by defining all the variables required in the variational formulations"
       ],
-      "id": "03b891b0"
+      "id": "2480b9a2"
     },
     {
       "cell_type": "code",
@@ -5076,7 +5076,7 @@
         "\n",
         "phi = Function(Q)"
       ],
-      "id": "b6533f4b",
+      "id": "16e91115",
       "execution_count": null,
       "outputs": []
     },
@@ -5086,7 +5086,7 @@
       "source": [
         "Next, we define the variational formulation for the first step, where the diffusion and pressure terms are integrated by parts"
       ],
-      "id": "c1c6a576"
+      "id": "ea5e0ee4"
     },
     {
       "cell_type": "code",
@@ -5105,7 +5105,7 @@
         "A1 = create_matrix(a1)\n",
         "b1 = create_vector(L1)"
       ],
-      "id": "8267d89b",
+      "id": "5d986c0a",
       "execution_count": null,
       "outputs": []
     },
@@ -5115,7 +5115,7 @@
       "source": [
         "Next, we set up the second step"
       ],
-      "id": "0441b6ff"
+      "id": "e6a8e59c"
     },
     {
       "cell_type": "code",
@@ -5128,7 +5128,7 @@
         "A2.assemble()\n",
         "b2 = create_vector(L2)"
       ],
-      "id": "2475f340",
+      "id": "4fa942cc",
       "execution_count": null,
       "outputs": []
     },
@@ -5138,7 +5138,7 @@
       "source": [
         "We finally complete the last step"
       ],
-      "id": "82b3b2a1"
+      "id": "2f4283a8"
     },
     {
       "cell_type": "code",
@@ -5151,7 +5151,7 @@
         "A3.assemble()\n",
         "b3 = create_vector(L3)"
       ],
-      "id": "85436fa6",
+      "id": "75562bab",
       "execution_count": null,
       "outputs": []
     },
@@ -5161,7 +5161,7 @@
       "source": [
         "As in the previous tutorials, we use PETSc as the linear algebra backend"
       ],
-      "id": "7d6d6365"
+      "id": "48717955"
     },
     {
       "cell_type": "code",
@@ -5189,7 +5189,7 @@
         "pc3 = solver3.getPC()\n",
         "pc3.setType(PETSc.PC.Type.SOR)"
       ],
-      "id": "fc31577e",
+      "id": "ad9e4fe3",
       "execution_count": null,
       "outputs": []
     },
@@ -5211,7 +5211,7 @@
         "\n",
         "where $u_{t_S}$ is the tangential velocity component at the obstacle interface $\\partial\\Omega_S$, defined as $u_{t_S}=u\\cdot (n_y,-n_x)$, $U_{\\text{mean}}=1$ is the average inflow velocity, and $L$ is the channel length. We use UFL to define the relevant integrals and assemble them at each time step"
       ],
-      "id": "16fadfa8"
+      "id": "cc2f1a14"
     },
     {
       "cell_type": "code",
@@ -5236,7 +5236,7 @@
         "  t_u = np.zeros(num_steps, dtype=np.float64)\n",
         "  t_p = np.zeros(num_steps, dtype=np.float64)"
       ],
-      "id": "7bcac70e",
+      "id": "9d3f3123",
       "execution_count": null,
       "outputs": []
     },
@@ -5246,7 +5246,7 @@
       "source": [
         "We will also evaluate the pressure at two points: one in front of the obstacle, $(0.15, 0.2)$, and one behind it, $(0.25, 0.2)$. To do this, we first need to determine which cell contains each point, so that we can construct a linear combination of the local basis functions and their coefficients"
       ],
-      "id": "456080ce"
+      "id": "193fd8c2"
     },
     {
       "cell_type": "code",
@@ -5264,7 +5264,7 @@
         "if mesh.comm.rank == 0:\n",
         "  p_diff = np.zeros(num_steps, dtype=PETSc.ScalarType)"
       ],
-      "id": "b140ebfe",
+      "id": "bb791822",
       "execution_count": null,
       "outputs": []
     },
@@ -5276,7 +5276,7 @@
         "\n",
         "As in the previous example, we create output files for the velocity and pressure and solve the time-dependent problem. Since the problem involves many time steps, we use the tqdm package to visualize the progress"
       ],
-      "id": "fe489c76"
+      "id": "5e65797b"
     },
     {
       "cell_type": "code",
@@ -5401,7 +5401,7 @@
         "vtx_u.close()\n",
         "vtx_p.close()"
       ],
-      "id": "40444a6e",
+      "id": "f74240a3",
       "execution_count": null,
       "outputs": []
     },
@@ -5421,7 +5421,7 @@
         "\n",
         "We use `matplotlib` to compare our numerical results with the reference data provided by `FEATFLOW` for different discretization levels"
       ],
-      "id": "698e5d61"
+      "id": "638f45ac"
     },
     {
       "cell_type": "code",
@@ -5495,7 +5495,7 @@
         "  plt.savefig(folder/\"pressure_comparison.png\")\n",
         "  plt.show()"
       ],
-      "id": "0f7eb999",
+      "id": "74cec121",
       "execution_count": null,
       "outputs": []
     },
@@ -5513,7 +5513,7 @@
         "We begin by importing `DOLFINx` along with additional dependencies.\n",
         "Next, we construct a slender cantilever composed of hexahedral elements and define the function space `V` for the unknown field"
       ],
-      "id": "70d11e2b"
+      "id": "e3675a64"
     },
     {
       "cell_type": "code",
@@ -5540,7 +5540,7 @@
         ")\n",
         "V = fem.functionspace(domain, (\"Lagrange\", 2, (domain.geometry.dim, )))"
       ],
-      "id": "884e34aa",
+      "id": "79618ae4",
       "execution_count": null,
       "outputs": []
     },
@@ -5550,7 +5550,7 @@
       "source": [
         "We define two Python functions to identify the facets where boundary conditions should be applied"
       ],
-      "id": "bee31df1"
+      "id": "7eca2c6e"
     },
     {
       "cell_type": "code",
@@ -5566,7 +5566,7 @@
         "left_facets = mesh.locate_entities_boundary(domain, fdim, left)\n",
         "right_facets = mesh.locate_entities_boundary(domain, fdim, right)"
       ],
-      "id": "441ed58d",
+      "id": "fde9daab",
       "execution_count": null,
       "outputs": []
     },
@@ -5576,7 +5576,7 @@
       "source": [
         "Next, we create a marker using these two functions"
       ],
-      "id": "62787cbe"
+      "id": "7fd9c32c"
     },
     {
       "cell_type": "code",
@@ -5606,7 +5606,7 @@
         "    marked_values[sorted_facets]\n",
         ")"
       ],
-      "id": "df59869b",
+      "id": "a9c5aeb0",
       "execution_count": null,
       "outputs": []
     },
@@ -5616,7 +5616,7 @@
       "source": [
         "We then create a function to prescribe the fixed boundary condition on the left side"
       ],
-      "id": "c53e4de3"
+      "id": "094265fd"
     },
     {
       "cell_type": "code",
@@ -5624,7 +5624,7 @@
       "source": [
         "u_bc = np.array((0,) *domain.geometry.dim, dtype=default_scalar_type)"
       ],
-      "id": "3ba78205",
+      "id": "5246028c",
       "execution_count": null,
       "outputs": []
     },
@@ -5634,7 +5634,7 @@
       "source": [
         "To apply the boundary condition, we identify the degrees of freedom (dofs) associated with the facets marked by the `MeshTag`"
       ],
-      "id": "527fef78"
+      "id": "a37fba56"
     },
     {
       "cell_type": "code",
@@ -5647,7 +5647,7 @@
         ")\n",
         "bcs = [fem.dirichletbc(u_bc, left_dofs, V)]"
       ],
-      "id": "93be99f4",
+      "id": "1dc1dc87",
       "execution_count": null,
       "outputs": []
     },
@@ -5657,7 +5657,7 @@
       "source": [
         "Next, we define the body force `B` on the reference configuration and the nominal (first Piola-Kirchhoff) traction `T`"
       ],
-      "id": "95c70345"
+      "id": "52a79df3"
     },
     {
       "cell_type": "code",
@@ -5666,7 +5666,7 @@
         "B = fem.Constant(domain, default_scalar_type((0, 0, 0)))\n",
         "T = fem.Constant(domain, default_scalar_type((0, 0, 0)))"
       ],
-      "id": "202c2903",
+      "id": "d96a4914",
       "execution_count": null,
       "outputs": []
     },
@@ -5676,7 +5676,7 @@
       "source": [
         "We define the test and solution functions in the space $V$"
       ],
-      "id": "2d1c309d"
+      "id": "11998400"
     },
     {
       "cell_type": "code",
@@ -5685,7 +5685,7 @@
         "v = ufl.TestFunction(V)\n",
         "u = fem.Function(V)"
       ],
-      "id": "9d478b5b",
+      "id": "a03c20d7",
       "execution_count": null,
       "outputs": []
     },
@@ -5695,7 +5695,7 @@
       "source": [
         "We define the kinematic quantities relevant to the problem"
       ],
-      "id": "25d0209f"
+      "id": "33478bf8"
     },
     {
       "cell_type": "code",
@@ -5717,7 +5717,7 @@
         "Ic = ufl.variable(ufl.tr(C))\n",
         "J = ufl.variable(ufl.det(F))"
       ],
-      "id": "e3f5a1f7",
+      "id": "eaddedac",
       "execution_count": null,
       "outputs": []
     },
@@ -5727,7 +5727,7 @@
       "source": [
         "We define the elasticity model using the stored strain energy density function $\\psi$, and derive the corresponding first Piola-Kirchhoff stress expression:"
       ],
-      "id": "4f477af3"
+      "id": "f73aa44b"
     },
     {
       "cell_type": "code",
@@ -5746,7 +5746,7 @@
         "# Stress - Hyper-elasticity\n",
         "P = ufl.diff(psi, F)"
       ],
-      "id": "4fbd831a",
+      "id": "866fa3a2",
       "execution_count": null,
       "outputs": []
     },
@@ -5758,7 +5758,7 @@
         "To illustrate the difference between linear elasticity and hyperelasticity, the following lines can be uncommented to solve the linear elasticity problem\n",
         ":::"
       ],
-      "id": "3d83e04d"
+      "id": "ad086348"
     },
     {
       "cell_type": "code",
@@ -5766,7 +5766,7 @@
       "source": [
         "# P = 2.0 *mu *ufl.sym(ufl.grad(u)) +lmbda *ufl.tr(ufl.sym(ufl.grad(u))) *I"
       ],
-      "id": "0cbde488",
+      "id": "6753fbac",
       "execution_count": null,
       "outputs": []
     },
@@ -5776,7 +5776,7 @@
       "source": [
         "Define the variational form, including the traction integral over all facets marked with value 2. The quadrature degree for the integrals is set to 4"
       ],
-      "id": "688aa338"
+      "id": "5ba3241e"
     },
     {
       "cell_type": "code",
@@ -5799,7 +5799,7 @@
         "# Define form F (we want to find u such that F(u) = 0)\n",
         "F = ufl.inner(ufl.grad(v), P) *dx -ufl.inner(v, B) *dx -ufl.inner(v, T) *ds(2)"
       ],
-      "id": "93f5b6bc",
+      "id": "bbe387d9",
       "execution_count": null,
       "outputs": []
     },
@@ -5809,7 +5809,7 @@
       "source": [
         "As the variational form is nonlinear and written in residual form, we use the nonlinear problem class from `DOLFINx` to set up the structures required for a Newton solver"
       ],
-      "id": "ddb089d5"
+      "id": "b12449c3"
     },
     {
       "cell_type": "code",
@@ -5817,7 +5817,7 @@
       "source": [
         "problem = NonlinearProblem(F, u, bcs)"
       ],
-      "id": "f29e93a8",
+      "id": "b9d4484d",
       "execution_count": null,
       "outputs": []
     },
@@ -5827,7 +5827,7 @@
       "source": [
         "and then create and configure the Newton solver"
       ],
-      "id": "238d6c0d"
+      "id": "63753b28"
     },
     {
       "cell_type": "code",
@@ -5840,7 +5840,7 @@
         "solver.rtol = 1e-8\n",
         "solver.convergence_criterion = \"incremental\""
       ],
-      "id": "5b946c45",
+      "id": "0504ff08",
       "execution_count": null,
       "outputs": []
     },
@@ -5850,7 +5850,7 @@
       "source": [
         "We define a function to plot the solution at each time step"
       ],
-      "id": "f08e24ee"
+      "id": "42d56d87"
     },
     {
       "cell_type": "code",
@@ -5894,7 +5894,7 @@
         "magnitude.interpolate(us)\n",
         "warped[\"mag\"] = magnitude.x.array"
       ],
-      "id": "f88c949e",
+      "id": "4de2ada9",
       "execution_count": null,
       "outputs": []
     },
@@ -5904,7 +5904,7 @@
       "source": [
         "Finally, we solve the problem over multiple time steps, updating the traction in the z-direction"
       ],
-      "id": "71791a06"
+      "id": "1d757475"
     },
     {
       "cell_type": "code",
@@ -5936,7 +5936,7 @@
         "\n",
         "log.set_log_level(log.LogLevel.WARNING)"
       ],
-      "id": "ba950166",
+      "id": "25e197de",
       "execution_count": null,
       "outputs": []
     },
@@ -6068,7 +6068,7 @@
         "\n",
         "Finally, we create the mesh with `GMSH`, defining the physical groups for the velocity and impedance boundary conditions along with their respective tags"
       ],
-      "id": "4e297692"
+      "id": "7cdf4711"
     },
     {
       "cell_type": "code",
@@ -6135,7 +6135,7 @@
         "# mesh generation\n",
         "gmsh.model.mesh.generate(dim=3)"
       ],
-      "id": "deb42fbd",
+      "id": "3df4c079",
       "execution_count": null,
       "outputs": []
     },
@@ -6145,7 +6145,7 @@
       "source": [
         "We then import the mesh generated by `GMSH` with the `dolfinx.io.gmshio` function"
       ],
-      "id": "6bd546e4"
+      "id": "31388598"
     },
     {
       "cell_type": "code",
@@ -6183,7 +6183,7 @@
         "\n",
         "gmsh.finalize()"
       ],
-      "id": "dbe50060",
+      "id": "e804faf3",
       "execution_count": null,
       "outputs": []
     },
@@ -6193,7 +6193,7 @@
       "source": [
         "We define the function space for the unknowns $p_r$ and $p_i$. We also specify the boundary integration measure $ds$ using `ufl`"
       ],
-      "id": "76e53bfa"
+      "id": "5d3b3af0"
     },
     {
       "cell_type": "code",
@@ -6202,7 +6202,7 @@
         "V = fem.functionspace(domain, (\"Lagrange\", 1))\n",
         "ds = ufl.Measure(\"ds\", domain=domain, subdomain_data=facet_tags)"
       ],
-      "id": "6ba963c1",
+      "id": "c263edc9",
       "execution_count": null,
       "outputs": []
     },
@@ -6227,7 +6227,7 @@
         "# HTML 저장\n",
         "plotter.export_html(results_folder/\"helmholtz_mesh.html\")"
       ],
-      "id": "ab56eeb4",
+      "id": "ca639eed",
       "execution_count": null,
       "outputs": []
     },
@@ -6269,7 +6269,7 @@
         "\n",
         "Let’s create a function to calculate it"
       ],
-      "id": "e2112dc4"
+      "id": "ed5c3a4b"
     },
     {
       "cell_type": "code",
@@ -6292,7 +6292,7 @@
         "  Z_s = -1j *Zc *(1 /np.tan(kc *d))\n",
         "  return Z_s"
       ],
-      "id": "30179997",
+      "id": "37b92229",
       "execution_count": null,
       "outputs": []
     },
@@ -6304,7 +6304,7 @@
         "Since we are going to compute a sound pressure spectrum, all frequency-dependent variables (i.e., $\\omega$, $k$, $Z_r$ and $Z_i$) need to be updated within the frequency loop.\n",
         "To enable this, we initialize them as `DOLFINx` constants"
       ],
-      "id": "4998eb93"
+      "id": "17720b3f"
     },
     {
       "cell_type": "code",
@@ -6335,7 +6335,7 @@
         "  int(np.argmin(np.linalg.norm(coords -p, axis=1))) for p in probe_points\n",
         "]"
       ],
-      "id": "5e93bedb",
+      "id": "3a280328",
       "execution_count": null,
       "outputs": []
     },
@@ -6347,7 +6347,7 @@
         "\n",
         "We can now write the variational formulation"
       ],
-      "id": "9939066c"
+      "id": "ffa87682"
     },
     {
       "cell_type": "code",
@@ -6375,7 +6375,7 @@
         "L_r = -omega *rho0 *q_i *v *ufl.dx +omega *rho0 *v_ni *v *ds(2)\n",
         "L_i =  omega *rho0 *q_r *v *ufl.dx -omega *rho0 *v_nr *v *ds(2)"
       ],
-      "id": "9a56980d",
+      "id": "4aed90cc",
       "execution_count": null,
       "outputs": []
     },
@@ -6386,7 +6386,7 @@
         "The `LinearProblem` class is used to set up the `PETSc` backend and assemble the system matrix and vector.\n",
         "The solution is stored in a `dolfinx.fem.Function`, `p_r_fun` and `p_i_fun`"
       ],
-      "id": "8f81834c"
+      "id": "7f954d51"
     },
     {
       "cell_type": "code",
@@ -6407,7 +6407,7 @@
         "  petsc_options={\"ksp_type\": \"preonly\", \"pc_type\": \"lu\"}\n",
         ")"
       ],
-      "id": "5c78e47d",
+      "id": "050207ff",
       "execution_count": null,
       "outputs": []
     },
@@ -6419,7 +6419,7 @@
         "\n",
         "Finally, we implement the frequency loop. In this step, the frequency-dependent variables are updated and the system is solved for each frequency"
       ],
-      "id": "18555aba"
+      "id": "8f3dc0c2"
     },
     {
       "cell_type": "code",
@@ -6489,7 +6489,7 @@
         "xdmf_real.close()\n",
         "xdmf_imag.close()  "
       ],
-      "id": "cd0fe8dc",
+      "id": "a69ce581",
       "execution_count": null,
       "outputs": []
     },
@@ -6511,7 +6511,7 @@
         "  \n",
         "  plt.show()"
       ],
-      "id": "ba329290",
+      "id": "abb53b44",
       "execution_count": null,
       "outputs": []
     },
@@ -6610,7 +6610,7 @@
         "\n",
         "We begin by importing the necessary packages:"
       ],
-      "id": "0b68d076"
+      "id": "dc5332dc"
     },
     {
       "cell_type": "code",
@@ -6630,7 +6630,7 @@
         "from dolfinx.io import gmshio, XDMFFile\n",
         "import ufl"
       ],
-      "id": "1675e5c2",
+      "id": "214e667e",
       "execution_count": null,
       "outputs": []
     },
@@ -6646,7 +6646,7 @@
         "\n",
         "Finally, we’ll set up some parameters to check the convergence of the algorithm"
       ],
-      "id": "b063a1ee"
+      "id": "3efe2c19"
     },
     {
       "cell_type": "code",
@@ -7198,7 +7198,7 @@
         "            for i, eigenval in enumerate(final[:6]):\n",
         "                print(f\"  λ_{i+1} = {eigenval:.8f}\")"
       ],
-      "id": "7f71d2ff",
+      "id": "cf48c6af",
       "execution_count": null,
       "outputs": []
     },
@@ -7245,7 +7245,7 @@
         "if __name__ == \"__main__\":\n",
         "    run_complete_tests()"
       ],
-      "id": "983d4fa1",
+      "id": "80d38d34",
       "execution_count": null,
       "outputs": []
     },
@@ -7353,7 +7353,7 @@
         "\n",
         "As in the previous example, we start by defining the mesh, the function space, and the bilinear form $a(u,v)$"
       ],
-      "id": "8a01e1b9"
+      "id": "490b0960"
     },
     {
       "cell_type": "code",
@@ -7381,7 +7381,7 @@
         "\n",
         "a = dot(grad(u), grad(v)) *dx"
       ],
-      "id": "d9dbade1",
+      "id": "9c0b28d0",
       "execution_count": null,
       "outputs": []
     },
@@ -7391,7 +7391,7 @@
       "source": [
         "Now we turn to the Neumann and Dirichlet boundary conditions. As before, we use a Python function to mark the part of the boundary where the Dirichlet condition should apply. With this function, we can then identify the corresponding degrees of freedom that satisfy the condition"
       ],
-      "id": "1eeefbf3"
+      "id": "f28f4160"
     },
     {
       "cell_type": "code",
@@ -7409,7 +7409,7 @@
         "u_bc.interpolate(u_exact)\n",
         "bc = dirichletbc(u_bc, dofs_D)"
       ],
-      "id": "a0efdd07",
+      "id": "73e3ff92",
       "execution_count": null,
       "outputs": []
     },
@@ -7419,7 +7419,7 @@
       "source": [
         "The next step is to define the Neumann condition. We begin by defining $g$ using `UFL`’s `SpatialCoordinate` function, and then create a boundary integration measure `ds`. Since the test function $v$ vanishes on the Dirichlet boundary, the corresponding integrals drop out. This allows us to simply integrate `g *v *ds` over the entire boundary"
       ],
-      "id": "80d25825"
+      "id": "5afda4bb"
     },
     {
       "cell_type": "code",
@@ -7432,7 +7432,7 @@
         "\n",
         "L = f *v *dx -g *v *ds"
       ],
-      "id": "808c683a",
+      "id": "b6ff6b83",
       "execution_count": null,
       "outputs": []
     },
@@ -7442,7 +7442,7 @@
       "source": [
         "At this stage, we are ready to assemble the linear system and solve it"
       ],
-      "id": "6b32cd5a"
+      "id": "d384a7ae"
     },
     {
       "cell_type": "code",
@@ -7478,7 +7478,7 @@
         "print(f\"Error_L2 : {error_L2:.2e}\")\n",
         "print(f\"Error_max : {error_max:.2e}\")"
       ],
-      "id": "265e4ca2",
+      "id": "011ab926",
       "execution_count": null,
       "outputs": []
     },
@@ -7490,7 +7490,7 @@
         "\n",
         "To visualize the solution, run the code either as a Python script with `off_screen=True`, or inside a Jupyter notebook with `off_screen=False`"
       ],
-      "id": "5eba4501"
+      "id": "3feac134"
     },
     {
       "cell_type": "code",
@@ -7517,7 +7517,7 @@
         "else:\n",
         "    figure = plotter.screenshot(results_folder/\"neumann_dirichlet.png\")"
       ],
-      "id": "46607248",
+      "id": "03f905fd",
       "execution_count": null,
       "outputs": []
     },
@@ -7563,7 +7563,7 @@
         "\n",
         "As before, we begin by defining the mesh, the function space, and the variational formulation"
       ],
-      "id": "79efe348"
+      "id": "9f92b261"
     },
     {
       "cell_type": "code",
@@ -7605,7 +7605,7 @@
         "g = - 4 *x[1]\n",
         "L = f *v *dx -g *v *ds"
       ],
-      "id": "ee82a367",
+      "id": "72023b40",
       "execution_count": null,
       "outputs": []
     },
@@ -7615,7 +7615,7 @@
       "source": [
         "Our next step is to mark the two boundaries individually, beginning with the left boundary"
       ],
-      "id": "311e65cf"
+      "id": "8618ef16"
     },
     {
       "cell_type": "code",
@@ -7626,7 +7626,7 @@
         "u_L.interpolate(lambda x: 1 +2 *x[1]**2)\n",
         "bc_L = dirichletbc(u_L, dofs_L)"
       ],
-      "id": "c63aad15",
+      "id": "762b245b",
       "execution_count": null,
       "outputs": []
     },
@@ -7636,7 +7636,7 @@
       "source": [
         "Note that we have used `lambda`-functions to compactly define the functions returning the subdomain evaluation and function evaluation. We can use a similar procedure for the right boundary condition, and gather both boundary conditions in a vector `bcs`"
       ],
-      "id": "dd8719a9"
+      "id": "5c9cc3db"
     },
     {
       "cell_type": "code",
@@ -7648,7 +7648,7 @@
         "bc_R = dirichletbc(u_R, dofs_R)\n",
         "bcs = [bc_R, bc_L]"
       ],
-      "id": "8b09712f",
+      "id": "458da8b9",
       "execution_count": null,
       "outputs": []
     },
@@ -7658,7 +7658,7 @@
       "source": [
         "We are now ready to solve the problem once more and evaluate both the $L^2$ error and the maximum error at the mesh vertices"
       ],
-      "id": "8d6cc15d"
+      "id": "af7d6328"
     },
     {
       "cell_type": "code",
@@ -7690,7 +7690,7 @@
         "print(f\"Error_L2 : {error_L2:.2e}\")\n",
         "print(f\"Error_max : {error_max:.2e}\")"
       ],
-      "id": "16d134d0",
+      "id": "06daad0e",
       "execution_count": null,
       "outputs": []
     },
@@ -7702,7 +7702,7 @@
         "\n",
         "To visualize the solution, run the code either as a Python script with `off_screen=True`, or inside a Jupyter notebook with `off_screen=False`"
       ],
-      "id": "4c6b7ce9"
+      "id": "204f7af1"
     },
     {
       "cell_type": "code",
@@ -7729,7 +7729,7 @@
         "else:\n",
         "    figure = plotter.screenshot(results_folder/\"multiple_dirichlet.png\")"
       ],
-      "id": "2a938754",
+      "id": "07b0eca1",
       "execution_count": null,
       "outputs": []
     },
@@ -7754,7 +7754,7 @@
         "\n",
         "**Subdomains on built-in meshes**"
       ],
-      "id": "3a42285c"
+      "id": "b68a5a07"
     },
     {
       "cell_type": "code",
@@ -7785,7 +7785,7 @@
         "mesh = create_unit_square(MPI.COMM_WORLD, 10, 10)\n",
         "Q = functionspace(mesh, (\"DG\", 0))"
       ],
-      "id": "007a73e0",
+      "id": "0e2eda5e",
       "execution_count": null,
       "outputs": []
     },
@@ -7795,7 +7795,7 @@
       "source": [
         "To illustrate the concept, let’s consider a simple two-dimensional example with two materials. The domain $\\Omega=[0,1]\\times[0,1]$ is split into two subdomains, $\\Omega_1=[0,1]\\times [0,1/2]$ and $\\Omega_2=[0,1]\\times[1/2, 1]$. We start by defining two Python functions, where each function returns `True` whenever the given coordinate falls inside its corresponding subdomain"
       ],
-      "id": "8ac849c1"
+      "id": "52955861"
     },
     {
       "cell_type": "code",
@@ -7807,7 +7807,7 @@
         "def Omega_2(x):\n",
         "  return x[1] >= 0.5"
       ],
-      "id": "53e16912",
+      "id": "ddffb2bc",
       "execution_count": null,
       "outputs": []
     },
@@ -7828,7 +7828,7 @@
         "\n",
         "The next step is to define the coefficient $\\kappa$"
       ],
-      "id": "2eb1ad10"
+      "id": "512ee603"
     },
     {
       "cell_type": "code",
@@ -7838,7 +7838,7 @@
         "cells_1 = locate_entities(mesh, mesh.topology.dim, Omega_1)\n",
         "cells_2 = locate_entities(mesh, mesh.topology.dim, Omega_2)"
       ],
-      "id": "53dab021",
+      "id": "e497d828",
       "execution_count": null,
       "outputs": []
     },
@@ -7855,7 +7855,7 @@
         "0.1 & \\text{if } x \\in \\Omega_2\n",
         "\\end{cases}$$"
       ],
-      "id": "27cf0c37"
+      "id": "64796490"
     },
     {
       "cell_type": "code",
@@ -7864,7 +7864,7 @@
         "kappa.x.array[cells_1] = np.full_like(cells_1, 1, dtype=default_scalar_type)\n",
         "kappa.x.array[cells_2] = np.full_like(cells_2, 0.1, dtype=default_scalar_type)"
       ],
-      "id": "66dde7f0",
+      "id": "8668cf0e",
       "execution_count": null,
       "outputs": []
     },
@@ -7886,7 +7886,7 @@
         "mesh.topology.create_connectivity(tdim, tdim)\n",
         "topology, cell_types, x = vtk_mesh(mesh, tdim, np.arange(num_cells_local, dtype=np.int32))"
       ],
-      "id": "8306e683",
+      "id": "e5d1cd04",
       "execution_count": null,
       "outputs": []
     },
@@ -7912,7 +7912,7 @@
         "else:\n",
         "    figure = plotter.screenshot(results_folder/\"subdomains_structured.png\")"
       ],
-      "id": "db138a60",
+      "id": "01654569",
       "execution_count": null,
       "outputs": []
     },
@@ -7931,7 +7931,7 @@
         "\n",
         "After performing integration by parts, we are now ready to define the variational formulation and the Dirichlet boundary condition"
       ],
-      "id": "f0db1dc6"
+      "id": "6745cb18"
     },
     {
       "cell_type": "code",
@@ -7949,7 +7949,7 @@
         "dofs = locate_dofs_geometrical(V, lambda x: np.isclose(x[0], 0))\n",
         "bcs = [dirichletbc(default_scalar_type(1), dofs, V)]"
       ],
-      "id": "03c1a8ae",
+      "id": "54cabdf0",
       "execution_count": null,
       "outputs": []
     },
@@ -7959,7 +7959,7 @@
       "source": [
         "We can now solve the problem and visualize its solution"
       ],
-      "id": "bf7a7ac6"
+      "id": "0da54c25"
     },
     {
       "cell_type": "code",
@@ -7973,7 +7973,7 @@
         ")\n",
         "uh = problem.solve()"
       ],
-      "id": "ff2edcb8",
+      "id": "51ee3dc2",
       "execution_count": null,
       "outputs": []
     },
@@ -7993,7 +7993,7 @@
         "else:\n",
         "  figure = plotter.screenshot(results_folder/\"subdomains_structured2.png\")"
       ],
-      "id": "a9b24d75",
+      "id": "ad75be36",
       "execution_count": null,
       "outputs": []
     },
@@ -8016,7 +8016,7 @@
         "\n",
         "As we saw in the first approach, in many cases the geometrical coordinates can be used to determine which coefficient to apply. Using the unstructured mesh from the previous example, we illustrate an alternative approach based on interpolation"
       ],
-      "id": "cf5e8adb"
+      "id": "fbf3455f"
     },
     {
       "cell_type": "code",
@@ -8035,7 +8035,7 @@
         "\n",
         "  return values"
       ],
-      "id": "378a8fb2",
+      "id": "6620007f",
       "execution_count": null,
       "outputs": []
     },
@@ -8046,7 +8046,7 @@
         "kappa2 = Function(Q)\n",
         "kappa2.interpolate(eval_kappa)"
       ],
-      "id": "6ac8fb5c",
+      "id": "37520ee9",
       "execution_count": null,
       "outputs": []
     },
@@ -8056,7 +8056,7 @@
       "source": [
         "We verify this by computing the error between the new function and the previous one"
       ],
-      "id": "284403a2"
+      "id": "316265d2"
     },
     {
       "cell_type": "code",
@@ -8066,7 +8066,7 @@
         "error = mesh.comm.allreduce(assemble_scalar(form((kappa -kappa2)**2 *dx)))\n",
         "print(f'{error = }')"
       ],
-      "id": "f2a75f0b",
+      "id": "40e36db5",
       "execution_count": null,
       "outputs": []
     },
@@ -8078,7 +8078,7 @@
         "\n",
         "Let us now consider the same problem, but using `GMSH` to generate both the mesh and the subdomains. We will then show how to use this data to create discontinuous functions in `dolfinx`"
       ],
-      "id": "3f115770"
+      "id": "f65243a9"
     },
     {
       "cell_type": "code",
@@ -8124,7 +8124,7 @@
         "\n",
         "gmsh.finalize()"
       ],
-      "id": "c758354c",
+      "id": "ed9913dd",
       "execution_count": null,
       "outputs": []
     },
@@ -8136,7 +8136,7 @@
         "\n",
         "You can read MSH files with `dolfinx`, which initially loads them on a single process and then distributes them across the available ranks in the MPI communicator"
       ],
-      "id": "d679930e"
+      "id": "91ed17a2"
     },
     {
       "cell_type": "code",
@@ -8148,7 +8148,7 @@
         "  gdim=2\n",
         ")"
       ],
-      "id": "b47188d0",
+      "id": "afcfe3bf",
       "execution_count": null,
       "outputs": []
     },
@@ -8160,7 +8160,7 @@
         "\n",
         "We will use `meshio` to read in the `msh` file, and convert it to a more suitable IO format. e start by creating a convenience function for extracting data for a single cell type, and creating a new `meshio.Mesh`"
       ],
-      "id": "7250ea0b"
+      "id": "0cf940da"
     },
     {
       "cell_type": "code",
@@ -8182,7 +8182,7 @@
         "  \n",
         "  return out_mesh"
       ],
-      "id": "31120aa2",
+      "id": "ccd66e97",
       "execution_count": null,
       "outputs": []
     },
@@ -8192,7 +8192,7 @@
       "source": [
         "This function returns a `meshio` mesh, including physical markers for the specified type. The `prune_z` argument is used when working with two-dimensional meshes. The last coordinate in the `mesh` (since it is generated in 3D space) must be removed for `dolfinx` to recognize it as a two-dimensional geometry"
       ],
-      "id": "0935547b"
+      "id": "6422eec4"
     },
     {
       "cell_type": "code",
@@ -8210,7 +8210,7 @@
         "\n",
         "MPI.COMM_WORLD.barrier()"
       ],
-      "id": "04d07d5b",
+      "id": "b6668795",
       "execution_count": null,
       "outputs": []
     },
@@ -8222,7 +8222,7 @@
         "\n",
         "Note that the mesh was generated and written using a single processor. However, since the `XDMF` format supports parallel I/O, the mesh can be read in parallel"
       ],
-      "id": "4caa1d32"
+      "id": "4d0e2669"
     },
     {
       "cell_type": "code",
@@ -8243,7 +8243,7 @@
         ") as xdmf:\n",
         "  ft = xdmf.read_meshtags(mesh, name=\"Grid\")"
       ],
-      "id": "f438a367",
+      "id": "1d679ac5",
       "execution_count": null,
       "outputs": []
     },
@@ -8253,7 +8253,7 @@
       "source": [
         "Having read the mesh together with the associated cell and facet data, we can now construct the discontinuous function kappa as follows:"
       ],
-      "id": "ee2868c3"
+      "id": "7e4291bb"
     },
     {
       "cell_type": "code",
@@ -8276,7 +8276,7 @@
         "  dtype=default_scalar_type\n",
         ")"
       ],
-      "id": "44d7a1dd",
+      "id": "e02f74c0",
       "execution_count": null,
       "outputs": []
     },
@@ -8286,7 +8286,7 @@
       "source": [
         "The facet data `ft` can also be used efficiently to construct the Dirichlet boundary condition."
       ],
-      "id": "d6dc8876"
+      "id": "369e424d"
     },
     {
       "cell_type": "code",
@@ -8301,7 +8301,7 @@
         "\n",
         "bcs = [dirichletbc(default_scalar_type(1), left_dofs, V)]"
       ],
-      "id": "25a1895e",
+      "id": "c14bf526",
       "execution_count": null,
       "outputs": []
     },
@@ -8311,7 +8311,7 @@
       "source": [
         "We can now solve the problem in a fashion similar to that used above"
       ],
-      "id": "71d6acbc"
+      "id": "457e0fbc"
     },
     {
       "cell_type": "code",
@@ -8333,7 +8333,7 @@
         ")\n",
         "uh = problem.solve()"
       ],
-      "id": "1accb310",
+      "id": "b4ed08c2",
       "execution_count": null,
       "outputs": []
     },
@@ -8363,7 +8363,7 @@
         "else:\n",
         "  figure = plotter.screenshot(results_folder/\"subdomains_unstructured.png\")"
       ],
-      "id": "49eda0d0",
+      "id": "f82d1476",
       "execution_count": null,
       "outputs": []
     },
@@ -8380,7 +8380,7 @@
         "</iframe>\n",
         "```"
       ],
-      "id": "43c8ffdb"
+      "id": "0f1161d2"
     },
     {
       "cell_type": "code",
@@ -8399,7 +8399,7 @@
         "else:\n",
         "  figure = plotter.screenshot(results_folder/\"subdomains_unstructured_u.png\")"
       ],
-      "id": "cc352ff2",
+      "id": "99eaada5",
       "execution_count": null,
       "outputs": []
     },
@@ -8490,7 +8490,7 @@
         "\n",
         "First, we define the domain \\Omega to be the unit square $[0,1] \\times [0,1]$"
       ],
-      "id": "eefdfb9f"
+      "id": "e9e51228"
     },
     {
       "cell_type": "code",
@@ -8518,7 +8518,7 @@
         "\n",
         "mesh = create_unit_square(MPI.COMM_WORLD, 10, 10)"
       ],
-      "id": "667c80a3",
+      "id": "b0bebd52",
       "execution_count": null,
       "outputs": []
     },
@@ -8555,7 +8555,7 @@
         "\n",
         "We can now define all the necessary variables and assemble the traditional part of the variational form"
       ],
-      "id": "942423fd"
+      "id": "b38cbe01"
     },
     {
       "cell_type": "code",
@@ -8580,7 +8580,7 @@
         "\n",
         "F = kappa *inner(grad(u), grad(v)) *dx -inner(f, v) *dx"
       ],
-      "id": "8636d3fb",
+      "id": "b9d18a98",
       "execution_count": null,
       "outputs": []
     },
@@ -8590,7 +8590,7 @@
       "source": [
         "We begin by identifying the facets on each boundary and creating a custom integration measure, `ds`"
       ],
-      "id": "6067cddf"
+      "id": "75f16d89"
     },
     {
       "cell_type": "code",
@@ -8603,7 +8603,7 @@
         "  (4, lambda x: np.isclose(x[1], 1))\n",
         "]"
       ],
-      "id": "98466236",
+      "id": "470e39b6",
       "execution_count": null,
       "outputs": []
     },
@@ -8613,7 +8613,7 @@
       "source": [
         "Next, we go through each boundary condition and generate `MeshTags` that mark the corresponding facets"
       ],
-      "id": "68852dc9"
+      "id": "4c4ceff6"
     },
     {
       "cell_type": "code",
@@ -8638,7 +8638,7 @@
         "  facet_markers[sorted_facets]\n",
         ")"
       ],
-      "id": "6cb1f5e0",
+      "id": "c9b72930",
       "execution_count": null,
       "outputs": []
     },
@@ -8650,7 +8650,7 @@
         "\n",
         "A simple way to debug boundary conditions is to visualize the boundaries in `ParaView`. We do this by writing the `MeshTags` to a file, after which individual boundaries can be examined using the `Threshold` filter"
       ],
-      "id": "9c31360f"
+      "id": "7e02c77e"
     },
     {
       "cell_type": "code",
@@ -8666,7 +8666,7 @@
         "    xdmf.write_mesh(mesh)\n",
         "    xdmf.write_meshtags(facet_tag, mesh.geometry)"
       ],
-      "id": "c5cbb9e8",
+      "id": "c27ccb77",
       "execution_count": null,
       "outputs": []
     },
@@ -8676,7 +8676,7 @@
       "source": [
         "Next, we define a custom integration measure, `ds`, which can be used to restrict integration to selected facets. Using `ds(1)` ensures that we integrate only over facets that have been assigned the value `1` in the corresponding `facet_tag`"
       ],
-      "id": "1fd7f4e2"
+      "id": "a6b6f293"
     },
     {
       "cell_type": "code",
@@ -8684,7 +8684,7 @@
       "source": [
         "ds = Measure(\"ds\", domain=mesh, subdomain_data=facet_tag)"
       ],
-      "id": "f93d88dd",
+      "id": "626c0038",
       "execution_count": null,
       "outputs": []
     },
@@ -8694,7 +8694,7 @@
       "source": [
         "Next, we define a general boundary condition class that can handle different types of boundary conditions"
       ],
-      "id": "f74550e3"
+      "id": "cb950bfd"
     },
     {
       "cell_type": "code",
@@ -8732,7 +8732,7 @@
         "  BoundaryCondition(\"Neumann\", 4, g)\n",
         "]"
       ],
-      "id": "845b7fec",
+      "id": "338f1d65",
       "execution_count": null,
       "outputs": []
     },
@@ -8742,7 +8742,7 @@
       "source": [
         "Next, we go through each boundary condition and add it to $L(v)$ or include it in the list of Dirichlet boundary conditions, depending on its type"
       ],
-      "id": "9beeb342"
+      "id": "dca8602d"
     },
     {
       "cell_type": "code",
@@ -8755,7 +8755,7 @@
         "  else:\n",
         "    F += condition.bc"
       ],
-      "id": "0c7f5c4b",
+      "id": "12da65ea",
       "execution_count": null,
       "outputs": []
     },
@@ -8765,7 +8765,7 @@
       "source": [
         "We can now create the bilinear form `a` and the linear form `L` using the ufl functions `lhs` and `rhs`"
       ],
-      "id": "363bc29e"
+      "id": "8eba9d50"
     },
     {
       "cell_type": "code",
@@ -8783,7 +8783,7 @@
         ")\n",
         "uh = problem.solve()"
       ],
-      "id": "65195d94",
+      "id": "3f34caf1",
       "execution_count": null,
       "outputs": []
     },
@@ -8813,7 +8813,7 @@
         "else:\n",
         "  figure = plotter.screenshot(results_folder/\"robin_neumann_dirichlet.png\")"
       ],
-      "id": "6f88ffb9",
+      "id": "895397d9",
       "execution_count": null,
       "outputs": []
     },
@@ -8833,7 +8833,7 @@
         "\n",
         "Following the approach used in the previous problems, we calculate the error of the computed solution and compare it to the analytical solution"
       ],
-      "id": "56d89a07"
+      "id": "760a423c"
     },
     {
       "cell_type": "code",
@@ -8862,7 +8862,7 @@
         "print(f\"Error_L2 : {error_L2:.2e}\")\n",
         "print(f\"Error_max : {error_max:.2e}\")"
       ],
-      "id": "9f1e1ff8",
+      "id": "4af9ffc0",
       "execution_count": null,
       "outputs": []
     },
@@ -8906,7 +8906,7 @@
         "\n",
         "The chosen combination of boundary conditions eliminates possible rigid body motions. This ensures that the variational problem admits a unique solution, i.e. the problem is well-posed"
       ],
-      "id": "b86cad73"
+      "id": "f2092e03"
     },
     {
       "cell_type": "code",
@@ -8940,7 +8940,7 @@
         "rho = 1\n",
         "g = 1"
       ],
-      "id": "6d3172e3",
+      "id": "8b6fdbb2",
       "execution_count": null,
       "outputs": []
     },
@@ -8950,7 +8950,7 @@
       "source": [
         "As in the previous demos, we begin by defining the computational mesh and the corresponding function space. The function space is chosen to represent vector-valued functions, since the unknown displacement field $u = (u_x, u_y)$ has two components"
       ],
-      "id": "283923fd"
+      "id": "f45f51a8"
     },
     {
       "cell_type": "code",
@@ -8964,7 +8964,7 @@
         ")\n",
         "V = functionspace(mesh, (\"Lagrange\", 1, (mesh.geometry.dim,)))"
       ],
-      "id": "c8a476e4",
+      "id": "b8a7d381",
       "execution_count": null,
       "outputs": []
     },
@@ -8976,7 +8976,7 @@
         "\n",
         "Next, we define the boundary conditions for our problem"
       ],
-      "id": "191df730"
+      "id": "3833b138"
     },
     {
       "cell_type": "code",
@@ -9018,7 +9018,7 @@
         "# Collect Dirichlet boundary conditions\n",
         "bcs = [bc_bottom, bc_right_x]"
       ],
-      "id": "5b512403",
+      "id": "ac343ece",
       "execution_count": null,
       "outputs": []
     },
@@ -9043,7 +9043,7 @@
         "\n",
         "Note that the Neumann boundary conditions on $\\Gamma_N$ (traction-free boundaries) are naturally included in the weak formulation, and therefore do not need to be imposed explicitly"
       ],
-      "id": "aeee2bf2"
+      "id": "a70de4a0"
     },
     {
       "cell_type": "code",
@@ -9068,7 +9068,7 @@
         "a = inner(sigma(u), epsilon(v)) *dx\n",
         "L = dot(f, v) *dx  # +dot(T, v) *ds"
       ],
-      "id": "5be6ffe8",
+      "id": "98b5baae",
       "execution_count": null,
       "outputs": []
     },
@@ -9078,7 +9078,7 @@
       "source": [
         "As in the previous demos, we now assemble the system matrix and right-hand side vector, and then use `PETSc` to solve the resulting variational problem"
       ],
-      "id": "957d94c2"
+      "id": "2a43104a"
     },
     {
       "cell_type": "code",
@@ -9101,7 +9101,7 @@
         "# Print solver information\n",
         "PETSc.Sys.Print(\"Linear system solved.\")"
       ],
-      "id": "24b8901d",
+      "id": "048e271d",
       "execution_count": null,
       "outputs": []
     },
@@ -9111,7 +9111,7 @@
       "source": [
         "**Visualization**"
       ],
-      "id": "fe2580bd"
+      "id": "84888921"
     },
     {
       "cell_type": "code",
@@ -9143,7 +9143,7 @@
         "else:\n",
         "  fig_array = plotter.screenshot(results_folder/\"component.png\")"
       ],
-      "id": "1f869216",
+      "id": "c0217bf9",
       "execution_count": null,
       "outputs": []
     },
@@ -9252,7 +9252,7 @@
         "\n",
         "We now turn to the practical implementation of the problem. The first step is to create the computational mesh. We can construct this geometry in `GMSH`. Each physical region (iron, copper wires, vacuum, and outer boundary) is tagged with unique markers. These markers are preserved when the mesh is imported into `dolfinx`, and they allow us to assign different material parameters and source terms"
       ],
-      "id": "682c3aa8"
+      "id": "839be20b"
     },
     {
       "cell_type": "code",
@@ -9470,7 +9470,7 @@
         "# 3. Apply boundary conditions\n",
         "# 4. Solve the finite element problem"
       ],
-      "id": "2b4782d9",
+      "id": "35d8bb28",
       "execution_count": null,
       "outputs": []
     },
@@ -9480,7 +9480,7 @@
       "source": [
         "Following the Navier–Stokes tutorial, we load the mesh directly into DOLFINx without first writing it to a file"
       ],
-      "id": "e137dea1"
+      "id": "9b9e2030"
     },
     {
       "cell_type": "code",
@@ -9489,7 +9489,7 @@
         "mesh, ct, _ = model_to_mesh(gmsh.model, mesh_comm, model_rank, gdim=2)\n",
         "gmsh.finalize()"
       ],
-      "id": "d4ba75d5",
+      "id": "dc970640",
       "execution_count": null,
       "outputs": []
     },
@@ -9499,7 +9499,7 @@
       "source": [
         "To inspect the mesh, we use `ParaView` and obtain the following result"
       ],
-      "id": "fb0e55c7"
+      "id": "09b11a70"
     },
     {
       "cell_type": "code",
@@ -9514,7 +9514,7 @@
         "    xdmf.write_mesh(mesh)\n",
         "    xdmf.write_meshtags(ct, mesh.geometry)"
       ],
-      "id": "5a0171dc",
+      "id": "cd2a969a",
       "execution_count": null,
       "outputs": []
     },
@@ -9526,7 +9526,7 @@
         "\n",
         "We can also visualize the subdomains using `PyVista`"
       ],
-      "id": "5c50d6d9"
+      "id": "0c115a49"
     },
     {
       "cell_type": "code",
@@ -9551,7 +9551,7 @@
         "else:\n",
         "    cell_tag_fig = plotter.screenshot(results_folder/\"cell_tags.png\")"
       ],
-      "id": "9013be67",
+      "id": "8ece10ed",
       "execution_count": null,
       "outputs": []
     },
@@ -9570,7 +9570,7 @@
         "\n",
         "Next, we define discontinuous functions for permeability $\\mu$ and current $J_z$, based on the MeshTags as in “Defining subdomains for different materials”"
       ],
-      "id": "58f09c9e"
+      "id": "1b39ed8f"
     },
     {
       "cell_type": "code",
@@ -9703,7 +9703,7 @@
         "# Assuming mesh, ct, and N are already defined from the geometry creation\n",
         "mu, J = setup_material_properties(mesh, ct, N)"
       ],
-      "id": "8cfbdcc2",
+      "id": "ba5d9fdd",
       "execution_count": null,
       "outputs": []
     },
@@ -9715,7 +9715,7 @@
         "\n",
         "We now proceed to define the weak problem"
       ],
-      "id": "cbf4cd8d"
+      "id": "eeca08da"
     },
     {
       "cell_type": "code",
@@ -9812,7 +9812,7 @@
         "\n",
         "a, L, bc, V = setup_electromagnetic_problem(mesh, mu, J)    "
       ],
-      "id": "da53b3f4",
+      "id": "c9dfa803",
       "execution_count": null,
       "outputs": []
     },
@@ -9822,7 +9822,7 @@
       "source": [
         "We are now ready to solve the linear problem"
       ],
-      "id": "bbf2dfb6"
+      "id": "10df1cc8"
     },
     {
       "cell_type": "code",
@@ -9888,7 +9888,7 @@
         "\n",
         "A_z = solve_electromagnetic_enhanced(V, a, L, bc)"
       ],
-      "id": "582935cb",
+      "id": "05c41fa8",
       "execution_count": null,
       "outputs": []
     },
@@ -9898,7 +9898,7 @@
       "source": [
         "As we have computed the magnetic potential, we can now calculate the magnetic field by setting $\\mathbf{B} = \\nabla \\times A_z$. Note that, since we have chosen a function space of first-order piecewise linear functions to represent the potential, the curl of a function in this space is a discontinuous zeroth-order function (i.e., a function that is constant on each cell). We use `dolfinx.fem.Expression` to interpolate the curl into the function space `W`"
       ],
-      "id": "463587cb"
+      "id": "a3757f0b"
     },
     {
       "cell_type": "code",
@@ -9961,7 +9961,7 @@
         "\n",
         "B = calculate_magnetic_field(mesh, A_z)"
       ],
-      "id": "c9bf9ba0",
+      "id": "3990b634",
       "execution_count": null,
       "outputs": []
     },
@@ -9973,7 +9973,7 @@
         "\n",
         "We now plot the magnetic potential `A_z` and the magnetic field `B`. To do this, we first create a new `plotter`"
       ],
-      "id": "56eb2044"
+      "id": "22c25f41"
     },
     {
       "cell_type": "code",
@@ -9994,7 +9994,7 @@
         "else:\n",
         "    Az_fig = plotter.screenshot(results_folder/\"Az.png\")"
       ],
-      "id": "e24f4d56",
+      "id": "2a8da898",
       "execution_count": null,
       "outputs": []
     },
@@ -10015,7 +10015,7 @@
         "\n",
         "Since the magnetic field is a piecewise-constant vector field, we need to create a custom plotting function. We begin by computing the midpoints of each cell, which are the locations where we want to visualize the cell-wise constant vectors. Next, we extract the data from the function `B` and reshape it into 3D vectors. Finally, we associate each vector with its corresponding midpoint using `pyvista.PolyData`"
       ],
-      "id": "8f50e810"
+      "id": "c54c2d76"
     },
     {
       "cell_type": "code",
@@ -10131,7 +10131,7 @@
         "\n",
         "plotter = visualize_magnetic_field(mesh, B)"
       ],
-      "id": "a654862b",
+      "id": "8597860d",
       "execution_count": null,
       "outputs": []
     },
@@ -10145,7 +10145,7 @@
         "else:\n",
         "    Az_fig = plotter.screenshot(results_folder/\"B.png\")"
       ],
-      "id": "ae423e7f",
+      "id": "114eb35e",
       "execution_count": null,
       "outputs": []
     },
@@ -10177,7 +10177,7 @@
         "\n",
         "We begin by creating a generic module that evaluates the analytical solution at any point $x$"
       ],
-      "id": "cd666e8f"
+      "id": "f143a638"
     },
     {
       "cell_type": "code",
@@ -10198,7 +10198,7 @@
         "def u_ex(mod):\n",
         "    return lambda x: mod.cos(2 * mod.pi * x[0]) * mod.cos(2 * mod.pi * x[1])"
       ],
-      "id": "6ce64653",
+      "id": "1435fb9d",
       "execution_count": null,
       "outputs": []
     },
@@ -10208,7 +10208,7 @@
       "source": [
         "Note that the return type of `u_ex` is a lambda function. Therefore, we can define two separate lambda functions: one using `NumPy` (for interpolation) and one using `UFL` (for defining the source term)"
       ],
-      "id": "218a71b5"
+      "id": "9764daf8"
     },
     {
       "cell_type": "code",
@@ -10217,7 +10217,7 @@
         "u_numpy = u_ex(numpy)\n",
         "u_ufl = u_ex(ufl)"
       ],
-      "id": "efb39e03",
+      "id": "fc61ae6e",
       "execution_count": null,
       "outputs": []
     },
@@ -10227,7 +10227,7 @@
       "source": [
         "We begin by defining the source term in `UFL`, using `ufl.SpatialCoordinate` as the input to `u_ufl`"
       ],
-      "id": "40dcdf62"
+      "id": "f36cbcc3"
     },
     {
       "cell_type": "code",
@@ -10237,7 +10237,7 @@
         "x = SpatialCoordinate(mesh)\n",
         "f = -div(grad(u_ufl(x)))"
       ],
-      "id": "10843c01",
+      "id": "01ccfbcc",
       "execution_count": null,
       "outputs": []
     },
@@ -10247,7 +10247,7 @@
       "source": [
         "Next, let us define our linear variational problem"
       ],
-      "id": "ed540e9c"
+      "id": "2d33f037"
     },
     {
       "cell_type": "code",
@@ -10271,7 +10271,7 @@
         "dofs = locate_dofs_topological(V, mesh.topology.dim -1, facets)\n",
         "bcs = [dirichletbc(u_bc, dofs)]"
       ],
-      "id": "12d29797",
+      "id": "a543b382",
       "execution_count": null,
       "outputs": []
     },
@@ -10281,7 +10281,7 @@
       "source": [
         "We begin by solving the problem using LU factorization, a direct solver method similar to Gaussian elimination"
       ],
-      "id": "74d10391"
+      "id": "00ad6465"
     },
     {
       "cell_type": "code",
@@ -10295,7 +10295,7 @@
         ")\n",
         "uh = default_problem.solve()"
       ],
-      "id": "c05709d4",
+      "id": "9a83fad8",
       "execution_count": null,
       "outputs": []
     },
@@ -10305,7 +10305,7 @@
       "source": [
         "We now examine the solver process by inspecting the `PETSc` solver. Since the view options in `PETSc` are not adapted for notebooks (for example, `solver.view()` prints output to the terminal when used in a `.py` file), we instead write the solver output to a file, read it back, and then print it"
       ],
-      "id": "c6ea7306"
+      "id": "0b173073"
     },
     {
       "cell_type": "code",
@@ -10325,7 +10325,7 @@
         "  for line in solver_output:\n",
         "      print(line.rstrip()) "
       ],
-      "id": "9c2e209e",
+      "id": "273b915f",
       "execution_count": null,
       "outputs": []
     },
@@ -10345,7 +10345,7 @@
         "\n",
         "Any `PETSc` option can be set through the `petsc_options` input, including the absolute tolerance (\"`ksp_atol`\"), relative tolerance (\"`ksp_rtol`\"), and maximum number of iterations (\"`ksp_max_it`\")"
       ],
-      "id": "cc4f5333"
+      "id": "cbc31c0a"
     },
     {
       "cell_type": "code",
@@ -10373,7 +10373,7 @@
         "  for line in solver_output.readlines():\n",
         "      print(line.rstrip())    "
       ],
-      "id": "f3dc6e28",
+      "id": "e8cc2301",
       "execution_count": null,
       "outputs": []
     },
@@ -10383,7 +10383,7 @@
       "source": [
         "For non-symmetric systems, it is preferable to use a Krylov solver designed for such problems, for example `GMRES`"
       ],
-      "id": "d193e706"
+      "id": "8a20bc15"
     },
     {
       "cell_type": "code",
@@ -10412,7 +10412,7 @@
         "  for line in solver_output.readlines():\n",
         "      print(line.rstrip())       "
       ],
-      "id": "a2952974",
+      "id": "458c813f",
       "execution_count": null,
       "outputs": []
     },
@@ -10436,7 +10436,7 @@
         "\n",
         "We begin by specifying the current directory as the location to store the generated `C` files. The current directory is obtained using `pathlib`"
       ],
-      "id": "3423847f"
+      "id": "a6c65d52"
     },
     {
       "cell_type": "code",
@@ -10462,7 +10462,7 @@
         "cache_dir = f\"{str(Path.cwd())}/.cache\"\n",
         "print(f\"Directory to put C files in: {cache_dir}\")"
       ],
-      "id": "906cf411",
+      "id": "efcdef4c",
       "execution_count": null,
       "outputs": []
     },
@@ -10472,7 +10472,7 @@
       "source": [
         "Next, we generate a general function to assemble the mass matrix for a unit cube. Note that we use `dolfinx.fem.form` to compile the variational form. For code that uses `dolfinx.fem.petsc.LinearProblem`, you can pass `jit_options` as a keyword argument"
       ],
-      "id": "54f6106d"
+      "id": "d199a897"
     },
     {
       "cell_type": "code",
@@ -10495,7 +10495,7 @@
         "    \n",
         "    return end -start"
       ],
-      "id": "9f7fee1c",
+      "id": "f622e2a8",
       "execution_count": null,
       "outputs": []
     },
@@ -10505,7 +10505,7 @@
       "source": [
         "We begin by examining the different levels of optimization that the `C` compiler can apply to the generated code. A list of available optimization options, along with their explanations, can be found [here](https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html)"
       ],
-      "id": "29d96ae3"
+      "id": "6d1f794d"
     },
     {
       "cell_type": "code",
@@ -10513,7 +10513,7 @@
       "source": [
         "optimization_options = [\"-O1\", \"-O2\", \"-O3\", \"-Ofast\"]"
       ],
-      "id": "60833c8b",
+      "id": "80eb63f3",
       "execution_count": null,
       "outputs": []
     },
@@ -10523,7 +10523,7 @@
       "source": [
         "The next option to consider is whether to compile the code with `-march=native`. This option enables CPU-specific instructions for the local machine, which can lead to different results on different systems. More information can be found [here](https://gcc.gnu.org/onlinedocs/gcc/AArch64-Options.html#g_t-march-and--mcpu-Feature-Modifiers)"
       ],
-      "id": "d370287d"
+      "id": "d1f5b603"
     },
     {
       "cell_type": "code",
@@ -10531,7 +10531,7 @@
       "source": [
         "march_native = [True, False]"
       ],
-      "id": "fabe2b2b",
+      "id": "a88c0e67",
       "execution_count": null,
       "outputs": []
     },
@@ -10541,7 +10541,7 @@
       "source": [
         "We select a subset of finite element spaces and vary the order of each space to examine how it affects the assembly time under different compilation option"
       ],
-      "id": "6521552e"
+      "id": "312d5dbe"
     },
     {
       "cell_type": "code",
@@ -10569,7 +10569,7 @@
         "        results[\"Options\"].append(\"\\n\".join(cffi_options))\n",
         "        results[\"Time\"].append(runtime)"
       ],
-      "id": "7ccc28ff",
+      "id": "768945cc",
       "execution_count": null,
       "outputs": []
     },
@@ -10579,7 +10579,7 @@
       "source": [
         "We have now stored all the results in a dictionary. To visualize them, we use `pandas` and its `DataFrame` class. In a Jupyter notebook, the data can be inspected as follows:"
       ],
-      "id": "fff1b35f"
+      "id": "b8427beb"
     },
     {
       "cell_type": "code",
@@ -10588,7 +10588,7 @@
         "results_df = pd.DataFrame.from_dict(results)\n",
         "results_df"
       ],
-      "id": "e7dc108c",
+      "id": "f48b5e7f",
       "execution_count": null,
       "outputs": []
     },
@@ -10598,7 +10598,7 @@
       "source": [
         "We can now create a plot for each element type to visualize how the results vary with different compilation options. A new column is created for each element type and degree"
       ],
-      "id": "2395f4f9"
+      "id": "c40ac470"
     },
     {
       "cell_type": "code",
@@ -10623,7 +10623,7 @@
         "    aspect=4.0)\n",
         "  g.fig.suptitle(f\"Degree = {degree}\", y=1.02)"
       ],
-      "id": "0d33fa71",
+      "id": "15596a1c",
       "execution_count": null,
       "outputs": []
     },
@@ -10649,7 +10649,7 @@
         "\n",
         "We first construct a manufactured problem based on the same configuration used in the solver"
       ],
-      "id": "c29efc66"
+      "id": "e1da7860"
     },
     {
       "cell_type": "code",
@@ -10712,7 +10712,7 @@
         "\n",
         "  return default_problem.solve(), u_ufl(x)"
       ],
-      "id": "8484770b",
+      "id": "dc28a2b4",
       "execution_count": null,
       "outputs": []
     },
@@ -10726,7 +10726,7 @@
         "\n",
         "measures the pointwise accuracy of the approximate solution in an average sense. It quantifies how close $u_h$ is to $u_e$ in terms of their values"
       ],
-      "id": "bdaac2cf"
+      "id": "63a5d14d"
     },
     {
       "cell_type": "code",
@@ -10741,7 +10741,7 @@
         "if comm.rank == 0:\n",
         "  print(f\"L2-error: {E_L2:.2e}\")"
       ],
-      "id": "5241fc68",
+      "id": "c95e281b",
       "execution_count": null,
       "outputs": []
     },
@@ -10757,7 +10757,7 @@
         "\n",
         "The $H_0^1$-norm measures the error in the so-called energy space, which is particularly relevant for elliptic partial differential equations, as it reflects how well the numerical solution captures the energy of the exact solution"
       ],
-      "id": "41de1cc8"
+      "id": "f982abe1"
     },
     {
       "cell_type": "code",
@@ -10770,7 +10770,7 @@
         "if comm.rank == 0:\n",
         "  print(f\"H01-error: {E_H10:.2e}\")"
       ],
-      "id": "0cc27ff8",
+      "id": "82fd51e8",
       "execution_count": null,
       "outputs": []
     },
@@ -10788,7 +10788,7 @@
         "\n",
         "To avoid this issue, we interpolate both the approximate and the exact solutions into a higher-order function space. We then subtract their degrees of freedom to form an explicit error function. Finally, we assemble (integrate) the squared error and take the square root to obtain the $L^2$-norm"
       ],
-      "id": "7c902564"
+      "id": "919e855d"
     },
     {
       "cell_type": "code",
@@ -10827,7 +10827,7 @@
         "  \n",
         "  return np.sqrt(error_global)"
       ],
-      "id": "3c58c030",
+      "id": "1e6a13e8",
       "execution_count": null,
       "outputs": []
     },
@@ -10843,7 +10843,7 @@
         "\n",
         "where $N_i$ denotes the number of subdivisions (or degrees of freedom) in the discretization. We compute the numerical error for a range of values of $N_i$"
       ],
-      "id": "aea7e81c"
+      "id": "17982391"
     },
     {
       "cell_type": "code",
@@ -10864,7 +10864,7 @@
         "  if comm.rank == 0:\n",
         "    print(f\"h: {hs[i]:.2e} Error: {Es[i]:.2e}\")"
       ],
-      "id": "360b63eb",
+      "id": "39b97f13",
       "execution_count": null,
       "outputs": []
     },
@@ -10886,7 +10886,7 @@
         "\n",
         "As $i$ increases, the computed values of $r$ should approach the expected convergence rate, which in the case of the $L^2$-error is typically the polynomial degree plus one. This calculation can be implemented compactly using `NumPy`"
       ],
-      "id": "a87de880"
+      "id": "4ffae6ef"
     },
     {
       "cell_type": "code",
@@ -10896,7 +10896,7 @@
         "if comm.rank == 0:\n",
         "  print(f\"Rates: {rates}\")"
       ],
-      "id": "73d842ae",
+      "id": "8c5418ab",
       "execution_count": null,
       "outputs": []
     },
@@ -10906,7 +10906,7 @@
       "source": [
         "We perform a similar study for different polynomial orders to verify the previous claim"
       ],
-      "id": "d42a894a"
+      "id": "7620e133"
     },
     {
       "cell_type": "code",
@@ -10931,7 +10931,7 @@
         "  if comm.rank == 0:\n",
         "    print(f\"Polynomial degree {degree:d}, Rates {rates}\\n\")"
       ],
-      "id": "91ca786b",
+      "id": "c8540af0",
       "execution_count": null,
       "outputs": []
     },
@@ -10943,7 +10943,7 @@
         "\n",
         "We first define a function to evaluate the infinity norm, i.e., the maximum pointwise error between the numerical and exact solutions"
       ],
-      "id": "c0a2686c"
+      "id": "446a0dce"
     },
     {
       "cell_type": "code",
@@ -10966,7 +10966,7 @@
         "\n",
         "  return error_max"
       ],
-      "id": "8a121641",
+      "id": "2d32125d",
       "execution_count": null,
       "outputs": []
     },
@@ -10976,7 +10976,7 @@
       "source": [
         "Performing this procedure for various polynomial degrees produces the following results:"
       ],
-      "id": "c5f94686"
+      "id": "a7e9d295"
     },
     {
       "cell_type": "code",
@@ -11000,7 +11000,7 @@
         "  if comm.rank == 0:\n",
         "    print(f\"Polynomial degree {degree:d}, Rates {rates}\\n\")"
       ],
-      "id": "ebe891ce",
+      "id": "fb904f89",
       "execution_count": null,
       "outputs": []
     },
@@ -11034,7 +11034,7 @@
         "\n",
         "We start by importing the required libraries"
       ],
-      "id": "276783e3"
+      "id": "10f1f29f"
     },
     {
       "cell_type": "code",
@@ -11054,7 +11054,7 @@
         "\n",
         "plt.style.use('default')"
       ],
-      "id": "4574a61c",
+      "id": "33420fb2",
       "execution_count": null,
       "outputs": []
     },
@@ -11068,7 +11068,7 @@
         "\n",
         "This problem has two solutions: $u = -x - 1$ and $u = x + 3$. We define these roots as Python functions and create an appropriate array of points for plotting the solutions"
       ],
-      "id": "3da4b7ae"
+      "id": "0ead9ff1"
     },
     {
       "cell_type": "code",
@@ -11084,7 +11084,7 @@
         "x_spacing = np.linspace(0, 1, N)\n",
         "roots = [root_0, root_1]"
       ],
-      "id": "c5f5dd9c",
+      "id": "d0350306",
       "execution_count": null,
       "outputs": []
     },
@@ -11094,7 +11094,7 @@
       "source": [
         "Starting with the initial guess $u_0 = 0$, we then define the mesh, the function space, and the function `uh` for the numerical solution"
       ],
-      "id": "4a670497"
+      "id": "b9255481"
     },
     {
       "cell_type": "code",
@@ -11105,7 +11105,7 @@
         "V = dolfinx.fem.functionspace(mesh, (\"Lagrange\", 1))\n",
         "uh = dolfinx.fem.Function(V)"
       ],
-      "id": "6f929ac3",
+      "id": "196e0fe1",
       "execution_count": null,
       "outputs": []
     },
@@ -11117,7 +11117,7 @@
         "\n",
         "We then formulate the variational problem by multiplying with a test function and integrating over the domain $[0,1]$"
       ],
-      "id": "b08483b9"
+      "id": "ba260dde"
     },
     {
       "cell_type": "code",
@@ -11129,7 +11129,7 @@
         "F = uh**2 *v *ufl.dx -2 *uh *v *ufl.dx -(x[0]**2 +4 *x[0] +3) *v *ufl.dx\n",
         "residual = dolfinx.fem.form(F)"
       ],
-      "id": "b8be7d22",
+      "id": "da31af0b",
       "execution_count": null,
       "outputs": []
     },
@@ -11139,7 +11139,7 @@
       "source": [
         "The Jacobian $J_F$ is then obtained by applying `ufl.derivative` to the variational form"
       ],
-      "id": "11441596"
+      "id": "63e8b92b"
     },
     {
       "cell_type": "code",
@@ -11148,7 +11148,7 @@
         "J = ufl.derivative(F, uh)\n",
         "jacobian = dolfinx.fem.form(J)"
       ],
-      "id": "61748981",
+      "id": "ee5a8390",
       "execution_count": null,
       "outputs": []
     },
@@ -11160,7 +11160,7 @@
         "\n",
         "**Setup of iteration-independent structures**"
       ],
-      "id": "a0a028a4"
+      "id": "353bf815"
     },
     {
       "cell_type": "code",
@@ -11169,7 +11169,7 @@
         "A = dolfinx.fem.petsc.create_matrix(jacobian)\n",
         "L = dolfinx.fem.petsc.create_vector(residual)"
       ],
-      "id": "686fcd5d",
+      "id": "045b2cd6",
       "execution_count": null,
       "outputs": []
     },
@@ -11179,7 +11179,7 @@
       "source": [
         "We then set up the linear solver together with a vector to hold the update `du`"
       ],
-      "id": "5b5dd5d3"
+      "id": "c48f3d61"
     },
     {
       "cell_type": "code",
@@ -11190,7 +11190,7 @@
         "\n",
         "du = dolfinx.fem.Function(V)"
       ],
-      "id": "2d433b09",
+      "id": "839f9de7",
       "execution_count": null,
       "outputs": []
     },
@@ -11200,7 +11200,7 @@
       "source": [
         "To monitor the evolution of `uh` during the iterations, we obtain the DoF coordinates and sort them in ascending order"
       ],
-      "id": "9ccae855"
+      "id": "d471df80"
     },
     {
       "cell_type": "code",
@@ -11213,7 +11213,7 @@
         "solutions = np.zeros((max_iterations +1, len(coords)))\n",
         "solutions[0] = uh.x.array[sort_order]"
       ],
-      "id": "17b3ada4",
+      "id": "7db04ec0",
       "execution_count": null,
       "outputs": []
     },
@@ -11223,7 +11223,7 @@
       "source": [
         "At this stage, we are ready to solve the linearized problem. For each iteration, the Jacobian and residual are reassembled, and the norm of the update (`dx`) is used as the stopping criterion"
       ],
-      "id": "91530882"
+      "id": "553aac45"
     },
     {
       "cell_type": "code",
@@ -11259,7 +11259,7 @@
         "    break\n",
         "  solutions[i, :] = uh.x.array[sort_order]"
       ],
-      "id": "88f634b7",
+      "id": "2d47cd39",
       "execution_count": null,
       "outputs": []
     },
@@ -11269,7 +11269,7 @@
       "source": [
         "At this point, we compute the residual magnitude to monitor convergence"
       ],
-      "id": "1d6073c7"
+      "id": "99e2d5c6"
     },
     {
       "cell_type": "code",
@@ -11278,7 +11278,7 @@
         "dolfinx.fem.petsc.assemble_vector(L, residual)\n",
         "print(f\"Final residual = {L.norm(0):.6e}\")"
       ],
-      "id": "6b971759",
+      "id": "057d845a",
       "execution_count": null,
       "outputs": []
     },
@@ -11290,7 +11290,7 @@
         "\n",
         "We now study how the solution evolves and quantify its error with respect to the two exact roots of the problem"
       ],
-      "id": "403ee482"
+      "id": "b6758c27"
     },
     {
       "cell_type": "code",
@@ -11321,7 +11321,7 @@
         "plt.grid()\n",
         "plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')"
       ],
-      "id": "bc81c179",
+      "id": "26459c1b",
       "execution_count": null,
       "outputs": []
     },
@@ -11333,7 +11333,7 @@
         "\n",
         "In the previous example, we did not incorporate Dirichlet boundary conditions. We now extend the formulation to the non-linear Poisson problem, where such boundary conditions play a central role. As a first step, we define the computational mesh, the analytical solution, and the corresponding forcing term `f`"
       ],
-      "id": "22baa494"
+      "id": "32ea6ed9"
     },
     {
       "cell_type": "code",
@@ -11351,7 +11351,7 @@
         "def u_exact(x):\n",
         "  return eval(str(u_ufl))"
       ],
-      "id": "351f3355",
+      "id": "f8e81e7f",
       "execution_count": null,
       "outputs": []
     },
@@ -11361,7 +11361,7 @@
       "source": [
         "Next, we specify the Dirichlet boundary condition `bc`, and define the variational residual `F` together with its Jacobian `J`"
       ],
-      "id": "28d5c2b3"
+      "id": "207fb262"
     },
     {
       "cell_type": "code",
@@ -11389,7 +11389,7 @@
         "residual = dolfinx.fem.form(F)\n",
         "jacobian = dolfinx.fem.form(J)"
       ],
-      "id": "46730192",
+      "id": "992c8085",
       "execution_count": null,
       "outputs": []
     },
@@ -11399,7 +11399,7 @@
       "source": [
         "We then set up the system matrix `A`, the right-hand side vector `L`, and the update function `du`"
       ],
-      "id": "6e2d27ec"
+      "id": "1bee22ae"
     },
     {
       "cell_type": "code",
@@ -11413,7 +11413,7 @@
         "solver = PETSc.KSP().create(mesh.comm)\n",
         "solver.setOperators(A)"
       ],
-      "id": "df01d87b",
+      "id": "2302a240",
       "execution_count": null,
       "outputs": []
     },
@@ -11448,7 +11448,7 @@
         "u_{k+1} &= u_k + \\delta u_k\n",
         "\\end{aligned}$$"
       ],
-      "id": "7defcbcb"
+      "id": "e731baa8"
     },
     {
       "cell_type": "code",
@@ -11503,7 +11503,7 @@
         "  if correction_norm < 1e-10:\n",
         "    break"
       ],
-      "id": "a8b92b4f",
+      "id": "e885988d",
       "execution_count": null,
       "outputs": []
     },
@@ -11513,7 +11513,7 @@
       "source": [
         "We visualize the convergence by plotting the $L^2$-error and the residual norm ($\\delta u$) across iterations"
       ],
-      "id": "981561c2"
+      "id": "74e2017d"
     },
     {
       "cell_type": "code",
@@ -11535,7 +11535,7 @@
         "plt.xlabel(\"Iterations\")\n",
         "plt.ylabel(r\"$\\vert\\vert \\delta u\\vert\\vert$\");"
       ],
-      "id": "c52e010a",
+      "id": "125c9248",
       "execution_count": null,
       "outputs": []
     },
@@ -11545,7 +11545,7 @@
       "source": [
         "We compute the maximum error and plot the solution"
       ],
-      "id": "5442c834"
+      "id": "ac5ae45a"
     },
     {
       "cell_type": "code",
@@ -11559,7 +11559,7 @@
         "if domain.comm.rank == 0:\n",
         "  print(f\"Error_max = {error_max:.6e}\")"
       ],
-      "id": "25b757f0",
+      "id": "79159b91",
       "execution_count": null,
       "outputs": []
     },
@@ -11586,7 +11586,7 @@
         "  #u_plotter.show()\n",
         "  u_plotter.export_html(results_folder/\"newton_solution.html\")"
       ],
-      "id": "d42ec716",
+      "id": "75e14a46",
       "execution_count": null,
       "outputs": []
     },
@@ -11603,7 +11603,7 @@
         "</iframe>\n",
         "```"
       ],
-      "id": "26820df1"
+      "id": "30160b07"
     }
   ],
   "metadata": {
