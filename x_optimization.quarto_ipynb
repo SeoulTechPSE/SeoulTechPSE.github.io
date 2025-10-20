@@ -20,7 +20,7 @@
         "\n",
         "## Importing modules"
       ],
-      "id": "deea02e1"
+      "id": "74d58277"
     },
     {
       "cell_type": "code",
@@ -40,7 +40,7 @@
         "\n",
         "print(\"cvxopt: \", cvxopt.__version__)"
       ],
-      "id": "35efc6ee",
+      "id": "9de3f3ea",
       "execution_count": null,
       "outputs": []
     },
@@ -72,7 +72,7 @@
         "\n",
         "$$ g(r,h) = \\pi r^2h -1 = 0 $$"
       ],
-      "id": "d9f9b2d9"
+      "id": "d7f36802"
     },
     {
       "cell_type": "code",
@@ -82,7 +82,7 @@
         "Area = 2 *sympy.pi *r**2 + 2 *sympy.pi *r *h \n",
         "Volume = sympy.pi *r**2 *h"
       ],
-      "id": "3b1870cd",
+      "id": "ab1bd9e5",
       "execution_count": null,
       "outputs": []
     },
@@ -93,7 +93,7 @@
         "h_r = sympy.solve(Volume -1)[0]\n",
         "h_r"
       ],
-      "id": "542eeba7",
+      "id": "9b5fbb5c",
       "execution_count": null,
       "outputs": []
     },
@@ -104,7 +104,7 @@
         "Area_r = Area.subs(h_r)\n",
         "Area_r"
       ],
-      "id": "9b0310ad",
+      "id": "4624434b",
       "execution_count": null,
       "outputs": []
     },
@@ -116,7 +116,7 @@
         "rsol = sympy.solve(Area_r.diff(r))[0]\n",
         "rsol"
       ],
-      "id": "cfe31fa4",
+      "id": "d1f9d5ed",
       "execution_count": null,
       "outputs": []
     },
@@ -126,7 +126,7 @@
       "source": [
         "_.evalf()"
       ],
-      "id": "6a48419f",
+      "id": "51b62dc2",
       "execution_count": null,
       "outputs": []
     },
@@ -137,7 +137,7 @@
         "# f''(r_sol) > 0\n",
         "Area_r.diff(r, 2).subs(r, rsol)"
       ],
-      "id": "4c42f595",
+      "id": "6d4a2704",
       "execution_count": null,
       "outputs": []
     },
@@ -147,7 +147,7 @@
       "source": [
         "Area_r.subs(r, rsol)"
       ],
-      "id": "1b7c680c",
+      "id": "d7f55a72",
       "execution_count": null,
       "outputs": []
     },
@@ -158,7 +158,7 @@
         "# Minimum Area\n",
         "_.evalf()"
       ],
-      "id": "85ea2319",
+      "id": "b6d645c6",
       "execution_count": null,
       "outputs": []
     },
@@ -168,7 +168,7 @@
       "source": [
         "---"
       ],
-      "id": "ad0961c4"
+      "id": "142c73c2"
     },
     {
       "cell_type": "code",
@@ -177,7 +177,7 @@
         "def f(r):\n",
         "  return 2 *np.pi *r**2 + 2 /r"
       ],
-      "id": "cea295c4",
+      "id": "ba930de5",
       "execution_count": null,
       "outputs": []
     },
@@ -188,7 +188,7 @@
         "r_min = optimize.brent(f, brack=(0.1, 4))\n",
         "r_min"
       ],
-      "id": "2948a3ae",
+      "id": "4f3e5979",
       "execution_count": null,
       "outputs": []
     },
@@ -198,7 +198,7 @@
       "source": [
         "f(r_min)"
       ],
-      "id": "c567e3f3",
+      "id": "68591d77",
       "execution_count": null,
       "outputs": []
     },
@@ -208,7 +208,7 @@
       "source": [
         "---"
       ],
-      "id": "704c247d"
+      "id": "eefd59a8"
     },
     {
       "cell_type": "code",
@@ -216,7 +216,7 @@
       "source": [
         "optimize.minimize_scalar(f, bracket=(0.1, 4))"
       ],
-      "id": "8f28c88c",
+      "id": "d29887dc",
       "execution_count": null,
       "outputs": []
     },
@@ -226,7 +226,7 @@
       "source": [
         "---"
       ],
-      "id": "88b66dd6"
+      "id": "19426d6d"
     },
     {
       "cell_type": "code",
@@ -248,7 +248,7 @@
         "ax.set_ylim(0, 30)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "fa186ead",
+      "id": "eada5a8b",
       "execution_count": null,
       "outputs": []
     },
@@ -266,7 +266,7 @@
         "\n",
         "$$ f(x) = (x_1 -1)^4 +5(x_2-1)^2 -2x_1 x_2 $$"
       ],
-      "id": "41240748"
+      "id": "0e3948ee"
     },
     {
       "cell_type": "code",
@@ -280,7 +280,7 @@
         "              for x1_ in (x1, x2)] \n",
         "              for x2_ in (x1, x2)]"
       ],
-      "id": "1ce36d9a",
+      "id": "eb07433e",
       "execution_count": null,
       "outputs": []
     },
@@ -290,7 +290,7 @@
       "source": [
         "sympy.Matrix(fprime_sym)"
       ],
-      "id": "5873cf1d",
+      "id": "eda2501b",
       "execution_count": null,
       "outputs": []
     },
@@ -300,7 +300,7 @@
       "source": [
         "sympy.Matrix(fhess_sym)"
       ],
-      "id": "94f6ab5f",
+      "id": "23a071af",
       "execution_count": null,
       "outputs": []
     },
@@ -312,7 +312,7 @@
         "fprime_lmbda = sympy.lambdify((x1, x2), fprime_sym, 'numpy')\n",
         "fhess_lmbda = sympy.lambdify((x1, x2), fhess_sym, 'numpy')"
       ],
-      "id": "6dfb148a",
+      "id": "1b466104",
       "execution_count": null,
       "outputs": []
     },
@@ -326,7 +326,7 @@
         "    \"\"\"\n",
         "    return lambda X: np.array(f(X[0], X[1]))"
       ],
-      "id": "159447d7",
+      "id": "f37feabf",
       "execution_count": null,
       "outputs": []
     },
@@ -338,7 +338,7 @@
         "fprime = func_XY_X_Y(fprime_lmbda)\n",
         "fhess = func_XY_X_Y(fhess_lmbda)"
       ],
-      "id": "89e04877",
+      "id": "4d1e5404",
       "execution_count": null,
       "outputs": []
     },
@@ -348,7 +348,7 @@
       "source": [
         "* In `scipy`, Newton conjugate gradient method is implemented in the function `optimize.fmin_ncg`. This function takes the following arguments: a python function for the objective function, a starting point, a python function for evaluating the gradient, and (optionally) a python function for evaluating the Hessian"
       ],
-      "id": "d346ec28"
+      "id": "ccb3eb8c"
     },
     {
       "cell_type": "code",
@@ -356,7 +356,7 @@
       "source": [
         "x_opt = optimize.fmin_ncg(f, (0.0, 0.0), fprime=fprime, fhess=fhess)"
       ],
-      "id": "a9a8b92a",
+      "id": "8f23322a",
       "execution_count": null,
       "outputs": []
     },
@@ -366,7 +366,7 @@
       "source": [
         "x_opt"
       ],
-      "id": "548a2968",
+      "id": "979e0383",
       "execution_count": null,
       "outputs": []
     },
@@ -386,7 +386,7 @@
         "ax.tick_params(which='both', direction='in')\n",
         "plt.colorbar(c, ax=ax, ticks=[0, 25, 50, 75, 100])"
       ],
-      "id": "af71c0b3",
+      "id": "613c18a6",
       "execution_count": null,
       "outputs": []
     },
@@ -398,7 +398,7 @@
         "\n",
         "* Two popular methods are the BFGS and the conjugate-gradient methods, which are implemented in `scipy` as the functions `optimize.fmin_bfgs` (the quasi-Newton method of Broyden, Fletcher, Goldfarb, and Shanno) and `optimize.fmin_cg` (the conjugate-gradient method of Polak and Ribiere)"
       ],
-      "id": "53b79cb5"
+      "id": "777223e6"
     },
     {
       "cell_type": "code",
@@ -407,7 +407,7 @@
         "x_opt = optimize.fmin_bfgs(f, (0, 0), fprime=fprime)\n",
         "x_opt"
       ],
-      "id": "6ef1b639",
+      "id": "580f18aa",
       "execution_count": null,
       "outputs": []
     },
@@ -418,7 +418,7 @@
         "x_opt = optimize.fmin_cg(f, (0, 0), fprime=fprime)\n",
         "x_opt"
       ],
-      "id": "c9fe0ec5",
+      "id": "bcad55e8",
       "execution_count": null,
       "outputs": []
     },
@@ -428,7 +428,7 @@
       "source": [
         "---"
       ],
-      "id": "4881ba2d"
+      "id": "da1ee677"
     },
     {
       "cell_type": "code",
@@ -437,7 +437,7 @@
         "x_opt = optimize.fmin_bfgs(f, (0, 0))\n",
         "x_opt"
       ],
-      "id": "d63c7f20",
+      "id": "a63f45a3",
       "execution_count": null,
       "outputs": []
     },
@@ -448,7 +448,7 @@
         "x_opt = optimize.fmin_cg(f, (0, 0))\n",
         "x_opt"
       ],
-      "id": "686afba2",
+      "id": "f8d9de94",
       "execution_count": null,
       "outputs": []
     },
@@ -470,7 +470,7 @@
         "\n",
         "which has a large number of local minima"
       ],
-      "id": "8377dc3b"
+      "id": "093bd3e9"
     },
     {
       "cell_type": "code",
@@ -480,7 +480,7 @@
         "  x, y = X\n",
         "  return 4*np.sin(np.pi *x) +6*np.sin(np.pi *y) +(x -1)**2 +(y -1)**2"
       ],
-      "id": "8e9f396d",
+      "id": "97099614",
       "execution_count": null,
       "outputs": []
     },
@@ -491,7 +491,7 @@
         "x_start = optimize.brute(f, (slice(-3, 5, 0.5), slice(-3, 5, 0.5)), finish=None); \n",
         "print(f'{x_start = },', f'{f(x_start) = }')"
       ],
-      "id": "3ddeaab7",
+      "id": "f7ae928f",
       "execution_count": null,
       "outputs": []
     },
@@ -502,7 +502,7 @@
         "x_opt = optimize.fmin_bfgs(f, x_start)\n",
         "print(f'{x_opt = },', f'{f(x_opt) = }')"
       ],
-      "id": "18df5d7a",
+      "id": "fed7749a",
       "execution_count": null,
       "outputs": []
     },
@@ -512,7 +512,7 @@
       "source": [
         "---"
       ],
-      "id": "94762ec6"
+      "id": "8a0a00b6"
     },
     {
       "cell_type": "code",
@@ -521,7 +521,7 @@
         "result = optimize.minimize(f, x_start, method='BFGS')\n",
         "result"
       ],
-      "id": "e1ea1992",
+      "id": "f5188f7f",
       "execution_count": null,
       "outputs": []
     },
@@ -531,7 +531,7 @@
       "source": [
         "result.x"
       ],
-      "id": "addce78f",
+      "id": "3e79176a",
       "execution_count": null,
       "outputs": []
     },
@@ -541,7 +541,7 @@
       "source": [
         "result.fun"
       ],
-      "id": "06a724c6",
+      "id": "0e0f3a9b",
       "execution_count": null,
       "outputs": []
     },
@@ -565,7 +565,7 @@
         "plt.colorbar(c, ax=ax)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "706d317b",
+      "id": "af557f06",
       "execution_count": null,
       "outputs": []
     },
@@ -582,7 +582,7 @@
         "\n",
         "* Simulate the observations:"
       ],
-      "id": "585f4397"
+      "id": "58ca4172"
     },
     {
       "cell_type": "code",
@@ -592,7 +592,7 @@
         "def f(x, b0, b1, b2):\n",
         "  return b0 +b1 *np.exp(-b2 *x**2)"
       ],
-      "id": "8881051c",
+      "id": "4558ed2c",
       "execution_count": null,
       "outputs": []
     },
@@ -604,7 +604,7 @@
         "y = f(xdata, *beta)\n",
         "ydata = y +0.05 *np.random.randn(len(xdata))"
       ],
-      "id": "6dab3a96",
+      "id": "b152287b",
       "execution_count": null,
       "outputs": []
     },
@@ -614,7 +614,7 @@
       "source": [
         "* The first step is to define a function for the residuals given the data and the model function, which is specified in terms of the yet-to-be determined model parameters "
       ],
-      "id": "d9eedf86"
+      "id": "c82dd4fa"
     },
     {
       "cell_type": "code",
@@ -623,7 +623,7 @@
         "def g(beta):\n",
         "  return ydata -f(xdata, *beta)"
       ],
-      "id": "27d06cd6",
+      "id": "03119c8d",
       "execution_count": null,
       "outputs": []
     },
@@ -633,7 +633,7 @@
       "source": [
         "* Next we define an initial guess for the parameter vector and let the `optimize.leastsq` function solve for the best least square fit for the parameter vector:"
       ],
-      "id": "cbebf491"
+      "id": "5ed59e44"
     },
     {
       "cell_type": "code",
@@ -642,7 +642,7 @@
         "beta_start = (1, 1, 1)\n",
         "beta_opt, beta_cov = optimize.leastsq(g, beta_start)"
       ],
-      "id": "c6fe7ecf",
+      "id": "7d9db5a2",
       "execution_count": null,
       "outputs": []
     },
@@ -652,7 +652,7 @@
       "source": [
         "beta_opt"
       ],
-      "id": "b49dff7a",
+      "id": "33993642",
       "execution_count": null,
       "outputs": []
     },
@@ -662,7 +662,7 @@
       "source": [
         "---"
       ],
-      "id": "654cae19"
+      "id": "a393c98d"
     },
     {
       "cell_type": "code",
@@ -678,7 +678,7 @@
         "ax.set_ylabel(r\"$f(x, \\boldsymbol{\\beta})$\", fontsize=14)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "3249eb47",
+      "id": "251f64d3",
       "execution_count": null,
       "outputs": []
     },
@@ -689,7 +689,7 @@
         "beta_opt, beta_cov = optimize.curve_fit(f, xdata, ydata)\n",
         "beta_opt  # a convenience wrapper around optimize.leastsq"
       ],
-      "id": "6c263204",
+      "id": "b56a10bb",
       "execution_count": null,
       "outputs": []
     },
@@ -711,7 +711,7 @@
         "\n",
         "  $$ 2 \\leq x_1 \\leq 3 \\;\\text{ and } \\; 0 \\leq x_2 \\leq 2 $$"
       ],
-      "id": "038c80e2"
+      "id": "71071fd8"
     },
     {
       "cell_type": "code",
@@ -721,7 +721,7 @@
         "  x_1, x_2 = X\n",
         "  return (x_1 -1)**2 +(x_2 -1)**2"
       ],
-      "id": "bbd04ff6",
+      "id": "e9ec8ae1",
       "execution_count": null,
       "outputs": []
     },
@@ -732,7 +732,7 @@
         "x_opt = optimize.minimize(f, (1, 1), method='BFGS').x\n",
         "x_opt"
       ],
-      "id": "fd9335ea",
+      "id": "450a3c0a",
       "execution_count": null,
       "outputs": []
     },
@@ -745,7 +745,7 @@
         "                      method='L-BFGS-B', bounds=[bnd_x1, bnd_x2]).x\n",
         "x_cons_opt"
       ],
-      "id": "85c57947",
+      "id": "07dc53ee",
       "execution_count": null,
       "outputs": []
     },
@@ -771,7 +771,7 @@
         "plt.colorbar(c, ax=ax)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "39aa0af4",
+      "id": "66ac2b47",
       "execution_count": null,
       "outputs": []
     },
@@ -791,7 +791,7 @@
         "\n",
         "* To solve this optimization problem using Lagrange multipliers, we form the Lagrangian $L(x) = f(x) +\\lambda g(x)$, and seek the stationary points for $L(x) = 0$"
       ],
-      "id": "958039dd"
+      "id": "ad836bf7"
     },
     {
       "cell_type": "code",
@@ -802,7 +802,7 @@
         "g = 2 *(x0 *x1 +x1 *x2 +x2 *x0) -1\n",
         "L = f +l *g"
       ],
-      "id": "314ccd94",
+      "id": "d847e74c",
       "execution_count": null,
       "outputs": []
     },
@@ -815,7 +815,7 @@
         "display(sols[0])\n",
         "display(sols[1])"
       ],
-      "id": "0ea3666c",
+      "id": "8faa2368",
       "execution_count": null,
       "outputs": []
     },
@@ -825,7 +825,7 @@
       "source": [
         "g.subs(sols[0])"
       ],
-      "id": "199800b2",
+      "id": "26b8287c",
       "execution_count": null,
       "outputs": []
     },
@@ -835,7 +835,7 @@
       "source": [
         "f.subs(sols[0])"
       ],
-      "id": "365d1c25",
+      "id": "fdb28b44",
       "execution_count": null,
       "outputs": []
     },
@@ -849,7 +849,7 @@
         "\n",
         "* The `optimize.minimize` function takes the keyword argument `constraints`, which should be a list of dictionaries that each specifies a constraint. The allowed keys (values) in this dictionary are type (`'eq'` or `'ineq'`), `fun` (constraint function), `jac` (Jacobian of the constraint function)"
       ],
-      "id": "28033d41"
+      "id": "4770bcff"
     },
     {
       "cell_type": "code",
@@ -861,7 +861,7 @@
         "def g(X):\n",
         "  return 2 *(X[0] *X[1] +X[1] *X[2] +X[2] *X[0]) -1"
       ],
-      "id": "0abc3e97",
+      "id": "57360256",
       "execution_count": null,
       "outputs": []
     },
@@ -874,7 +874,7 @@
         "                      method='SLSQP', constraints=constraints)\n",
         "x_cons_opt"
       ],
-      "id": "7a20a307",
+      "id": "965e9a0a",
       "execution_count": null,
       "outputs": []
     },
@@ -888,7 +888,7 @@
         "\n",
         "  $$ g(x) = x_1 -1.75 -(x_0 -0.75)^4 \\geq 0 $$"
       ],
-      "id": "b49b300a"
+      "id": "caee6762"
     },
     {
       "cell_type": "code",
@@ -900,7 +900,7 @@
         "def g(X):\n",
         "  return X[1] -1.75 -(X[0] -0.75)**4"
       ],
-      "id": "dd856b12",
+      "id": "fb76109d",
       "execution_count": null,
       "outputs": []
     },
@@ -915,7 +915,7 @@
         "                      method='SLSQP', constraints=constraints).x\n",
         "x_cons_opt"
       ],
-      "id": "7c7f143f",
+      "id": "581ffac9",
       "execution_count": null,
       "outputs": []
     },
@@ -941,7 +941,7 @@
         "plt.colorbar(c, ax=ax)\n",
         "ax.tick_params(which='both', direction='in')"
       ],
-      "id": "5d5fd909",
+      "id": "8614d6a4",
       "execution_count": null,
       "outputs": []
     },
@@ -996,7 +996,7 @@
         "\n",
         "  To solve this problem, here we use the `cvxopt` library, which provides the linear programming solver with the `cvxopt.solvers.lp` function"
       ],
-      "id": "a04ee350"
+      "id": "d5c5b78b"
     },
     {
       "cell_type": "code",
@@ -1008,7 +1008,7 @@
         "                   [ 0.0, -1.0, 1.0]])\n",
         "b = cvxopt.matrix([1.0, 2.0, 3.0])"
       ],
-      "id": "f9afac0c",
+      "id": "11b85c8e",
       "execution_count": null,
       "outputs": []
     },
@@ -1018,7 +1018,7 @@
       "source": [
         "sol = cvxopt.solvers.lp(c, A, b)"
       ],
-      "id": "3d2a5083",
+      "id": "add2f734",
       "execution_count": null,
       "outputs": []
     },
@@ -1029,7 +1029,7 @@
         "x = np.array(sol['x'])\n",
         "x"
       ],
-      "id": "153f20b2",
+      "id": "03a15264",
       "execution_count": null,
       "outputs": []
     },
@@ -1039,7 +1039,7 @@
       "source": [
         "sol['primal objective']"
       ],
-      "id": "d895a3dd",
+      "id": "1564f75a",
       "execution_count": null,
       "outputs": []
     },
@@ -1067,7 +1067,7 @@
         "\n",
         "  $$ x_1 \\geq 0,\\, x_2 \\geq 0 \\; \\text{ and } \\; x_1 + x_2 =1$$"
       ],
-      "id": "07e7a656"
+      "id": "65b215b6"
     },
     {
       "cell_type": "code",
@@ -1081,7 +1081,7 @@
         "b = cvxopt.matrix(1.0)\n",
         "sol = cvxopt.solvers.qp(Q, p, G, h, A, b)"
       ],
-      "id": "0edf353a",
+      "id": "bd651a6e",
       "execution_count": null,
       "outputs": []
     },
@@ -1092,7 +1092,7 @@
         "x = np.array(sol['x'])\n",
         "x"
       ],
-      "id": "e55d43b8",
+      "id": "f814ee74",
       "execution_count": null,
       "outputs": []
     },
@@ -1102,7 +1102,7 @@
       "source": [
         "sol['primal objective']"
       ],
-      "id": "f8ab0f68",
+      "id": "22b6c5d2",
       "execution_count": null,
       "outputs": []
     }

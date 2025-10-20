@@ -1991,7 +1991,7 @@ $$\boxed{\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} =
 
   $~$
 
-  **12.** $~$ Let a particle of mass $m$ travel along a differentiable path $\mathbf{x}$ in a Newtonian vector field $\mathbf{F}$ (i.e., one that satisfies Newton's second law $\mathbf{F} = m\mathbf{a}$, where $\mathbf{a}$ is the acceleration of $\mathbf{x}$). We define the **angular momentum** $\mathbf{l}(t)$ of the particle to be the cross product of the position vector and the linear momentum $m\mathbf{v}$, i.e.,
+**12.** $~$ Let a particle of mass $m$ travel along a differentiable path $\mathbf{x}$ in a Newtonian vector field $\mathbf{F}$ (i.e., one that satisfies Newton's second law $\mathbf{F} = m\mathbf{a}$, where $\mathbf{a}$ is the acceleration of $\mathbf{x}$). We define the **angular momentum** $\mathbf{l}(t)$ of the particle to be the cross product of the position vector and the linear momentum $m\mathbf{v}$, i.e.,
 
   $$\mathbf{l}(t) = \mathbf{x}(t) \times m \mathbf{v}(t)$$
 
@@ -2065,3 +2065,381 @@ $$\boxed{\mathbf{l}(t) = \text{constant vector}}$$
 
 $~$
 
+**13.** $~$ Find the curvature at $t=\pi$ of the cycloid that is described by
+
+$$\mathbf{r}(t) =a(t -\sin t)\mathbf{i} +a(1 -\cos t)\mathbf{j}, \;\; a > 0$$
+
+$~$
+
+**Solution**
+
+Compute derivatives and use the planar curvature formula
+
+$$\kappa(t)=\frac{|x’(t)y’’(t)-y’(t)x’’(t)|}{\big(x’(t)^2+y’(t)^2\big)^{3/2}}$$
+
+For $\mathbf r(t)=\big<a(t-\sin t),\,a(1-\cos t)\big>$ we have
+
+$$x’=a(1-\cos t),\quad x’’=a\sin t,\qquad
+y’=a\sin t,\quad y’’=a\cos t$$
+
+So the numerator is
+
+$$\begin{aligned}
+|x’y’’-y’x’’| &=a^2\big|(1-\cos t)\cos t-\sin^2 t\big| \\
+&= a^2|\,\cos t-(\cos^2 t+\sin^2 t)\,|=a^2(1-\cos t)
+\end{aligned}$$
+
+The denominator inside the $3/2$ power is
+
+$$\begin{aligned}
+x’^2+y’^2 &=a^2\big((1-\cos t)^2+\sin^2 t\big) \\
+ &= a^2\big(2-2\cos t\big)=2a^2(1-\cos t)
+ \end{aligned}$$
+
+hence
+
+$$
+\big(x’^2+y’^2\big)^{3/2}=a^3\big(2(1-\cos t)\big)^{3/2}=a^3 2^{3/2}(1-\cos t)^{3/2}$$
+
+Thus
+$$\kappa(t)=\frac{a^2(1-\cos t)}{a^3 2^{3/2}(1-\cos t)^{3/2}}
+=\frac{1}{a\,2^{3/2}\sqrt{\,1-\cos t\,}}
+$$
+
+Using $1-\cos t=2\sin^2(t/2)$ this becomes the simpler form
+
+$$\kappa(t)=\frac{1}{4a\,|\sin(t/2)|}$$
+
+At $t=\pi$, $\sin(\pi/2)=1$, so
+
+$$\boxed{\kappa(\pi)=\frac{1}{4a}}$$
+
+$~$
+
+**14.** $~$ Find the osculating plane to the following circular helix at $t=\pi/4$
+
+
+$$\mathbf{r}(t) = -2 \sin t \mathbf{i} +2\cos t\mathbf{j} +3\mathbf{k}$$
+
+$~$
+
+**Solution**
+
+For $\mathbf r(t)=\left<-2\sin t,\,2\cos t,\,3t \right>$,
+the osculating plane at $t_0$ is the plane through $\mathbf r(t_0)$ whose normal is the binormal vector
+$$\mathbf B(t_0)=\frac{\mathbf r’(t_0)\times\mathbf r’’(t_0)}{\|\mathbf r’(t_0)\times\mathbf r’’(t_0)\|}$$
+
+Compute derivatives:
+
+$$\mathbf r’(t)=(-2\cos t,\,-2\sin t,\,3),\qquad
+\mathbf r’’(t)=(2\sin t,\,-2\cos t,\,0)$$
+
+At $t=\pi/4$:
+$$\mathbf r\!\left(\tfrac{\pi}{4}\right)=\big(-\sqrt2,\;\sqrt2,\;3\pi/4\big)$$
+and
+$$\mathbf r’\!\left(\tfrac{\pi}{4}\right)\times\mathbf r’’\!\left(\tfrac{\pi}{4}\right)
+= \begin{pmatrix}3\sqrt2\\[4pt]3\sqrt2\\[4pt]4\end{pmatrix}$$
+
+Use this cross product as the plane normal. The osculating plane equation is
+$$(3\sqrt2,\,3\sqrt2,\,4)\cdot\big((x,y,z)-(-\sqrt2,\sqrt2,3\pi/4)\big)=0$$
+Expanding and simplifying gives the tidy form
+$$\boxed{\,3\sqrt2\,(x+y)+4z=3\pi\,}$$
+which is the osculating plane at $t=\pi/4$
+
+$~$ 
+
+**15.** $~$ Let $\boldsymbol{\omega} = \nabla \times \mathbf{u}$ represent the vorticity of an inviscid, barotropic fluid governed by the Euler equation
+
+$$\frac{D\mathbf{u}}{Dt} =-\frac{1}{\rho}\nabla p + \mathbf{f}$$
+
+where $\frac{D}{Dt}$ denotes the material derivative ($\frac{\partial}{\partial t}+\mathbf{u} \cdot \nabla$). Under the barotropic assumption, the pressure is a function of density alone, $p = p(\rho)$
+
+**(a)** Take the curl of the Euler equation to obtain the evolution equation for the vorticity field
+
+**(b)** Show that for an inviscid, barotropic fluid with *conservative* body forces,
+  $$\Gamma(t)=\oint_{C(t)} \mathbf{u} \cdot d\mathbf{r}$$
+  remains constant in time if $C(t)$ moves with the fluid. **Hint** Differentiate $\Gamma(t)$:
+  $$\frac{d\Gamma}{dt}=\oint_{C(t)}\frac{D\mathbf{u}}{Dt} \cdot d\mathbf{r}$$
+
+**(c)** Evaluate $\frac{D\omega_z}{Dt}$ for a *two-dimensional incompressible* flow, and
+discuss the resulting consequences for the evolution of vortex patches and vortex sheets
+
+**Solution**
+
+**(a)** **Curl the Euler equation $\rightarrow$ vorticity evolution**
+
+Euler (compressible) in material-derivative form:
+
+$$\frac{\partial \mathbf u}{\partial t}+(\mathbf u\cdot\nabla)\mathbf u
+= -\frac{1}{\rho}\nabla p+\mathbf f$$
+
+Define vorticity $\boldsymbol\omega=\nabla\times\mathbf u$.  Take $\nabla\times(\cdot)$ of both sides. Use the identity
+
+$$(u\cdot\nabla)u = \nabla\!\Big(\tfrac12|u|^2\Big) + \boldsymbol\omega\times\mathbf u$$
+
+so $\nabla\times\big((u\cdot\nabla)u\big)=\nabla\times(\boldsymbol\omega\times\mathbf u)$.  
+
+Another identity gives
+
+$$\nabla\times(\boldsymbol\omega\times\mathbf u)
+=(\mathbf u\cdot\nabla)\boldsymbol\omega -(\boldsymbol\omega\cdot\nabla)\mathbf u
++\boldsymbol\omega(\nabla\cdot\mathbf u)-\mathbf u(\nabla\cdot\boldsymbol\omega)$$
+
+and $\nabla\cdot\boldsymbol\omega=\nabla\cdot(\nabla\times\mathbf u)=0$. Thus
+
+$$\frac{\partial\boldsymbol\omega}{\partial t}+(\mathbf u\cdot\nabla)\boldsymbol\omega
+=(\boldsymbol\omega\cdot\nabla)\mathbf u-\boldsymbol\omega(\nabla\cdot\mathbf u)
++\nabla\times\mathbf f-\nabla\times\!\Big(\frac{1}{\rho}\nabla p\Big)$$
+
+Under the barotropic assumption $p=p(\rho)$
+
+$$\nabla\times\!\Big(\frac{1}{\rho}\nabla p\Big)
+=\nabla\Big(\frac{1}{\rho}\Big)\times\nabla p
+=\frac{1}{\rho^2}\big(\nabla\rho\times\nabla p\big)=0$$
+
+because $\nabla p$ is parallel to $\nabla\rho$ 
+
+Therefore the vorticity equation becomes
+
+$$\boxed{\;\frac{D\boldsymbol\omega}{Dt}=(\boldsymbol\omega\cdot\nabla)\mathbf u
+-\boldsymbol\omega(\nabla\cdot\mathbf u)+\nabla\times\mathbf f\;}$$
+
+For an incompressible flow ($\nabla\cdot\mathbf u=0$) this reduces to the familiar
+
+$$\frac{D\boldsymbol\omega}{Dt}=(\boldsymbol\omega\cdot\nabla)\mathbf u+\nabla\times\mathbf f$$
+
+The term $(\boldsymbol\omega\cdot\nabla)\mathbf u$ is the vortex-stretching term that can amplify vorticity in 3D
+
+**(b)** **Kelvin’s circulation theorem (conservation of circulation)**
+
+Circulation around a material loop $C(t)$ is
+
+$$\Gamma(t)=\oint_{C(t)}\mathbf u\cdot d\mathbf r$$
+
+Differentiate following the moving loop (hint given):
+
+$$\frac{d\Gamma}{dt}=\oint_{C(t)}\frac{D\mathbf u}{Dt}\cdot d\mathbf r
+=\oint_{C(t)}\Big(-\frac{1}{\rho}\nabla p+\mathbf f\Big)\cdot d\mathbf r$$
+
+Under barotropic $p=p(\rho)$ there exists a scalar $H(\rho)$ (specific enthalpy) with $\nabla H=\frac{1}{\rho}\nabla p$. If the body force is conservative, $\mathbf f=-\nabla\Phi$ for some potential $\Phi$. Then the integrand is a gradient:
+
+$$-\frac{1}{\rho}\nabla p+\mathbf f = -\nabla H -\nabla\Phi = -\nabla(H+\Phi)$$
+
+and the line integral of a gradient around a closed curve vanishes. Hence
+
+$$\frac{d\Gamma}{dt}=0$$
+
+So circulation around any material loop $C(t)$ is constant in time — this is Kelvin’s circulation theorem (for inviscid, barotropic fluid with conservative body forces)
+
+**(c)** **Two-dimensional incompressible flow:** $\dfrac{D\omega_z}{Dt}$ and consequences
+
+For 2D flow in the $xy$-plane, let $\mathbf u=(u(x,y,t),v(x,y,t),0)$ and assume no $z$-dependence. The vorticity has only a $z$-component:
+
+$$\boldsymbol\omega=(0,0,\omega_z),\qquad \omega_z=\partial_x v-\partial_y u$$
+
+For incompressible flow $\nabla\cdot\mathbf u=0$. Also $(\boldsymbol\omega\cdot\nabla)\mathbf u$ vanishes because $\boldsymbol\omega$ points in $z$ and there is no $z$-variation:
+
+$$(\boldsymbol\omega\cdot\nabla)\mathbf u=\omega_z\partial_z\mathbf u=0$$
+
+If body forces are irrotational so $\nabla\times\mathbf f=0$, the vorticity equation reduces to
+
+$$\frac{D\omega_z}{Dt}=0$$
+
+So in 2D incompressible Euler flow the scalar vorticity $\omega_z$ is materially conserved along particle paths
+
+**Consequences:**
+
+* **Vortex patches.** A vortex patch is a region where $\omega_z$ is nonzero (often constant) and zero outside. Because $\omega_z$ is advected with the flow, every fluid particle keeps its initial vorticity value. Thus a patch’s vorticity value is preserved and the patch is merely carried/deformed by the flow. Incompressibility preserves area, so the area of the patch remains constant (though its shape can become complex — e.g. filamentation)
+
+* **Vortex sheets.** A vortex sheet is a curve across which the tangential velocity is discontinuous (equivalently a delta-distribution vorticity concentrated on a curve). In 2D inviscid flow the sheet strength (the jump in tangential velocity, or equivalently circulation per unit length) is transported with the sheet — the sheet is convected by the flow. However, vortex sheets in inviscid flow are nonlinearly unstable (Kelvin–Helmholtz instability) and tend to roll up into spirals (the sheet can develop finer and finer structure). In the ideal Euler limit this leads to complicated, potentially singular behavior; with even small viscosity the sheet diffuses and rolls up more smoothly
+
+* **No vortex stretching in 2D.** Because there is no $(\boldsymbol\omega\cdot\nabla)\mathbf u$ term, vorticity cannot be amplified by stretching as it can in 3D. This is the fundamental reason 2D turbulence and vortex dynamics differ qualitatively from 3D: vorticity values are conserved along particle paths, and inverse energy cascade / persistence of coherent vortices are characteristic features
+
+$~$
+
+**16.** Let $\mathbf{u}(x,y,z)=\left<-y f(r,z),\ x f(r,z),\ g(r,z)\right>,\quad r=\sqrt{x^2+y^2}$
+
+**(a)** In cylindrical coordinates $(r,\theta,z)$, find the condition from $\nabla\cdot\mathbf{u}=0$
+
+**(b)** Assuming no $\theta$-dependence, show that there exists a streamfunction $\Psi(r,z)$ such that
+$$u_r=\frac{1}{r}\frac{\partial\Psi}{\partial z},\qquad
+u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}$$
+
+**(c)** Write the formal decomposition $\mathbf{u}=\nabla\phi+\nabla\times\mathbf{A}$.
+Discuss what $\phi$ (and boundary conditions on $\mathbf{A}$, this part is optional) become for incompressible flow
+
+**(d)** For $f(r,z)=\dfrac{\alpha}{(r^2+z^2)^{3/2}}$, $g=0$, compute $\boldsymbol{\omega}=\nabla\times\mathbf{u}$ and describe its physical meaning
+
+**Solution**
+
+Throughout use cylindrical coordinates $(r,\theta,z)$ with
+$$x=r\cos\theta,\qquad y=r\sin\theta$$
+and unit vectors 
+$$\mathbf e_r=(\cos\theta,\sin\theta,0),\;\mathbf e_\theta=(-\sin\theta,\cos\theta,0),\;\mathbf e_z=(0,0,1)$$
+
+A quick and useful observation from the given Cartesian form
+$$\mathbf u=(-y f(r,z),\;x f(r,z),\;g(r,z))$$
+is that
+$$u_r=\mathbf u\cdot\mathbf e_r=0,\qquad
+u_\theta=\mathbf u\cdot\mathbf e_\theta = r\,f(r,z),\qquad
+u_z=g(r,z)$$
+
+**(a)** **Divergence-free condition in cylindrical coordinates**
+
+The divergence in cylindrical coordinates is
+
+$$\nabla\cdot\mathbf u=\frac{1}{r}\frac{\partial}{\partial r}(r u_r)
++\frac{1}{r}\frac{\partial u_\theta}{\partial\theta}+\frac{\partial u_z}{\partial z}$$
+
+Substitute $u_r=0,\;u_\theta=r f(r,z),\;u_z=g(r,z)$. Then
+
+$$\nabla\cdot\mathbf u
+=\frac{1}{r}\frac{\partial}{\partial\theta}\big(r f(r,z)\big)+\frac{\partial g}{\partial z}$$
+
+So the condition $\nabla\cdot\mathbf u=0$ is
+
+$$\boxed{\;\frac{1}{r}\frac{\partial}{\partial\theta}\big(r f(r,z)\big)+\frac{\partial g}{\partial z}=0\;}$$
+
+If the flow is axisymmetric (no $\theta$-dependence) this reduces to
+
+$$\boxed{\,\frac{\partial g}{\partial z}=0\quad\Longrightarrow\quad g=g(r)\,}$$
+
+**(b)** **Existence of an axisymmetric stream function $\Psi(r,z)$**
+
+Assume no $\theta$-dependence (axisymmetric). For general axisymmetric flows (not necessarily the special form above) the divergence-free condition becomes
+
+$$\frac{1}{r}\frac{\partial}{\partial r}(r u_r)+\frac{\partial u_z}{\partial z}=0$$
+
+Multiply by $r$:
+
+$$\frac{\partial}{\partial r}(r u_r)+\frac{\partial}{\partial z}(r u_z)=0$$
+
+This is the 2D divergence-free condition in the $(r,z)$-plane for the vector $(r u_r,\; r u_z)$; hence there exists a stream function $\Psi(r,z)$ (unique up to additive constant) such 
+
+$$r u_r=\frac{\partial\Psi}{\partial z},\qquad
+r u_z=-\frac{\partial\Psi}{\partial r}$$
+
+Dividing by $r$ gives the standard axisymmetric Stokes stream function relations
+
+$$\boxed{\;u_r=\frac{1}{r}\frac{\partial\Psi}{\partial z},\qquad
+u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}\;}$$
+
+(These formulae automatically satisfy $\nabla\cdot\mathbf u=0$)
+
+**(c)** **Helmholtz decomposition $\mathbf u=\nabla\phi+\nabla\times\mathbf A$ and consequences for incompressible flow**
+
+The Helmholtz decomposition states any sufficiently smooth vector field on $\mathbb R^3$ (with suitable decay or boundary conditions) can be written as
+
+$$ \mathbf u=\nabla\phi+\nabla\times\mathbf A $$
+
+where $\phi$ is a scalar potential and $\mathbf A$ a vector potential. Taking divergence gives
+
+$$\nabla\cdot\mathbf u=\nabla^2\phi+\nabla\cdot(\nabla\times\mathbf A)=\nabla^2\phi$$
+
+since $\nabla\cdot(\nabla\times\mathbf A)=0$. Thus for an incompressible flow $\nabla\cdot\mathbf u=0$ we have
+
+$$\boxed{\;\nabla^2\phi=0\;}$$
+
+so $\phi$ is harmonic. With common boundary/decay conditions (e.g. $\mathbf u$ vanishes at infinity or normal velocity specified on a closed boundary), the only physically allowable harmonic $\phi$ compatible with zero net flux is typically a constant (so $\nabla\phi=0$), and all motion is described by the solenoidal part $\nabla\times\mathbf A$. In short:
+
+* For incompressible flow, $\phi$ is harmonic; if boundary/decay conditions force $\phi$ to be constant, the flow is purely solenoidal $\mathbf u=\nabla\times\mathbf A$
+
+* A convenient gauge for $\mathbf A$ is the Coulomb gauge $\nabla\cdot\mathbf A=0$. Then 
+
+  $$\nabla\times(\nabla\times\mathbf A)= -\nabla^2\mathbf A=\mathbf u-\nabla\phi$$ 
+
+  For incompressible flows with $\phi$ chosen zero, $\mathbf A$ solves the vector Poisson equation 
+  
+  $$-\nabla^2\mathbf A=\mathbf u$$ 
+  
+  with boundary conditions on $\mathbf A$ chosen to make the solution unique, e.g. $\mathbf A\to0$ at infinity and $\nabla\cdot\mathbf A=0$
+
+So physically: for incompressible flows the irrotational part \nabla\phi is absent (or trivial) under typical no-flux/decay conditions, and the velocity is given entirely by the curl of a vector potential which encodes the vorticity
+
+**(d)** **Vorticity for $f(r,z)=\dfrac{\alpha}{(r^2+z^2)^{3/2}}$, $g=0$. Physical interpretation**
+
+With the specified $f$ and $g=0$ the flow is purely azimuthal:
+
+$$u_r=0,\qquad u_\theta = r f(r,z)=\frac{\alpha r}{(r^2+z^2)^{3/2}},\qquad u_z=0$$
+
+Compute the vorticity $\boldsymbol\omega=\nabla\times\mathbf u.$ For axisymmetric, $\theta$-independent fields the cylindrical-component formulas simplify to
+
+$$\omega_r = -\frac{\partial u_\theta}{\partial z},\qquad
+\omega_\theta = \frac{\partial u_r}{\partial z}-\frac{\partial u_z}{\partial r}=0,\qquad
+\omega_z = \frac{1}{r}\frac{\partial}{\partial r}(r u_\theta)$$
+
+Compute derivatives. Put $s=r^2+z^2$. Then
+
+$$ f=\alpha s^{-3/2},\qquad f_z = -\frac{3\alpha z}{s^{5/2}}$$
+
+Thus
+
+$$\omega_r = -\frac{\partial}{\partial z}(r f) = -r f_z
+= -r\Big(-\frac{3\alpha z}{s^{5/2}}\Big)
+= \frac{3\alpha r z}{s^{5/2}}$$
+
+For $\omega_z$:
+
+$$r u_\theta = r^2 f = \alpha \frac{r^2}{s^{3/2}}$$
+
+Differentiate in $r$:
+
+$$\frac{\partial}{\partial r}(r^2 f)
+=\alpha\Big(2r s^{-3/2} + r^2\cdot(-\tfrac{3}{2}) s^{-5/2}\cdot 2r\Big)
+= \alpha r s^{-5/2}\big(2s-3r^2\big)$$
+
+Therefore
+
+$$\omega_z=\frac{1}{r}\frac{\partial}{\partial r}(r^2 f)
+=\alpha s^{-5/2}\big(2s-3r^2\big)
+=\alpha\frac{-r^2+2z^2}{(r^2+z^2)^{5/2}}$$
+
+So the vorticity vector is
+
+$$\boxed{\;
+\boldsymbol\omega(r,z)
+=\omega_r\,\mathbf e_r+\omega_z\,\mathbf e_z
+=\frac{3\alpha r z}{(r^2+z^2)^{5/2}}\,\mathbf e_r
++\frac{\alpha(-r^2+2z^2)}{(r^2+z^2)^{5/2}}\,\mathbf e_z\;}$$
+
+**Notes / physical interpretation**
+
+* The vorticity has no azimuthal component ($\omega_\theta=0$); it is in the meridional (poloidal) plane $(r,z)$. Thus swirling motion $u_\theta$ produces poloidal vorticity — typical of axisymmetric swirling flows
+
+* The vorticity field is singular at the origin (behaves like a power of distance) and decays rapidly for large distance: the denominator $(r^2+z^2)^{5/2}$ gives a far-field decay like $O(\text{distance}^{-5})$ for components (so the induced velocity decays more slowly)
+
+* The structure of $\boldsymbol\omega$ resembles a dipole-like poloidal vorticity: $\omega_r$ is odd in $z$ (changes sign across the $z=0$ plane), while $\omega_z$ has a quadrupolar character (combination of $r^2$ and $z^2$). Vorticity lines (integral curves of $\boldsymbol\omega$) lie in meridional planes and encircle/loop around the symmetry axis — qualitatively similar to a vortex ring/poloidal-dipole structure concentrated near the origin
+
+* Physically this flow can be seen as an idealized concentrated swirl (azimuthal velocity decaying like $(\text{distance})^{-2}$ for large distance because $u_\theta\sim r/(r^2+z^2)^{3/2}$), and the computed $\boldsymbol\omega$ describes the local twisting/rotation of fluid elements produced by that swirl. The sign pattern indicates opposite vorticity above and below the midplane $z=0$ in the radial component, etc
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as colors
+
+alpha = 1.0
+
+# Grid for r > 0 region
+r = np.linspace(0.02, 3, 100)
+z = np.linspace(-3, 3, 80)
+R, Z = np.meshgrid(r, z)
+
+# Define vorticity component ω_z
+s = R**2 +Z**2
+omega_z = alpha *(-R**2 +2 *Z**2) /s**(2.5)
+
+# Compute log10 of magnitude and preserve sign
+log_omega = np.sign(omega_z) * np.log10(np.abs(omega_z) + 1e-10)
+
+# --- Plot log-scaled ω_z ---
+plt.figure(figsize=(3, 5))
+cont = plt.contour(R, Z, log_omega, levels=60, cmap="RdBu_r")
+plt.colorbar(cont, label=r"$\mathrm{sign}(\omega_z)\log_{10}|\omega_z|$")
+plt.title(r"Log-scaled $\omega_z(r,z)$ for $r > 0$")
+plt.xlabel("$r$")
+plt.ylabel("$z$")
+plt.axhline(0, color='k', lw=0.8)
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+```

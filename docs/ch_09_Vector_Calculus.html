@@ -295,7 +295,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Numpy: Vectors, Matrices, and Multidimensional Arrays</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -355,7 +355,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Adaptive mesh refinement with GMSH/FEniCSx</span></span></a>
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">The FEniCS computing platform</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -1884,7 +1884,7 @@ v &amp; 1 + u
 </ul>
 <p>So, the transformed region is:</p>
 <p><span class="math display">\[S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}\]</span></p>
-<div id="051c594a" class="cell" data-execution_count="1">
+<div id="be688a25" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -2158,6 +2158,232 @@ a_N &amp;= \sqrt{4 - \frac{16t^2}{2 + 4t^2}} = \sqrt{ \frac{4(2 + 4t^2) - 16t^2}
 <p>This implies that:</p>
 <p><span class="math display">\[\boxed{\mathbf{l}(t) = \text{constant vector}}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
+<p><strong>13.</strong> <span class="math inline">\(~\)</span> Find the curvature at <span class="math inline">\(t=\pi\)</span> of the cycloid that is described by</p>
+<p><span class="math display">\[\mathbf{r}(t) =a(t -\sin t)\mathbf{i} +a(1 -\cos t)\mathbf{j}, \;\; a &gt; 0\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Solution</strong></p>
+<p>Compute derivatives and use the planar curvature formula</p>
+<p><span class="math display">\[\kappa(t)=\frac{|x’(t)y’’(t)-y’(t)x’’(t)|}{\big(x’(t)^2+y’(t)^2\big)^{3/2}}\]</span></p>
+<p>For <span class="math inline">\(\mathbf r(t)=\big&lt;a(t-\sin t),\,a(1-\cos t)\big&gt;\)</span> we have</p>
+<p><span class="math display">\[x’=a(1-\cos t),\quad x’’=a\sin t,\qquad
+y’=a\sin t,\quad y’’=a\cos t\]</span></p>
+<p>So the numerator is</p>
+<p><span class="math display">\[\begin{aligned}
+|x’y’’-y’x’’| &amp;=a^2\big|(1-\cos t)\cos t-\sin^2 t\big| \\
+&amp;= a^2|\,\cos t-(\cos^2 t+\sin^2 t)\,|=a^2(1-\cos t)
+\end{aligned}\]</span></p>
+<p>The denominator inside the <span class="math inline">\(3/2\)</span> power is</p>
+<p><span class="math display">\[\begin{aligned}
+x’^2+y’^2 &amp;=a^2\big((1-\cos t)^2+\sin^2 t\big) \\
+&amp;= a^2\big(2-2\cos t\big)=2a^2(1-\cos t)
+\end{aligned}\]</span></p>
+<p>hence</p>
+<p><span class="math display">\[
+\big(x’^2+y’^2\big)^{3/2}=a^3\big(2(1-\cos t)\big)^{3/2}=a^3 2^{3/2}(1-\cos t)^{3/2}\]</span></p>
+<p>Thus <span class="math display">\[\kappa(t)=\frac{a^2(1-\cos t)}{a^3 2^{3/2}(1-\cos t)^{3/2}}
+=\frac{1}{a\,2^{3/2}\sqrt{\,1-\cos t\,}}
+\]</span></p>
+<p>Using <span class="math inline">\(1-\cos t=2\sin^2(t/2)\)</span> this becomes the simpler form</p>
+<p><span class="math display">\[\kappa(t)=\frac{1}{4a\,|\sin(t/2)|}\]</span></p>
+<p>At <span class="math inline">\(t=\pi\)</span>, <span class="math inline">\(\sin(\pi/2)=1\)</span>, so</p>
+<p><span class="math display">\[\boxed{\kappa(\pi)=\frac{1}{4a}}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>14.</strong> <span class="math inline">\(~\)</span> Find the osculating plane to the following circular helix at <span class="math inline">\(t=\pi/4\)</span></p>
+<p><span class="math display">\[\mathbf{r}(t) = -2 \sin t \mathbf{i} +2\cos t\mathbf{j} +3\mathbf{k}\]</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Solution</strong></p>
+<p>For <span class="math inline">\(\mathbf r(t)=\left&lt;-2\sin t,\,2\cos t,\,3t \right&gt;\)</span>, the osculating plane at <span class="math inline">\(t_0\)</span> is the plane through <span class="math inline">\(\mathbf r(t_0)\)</span> whose normal is the binormal vector <span class="math display">\[\mathbf B(t_0)=\frac{\mathbf r’(t_0)\times\mathbf r’’(t_0)}{\|\mathbf r’(t_0)\times\mathbf r’’(t_0)\|}\]</span></p>
+<p>Compute derivatives:</p>
+<p><span class="math display">\[\mathbf r’(t)=(-2\cos t,\,-2\sin t,\,3),\qquad
+\mathbf r’’(t)=(2\sin t,\,-2\cos t,\,0)\]</span></p>
+<p>At <span class="math inline">\(t=\pi/4\)</span>: <span class="math display">\[\mathbf r\!\left(\tfrac{\pi}{4}\right)=\big(-\sqrt2,\;\sqrt2,\;3\pi/4\big)\]</span> and <span class="math display">\[\mathbf r’\!\left(\tfrac{\pi}{4}\right)\times\mathbf r’’\!\left(\tfrac{\pi}{4}\right)
+= \begin{pmatrix}3\sqrt2\\[4pt]3\sqrt2\\[4pt]4\end{pmatrix}\]</span></p>
+<p>Use this cross product as the plane normal. The osculating plane equation is <span class="math display">\[(3\sqrt2,\,3\sqrt2,\,4)\cdot\big((x,y,z)-(-\sqrt2,\sqrt2,3\pi/4)\big)=0\]</span> Expanding and simplifying gives the tidy form <span class="math display">\[\boxed{\,3\sqrt2\,(x+y)+4z=3\pi\,}\]</span> which is the osculating plane at <span class="math inline">\(t=\pi/4\)</span></p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>15.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\boldsymbol{\omega} = \nabla \times \mathbf{u}\)</span> represent the vorticity of an inviscid, barotropic fluid governed by the Euler equation</p>
+<p><span class="math display">\[\frac{D\mathbf{u}}{Dt} =-\frac{1}{\rho}\nabla p + \mathbf{f}\]</span></p>
+<p>where <span class="math inline">\(\frac{D}{Dt}\)</span> denotes the material derivative (<span class="math inline">\(\frac{\partial}{\partial t}+\mathbf{u} \cdot \nabla\)</span>). Under the barotropic assumption, the pressure is a function of density alone, <span class="math inline">\(p = p(\rho)\)</span></p>
+<p><strong>(a)</strong> Take the curl of the Euler equation to obtain the evolution equation for the vorticity field</p>
+<p><strong>(b)</strong> Show that for an inviscid, barotropic fluid with <em>conservative</em> body forces, <span class="math display">\[\Gamma(t)=\oint_{C(t)} \mathbf{u} \cdot d\mathbf{r}\]</span> remains constant in time if <span class="math inline">\(C(t)\)</span> moves with the fluid. <strong>Hint</strong> Differentiate <span class="math inline">\(\Gamma(t)\)</span>: <span class="math display">\[\frac{d\Gamma}{dt}=\oint_{C(t)}\frac{D\mathbf{u}}{Dt} \cdot d\mathbf{r}\]</span></p>
+<p><strong>(c)</strong> Evaluate <span class="math inline">\(\frac{D\omega_z}{Dt}\)</span> for a <em>two-dimensional incompressible</em> flow, and discuss the resulting consequences for the evolution of vortex patches and vortex sheets</p>
+<p><strong>Solution</strong></p>
+<p><strong>(a)</strong> <strong>Curl the Euler equation <span class="math inline">\(\rightarrow\)</span> vorticity evolution</strong></p>
+<p>Euler (compressible) in material-derivative form:</p>
+<p><span class="math display">\[\frac{\partial \mathbf u}{\partial t}+(\mathbf u\cdot\nabla)\mathbf u
+= -\frac{1}{\rho}\nabla p+\mathbf f\]</span></p>
+<p>Define vorticity <span class="math inline">\(\boldsymbol\omega=\nabla\times\mathbf u\)</span>. Take <span class="math inline">\(\nabla\times(\cdot)\)</span> of both sides. Use the identity</p>
+<p><span class="math display">\[(u\cdot\nabla)u = \nabla\!\Big(\tfrac12|u|^2\Big) + \boldsymbol\omega\times\mathbf u\]</span></p>
+<p>so <span class="math inline">\(\nabla\times\big((u\cdot\nabla)u\big)=\nabla\times(\boldsymbol\omega\times\mathbf u)\)</span>.</p>
+<p>Another identity gives</p>
+<p><span class="math display">\[\nabla\times(\boldsymbol\omega\times\mathbf u)
+=(\mathbf u\cdot\nabla)\boldsymbol\omega -(\boldsymbol\omega\cdot\nabla)\mathbf u
++\boldsymbol\omega(\nabla\cdot\mathbf u)-\mathbf u(\nabla\cdot\boldsymbol\omega)\]</span></p>
+<p>and <span class="math inline">\(\nabla\cdot\boldsymbol\omega=\nabla\cdot(\nabla\times\mathbf u)=0\)</span>. Thus</p>
+<p><span class="math display">\[\frac{\partial\boldsymbol\omega}{\partial t}+(\mathbf u\cdot\nabla)\boldsymbol\omega
+=(\boldsymbol\omega\cdot\nabla)\mathbf u-\boldsymbol\omega(\nabla\cdot\mathbf u)
++\nabla\times\mathbf f-\nabla\times\!\Big(\frac{1}{\rho}\nabla p\Big)\]</span></p>
+<p>Under the barotropic assumption <span class="math inline">\(p=p(\rho)\)</span></p>
+<p><span class="math display">\[\nabla\times\!\Big(\frac{1}{\rho}\nabla p\Big)
+=\nabla\Big(\frac{1}{\rho}\Big)\times\nabla p
+=\frac{1}{\rho^2}\big(\nabla\rho\times\nabla p\big)=0\]</span></p>
+<p>because <span class="math inline">\(\nabla p\)</span> is parallel to <span class="math inline">\(\nabla\rho\)</span></p>
+<p>Therefore the vorticity equation becomes</p>
+<p><span class="math display">\[\boxed{\;\frac{D\boldsymbol\omega}{Dt}=(\boldsymbol\omega\cdot\nabla)\mathbf u
+-\boldsymbol\omega(\nabla\cdot\mathbf u)+\nabla\times\mathbf f\;}\]</span></p>
+<p>For an incompressible flow (<span class="math inline">\(\nabla\cdot\mathbf u=0\)</span>) this reduces to the familiar</p>
+<p><span class="math display">\[\frac{D\boldsymbol\omega}{Dt}=(\boldsymbol\omega\cdot\nabla)\mathbf u+\nabla\times\mathbf f\]</span></p>
+<p>The term <span class="math inline">\((\boldsymbol\omega\cdot\nabla)\mathbf u\)</span> is the vortex-stretching term that can amplify vorticity in 3D</p>
+<p><strong>(b)</strong> <strong>Kelvin’s circulation theorem (conservation of circulation)</strong></p>
+<p>Circulation around a material loop <span class="math inline">\(C(t)\)</span> is</p>
+<p><span class="math display">\[\Gamma(t)=\oint_{C(t)}\mathbf u\cdot d\mathbf r\]</span></p>
+<p>Differentiate following the moving loop (hint given):</p>
+<p><span class="math display">\[\frac{d\Gamma}{dt}=\oint_{C(t)}\frac{D\mathbf u}{Dt}\cdot d\mathbf r
+=\oint_{C(t)}\Big(-\frac{1}{\rho}\nabla p+\mathbf f\Big)\cdot d\mathbf r\]</span></p>
+<p>Under barotropic <span class="math inline">\(p=p(\rho)\)</span> there exists a scalar <span class="math inline">\(H(\rho)\)</span> (specific enthalpy) with <span class="math inline">\(\nabla H=\frac{1}{\rho}\nabla p\)</span>. If the body force is conservative, <span class="math inline">\(\mathbf f=-\nabla\Phi\)</span> for some potential <span class="math inline">\(\Phi\)</span>. Then the integrand is a gradient:</p>
+<p><span class="math display">\[-\frac{1}{\rho}\nabla p+\mathbf f = -\nabla H -\nabla\Phi = -\nabla(H+\Phi)\]</span></p>
+<p>and the line integral of a gradient around a closed curve vanishes. Hence</p>
+<p><span class="math display">\[\frac{d\Gamma}{dt}=0\]</span></p>
+<p>So circulation around any material loop <span class="math inline">\(C(t)\)</span> is constant in time — this is Kelvin’s circulation theorem (for inviscid, barotropic fluid with conservative body forces)</p>
+<p><strong>(c)</strong> <strong>Two-dimensional incompressible flow:</strong> <span class="math inline">\(\dfrac{D\omega_z}{Dt}\)</span> and consequences</p>
+<p>For 2D flow in the <span class="math inline">\(xy\)</span>-plane, let <span class="math inline">\(\mathbf u=(u(x,y,t),v(x,y,t),0)\)</span> and assume no <span class="math inline">\(z\)</span>-dependence. The vorticity has only a <span class="math inline">\(z\)</span>-component:</p>
+<p><span class="math display">\[\boldsymbol\omega=(0,0,\omega_z),\qquad \omega_z=\partial_x v-\partial_y u\]</span></p>
+<p>For incompressible flow <span class="math inline">\(\nabla\cdot\mathbf u=0\)</span>. Also <span class="math inline">\((\boldsymbol\omega\cdot\nabla)\mathbf u\)</span> vanishes because <span class="math inline">\(\boldsymbol\omega\)</span> points in <span class="math inline">\(z\)</span> and there is no <span class="math inline">\(z\)</span>-variation:</p>
+<p><span class="math display">\[(\boldsymbol\omega\cdot\nabla)\mathbf u=\omega_z\partial_z\mathbf u=0\]</span></p>
+<p>If body forces are irrotational so <span class="math inline">\(\nabla\times\mathbf f=0\)</span>, the vorticity equation reduces to</p>
+<p><span class="math display">\[\frac{D\omega_z}{Dt}=0\]</span></p>
+<p>So in 2D incompressible Euler flow the scalar vorticity <span class="math inline">\(\omega_z\)</span> is materially conserved along particle paths</p>
+<p><strong>Consequences:</strong></p>
+<ul>
+<li><p><strong>Vortex patches.</strong> A vortex patch is a region where <span class="math inline">\(\omega_z\)</span> is nonzero (often constant) and zero outside. Because <span class="math inline">\(\omega_z\)</span> is advected with the flow, every fluid particle keeps its initial vorticity value. Thus a patch’s vorticity value is preserved and the patch is merely carried/deformed by the flow. Incompressibility preserves area, so the area of the patch remains constant (though its shape can become complex — e.g.&nbsp;filamentation)</p></li>
+<li><p><strong>Vortex sheets.</strong> A vortex sheet is a curve across which the tangential velocity is discontinuous (equivalently a delta-distribution vorticity concentrated on a curve). In 2D inviscid flow the sheet strength (the jump in tangential velocity, or equivalently circulation per unit length) is transported with the sheet — the sheet is convected by the flow. However, vortex sheets in inviscid flow are nonlinearly unstable (Kelvin–Helmholtz instability) and tend to roll up into spirals (the sheet can develop finer and finer structure). In the ideal Euler limit this leads to complicated, potentially singular behavior; with even small viscosity the sheet diffuses and rolls up more smoothly</p></li>
+<li><p><strong>No vortex stretching in 2D.</strong> Because there is no <span class="math inline">\((\boldsymbol\omega\cdot\nabla)\mathbf u\)</span> term, vorticity cannot be amplified by stretching as it can in 3D. This is the fundamental reason 2D turbulence and vortex dynamics differ qualitatively from 3D: vorticity values are conserved along particle paths, and inverse energy cascade / persistence of coherent vortices are characteristic features</p></li>
+</ul>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>16.</strong> Let <span class="math inline">\(\mathbf{u}(x,y,z)=\left&lt;-y f(r,z),\ x f(r,z),\ g(r,z)\right&gt;,\quad r=\sqrt{x^2+y^2}\)</span></p>
+<p><strong>(a)</strong> In cylindrical coordinates <span class="math inline">\((r,\theta,z)\)</span>, find the condition from <span class="math inline">\(\nabla\cdot\mathbf{u}=0\)</span></p>
+<p><strong>(b)</strong> Assuming no <span class="math inline">\(\theta\)</span>-dependence, show that there exists a streamfunction <span class="math inline">\(\Psi(r,z)\)</span> such that <span class="math display">\[u_r=\frac{1}{r}\frac{\partial\Psi}{\partial z},\qquad
+u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}\]</span></p>
+<p><strong>(c)</strong> Write the formal decomposition <span class="math inline">\(\mathbf{u}=\nabla\phi+\nabla\times\mathbf{A}\)</span>. Discuss what <span class="math inline">\(\phi\)</span> (and boundary conditions on <span class="math inline">\(\mathbf{A}\)</span>, this part is optional) become for incompressible flow</p>
+<p><strong>(d)</strong> For <span class="math inline">\(f(r,z)=\dfrac{\alpha}{(r^2+z^2)^{3/2}}\)</span>, <span class="math inline">\(g=0\)</span>, compute <span class="math inline">\(\boldsymbol{\omega}=\nabla\times\mathbf{u}\)</span> and describe its physical meaning</p>
+<p><strong>Solution</strong></p>
+<p>Throughout use cylindrical coordinates <span class="math inline">\((r,\theta,z)\)</span> with <span class="math display">\[x=r\cos\theta,\qquad y=r\sin\theta\]</span> and unit vectors <span class="math display">\[\mathbf e_r=(\cos\theta,\sin\theta,0),\;\mathbf e_\theta=(-\sin\theta,\cos\theta,0),\;\mathbf e_z=(0,0,1)\]</span></p>
+<p>A quick and useful observation from the given Cartesian form <span class="math display">\[\mathbf u=(-y f(r,z),\;x f(r,z),\;g(r,z))\]</span> is that <span class="math display">\[u_r=\mathbf u\cdot\mathbf e_r=0,\qquad
+u_\theta=\mathbf u\cdot\mathbf e_\theta = r\,f(r,z),\qquad
+u_z=g(r,z)\]</span></p>
+<p><strong>(a)</strong> <strong>Divergence-free condition in cylindrical coordinates</strong></p>
+<p>The divergence in cylindrical coordinates is</p>
+<p><span class="math display">\[\nabla\cdot\mathbf u=\frac{1}{r}\frac{\partial}{\partial r}(r u_r)
++\frac{1}{r}\frac{\partial u_\theta}{\partial\theta}+\frac{\partial u_z}{\partial z}\]</span></p>
+<p>Substitute <span class="math inline">\(u_r=0,\;u_\theta=r f(r,z),\;u_z=g(r,z)\)</span>. Then</p>
+<p><span class="math display">\[\nabla\cdot\mathbf u
+=\frac{1}{r}\frac{\partial}{\partial\theta}\big(r f(r,z)\big)+\frac{\partial g}{\partial z}\]</span></p>
+<p>So the condition <span class="math inline">\(\nabla\cdot\mathbf u=0\)</span> is</p>
+<p><span class="math display">\[\boxed{\;\frac{1}{r}\frac{\partial}{\partial\theta}\big(r f(r,z)\big)+\frac{\partial g}{\partial z}=0\;}\]</span></p>
+<p>If the flow is axisymmetric (no <span class="math inline">\(\theta\)</span>-dependence) this reduces to</p>
+<p><span class="math display">\[\boxed{\,\frac{\partial g}{\partial z}=0\quad\Longrightarrow\quad g=g(r)\,}\]</span></p>
+<p><strong>(b)</strong> <strong>Existence of an axisymmetric stream function <span class="math inline">\(\Psi(r,z)\)</span></strong></p>
+<p>Assume no <span class="math inline">\(\theta\)</span>-dependence (axisymmetric). For general axisymmetric flows (not necessarily the special form above) the divergence-free condition becomes</p>
+<p><span class="math display">\[\frac{1}{r}\frac{\partial}{\partial r}(r u_r)+\frac{\partial u_z}{\partial z}=0\]</span></p>
+<p>Multiply by <span class="math inline">\(r\)</span>:</p>
+<p><span class="math display">\[\frac{\partial}{\partial r}(r u_r)+\frac{\partial}{\partial z}(r u_z)=0\]</span></p>
+<p>This is the 2D divergence-free condition in the <span class="math inline">\((r,z)\)</span>-plane for the vector <span class="math inline">\((r u_r,\; r u_z)\)</span>; hence there exists a stream function <span class="math inline">\(\Psi(r,z)\)</span> (unique up to additive constant) such</p>
+<p><span class="math display">\[r u_r=\frac{\partial\Psi}{\partial z},\qquad
+r u_z=-\frac{\partial\Psi}{\partial r}\]</span></p>
+<p>Dividing by <span class="math inline">\(r\)</span> gives the standard axisymmetric Stokes stream function relations</p>
+<p><span class="math display">\[\boxed{\;u_r=\frac{1}{r}\frac{\partial\Psi}{\partial z},\qquad
+u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}\;}\]</span></p>
+<p>(These formulae automatically satisfy <span class="math inline">\(\nabla\cdot\mathbf u=0\)</span>)</p>
+<p><strong>(c)</strong> <strong>Helmholtz decomposition <span class="math inline">\(\mathbf u=\nabla\phi+\nabla\times\mathbf A\)</span> and consequences for incompressible flow</strong></p>
+<p>The Helmholtz decomposition states any sufficiently smooth vector field on <span class="math inline">\(\mathbb R^3\)</span> (with suitable decay or boundary conditions) can be written as</p>
+<p><span class="math display">\[ \mathbf u=\nabla\phi+\nabla\times\mathbf A \]</span></p>
+<p>where <span class="math inline">\(\phi\)</span> is a scalar potential and <span class="math inline">\(\mathbf A\)</span> a vector potential. Taking divergence gives</p>
+<p><span class="math display">\[\nabla\cdot\mathbf u=\nabla^2\phi+\nabla\cdot(\nabla\times\mathbf A)=\nabla^2\phi\]</span></p>
+<p>since <span class="math inline">\(\nabla\cdot(\nabla\times\mathbf A)=0\)</span>. Thus for an incompressible flow <span class="math inline">\(\nabla\cdot\mathbf u=0\)</span> we have</p>
+<p><span class="math display">\[\boxed{\;\nabla^2\phi=0\;}\]</span></p>
+<p>so <span class="math inline">\(\phi\)</span> is harmonic. With common boundary/decay conditions (e.g.&nbsp;<span class="math inline">\(\mathbf u\)</span> vanishes at infinity or normal velocity specified on a closed boundary), the only physically allowable harmonic <span class="math inline">\(\phi\)</span> compatible with zero net flux is typically a constant (so <span class="math inline">\(\nabla\phi=0\)</span>), and all motion is described by the solenoidal part <span class="math inline">\(\nabla\times\mathbf A\)</span>. In short:</p>
+<ul>
+<li><p>For incompressible flow, <span class="math inline">\(\phi\)</span> is harmonic; if boundary/decay conditions force <span class="math inline">\(\phi\)</span> to be constant, the flow is purely solenoidal <span class="math inline">\(\mathbf u=\nabla\times\mathbf A\)</span></p></li>
+<li><p>A convenient gauge for <span class="math inline">\(\mathbf A\)</span> is the Coulomb gauge <span class="math inline">\(\nabla\cdot\mathbf A=0\)</span>. Then</p>
+<p><span class="math display">\[\nabla\times(\nabla\times\mathbf A)= -\nabla^2\mathbf A=\mathbf u-\nabla\phi\]</span></p>
+<p>For incompressible flows with <span class="math inline">\(\phi\)</span> chosen zero, <span class="math inline">\(\mathbf A\)</span> solves the vector Poisson equation</p>
+<p><span class="math display">\[-\nabla^2\mathbf A=\mathbf u\]</span></p>
+<p>with boundary conditions on <span class="math inline">\(\mathbf A\)</span> chosen to make the solution unique, e.g.&nbsp;<span class="math inline">\(\mathbf A\to0\)</span> at infinity and <span class="math inline">\(\nabla\cdot\mathbf A=0\)</span></p></li>
+</ul>
+<p>So physically: for incompressible flows the irrotational part is absent (or trivial) under typical no-flux/decay conditions, and the velocity is given entirely by the curl of a vector potential which encodes the vorticity</p>
+<p><strong>(d)</strong> <strong>Vorticity for <span class="math inline">\(f(r,z)=\dfrac{\alpha}{(r^2+z^2)^{3/2}}\)</span>, <span class="math inline">\(g=0\)</span>. Physical interpretation</strong></p>
+<p>With the specified <span class="math inline">\(f\)</span> and <span class="math inline">\(g=0\)</span> the flow is purely azimuthal:</p>
+<p><span class="math display">\[u_r=0,\qquad u_\theta = r f(r,z)=\frac{\alpha r}{(r^2+z^2)^{3/2}},\qquad u_z=0\]</span></p>
+<p>Compute the vorticity <span class="math inline">\(\boldsymbol\omega=\nabla\times\mathbf u.\)</span> For axisymmetric, <span class="math inline">\(\theta\)</span>-independent fields the cylindrical-component formulas simplify to</p>
+<p><span class="math display">\[\omega_r = -\frac{\partial u_\theta}{\partial z},\qquad
+\omega_\theta = \frac{\partial u_r}{\partial z}-\frac{\partial u_z}{\partial r}=0,\qquad
+\omega_z = \frac{1}{r}\frac{\partial}{\partial r}(r u_\theta)\]</span></p>
+<p>Compute derivatives. Put <span class="math inline">\(s=r^2+z^2\)</span>. Then</p>
+<p><span class="math display">\[ f=\alpha s^{-3/2},\qquad f_z = -\frac{3\alpha z}{s^{5/2}}\]</span></p>
+<p>Thus</p>
+<p><span class="math display">\[\omega_r = -\frac{\partial}{\partial z}(r f) = -r f_z
+= -r\Big(-\frac{3\alpha z}{s^{5/2}}\Big)
+= \frac{3\alpha r z}{s^{5/2}}\]</span></p>
+<p>For <span class="math inline">\(\omega_z\)</span>:</p>
+<p><span class="math display">\[r u_\theta = r^2 f = \alpha \frac{r^2}{s^{3/2}}\]</span></p>
+<p>Differentiate in <span class="math inline">\(r\)</span>:</p>
+<p><span class="math display">\[\frac{\partial}{\partial r}(r^2 f)
+=\alpha\Big(2r s^{-3/2} + r^2\cdot(-\tfrac{3}{2}) s^{-5/2}\cdot 2r\Big)
+= \alpha r s^{-5/2}\big(2s-3r^2\big)\]</span></p>
+<p>Therefore</p>
+<p><span class="math display">\[\omega_z=\frac{1}{r}\frac{\partial}{\partial r}(r^2 f)
+=\alpha s^{-5/2}\big(2s-3r^2\big)
+=\alpha\frac{-r^2+2z^2}{(r^2+z^2)^{5/2}}\]</span></p>
+<p>So the vorticity vector is</p>
+<p><span class="math display">\[\boxed{\;
+\boldsymbol\omega(r,z)
+=\omega_r\,\mathbf e_r+\omega_z\,\mathbf e_z
+=\frac{3\alpha r z}{(r^2+z^2)^{5/2}}\,\mathbf e_r
++\frac{\alpha(-r^2+2z^2)}{(r^2+z^2)^{5/2}}\,\mathbf e_z\;}\]</span></p>
+<p><strong>Notes / physical interpretation</strong></p>
+<ul>
+<li><p>The vorticity has no azimuthal component (<span class="math inline">\(\omega_\theta=0\)</span>); it is in the meridional (poloidal) plane <span class="math inline">\((r,z)\)</span>. Thus swirling motion <span class="math inline">\(u_\theta\)</span> produces poloidal vorticity — typical of axisymmetric swirling flows</p></li>
+<li><p>The vorticity field is singular at the origin (behaves like a power of distance) and decays rapidly for large distance: the denominator <span class="math inline">\((r^2+z^2)^{5/2}\)</span> gives a far-field decay like <span class="math inline">\(O(\text{distance}^{-5})\)</span> for components (so the induced velocity decays more slowly)</p></li>
+<li><p>The structure of <span class="math inline">\(\boldsymbol\omega\)</span> resembles a dipole-like poloidal vorticity: <span class="math inline">\(\omega_r\)</span> is odd in <span class="math inline">\(z\)</span> (changes sign across the <span class="math inline">\(z=0\)</span> plane), while <span class="math inline">\(\omega_z\)</span> has a quadrupolar character (combination of <span class="math inline">\(r^2\)</span> and <span class="math inline">\(z^2\)</span>). Vorticity lines (integral curves of <span class="math inline">\(\boldsymbol\omega\)</span>) lie in meridional planes and encircle/loop around the symmetry axis — qualitatively similar to a vortex ring/poloidal-dipole structure concentrated near the origin</p></li>
+<li><p>Physically this flow can be seen as an idealized concentrated swirl (azimuthal velocity decaying like <span class="math inline">\((\text{distance})^{-2}\)</span> for large distance because <span class="math inline">\(u_\theta\sim r/(r^2+z^2)^{3/2}\)</span>), and the computed <span class="math inline">\(\boldsymbol\omega\)</span> describes the local twisting/rotation of fluid elements produced by that swirl. The sign pattern indicates opposite vorticity above and below the midplane <span class="math inline">\(z=0\)</span> in the radial component, etc</p></li>
+</ul>
+<div id="ada4796c" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> colors</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid for r &gt; 0 region</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.linspace(<span class="fl">0.02</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">80</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>R, Z <span class="op">=</span> np.meshgrid(r, z)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define vorticity component ω_z</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>Z<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>omega_z <span class="op">=</span> alpha <span class="op">*</span>(<span class="op">-</span>R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">2</span> <span class="op">*</span>Z<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span>s<span class="op">**</span>(<span class="fl">2.5</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute log10 of magnitude and preserve sign</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>log_omega <span class="op">=</span> np.sign(omega_z) <span class="op">*</span> np.log10(np.<span class="bu">abs</span>(omega_z) <span class="op">+</span> <span class="fl">1e-10</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Plot log-scaled ω_z ---</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">5</span>))</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>cont <span class="op">=</span> plt.contour(R, Z, log_omega, levels<span class="op">=</span><span class="dv">60</span>, cmap<span class="op">=</span><span class="st">"RdBu_r"</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.colorbar(cont, label<span class="op">=</span><span class="vs">r"</span><span class="dv">$\m</span><span class="vs">athrm{sign}</span><span class="kw">(</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">)</span><span class="er">\</span><span class="vs">log_</span><span class="op">{10}</span><span class="cf">|</span><span class="er">\</span><span class="vs">omega_z</span><span class="cf">|</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r"Log-scaled </span><span class="dv">$</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">(</span><span class="vs">r,z</span><span class="kw">)</span><span class="dv">$</span><span class="vs"> for </span><span class="dv">$</span><span class="vs">r &gt; 0</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$r$"</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$z$"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"equal"</span>)</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
