@@ -1854,3 +1854,307 @@ $$\int_0^3 x J_0^2\left( \frac{\beta_n}{3} x \right) dx = \left( \frac{3}{\beta_
 So the coefficient is:
 
 $$a_n = \frac{\displaystyle\left( \frac{3}{\beta_n} \right)^4 \int_0^{\beta_n} u^3 J_0(u) du}{\displaystyle\left( \frac{3}{\beta_n} \right)^2 \int_0^{\beta_n} u J_0^2(u) du} = \left( \frac{3}{\beta_n} \right)^2 \cdot \frac{\displaystyle \int_0^{\beta_n} u^3 J_0(u) du }{\displaystyle \int_0^{\beta_n} u J_0^2(u) du }$$
+
+$~$
+
+**10.** Suppose the function $y=f(x)$, $0 < x < L$, is expanded in a cosine series, in a sine series, and in a Fourier series. Sketch the periodic extension to which each series converges
+
+**Case A**
+
+$$ f(x) =
+\begin{cases}
+\;0, & \;\; 0 < x < \dfrac{L}{2} \\
+\;L - x, & \dfrac{L}{2} < x < L
+\end{cases} $$
+
+**Case B**
+
+$$ f(x) =
+\begin{cases}
+\;x, & \;\; 0 < x < \dfrac{1}{2} \\
+\;0, & \dfrac{1}{2} < x < 1
+\end{cases} $$
+
+**Solution**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ----------- Case A -----------
+L1 = 1.0
+
+def f1(x, L):
+    """ f(x) = 0 for 0 < x < L/2; L -x for L /2 < x < L """
+    f = np.zeros_like(x)
+    mask1 = (x > L/2) & (x < L)
+    f[mask1] = L - x[mask1]
+    return f
+
+# ----------- Case B -----------
+L2 = 1.0
+
+def f2(x, L):
+    """ f(x) = x for 0 < x < L/2; 0 for L /2 < x < L """
+    f = np.zeros_like(x)
+    mask1 = (x > 0) & (x < L/2)
+    f[mask1] = x[mask1]
+    return f
+
+# ----------- Helper for extensions -----------
+def make_extensions(f, L, x):
+    """Return even, odd, and periodic extensions"""
+    f_even = f(np.abs(x) % L, L)
+    f_odd = np.sign(x) *f(np.abs(x) % L, L)
+    f_periodic = f(x % L, L)
+    return f_even, f_odd, f_periodic
+
+# Sampling points
+x1 = np.linspace(-2*L1, 2*L1, 2000)
+x2 = np.linspace(-2*L2, 2*L2, 2000)
+
+# Compute extensions
+f1_even, f1_odd, f1_periodic = make_extensions(f1, L1, x1)
+f2_even, f2_odd, f2_periodic = make_extensions(f2, L2, x2)
+
+# ----------- Plot -----------
+fig, axes = plt.subplots(2, 3, figsize=(12, 6), sharex=True)
+
+# Titles for subplots
+titles = ["Cosine (Even)", "Sine (Odd)", "Fourier (Periodic)"]
+
+# Case A: f1
+for i, data in enumerate([f1_even, f1_odd, f1_periodic]):
+    axes[0, i].plot(x1, data, 'b')
+    axes[0, i].set_ylim([-0.52, 0.52])
+    axes[0, i].set_title(f"Case A: {titles[i]}")
+    axes[0, i].grid(True)
+
+# Case B: f2
+for i, data in enumerate([f2_even, f2_odd, f2_periodic]):
+    axes[1, i].plot(x2, data, 'r')
+    axes[1, i].set_ylim([-0.52, 0.52])
+    axes[1, i].set_title(f"Case B: {titles[i]}")
+    axes[1, i].grid(True)
+
+for ax in axes[:, 0]:
+    ax.set_ylabel("f(x)")
+for ax in axes[-1, :]:
+    ax.set_xlabel("x")
+
+plt.tight_layout()
+plt.show()
+```
+
+$~$
+
+**11.** Consider the differential equation
+$$ (1-x^2) y'' -2x y' + \lambda y = 0, \qquad -1 < x < 1$$ed to remain bounded at $x = \pm 1$
+
+**(a)** Show that this equation can be written in the Sturm–Liouville form
+$$\frac{d}{dx} \left[r(x)\frac{dy}{dx}\right] + \left[ \lambda p(x) + q(x) \right] y = 0$$
+and identify the coefficient functions $r(x)$, $p(x)$, and $q(x)$
+
+**(b)** Find all eigenvalues $\lambda_n$ and the corresponding eigenfunctions $y_n(x)$ satisfying the boundedness condition
+
+**(c)** Show that the eigenfunctions are orthogonal with respect to the weight function $w(x)$
+
+**(d)** Expand the function $f(x) = x^2$ in terms of the orthogonal eigenfunctions obtained above
+
+**Solution**
+
+**(a)** **Put into Sturm–Liouville form**
+
+The given ODE is
+
+$$(1-x^2)y’’-2x y’ + \lambda y = 0,\qquad -1<x<1$$
+
+Note that
+
+$$\frac{d}{dx}\!\big[(1-x^2)y’\big] = (1-x^2)y’’ -2x y’$$
+
+Hence the equation can be written as
+
+$$\frac{d}{dx}\!\Big[r(x)\frac{dy}{dx}\Big] + \big[\lambda p(x) + q(x)\big]y = 0$$
+
+with
+
+$$\boxed{\,r(x)=1-x^2,\qquad p(x)=1,\qquad q(x)=0,\qquad -1<x<1}$$
+
+The natural weight for this Sturm–Liouville problem is $w(x)=p(x)=1$
+
+**(b)** **Eigenvalues and eigenfunctions (bounded at $x=\pm1$)**
+
+This is the Legendre equation. Requiring solutions bounded on $[-1,1]$ forces the parameter $\lambda$ to take the values
+
+$$\boxed{\;\lambda_n = n(n+1),\quad n=0,1,2,\dots\;}$$
+
+and the corresponding bounded eigenfunctions are (constant multiples of) the Legendre polynomials $P_n(x)$. A standard closed form is Rodrigues’ formula:
+
+$$P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n}\big[(x^2-1)^n\big]$$
+
+so
+
+$$\boxed{\;y_n(x)=P_n(x),\quad n=0,1,2,\dots\;}$$
+
+(Any nonzero constant multiple of $P_n$ is also an eigenfunction)
+
+Remark (why these $\lambda_n$): solving by power series around $x=0$ (Frobenius-type) one finds a polynomial solution only when $\lambda=n(n+1)$; otherwise the series does not terminate and the solution is singular at the endpoints. The polynomial solutions are exactly the Legendre polynomials which are bounded on $[-1,1]$
+
+**(c)** **Orthogonality with respect to the weight $w(x)=1$**
+
+Sturm–Liouville theory gives orthogonality, but a short direct derivation is instructive. Let $y_n$ and $y_m$ satisfy
+
+$$\frac{d}{dx}\big[(1-x^2)y_n’\big]+\lambda_n y_n=0,\qquad
+\frac{d}{dx}\big[(1-x^2)y_m’\big]+\lambda_m y_m=0$$
+
+Multiply the first by $y_m$, the second by $y_n$, subtract and integrate from $-1$ to $1$:
+
+$$(\lambda_n-\lambda_m)\int_{-1}^1 y_n y_m\,dx
+= \Big[(1-x^2)(y_n’ y_m - y_m’ y_n)\Big]_{x=-1}^{x=1}$$
+
+But $1-x^2$ vanishes at $x=\pm1$. If $y_n$ and $y_m$ are bounded on $[-1,1]$ then the boundary term is zero. Thus, for $\lambda_n\ne\lambda_m$
+
+$$\int_{-1}^1 y_n(x)\,y_m(x)\,dx=0$$
+
+Hence the eigenfunctions are orthogonal with respect to the weight $w(x)=1$:
+
+$$\boxed{\;\int_{-1}^1 P_n(x)P_m(x)\,dx = 0\quad (m\ne n)\;}$$
+
+(One also has the normalization formula)
+
+$$\int_{-1}^1 P_n(x)^2\,dx = \frac{2}{2n+1}$$
+
+**(d)** **Expand $f(x)=x^2$ in the eigenfunctions (Legendre series)**
+
+Any reasonable function on $[-1,1]$ can be expanded in Legendre polynomials:
+
+$$f(x)=\sum_{n=0}^\infty a_n P_n(x),\qquad
+a_n=\frac{2n+1}{2}\int_{-1}^1 f(x)P_n(x)\,dx$$
+
+Since $x^2$ is a polynomial of degree $2$, only $P_0$, $P_2$ contribute (orthogonality kills all other coefficients). Use
+
+$$P_0(x)=1,\qquad P_2(x)=\tfrac{1}{2}(3x^2-1)$$
+
+Express $x^2$ in the $P_n$-basis by solving
+
+$$x^2 = \alpha P_0(x)+\beta P_2(x)$$
+
+From $P_2 = \tfrac{1}{2}(3x^2-1)$ we get
+
+$$ \boxed{\,x^2 = \frac{1}{3}P_0(x) + \frac{2}{3}P_2(x)\,} $$
+
+One can check the coefficients by the integral formula: 
+
+$$a_0=\tfrac{1}{2}\int_{-1}^1 x^2 dx = 1/3,\; a_2=\tfrac{5}{2}\int_{-1}^1 x^2 P_2(x)\,dx = 2/3,\; \text{all other } a_n=0$$
+
+$~$
+
+**12.** Consider the differential equation
+$$x \frac{d}{dx}\left( x \frac{dy}{dx} \right) + \left( \lambda x^2 - \nu^2 \right) y = 0, \qquad 0 < x < a$$
+where $y(x)$ remains finite at $x = 0$ and satisfies $y(a) = 0$
+
+**(a)** Show that this equation can be written in the Sturm–Liouville form
+$$\frac{d}{dx} \left[r(x)\frac{dy}{dx}\right] + \left[ \lambda p(x) + q(x) \right] y = 0$$
+and identify the coefficient functions $r(x)$, $p(x)$, and $q(x)$
+
+**(b)** Find all eigenvalues $\lambda_n$ and the corresponding eigenfunctions $y_n(x)$ satisfying the given boundary conditions
+(**Hint** The solution should be expressed in terms of the Bessel function $J_\nu(x)$)
+
+**(c)** Show that the eigenfunctions are orthogonal with respect to the weight function $w(x)$
+
+**(d)** Expand the function $f(x) = x$ in terms of the orthogonal eigenfunctions obtained above
+
+**Solution**
+
+**(a)** **Sturm–Liouville form**
+
+Write the equation as
+
+$$x^2 y’’ + x y’ + (\lambda x^2 - \nu^2) y = 0$$
+
+A convenient SL form is
+
+$$\frac{d}{dx} \big[r(x) y’(x)\big] + \big[\lambda p(x) + q(x)\big] y(x)=0$$
+
+with
+
+$$r(x)=x,\qquad p(x)=x,\qquad q(x)=-\frac{\nu^2}{x},\qquad 0<x<a$$
+
+Indeed,
+
+$$\frac{d}{dx}\big(x y’\big) + \Big(\lambda x -\frac{\nu^2}{x}\Big) y =0$$
+
+is equivalent to the given equation after multiplying by $x$. The natural weight function for this SL problem is
+
+$$w(x)=p(x)=x$$
+
+**(b)** **Eigenvalues and eigenfunctions**
+
+The differential equation is the Bessel equation of order $\nu$ with parameter $k^2=\lambda$:
+
+$$x^2 y’’ + x y’ + (k^2 x^2 - \nu^2) y =0,\qquad k=\sqrt{\lambda}$$
+
+The two linearly independent solutions are $J_\nu(kx)$ and $Y_\nu(kx)$ (Bessel functions of first and second kind). Finiteness at $x=0$ requires discarding $Y_\nu$ (which is singular at $0$ for nonnegative $\nu$), so the regular solution is
+
+$$y(x)=A\,J_\nu(kx)$$
+
+The boundary condition $y(a)=0$ forces
+
+$$J_\nu(k a)=0$$
+
+Let $j_{\nu,n}$ denote the $n$-th positive zero of $J_\nu$ (counting $n=1,2,\dots$). Then
+
+$$k_n=\frac{j_{\nu,n}}{a},\qquad \lambda_n=k_n^2=\left(\frac{j_{\nu,n}}{a}\right)^2,\qquad n=1,2,\dots$$
+
+and the corresponding eigenfunctions (choose the gauge $A=1$ or any normalization constant) are
+
+$$\boxed{\;y_n(x)=J_\nu\!\Big(\frac{j_{\nu,n}}{a}\,x\Big),\qquad
+\lambda_n=\Big(\frac{j_{\nu,n}}{a}\Big)^2 \;}$$
+
+(One may include $n=0$ only if $J_\nu(0)=0$ which does not happen for general $\nu$; typically eigenindexing starts at $n=1$)
+
+**(c)** **Orthogonality (weight $w(x)=x$)**
+
+From general Sturm–Liouville theory, eigenfunctions for distinct eigenvalues are orthogonal with respect to the weight $w(x)=p(x)=x$. Concretely, if $y_n$ and $y_m$ correspond to $\lambda_n\neq\lambda_m$, then
+
+$$\int_0^a x\,y_n(x)\,y_m(x)\,dx = 0,\qquad m\ne n$$
+
+You can verify this directly: multiply the $n$-equation by $y_m$, the $m$-equation by $y_n$, subtract, integrate $0$ to $a$, and use the boundary conditions and the fact that $r(0)=0$ to kill the boundary term
+
+A standard normalization formula for the squared norm is
+
+$$\int_0^a x \Big[J_\nu\!\Big(\frac{j_{\nu,n}}{a}x\Big)\Big]^2 dx
+= \frac{a^2}{2}\,\big[J_{\nu+1}(j_{\nu,n})\big]^2$$
+
+You can derive this by the substitution $u=j_{\nu,n}x/a$ and the known integral 
+
+$$\int_0^{j_{\nu,n}} u J_\nu^2(u)\,du=\tfrac{j_{\nu,n}^2}{2}[J_{\nu+1}(j_{\nu,n})]^2$$
+
+Thus orthogonality and normalization are completely standard
+
+**(d)** **Expansion of $f(x)=x$ in the eigenfunctions**
+
+Because $y_n$ form a complete orthogonal set in the weighted space $L^2([0,a],w(x)\,dx)$ with $w(x)=x$, we may expand
+
+$$x = \sum_{n=1}^\infty c_n\,J_\nu\!\Big(\frac{j_{\nu,n}}{a}x\Big)$$
+
+where the expansion coefficients are obtained by the weighted inner product:
+
+$$c_n
+= \frac{\displaystyle\int_0^a x\cdot f(x)\, y_n(x)\,dx}
+{\displaystyle\int_0^a x\, y_n(x)^2\,dx}
+= \frac{\displaystyle\int_0^a x^2 J_\nu\!\Big(\frac{j_{\nu,n}}{a}x\Big)\,dx}
+{\displaystyle\frac{a^2}{2}\big[J_{\nu+1}(j_{\nu,n})\big]^2 }$$
+
+It is convenient to change variable $u = \dfrac{j_{\nu,n}}{a} x$. Then
+
+$$\int_0^a x^2 J_\nu\!\Big(\frac{j_{\nu,n}}{a}x\Big)\,dx
+= \frac{a^3}{j_{\nu,n}^3}\int_0^{j_{\nu,n}} u^2 J_\nu(u)\,du$$
+
+so
+
+$$\boxed{\;
+c_n
+= \frac{2a}{j_{\nu,n}^3\,[J_{\nu+1}(j_{\nu,n})]^2}\;
+\int_0^{\,j_{\nu,n}} u^2 J_\nu(u)\,du \;}$$
