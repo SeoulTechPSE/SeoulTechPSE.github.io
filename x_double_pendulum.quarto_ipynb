@@ -28,7 +28,7 @@
         "\n",
         "$~$"
       ],
-      "id": "4afc758c"
+      "id": "2fbe56cb"
     },
     {
       "cell_type": "code",
@@ -45,7 +45,7 @@
         "from matplotlib.animation import FuncAnimation\n",
         "from IPython.display import HTML"
       ],
-      "id": "3a27c116",
+      "id": "24a0810c",
       "execution_count": null,
       "outputs": []
     },
@@ -66,7 +66,7 @@
         "                m2 *l1 *th1(t).diff(t)**2 *sympy.sin(th1(t) -th2(t)) +\n",
         "                m2 *g *sympy.sin(th2(t)), 0)"
       ],
-      "id": "5d16a26d",
+      "id": "c2732ad7",
       "execution_count": null,
       "outputs": []
     },
@@ -90,7 +90,7 @@
         "\n",
         "$~$"
       ],
-      "id": "80cc2668"
+      "id": "edb3de3e"
     },
     {
       "cell_type": "code",
@@ -108,7 +108,7 @@
         "ode3 = sympy.Eq(y1(t).diff(t) -y2(t), 0)\n",
         "ode4 = sympy.Eq(y3(t).diff(t) -y4(t), 0)"
       ],
-      "id": "9cfa7bf9",
+      "id": "99783b35",
       "execution_count": null,
       "outputs": []
     },
@@ -122,7 +122,7 @@
         "\n",
         "$~$"
       ],
-      "id": "75041451"
+      "id": "52d538f8"
     },
     {
       "cell_type": "code",
@@ -134,7 +134,7 @@
         "f = y.diff(t).subs(vcsol[0])\n",
         "f"
       ],
-      "id": "f3df7c0c",
+      "id": "4f852aca",
       "execution_count": null,
       "outputs": []
     },
@@ -146,7 +146,7 @@
         "\n",
         "jac[:, 0]"
       ],
-      "id": "06c83c73",
+      "id": "0cddf928",
       "execution_count": null,
       "outputs": []
     },
@@ -156,7 +156,7 @@
       "source": [
         "jac[:, 1]"
       ],
-      "id": "db49ea70",
+      "id": "1d443e52",
       "execution_count": null,
       "outputs": []
     },
@@ -166,7 +166,7 @@
       "source": [
         "jac[:, 2]"
       ],
-      "id": "69d88df1",
+      "id": "508b634d",
       "execution_count": null,
       "outputs": []
     },
@@ -176,7 +176,7 @@
       "source": [
         "jac[:, 3]"
       ],
-      "id": "407a1d4d",
+      "id": "4ad2e59e",
       "execution_count": null,
       "outputs": []
     },
@@ -189,7 +189,7 @@
         "f_np = sympy.lambdify((t, y), f.subs(params), 'numpy')\n",
         "jac_np = sympy.lambdify((t, y), jac.subs(params), 'numpy')"
       ],
-      "id": "ce82b865",
+      "id": "6fb6a205",
       "execution_count": null,
       "outputs": []
     },
@@ -202,7 +202,7 @@
         "t = np.linspace(0, 20, 1000)\n",
         "r = integrate.ode(f_np, jac_np).set_initial_value(y0, t[0])"
       ],
-      "id": "48eb2451",
+      "id": "4c4b8e4c",
       "execution_count": null,
       "outputs": []
     },
@@ -218,7 +218,7 @@
         "    r.integrate(r.t + dt)\n",
         "    idx += 1"
       ],
-      "id": "b5d4b6fd",
+      "id": "41979a1a",
       "execution_count": null,
       "outputs": []
     },
@@ -232,7 +232,7 @@
         "\n",
         "$~$"
       ],
-      "id": "a74b646e"
+      "id": "e4fd635f"
     },
     {
       "cell_type": "code",
@@ -245,7 +245,7 @@
         "x2 = x1 +params[l2] *np.sin(th2_np)\n",
         "y2 = y1 -params[l2] *np.cos(th2_np)"
       ],
-      "id": "5bac90e4",
+      "id": "6a6f1b40",
       "execution_count": null,
       "outputs": []
     },
@@ -267,7 +267,7 @@
         "\n",
         "plt.close()"
       ],
-      "id": "5b190585",
+      "id": "593d3120",
       "execution_count": null,
       "outputs": []
     },
@@ -310,7 +310,7 @@
         "        interval=dt*1000, blit=True, init_func=init)\n",
         "HTML('<center>' + anim.to_html5_video() + '</center>')"
       ],
-      "id": "f844c10c",
+      "id": "7d1b30b8",
       "execution_count": null,
       "outputs": []
     }

@@ -1881,60 +1881,64 @@ $$ f(x) =
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ----------- Case A -----------
-L1 = 1.0
-
+# ----------- Original f1, f2 definitions -----------
 def f1(x, L):
-    """ f(x) = 0 for 0 < x < L/2; L -x for L /2 < x < L """
     f = np.zeros_like(x)
     mask1 = (x > L/2) & (x < L)
     f[mask1] = L - x[mask1]
     return f
 
-# ----------- Case B -----------
-L2 = 1.0
-
 def f2(x, L):
-    """ f(x) = x for 0 < x < L/2; 0 for L /2 < x < L """
     f = np.zeros_like(x)
     mask1 = (x > 0) & (x < L/2)
     f[mask1] = x[mask1]
     return f
 
-# ----------- Helper for extensions -----------
-def make_extensions(f, L, x):
-    """Return even, odd, and periodic extensions"""
-    f_even = f(np.abs(x) % L, L)
-    f_odd = np.sign(x) *f(np.abs(x) % L, L)
-    f_periodic = f(x % L, L)
-    return f_even, f_odd, f_periodic
+# ----------- Correct periodic extension helpers -----------
+def even_extension(f, L, x):
+    # Bring x into [-L, L] first
+    x_mod = ((x + L) % (2*L)) - L
+    f_base = np.where(x_mod >= 0, f(x_mod, L), f(-x_mod, L))
+    return f_base
 
-# Sampling points
+def odd_extension(f, L, x):
+    x_mod = ((x + L) % (2*L)) - L
+    f_base = np.where(x_mod >= 0, f(x_mod, L), -f(-x_mod, L))
+    return f_base
+
+def periodic_extension(f, L, x):
+    x_mod = x % L
+    return f(x_mod, L)
+
+# ----------- Parameters -----------
+L1 = L2 = 1.0
 x1 = np.linspace(-2*L1, 2*L1, 2000)
 x2 = np.linspace(-2*L2, 2*L2, 2000)
 
 # Compute extensions
-f1_even, f1_odd, f1_periodic = make_extensions(f1, L1, x1)
-f2_even, f2_odd, f2_periodic = make_extensions(f2, L2, x2)
+f1_even = even_extension(f1, L1, x1)
+f1_odd  = odd_extension(f1, L1, x1)
+f1_per  = periodic_extension(f1, L1, x1)
+
+f2_even = even_extension(f2, L2, x2)
+f2_odd  = odd_extension(f2, L2, x2)
+f2_per  = periodic_extension(f2, L2, x2)
 
 # ----------- Plot -----------
 fig, axes = plt.subplots(2, 3, figsize=(12, 6), sharex=True)
 
-# Titles for subplots
 titles = ["Cosine (Even)", "Sine (Odd)", "Fourier (Periodic)"]
 
-# Case A: f1
-for i, data in enumerate([f1_even, f1_odd, f1_periodic]):
+for i, (data, title) in enumerate(zip([f1_even, f1_odd, f1_per], titles)):
     axes[0, i].plot(x1, data, 'b')
-    axes[0, i].set_ylim([-0.52, 0.52])
-    axes[0, i].set_title(f"Case A: {titles[i]}")
+    axes[0, i].set_ylim([-0.6, 0.6])
+    axes[0, i].set_title(f"Case A: {title}")
     axes[0, i].grid(True)
 
-# Case B: f2
-for i, data in enumerate([f2_even, f2_odd, f2_periodic]):
+for i, (data, title) in enumerate(zip([f2_even, f2_odd, f2_per], titles)):
     axes[1, i].plot(x2, data, 'r')
-    axes[1, i].set_ylim([-0.52, 0.52])
-    axes[1, i].set_title(f"Case B: {titles[i]}")
+    axes[1, i].set_ylim([-0.6, 0.6])
+    axes[1, i].set_title(f"Case B: {title}")
     axes[1, i].grid(True)
 
 for ax in axes[:, 0]:
