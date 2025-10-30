@@ -153,7 +153,7 @@ variational problem is then stated as: $~$ <font color="red">Find $u_h\in V_h$ s
   \end{aligned}}
   $$
 
-* This variational problem, together with appropriate definitions of $V_h$ and $\hat{V}_h$, uniquely determines our approximate numerical solution to the Poisson equation.
+* This variational problem, together with appropriate definitions of $V_h$ and $\hat{V}_h,$ uniquely determines our approximate numerical solution to the Poisson equation.
 Note that the boundary condition is incorporated into the trial and test spaces. While this may appear complicated at first,
 it ensures that the finite element variational problem has the same form as the continuous variational problem
 
@@ -484,6 +484,15 @@ if domain.comm.rank == 0:
 
 **Plotting the mesh using pyvista**
 
+First, prepare a folder to store the output figures as follows:
+
+```{python}
+from pathlib import Path
+
+results_folder = Path("fenicsx/fundamentals")
+results_folder.mkdir(exist_ok=True, parents=True)
+```
+
 We will visualize the mesh using [pyvista](https://docs.pyvista.org/), a Python interface to the VTK toolkit.
 To begin, We convert the mesh into a format compatible with `pyvista` using the function `dolfinx.plot.vtk_mesh`. The first step is to create an unstructured grid that `pyvista` can work with
 
@@ -500,23 +509,16 @@ grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
 `PyVista` supports several backends, each with its own advantages and limitations.
 For more information and installation instructions, see the [pyvista documentation](https://docs.pyvista.org/user-guide/jupyter/index.html#state-of-3d-interactive-jupyterlab-plotting)
 
-We can now use the `pyvista.Plotter` to visualize the mesh. We will show it both as a 2D and as a 3D warped representation.
-
-In the jupyter notebook, we use the default setting `pyvista.OFF_SCREEN=False`, which will renders the plots directly within the notebook
+We can now use the `pyvista.Plotter` to visualize the mesh. We will display it both as a 2D and as a 3D warped representation. Provided that a proper X server connection is available, the default setting `pyvista.OFF_SCREEN=False` can be used to render the plots directly within the notebook
 
 ```{python}
-from pathlib import Path
-
-results_folder = Path("fenicsx/fundamentals")
-results_folder.mkdir(exist_ok=True, parents=True)
-
 plotter = pyvista.Plotter(off_screen=True)
 plotter.add_mesh(grid, show_edges=True)
 plotter.add_axes()
 plotter.view_xy()
 
 # if not pyvista.OFF_SCREEN:
-#     plotter.show()
+#   plotter.show()
 
 # HTML 저장
 plotter.export_html("fenicsx/fundamentals/unit_square_mesh.html")
@@ -533,13 +535,13 @@ plotter.export_html("fenicsx/fundamentals/unit_square_mesh.html")
 
 **Plotting a function using pyvista**
 
-We want to plot the solution `uh`. Since the function space used to define `uh` is disconnected from the one used to define the mesh, we first create a mesh based on the DOF coordinates of the function space `V`. We then use `dolfinx.plot.vtk_mesh`, passing the function space as input, to generate a mesh whose geometry is based on these DOF coordinates
+We want to plot the solution `uh`. Since the function space used to define `uh` is disconnected from the one used to define the mesh, we first create a mesh based on the DoF coordinates of the function space `V`. We then use `dolfinx.plot.vtk_mesh`, passing the function space as input, to generate a mesh whose geometry is based on these DoF coordinates
 
 ```{python}
 u_topology, u_cell_types, u_geometry = plot.vtk_mesh(V)
 ```
 
-Next, we create the `pyvista.UnstructuredGrid` and add the DOF-values to the mesh
+Next, we create the `pyvista.UnstructuredGrid` and add the DoF-values to the mesh
 
 ```{python}
 u_grid = pyvista.UnstructuredGrid(u_topology, u_cell_types, u_geometry)
@@ -600,7 +602,7 @@ with io.XDMFFile(domain.comm, filename.with_suffix(".xdmf"), "w") as xdmf:
 Author: Jørgen S. Dokken
 
 This section shows how to solve the previous Poisson problem using Nitsche’s method.
-Weak imposition works by adding terms to the variational formulation to enforce the boundary condition, instead of altering the matrix system via strong imposition (lifting).
+Weak imposition works by adding terms to the variational formulation to enforce the boundary condition, instead of altering the matrix system via strong imposition (lifting)
 
 First, we import the necessary modules and set up the mesh and function space for the solution
 
@@ -611,10 +613,18 @@ from mpi4py import MPI
 from dolfinx import fem, mesh, plot, default_scalar_type
 from dolfinx.fem.petsc import LinearProblem
 
-from ufl import (Circumradius, FacetNormal, 
-                 SpatialCoordinate, 
-                 TrialFunction, TestFunction,
-                 dx, ds, div, grad, inner)
+from ufl import (
+  Circumradius, 
+  FacetNormal, 
+  SpatialCoordinate, 
+  TrialFunction, 
+  TestFunction,
+  dx, 
+  ds, 
+  div, 
+  grad, 
+  inner,
+)
 
 N = 8
 domain = mesh.create_unit_square(MPI.COMM_WORLD, N, N)
@@ -637,23 +647,23 @@ Unlike the first tutorial, we now need to revisit the variational form.
 We begin by integrating the problem by parts to obtain
 
 $$\begin{aligned}
-    \int_{\Omega} \nabla u \cdot \nabla v~\mathrm{d}x - \int_{\partial\Omega}\nabla u \cdot n v~\mathrm{d}s = \int_{\Omega} f v~\mathrm{d}x
+    \int_{\Omega} \nabla u \cdot \nabla v~\mathrm{d}x - \int_{\partial\Omega}\nabla u \cdot \mathbf{n}\, v~\mathrm{d}s = \int_{\Omega} f v~\mathrm{d}x
 \end{aligned}$$
 
 As we are not enforcing the boundary condition strongly, the trace of the test function is not set to zero on the boundary.
 We instead add the following two terms to the variational formulation:
 
 $$\begin{aligned}
-    -\int_{\partial\Omega} \nabla  v \cdot n (u-u_D)~\mathrm{d}s + \frac{\alpha}{h} \int_{\partial\Omega} (u-u_D)v~\mathrm{d}s
+    -\int_{\partial\Omega} \nabla  v \cdot \mathbf{n}\, (u-u_D)~\mathrm{d}s + \frac{\alpha}{h} \int_{\partial\Omega} (u-u_D)v~\mathrm{d}s
 \end{aligned}$$
 
 The first term enforces symmetry in the bilinear form, and the second term ensures coercivity.
-`u_D` denotes the known Dirichlet condition, and `h` is the diameter of the circumscribed sphere of the mesh element.
-The bilinear and linear forms, `a` and `L`, are then defined as
+$u_D$ denotes the known Dirichlet condition, and $h$ is the diameter of the circumscribed sphere of the mesh element.
+The bilinear and linear forms, $a$ and $L$, are then defined as
 
 $$\begin{aligned}
-    a(u, v) &= \int_{\Omega} \nabla u \cdot \nabla v ~\mathrm{d}x + \int_{\partial\Omega} -(n \cdot\nabla u) v - (n \cdot \nabla v) u + \frac{\alpha}{h} uv ~\mathrm{d}s \\
-    L(v) &= \int_{\Omega} fv ~\mathrm{d}x + \int_{\partial\Omega} -(n \cdot \nabla v) u_D + \frac{\alpha}{h} u_D v ~\mathrm{d}s
+    a(u, v) &= \int_{\Omega} \nabla u \cdot \nabla v ~\mathrm{d}x + \int_{\partial\Omega} -(\mathbf{n}\, \cdot\nabla u) v - (\mathbf{n}\, \cdot \nabla v) u + \frac{\alpha}{h} uv ~\mathrm{d}s \\
+    L(v) &= \int_{\Omega} fv ~\mathrm{d}x + \int_{\partial\Omega} -(\mathbf{n}\, \cdot \nabla v) u_D + \frac{\alpha}{h} u_D v ~\mathrm{d}s
 \end{aligned}$$
 
 ```{python}
@@ -785,9 +795,9 @@ Introducing $\bar{R}_0 = \tfrac{R_0}{R}$, we obtain
 
 $$
 \begin{aligned}
-    -\frac{\partial^2 w}{\partial \bar{x}^2} -\frac{\partial^2 w}{\partial \bar{y}^2}
+    -\left(\frac{\partial^2 w}{\partial \bar{x}^2} +\frac{\partial^2 w}{\partial \bar{y}^2} \right)
     &=\frac{R^2A}{2\pi\sigma TD_e} \exp\left(-\frac{R^2}{2\sigma^2}\left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]\right)\\
-    &=\alpha \exp(-\beta^2 \left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right])
+    &=\alpha \exp\left(-\beta^2 \left[\bar{x}^2+(\bar{y}-\bar{R}_0)^2\right]\right)
 \end{aligned}
 $$
 
@@ -823,7 +833,7 @@ By the end of this section, you should be able to:
 * Construct a simple mesh using the `GMSH` Python API and import it into `DOLFINx`
 * Specify constant boundary conditions via a geometrical identifier
 * Employ `ufl.SpatialCoordinate` to define a spatially varying function
-* Interpolate a `ufl.Expression` into an suitable function space
+* Interpolate a `ufl.Expression` into a suitable function space
 * Evaluate a `dolfinx.Function` at arbitrary points
 
 **Creating the mesh**
@@ -899,6 +909,7 @@ domain, cell_tags, facet_tags = gmshio.model_to_mesh(
 
 gmsh.finalize()
 ```
+
 We define the function space as in the previous tutorial
 
 ```{python}
@@ -953,7 +964,7 @@ p = 4 *ufl.exp(-beta**2 *(x[0]**2 +(x[1] -R0)**2))
 
 **Interpolation of a `ufl` expression**
 
-Since the load `p` is defined as a spatially varying function, we interpolate it into an appropriate function space for visualization. To do this, we use `dolfinx.Expression`, which accepts any `ufl` expression together with a set of points on the reference element. In practice, we provide the interpolation points of the target space. Because `p` exhibits rapid spatial variation, we select a high-order function space to represent it
+Since the load `p` is defined as a spatially varying function, we interpolate it into an appropriate function space for visualization. To do this, we use `dolfinx.Expression`, which accepts any `UFL` expression together with a set of points on the reference element. In practice, we provide the interpolation points of the target space. Because `p` exhibits rapid spatial variation, we select a high-order function space to represent it
 
 ```{python}
 Q = fem.functionspace(domain, ("Lagrange", 5))
@@ -1071,7 +1082,7 @@ u_plotter.export_html("fenicsx/fundamentals/membrane_u.html")
 
 **Plotting along a line in the domain**
 
-A convenient way to compare the deflection and load is by plotting them along $x=0$, using a set of points along the $y$-axis to evaluate the finite element functions $u$ and $p$
+A convenient way to compare the load and deflection is by plotting them along $x=0$, using a set of points along the $y$-axis to evaluate the finite element functions $u$ and $p$
 
 ```{python}
 tol = 0.001  # Avoid hitting the outside of the domain
@@ -1183,7 +1194,7 @@ with dolfinx.io.VTXWriter(
 
 ## A Gallery of finite element solvers
 
-The aim of this chapter is to demonstrate how a variety of important PDEs from science and engineering can be solved using just a few lines of `DOLFINx` code. We start with the heat equation, then proceed to the nonlinear Poisson equation, the equations of linear elasticity, and the Navier–Stokes equations. Finally, we consider systems of nonlinear advection–diffusion–reaction equations. These examples illustrate how to handle time-dependent problems, nonlinear problems, vector-valued problems, and systems of PDEs. For each case, we derive the variational formulation and implement the problem in Python in a way that closely mirrors the underlying mathematics
+The aim of this chapter is to demonstrate how a variety of important PDEs from science and engineering can be solved using just a few lines of `DOLFINx` code. We start with the heat equation, then proceed to the nonlinear Poisson equation, the equations of linear elasticity, and the Navier–Stokes equations. These examples illustrate how to handle time-dependent problems, nonlinear problems, vector-valued problems, and systems of PDEs. For each case, we derive the variational formulation and implement the problem in `Python` in a way that closely mirrors the underlying mathematics
 
 ### The heat equation
 
@@ -1535,7 +1546,7 @@ xdmf.close()
 
 ![](fenicsx/heat/heat_animation.gif)
 
-#### A known analytical solution
+#### Method of Manufactured Solutions
 
 Author: Jørgen S. Dokken
 
@@ -1716,7 +1727,7 @@ for n in range(num_steps):
 
 **Verifying the numerical solution**
 
-we compute the $L^2$-error and the maximum error at the mesh vertices for the final time step. This allows us to verify the correctness of our implementation
+We compute the $L^2$-error and the maximum error at the mesh vertices for the final time step. This allows us to verify the correctness of our implementation
 
 ```{python}
 # Compute L2 error and error at nodes
