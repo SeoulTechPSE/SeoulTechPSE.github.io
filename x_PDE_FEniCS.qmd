@@ -2069,7 +2069,7 @@ $$F(u_h; v) = 0 \quad \forall v \in \hat{V}_h$$
 with
 $$u_h = \sum_{j=1}^N U_j \phi_j$$
 
-Since $F$ is nonlinear in $u$, this variational formulation leads to a system of nonlinear algebraic equations for the unknown coefficients $U_1, \dots, U_N$
+Since $F$ is nonlinear in $u_h$, this variational formulation leads to a system of nonlinear algebraic equations for the unknown coefficients $U_1, \dots, U_N$
 
 **Test problem**
 
@@ -2439,7 +2439,7 @@ L = ufl.dot(f, v) *ufl.dx +ufl.dot(T, v) *ds
 ```
 
 ::: callout-note
-In DOLFINx, `grad(u)` uses the $\partial u_i / \partial x_j$ convention, but since continuum mechanics often prefers the opposite, `ufl` offers `nabla_grad` to support that usage
+In `DOLFINx`, `grad(u)` uses the $\partial u_i / \partial x_j$ convention, but since continuum mechanics often prefers the opposite, `ufl` offers `nabla_grad` to support that usage
 :::
 
 **Solve the linear variational problem**
@@ -2631,7 +2631,8 @@ $$\langle -\nabla \cdot \sigma, v\rangle =
     \langle \sigma, \epsilon(v) \rangle 
     - \langle T, v\rangle_{\partial \Omega}$$
 
-where $T = \sigma \cdot n$ denotes the boundary traction. If we solve a problem with a free boundary, we may set $T=0$ on the boundary. However, in the case of flow through a channel or pipe, where we wish to model the continuation of the flow into an “imaginary channel” at the outflow, this term requires more careful treatment.
+where $T = \sigma \cdot n$ denotes the boundary traction. If we solve a problem with a free boundary, we may set $T=0$ on the boundary. However, in the case of flow through a channel or pipe, where we wish to model the continuation of the flow into an “imaginary channel” at the outflow, this term requires more careful treatment
+
 In such situations, a common assumption is that the derivative of the velocity in the streamwise direction vanishes at the outflow. This corresponds to the flow being fully developed, meaning it does not change significantly downstream. Under this assumption, the remaining boundary term at the outflow becomes
 
 $$pn - \mu \nabla u \cdot n$$
@@ -2665,13 +2666,15 @@ Here, $q$ denotes a scalar-valued test function from the pressure space, whereas
 
 One way to interpret this step is as follows: subtract the Navier–Stokes momentum equation \eqref{eq:NS} expressed in terms of the tentative velocity $u^*$ and the pressure $p^n$ from the same equation expressed in terms of the updated velocity $u^{n+1}$ and pressure $p^{n+1}$. This yields
 
-$$\frac{\rho (u^{n+1}-u^*)}{\Delta t} + \nabla p^{n+1} - \nabla p^n = 0$$
+$$\frac{\rho (u^{n+1}-u^*)}{\Delta t} + \nabla p^{n+1} - \nabla p^n = 0
+\tag{VT}\label{eq:NS-vT}
+$$
 
 Taking the divergence and imposing the incompressibility condition $\nabla \cdot u^{n+1} = 0$ from the Navier–Stokes continuity equation, we obtain
 
 $$
  - \frac{\rho \nabla \cdot u^*}{\Delta t} + \nabla^2 p^{n+1} - \nabla^2 p^n = 0
- \tag{VT}\label{eq:NS-vT}$$
+ $$
 
 which is a Poisson problem for the pressure $p^{n+1}$ and leads directly to the variational formulation \eqref{eq:NS-v2}
 
@@ -3159,7 +3162,7 @@ def left(x):
   return np.isclose(x[0], 0)
 
 def right(x):
-   return np.isclose(x[0], L)
+  return np.isclose(x[0], L)
 
 fdim = domain.topology.dim -1
 left_facets = mesh.locate_entities_boundary(domain, fdim, left)
@@ -3401,7 +3404,7 @@ is applied to the remaining boundaries, $y = 0$ and $y = 1$
 
 **The PDE problem**
 
-Let $\Lambda_D$ and $\Lambda_N$ denote the portions of the boundary $\partial \Omega$ where the Dirichlet and Neumann conditions are prescribed, respectively
+Let $\Lambda_D$ and $\Lambda_N$ denote the portions of the boundary $\partial \Omega$ where the Dirichlet and Neumann conditions are prescribed, respectively.
 The full boundary-value problem is then given by
 
 $$
@@ -3417,16 +3420,16 @@ As before, we choose $u = 1 + x^2 + 2y^2$ as the exact solution and then set $f$
 $$
 \begin{aligned}
     f(x,y) &=-6 \\
+    u_D(x,y) &=1+x^2+2y^2 \\
     g(x,y) &=
     \begin{cases}
         \phantom{-}0, & y=0\\
         -4, & y=1
-    \end{cases}\\
-    u_D(x,y) &=1+x^2+2y^2
+    \end{cases}
 \end{aligned}
 $$
 
-To simplify the implementation, we define $g$ as a function over the whole domain \Omega, making sure it has the correct values at $y=0$ and $y=1$. One possible choice is
+To simplify the implementation, we define $g$ as a function over the whole domain $\Omega$, making sure it has the correct values at $y=0$ and $y=1$. One possible choice is
 
 $$
  g(x,y)=-4y
@@ -3581,7 +3584,7 @@ else:
 
 ### Setting multiple Dirichlet condition
 
-In the previous section, we applied the same Dirichlet condition to both the left and right boundaries using a single function. While this works, it is often more flexible to define separate boundary conditions for each side.
+In the previous section, we applied the same Dirichlet condition to both the left and right boundaries using a single function. While this works, it is often more flexible to define separate boundary conditions for each side
 
 Let us consider a similar setup to the earlier example, but this time with distinct Dirichlet conditions on the left and right boundaries:
 
@@ -3655,7 +3658,7 @@ u_L.interpolate(lambda x: 1 +2 *x[1]**2)
 bc_L = dirichletbc(u_L, dofs_L)
 ```
 
-Note that we have used `lambda`-functions to compactly define the functions returning the subdomain evaluation and function evaluation. We can use a similar procedure for the right boundary condition, and gather both boundary conditions in a vector `bcs`
+Note that we have used `lambda` functions to compactly define the functions that evaluate the subdomain and the solution. We can use a similar procedure for the right boundary condition, and collect both boundary conditions in the list `bcs`
 
 ```{python}
 dofs_R = locate_dofs_geometrical(V, lambda x: np.isclose(x[0], 1))
@@ -3776,13 +3779,13 @@ def Omega_2(x):
   return x[1] >= 0.5
 ```
 
-Notice that both functions make use of $\leq$ and $\geq$. This is because `FEniCSx` evaluates each cell at all of its vertices, and we need every vertex on the interface to return True in order for the interface to be marked correctly.
+Notice that both functions make use of $\leq$ and $\geq$. This is because `FEniCSx` evaluates each cell at all of its vertices, and we need every vertex on the interface to return `True` in order for the interface to be marked correctly
 
 With this in place, we now move on to a variable-coefficient version of the Poisson equation:
 
 $$\begin{aligned}
 -\nabla \cdot &[\kappa(x,y)\,\nabla u(x, y)] = 1 &&\text{in } \Omega \\[5pt]
-u &= u_D = 1  &&\text{on } \partial\Omega_D = {(0,y),|, y \in [0,1]} \\[5pt]
+u &= u_D = 1  &&\text{on } \partial\Omega_D = {(0,y), \, y \in [0,1]} \\[5pt]
 -\frac{\partial u}{\partial n} &= 0 &&\text{on } \partial\Omega \setminus \partial\Omega_D 
 \end{aligned}
 $$
@@ -3905,7 +3908,7 @@ else:
 </iframe>
 ```
 
-Distinct behaviors are clearly observed in the two regions, despite both having the same Dirichlet boundary condition at x=0 on the left boundary
+Distinct behaviors are clearly observed in the two regions, despite both having the same Dirichlet boundary condition at $x=0$ on the left boundary
 
 **Interpolation with Python-function**
 
@@ -3941,7 +3944,7 @@ print(f'{error = }')
 
 **Subdomains defined from external mesh data**
 
-Let us now consider the same problem, but using `GMSH` to generate both the mesh and the subdomains. We will then show how to use this data to create discontinuous functions in `dolfinx`
+Let us now consider the same problem, but using `Gmsh` to generate both the mesh and the subdomains. We will then show how to use this data to create discontinuous functions in `dolfinx`
 
 ```{python}
 gmsh.initialize()
@@ -3999,7 +4002,7 @@ mesh, cell_markers, facet_markers = gmshio.read_from_msh(
 
 **Convert `msh`-files to `XDMF` using `meshio`**
 
-We will use `meshio` to read in the `msh` file, and convert it to a more suitable IO format. e start by creating a convenience function for extracting data for a single cell type, and creating a new `meshio.Mesh`
+We will use `meshio` to read in the `msh` file, and convert it to a more suitable IO format. We start by creating a convenience function for extracting data for a single cell type, and creating a new `meshio.Mesh`
 
 ```{python}
 import meshio
@@ -4035,7 +4038,7 @@ if proc == 0:
 MPI.COMM_WORLD.barrier()
 ```
 
-We have written the mesh and cell markers to one file, and the facet markers to a separate file. This data can be read in `dolfinx` using `XDMFFile.read_mesh` and `XDMFFile.read_meshtags`. A `dolfinx.MeshTags` object stores the entity indices and their corresponding marker values in two one-dimensional arrays.
+We have written the mesh and cell markers to one file, and the facet markers to a separate file. This data can be read in `dolfinx` using `XDMFFile.read_mesh` and `XDMFFile.read_meshtags`. A `dolfinx.MeshTags` object stores the entity indices and their corresponding marker values in two one-dimensional arrays
 
 Note that the mesh was generated and written using a single processor. However, since the `XDMF` format supports parallel I/O, the mesh can be read in parallel
 
@@ -4056,7 +4059,7 @@ with XDMFFile(
   ft = xdmf.read_meshtags(mesh, name="Grid")
 ```
 
-Having read the mesh together with the associated cell and facet data, we can now construct the discontinuous function kappa as follows:
+Having read the mesh together with the associated cell and facet data, we can now construct the discontinuous function `kappa` as follows:
 
 ```{python}
 Q = functionspace(mesh, ("DG", 0))
@@ -4077,7 +4080,7 @@ kappa.x.array[top_cells] = np.full_like(
 )
 ```
 
-The facet data `ft` can also be used efficiently to construct the Dirichlet boundary condition.
+The facet data `ft` can also be used efficiently to construct the Dirichlet boundary condition
 
 ```{python}
 V = functionspace(mesh, ("Lagrange", 1))
@@ -4208,20 +4211,20 @@ $$-\int_{\Omega} \nabla \cdot (\kappa \nabla u)\, v \,\mathrm{d}x
 = \int_{\Omega} \kappa \nabla u \cdot \nabla v \,\mathrm{d}x
 	-	\int_{\partial \Omega} \kappa \frac{\partial u}{\partial n} v \,\mathrm{d}s$$
 
-On the Dirichlet part ($\Gamma_D^i$), the boundary integral vanishes since $v = 0$. On the remaining parts of the boundary, we split the contributions into the Neumann boundaries ($\Gamma_N^i$) and the Robin boundaries ($\Gamma_R^i$).
+On the Dirichlet part ($\Gamma_D^i$), the boundary integral vanishes since $v = 0$. On the remaining parts of the boundary, we split the contributions into the Neumann boundaries ($\Gamma_N^j$) and the Robin boundaries ($\Gamma_R^k$).
 Inserting the boundary conditions, we obtain
 
 $$-\int_{\partial\Omega} \kappa \frac{\partial u}{\partial n} v \,\mathrm{d}s
-= \sum_i \int_{\Gamma_N^i} g_i v \,\mathrm{d}s
-	+	\sum_i \int_{\Gamma_R^i} r_i (u - s_i) v \,\mathrm{d}s$$
+= \sum_j \int_{\Gamma_N^j} g_j v \,\mathrm{d}s
+	+	\sum_k \int_{\Gamma_R^k} r_k (u - s_k) v \,\mathrm{d}s$$
 
 Thus, the variational problem can be written as
 
 $$\begin{aligned}
 F(u, v)
 &= \int_\Omega \kappa \nabla u \cdot \nabla v \,\mathrm{d}x
-	+	\sum_i \int_{\Gamma_N^i} g_i v \,\mathrm{d}s \\
-&\quad + \sum_i \int_{\Gamma_R^i} r_i (u - s_i) v \,\mathrm{d}s
+	+	\sum_j \int_{\Gamma_N^j} g_j v \,\mathrm{d}s \\
+&\quad + \sum_k \int_{\Gamma_R^k} r_k (u - s_k) v \,\mathrm{d}s
 	-	\int_\Omega f v \,\mathrm{d}x = 0
 \end{aligned}$$
 
@@ -4231,15 +4234,15 @@ Note that the Robin condition contributes to both $a(u, v)$ and $L(v)$
 Thus, we have
 
 $$a(u, v) = \int_{\Omega} \kappa \nabla u \cdot \nabla v \,\mathrm{d}x
-	+	\sum_i \int_{\Gamma_R^i} r_i \, u \, v \,\mathrm{d}s$$
+	+\sum_k \int_{\Gamma_R^k} r_k \, u \, v \,\mathrm{d}s$$
 
 $$L(v) = \int_{\Omega} f \, v \,\mathrm{d}x
-	-\sum_i \int_{\Gamma_N^i} g_i \, v \,\mathrm{d}s
-	+\sum_i \int_{\Gamma_R^i} r_i \, s_i \, v \,\mathrm{d}s$$
+	-\sum_j \int_{\Gamma_N^j} g_j \, v \,\mathrm{d}s
+	+\sum_k \int_{\Gamma_R^k} r_k \, s_k \, v \,\mathrm{d}s$$
 
 **Implementation**
 
-First, we define the domain \Omega to be the unit square $[0,1] \times [0,1]$
+First, we define the domain $\Omega$ to be the unit square $[0,1] \times [0,1]$
 
 ```{python}
 import numpy as np
@@ -4361,34 +4364,35 @@ results_folder.mkdir(exist_ok=True, parents=True)
 
 mesh.topology.create_connectivity(mesh.topology.dim -1, mesh.topology.dim)
 with XDMFFile(mesh.comm, results_folder/"facet_tags.xdmf", "w") as xdmf:
-    xdmf.write_mesh(mesh)
-    xdmf.write_meshtags(facet_tag, mesh.geometry)
+  xdmf.write_mesh(mesh)
+  xdmf.write_meshtags(facet_tag, mesh.geometry)
 ```
 
-Next, we define a custom integration measure, `ds`, which can be used to restrict integration to selected facets. Using `ds(1)` ensures that we integrate only over facets that have been assigned the value `1` in the corresponding `facet_tag`
+Next, we define a custom integration measure `ds`, which can be used to restrict integration to selected facets. Using `ds(1)` ensures that we integrate only over facets that have been assigned the value `1` in the corresponding `facet_tag`
 
 ```{python}
 ds = Measure("ds", domain=mesh, subdomain_data=facet_tag)
 ```
 
-Next, we define a general boundary condition class that can handle different types of boundary conditions
+We define a general boundary condition class that can handle different types of boundary conditions
 
 ```{python}
 class BoundaryCondition():
-  def __init__(self, type, marker, values):
-    self._type = type
-    if type == "Dirichlet":
+    
+  def __init__(self, BCtype, marker, values):
+    self._type = BCtype
+    if BCtype == "Dirichlet":
       u_D = Function(V)
       u_D.interpolate(values)
       facets = facet_tag.find(marker)
       dofs = locate_dofs_topological(V, fdim, facets)
       self._bc = dirichletbc(u_D, dofs)
-    elif type == "Neumann":
+    elif BCtype == "Neumann":
       self._bc = inner(values, v) *ds(marker)
-    elif type == "Robin":
+    elif BCtype == "Robin":
       self._bc = values[0] *inner(u -values[1], v) *ds(marker)
     else:
-      raise TypeError(f"Unknown boundary condition: {type:s}")
+      raise TypeError(f"Unknown boundary condition: {BCtype:s}")
   
   @property
   def bc(self):
@@ -4398,7 +4402,7 @@ class BoundaryCondition():
   def type(self):
     return self._type
 
-# Define the Dirichlet condition
+# Define the Dirichlet, Neumann, and Robin conditions
 boundary_conditions = [
   BoundaryCondition("Dirichlet", 1, u_ex),
   BoundaryCondition("Dirichlet", 2, u_ex),
@@ -4418,7 +4422,7 @@ for condition in boundary_conditions:
     F += condition.bc
 ```
 
-We can now create the bilinear form `a` and the linear form `L` using the ufl functions `lhs` and `rhs`
+We can now create the bilinear form $a$ and the linear form $L$ using the `ufl` functions `lhs` and `rhs`
 
 ```{python}
 # Solve linear variational problem
@@ -4513,7 +4517,7 @@ where the stress and strain are given by
 
 $$\begin{aligned}
 \sigma(u) &= \lambda\,\mathrm{tr}(\epsilon(u))\,I + 2\mu\,\epsilon(u)\\[2mm]
-\epsilon(u) &= \tfrac{1}{2}\big(\nabla u + \nabla u^\top\big)
+\epsilon(u) &= \tfrac{1}{2}\big(\nabla u + \nabla u^T\big)
 \end{aligned}$$
 
 **Physical interpretation**
