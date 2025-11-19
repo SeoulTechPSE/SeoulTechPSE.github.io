@@ -552,6 +552,115 @@ in a manner analogous to the way the semi-infinite string problem was solved in 
 
 $~$
 
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+# ==============================================================
+#  Parameters and Grid
+# ==============================================================
+c = 1.0                       # Wave speed
+x_max = 10.0                  # Half of spatial domain
+nx = 800                      # Number of spatial points
+x = np.linspace(-x_max, x_max, nx)  # Include negative side
+
+# ==============================================================
+#  Initial Conditions
+# ==============================================================
+def f(x):
+    """Initial displacement: Gaussian pulse centered at x=3."""
+    return np.exp(-((x - 3)**2) / 0.5)
+
+def g(x):
+    """Initial velocity: zero everywhere."""
+    return np.zeros_like(x)
+
+# ==============================================================
+#  Extensions for boundary reflection behavior
+# ==============================================================
+def f_even(x):
+    """Even extension for Neumann BC (symmetric reflection)."""
+    return f(abs(x))
+
+def f_odd(x):
+    """Odd extension for Dirichlet BC (sign-flipped reflection)."""
+    return np.sign(x) * f(abs(x))
+
+# ==============================================================
+#  Analytic solutions (using extended wave functions)
+# ==============================================================
+def u_neumann(x, t):
+    """Solution for Neumann BC (u_x(0,t)=0)."""
+    return 0.5 * (f_even(x - c*t) + f_even(x + c*t))
+
+def u_dirichlet(x, t):
+    """Solution for Dirichlet BC (u(0,t)=0)."""
+    return 0.5 * (f_odd(x - c*t) + f_odd(x + c*t))
+
+# ==============================================================
+#  Visualization Setup
+# ==============================================================
+fig, ax = plt.subplots(figsize=(8, 4))
+# Main curves (physical side)
+line_neu, = ax.plot([], [], lw=2, color='royalblue', label='Neumann (uₓ(0,t)=0)')
+line_dir, = ax.plot([], [], lw=2, color='crimson',  label='Dirichlet (u(0,t)=0)')
+# Ghost (mirror) curves for visual symmetry
+ghost_neu, = ax.plot([], [], lw=1, color='royalblue', alpha=0.3, ls='--')
+ghost_dir, = ax.plot([], [], lw=1, color='crimson',  alpha=0.3, ls='--')
+
+ax.axvline(0, color='gray', ls='--', lw=1.2, label='Boundary x=0')
+ax.set_xlim(-x_max, x_max)
+ax.set_ylim(-1.2, 1.2)
+ax.set_xlabel("x")
+ax.set_ylabel("u(x,t)")
+ax.legend(loc='upper right')
+ax.set_title("Wave Reflection Symmetry (Neumann vs Dirichlet)")
+
+# ==============================================================
+#  Animation Functions
+# ==============================================================
+def init():
+    """Initialize empty lines for animation frames."""
+    for ln in [line_neu, line_dir, ghost_neu, ghost_dir]:
+        ln.set_data([], [])
+    return line_neu, line_dir, ghost_neu, ghost_dir
+
+def animate(frame):
+    """Update frame at each time step."""
+    t = frame * 0.05
+    # Full-domain solutions
+    y_neu = u_neumann(x, t)
+    y_dir = u_dirichlet(x, t)
+
+    # Restrict main waves to x > 0 (physical region)
+    mask_pos = x >= 0
+    # "Ghost" mirrors for x < 0 to visualize symmetry
+    mask_neg = x <= 0
+
+    # Main (physical side)
+    line_neu.set_data(x[mask_pos], y_neu[mask_pos])
+    line_dir.set_data(x[mask_pos], y_dir[mask_pos])
+    # Mirror (imaginary side)
+    ghost_neu.set_data(x[mask_neg], y_neu[mask_neg])
+    ghost_dir.set_data(x[mask_neg], y_dir[mask_neg])
+
+    ax.set_title(f"t = {t:.2f}   — Blue: Neumann (symmetric) | Red: Dirichlet (sign-flipped)")
+    return line_neu, line_dir, ghost_neu, ghost_dir
+
+# ==============================================================
+#  Run the animation
+# ==============================================================
+ani = FuncAnimation(fig, animate, init_func=init, frames=200, interval=50, blit=True)
+ani.save("figures/reflection.mp4", writer="ffmpeg", fps=30)
+
+plt.close()
+```
+
+![](figures/reflection.mp4)
+
+$~$
+
 * **The Nonhomogeneous Wave Equation**
 
   * We consider now the pure nonhomogeneous wave equation:
