@@ -4508,9 +4508,9 @@ We consider the linear elasticity problem on the rectangular domain $\Omega=[0,L
 $$
 \begin{aligned}
 -\,\nabla\cdot\sigma(u) &= f &&\quad\text{in }\Omega\\[2mm]
-u &= 0 &&\quad\text{on }\Gamma_D \;(\text{bottom } y=0)\\[2mm]
-u_x &= 0 &&\quad\text{on }\Gamma_{D_x} \;(\text{right } x=L) \\[2mm]
-\sigma(u)\cdot n &= 0 &&\quad\text{on }\Gamma_N \;(\text{left } x=0 \text{ and top } y=H)
+u &= 0 &&\quad\text{on }\partial \Omega_{\text{bottom}}\\[2mm]
+u_x &= 0, \;\sigma(u_y) \cdot n_y = 0 &&\quad\text{on }\partial\Omega_{\text{right}} \\[2mm]
+\sigma(u)\cdot n &= 0 &&\quad\text{on }\partial\Omega_{\text{rest}}
 \end{aligned}$$
 
 where the stress and strain are given by
@@ -4522,18 +4522,28 @@ $$\begin{aligned}
 
 **Physical interpretation**
 
-* $\Gamma_D$ (bottom): The boundary is fully clamped, meaning both displacement components vanish
+* $\partial \Omega_{\text{bottom}}$: The boundary is fully clamped, meaning both displacement components vanish
 
-$$u = (u_x,u_y) = 0$$
+* $\partial\Omega_{\text{right}}$: Only the horizontal displacement is constrained, while the vertical displacement $u_y$ is left free
 
-* $\Gamma_{D_x}$ (right): Only the horizontal displacement is constrained
-$u_x = 0$, while the vertical displacement $u_y$ is left free
-
-* $\Gamma_N$ (left and top): These boundaries are traction-free, that is,
-
-$$\sigma(u)\cdot n = 0$$
+* $\partial\Omega_{\text{rest}}$: These boundaries are traction-free
 
 The chosen combination of boundary conditions eliminates possible rigid body motions. This ensures that the variational problem admits a unique solution, i.e. the problem is well-posed
+
+**Variational formulation**
+
+We now turn to the weak form of the elasticity problem. Multiplying the PDE by a test function $v$ and integrating by parts yields the variational form
+
+$$a(u,v) = L(v)$$
+
+where
+
+$$\begin{aligned}
+a(u,v) &= \int_\Omega \sigma(u):\epsilon(v) \,\mathrm{d}x \\
+L(v) &= \int_\Omega f \cdot v \,\mathrm{d}x
+\end{aligned}$$
+
+Note that the Neumann boundary conditions on $\Gamma_N$ (traction-free boundaries) are naturally included in the weak formulation, and therefore do not need to be imposed explicitly
 
 ```{python}
 import numpy as np
@@ -4569,10 +4579,10 @@ As in the previous demos, we begin by defining the computational mesh and the co
 
 ```{python}
 mesh = create_rectangle(
-    MPI.COMM_WORLD, 
-    np.array([[0, 0], [L, H]]), 
-    [30, 30], 
-    cell_type=CellType.triangle
+  MPI.COMM_WORLD, 
+  np.array([[0, 0], [L, H]]), 
+  [30, 30], 
+  cell_type=CellType.triangle,
 )
 V = functionspace(mesh, ("Lagrange", 1, (mesh.geometry.dim,)))
 ```
@@ -4619,22 +4629,8 @@ bc_right_x = dirichletbc(
 bcs = [bc_bottom, bc_right_x]
 ```
 
-Note that the traction-free boundaries $\Gamma_N$ (left and top) do not require explicit constraints in the variational formulation, since they are naturally included through the weak form of the problem
+Note that the traction-free boundaries $\Gamma_N$ do not require explicit constraints in the variational formulation, since they are naturally included through the weak form of the problem
 
-**Variational formulation**
-
-We now turn to the weak form of the elasticity problem. Multiplying the PDE by a test function $v$ and integrating by parts yields the variational form
-
-$$a(u,v) = L(v)$$
-
-where
-
-$$\begin{aligned}
-a(u,v) &= \int_\Omega \sigma(u):\epsilon(v) \,\mathrm{d}x \\
-L(v) &= \int_\Omega f \cdot v \,\mathrm{d}x
-\end{aligned}$$
-
-Note that the Neumann boundary conditions on $\Gamma_N$ (traction-free boundaries) are naturally included in the weak formulation, and therefore do not need to be imposed explicitly
 
 ```{python}
 # Strain and stress
@@ -4726,7 +4722,7 @@ In this example, we consider an iron cylinder with copper wires wound around it,
 ![](figures/fenicsx_wire.png)
 
 A static current of $J = 1\,\text{A}$ flows through the copper wires.
-Our goal is to compute the magnetic field B in the iron cylinder, the copper wires, and the surrounding vacuum
+Our goal is to compute the magnetic field $B$ in the iron cylinder, the copper wires, and the surrounding vacuum
 
 To simplify the problem, we note that the cylinder extends far in the $z$-direction, so the field can be assumed to be independent of the $z$-coordinate. This reduces the problem to a two-dimensional cross-section in the $x$–$y$ plane
 
@@ -5077,7 +5073,7 @@ else:
 </iframe>
 ```
 
-Next, we define discontinuous functions for permeability $\mu$ and current $J_z$, based on the MeshTags as in “Defining subdomains for different materials”
+Next, we define discontinuous functions for permeability $\mu$ and current $J_z$, based on the `MeshTags` as in [Defining subdomains for different materials](12_3_Defining_Subdomains_for_Different_Materials)
 
 ```{python}
 """
@@ -5208,7 +5204,7 @@ def setup_material_properties(mesh, ct, N):
 mu, J = setup_material_properties(mesh, ct, N)
 ```
 
-In the code above, a slightly less extreme value for the magnetic permeability of iron was chosen to make the solution more illustrative; otherwise, the field in the iron cylinder would dominate completely.
+In the code above, a slightly less extreme value for the magnetic permeability of iron was chosen to make the solution more illustrative; otherwise, the field in the iron cylinder would dominate completely
 
 We now proceed to define the weak problem
 
