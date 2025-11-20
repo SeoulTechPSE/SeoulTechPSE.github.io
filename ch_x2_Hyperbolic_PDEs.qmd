@@ -569,8 +569,8 @@ x = np.linspace(-x_max, x_max, nx)  # Include negative side
 #  Initial Conditions
 # ==============================================================
 def f(x):
-    """Initial displacement: Gaussian pulse centered at x=3."""
-    return np.exp(-((x - 3)**2) / 0.5)
+    """Initial displacement: Gaussian pulse centered at x=3"""
+    return np.exp(-((x - 3)**2) /0.5)
 
 def g(x):
     """Initial velocity: zero everywhere."""
@@ -580,23 +580,23 @@ def g(x):
 #  Extensions for boundary reflection behavior
 # ==============================================================
 def f_even(x):
-    """Even extension for Neumann BC (symmetric reflection)."""
+    """Even extension for Neumann BC (symmetric reflection)"""
     return f(abs(x))
 
 def f_odd(x):
-    """Odd extension for Dirichlet BC (sign-flipped reflection)."""
-    return np.sign(x) * f(abs(x))
+    """Odd extension for Dirichlet BC (sign-flipped reflection)"""
+    return np.sign(x) *f(abs(x))
 
 # ==============================================================
 #  Analytic solutions (using extended wave functions)
 # ==============================================================
 def u_neumann(x, t):
-    """Solution for Neumann BC (u_x(0,t)=0)."""
-    return 0.5 * (f_even(x - c*t) + f_even(x + c*t))
+    """Solution for Neumann BC (u_x(0,t)=0)"""
+    return 0.5 * (f_even(x -c*t) +f_even(x +c*t))
 
 def u_dirichlet(x, t):
-    """Solution for Dirichlet BC (u(0,t)=0)."""
-    return 0.5 * (f_odd(x - c*t) + f_odd(x + c*t))
+    """Solution for Dirichlet BC (u(0,t)=0)"""
+    return 0.5 * (f_odd(x -c*t) +f_odd(x +c*t))
 
 # ==============================================================
 #  Visualization Setup
@@ -621,13 +621,13 @@ ax.set_title("Wave Reflection Symmetry (Neumann vs Dirichlet)")
 #  Animation Functions
 # ==============================================================
 def init():
-    """Initialize empty lines for animation frames."""
+    """Initialize empty lines for animation frames"""
     for ln in [line_neu, line_dir, ghost_neu, ghost_dir]:
         ln.set_data([], [])
     return line_neu, line_dir, ghost_neu, ghost_dir
 
 def animate(frame):
-    """Update frame at each time step."""
+    """Update frame at each time step"""
     t = frame * 0.05
     # Full-domain solutions
     y_neu = u_neumann(x, t)
@@ -645,7 +645,7 @@ def animate(frame):
     ghost_neu.set_data(x[mask_neg], y_neu[mask_neg])
     ghost_dir.set_data(x[mask_neg], y_dir[mask_neg])
 
-    ax.set_title(f"t = {t:.2f}   — Blue: Neumann (symmetric) | Red: Dirichlet (sign-flipped)")
+    ax.set_title(f"t = {t:.2f} — Blue: Neumann (symmetric) | Red: Dirichlet (sign-flipped)")
     return line_neu, line_dir, ghost_neu, ghost_dir
 
 # ==============================================================
@@ -667,7 +667,7 @@ $~$
 
     $$
     \begin{aligned}
-    u_{tt} &\! =c^2 u_{xx} +\color{red}{F(x, t)} 
+    u_{tt} &\, =c^2 u_{xx} +\color{red}{F(x, t)} 
       && -\infty < x < \infty,\; 0 < t < \infty \\ 
     \begin{array}{r}
       u(x, 0) \\
@@ -722,7 +722,9 @@ $\,$The differential equation then becomes
          \left[ \int_{\bar{\xi}}^\eta F\left( 
           \bar{\xi}, \bar{\eta} \right) 
           \,d\bar{\eta} \right ] \,d\bar{\xi}
-          +c_1 \xi +c_3}
+          +c_1 \xi +c_3} \\[5pt] 
+   &\Downarrow {\scriptstyle\text{Applying the initial conditions}} \\
+   {\scriptsize c_1} &{\scriptsize= c_2 = c_3}
    \end{aligned}$$
 
   * We let $\,\bar{\xi}=\beta +c\tau\;$ and $\,\bar{\eta}=\beta -c\tau$, $\,$($t \ge \tau$, $\,\beta=x$). $\,$The domain of integration $\,\eta \leq \bar{\eta} \leq \bar{\xi} \leq \xi\;$ becomes
@@ -752,7 +754,44 @@ $\,$The differential equation then becomes
     \end{aligned}
     $$
 
+    This expression shows how every part of the forcing function $F(x,t)$ contributes to the displacement $u(x,t)$ through the wave propagation mechanism described by D’Alembert’s principle
+
 $~$
+
+  * The Green’s function of the one-dimensional wave equation is given by
+
+    $$G(x,t)=\frac{1}{2c} H \left( t - \tfrac{|x|}{c}\right)$$
+
+    where $H(t)$ is the Heaviside step function. According to Duhamel’s principle, the solution $u(x,t)$ can be written as a space–time convolution of the forcing term $F(x,t)$ with the Green’s function $G(x,t)$:
+
+    $$u(x,t) = \int_0^t \int_{-\infty}^\infty G(x-\beta, t -\tau) \,F(\beta, \tau) \, d\beta \,d\tau$$
+
+    Substituting the form of $G(x,t)$ and simplifying, we obtain the explicit D’Alembert-type integral solution
+
+  * The inner integral $\displaystyle \int_{x - c(t -\tau)}^{x + c(t -\tau)} F(\beta, \tau)\, d\beta$ represents 
+    the total effect of the forcing term $F$ over the spatial region that influences the point $x$ after time $t-\tau$
+    It accounts for the wave propagation with speed $c$
+
+  * The outer integral $\displaystyle \int_0^t (\cdots) \, d\tau$ sums up all the contributions over time 
+    from the initial moment $\tau=0$ to the current time $t$
+
+  * The factor $\frac{1}{2c}$ arises from the Green’s function normalization in one dimension
+
+**Example** $~$Solve the infinite string problem
+
+  $$\begin{aligned}
+    u_{tt} &\, =c^2 u_{xx} +\color{red}{\sin kx e^{-\alpha t}} 
+      && -\infty < x < \infty,\; 0 < t < \infty \\ 
+    \begin{array}{r}
+      u(x, 0) \\
+      u_t(x, 0)
+    \end{array} 
+    &
+    \begin{array}{c}
+      = 0 \\
+      = 0
+    \end{array} && -\infty < x <\infty 
+    \end{aligned}$$
 
 ## The Wave Equation in Two and Three Dimensions (Free Space) {#sex-x2-21}
 
