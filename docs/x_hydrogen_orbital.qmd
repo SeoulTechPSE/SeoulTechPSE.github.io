@@ -1,0 +1,389 @@
+---
+jupyter: python3
+---
+
+# Hydrogen Atomic Orbitals{#sec-h-orbital}
+
+* The **complete hydrogen atomic wave functions** are given by
+
+  $$ \color{red}{\psi_{nlm}(r, \phi, \theta) = R_{nl}(r)\,Y_l^m(\phi,\theta)} $$
+
+  in which the **radial wave functions** are given by
+
+  $$ \color{red}{R_{nl}(r) = \sqrt{\left( \frac{2}{na_0}\right)^3 \frac{(n -l -1)!}{2n (n +l)!}} e^{-r/na_0}
+  \left( \frac{2r}{na_0} \right)^l \, L_{n -l -1}^{2l +1} \left( \frac{2r}{na_0} \right)} $$
+
+  and the **normalized angular wave functions** are called <font color="red">**spherical harmonics**</font>:
+
+  $$ \color{red}{Y_l^{m}(\phi,\theta)=\epsilon \sqrt{\frac{(2l +1)}{4\pi} \frac{(l -|m|)!}{(l +|m|)!}} P_l^{|m|}(\cos\phi) e^{im\theta}} $$
+
+  where $\,\epsilon=(-1)^m\,$ for $\,m \geq 0\,$ and $\,\epsilon=1\,$ for $\,m < 0$
+
+* For arbitrary $\,n$, $\,$ the possible values of $\,l\,$ are
+
+   $$ l=0,1,2,\cdots,n-1 $$ 
+   and thus $\,l\,$ must be a nonnegative integer. $\,$For any given $\,l,$ $\,$then, $\,$there are $\,(2l +1)\,$ possible values of $\,m$:
+
+    $$m =-l, -1 +1, \cdots, -1, 0, 1, \cdots, l -1, l $$
+
+    For historical reasons, $\,l\,$ is called the azimuthal quantum number, $\,$and $\,m\,$ the magnetic quantum number
+
+```{python}
+import warnings
+import numpy as np
+from scipy.special import sph_harm, assoc_laguerre, factorial
+import plotly.graph_objects as go
+import plotly.subplots as sp
+import plotly.io as pio
+import os
+
+pio.renderers.default = "notebook"
+
+
+# ------------------------------
+# Hydrogenic wavefunction ψ_nlm
+# ------------------------------
+def hydrogen_wavefunction(n, l, m, r, theta, phi):
+  rho = 2 * r / n
+  N = np.sqrt((2/n)**3 * factorial(n-l-1) / (2*n * factorial(n+l)))
+  R = N * np.exp(-rho/2) * rho**l * assoc_laguerre(rho, n-l-1, 2*l+1)
+  with warnings.catch_warnings():
+    warnings.filterwarnings('ignore', category=DeprecationWarning)
+    Y = sph_harm(m, l, phi, theta)  
+  return R * Y
+
+
+def estimate_params(n, use_probability=False):
+  rmax = n**2 * 2.5
+  iso_frac = 0.02 if use_probability else 0.08  # 확률 밀도에서는 더 낮은 threshold
+  grid = 120 if use_probability else 100  # 더 높은 해상도
+  return rmax, iso_frac, grid
+
+def resize_fig_with_colorbar(fig, scale):
+    # Figure 크기 조정
+    current_width = fig.layout.width or 700
+    current_height = fig.layout.height or 450
+    
+    fig.update_layout(
+        width=current_width * scale,
+        height=current_height * scale,
+        font=dict(size=14 * scale),
+    )
+    
+    # Colorbar 크기 조정
+    for trace in fig.data:
+        if hasattr(trace, 'colorbar') and trace.colorbar is not None:
+            cb = trace.colorbar
+            
+            # 기존 값 가져오기 (없으면 기본값)
+            thickness = cb.thickness if cb.thickness else 30
+            len_val = cb.len if cb.len else 1
+            
+            trace.update(colorbar=dict(
+                thickness=thickness * scale,  # colorbar 두께
+                len=len_val,  # 길이 비율은 유지 (0~1)
+                # title font 크기도 조정
+                title=dict(font=dict(size=(cb.title.font.size or 14) * scale)) if cb.title else {},
+                # tick font 크기 조정
+                tickfont=dict(size=(cb.tickfont.size or 14) * scale) if cb.tickfont else {}
+            ))
+    
+    return fig
+
+# ------------------------------
+# Main orbital plotter
+# ------------------------------
+def plot_orbital(
+  n=2, l=1, m=0,
+  rotate_steps=36,
+  show_plot=True,
+  save_html=False,
+  filename="hydrogen_orbital.html",
+  show_3d_axes=False,   # 3D axes
+  show_2d_axes=True,    # 2D slices axes
+  plot_slices=True,
+  use_probability=False  # True: |ψ|², False: Re(ψ)
+):
+
+  rmax, iso_frac, grid = estimate_params(n, use_probability)
+  margin = 1.1
+
+  x = np.linspace(-rmax*margin, rmax*margin, grid)
+  y = np.linspace(-rmax*margin, rmax*margin, grid)
+  z = np.linspace(-rmax*margin, rmax*margin, grid)
+  X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
+
+  r = np.sqrt(X**2 + Y**2 + Z**2)
+  theta = np.arccos(np.divide(Z, r, out=np.zeros_like(r), where=r!=0))
+  phi = np.arctan2(Y, X)
+
+  psi = hydrogen_wavefunction(n, l, m, r, theta, phi)
+  
+  if use_probability:
+    # 확률 밀도 |ψ|²
+    plot_data = np.abs(psi)**2
+    data_label = "|ψ|²"
+    colorscale_pos = 'Reds'
+    colorscale_neg = 'Reds'  # 확률 밀도는 항상 양수
+    colorscale_2d = 'Reds'
+  else:
+    # 파동함수 실수부 Re(ψ)
+    plot_data = np.real(psi)
+    data_label = "ψ"
+    colorscale_pos = 'Reds'
+    colorscale_neg = 'Blues'
+    colorscale_2d = 'RdBu_r'
+  
+  iso = iso_frac * np.max(np.abs(plot_data))
+
+  Xf, Yf, Zf, Vf = X.flatten(), Y.flatten(), Z.flatten(), plot_data.flatten()
+
+  # ---------------------------------
+  # Subplot layout: 3D on top, 2D slices below
+  # ---------------------------------
+  if plot_slices:
+    fig = sp.make_subplots(
+      rows=2, cols=3,
+      specs=[
+        [{"type": "scene", "colspan": 3}, None, None],
+        [{"type": "xy"}, {"type": "xy"}, {"type": "xy"}]
+      ],
+      row_heights=[0.60, 0.40],
+      column_widths=[0.33, 0.33, 0.34],
+      horizontal_spacing=0.001,
+      vertical_spacing=0.05,
+      subplot_titles=(
+        f"Hydrogen Atomic Orbital: {data_label} (n={n}, l={l}, m={m})",
+        "XY slice (z = 0)",
+        "YZ slice (x = 0)",
+        "ZX slice (y = 0)"
+      )
+    )
+  else:
+    fig = go.Figure()
+
+  # -----------------------------
+  # 3D Isosurface
+  # -----------------------------
+  if use_probability:
+    # 확률 밀도는 하나의 isosurface만
+    iso_pos = go.Isosurface(
+      x=Xf, y=Yf, z=Zf, value=Vf,
+      isomin=iso, isomax=iso,
+      surface_count=1,
+      colorscale=colorscale_pos,
+      opacity=0.70,
+      caps=dict(x_show=False, y_show=False, z_show=False),
+      showscale=False, name="probability",
+      hoverinfo='skip'
+    )
+    if plot_slices:
+      fig.add_trace(iso_pos, row=1, col=1)
+    else:
+      fig.add_trace(iso_pos)
+  else:
+    # 파동함수는 양수/음수 두 개의 isosurface
+    iso_pos = go.Isosurface(
+      x=Xf, y=Yf, z=Zf, value=Vf,
+      isomin=iso, isomax=iso,
+      surface_count=1,
+      colorscale=colorscale_pos,
+      opacity=0.70,
+      caps=dict(x_show=False, y_show=False, z_show=False),
+      showscale=False, name="+lobe",
+      hoverinfo='skip'
+    )
+    iso_neg = go.Isosurface(
+      x=Xf, y=Yf, z=Zf, value=Vf,
+      isomin=-iso, isomax=-iso,
+      surface_count=1,
+      colorscale=colorscale_neg,
+      opacity=0.70,
+      caps=dict(x_show=False, y_show=False, z_show=False),
+      showscale=False, name="-lobe",
+      hoverinfo='skip'
+    )
+    if plot_slices:
+      fig.add_trace(iso_pos, row=1, col=1)
+      fig.add_trace(iso_neg, row=1, col=1)
+    else:
+      fig.add_trace(iso_pos)
+      fig.add_trace(iso_neg)
+
+  # -----------------------------
+  # 2D slices
+  # -----------------------------
+  if plot_slices:
+    k = grid // 2
+    i = grid // 2
+    j = grid // 2
+    
+    # 전체 데이터 범위 계산
+    if use_probability:
+      vmin = 0
+      vmax = np.max(plot_data)
+    else:
+      vmin = np.min(plot_data)
+      vmax = np.max(plot_data)
+      absmax = max(abs(vmin), abs(vmax))
+
+    # XY slice
+    fig.add_trace(go.Heatmap(
+    z=plot_data[:, :, k].T,  # Transpose 필요
+    x=x, y=y,
+    colorscale=colorscale_2d,
+    showscale=True,
+    zmin=vmin if use_probability else -absmax,
+    zmax=vmax if use_probability else absmax,
+    hovertemplate=f'x: %{{x:.2f}}<br>y: %{{y:.2f}}<br>{data_label}: %{{z:.4f}}<extra></extra>',
+    colorbar=dict(
+        x=0.5, y=-0.2,
+        len=0.8, thickness=15,
+        orientation="h",
+        title=dict(text=data_label, side="bottom")
+    )
+), row=2, col=1)
+    fig.update_xaxes(range=[-rmax, rmax], constrain="domain", row=2, col=1)
+    fig.update_yaxes(range=[-rmax, rmax], scaleanchor="x", scaleratio=1, row=2, col=1, showgrid=show_2d_axes, zeroline=show_2d_axes)
+
+    # YZ slice
+    fig.add_trace(go.Heatmap(
+    z=plot_data[i, :, :].T,
+    x=y, y=z,
+    colorscale=colorscale_2d,
+    showscale=False,
+    zmin=vmin if use_probability else -absmax,
+    zmax=vmax if use_probability else absmax,
+    hovertemplate=f'y: %{{x:.2f}}<br>z: %{{y:.2f}}<br>{data_label}: %{{z:.4f}}<extra></extra>'
+), row=2, col=2)
+    fig.update_xaxes(range=[-rmax, rmax], constrain="domain", row=2, col=2)
+    fig.update_yaxes(range=[-rmax, rmax], scaleanchor="x2", scaleratio=1, row=2, col=2, showgrid=show_2d_axes, zeroline=show_2d_axes)
+
+    # ZX slice
+    fig.add_trace(go.Heatmap(
+    z=plot_data[:, j, :].T,
+    x=z, y=x,
+    colorscale=colorscale_2d,
+    showscale=False,
+    zmin=vmin if use_probability else -absmax,
+    zmax=vmax if use_probability else absmax,
+    hovertemplate=f'z: %{{x:.2f}}<br>x: %{{y:.2f}}<br>{data_label}: %{{z:.4f}}<extra></extra>'
+), row=2, col=3)
+    fig.update_xaxes(range=[-rmax, rmax], constrain="domain", row=2, col=3)
+    fig.update_yaxes(range=[-rmax, rmax], scaleanchor="x3", scaleratio=1, row=2, col=3, showgrid=show_2d_axes, zeroline=show_2d_axes)
+
+  # -----------------------------
+  # Layout
+  # -----------------------------
+  mode_text = "Probability Density |ψ|²" if use_probability else "Wavefunction ψ"
+  fig.update_layout(
+    width=1300,
+    height=950,
+    #title=f"{mode_text}",
+    margin=dict(l=20, r=20, t=80, b=20)
+  )
+
+  if plot_slices:
+    fig.update_scenes(
+      xaxis=dict(visible=show_3d_axes),
+      yaxis=dict(visible=show_3d_axes),
+      zaxis=dict(visible=show_3d_axes),
+      aspectmode="cube",
+      row=1, col=1
+    )
+
+  fig.update_annotations(font_size=12)
+  fig = resize_fig_with_colorbar(fig, 0.55) 
+
+  if save_html:
+    fig.write_html(filename)
+    #print("HTML saved →", os.path.abspath(filename))
+
+  if show_plot:
+    fig.show()
+
+  return None
+
+
+# -----------------------------
+# Simple wrapper
+# -----------------------------
+def hydrogen_orbital_gui(n, l, m, show_plot=True, save_html=False, use_probability=False):
+  if l > n-1:
+    raise ValueError("l must be ≤ n−1")
+  if not (-l <= m <= l):
+    raise ValueError("m must satisfy -l ≤ m ≤ l")
+
+  folder = "figures"
+  if use_probability:
+    fname = folder +"/" +f"orbital_pd_n{n}_l{l}_m{m}.html"
+  else:
+    fname = folder +"/" +f"orbital_wf_n{n}_l{l}_m{m}.html" 
+      
+  plot_orbital(
+    n=n, l=l, m=m,
+    show_plot=show_plot,
+    save_html=save_html,
+    filename=fname,
+    show_3d_axes=False,   # 3D axes hidden by default
+    show_2d_axes=True,    # 2D axes shown
+    plot_slices=True,
+    use_probability=use_probability
+  )
+```
+
+```{python}
+hydrogen_orbital_gui(2, 0, 0, show_plot=False, save_html=True)
+hydrogen_orbital_gui(2, 1, 1, show_plot=False, save_html=True)
+hydrogen_orbital_gui(3, 1, 0, show_plot=False, save_html=True)
+hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
+```
+
+```{=html}
+<iframe src="figures/orbital_wf_n2_l0_m0.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{=html}
+<iframe src="figures/orbital_wf_n2_l1_m1.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{=html}
+<iframe src="figures/orbital_wf_n3_l1_m0.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{=html}
+<iframe src="figures/orbital_wf_n4_l2_m-2.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{python}
+hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True, use_probability=True)
+```
+
+```{=html}
+<iframe src="figures/orbital_pd_n4_l2_m-2.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```

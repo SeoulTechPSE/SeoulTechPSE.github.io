@@ -780,7 +780,7 @@ $~$
 **Example** $~$Solve the infinite string problem
 
   $$\begin{aligned}
-    u_{tt} &\, =c^2 u_{xx} +\color{red}{\sin kx e^{-\alpha t}} 
+    u_{tt} &\, =c^2 u_{xx} +\color{red}{e^{-\alpha x^2 -\beta t}} 
       && -\infty < x < \infty,\; 0 < t < \infty \\ 
     \begin{array}{r}
       u(x, 0) \\
@@ -1039,6 +1039,40 @@ $$\begin{aligned}
 \end{cases} 
 \end{aligned}$$
 
+**The Dimensional Geometry Summary**
+
+| Dimension | Region of Influence | Type of Surface | Formula Name | Behavior |
+|------------|--------------------|-----------------|---------------|-----------|
+| **1D** | Interval $x \pm ct$ | 2 points | D’Alembert Formula | Waves move left/right |
+| **2D** | Disk $r \le ct$ | Circle | Poisson Formula | Influence from entire disk |
+| **3D** | Sphere $r = ct$ | Spherical shell | Kirchhoff Formula | Influence from surface only |
+
+The difference comes from the geometry of the wavefront and how energy spreads:
+
+- In **1D**, energy stays in two pulses (no spreading)
+- In **2D**, energy spreads along the circular front → amplitude decays like $1/\sqrt{t}$
+- In **3D**, energy spreads over a sphere → amplitude decays like $1/t$
+
+These scaling differences explain why **sound intensity decreases faster in 3D** than in 2D or 1D
+
+**Green’s Functions for the Wave Equation (1D, 2D, 3D)**
+
+The wave equation considered:
+
+$$\partial_t^2 G(x,t) - c^2 \Delta_x G(x,t) = \delta(x)\delta(t),
+\quad G(x,t)=0 \text{ for } t<0$$
+
+| Dimension | Green's function $G$ | Support / where nonzero | Key properties / remarks |
+|:---:|---|-----|-----|
+| **1D** | $\displaystyle G(x,t)=\frac{1}{2c}\big[\delta(x-ct)+\delta(x+ct)\big]\,H(t)$ | On the two characteristic lines $x=\pm ct$ (for $t\ge0$) | Two undistorted pulses propagating left and right with speed $c$ |
+| **2D** | $\displaystyle G(r,t)=\frac{H\!\big(t-\tfrac{r}{c}\big)}{2\pi\,c\,\sqrt{c^2t^2-r^2}}$, $\;r=|x|$ | Inside the light cone: $t>r/c$ | Wave influence fills the interior of the light cone; singularity at $t=r/c$ |
+| **3D** | $\displaystyle G(r,t)=\frac{1}{4\pi c^2 r}\,\delta\!\big(t-\tfrac{r}{c}\big)$, $\;r=|x|$ | On the light-cone surface $t=r/c$ | Huygens’ principle: response lies exactly on the spherical wavefront; amplitude $\,\propto \,1/r$ |
+
+Notes:
+- $H(t)$: Heaviside step function
+- All functions above are distributions
+- Formulas correspond to the operator $\partial_t^2 - c^2\Delta$
+
 $~$
 
 ## Boundary Conditions Associated with the Wave Equation {#sec-x2-22}
@@ -1067,7 +1101,7 @@ The purpose of this section is to discuss some of the various types of BCs that 
     \begin{array} {r}
       =f(x) \\ =g(x)
     \end{array}
-    && 0 \leq x \leq L
+    && 0 \leq x \leq 1
   \end{aligned}$$
 
   where we control the end points so that they move in a given manner
@@ -1148,7 +1182,7 @@ $~$
   \begin{aligned}
     u_{tt} &=c^2 u_{xx} && \color{red}{0 < x < L},\;\; 0 < t < \infty \\ \\
     \begin{array} {r}
-      u(0, t) \\ u(1,t)
+      u(0, t) \\ u(L,t)
     \end{array}
     &\;
     \begin{array} {r}
@@ -1414,7 +1448,7 @@ $~$
 
     $$\begin{aligned}
     U_{rr} +\frac{1}{r}U_r &+\frac{1}{r^2}U_{\theta\theta} +\lambda U=0\\ 
-    &\Downarrow U(r,\theta)=R(r)\Theta(\theta)\\
+    &\Downarrow {\scriptsize U(r,\theta)=R(r)\Theta(\theta)}\\
     R''\Theta +\frac{1}{r}R' \Theta &+\frac{1}{r^2}R \Theta'' +\lambda R\Theta = 0 \\
     &\Downarrow \\
     -\frac{r^2 R'' +rR' +\lambda r^2R}{R} &= \frac{\;\Theta''}{\Theta} = -\mu <0 \\
