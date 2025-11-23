@@ -34,6 +34,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.special import sph_harm, assoc_laguerre, factorial
+
 import plotly.graph_objects as go
 import plotly.subplots as sp
 import plotly.io as pio
@@ -43,87 +44,84 @@ pio.renderers.default = "notebook"
 # ------------------------------
 # Hydrogenic wavefunction ψ_nlm
 # ------------------------------
-def hydrogen_wavefunction(n, l, m, r, theta, phi):
-  """Calculate hydrogen atom wavefunction in spherical coordinates."""
-  rho = 2 * r / n
-  N = np.sqrt((2/n)**3 * factorial(n-l-1) / (2*n * factorial(n+l)))
-  R = N * np.exp(-rho/2) * rho**l * assoc_laguerre(rho, n-l-1, 2*l+1)
+def hydrogen_wavefunction(n, l, m, r, phi, theta):
+  """Calculate hydrogen atom wavefunction in spherical coordinates"""
+  rho = 2 *r /n
+  N = np.sqrt((2 /n)**3 *factorial(n -l -1) /(2 *n *factorial(n +l)))
+  R = N *np.exp(-rho /2) *rho**l *assoc_laguerre(rho, n -l -1, 2 *l +1)
   
   with warnings.catch_warnings():
     warnings.filterwarnings('ignore', category=DeprecationWarning)
-    Y = sph_harm(m, l, phi, theta)
+    Y = sph_harm(m, l, theta, phi)
   
-  return R * Y
-
+  return R *Y
 
 def estimate_params(n, use_probability=False):
-  """Estimate plotting parameters based on quantum numbers."""
-  rmax = n**2 * 2.5
+  """Estimate plotting parameters based on quantum numbers"""
+  rmax = n**2 *2.5
   iso_frac = 0.02 if use_probability else 0.08
   grid = 120 if use_probability else 100
+
   return rmax, iso_frac, grid
 
-
 def resize_fig_with_colorbar(fig, scale):
-  """Resize figure and colorbar proportionally."""
+  """Resize figure and colorbar proportionally"""
   fig.update_layout(
-    width=(fig.layout.width or 700) * scale,
-    height=(fig.layout.height or 450) * scale,
-    font_size=14 * scale
+    width=(fig.layout.width or 700) *scale,
+    height=(fig.layout.height or 450) *scale,
+    font_size=14 *scale,
   )
-  
   fig.update_traces(
-    colorbar_thickness=15 * scale,
+    colorbar_thickness=15 *scale,
     selector=dict(type='heatmap')
   )
   
   return fig
-
 
 # ------------------------------
 # Main orbital plotter
 # ------------------------------
 def plot_orbital(
   n=2, l=1, m=0,
+  plot_slices=True,
+  use_probability=False,
+  show_3d_axes=False,
+  show_2d_axes=True,
   show_plot=True,
   save_html=False,
   filename="hydrogen_orbital.html",
-  show_3d_axes=False,
-  show_2d_axes=True,
-  plot_slices=True,
-  use_probability=False
 ):
   """
-  Plot hydrogen atomic orbital with 3D isosurface and 2D slices.
+  Plot hydrogen atomic orbital with 3D isosurface and 2D slices
   
   Parameters:
     n: principal quantum number (n ≥ 1)
-    l: angular momentum quantum number (0 ≤ l ≤ n-1)
+    l: angular momentum quantum number (0 ≤ l ≤ n -1)
     m: magnetic quantum number (-l ≤ m ≤ l)
+    plot_slices: include 2D slice plots    
+    use_probability: plot |ψ|² instead of Re(ψ)
     show_plot: display plot interactively
-    save_html: save plot as HTML file
-    filename: output filename
     show_3d_axes: show axes in 3D plot
     show_2d_axes: show grid/axes in 2D slices
-    plot_slices: include 2D slice plots
-    use_probability: plot |ψ|² instead of Re(ψ)
+    save_html: save plot as HTML file
+    filename: output filename
   """
   rmax, iso_frac, grid = estimate_params(n, use_probability)
   margin = 1.1
 
   # Create 3D grid
-  x = np.linspace(-rmax*margin, rmax*margin, grid)
-  y = np.linspace(-rmax*margin, rmax*margin, grid)
-  z = np.linspace(-rmax*margin, rmax*margin, grid)
+  x = np.linspace(-rmax *margin, rmax *margin, grid)
+  y = np.linspace(-rmax *margin, rmax *margin, grid)
+  z = np.linspace(-rmax *margin, rmax *margin, grid)
   X, Y, Z = np.meshgrid(x, y, z, indexing='ij')
 
   # Convert to spherical coordinates
-  r = np.sqrt(X**2 + Y**2 + Z**2)
-  theta = np.arccos(np.divide(Z, r, out=np.zeros_like(r), where=r!=0))
-  phi = np.arctan2(Y, X)
+  r = np.sqrt(X**2 +Y**2 +Z**2)
+  phi = np.arccos(np.divide(Z, r, out=np.zeros_like(r), where=r!=0))
+  theta = np.arctan2(Y, X)
 
   # Calculate wavefunction
-  psi = hydrogen_wavefunction(n, l, m, r, theta, phi)
+  psi = hydrogen_wavefunction(n, l, m, r, phi, theta)
   
   # Configure plotting mode
   if use_probability:
@@ -138,7 +136,7 @@ def plot_orbital(
     colorscale_neg = 'Blues'
     colorscale_2d = 'RdBu_r'
   
-  iso = iso_frac * np.max(np.abs(plot_data))
+  iso = iso_frac *np.max(np.abs(plot_data))
   Xf, Yf, Zf, Vf = X.flatten(), Y.flatten(), Z.flatten(), plot_data.flatten()
 
   # ---------------------------------
@@ -156,7 +154,7 @@ def plot_orbital(
       horizontal_spacing=0.001,
       vertical_spacing=0.05,
       subplot_titles=(
-        f"Hydrogen Atomic Orbital: {data_label} (n={n}, l={l}, m={m})",
+        f"Hydrogen Atomic Orbital: {data_label} (n={n}, l={l}, m={m})",       
         "xy slice (z = 0)",
         "yz slice (x = 0)",
         "zx slice (y = 0)"
@@ -170,8 +168,8 @@ def plot_orbital(
   # -----------------------------
   iso_params = dict(
     x=Xf, y=Yf, z=Zf, value=Vf,
-    surface_count=1,
-    opacity=0.30,
+    #surface_count=1,
+    opacity=0.25,
     caps=dict(x_show=False, y_show=False, z_show=False),
     showscale=False,
     hoverinfo='skip'
@@ -206,9 +204,86 @@ def plot_orbital(
       fig.add_trace(iso_neg)
 
   # -----------------------------
+  # Add 3D cross-section slice
+  # -----------------------------
+  if not plot_slices:
+    k, i, j = grid // 2, grid // 2, grid // 2
+    i1, i2 = grid // 5, 4 *grid // 5
+    
+    fig.add_trace(
+      go.Surface(
+        x=X[i1:i2, i1:i2, k],
+        y=Y[i1:i2, i1:i2, k],
+        z=Z[i1:i2, i1:i2, k], 
+        surfacecolor=plot_data[i1:i2, i1:i2, k],
+        colorscale=colorscale_2d,
+        showscale=False,
+        opacity=0.3,
+        hoverinfo='skip',             
+      )
+    )
+
+    fig.add_trace(
+      go.Surface(
+        x=X[i, i1:i2, i1:i2],
+        y=Y[i, i1:i2, i1:i2],
+        z=Z[i, i1:i2, i1:i2],   
+        surfacecolor=plot_data[i, i1:i2, i1:i2],
+        colorscale=colorscale_2d,
+        showscale=False,
+        opacity=0.3,
+        hoverinfo='skip'
+      )
+    )
+
+    fig.add_trace(
+      go.Surface(
+        x=X[i1:i2, j, i1:i2],
+        y=Y[i1:i2, j, i1:i2],
+        z=Z[i1:i2, j, i1:i2],   
+        surfacecolor=plot_data[i1:i2, j, i1:i2],
+        colorscale=colorscale_2d,
+        showscale=False,
+        opacity=0.3,
+        hoverinfo='skip'
+      )
+    )
+
+    fig.add_trace(
+      go.Heatmap(
+        z=[[plot_data.min(), plot_data.max()]],
+        colorscale=colorscale_2d,
+        showscale=True,   
+        opacity=0.0,     
+        hoverinfo="skip",
+        colorbar=dict(
+          x=0.5,
+          y=-0.15,
+          orientation="h",
+          thickness=12,
+          len=0.6,
+          xanchor="center"
+        )
+      )
+    )
+    fig.update_layout(
+      xaxis=dict(visible=False, showgrid=False, zeroline=False),
+      yaxis=dict(visible=False, showgrid=False, zeroline=False)
+    )
+
+  # -----------------------------
   # Add 2D slices
   # -----------------------------
   if plot_slices:
+
+    fig.update_scenes(
+      xaxis=dict(visible=show_3d_axes),
+      yaxis=dict(visible=show_3d_axes),
+      zaxis=dict(visible=show_3d_axes),
+      aspectmode="cube",
+      row=1, col=1
+    )
+
     k, i, j = grid // 2, grid // 2, grid // 2
     
     if use_probability:
@@ -261,6 +336,24 @@ def plot_orbital(
     fig.update_yaxes(range=[-rmax, rmax], scaleanchor="x3", scaleratio=1,
                      showgrid=show_2d_axes, zeroline=show_2d_axes, row=2, col=3)
 
+  else:
+
+    fig.update_scenes(
+      xaxis=dict(visible=show_3d_axes),
+      yaxis=dict(visible=show_3d_axes),
+      zaxis=dict(visible=show_3d_axes),
+      aspectmode="cube"
+    )
+    fig.update_layout(
+      title={
+        "text": f"Hydrogen Atomic Orbital: {data_label} (n={n}, l={l}, m={m})",
+        "x": 0.5,
+        "xanchor": "center",
+        "yanchor": "top",
+        "font": dict(size=18)
+      }
+    )    
+
   # -----------------------------
   # Finalize layout
   # -----------------------------
@@ -269,15 +362,6 @@ def plot_orbital(
     height=950,
     margin=dict(l=20, r=20, t=80, b=20)
   )
-
-  if plot_slices:
-    fig.update_scenes(
-      xaxis=dict(visible=show_3d_axes),
-      yaxis=dict(visible=show_3d_axes),
-      zaxis=dict(visible=show_3d_axes),
-      aspectmode="cube",
-      row=1, col=1
-    )
 
   fig.update_annotations(font_size=12)
   fig = resize_fig_with_colorbar(fig, 0.55)
@@ -290,54 +374,64 @@ def plot_orbital(
 
   return None
 
-
 # -----------------------------
 # User-friendly wrapper
 # -----------------------------
-def hydrogen_orbital_gui(n, l, m, show_plot=True, save_html=False, use_probability=False):
+def hydrogen_orbital_gui(
+  n, l, m, 
+  use_probability=False, 
+  plot_slices=True, 
+  show_plot=True, 
+  save_html=False
+):
   """
-  Generate hydrogen orbital visualization with automatic file naming.
+  Generate hydrogen orbital visualization with automatic file naming
   
   Parameters:
     n: principal quantum number
     l: angular momentum quantum number
     m: magnetic quantum number
+    use_probability: plot probability density instead of wavefunction    
     show_plot: display plot
     save_html: save as HTML
-    use_probability: plot probability density instead of wavefunction
   """
-  if l > n-1:
-    raise ValueError("l must be ≤ n−1")
+  if n < 1:
+    raise ValueError("n must satisfy n >= 1")
+  if l > n -1:
+    raise ValueError("l must be =< n −1")
   if not (-l <= m <= l):
-    raise ValueError("m must satisfy -l ≤ m ≤ l")
+    raise ValueError("m must satisfy -l =< m =< l")
 
   results_folder = Path("figures/orbital")
   results_folder.mkdir(exist_ok=True, parents=True)
 
   mode = "pd" if use_probability else "wf"
-  fname = results_folder / f"orbital_{mode}_n{n}_l{l}_m{m}.html"
+  style = "d" if plot_slices else "s"
+  fname = results_folder / f"orbital_{mode}_{style}_n{n}_l{l}_m{m}.html"
   
   plot_orbital(
     n=n, l=l, m=m,
+    plot_slices=plot_slices,
+    use_probability=use_probability,    
     show_plot=show_plot,
-    save_html=save_html,
-    filename=fname,
     show_3d_axes=False,
     show_2d_axes=True,
-    plot_slices=True,
-    use_probability=use_probability
+    save_html=save_html,
+    filename=fname,
   )
 ```
 
 ```{python}
-hydrogen_orbital_gui(2, 0, 0, show_plot=False, save_html=True)
+hydrogen_orbital_gui(2, 0, 0, plot_slices=False, show_plot=False, save_html=True)
 hydrogen_orbital_gui(2, 1, 1, show_plot=False, save_html=True)
 hydrogen_orbital_gui(3, 1, 0, show_plot=False, save_html=True)
+hydrogen_orbital_gui(3, 1, 0, plot_slices=False, show_plot=False, save_html=True)
 hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
+hydrogen_orbital_gui(4, 2, 0, plot_slices=False, show_plot=False, save_html=True)
 ```
 
 ```{=html}
-<iframe src="figures/orbital/orbital_wf_n2_l0_m0.html"
+<iframe src="figures/orbital/orbital_wf_s_n2_l0_m0.html"
         width="100%" height="550px"
         style="border:none;"
         allowfullscreen
@@ -346,7 +440,7 @@ hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
 ```
 
 ```{=html}
-<iframe src="figures/orbital/orbital_wf_n2_l1_m1.html"
+<iframe src="figures/orbital/orbital_wf_d_n2_l1_m1.html"
         width="100%" height="550px"
         style="border:none;"
         allowfullscreen
@@ -355,7 +449,7 @@ hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
 ```
 
 ```{=html}
-<iframe src="figures/orbital/orbital_wf_n3_l1_m0.html"
+<iframe src="figures/orbital/orbital_wf_d_n3_l1_m0.html"
         width="100%" height="550px"
         style="border:none;"
         allowfullscreen
@@ -364,7 +458,16 @@ hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
 ```
 
 ```{=html}
-<iframe src="figures/orbital/orbital_wf_n4_l2_m-2.html"
+<iframe src="figures/orbital/orbital_wf_d_n4_l2_m-2.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{=html}
+<iframe src="figures/orbital/orbital_wf_s_n4_l2_m0.html"
         width="100%" height="550px"
         style="border:none;"
         allowfullscreen
@@ -373,11 +476,21 @@ hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True)
 ```
 
 ```{python}
-hydrogen_orbital_gui(4, 2, -2, show_plot=False, save_html=True, use_probability=True)
+hydrogen_orbital_gui(2, 1, 0, use_probability=True, show_plot=False, save_html=True)
+hydrogen_orbital_gui(4, 2, -2, use_probability=True, show_plot=False, save_html=True)
 ```
 
 ```{=html}
-<iframe src="figures/orbital_pd_n4_l2_m-2.html"
+<iframe src="figures/orbital/orbital_pd_d_n2_l1_m0.html"
+        width="100%" height="550px"
+        style="border:none;"
+        allowfullscreen
+        loading="lazy">        
+</iframe>
+```
+
+```{=html}
+<iframe src="figures/orbital/orbital_pd_d_n4_l2_m-2.html"
         width="100%" height="550px"
         style="border:none;"
         allowfullscreen
