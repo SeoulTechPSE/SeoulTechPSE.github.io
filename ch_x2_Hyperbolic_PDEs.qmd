@@ -2538,27 +2538,27 @@ $~$
 
   $$\begin{aligned}
    \frac{\partial u_1}{\partial x} &= u_2 \\[2pt] 
-   \frac{\partial u_2}{\partial t} &= u_3 \\[2pt] 
+   \frac{\partial u_1}{\partial t} &= u_3 \\[2pt] 
    \frac{\partial u_3}{\partial t} &= c^2 
     \frac{\partial u_2}{\partial x} +au_3 +bu_1
   \end{aligned}$$
 
-* **Solution of the Linear System** $\,\mathbf{u}_t +\mathbf{A}\mathbf{u}_x=\mathbf{0}$
+**Solution of the Linear System** $\,\mathbf{u}_t +\mathbf{A}\mathbf{u}_x=\mathbf{0}$
 
-  * Consider the initial-value problem consisting of two PDEs and two ICs
+* Consider the initial-value problem consisting of two PDEs and two ICs
 
-    $$\begin{aligned}
+  $$\begin{aligned}
       \frac{\partial u_1}{\partial t} +8
         &\frac{\partial u_2}{\partial x} = 0 \\[2pt] 
       \frac{\partial u_2}{\partial t} +2
         &\frac{\partial u_1}{\partial x} = 0 \\[5pt] 
       u_1(x,0)& = f(x) \\ 
       u_2(x,0)& = g(x) 
-    \end{aligned}$$
+  \end{aligned}$$
 
-    We start by writing the two PDEs in matrix form
+  We start by writing the two PDEs in matrix form
 
-    $$\begin{aligned}
+  $$\begin{aligned}
       \begin{bmatrix}
       \frac{\partial u_1}{\partial t} \\ 
       \frac{\partial u_2}{\partial t}
@@ -2571,9 +2571,9 @@ $~$
       \frac{\partial u_2}{\partial x}
       \end{bmatrix}
       = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \\ 
-    \end{aligned}$$
+  \end{aligned}$$
 
-    $$\begin{aligned}
+  $$\begin{aligned}
     &\Downarrow \\[2pt] 
       \mathbf{u}_t +
       &\mathbf{A}\mathbf{u}_x = \mathbf{0} \\[2pt] 
@@ -2585,11 +2585,11 @@ $~$
     &\Downarrow \\[2pt] 
       \mathbf{v}_t +
       &\boldsymbol{\Gamma}\mathbf{v}_x = \mathbf{0}
-    \end{aligned}$$
+  \end{aligned}$$
 
-    where
+  where
 
-    $$\mathbf{P}=
+  $$\mathbf{P}=
     \begin{bmatrix}
     2 & -2 \\ 
     1 & \;\;\,1 
@@ -2598,48 +2598,48 @@ $~$
     \begin{bmatrix}
     4 & \;\;\,0 \\ 
     0 & -4 
-    \end{bmatrix}\qquad$$
+  \end{bmatrix}\qquad$$
 
-  * These are the two uncoupled equations that we can solve independently
+* These are the two uncoupled equations that we can solve independently
 
-    $$\begin{aligned}
+  $$\begin{aligned}
       &\frac{\partial v_1}{\partial t} +4\frac{\partial v_1}{\partial x} = 0 \\ 
       &\frac{\partial v_2}{\partial t} -4\frac{\partial v_2}{\partial x} = 0 
-    \end{aligned}$$
+  \end{aligned}$$
 
-    These equations have travelling-wave solutions
+  These equations have travelling-wave solutions
 
-    $$\begin{aligned}
+  $$\begin{aligned}
     v_1(x,t) &= \phi(x -4t) \\ 
     v_2(x,t) &= \psi(x +4t) 
-    \end{aligned}$$
+  \end{aligned}$$
 
-    where $\,\phi\,$ and $\,\psi\,$ are arbitrary differentiable functions
+  where $\,\phi\,$ and $\,\psi\,$ are arbitrary differentiable functions
 
-  * To obtain our general solution $\,u$, $\,$we merely compute
+* To obtain our general solution $\,u$, $\,$we merely compute
 
-    $$\mathbf{u}=\mathbf{P}\mathbf{v}=
+  $$\mathbf{u}=\mathbf{P}\mathbf{v}=
     \begin{bmatrix}
       2\phi(x -4t) -2\psi(x+4t)\\ 
       \phi(x -4t) +\psi(x+4t)
-    \end{bmatrix}$$
+  \end{bmatrix}$$
 
-    We now substitute general solution into the ICs to get
+  We now substitute general solution into the ICs to get
 
-    $$\begin{aligned}
+  $$\begin{aligned}
     2\phi(x) &-2\psi(x) = f(x) \\ 
     \phi(x) &+\psi(x) = g(x) \\ 
     &\Downarrow \\ 
     \phi(x) &= \frac{1}{4} \left[ f(x) +2g(x) \right] \\
     \psi(x) &= \frac{1}{4} \left[ 2g(x) -f(x) \right]
-    \end{aligned}$$
+  \end{aligned}$$
 
-    and, $\,$hence, $\,$the solution to IVP is
+  and, $\,$hence, $\,$the solution to IVP is
 
-    $$\begin{aligned}
+  $$\begin{aligned}
     u_1(x,t) &= \frac{1}{2} \left[ f(x -4t) +2g(x -4t) \right] -\frac{1}{2}\left[ 2g(x +4t) -f(x +4t) \right]\\ 
     u_2(x,t) &= \frac{1}{4} \left[ f(x -4t) +2g(x -4t) \right] +\frac{1}{4}\left[ 2g(x +4t) -f(x +4t) \right]
-    \end{aligned}$$
+  \end{aligned}$$
 
 $~$
 
