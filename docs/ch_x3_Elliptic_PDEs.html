@@ -406,7 +406,7 @@ window.Quarto = {
 <li><p>The heat equation <span class="math inline">\(\,u_t=\alpha\nabla^2 u\,\)</span> measures temperature <span class="math inline">\(\,u\)</span>, and the equation can be interpreted to mean that <font color="blue">the change in temperature with respect to time <span class="math inline">\(\,u_t\)</span> is proportional to <span class="math inline">\(\,\nabla^2 u\)</span></font>. <span class="math inline">\(\,\)</span>That is, <span class="math inline">\(\,\)</span>the temperature at a point is increasing if the temperature at that point is less than the average of the temperature on a circle around the point</p></li>
 <li><p>The wave equation <span class="math inline">\(\,u_{tt}=c^2\nabla^2 u\,\)</span> measures the displacement of a drumhead and can be interpreted to mean that <font color="blue">the acceleration (or force) of a point on the drumhead <span class="math inline">\(\,u_{tt}\,\)</span> is proportional to <span class="math inline">\(\,\nabla^2 u\)</span></font>. <span class="math inline">\(\,\)</span>That is, <span class="math inline">\(\,\)</span>the drumhead at a point is accelerating upward if the drumhead at that point is less than the average of its neighbors</p></li>
 <li><p><font color="blue">Laplace’s equation <span class="math inline">\(\,\nabla^2 u = 0\,\)</span> says that the solution <span class="math inline">\(\,u\,\)</span> is always equal to the average of its neighbors</font>. <span class="math inline">\(\,\)</span>For example, <span class="math inline">\(\,\)</span>a steady-state, stretched rubber membrane satisfies Laplace’s equation, <span class="math inline">\(\,\)</span>hence, <span class="math inline">\(\,\)</span>the height of the membrane at any point is equal to the average height of the membrane on a circle around the point</p></li>
-<li><p><font color="blue">Poisson’s equation <span class="math inline">\(\,\nabla^2 u=f\)</span></font>, <span class="math inline">\(\,\)</span>where <span class="math inline">\(\,f\,\)</span> is a function that depends only on the space variables</p>
+<li><p><font color="blue">Poisson’s equation <span class="math inline">\(\,\nabla^2 u=-f\)</span></font>, <span class="math inline">\(\,\)</span>where <span class="math inline">\(\,f\,\)</span> is a function that depends only on the space variables</p>
 <ul>
 <li><span class="math inline">\(\nabla^2 u=-\rho\,\)</span> describes the potential of an electrostatic field where <span class="math inline">\(\,\rho\,\)</span> represents a constant charge density</li>
 <li><span class="math inline">\(\nabla^2 u =-g(x,y)\,\)</span> describes the steady-state temperature <span class="math inline">\(\,u(x,y)\,\)</span> due to a heat source <span class="math inline">\(\,g(x,y)\)</span></li>
@@ -877,7 +877,7 @@ u(R_2,\phi,\theta) &amp;= B
 <ul>
 <li><p><strong>Special Case 2</strong> <span class="math inline">\(\,\)</span> <span class="math inline">\(-\;\;\color{red}{g(\phi,\theta) \text{ depends only on } \phi}\)</span></p>
 <p>Here, the Dirichlet problem takes the form</p>
-<p><span class="math display">\[ \left( r^2 u_r \right)_r +\frac{1}{\sin\phi}
+<p><span class="math display">\[ r^2 u_{rr} +2r u_r +\frac{1}{\sin\phi}
 \left( \sin\phi\, u_\phi \right)_\phi = 0,
 \;\;\; 0 &lt; r &lt; 1 \]</span></p>
 <p><span class="math display">\[ u(1,\phi)=g(\phi),\;\;\; 0 \leq \phi \leq \pi \]</span></p>
@@ -988,7 +988,10 @@ u(r,\phi) &amp;= \frac{4}{3} P_0(\cos\phi) -\frac{4}{3} r^2 P_2(\cos\phi)
 \end{aligned}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>NOTE</strong> <span class="math inline">\(\,\)</span> The solution of the exterior Dirichlet problem</p>
-<p><span class="math display">\[\;\;\displaystyle \left( r^2 u_r \right)_r +\frac{1}{\sin\phi} \left( \sin\phi\, u_\phi \right)_\phi = 0, \;\; 1 &lt; r &lt; \infty, \;\;u(1,\phi)=g(\phi),\;\;\; 0 \leq \phi \leq \pi \]</span></p>
+<p><span class="math display">\[\begin{aligned}
+    \left( r^2 u_r \right)_r &amp;+\frac{1}{\sin\phi} \left( \sin\phi\, u_\phi \right)_\phi = 0, \;\; 1 &lt; r &lt; \infty \\
+    u&amp;(1,\phi)=g(\phi),\;\;\; 0 \leq \phi \leq \pi
+  \end{aligned}\]</span></p>
 <p>is</p>
 <p><span class="math display">\[ u(r,\phi)=\sum_{n=0}^\infty \frac{b_n}{r^{n+1}} P_n(\cos\phi)\]</span></p>
 <p>where <span class="math inline">\(\;\displaystyle b_n = \frac{2n +1}{2} \int_0^\pi g(\phi) P_n(\cos\phi)\, \sin\phi \, d\phi\)</span></p>
@@ -998,7 +1001,7 @@ u(r,\phi) &amp;= \frac{4}{3} P_0(\cos\phi) -\frac{4}{3} r^2 P_2(\cos\phi)
 <li><p><strong>General Case</strong> <span class="math inline">\(\,\)</span> <span class="math inline">\(-\;\;\color{red}{g(\phi,\theta)}\)</span></p>
 <p>We consider the boundary value problem</p>
 <p><span class="math display">\[\color{red}{\begin{aligned}
-u_{rr} +\frac{2}{r} u_r &amp;+\frac{1}{r^2}u_{\phi\phi} +\frac{\cot\phi}{r^2} u_{\phi} +\frac{1}{r^2\sin^2\phi}u_{\theta\theta} = 0, \;\; r &lt; R \\
+r^2 u_{rr} +2r u_r &amp;+\frac{1}{\sin\phi}\left(\sin\phi u_{\phi}\right)_\phi +\frac{1}{\sin^2\phi}u_{\theta\theta} = 0, \;\; r &lt; R \\
 u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 \end{aligned}}\]</span></p>
 <p>in a sphere of radius <span class="math inline">\(\,R\)</span></p>
@@ -1006,7 +1009,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 2. <span class="math inline">\(~\)</span> Derive <span class="math inline">\(\,K(r,\phi,\theta; R,\varphi,\vartheta)\,\)</span> in the equivalent integral formula:</div>
 <p><span class="math display">\[ u(r,\phi,\theta) = \int_0^{2\pi} \int_0^\pi K(r,\phi,\theta; R,\varphi,\vartheta)\, g(\varphi,\vartheta) \sin\varphi \,d\varphi \, d\vartheta\]</span></p>
 <p><strong>1.</strong> <span class="math inline">\(\,\)</span>Applying separation of variables, <span class="math inline">\(\,\)</span>we find that the equation has the solution of the form <span class="math inline">\(\,R(r) \,\Phi(\phi) \,\Theta(\theta)\)</span>, <span class="math inline">\(\,\)</span>provided</p>
-<p><span class="math display">\[ -r^2 \sin^2\phi \, \frac{R'' +\frac{2}{r}R'}{R} -\sin\phi\frac{(\sin\phi\, \Phi')'}{\Phi} = \frac{\;\Theta''}{\Theta}= -\mu &lt; 0\]</span></p>
+<p><span class="math display">\[ -\sin^2\phi \, \frac{r^2 R'' +2rR'}{R} -\sin\phi\frac{(\sin\phi\, \Phi')'}{\Phi} = \frac{\;\Theta''}{\Theta}= -\mu &lt; 0\]</span></p>
 <p>Since <span class="math inline">\(\Theta\)</span> must be periodic of period <span class="math inline">\(\,2\pi\)</span>, <span class="math inline">\(\,\)</span>we have <span class="math inline">\(\,\color{blue}{\Theta=\cos m\theta}\,\)</span> or <span class="math inline">\(\,\color{blue}{\sin m\theta}\)</span>, <span class="math inline">\(\,\)</span>where <span class="math inline">\(\,\color{blue}{\mu = m^2, \; m = 0, 1, 2,\cdots}\)</span>. <span class="math inline">\(\,\)</span>Then</p>
 <p><span class="math display">\[\begin{aligned}
   -\frac{r^2 R'' +2rR'}{R}
@@ -1021,7 +1024,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
    \;&amp;\color{blue}{= 0}
 \end{aligned}\]</span></p>
 <ul>
-<li><p>The equation for <span class="math inline">\(\,\Phi(\phi)\,\)</span> is singular at its two endpoints <span class="math inline">\(\,\phi=0\,\)</span> and <span class="math inline">\(\,\phi=\pi\)</span>. <span class="math inline">\(\,\)</span>In lieu of boundary conditions, <span class="math inline">\(\,\)</span>we impose the condition that <span class="math inline">\(\,\Phi\,\)</span> and <span class="math inline">\(\,\Phi'\,\)</span> remain bounded at both ends. <span class="math inline">\(\,\)</span>This gives an eigenvalue problem with two singular endpoints. <span class="math inline">\(\,\)</span>We introduce the new variable <span class="math inline">\(\,x=\cos\phi\,\)</span> and let <span class="math inline">\(\,\Phi(\phi)=P(\cos\phi)\)</span>. <span class="math inline">\(\,\)</span>Then the equation for <span class="math inline">\(\,\Phi(\phi)\,\)</span> becomes</p>
+<li><p>The equation for <span class="math inline">\(\,\Phi(\phi)\,\)</span> is singular at its two endpoints <span class="math inline">\(\,\phi=0\,\)</span> and <span class="math inline">\(\,\phi=\pi\)</span>. <span class="math inline">\(\,\)</span>In lieu of boundary conditions, <span class="math inline">\(\,\)</span>we impose the condition that <span class="math inline">\(\,\Phi\,\)</span> and <span class="math inline">\(\,\Phi'\,\)</span> remain bounded at both ends. <span class="math inline">\(\,\)</span>This gives an eigenvalue problem with two singular endpoints. <span class="math inline">\(\,\)</span>We introduce the new variable <span class="math inline">\(\,x=\cos\phi\,\)</span> and let <span class="math inline">\(\,\Phi(\phi)=P(x)\)</span>. <span class="math inline">\(\,\)</span>Then the equation for <span class="math inline">\(\,\Phi(\phi)\,\)</span> becomes</p>
 <p><span class="math display">\[\color{red}{\frac{d}{dx}
 \left[\left(1 -x^2\right) \frac{dP}{dx} \right]
 +\left[\lambda -\frac{m^2}{1 -x^2 } \right] P = 0}
@@ -1034,7 +1037,8 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <p><span class="math display">\[\lambda=n(n+1), \;\; n=0,1,2,\cdots\]</span></p>
 <p>These, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>are the eigenvalues. <span class="math inline">\(\,\)</span>Setting <span class="math inline">\(P_n(1)=1\)</span>, <span class="math inline">\(\,\)</span>we obtain the eigenfunction <span class="math inline">\(\,P_n(x)\,\)</span> corresponding to the eigenvalue <span class="math inline">\(\,\lambda_n=n(n+1):\)</span></p>
 <p><span class="math display">\[ P_n(x)= \sum_{k=0}^n \frac{(n +k)!}{2^k (k!)^2 (n -k)!}(x - 1)^k\;\;\]</span></p>
-<p>It is called a <strong>Legendre polynomial</strong></p></li>
+<p>It is called a <strong>Legendre polynomial</strong></p>
+<ul>
 <li><p>Since <span class="math inline">\(\,P_n(x)\,\)</span> is of exactly degree <span class="math inline">\(\,n\,\)</span> in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,\)</span>any polynomial of degree <span class="math inline">\(\,k\,\)</span> can be expressed as a linear combination of <span class="math inline">\(\,P_n(x)\,\)</span> with <span class="math inline">\(\,n=0,1,\cdots,k\)</span>. <span class="math inline">\(\,\)</span>Since <span class="math inline">\(\,P_n(x)\,\)</span> are orthogonal, <span class="math inline">\(\,\)</span>each <span class="math inline">\(\,P_n(x)\,\)</span> must therefore be orthogonal to all powers of <span class="math inline">\(\,x\,\)</span> less than <span class="math inline">\(\,n:\)</span></p>
 <p><span class="math display">\[ \int_{-1}^1 x^k P_n(x)\, dx=0, \;\;k=0,1,\cdots, n-1\]</span></p>
 <p>These <span class="math inline">\(\,n\,\)</span> linear conditions, <span class="math inline">\(\,\)</span>together with the fact that <span class="math inline">\(\,P_n(x)\,\)</span> is of degree <span class="math inline">\(\,n\)</span>, <span class="math inline">\(\,\)</span>determine <span class="math inline">\(\,P_n(x)\,\)</span> uniquely</p></li>
@@ -1043,6 +1047,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <p>which is called the <strong>Rodrigues formula</strong>. <span class="math inline">\(\,\)</span>It is clear from this formula that <span class="math inline">\(\,P_n(x)\,\)</span> is even in <span class="math inline">\(\,x\,\)</span> if <span class="math inline">\(\,n\,\)</span> is even, <span class="math inline">\(\,\)</span>and odd if <span class="math inline">\(\,n\,\)</span> is odd</p></li>
 <li><p>The Legendre polynomials can also be defined as the coefficients in a formal expansion in powers of <span class="math inline">\(\,t\,\)</span> of the <strong>generating function</strong></p>
 <p><span class="math display">\[ \frac{1}{\sqrt{1 -2xt +t^2}} = \sum_{n=0}^\infty P_n(x) t^n \]</span></p></li>
+</ul></li>
 <li><p>We now wish to consider the equation <span class="math inline">\(\eqref{eq:AL}\)</span> with a positive <span class="math inline">\(m\)</span>. <span class="math inline">\(\,\)</span>For this purpose, <span class="math inline">\(\,\)</span>we first differentiate the equation <span class="math inline">\(\eqref{eq:LG}\)</span> <span class="math inline">\(\,m\,\)</span> times with respect to <span class="math inline">\(\,x\)</span>. <span class="math inline">\(\,\)</span>This gives</p>
 <p><span class="math display">\[ \left(1 -x^2\right) \frac{d^{m+2}}{dx^{m+2}}P -2(m +1)x \frac{d^{m+1}}{dx^{m+1}}P +\left[ \lambda -m(m +1)\right] \frac{d^{m}}{dx^{m}}P=0\]</span></p>
 <p>We now introduce the new dependent variable</p>
@@ -1057,7 +1062,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <p>are called the <strong>associated Legendre functions</strong>. <span class="math inline">\(\,P_n^m(x)\,\)</span> corresponds to the eigenvalue <span class="math inline">\(\,n(n +1)\)</span>, <span class="math inline">\(\,\)</span>and <span class="math inline">\(\,n \geq m\)</span></p></li>
 <li><p>In Fourier expressions, <span class="math inline">\(\,\)</span>it is useful to know the integrals of <span class="math inline">\(\,\left[P_n^m(x)\right]^2\)</span>. <span class="math inline">\(\,\)</span>It follows from the Rodrigues formula and <span class="math inline">\(\,n\,\)</span> integrations by parts that</p>
 <p><span class="math display">\[\tiny \begin{aligned}
-  \int_0^\pi \left[ P_n(\cos\phi)\right]^2 \,\sin\phi  \,d\phi &amp;= \int_{-1}^1 \left[P_n(x) \right]^2 \,dx\\
+  \color{blue}{\int_0^\pi \left[ P_n(\cos\phi)\right]^2 \,\sin\phi  \,d\phi} &amp;= \int_{-1}^1 \left[P_n(x) \right]^2 \,dx\\
   &amp;= \frac{1}{2^{2n} n!^2} \int_{-1}^1 \left[ \frac{d^n}{dx^n} \left(1- x^2 \right)^n\right]^2 \, dx\\
   &amp;= \frac{1}{2^{2n} n!^2} \left[ \underbrace{\left.\frac{d^{n-1}}{dx^{n-1}} \left(1- x^2 \right)^n
   \frac{d^{n}}{dx^{n}} \left(1- x^2 \right)^n \right|_{-1}^{1}}_{=0}
@@ -1066,7 +1071,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
   &amp;\,\vdots \\
   &amp;=\frac{(-1)^n}{2^{2n} n!^2} \int_{-1}^1 \left(1- x^2 \right)^n
   \underbrace{\frac{d^{2n}}{dx^{2n}} \left(1- x^2 \right)^n}_{(-1)^n (2n)!} \,dx \\
-  &amp;=\frac{(2n)!}{2^{2n} n!^2} \int_{-1}^1 \left(1- x^2 \right)^n \,dx = \frac{(2n)!}{2^{2n} n!^2} 2^{2n +1} \frac{n!^2}{(2n+1)!}=\frac{2}{2n +1}
+  &amp;=\frac{(2n)!}{2^{2n} n!^2} \int_{-1}^1 \left(1- x^2 \right)^n \,dx = \frac{(2n)!}{2^{2n} n!^2} 2^{2n +1} \frac{n!^2}{(2n+1)!}=\color{blue}{\frac{2}{2n +1}}
 \end{aligned}\]</span></p></li>
 <li><p>Similarly,</p>
 <p><span class="math display">\[\tiny \begin{aligned}
@@ -1085,17 +1090,17 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 \end{aligned}\]</span></p>
 <p>in which <span class="math inline">\(\,c_n\,\)</span> is the coefficient of <span class="math inline">\(\,x^n\,\)</span> in <span class="math inline">\(\,P_n(x)\)</span></p></li>
 <li><p>Putting <span class="math inline">\(\,\lambda=n(n+1)\,\)</span> in the equation for <span class="math inline">\(\,R(r)\)</span>, <span class="math inline">\(\,\)</span>we obtain the two solutions <span class="math inline">\(\,\color{blue}{r^n}\,\)</span> and <span class="math inline">\(\,r^{-(n +1)}\)</span>. <span class="math inline">\(\,\)</span>Only the first of these is bounded at <span class="math inline">\(\,r=0\)</span></p></li>
-<li><p>The method of separation of variables thus gives the harmonic functions</p></li>
-</ul>
+<li><p>The method of separation of variables thus gives the harmonic functions</p>
 <p><font color="red"><span class="math display">\[\begin{aligned}
-  &amp;r^n P_n^m(\cos\phi) \cos m\theta\\
-  &amp;r^n P_n^m(\cos\phi) \sin m\theta
+&amp;r^n P_n^m(\cos\phi) \cos m\theta\\
+&amp;r^n P_n^m(\cos\phi) \sin m\theta
 \end{aligned}\]</span></font></p>
 <ul>
 <li><p>We note that <span class="math inline">\(\,P_n^m(\cos\phi)\,\)</span> is <span class="math inline">\(\,\sin^m\phi\,\)</span> times a polynomial of degree <span class="math inline">\(\,(n -m)\,\)</span> in <span class="math inline">\(\,\cos\phi\,\)</span> which is even or odd according as <span class="math inline">\(\,(n -m)\,\)</span> is even or odd</p></li>
 <li><p>Since <span class="math inline">\(\,r\cos\phi=z\)</span>, <span class="math inline">\(\,\)</span>it follows that <span class="math inline">\(\,r^{n-m}\,\)</span> times this polynomial is a polynomial in <span class="math inline">\(\,r^2\,\)</span> and <span class="math inline">\(\,z\)</span>, <span class="math inline">\(\,\)</span>and hence in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,y\)</span>, and <span class="math inline">\(\,z\)</span></p></li>
 <li><p>Also, <span class="math inline">\(\,r\sin\phi=\sqrt{x^2 +y^2}\,\)</span>. <span class="math inline">\(\,\)</span>Thus <span class="math inline">\(\,r^m\sin^m\phi \cos m\theta\,\)</span> and <span class="math inline">\(\,r^m\sin^m\phi \sin m\theta\,\)</span> are the polynomial solutions in <span class="math inline">\(\,x\,\)</span> and <span class="math inline">\(\,y\,\)</span> obtained by separating the two-dimensional Laplace’s equation in polar coordinates</p></li>
 <li><p>We see then that the functions <span class="math inline">\(\,r^n P_n^m(\cos\phi) \cos m\theta\,\)</span> and <span class="math inline">\(\,r^n P_n^m(\cos\phi) \sin m\theta\,\)</span> are homogeneous polynomials of degree <span class="math inline">\(\,n\,\)</span> in <span class="math inline">\(\,x\)</span>, <span class="math inline">\(\,y\)</span>, and <span class="math inline">\(\,z\)</span>. <span class="math inline">\(\,\)</span>They are of degree <span class="math inline">\(\,(n -m)\,\)</span> in <span class="math inline">\(\,z\)</span>. <span class="math inline">\(\,\)</span>These polynomials are called <strong>spherical harmonics</strong></p></li>
+</ul></li>
 </ul>
 <p>The formal solution of the problem is then</p>
 <p><span class="math display">\[ \color{red}{u(r,\phi,\theta) = \sum_{n=0}^\infty \left( \frac{r}{R} \right)^n \left[ \frac{1}{2} a_{n0} P_n(\cos\phi) +\sum_{m=1}^n \left(a_{nm} \cos m\theta +b_{nm} \sin m\theta \right) P_n^m(\cos\phi) \right]} \]</span></p>
@@ -1177,6 +1182,37 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 </ul></li>
 </ul>
 <p><span class="math inline">\(~\)</span></p>
+<p><font color="blue"><strong>Poisson Integral Formula in 2D and 3D — Summary Table</strong></font></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 33%">
+<col style="width: 39%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Domain</th>
+<th>Poisson Kernel <span class="math inline">\(\mathcal{P}\)</span></th>
+<th>Poisson Integral Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>2D</strong></td>
+<td>Unit disk <span class="math inline">\(D=\{\mathbf{x}\in\mathbb{R}^2:|\mathbf{x}|&lt;1\}\)</span></td>
+<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\xi) = \frac{1 - |\mathbf{x}|^2}{2\pi\, |\mathbf{x} - \xi|^2}\)</span></td>
+<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \int_{S^1} \mathcal{P}(\mathbf{x},\xi)\, g(\xi)\, dS_\xi\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>3D</strong></td>
+<td>Unit ball <span class="math inline">\(B=\{\mathbf{x}\in\mathbb{R}^3:|\mathbf{x}|&lt;1\}\)</span></td>
+<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\xi)= \frac{1 - |\mathbf{x}|^2}{4\pi |\mathbf{x} - \xi|^3}\)</span></td>
+<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \int_{S^2} \mathcal{P}(\mathbf{x},\xi)\, g(\xi)\, dS_\xi\)</span></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="sec-x3-36" class="level2" data-number="14.6">
 <h2 data-number="14.6" class="anchored" data-anchor-id="sec-x3-36"><span class="header-section-number">14.6</span> A Nonhomogeneous Dirichlet Problem (Green’s Function)</h2>
@@ -1378,6 +1414,49 @@ G(r,\phi,\theta;\rho,\varphi,\vartheta) &amp;=\frac{1}{4\pi} \frac{1}{\sqrt{r^2+
 \end{aligned}
 \]</span></p>
 <p>This, <span class="math inline">\(\,\)</span>then, <span class="math inline">\(\,\)</span>is the Green’s function for <span class="math inline">\(\,r &gt; \rho\)</span>. <span class="math inline">\(\,\)</span>It is already symmetric in <span class="math inline">\(\,r\,\)</span> and <span class="math inline">\(\,\rho\)</span>, <span class="math inline">\(\,\)</span>so that the same formula holds for <span class="math inline">\(\,r &lt; \rho\)</span>, and even for <span class="math inline">\(\,r=\rho\)</span>. <span class="math inline">\(\,\)</span>We note that <span class="math inline">\(\,G=0\,\)</span> for <span class="math inline">\(\,r=R\)</span></p>
+<p><font colot="blue"><strong>Comparison: Poisson Kernel vs Green Function (Disk &amp; Ball)</strong></font></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 39%">
+<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension - Domain</th>
+<th>Object</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>2D</strong> - Unit disk <span class="math inline">\(\scriptsize D=\{\mathbf{x}\in\mathbb{R}^2:|\mathbf{x}|&lt;1\}\)</span></td>
+<td><strong>Poisson Kernel</strong></td>
+<td><span class="math inline">\(\scriptsize\displaystyle \mathcal{P}(\mathbf{x},\xi)=\frac{1-|\mathbf{x}|^2}{2\pi |\mathbf{x}-\xi|^2}\)</span></td>
+<td>Solve <strong>Laplace equation</strong> <span class="math inline">\(\scriptsize\Delta u = 0\)</span> with boundary values: <span class="math inline">\(\scriptsize\displaystyle u(\mathbf{x})=\int_{S^1}\mathcal{P}(\mathbf{x},\xi)g(\xi)dS_\xi\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><strong>Green Function</strong></td>
+<td><span class="math inline">\(\scriptsize\displaystyle G(\mathbf{x},\mathbf{y})=\frac{1}{2\pi}\left(\ln |\mathbf{x}-\mathbf{y}| -\ln |\mathbf{x} -\mathbf{y}^*| \right),\quad \mathbf{y}^*=\frac{\mathbf{y}}{|\mathbf{y}|^2}\)</span></td>
+<td>Solve <strong>Poisson equation</strong> <span class="math inline">\(\scriptsize\Delta u = -f\)</span>: <span class="math inline">\(\scriptsize\displaystyle u(\mathbf{x})=\int_{D} G(\mathbf{x},\mathbf{y})f(\mathbf{y})d\mathbf{y}\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>3D</strong> - Unit ball <span class="math inline">\(\scriptsize B=\{\mathbf{x}\in\mathbb{R}^3:|\mathbf{x}|&lt;1\}\)</span></td>
+<td><strong>Poisson Kernel</strong></td>
+<td><span class="math inline">\(\scriptsize\displaystyle \mathcal{P}(\mathbf{x},\xi)=\frac{1-|\mathbf{x}|^2}{4\pi |\mathbf{x}-\xi|^{3}}\)</span></td>
+<td>Solve <strong>Laplace equation</strong> <span class="math inline">\(\scriptsize\Delta u(\mathbf{x})=0\)</span> with boundary values on <span class="math inline">\(\scriptsize S^2\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><strong>Green Function</strong></td>
+<td><span class="math inline">\(\scriptsize \displaystyle G(\mathbf{x},\mathbf{y})=\frac{1}{4\pi}\left( \frac{1}{|\mathbf{x}-\mathbf{y}|}-\frac{1}{|\mathbf{x}-\mathbf{y}^*|} \right),\quad \mathbf{y}^*=\frac{\mathbf{y}}{|\mathbf{y}|^2}\)</span></td>
+<td>Solve <strong>Poisson equation</strong> <span class="math inline">\(\scriptsize\Delta u=-f\)</span> in the ball <span class="math inline">\(\scriptsize B\)</span></td>
+</tr>
+</tbody>
+</table>
 <p><span class="math inline">\(~\)</span></p>
 </section>
 <section id="sec-x3-37" class="level2" data-number="14.7">
