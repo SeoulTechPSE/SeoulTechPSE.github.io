@@ -370,7 +370,7 @@ HTML('<center>' + anim.to_html5_video() + '</center>')
 
 $~$
 
-* **Solution of the Semi-Infinite String via the D'Alembert Formula** 
+<font color="blue">**Solution of the Semi-Infinite String via the D'Alembert Formula**</font> 
 
   * In the remainder of the section, $\,$we will solve the initial-boundary-value problem for the semi-infinite string
 
@@ -540,17 +540,27 @@ $$
     &\;
     \begin{array}{l}
       = f(x) \\
-      = 0
+      = g(x)
     \end{array} && 0 < x <\infty 
   \end{aligned}$$
 
-in a manner analogous to the way the semi-infinite string problem was solved in the section
+following an approach analogous to the one used to solve the semi-infinite string problem in the lesson
 
 **Solution** $\,$For $x \geq ct$, $\,$the solution is the same as the D'Alembert solution for the infinite wave, <font color="red"> $\,$while for $x < ct$, $\,$the solution $u(x,t)$ is modified as a result of the wave reflecting from the boundary</font>
 
-  $$ {u(x,t) =\frac{1}{2} \left[ f(x +ct) +f(ct -x) \right] +\frac{1}{2c} \left[ \int_0^{ct -x} g(\xi)\,d\xi + \int_0^{x +ct} g(\xi)\,d\xi \right] ,\;\; 0 < x < ct} $$
+$$ \begin{aligned}
+    u(x,t) =\frac{1}{2}& \left[ f(x +ct) +f(ct -x) \right] \\
+    &+\frac{1}{2c} \left[ \int_0^{ct -x} g(\xi)\,d\xi + \int_0^{x +ct} g(\xi)\,d\xi \right] ,\;\; 0 < x < ct 
+  \end{aligned}$$
 
 $~$
+
+**Example** $\,$Simulate the semi-infinite string problem with the initial conditions:
+
+$$\begin{aligned}
+  u(x,0)&=\exp\left[-\frac{(x-3^2)}{0.5}\right] \\
+  u_t(x,0)&=0
+  \end{aligned}$$
 
 ```{python}
 import numpy as np
@@ -570,7 +580,7 @@ x = np.linspace(-x_max, x_max, nx)  # Include negative side
 # ==============================================================
 def f(x):
     """Initial displacement: Gaussian pulse centered at x=3"""
-    return np.exp(-((x - 3)**2) /0.5)
+    return np.exp(-(x - 3)**2 /0.5)
 
 def g(x):
     """Initial velocity: zero everywhere."""
@@ -661,7 +671,108 @@ plt.close()
 
 $~$
 
-* **The Nonhomogeneous Wave Equation**
+**Example** $\,$ Solve the wave equation on the semi-infinite string $x \ge 0$:
+
+$$u_{tt} = c^{2} u_{xx}, \quad x>0,\; t>0$$
+
+with initial conditions
+
+$$u(x,0) = f(x), \quad u_t(x,0) = g(x) \quad (x\ge 0)$$
+
+and **a nonhomogeneous boundary condition**
+
+$$u(0,t) = h(t), \quad t\ge 0$$
+
+Thus, the difficulty comes from the fact that the boundary value at $x=0$ is not zero, so the standard odd-reflection D’Alembert method cannot be applied directly
+
+**STEP 1:** $~$ Constructing a Boundary-Generating Wave
+
+To handle the nonhomogeneous boundary condition, we first construct a function $w(x,t)$ that:
+
+* satisfies the wave equation,
+* satisfies the boundary condition $w(0,t) = h(t)$,
+* and does not affect the given initial data
+
+A convenient choice is a right-traveling wave of the form
+
+$$w(x,t) = H\!\left(t - \frac{x}{c}\right)$$
+
+where $H(s)$ is the causal extension of $h$:
+
+$$H(s)=
+\begin{cases}
+h(s), & s\ge 0,\\
+0, & s<0
+\end{cases}$$
+
+This function meets the boundary condition $w(0,t)=h(t)$ and has zero initial values:
+$$w(x,0)=0, \quad w_t(x,0)=0$$
+
+**STEP 2:** $~$ Reduction to a Homogeneous Boundary Problem
+
+Define $v(x,t) = u(x,t) - w(x,t)$. Then $v$ satisfies:
+
+* the same wave equation,
+  $$v_{tt} = c^{2} v_{xx}$$
+
+* homogeneous Dirichlet boundary condition
+  $$v(0,t) = u(0,t) - w(0,t) = h(t) - h(t) = 0$$
+
+* unchanged initial data,
+  $$v(x,0) = f(x), \quad v_t(x,0) = g(x)$$
+
+Thus, the original nonhomogeneous boundary-value problem is transformed into a standard homogeneous Dirichlet problem on a half-line, which can then be solved by odd reflection and the usual D’Alembert formula
+
+**Example** $\,$ Solve the wave equation on the half-line $x \ge 0$:
+
+$$u_{tt} = c^{2} u_{xx}, \quad x>0,\; t>0$$
+
+with initial conditions
+
+$$u(x,0) = f(x), \quad u_t(x,0) = g(x)$$
+
+and a nonhomogeneous Neumann boundary condition
+
+$$u_x(0,t) = p(t), \quad t \ge 0$$
+
+**STEP 1:** $~$ Constructing a Boundary-Induced Wave
+
+We construct a right-traveling wave of the form
+
+$$w(x,t) = -c\, P\!\left(t - \frac{x}{c}\right)$$
+
+where $P(s)$ is the causal antiderivative of $p(t)$:
+
+$$P(s)=
+\begin{cases}
+\displaystyle \int_{0}^{s} p(\tau)\, d\tau, & s\ge 0\\[6pt]
+0, & s<0
+\end{cases}$$
+
+This function satisfies $w_x(0,t)=p(t)$ and has zero initial values,
+
+$$w(x,0)=0,\quad w_t(x,0)=0$$
+
+so it produces exactly the incoming wave required by the boundary without disturbing the initial conditions
+
+**STEP 2:** $~$ Reduction to a Homogeneous Neumann Problem
+
+Define $v(x,t)=u(x,t)-w(x,t)$. Then $v$ satisfies
+
+* the same wave equation,
+  $$v_{tt}=c^{2}v_{xx}$$
+
+* a homogeneous Neumann boundary condition,
+  $$v_x(0,t)=u_x(0,t)-w_x(0,t)=p(t)-p(t)=0$$
+
+* and unchanged initial data,
+  $$v(x,0)=f(x), \qquad v_t(x,0)=g(x)$$
+
+Thus the original nonhomogeneous Neumann problem is transformed into a standard homogeneous Neumann half-line problem, which can then be solved by an even extension of the initial data and the classical D’Alembert formula
+
+$~$
+
+<font color="blue">**The Nonhomogeneous Wave Equation**</font>
 
   * We consider now the pure nonhomogeneous wave equation:
 
@@ -768,8 +879,11 @@ $~$
 
     Substituting the form of $G(x,t)$ and simplifying, we obtain the explicit D’Alembert-type integral solution
 
-  * The inner integral $\displaystyle \int_{x - c(t -\tau)}^{x + c(t -\tau)} F(\beta, \tau)\, d\beta$ represents 
-    the total effect of the forcing term $F$ over the spatial region that influences the point $x$ after time $t-\tau$
+  * The inner integral 
+  
+    $$\int_{x - c(t -\tau)}^{x + c(t -\tau)} F(\beta, \tau)\, d\beta$$ 
+    
+    represents the total effect of the forcing term $F$ over the spatial region that influences the point $x$ after time $t-\tau$
     It accounts for the wave propagation with speed $c$
 
   * The outer integral $\displaystyle \int_0^t (\cdots) \, d\tau$ sums up all the contributions over time 
