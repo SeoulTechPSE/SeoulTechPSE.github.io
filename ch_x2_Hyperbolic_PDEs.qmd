@@ -867,8 +867,11 @@ be the free solution (the D’Alembert wave produced by the initial data)
 Applying the convolution–delay rules of the Laplace transform gives the time-domain solution
 
 $$\boxed{
-u(x,t) =v_{\mathrm{free}}(x,t)
--\bigl(m * v_{\mathrm{free}}(0,\cdot)\bigr)\!\left(t-\frac{x}{c}\right),
+\begin{aligned}
+   u(x,t) &=v_{\mathrm{free}}(x,t)
+    -\bigl(m * v_{\mathrm{free}}(0,\cdot)\bigr)\!\left(t-\frac{x}{c}\right)\\
+   &=v_{\mathrm{free}}(x,t) +v_{\mathrm{free}}\left(0, t-\tfrac{x}{c}\right) +\frac{2\alpha c}{\beta} \int_0^{t -\tfrac{x}{c}} e^{\tfrac{\alpha c}{\beta}\left( t-\tfrac{x}{c} -s\right)} v_{\mathrm{free}}(0, s) \, ds
+\end{aligned}
 }$$
 
 valid for $t\ge x/c$, extended by causality for $t<x/c$
