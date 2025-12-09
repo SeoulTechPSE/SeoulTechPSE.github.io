@@ -691,7 +691,7 @@ u(r,\theta)
 <p>This last equation is what we were looking for; <span class="math inline">\(\,\)</span>it’s <font color="blue">the Poisson Integral Formula</font></p>
 <ul>
 <li><p>We can interpret the Poisson integral solution as finding the potential <span class="math inline">\(\,u\,\)</span> at <span class="math inline">\(\,(r,\theta)\,\)</span> as a weighted average of the boundary potentials <span class="math inline">\(\,g(\theta)\,\)</span> weighted by the Poisson kernel</p>
-<p><span class="math display">\[\text{Poisson kernel}=\frac{R^2 -r^2}{R^2 +r^2 -2rR\cos(\theta -\alpha)}\]</span></p>
+<p><span class="math display">\[\mathcal{P}(r,\theta)=\frac{1}{2\pi}\frac{R^2 -r^2}{R^2 +r^2 -2rR\cos(\theta -\alpha)}\]</span></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="figures/pde03_figure08.jpg" title="Poisson Kernel" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:45.0%"></p>
@@ -1166,15 +1166,15 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <p>Since</p>
 <p><span class="math display">\[ \scriptsize
 \begin{aligned}
-\left( 2r\frac{\partial}{\partial r} +1\right)
+\frac{1}{4\pi}\left( 2r\frac{\partial}{\partial r} +1\right)
 &amp;\frac{R}{\sqrt{r^2 +R^2 -2rR\cos\varphi'}}
-= \frac{R\left(R^2 -r^2\right)}{\left(r^2 +R^2 -2rR\cos\varphi'\right)^{3/2}} \\
-&amp;= \frac{\displaystyle 1 -\left(\frac{r}{R}\right)^2}{\displaystyle\left(1 +\left(\frac{r}{R}\right)^2 -2\frac{r}{R}\cos\varphi'\right)^{3/2}} = \mathcal{P}(r, R, \varphi')
+= \frac{1}{4\pi}\frac{R\left(R^2 -r^2\right)}{\left(r^2 +R^2 -2rR\cos\varphi'\right)^{3/2}} \\
+&amp;= \frac{1}{4\pi}\frac{\displaystyle 1 -\left(\frac{r}{R}\right)^2}{\displaystyle\left(1 +\left(\frac{r}{R}\right)^2 -2\frac{r}{R}\cos\varphi'\right)^{3/2}} = \mathcal{P}(r, R, \varphi')
 \end{aligned}\]</span></p>
 <p>where <span class="math inline">\(\,\left(r^2 +R^2 -2rR\cos\varphi'\right)^{1/2}\)</span> is the distance from the point <span class="math inline">\(\,(r,\phi,\theta)\,\)</span> to the point <span class="math inline">\(\,(R,\varphi,\vartheta)\)</span>, <span class="math inline">\(\,\)</span>thus, <span class="math inline">\(\,\)</span>the solution formula is equivalent to the integral formula</p>
 <p><span class="math display">\[
 \color{red}{u(r,\phi,\theta)
-=\frac{1}{4\pi} \int_0^{2\pi} \int_0^\pi
+= \int_0^{2\pi} \int_0^\pi
   \mathcal{P}(r, R, \varphi') \,
     g(\varphi,\vartheta) \sin\varphi \,d\varphi \,
     d\vartheta} \]</span></p>
@@ -1202,14 +1202,14 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <tr class="odd">
 <td><strong>2D</strong></td>
 <td>Unit disk <span class="math inline">\(D=\{\mathbf{x}\in\mathbb{R}^2:|\mathbf{x}|&lt;1\}\)</span></td>
-<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\boldsymbol{\xi}) = \frac{1 - |\mathbf{x}|^2}{|\mathbf{x} - \boldsymbol{\xi} |^2}\)</span></td>
-<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \frac{1}{2\pi}\int_{\partial D} \mathcal{P}(\mathbf{x},\boldsymbol{\xi})\, g(\boldsymbol{\xi})\, d\boldsymbol{\xi}\)</span></td>
+<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\boldsymbol{\xi}) = \frac{1}{2\pi}\frac{1 - |\mathbf{x}|^2}{|\mathbf{x} - \boldsymbol{\xi} |^2}\)</span></td>
+<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \int_{\partial D} \mathcal{P}(\mathbf{x},\boldsymbol{\xi})\, g(\boldsymbol{\xi})\, d\boldsymbol{\xi}\)</span></td>
 </tr>
 <tr class="even">
 <td><strong>3D</strong></td>
 <td>Unit ball <span class="math inline">\(B=\{\mathbf{x}\in\mathbb{R}^3:|\mathbf{x}|&lt;1\}\)</span></td>
-<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\boldsymbol{\xi})= \frac{1 - |\mathbf{x}|^2}{|\mathbf{x} - \boldsymbol{\xi}|^3}\)</span></td>
-<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \frac{1}{4\pi}\int_{\partial B} \mathcal{P}(\mathbf{x},\boldsymbol{\xi})\, g(\boldsymbol{\xi})\, d\boldsymbol{\xi}\)</span></td>
+<td><span class="math inline">\(\displaystyle \mathcal{P}(\mathbf{x},\boldsymbol{\xi})= \frac{1}{4\pi}\frac{1 - |\mathbf{x}|^2}{|\mathbf{x} - \boldsymbol{\xi}|^3}\)</span></td>
+<td><span class="math inline">\(\displaystyle u(\mathbf{x}) = \int_{\partial B} \mathcal{P}(\mathbf{x},\boldsymbol{\xi})\, g(\boldsymbol{\xi})\, d\boldsymbol{\xi}\)</span></td>
 </tr>
 </tbody>
 </table>
