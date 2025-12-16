@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./ch_07_Vectors.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -119,7 +120,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -368,6 +369,12 @@ window.Quarto = {
   <div class="sidebar-item-container"> 
   <a href="./x_Mandelbrot_set.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_hydrogen_orbital.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">Hydrogen Atomic Orbitals</span></span></a>
   </div>
 </li>
       </ul>
@@ -1884,8 +1891,8 @@ v &amp; 1 + u
 </ul>
 <p>So, the transformed region is:</p>
 <p><span class="math display">\[S = \left\{ (u, v) \ \middle| \ 0 \le u \le 2,\quad \frac{u^2}{4} - 1 \le v \le 1 - \frac{u^2}{4} \right\}\]</span></p>
-<div id="be688a25" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div id="77b0bf9b" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create u values</span></span>
@@ -1914,11 +1921,11 @@ v &amp; 1 + u
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="fl">1.1</span>, <span class="fl">1.1</span>)</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>plt.gca().set_aspect(<span class="st">'equal'</span>)</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-2-output-1.png" width="506" height="523" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2056,12 +2063,12 @@ a_N &amp;= \sqrt{4 - \frac{16t^2}{2 + 4t^2}} = \sqrt{ \frac{4(2 + 4t^2) - 16t^2}
 <p><span class="math display">\[(\nabla r^n) \times \mathbf{r} = (n r^{n-2} \mathbf{r}) \times \mathbf{r} = n r^{n-2} (\mathbf{r} \times \mathbf{r}) = n r^{n-2} \cdot \mathbf{0} = \mathbf{0}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>11.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\mathbf{v} = u(x,y) \mathbf{i} - v(x,y) \mathbf{j}\)</span> be an <strong>incompressible</strong>, <strong>irrotational</strong> velocity field</p>
-<p><span class="math inline">\((a)\)</span> Show that the functions <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> (which determine the component functions of <span class="math inline">\(\mathbf{v}\)</span>) satisfy the <strong>Cauchy-Riemann equations</strong></p>
+<p><strong>(a)</strong> Show that the functions <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> (which determine the component functions of <span class="math inline">\(\mathbf{v}\)</span>) satisfy the <strong>Cauchy-Riemann equations</strong></p>
 <p><span class="math display">\[\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y}\, \;\text{and}\; \,
   \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}\]</span></p>
-<p><span class="math inline">\((b)\)</span> Show that <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are <strong>harmonic</strong>, that is, that</p>
-<pre><code>$$\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}=0\, \;\text{and}\; \,
-\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0$$</code></pre>
+<p><strong>(b)</strong> Show that <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are <strong>harmonic</strong>, that is, that</p>
+<p><span class="math display">\[\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}=0\, \;\text{and}\; \,
+    \frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2} = 0\]</span></p>
 <p><strong>Solution</strong></p>
 <p>We are given a 2D velocity field and told that this flow is:</p>
 <ul>
@@ -2183,22 +2190,22 @@ x’^2+y’^2 &amp;=a^2\big((1-\cos t)^2+\sin^2 t\big) \\
 <p>Thus <span class="math display">\[\kappa(t)=\frac{a^2(1-\cos t)}{a^3 2^{3/2}(1-\cos t)^{3/2}}
 =\frac{1}{a\,2^{3/2}\sqrt{\,1-\cos t\,}}
 \]</span></p>
-<p>Using <span class="math inline">\(1-\cos t=2\sin^2(t/2)\)</span> this becomes the simpler form</p>
+<p>Using <span class="math inline">\(1-\cos t=2\sin^2(t/2)\)</span>, <span class="math inline">\(~\)</span> this becomes the simpler form</p>
 <p><span class="math display">\[\kappa(t)=\frac{1}{4a\,|\sin(t/2)|}\]</span></p>
-<p>At <span class="math inline">\(t=\pi\)</span>, <span class="math inline">\(\sin(\pi/2)=1\)</span>, so</p>
+<p>At <span class="math inline">\(t=\pi\)</span>, <span class="math inline">\(~\sin(\pi/2)=1\)</span>, so</p>
 <p><span class="math display">\[\boxed{\kappa(\pi)=\frac{1}{4a}}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>14.</strong> <span class="math inline">\(~\)</span> Find the osculating plane to the following circular helix at <span class="math inline">\(t=\pi/4\)</span></p>
 <p><span class="math display">\[\mathbf{r}(t) = -2 \sin t \mathbf{i} +2\cos t\mathbf{j} +3\mathbf{k}\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>Solution</strong></p>
-<p>For <span class="math inline">\(\mathbf r(t)=\left&lt;-2\sin t,\,2\cos t,\,3t \right&gt;\)</span>, the osculating plane at <span class="math inline">\(t_0\)</span> is the plane through <span class="math inline">\(\mathbf r(t_0)\)</span> whose normal is the binormal vector <span class="math display">\[\mathbf B(t_0)=\frac{\mathbf r’(t_0)\times\mathbf r’’(t_0)}{\|\mathbf r’(t_0)\times\mathbf r’’(t_0)\|}\]</span></p>
+<p>For <span class="math inline">\(\mathbf r(t)=\left&lt;-2\sin t,\,2\cos t,\,3 \right&gt;\)</span>, the osculating plane at <span class="math inline">\(t_0\)</span> is the plane through <span class="math inline">\(\mathbf r(t_0)\)</span> whose normal is the binormal vector <span class="math display">\[\mathbf B(t_0)=\frac{\mathbf r’(t_0)\times\mathbf r’’(t_0)}{\|\mathbf r’(t_0)\times\mathbf r’’(t_0)\|}\]</span></p>
 <p>Compute derivatives:</p>
-<p><span class="math display">\[\mathbf r’(t)=(-2\cos t,\,-2\sin t,\,3),\qquad
+<p><span class="math display">\[\mathbf r’(t)=(-2\cos t,\,-2\sin t,\,0),\qquad
 \mathbf r’’(t)=(2\sin t,\,-2\cos t,\,0)\]</span></p>
-<p>At <span class="math inline">\(t=\pi/4\)</span>: <span class="math display">\[\mathbf r\!\left(\tfrac{\pi}{4}\right)=\big(-\sqrt2,\;\sqrt2,\;3\pi/4\big)\]</span> and <span class="math display">\[\mathbf r’\!\left(\tfrac{\pi}{4}\right)\times\mathbf r’’\!\left(\tfrac{\pi}{4}\right)
-= \begin{pmatrix}3\sqrt2\\[4pt]3\sqrt2\\[4pt]4\end{pmatrix}\]</span></p>
-<p>Use this cross product as the plane normal. The osculating plane equation is <span class="math display">\[(3\sqrt2,\,3\sqrt2,\,4)\cdot\big((x,y,z)-(-\sqrt2,\sqrt2,3\pi/4)\big)=0\]</span> Expanding and simplifying gives the tidy form <span class="math display">\[\boxed{\,3\sqrt2\,(x+y)+4z=3\pi\,}\]</span> which is the osculating plane at <span class="math inline">\(t=\pi/4\)</span></p>
+<p>At <span class="math inline">\(t=\pi/4\)</span>: <span class="math display">\[\mathbf r\!\left(\tfrac{\pi}{4}\right)=\big(-\sqrt2,\;\sqrt2,\;3\big)\]</span> and <span class="math display">\[\mathbf r’\!\left(\tfrac{\pi}{4}\right)\times\mathbf r’’\!\left(\tfrac{\pi}{4}\right)
+= \begin{pmatrix}0\\[4pt]0\\[4pt]1\end{pmatrix}\]</span></p>
+<p>Use this cross product as the plane normal. The osculating plane equation is <span class="math display">\[(0,\,0,\,1)\cdot\big((x,y,z)-(-\sqrt2,\sqrt2,3)\big)=0\]</span> Expanding and simplifying gives the tidy form <span class="math display">\[\boxed{\,z=3\,}\]</span> which is the osculating plane at <span class="math inline">\(t=\pi/4\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <p><strong>15.</strong> <span class="math inline">\(~\)</span> Let <span class="math inline">\(\boldsymbol{\omega} = \nabla \times \mathbf{u}\)</span> represent the vorticity of an inviscid, barotropic fluid governed by the Euler equation</p>
 <p><span class="math display">\[\frac{D\mathbf{u}}{Dt} =-\frac{1}{\rho}\nabla p + \mathbf{f}\]</span></p>
@@ -2346,40 +2353,40 @@ u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}\;}\]</span></p>
 <li><p>The structure of <span class="math inline">\(\boldsymbol\omega\)</span> resembles a dipole-like poloidal vorticity: <span class="math inline">\(\omega_r\)</span> is odd in <span class="math inline">\(z\)</span> (changes sign across the <span class="math inline">\(z=0\)</span> plane), while <span class="math inline">\(\omega_z\)</span> has a quadrupolar character (combination of <span class="math inline">\(r^2\)</span> and <span class="math inline">\(z^2\)</span>). Vorticity lines (integral curves of <span class="math inline">\(\boldsymbol\omega\)</span>) lie in meridional planes and encircle/loop around the symmetry axis — qualitatively similar to a vortex ring/poloidal-dipole structure concentrated near the origin</p></li>
 <li><p>Physically this flow can be seen as an idealized concentrated swirl (azimuthal velocity decaying like <span class="math inline">\((\text{distance})^{-2}\)</span> for large distance because <span class="math inline">\(u_\theta\sim r/(r^2+z^2)^{3/2}\)</span>), and the computed <span class="math inline">\(\boldsymbol\omega\)</span> describes the local twisting/rotation of fluid elements produced by that swirl. The sign pattern indicates opposite vorticity above and below the midplane <span class="math inline">\(z=0\)</span> in the radial component, etc</p></li>
 </ul>
-<div id="ada4796c" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> colors</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid for r &gt; 0 region</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.linspace(<span class="fl">0.02</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">80</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>R, Z <span class="op">=</span> np.meshgrid(r, z)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define vorticity component ω_z</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>Z<span class="op">**</span><span class="dv">2</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>omega_z <span class="op">=</span> alpha <span class="op">*</span>(<span class="op">-</span>R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">2</span> <span class="op">*</span>Z<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span>s<span class="op">**</span>(<span class="fl">2.5</span>)</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute log10 of magnitude and preserve sign</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>log_omega <span class="op">=</span> np.sign(omega_z) <span class="op">*</span> np.log10(np.<span class="bu">abs</span>(omega_z) <span class="op">+</span> <span class="fl">1e-10</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Plot log-scaled ω_z ---</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">5</span>))</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>cont <span class="op">=</span> plt.contour(R, Z, log_omega, levels<span class="op">=</span><span class="dv">60</span>, cmap<span class="op">=</span><span class="st">"RdBu_r"</span>)</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>plt.colorbar(cont, label<span class="op">=</span><span class="vs">r"</span><span class="dv">$\m</span><span class="vs">athrm{sign}</span><span class="kw">(</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">)</span><span class="er">\</span><span class="vs">log_</span><span class="op">{10}</span><span class="cf">|</span><span class="er">\</span><span class="vs">omega_z</span><span class="cf">|</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r"Log-scaled </span><span class="dv">$</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">(</span><span class="vs">r,z</span><span class="kw">)</span><span class="dv">$</span><span class="vs"> for </span><span class="dv">$</span><span class="vs">r &gt; 0</span><span class="dv">$</span><span class="vs">"</span>)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$r$"</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$z$"</span>)</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"equal"</span>)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6d443967" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> colors</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Grid for r &gt; 0 region</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.linspace(<span class="fl">0.02</span>, <span class="dv">3</span>, <span class="dv">100</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">80</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>R, Z <span class="op">=</span> np.meshgrid(r, z)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Define vorticity component ω_z</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span>Z<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>omega_z <span class="op">=</span> alpha <span class="op">*</span>(<span class="op">-</span>R<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">2</span> <span class="op">*</span>Z<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span>s<span class="op">**</span>(<span class="fl">2.5</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute log10 of magnitude and preserve sign</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>log_omega <span class="op">=</span> np.sign(omega_z) <span class="op">*</span> np.log10(np.<span class="bu">abs</span>(omega_z) <span class="op">+</span> <span class="fl">1e-10</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Plot log-scaled ω_z ---</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">5</span>))</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>cont <span class="op">=</span> plt.contour(R, Z, log_omega, levels<span class="op">=</span><span class="dv">60</span>, cmap<span class="op">=</span><span class="st">"RdBu_r"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>plt.colorbar(cont, label<span class="op">=</span><span class="vs">r"</span><span class="dv">$\m</span><span class="vs">athrm{sign}</span><span class="kw">(</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">)</span><span class="er">\</span><span class="vs">log_</span><span class="op">{10}</span><span class="cf">|</span><span class="er">\</span><span class="vs">omega_z</span><span class="cf">|</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="vs">r"Log-scaled </span><span class="dv">$</span><span class="er">\</span><span class="vs">omega_z</span><span class="kw">(</span><span class="vs">r,z</span><span class="kw">)</span><span class="dv">$</span><span class="vs"> for </span><span class="dv">$</span><span class="vs">r &gt; 0</span><span class="dv">$</span><span class="vs">"</span>)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"$r$"</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$z$"</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>plt.axhline(<span class="dv">0</span>, color<span class="op">=</span><span class="st">'k'</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"equal"</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="ch_09_Vector_Calculus_files/figure-html/cell-3-output-1.png" width="346" height="450" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -2440,13 +2447,14 @@ u_z=-\frac{1}{r}\frac{\partial\Psi}{\partial r}\;}\]</span></p>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
