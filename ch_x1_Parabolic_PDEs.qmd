@@ -2727,3 +2727,230 @@ ani = animation.FuncAnimation(
 plt.close()
 HTML('<center>' + ani.to_html5_video() + '</center>')
 ```
+
+$~$
+
+**8.** $~$ Consider the heat equation on the interval $0 < x < 1$:
+$$
+u_t = u_{xx}
+$$
+subject to the boundary conditions
+$$
+u(0,t)=0, \quad u(1,t)=0
+$$
+and the initial condition
+$$
+u(x,0)=f(x)=x(1-x)
+$$
+
+**(a)** Find the solution $u(x,t)$ using separation of variables and Fourier sine series
+
+**(b)** Show explicitly that $u(x,t) \to 0$ uniformly as $t \to \infty$
+
+**Solution**
+
+**(a) Using separation of variables**
+
+The eigenfunctions for the Dirichlet problem on $(0,1)$ are
+$$
+X_n(x)=\sin(n\pi x), \quad n=1,2,3,\dots
+$$
+with eigenvalues
+$$
+\lambda_n = (n\pi)^2
+$$
+
+Thus the solution is
+$$
+u(x,t)=\sum_{n=1}^{\infty} b_n e^{-(n\pi)^2 t}\sin(n\pi x)
+$$
+
+We compute coefficients:
+$$
+b_n = 2\int_0^1 x(1-x)\sin(n\pi x)\, dx
+$$
+
+A standard integral computation gives
+$$
+b_n = \frac{4}{(n\pi)^3}\left[1 - (-1)^n\right]
+$$
+
+Thus
+$$
+u(x,t)=\sum_{\substack{n=1\\ n\text{ odd}}}^{\infty}
+\frac{8}{(n\pi)^3} e^{-(n\pi)^2 t}\sin(n\pi x)
+$$
+
+$~$
+
+**(b) Show $u(x,t)\to 0$ as $t\to\infty$**
+
+Each term satisfies
+$$
+\left| \frac{8}{(n\pi)^3}e^{-(n\pi)^2 t}\sin(n\pi x) \right|
+\le \frac{8}{(n\pi)^3}e^{-(n\pi)^2 t}
+$$
+and the series
+$$
+\sum_{n=1}^{\infty}\frac{1}{(n\pi)^3}
+$$
+converges
+
+By the Weierstrass M-test, the solution converges uniformly for each $t$, and the factor  $e^{-(n\pi)^2 t} \to 0$ exponentially. Therefore
+$$
+u(x,t)\to 0 \quad \text{uniformly}
+$$
+
+$~$
+
+**9.** $~$ Consider the inhomogeneous heat equation:
+$$
+u_t = u_{xx} + e^{-t}x^2
+$$
+on the whole line $-\infty < x < \infty$, with initial condition
+$$
+u(x,0)=0
+$$
+
+**(a)** Use Duhamel’s principle to express $u(x,t)$ in integral form involving the heat kernel
+$$
+G(x,t)=\frac{1}{2\sqrt{\pi t}}\exp\!\left(-\frac{x^2}{4t}\right)
+$$
+
+**(b)** Evaluate the integral explicitly and simplify the final closed-form expression
+
+**Solution**
+
+**(a) Duhamel formula**
+
+For inhomogeneous forcing $F(x,t)=e^{-t}x^2$, Duhamel’s principle gives
+$$
+u(x,t)=\int_0^t \int_{-\infty}^{\infty}
+G(x-\xi, t-\tau) e^{-\tau} \xi^2 \, d\xi\, d\tau
+$$
+
+Thus the integral representation is
+$$
+u(x,t)=
+\int_0^t e^{-\tau}
+\left[\frac{1}{2\sqrt{\pi (t-\tau)}} \int_{-\infty}^{\infty}
+\exp\!\left(-\frac{(x-\xi)^2}{4(t-\tau)}\right)
+\xi^2 \, d\xi
+\right] d\tau
+$$
+
+$~$
+
+**(b) Evaluate the Gaussian integral**
+
+We use the standard identity
+$$
+\int_{-\infty}^{\infty} \xi^2
+\exp\!\left(-\frac{(x-\xi)^2}{4a}\right) d\xi
+=
+2\sqrt{\pi a}\,(x^2 +2a),
+\qquad a=t-\tau
+$$
+
+Thus the inner integral is
+$$
+\int_{-\infty}^{\infty}
+G(x-\xi,t-\tau)\, \xi^2\, d\xi
+=
+x^2 +2(t-\tau)
+$$
+
+Therefore
+$$
+u(x,t)
+=
+\int_0^t e^{-\tau}\left[x^2 + 2(t-\tau)\right]\, d\tau
+$$
+
+Hence the final closed form is
+$$
+\boxed{\,u(x,t)
+= 2t +(x^2-2)(1-e^{-t})\,}
+$$
+
+$~$
+
+**10.** $~$ Consider the heat equation on the half-line $x>0$ with Dirichlet boundary at $x=0$:
+
+$$
+\begin{cases}
+u_t(x,t)=u_{xx}(x,t), & x>0,\; t>0, \\[4pt]
+u(0,t)=0, & t>0, \\[4pt]
+u(x,0)=u_0(x), & x\ge0
+\end{cases}
+$$
+
+**(a)**  Using the method of images, derive the integral representation of the solution in terms of the heat kernel $G(x,t)=\dfrac{1}{2\sqrt{\pi t}}e^{-x^2/(4t)}$
+
+**(b)** Let $u_0(x)=\mathbf{1}_{[0,a]}(x)$ for some fixed $a>0$. Compute $u(x,t)$ explicitly (expressions with $\operatorname{erf}$ are acceptable). Then determine the pointwise limit $\displaystyle\lim_{t\to\infty}u(x,t)$ for each fixed $x\ge0$ and briefly justify the result
+
+$~$
+
+**Solution**
+
+**(a) Method of images and integral representation**
+
+Let the heat kernel on the whole line be
+$$
+G(x,t)=\frac{1}{2\sqrt{\pi t}}e^{-x^2/(4t)},\qquad t>0
+$$
+To enforce the Dirichlet condition $u(0,t)=0$, extend the initial data $u_0$ to an odd function $\widetilde u_0$ on $\mathbb{R}$:
+$$
+\widetilde u_0(\xi)=
+\begin{cases}
+u_0(\xi), & \xi\ge0,\\[4pt]
+-\,u_0(-\xi), & \xi<0
+\end{cases}
+$$
+The solution on the whole line with initial data $\widetilde u_0$ is
+$$
+\widetilde u(x,t)=\int_{-\infty}^{\infty} G(x-\xi,t)\,\widetilde u_0(\xi)\,d\xi
+$$
+Restricting to $x\ge0$ and using oddness of $\widetilde u_0$ gives the half-line solution
+$$
+\boxed{%
+u(x,t)=\int_0^{\infty}\!\big( G(x-\xi,t)-G(x+\xi,t)\big)\,u_0(\xi)\,d\xi,\quad x\ge0,\ t>0%
+}
+$$
+One readily checks $u(0,t)=0$ and that $u$ satisfies the heat equation for $x>0$
+
+**(b) Indicator initial data and long-time limit**
+
+Take $u_0(\xi)=\mathbf{1}_{[0,a]}(\xi)$ with fixed $a>0$. Then
+$$
+u(x,t)=\int_0^a G(x-\xi,t)-G(x+\xi,t)\,d\xi
+$$
+Compute each convolution term by the primitive of the Gaussian. Using the error function
+$$
+\operatorname{erf}(z)=\frac{2}{\sqrt{\pi}}\int_0^z e^{-\xi^2}\,d\xi
+\quad\text{and}\quad
+\int_{-\infty}^z \frac{1}{2\sqrt{\pi t}} e^{-\xi^2/(4t)}\,d\xi
+= \frac{1}{2}\operatorname{erf}\!\left(\frac{z}{2\sqrt{t}}\right)+\frac{1}{2}
+$$
+
+one convenient form for $u(x,t)$ is
+
+$$\begin{aligned}
+ u(x,t)
+  &=\frac{1}{2}\left[\operatorname{erf}\!\left(\frac{x}{2\sqrt{t}}\right) 
+   -\operatorname{erf}\!\left(\frac{x-a}{2\sqrt{t}}\right)\right]
+   -\frac{1}{2}\left[\operatorname{erf}\!\left(\frac{x+a}{2\sqrt{t}}\right)-\operatorname{erf}\!\left(\frac{x}{2\sqrt{t}}\right)\right] \\
+  &=\operatorname{erf}\!\left(\frac{x}{2\sqrt{t}}\right)
+   -\frac{1}{2}\left[\operatorname{erf}\!\left(\frac{x-a}{2\sqrt{t}}\right) 
+   +\operatorname{erf}\!\left(\frac{x+a}{2\sqrt{t}}\right)\right]
+\end{aligned}$$
+
+Fix $x\ge 0$. $\;$ As $t\to\infty$, we have
+$$
+\frac{x\pm a}{2\sqrt{t}}\to 0,\qquad \frac{x}{2\sqrt{t}}\to 0
+$$
+and $\operatorname{erf}(0)=0$. Therefore each error-function term tends to $0$, $\,$so
+
+$$
+\lim_{t\to\infty} u(x,t)=0,\qquad\text{for every fixed }x\ge0
+$$
