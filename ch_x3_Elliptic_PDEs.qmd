@@ -1857,3 +1857,141 @@ u(r, \theta) &= \frac{1}{2} + \frac{1}{2 \log 2} \log r + \left( -\frac{1}{3}r +
 }$$
 
 This is the harmonic function in the annulus $1 < r < 2$ satisfying the given Dirichlet boundary conditions
+
+$~$
+
+**5.** $~$ Consider the Laplace equation on the upper half-plane:
+
+$$
+\begin{aligned}
+\nabla^2 u(x,y)=0, && y>0, \\[4pt]
+u(x,0)=\phi(x), && x\in\mathbb{R}
+\end{aligned}$$
+
+where $\phi\in L^\infty(\mathbb{R})$
+
+**(a)** Starting from the Fourier transform method, derive the Poisson kernel $\mathcal{P}$
+
+**(b)** Show that the solution can be expressed as the Poisson integral
+$$u(x,y) = \int_{\mathbb{R}} \mathcal{P}(x-\xi, y)\, \phi(\xi)\, d\xi.$$
+
+**(c)** Let
+$$\phi(x)=
+\begin{cases}
+1, & |x|<1,\\
+0, & |x|\ge 1
+\end{cases}$$
+Compute $u(0,y)$ explicitly in terms of the arctangent function
+
+$~$
+
+**Hint:** $$
+\int \frac{1}{\xi^2+y^2}\,d\xi = \frac{1}{y} \arctan\left(\frac{\xi}{y}\right)+C
+$$
+
+**Solution**
+
+**(a) Derivation of the Poisson kernel**
+
+Take the Fourier transform in $x$ of the harmonic function $u(\cdot,\,y)$ for each fixed $y>0$:
+
+$$
+\widehat{u}(\omega,y)=\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}} e^{-i\omega x} u(x,y)\,dx
+$$
+
+Applying the Laplace equation $u_{xx}+u_{yy}=0$ and transforming in $x$ gives the ODE in $y$:
+
+$$
+\frac{\partial^2}{\partial y^2} \widehat{u}(k,y) - \omega^2 \widehat{u}(\omega,y)=0
+$$
+
+The general solution (for fixed $\omega$) is
+
+$$
+\widehat{u}(\omega,y)=A(\omega)e^{|\omega|y}+B(\omega)e^{-|\omega|y}
+$$
+
+For $u(\cdot,\,y)$ to remain bounded as $y\to+\infty$, $\,$ we must set $A(\omega)=0$. The boundary condition $u(x,0)=\phi(x)$ implies
+
+$$
+\widehat{u}(\omega,0)=\widehat{\phi}(\omega)=B(\omega)
+$$
+
+Hence
+
+$$
+\widehat{u}(\omega,y)=\widehat{\phi}(\omega) e^{-|\omega|y}
+$$
+
+Invert the Fourier transform:
+
+$$
+u(x,y) = \frac{1}{\sqrt{2\pi}} \int_{\mathbb{R}} \widehat{\phi}(\omega) e^{-|\omega|y}\,e^{i\omega x}\, d\omega
+$$
+
+Write $\displaystyle\widehat{\phi}(\omega)=\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}} e^{-i\omega\xi} \phi(\xi)\, d\xi\;$ and interchange integrals to obtain
+
+$$
+u(x,y)=\int_{\mathbb{R}} \left(\frac{1}{2\pi} \int_{\mathbb{R}} e^{i\omega (x-\xi)} e^{-|\omega|y}\, d\omega\right) \phi(\xi)\, d\xi
+$$
+
+The inner integral is the inverse Fourier transform of $e^{-|\omega|y}$ to $z=x-\xi$ coordinate. A standard computation yields
+
+$$
+\frac{1}{2\pi} \int_{\mathbb{R}} e^{i\omega z} e^{-|\omega|y}\, d\omega = \frac{1}{\pi}\frac{y}{z^2+y^2} = \mathcal{P}(z,y)
+$$
+
+so that the Poisson kernel for the upper half-plane is
+
+$$
+\boxed{\; \mathcal{P}(z,y)=\frac{1}{\pi}\frac{y}{z^2+y^2}, \quad y>0 \; }
+$$
+
+One way to compute the inverse transform is to split the integral into $\omega>0$ and $\omega<0$ and evaluate each as a complex exponential integral
+
+**(b) Poisson integral representation**
+
+Plugging the kernel found above into the expression for $u(x,y)$ gives
+
+$$
+\boxed{\; u(x,y)=\int_{\mathbb{R}} P(x-\xi,y)\,\phi(\xi)\, d\xi \; }
+$$
+
+which is harmonic in $y>0$, continuous in $x$ for each fixed $y>0$, and reproduces boundary values in the sense of non-tangential limits under mild regularity assumptions on $\phi$
+
+**(c) Explicit value at $x=0$ for indicator data**
+
+With $\phi=\mathbf{1}_{(-1,1)}$ we have
+
+$$
+u(0,y)=\int_{\mathbb{R}} P(-\xi,y)\,\mathbf{1}_{(-1,1)}\,d\xi
+= \int_{-1}^{1} \frac{1}{\pi}\frac{y}{\xi^2+y^2}\,d\xi
+$$
+
+Directly using the antiderivative of $1/(\xi^2+y^2)$:
+
+$$
+\int \frac{1}{\xi^2+y^2}\,d\xi = \frac{1}{y} \arctan\left(\frac{\xi}{y}\right)+C
+$$
+
+Hence
+
+$$
+u(0,y)=\frac{y}{\pi} \left[ \frac{1}{y} \arctan\left(\frac{\xi}{y}\right) \right]_{\xi=-1}^{\xi=1}
+= \frac{1}{\pi} \left[ \arctan\left(\frac{1}{y}\right) - \arctan\left( -\frac{1}{y} \right) \right]
+$$
+
+Using the oddness of $\arctan$, this simplifies to
+
+$$
+u(0,y)=\frac{2}{\pi} \arctan\left(\frac{1}{y}\right), \quad y>0
+$$
+
+**Boundary limit.** As $y\to 0$ we have $\arctan(1/y)\to \pi/2$, so
+
+$$
+\lim_{y\to 0} u(0,y)=\frac{2}{\pi}\cdot \frac{\pi}{2} = 1
+$$
+
+which equals the boundary value $\phi(0)=1$. This is consistent with the Poisson integral reproducing the continuous boundary values. If $\phi$ had discontinuities, the Poisson integral would converge to the average of the lateral limits at the discontinuity
+

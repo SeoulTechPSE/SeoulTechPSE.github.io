@@ -1795,6 +1795,94 @@ u(r, \theta) &amp;= \frac{1}{2} + \frac{1}{2 \log 2} \log r + \left( -\frac{1}{3
 \end{aligned}
 }\]</span></p>
 <p>This is the harmonic function in the annulus <span class="math inline">\(1 &lt; r &lt; 2\)</span> satisfying the given Dirichlet boundary conditions</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>5.</strong> <span class="math inline">\(~\)</span> Consider the Laplace equation on the upper half-plane:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\nabla^2 u(x,y)=0, &amp;&amp; y&gt;0, \\[4pt]
+u(x,0)=\phi(x), &amp;&amp; x\in\mathbb{R}
+\end{aligned}\]</span></p>
+<p>where <span class="math inline">\(\phi\in L^\infty(\mathbb{R})\)</span></p>
+<p><strong>(a)</strong> Starting from the Fourier transform method, derive the Poisson kernel <span class="math inline">\(\mathcal{P}\)</span></p>
+<p><strong>(b)</strong> Show that the solution can be expressed as the Poisson integral <span class="math display">\[u(x,y) = \int_{\mathbb{R}} \mathcal{P}(x-\xi, y)\, \phi(\xi)\, d\xi.\]</span></p>
+<p><strong>(c)</strong> Let <span class="math display">\[\phi(x)=
+\begin{cases}
+1, &amp; |x|&lt;1,\\
+0, &amp; |x|\ge 1
+\end{cases}\]</span> Compute <span class="math inline">\(u(0,y)\)</span> explicitly in terms of the arctangent function</p>
+<p><span class="math inline">\(~\)</span></p>
+<p><strong>Hint:</strong> <span class="math display">\[
+\int \frac{1}{\xi^2+y^2}\,d\xi = \frac{1}{y} \arctan\left(\frac{\xi}{y}\right)+C
+\]</span></p>
+<p><strong>Solution</strong></p>
+<p><strong>(a) Derivation of the Poisson kernel</strong></p>
+<p>Take the Fourier transform in <span class="math inline">\(x\)</span> of the harmonic function <span class="math inline">\(u(\cdot,\,y)\)</span> for each fixed <span class="math inline">\(y&gt;0\)</span>:</p>
+<p><span class="math display">\[
+\widehat{u}(\omega,y)=\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}} e^{-i\omega x} u(x,y)\,dx
+\]</span></p>
+<p>Applying the Laplace equation <span class="math inline">\(u_{xx}+u_{yy}=0\)</span> and transforming in <span class="math inline">\(x\)</span> gives the ODE in <span class="math inline">\(y\)</span>:</p>
+<p><span class="math display">\[
+\frac{\partial^2}{\partial y^2} \widehat{u}(k,y) - \omega^2 \widehat{u}(\omega,y)=0
+\]</span></p>
+<p>The general solution (for fixed <span class="math inline">\(\omega\)</span>) is</p>
+<p><span class="math display">\[
+\widehat{u}(\omega,y)=A(\omega)e^{|\omega|y}+B(\omega)e^{-|\omega|y}
+\]</span></p>
+<p>For <span class="math inline">\(u(\cdot,\,y)\)</span> to remain bounded as <span class="math inline">\(y\to+\infty\)</span>, <span class="math inline">\(\,\)</span> we must set <span class="math inline">\(A(\omega)=0\)</span>. The boundary condition <span class="math inline">\(u(x,0)=\phi(x)\)</span> implies</p>
+<p><span class="math display">\[
+\widehat{u}(\omega,0)=\widehat{\phi}(\omega)=B(\omega)
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+\widehat{u}(\omega,y)=\widehat{\phi}(\omega) e^{-|\omega|y}
+\]</span></p>
+<p>Invert the Fourier transform:</p>
+<p><span class="math display">\[
+u(x,y) = \frac{1}{\sqrt{2\pi}} \int_{\mathbb{R}} \widehat{\phi}(\omega) e^{-|\omega|y}\,e^{i\omega x}\, d\omega
+\]</span></p>
+<p>Write <span class="math inline">\(\displaystyle\widehat{\phi}(\omega)=\frac{1}{\sqrt{2\pi}}\int_{\mathbb{R}} e^{-i\omega\xi} \phi(\xi)\, d\xi\;\)</span> and interchange integrals to obtain</p>
+<p><span class="math display">\[
+u(x,y)=\int_{\mathbb{R}} \left(\frac{1}{2\pi} \int_{\mathbb{R}} e^{i\omega (x-\xi)} e^{-|\omega|y}\, d\omega\right) \phi(\xi)\, d\xi
+\]</span></p>
+<p>The inner integral is the inverse Fourier transform of <span class="math inline">\(e^{-|\omega|y}\)</span> to <span class="math inline">\(z=x-\xi\)</span> coordinate. A standard computation yields</p>
+<p><span class="math display">\[
+\frac{1}{2\pi} \int_{\mathbb{R}} e^{i\omega z} e^{-|\omega|y}\, d\omega = \frac{1}{\pi}\frac{y}{z^2+y^2} = \mathcal{P}(z,y)
+\]</span></p>
+<p>so that the Poisson kernel for the upper half-plane is</p>
+<p><span class="math display">\[
+\boxed{\; \mathcal{P}(z,y)=\frac{1}{\pi}\frac{y}{z^2+y^2}, \quad y&gt;0 \; }
+\]</span></p>
+<p>One way to compute the inverse transform is to split the integral into <span class="math inline">\(\omega&gt;0\)</span> and <span class="math inline">\(\omega&lt;0\)</span> and evaluate each as a complex exponential integral</p>
+<p><strong>(b) Poisson integral representation</strong></p>
+<p>Plugging the kernel found above into the expression for <span class="math inline">\(u(x,y)\)</span> gives</p>
+<p><span class="math display">\[
+\boxed{\; u(x,y)=\int_{\mathbb{R}} P(x-\xi,y)\,\phi(\xi)\, d\xi \; }
+\]</span></p>
+<p>which is harmonic in <span class="math inline">\(y&gt;0\)</span>, continuous in <span class="math inline">\(x\)</span> for each fixed <span class="math inline">\(y&gt;0\)</span>, and reproduces boundary values in the sense of non-tangential limits under mild regularity assumptions on <span class="math inline">\(\phi\)</span></p>
+<p><strong>(c) Explicit value at <span class="math inline">\(x=0\)</span> for indicator data</strong></p>
+<p>With <span class="math inline">\(\phi=\mathbf{1}_{(-1,1)}\)</span> we have</p>
+<p><span class="math display">\[
+u(0,y)=\int_{\mathbb{R}} P(-\xi,y)\,\mathbf{1}_{(-1,1)}\,d\xi
+= \int_{-1}^{1} \frac{1}{\pi}\frac{y}{\xi^2+y^2}\,d\xi
+\]</span></p>
+<p>Directly using the antiderivative of <span class="math inline">\(1/(\xi^2+y^2)\)</span>:</p>
+<p><span class="math display">\[
+\int \frac{1}{\xi^2+y^2}\,d\xi = \frac{1}{y} \arctan\left(\frac{\xi}{y}\right)+C
+\]</span></p>
+<p>Hence</p>
+<p><span class="math display">\[
+u(0,y)=\frac{y}{\pi} \left[ \frac{1}{y} \arctan\left(\frac{\xi}{y}\right) \right]_{\xi=-1}^{\xi=1}
+= \frac{1}{\pi} \left[ \arctan\left(\frac{1}{y}\right) - \arctan\left( -\frac{1}{y} \right) \right]
+\]</span></p>
+<p>Using the oddness of <span class="math inline">\(\arctan\)</span>, this simplifies to</p>
+<p><span class="math display">\[
+u(0,y)=\frac{2}{\pi} \arctan\left(\frac{1}{y}\right), \quad y&gt;0
+\]</span></p>
+<p><strong>Boundary limit.</strong> As <span class="math inline">\(y\to 0\)</span> we have <span class="math inline">\(\arctan(1/y)\to \pi/2\)</span>, so</p>
+<p><span class="math display">\[
+\lim_{y\to 0} u(0,y)=\frac{2}{\pi}\cdot \frac{\pi}{2} = 1
+\]</span></p>
+<p>which equals the boundary value <span class="math inline">\(\phi(0)=1\)</span>. This is consistent with the Poisson integral reproducing the continuous boundary values. If <span class="math inline">\(\phi\)</span> had discontinuities, the Poisson integral would converge to the average of the lateral limits at the discontinuity</p>
 
 
 </section>
