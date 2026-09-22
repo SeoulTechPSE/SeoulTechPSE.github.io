@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>14&nbsp; Elliptic Partial Differential Equations – Engineering Mathematics</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -34,15 +37,14 @@ ul.task-list li input[type="checkbox"] {
 <link href="./ch_x2_Hyperbolic_PDEs.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -72,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -314,32 +316,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./x_PDE_dedalus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">DEDALUS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">The FEniCS computing platform</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./x_matplotlib.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_Mandelbrot_set.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_hydrogen_orbital.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">N</span>&nbsp; <span class="chapter-title">Hydrogen Atomic Orbitals</span></span></a>
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Hydrogen Atomic Orbitals</span></span></a>
   </div>
 </li>
       </ul>
@@ -1220,7 +1210,7 @@ u(R,\phi,\theta) &amp;= g(\phi,\theta)\\
 <li><p>A common problem in applied mathematics is to find the potential in some region of space in response to a forcing term <span class="math inline">\(\,f\)</span>. <span class="math inline">\(\,\)</span>A typical example would be to find the potential inside a circle in two dimensions that satisfies</p>
 <p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-f(r,\theta), \;\;\;0 &lt; r &lt; 1 \]</span></p>
 <p><span class="math display">\[ u(1,\theta) = 0, \;\;\; 0 \leq \theta &lt; 2\pi \]</span></p></li>
-<li><p>Note that we have chosen the boundary values to be zero. <span class="math inline">\(\,\)</span><font color="red">If we wanted to solve the general case, where both the equation and BC were nonhomogeneous, <span class="math inline">\(\,\)</span>we could add the Poisson integral formula from <a href="#sec-x3-33" class="quarto-xref"><span>Section 14.3</span></a> to the solution from this section</font></p></li>
+<li><p>Note that we have chosen the boundary values to be zero. <span class="math inline">\(\,\)</span><font color="red">If we wanted to solve the general case, where both the equation and BC were nonhomogeneous, <span class="math inline">\(\,\)</span>we could add the Poisson integral formula from <a href="#sec-x3-33" class="quarto-xref"><span class="quarto-unresolved-ref">sec-x3-33</span></a> to the solution from this section</font></p></li>
 <li><p>In order to gain a little intuition about nonhomogeneous differential equations, <span class="math inline">\(\,\)</span>let’s consider graphing the solution to the following Poisson equation:</p>
 <p><span class="math display">\[ u_{rr} +\frac{1}{r}u_r + \frac{1}{r^2} u_{\theta\theta}=-q, \quad 0 &lt; r &lt; 1 \]</span></p>
 <p><span class="math display">\[ u(1,\theta) = 0, \quad 0 \leq \theta &lt; 2\pi \]</span></p>
@@ -1386,7 +1376,7 @@ b_{nm}(r)
    \,\rho^2 \,d\rho
 \end{aligned}
 \tag{SG}\label{eq:SG}\]</span></p>
-<p>where (See <a href="ch_03_Higher-Order_Differential_Equations.html#sec-GF" class="quarto-xref"><span>Section 3.10</span></a>)</p>
+<p>where (See <a href="#sec-GF" class="quarto-xref"><span class="quarto-unresolved-ref">sec-GF</span></a>)</p>
 <p><span class="math display">\[ \scriptsize G_n(r,\rho) =
 \begin{cases}
 \displaystyle\frac{1}{(2n +1)R}\left(\frac{r}{R} \right)^n\left[\left(\frac{\rho}{R} \right)^{-(n+1)} -\left(\frac{\rho}{R} \right)^{n} \right] &amp; \text{ for } r \leq \rho \\

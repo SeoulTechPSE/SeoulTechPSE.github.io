@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Appendix F — Interpolation – Engineering Mathematics</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -119,7 +122,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -295,7 +298,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Numpy: Vectors, Matrices, and Multidimensional Arrays</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -348,26 +351,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./x_PDE_dedalus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">DEDALUS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Adaptive mesh refinement with GMSH/FEniCSx</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./x_matplotlib.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_Mandelbrot_set.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_hydrogen_orbital.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Hydrogen Atomic Orbitals</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,13 +415,13 @@ window.Quarto = {
 <section id="importing-modules" class="level2" data-number="F.1">
 <h2 data-number="F.1" class="anchored" data-anchor-id="importing-modules"><span class="header-section-number">F.1</span> Importing modules</h2>
 <div id="59f1df31" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> polynomial <span class="im">as</span> P</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> interpolate</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> linalg</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib <span class="im">as</span> mpl</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="interpolation" class="level2" data-number="F.2">
@@ -464,8 +461,8 @@ window.Quarto = {
 <p>by passing the list <code>[1, 2, 3]</code> to the <code>Polynomial</code> class:</p></li>
 </ul>
 <div id="8981f884" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> P.Polynomial([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> P.Polynomial([<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>])</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <p><span class="math inline">\(x \mapsto \text{1.0} + \text{2.0}\,x + \text{3.0}\,x^{2}\)</span></p>
 </div>
@@ -474,7 +471,7 @@ window.Quarto = {
 <li>In the examples above, the first of the lists <code>coef</code> is the coefficient array and the second and third lists are the <code>domain</code> and <code>window</code> attributes</li>
 </ul>
 <div id="b858b478" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p1.coef, p1.domain, p1.window</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p1.coef, p1.domain, p1.window</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>(array([1., 2., 3.]), array([-1.,  1.]), array([-1.,  1.]))</code></pre>
 </div>
@@ -483,8 +480,8 @@ window.Quarto = {
 <li>Alternatively, we can also initialize a polynomial by specifying its roots using the class method <code>P.Polynomial.fromroots</code>. The polynomial with roots at <span class="math inline">\(x=-1\)</span> and <span class="math inline">\(x=1\)</span>, for example, can be created using:</li>
 </ul>
 <div id="f9943555" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> P.Polynomial.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> P.Polynomial.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <p><span class="math inline">\(x \mapsto \text{-1.0}\color{LightGray}{ + \text{0.0}\,x} + \text{1.0}\,x^{2}\)</span></p>
 </div>
@@ -494,13 +491,13 @@ window.Quarto = {
 <li>The roots of a polynomial can be computed using the <code>roots</code> method</li>
 </ul>
 <div id="f5716fe5" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p1.roots()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p1.roots()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>array([-0.33333333-0.47140452j, -0.33333333+0.47140452j])</code></pre>
 </div>
 </div>
 <div id="b6b89516" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p2.roots()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p2.roots()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([-1.,  1.])</code></pre>
 </div>
@@ -509,7 +506,7 @@ window.Quarto = {
 <li>To evaluate the polynomial <code>p1</code> at the points <span class="math inline">\(x=[1.5, 2.5, 3.5]\)</span>, we simply call the <code>p1</code> class instance with a list of <span class="math inline">\(x\)</span> values as this argument:</li>
 </ul>
 <div id="3a9fc09b" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p1(np.array([<span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p1(np.array([<span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>array([10.75, 24.75, 44.75])</code></pre>
 </div>
@@ -518,39 +515,39 @@ window.Quarto = {
 <li>Consider addition, subtraction, multiplication, and division of the polynomial <span class="math inline">\(p_1(x) = (x -3)(x -2)(x -1)\)</span> with the polynomial <span class="math inline">\(p_2(x) = (x -2)\)</span></li>
 </ul>
 <div id="d76cf72e" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> P.Polynomial.fromroots([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> P.Polynomial.fromroots([<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> P.Polynomial.fromroots([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> P.Polynomial.fromroots([<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="41093add" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> p1 <span class="op">+</span> p2</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p3 <span class="op">=</span> p1 <span class="op">+</span> p2</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>p3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
 <p><span class="math inline">\(x \mapsto \text{-8.0} + \text{12.0}\,x - \text{6.0}\,x^{2} + \text{1.0}\,x^{3}\)</span></p>
 </div>
 </div>
 <div id="355f7625" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="op">=</span> p1 <span class="op">-</span> p2</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="op">=</span> p1 <span class="op">-</span> p2</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
 <p><span class="math inline">\(x \mapsto \text{-4.0} + \text{10.0}\,x - \text{6.0}\,x^{2} + \text{1.0}\,x^{3}\)</span></p>
 </div>
 </div>
 <div id="45d68e2a" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="op">=</span> p1 <span class="op">*</span> p2</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p5 <span class="op">=</span> p1 <span class="op">*</span> p2</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>p5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="11">
 <p><span class="math inline">\(x \mapsto \text{12.0} - \text{28.0}\,x + \text{23.0}\,x^{2} - \text{8.0}\,x^{3} + \text{1.0}\,x^{4}\)</span></p>
 </div>
 </div>
 <div id="d68b1c83" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p6 <span class="op">=</span> p1 <span class="op">//</span> p2</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p6</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>p6 <span class="op">=</span> p1 <span class="op">//</span> p2</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>p6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="12">
 <p><span class="math inline">\(x \mapsto \text{3.0} - \text{4.0}\,x + \text{1.0}\,x^{2}\)</span></p>
 </div>
 </div>
 <div id="8eb84ebc" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p6.roots()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p6.roots()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>array([1., 3.])</code></pre>
 </div>
@@ -562,41 +559,41 @@ window.Quarto = {
 <p>where <span class="math inline">\(T_i(x)\)</span> is the Chebyshev polynomial of order <span class="math inline">\(i\)</span>, can be created using:</p></li>
 </ul>
 <div id="539ec2e9" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> P.Chebyshev([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>c1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> P.Chebyshev([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>c1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="14">
 <p><span class="math inline">\(x \mapsto \text{1.0}\,{T}_{0}(x) + \text{2.0}\,{T}_{1}(x) + \text{3.0}\,{T}_{2}(x)\)</span></p>
 </div>
 </div>
 <div id="67c21575" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>c1.roots()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>c1.roots()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
 <pre><code>array([-0.76759188,  0.43425855])</code></pre>
 </div>
 </div>
 <hr>
 <div id="a03ceda1" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> P.Chebyshev.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>c1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> P.Chebyshev.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>c1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="16">
 <p><span class="math inline">\(x \mapsto \text{-0.5}\,{T}_{0}(x)\color{LightGray}{ + \text{0.0}\,{T}_{1}(x)} + \text{0.5}\,{T}_{2}(x)\)</span></p>
 </div>
 </div>
 <div id="28c34d94" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>l1 <span class="op">=</span> P.Legendre.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>l1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>l1 <span class="op">=</span> P.Legendre.fromroots([<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>l1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="17">
 <p><span class="math inline">\(x \mapsto \text{-0.66666667}\,{P}_{0}(x)\color{LightGray}{ + \text{0.0}\,{P}_{1}(x)} + \text{0.66666667}\,{P}_{2}(x)\)</span></p>
 </div>
 </div>
 <div id="3d0de6e3" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>c1(np.array([<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>c1(np.array([<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>array([-0.75, -1.  ,  0.  ])</code></pre>
 </div>
 </div>
 <div id="f6973807" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>l1(np.array([<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>l1(np.array([<span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">1</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>array([-0.75, -1.  ,  0.  ])</code></pre>
 </div>
@@ -609,8 +606,8 @@ window.Quarto = {
 <li><p>For example, consider the data points <span class="math inline">\((1,1)\)</span>, <span class="math inline">\((2,3)\)</span>, <span class="math inline">\((3,5)\)</span> and <span class="math inline">\((4,4)\)</span></p></li>
 </ul>
 <div id="cb394aef" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><p>To interpolate a polynomial through these points, we need to use a polynomial of third degree (number of data points minus one)</p></li>
@@ -619,9 +616,9 @@ window.Quarto = {
 <p>and to find these coefficients, we evaluate the Vandermonde matrix and solve the interpolation equation system</p></li>
 </ul>
 <div id="93f798fc" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> <span class="bu">len</span>(x) <span class="op">-</span><span class="dv">1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>deg <span class="op">=</span> <span class="bu">len</span>(x) <span class="op">-</span><span class="dv">1</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> P.polynomial.polyvander(x, deg)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>array([[ 1.,  1.,  1.,  1.],
        [ 1.,  2.,  4.,  8.],
@@ -630,8 +627,8 @@ window.Quarto = {
 </div>
 </div>
 <div id="b66816e2" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> linalg.solve(A, y)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> linalg.solve(A, y)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>c</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>array([ 2. , -3.5,  3. , -0.5])</code></pre>
 </div>
@@ -640,10 +637,10 @@ window.Quarto = {
 <li>The interpolation polynomial is thus <span class="math inline">\(f(x) = 2 -3.5x + 3x^2 -0.5x^3\)</span></li>
 </ul>
 <div id="e38fa1c1" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> P.Polynomial(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>f1 <span class="op">=</span> P.Polynomial(c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="6642ce8b" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>f1(<span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>f1(<span class="fl">2.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>np.float64(4.1875)</code></pre>
 </div>
@@ -653,8 +650,8 @@ window.Quarto = {
 <li>To perform this polynomial interpolation in another polynomial basis, all that we need to change is the name of the function that was used to generate the Vandermonde matrix <span class="math inline">\(\mathbf{A}\)</span> in the previous example</li>
 </ul>
 <div id="69fe92bb" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> P.chebyshev.chebvander(x, deg)</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>A</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> P.chebyshev.chebvander(x, deg)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>array([[  1.,   1.,   1.,   1.],
        [  1.,   2.,   7.,  26.],
@@ -663,8 +660,8 @@ window.Quarto = {
 </div>
 </div>
 <div id="ce204966" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> linalg.solve(A, y)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> linalg.solve(A, y)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>c</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 <pre><code>array([ 3.5  , -3.875,  1.5  , -0.125])</code></pre>
 </div>
@@ -674,16 +671,16 @@ window.Quarto = {
 <p><span class="math display">\[ f(x) = 3.5 T_0(x) -3.875 T_1(x) +1.5 T_2(x) -0.125 T_3(x) \]</span></p></li>
 </ul>
 <div id="8e31ffd9" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> P.Chebyshev(c)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>f2 <span class="op">=</span> P.Chebyshev(c)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="2e016f96" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>f2(<span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>f2(<span class="fl">2.5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>np.float64(4.1875)</code></pre>
 </div>
 </div>
 <div id="b94cdea6" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(x.<span class="bu">min</span>(), x.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(x.<span class="bu">min</span>(), x.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -699,7 +696,7 @@ window.Quarto = {
 <span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">x</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -709,15 +706,15 @@ window.Quarto = {
 </div>
 </div>
 <div id="e8c262cd" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>f1b <span class="op">=</span> P.Polynomial.fit(x, y, deg)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>f1b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>f1b <span class="op">=</span> P.Polynomial.fit(x, y, deg)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>f1b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="30">
 <p><span class="math inline">\(x \mapsto \text{4.1875} + \text{3.1875}\,\left(\text{-1.66666667} + \text{0.66666667}x\right) - \text{1.6875}\,\left(\text{-1.66666667} + \text{0.66666667}x\right)^{2} - \text{1.6875}\,\left(\text{-1.66666667} + \text{0.66666667}x\right)^{3}\)</span></p>
 </div>
 </div>
 <div id="3110d0d9" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>f2b <span class="op">=</span> P.Chebyshev.fit(x, y, deg)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>f2b</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>f2b <span class="op">=</span> P.Chebyshev.fit(x, y, deg)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>f2b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="31">
 <p><span class="math inline">\(x \mapsto \text{3.34375}\,{T}_{0}(\text{-1.66666667} + \text{0.66666667}x) + \text{1.921875}\,{T}_{1}(\text{-1.66666667} + \text{0.66666667}x) - \text{0.84375}\,{T}_{2}(\text{-1.66666667} + \text{0.66666667}x) - \text{0.421875}\,{T}_{3}(\text{-1.66666667} + \text{0.66666667}x)\)</span></p>
 </div>
@@ -727,13 +724,13 @@ window.Quarto = {
 <li>Mapping the interpolation data into the range that is most suitable for a specific basis can significantly improve the numerical stability of the interpolation. For example, using the Chebyshev basis with <span class="math inline">\(x\)</span> values that are scaled such that <span class="math inline">\(x \in [-1, 1]\)</span>, rather than the original <span class="math inline">\(x\)</span> values in the previous example, reduces the condition number from almost <span class="math inline">\(4660\)</span> to about <span class="math inline">\(1.85\)</span>:</li>
 </ul>
 <div id="906dbcdb" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>np.linalg.cond(P.chebyshev.chebvander(x, deg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>np.linalg.cond(P.chebyshev.chebvander(x, deg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>np.float64(4659.7384241404425)</code></pre>
 </div>
 </div>
 <div id="de7b6a2e" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>np.linalg.cond(P.chebyshev.chebvander((<span class="dv">2</span><span class="op">*</span>x <span class="op">-</span><span class="dv">5</span>)<span class="op">/</span><span class="fl">3.0</span>, deg))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>np.linalg.cond(P.chebyshev.chebvander((<span class="dv">2</span><span class="op">*</span>x <span class="op">-</span><span class="dv">5</span>)<span class="op">/</span><span class="fl">3.0</span>, deg))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <pre><code>np.float64(1.8542033440472898)</code></pre>
 </div>
@@ -742,7 +739,7 @@ window.Quarto = {
 <li>Note that with <code>fit</code> method, the domain attribute of the resulting instances are automatically set to the appropriate <span class="math inline">\(x\)</span> values of the data points (in this example, the input range is <code>[1, 4]</code>), and the coefficients are adjusted accordingly. To illustrate the problem, the values of the Chebyshev polynomials up to degree <code>5</code> are plotted below</li>
 </ul>
 <div id="5bb24ac9" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">4</span>))</span>
 <span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>): </span>
@@ -751,7 +748,7 @@ window.Quarto = {
 <span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.01</span>, <span class="fl">1.0</span>), loc<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-10"><a href="#cb50-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -764,7 +761,7 @@ window.Quarto = {
 <li>In the range <span class="math inline">\(-1 \geq x \geq 1\)</span>, they are nice, equiripple functions. The same plots over the range <span class="math inline">\(-2 \geq x \geq 2\)</span> look very different:</li>
 </ul>
 <div id="31d6087c" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">100</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">100</span>)</span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize<span class="op">=</span>(<span class="fl">5.5</span>, <span class="dv">4</span>))</span>
 <span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">6</span>): </span>
@@ -773,7 +770,7 @@ window.Quarto = {
 <span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>plt.legend(bbox_to_anchor<span class="op">=</span>(<span class="fl">1.01</span>, <span class="fl">1.0</span>), loc<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">2</span>, <span class="dv">2</span>)</span>
 <span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">400</span>, <span class="dv">400</span>)</span>
-<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -790,16 +787,16 @@ window.Quarto = {
 <p>using evenly spaced sample points in the interval <span class="math inline">\([-1, 1]\)</span>. The result is an interpolant that nearly diverges between the data points near the end of the interval</p></li>
 </ul>
 <div id="7bf42f67" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> runge(x):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> runge(x):</span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">25</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> runge_interpolate(n):</span>
 <span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, n <span class="op">+</span><span class="dv">1</span>)</span>
 <span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  p <span class="op">=</span> P.Polynomial.fit(x, runge(x), deg<span class="op">=</span>n)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x, p</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> x, p</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="9f3fa31c" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">250</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">250</span>)</span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
 <span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -824,7 +821,7 @@ window.Quarto = {
 <span id="cb53-23"><a href="#cb53-23" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">x</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb53-24"><a href="#cb53-24" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb53-25"><a href="#cb53-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>ax.tick_params(which<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb53-26"><a href="#cb53-26" aria-hidden="true" tabindex="-1"></a>ax.tick_params(which<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -843,7 +840,7 @@ window.Quarto = {
 <li><p>There are therefore two remaining undetermined parameters, which must be determined by other means. A common approach is to additionally require that the second order derivatives at the end points are zero (resulting in the natural spline). This gives two more equations, which closes the equation system</p></li>
 </ul>
 <div id="9cd8de76" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">11</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">11</span>)</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
 <span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> runge(x)</span>
 <span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>f_i <span class="op">=</span> interpolate.interp1d(x, y, kind<span class="op">=</span><span class="dv">3</span>)</span>
@@ -862,7 +859,7 @@ window.Quarto = {
 <span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>ax.tick_params(which<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span>
 <span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -877,7 +874,7 @@ window.Quarto = {
 <p>with splines of increasing order</p></li>
 </ul>
 <div id="1cd2afd8" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>])</span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">3.5</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="fl">1.25</span>, <span class="fl">0.7</span>])</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> np.linspace(x.<span class="bu">min</span>(), x.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
@@ -893,7 +890,7 @@ window.Quarto = {
 <span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">x</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>ax.tick_params(which<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>ax.tick_params(which<span class="op">=</span><span class="st">'both'</span>, direction<span class="op">=</span><span class="st">'in'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -906,7 +903,7 @@ window.Quarto = {
 <section id="multivariate-interpolation" class="level2" data-number="F.6">
 <h2 data-number="F.6" class="anchored" data-anchor-id="multivariate-interpolation"><span class="header-section-number">F.6</span> Multivariate interpolation</h2>
 <div id="6b723863" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x, y):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x, y):</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (np.exp(<span class="op">-</span>(x <span class="op">+</span><span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span><span class="dv">2</span><span class="op">*</span>(y <span class="op">+</span><span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span>) </span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>         <span class="op">-</span>np.exp(<span class="op">-</span>(x <span class="op">-</span><span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span> <span class="op">-</span><span class="dv">2</span><span class="op">*</span>(y <span class="op">-</span><span class="fl">0.5</span>)<span class="op">**</span><span class="dv">2</span>))</span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -921,10 +918,10 @@ window.Quarto = {
 <span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>xx <span class="op">=</span> yy <span class="op">=</span> np.linspace(x.<span class="bu">min</span>(), x.<span class="bu">max</span>(), <span class="dv">100</span>)</span>
 <span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>XX, YY <span class="op">=</span> np.meshgrid(xx, yy)</span>
 <span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>ZZi <span class="op">=</span> f_i(xx, yy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>ZZi <span class="op">=</span> f_i(xx, yy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="8337a5fc" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">10</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">10</span>), sharex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> axes[<span class="dv">0</span>].contourf(XX, YY, f(XX, YY), <span class="dv">10</span>, cmap<span class="op">=</span>plt.cm.RdBu)</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
@@ -939,7 +936,7 @@ window.Quarto = {
 <span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Interpolation of noisy data/Low sampling"</span>)</span>
 <span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>cb <span class="op">=</span> fig.colorbar(c, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>cb.set_label(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>cb.set_label(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -953,7 +950,7 @@ window.Quarto = {
 <li><p>Another typical situation that requires multivariate interpolation occurs when sampled data is given on an irregular coordinate grid. To be able to easily plot and analyze such data with existing tools, it may be desirable to interpolate it onto a regular coordinate grid. In <code>scipy</code>, we can use the <code>interpolate.griddata</code> for exactly this task</p></li>
 </ul>
 <div id="528db750" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x, y):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x, y):</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> np.exp(<span class="op">-</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span>y<span class="op">**</span><span class="dv">2</span>) <span class="op">*</span>np.cos(<span class="dv">4</span><span class="op">*</span>x) <span class="op">*</span>np.sin(<span class="dv">6</span><span class="op">*</span>y)</span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> y <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
@@ -964,10 +961,10 @@ window.Quarto = {
 <span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">500</span></span>
 <span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>xdata <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, N)</span>
 <span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>ydata <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, N)</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>zdata <span class="op">=</span> f(xdata, ydata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>zdata <span class="op">=</span> f(xdata, ydata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="3eebe601" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> ax.contourf(X, Y, Z, <span class="dv">15</span>, cmap<span class="op">=</span>plt.cm.RdBu)<span class="op">;</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>ax.scatter(xdata, ydata, marker<span class="op">=</span><span class="st">'.'</span>)</span>
@@ -977,7 +974,7 @@ window.Quarto = {
 <span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="vs">r"</span><span class="dv">$</span><span class="vs">y</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
 <span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a>cb <span class="op">=</span> fig.colorbar(c, ax<span class="op">=</span>ax)</span>
-<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>cb.set_label(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>cb.set_label(<span class="vs">r"</span><span class="dv">$</span><span class="vs">z</span><span class="dv">$</span><span class="vs">"</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -987,7 +984,7 @@ window.Quarto = {
 </div>
 </div>
 <div id="2b76e3df" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> z_interpolate(xdata, ydata, zdata):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> z_interpolate(xdata, ydata, zdata):</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>    Zi_0 <span class="op">=</span> interpolate.griddata((xdata, ydata), </span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>                        zdata, (X, Y), method<span class="op">=</span><span class="st">'nearest'</span>)</span>
 <span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>    Zi_1 <span class="op">=</span> interpolate.griddata((xdata, ydata), </span>
@@ -1014,7 +1011,7 @@ window.Quarto = {
 <span id="cb60-25"><a href="#cb60-25" aria-hidden="true" tabindex="-1"></a>    axes[idx, <span class="dv">2</span>].set_title(<span class="st">"cubic"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span>
 <span id="cb60-26"><a href="#cb60-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb60-27"><a href="#cb60-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(n_vec)):</span>
-<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>    axes[idx, m].set_xlabel(<span class="st">"x"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb60-28"><a href="#cb60-28" aria-hidden="true" tabindex="-1"></a>    axes[idx, m].set_xlabel(<span class="st">"x"</span>, fontsize<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1079,13 +1076,14 @@ window.Quarto = {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

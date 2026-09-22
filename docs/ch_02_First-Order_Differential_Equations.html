@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>2&nbsp; First-Order Differential Equations – Engineering Mathematics</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,10 +76,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-5ccb035bea26c1e21f80f44cf7c27909.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -106,7 +109,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -119,7 +122,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -295,7 +298,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_numpy_vectors_matrices_and_multidimensional_arrays.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Numpy: Vectors, Matrices, and Multidimensional Arrays</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -348,26 +351,20 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./x_PDE_dedalus.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">DEDALUS</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./x_PDE_FEniCS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Adaptive mesh refinement with GMSH/FEniCSx</span></span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./x_matplotlib.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">J</span>&nbsp; <span class="chapter-title">Matplotlib: Plotting and Visualization</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./x_Mandelbrot_set.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">M</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+ <span class="menu-text"><span class="chapter-number">K</span>&nbsp; <span class="chapter-title">Mandelbrot Set in Python</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./x_hydrogen_orbital.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">L</span>&nbsp; <span class="chapter-title">Hydrogen Atomic Orbitals</span></span></a>
   </div>
 </li>
       </ul>
@@ -450,7 +447,7 @@ window.Quarto = {
 \end{aligned}\]</span></p></li>
 </ul>
 <div id="89ec5e09" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -471,7 +468,7 @@ window.Quarto = {
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'x'</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'y'</span>)</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -564,7 +561,7 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <div id="bc36a57b" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sympy <span class="im">import</span> pi, dsolve</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>sympy.init_printing()</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -573,7 +570,7 @@ window.Quarto = {
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span>x <span class="op">*</span>sympy.sqrt(<span class="dv">1</span> <span class="op">-</span>y(x) <span class="op">*</span>y(x))</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
 <p><span class="math inline">\(\displaystyle y{\left(x \right)} = \sin{\left(C_{1} + \frac{x^{2}}{2} \right)}\)</span></p>
 </div>
@@ -586,12 +583,12 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <div id="504bb9ef" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.Symbol(<span class="st">'t'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sympy.Symbol(<span class="st">'t'</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Function(<span class="st">'x'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> x(t).diff(t) <span class="op">-</span><span class="dv">4</span> <span class="op">*</span>(t <span class="op">*</span>t <span class="op">+</span><span class="dv">1</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{x(pi<span class="op">/</span><span class="dv">4</span>): <span class="dv">1</span>}, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{x(pi<span class="op">/</span><span class="dv">4</span>): <span class="dv">1</span>}, hint<span class="op">=</span><span class="st">'separable'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
 <p><span class="math inline">\(\displaystyle x{\left(t \right)} = \frac{4 t^{3}}{3} + 4 t - \pi - \frac{\pi^{3}}{48} + 1\)</span></p>
 </div>
@@ -643,12 +640,12 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <div id="5cb62556" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> (x <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span>y(x).diff(x) <span class="op">+</span>y(x) <span class="op">-</span>sympy.log(x)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">1</span>): <span class="dv">10</span>}, hint<span class="op">=</span><span class="st">'1st_linear'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">1</span>): <span class="dv">10</span>}, hint<span class="op">=</span><span class="st">'1st_linear'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
 <p><span class="math inline">\(\displaystyle y{\left(x \right)} = \frac{x \log{\left(x \right)} - x + 21}{x + 1}\)</span></p>
 </div>
@@ -722,12 +719,12 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <div id="b9a2f6cd" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> (<span class="dv">2</span> <span class="op">*</span>x <span class="op">-</span><span class="dv">1</span>) <span class="op">+</span>(<span class="dv">3</span> <span class="op">*</span>y(x) <span class="op">+</span><span class="dv">7</span>) <span class="op">*</span>y(x).diff(x)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_exact'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_exact'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
 <p><span class="math inline">\(\displaystyle \left[ y{\left(x \right)} = - \frac{\sqrt{C_{1} - 6 x^{2} + 6 x}}{3} - \frac{7}{3}, \  y{\left(x \right)} = \frac{\sqrt{C_{1} - 6 x^{2} + 6 x}}{3} - \frac{7}{3}\right]\)</span></p>
 </div>
@@ -757,12 +754,12 @@ window.Quarto = {
 <p>Let <span class="math inline">\(\,u=-2x+y\)</span>, then <span class="math inline">\(~\displaystyle\frac{du}{dx}=-2 + \frac{dy}{dx}~\)</span> giving <span class="math inline">\(~\displaystyle\frac{du}{dx} = u^2 -9\)</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <div id="db505a45" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span>(<span class="op">-</span><span class="dv">2</span> <span class="op">*</span>x <span class="op">+</span>y(x))<span class="op">**</span><span class="dv">2</span> <span class="op">+</span><span class="dv">7</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">0</span>): <span class="dv">0</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, ics<span class="op">=</span>{y(<span class="dv">0</span>): <span class="dv">0</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
 <p><span class="math inline">\(\displaystyle y{\left(x \right)} = \frac{- 2 x e^{6 x} - 2 x + 3 e^{6 x} - 3}{- e^{6 x} - 1}\)</span></p>
 </div>
@@ -797,12 +794,12 @@ window.Quarto = {
 <p><span class="math display">\[ u'+\frac{2}{x}u=x^2\]</span></p>
 <p><span class="math inline">\(~\)</span></p>
 <div id="2b367bab" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> y(x).diff(x) <span class="op">-</span><span class="dv">2</span> <span class="op">/</span>x <span class="op">*</span>y(x) <span class="op">+</span>x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span>y(x)<span class="op">**</span><span class="dv">2</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'Bernoulli'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'Bernoulli'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
 <p><span class="math inline">\(\displaystyle y{\left(x \right)} = \frac{5 x^{2}}{C_{1} + x^{5}}\)</span></p>
 </div>
@@ -831,12 +828,12 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(~\)</span></p>
 <div id="356474f0" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> sympy.Symbol(<span class="st">'x'</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> sympy.Function(<span class="st">'y'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>eq <span class="op">=</span> x <span class="op">*</span>y(x).diff(x) <span class="op">-</span>y(x) <span class="op">-</span>sympy.sqrt(x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span>y(x)<span class="op">**</span><span class="dv">2</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_homogeneous_coeff_best'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>dsolve(eq, hint<span class="op">=</span><span class="st">'1st_homogeneous_coeff_best'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
 <p><span class="math inline">\(\displaystyle y{\left(x \right)} = - x \sin{\left(C_{1} - \log{\left(x \right)} \right)}\)</span></p>
 </div>
@@ -887,7 +884,7 @@ window.Quarto = {
 \end{aligned}\]</span></p></li>
 </ul>
 <div id="1b867b4b" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">2.0</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x0 <span class="op">=</span> <span class="fl">2.0</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>y0 <span class="op">=</span> <span class="fl">4.0</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>xf <span class="op">=</span> <span class="fl">2.5</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -908,7 +905,7 @@ window.Quarto = {
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"$y$"</span>)</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"$h=0.1$"</span>)</span>
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x =  2.1, y =  4.1800
 x =  2.2, y =  4.3768
@@ -989,7 +986,7 @@ x =  2.5, y =  5.0768</code></pre>
 <li>Use a numerical solver to graph <span class="math inline">\(x(t)\)</span> and <span class="math inline">\(y(t)\)</span></li>
 </ul>
 <div id="78fd9408" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lotka-Volterra predator-prey model</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lotka-Volterra predator-prey model</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> integrate</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>a, b, c, d <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.02</span>, <span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.025</span></span>
@@ -1007,14 +1004,14 @@ x =  2.5, y =  5.0768</code></pre>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>sol <span class="op">=</span> integrate.solve_ivp(f, [<span class="dv">0</span>, tf], xy0, t_eval<span class="op">=</span>t_eval)</span>
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> sol.t</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>xy_t <span class="op">=</span> sol.y.T</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>xy_t <span class="op">=</span> sol.y.T</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <hr>
 <ul>
 <li>Use the graphs to approximate the period of each population</li>
 </ul>
 <div id="1227bed2" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">5</span>))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">0</span>], <span class="st">'r'</span>, label<span class="op">=</span><span class="st">"Predator"</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax.plot(t, xy_t[:, <span class="dv">1</span>], <span class="st">'b'</span>, label<span class="op">=</span><span class="st">"Prey"</span>)</span>
@@ -1025,7 +1022,7 @@ x =  2.5, y =  5.0768</code></pre>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">12</span>)</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -1039,7 +1036,7 @@ x =  2.5, y =  5.0768</code></pre>
 <section id="worked-exercises" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="worked-exercises">Worked Exercises</h2>
 <p><strong>Solve the given differential equation by separation of variables</strong></p>
-<p><strong><a href="#sec-2-2" class="quarto-xref"><span>2.2</span></a>: 1.</strong> <span class="math inline">\(\,\displaystyle \frac{dy}{dx}=\sin 5 x\)</span></p>
+<p><strong><a href="#sec-2-2" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-2-2</span></a>: 1.</strong> <span class="math inline">\(\,\displaystyle \frac{dy}{dx}=\sin 5 x\)</span></p>
 <p><strong>Solution</strong></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1049,7 +1046,7 @@ x =  2.5, y =  5.0768</code></pre>
    &amp;\Downarrow \\
    y &amp;=-\frac{1}{5} \cos 5x +c
 \end{aligned}\]</span></p>
-<p><strong><a href="#sec-2-2" class="quarto-xref"><span>2.2</span></a>: 3.</strong> <span class="math inline">\(\,\displaystyle dx +e^{3x} dy = 0\)</span></p>
+<p><strong><a href="#sec-2-2" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-2-2</span></a>: 3.</strong> <span class="math inline">\(\,\displaystyle dx +e^{3x} dy = 0\)</span></p>
 <p><strong>Solution</strong></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1057,7 +1054,7 @@ x =  2.5, y =  5.0768</code></pre>
   &amp;\Downarrow \\
   y &amp;= \frac{1}{3}e^{-3x} +c
 \end{aligned}\]</span></p>
-<p><strong><a href="#sec-2-2" class="quarto-xref"><span>2.2</span></a>: 21.</strong> <span class="math inline">\(\,\displaystyle \frac{dy}{dx} = x\sqrt{1 -y^2}\)</span></p>
+<p><strong><a href="#sec-2-2" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-2-2</span></a>: 21.</strong> <span class="math inline">\(\,\displaystyle \frac{dy}{dx} = x\sqrt{1 -y^2}\)</span></p>
 <p><strong>Solution</strong></p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1067,7 +1064,7 @@ x =  2.5, y =  5.0768</code></pre>
 &amp;\Downarrow \\
 y &amp;= \sin \left(\frac{1}{2}x^2 +c \right)
 \end{aligned}\]</span></p>
-<p><strong><a href="#sec-2-2" class="quarto-xref"><span>2.2</span></a>: 25.</strong> Find an implicit or an explicit solution of the given initial-value problem</p>
+<p><strong><a href="#sec-2-2" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-2-2</span></a>: 25.</strong> Find an implicit or an explicit solution of the given initial-value problem</p>
 <p><span class="math display">\[ x^2 \frac{dy}{dx} = y -xy, \;\;y(-1)=-1\]</span></p>
 <p><strong>Solution</strong></p>
 <p><span class="math display">\[
@@ -1080,7 +1077,7 @@ y &amp;= \sin \left(\frac{1}{2}x^2 +c \right)
   &amp;\Downarrow \\
   y &amp;= \frac{1}{x} e^{-\left( 1 +\frac{1}{x}\right)}
 \end{aligned}\]</span></p>
-<p><strong><a href="#sec-2-7" class="quarto-xref"><span>2.7</span></a>: 41.</strong> <span class="math inline">\(\,\)</span> <strong>Evaporating Raindrop</strong> <span class="math inline">\(\,\)</span> As a raindrop falls, it evaporates while retaining its spherical shape. If we make the further assumptions that the rate at which the raindrop evaporates is proportional to its surface area and that air resistance is negligible, then a model for the velocity <span class="math inline">\(v(t)\)</span> of the raindrop is</p>
+<p><strong><a href="#sec-2-7" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-2-7</span></a>: 41.</strong> <span class="math inline">\(\,\)</span> <strong>Evaporating Raindrop</strong> <span class="math inline">\(\,\)</span> As a raindrop falls, it evaporates while retaining its spherical shape. If we make the further assumptions that the rate at which the raindrop evaporates is proportional to its surface area and that air resistance is negligible, then a model for the velocity <span class="math inline">\(v(t)\)</span> of the raindrop is</p>
 <p><span class="math display">\[
 \frac{dv}{dt} + \frac{3(k/\rho)}{(k/\rho) t +r_0} v = g
 \]</span></p>
@@ -1443,13 +1440,14 @@ y &amp;= \frac{1}{t^2 + 2t + c}, \;\; y(0)=-\frac{1}{8} \\
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
